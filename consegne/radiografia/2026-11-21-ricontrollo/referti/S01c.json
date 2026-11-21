@@ -1,0 +1,2933 @@
+{
+  "sessione": "S01c",
+  "base_sito": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
+  "aggiornato": "2026-11-21 16:13",
+  "finita": true,
+  "lotti": [
+    {
+      "id": "L01",
+      "esito": "fatto",
+      "perche": null
+    },
+    {
+      "id": "L02",
+      "esito": "fatto",
+      "perche": null
+    },
+    {
+      "id": "L03",
+      "esito": "fatto",
+      "perche": null
+    },
+    {
+      "id": "L04",
+      "esito": "fatto",
+      "perche": null
+    },
+    {
+      "id": "L05",
+      "esito": "fatto",
+      "perche": null
+    },
+    {
+      "id": "L06",
+      "esito": "fatto",
+      "perche": null
+    },
+    {
+      "id": "L07",
+      "esito": "fatto",
+      "perche": null
+    },
+    {
+      "id": "L08",
+      "esito": "fatto",
+      "perche": null
+    }
+  ],
+  "copertura": {
+    "file_letti_interi": [
+      "app/api/consent/route.ts",
+      "app/api/disputes/route.ts",
+      "app/api/newsletter/confirm/route.ts",
+      "app/api/returns/ripensamento/route.ts",
+      "app/api/segnalazioni/esito/comunica.ts",
+      "app/api/stripe/connect/refresh-status/route.ts",
+      "app/category/[slug]/layout.tsx",
+      "app/product/[id]/error.tsx",
+      "components/LiveActivityFeed.tsx",
+      "components/seller/CustomizationSection.tsx",
+      "components/seller/SocialLinksFields.tsx",
+      "components/seller/site/StoreDetailsEditor.tsx",
+      "components/ui/FotoConRipiego.tsx",
+      "lib/ai/statoLavoroCatalogo.ts",
+      "lib/ordini/termine-del-recesso.ts",
+      "lib/products/persistVariants.ts",
+      "lib/ritiro-in-negozio.ts",
+      "migrations/271_la_vetrina_dal_vivo_non_scrive_la_citta_del_cliente.sql",
+      "tests/unit/riparazione-r02-carica-altri-dopo-il-filtro.test.ts",
+      "tests/unit/riparazione-r02-sconto-promo-lettura.test.tsx",
+      "tests/unit/riparazione-r03-carrello-consegna.test.ts",
+      "tests/unit/riparazione-r03-il-reclamo-arriva-a-qualcuno.test.ts",
+      "tests/unit/riparazione-r03-vetrina-dal-vivo-senza-citta.test.ts",
+      "tests/unit/riparazione-r07-reso-pane-server.test.ts",
+      "tests/unit/riparazione-r10-un-prezzo-abbonamento.test.tsx",
+      "vitest.config.ts"
+    ],
+    "file_letti_in_parte": [
+      {
+        "file": "app/api/cron/process-deletions/route.ts",
+        "righe": "60-100"
+      },
+      {
+        "file": "app/api/cron/process-deletions/route.ts",
+        "righe": "140-280"
+      },
+      {
+        "file": "app/api/cron/process-deletions/route.ts",
+        "righe": "649-680"
+      },
+      {
+        "file": "lib/account/cancellazione.ts",
+        "righe": "780-1000"
+      },
+      {
+        "file": "app/api/account/delete/route.ts",
+        "righe": "80-140"
+      },
+      {
+        "file": "app/api/account/delete/route.ts",
+        "righe": "185-215"
+      },
+      {
+        "file": "app/api/cron/send-emails/route.ts",
+        "righe": "255-270"
+      },
+      {
+        "file": "app/api/cron/send-push/route.ts",
+        "righe": "1-45"
+      },
+      {
+        "file": "lib/funzioni-al-lancio.ts",
+        "righe": "50-70"
+      },
+      {
+        "file": "app/api/orders/[id]/cancel/route.ts",
+        "righe": "40-128"
+      },
+      {
+        "file": "app/api/seller/orders/[id]/reject/route.ts",
+        "righe": "70-92"
+      },
+      {
+        "file": "lib/ordini/annulla.ts",
+        "righe": "283-401"
+      },
+      {
+        "file": "lib/api/responses.ts",
+        "righe": "75-77"
+      },
+      {
+        "file": "app/api/orders/cod/route.ts",
+        "righe": "740-800"
+      },
+      {
+        "file": "app/api/orders/cod/route.ts",
+        "righe": "940-985"
+      },
+      {
+        "file": "app/api/orders/cod/route.ts",
+        "righe": "1070-1240"
+      },
+      {
+        "file": "app/api/orders/cod/route.ts",
+        "righe": "1780-1870"
+      },
+      {
+        "file": "app/api/stripe/checkout/route.ts",
+        "righe": "995-1020"
+      },
+      {
+        "file": "lib/ordini/riserve-abbandonate.ts",
+        "righe": "196-225"
+      },
+      {
+        "file": "lib/analytics/events.ts",
+        "righe": "250-280"
+      },
+      {
+        "file": "lib/email/templates.ts",
+        "righe": "137-200"
+      },
+      {
+        "file": "lib/stripe/webhook/ordini.ts",
+        "righe": "537-546"
+      },
+      {
+        "file": "lib/ordini/fascia-leggibile.ts",
+        "righe": "105-129"
+      },
+      {
+        "file": "lib/ordini/consegna-veloce.ts",
+        "righe": "46-49"
+      },
+      {
+        "file": "lib/ordini/consegna-veloce.ts",
+        "righe": "148-169"
+      },
+      {
+        "file": "vercel.json",
+        "righe": "13-38"
+      },
+      {
+        "file": "app/api/products/[id]/external-refresh/route.ts",
+        "righe": "50-100"
+      },
+      {
+        "file": "app/api/products/[id]/external-refresh/route.ts",
+        "righe": "140-170"
+      },
+      {
+        "file": "lib/ai/run.ts",
+        "righe": "478-500"
+      },
+      {
+        "file": "lib/products/externalSync.ts",
+        "righe": "185-195"
+      },
+      {
+        "file": "app/api/returns/[id]/avanza/route.ts",
+        "righe": "76-84"
+      },
+      {
+        "file": "app/api/returns/[id]/avanza/route.ts",
+        "righe": "109-109"
+      },
+      {
+        "file": "app/api/returns/[id]/avanza/route.ts",
+        "righe": "120-165"
+      },
+      {
+        "file": "app/api/returns/[id]/avanza/route.ts",
+        "righe": "194-508"
+      },
+      {
+        "file": "app/api/returns/[id]/decide/route.ts",
+        "righe": "190-335"
+      },
+      {
+        "file": "tests/unit/riparazione-r01-benvenuto-carta-rifiutata-poi-contanti.test.ts",
+        "righe": "1-90"
+      },
+      {
+        "file": "tests/unit/riparazione-r01-benvenuto-carta-rifiutata-poi-contanti.test.ts",
+        "righe": "270-300"
+      },
+      {
+        "file": "tests/unit/riparazione-r04-benvenuto-dopo-i-contanti.test.ts",
+        "righe": "37-70"
+      },
+      {
+        "file": "tests/unit/riparazione-r04-benvenuto-dopo-i-contanti.test.ts",
+        "righe": "237-274"
+      },
+      {
+        "file": "tests/unit/la-cassa-fa-lo-stesso-conto.test.ts",
+        "righe": "85-110"
+      },
+      {
+        "file": "app/api/returns/create/route.ts",
+        "righe": "1-130"
+      },
+      {
+        "file": "app/orders/[id]/return/page.tsx",
+        "righe": "240-300"
+      },
+      {
+        "file": "lib/tempo-piacenza.ts",
+        "righe": "1-60"
+      },
+      {
+        "file": "tests/unit/riparazione-r01-recesso-sabato-domenica-festivi.test.ts",
+        "righe": "1-47"
+      },
+      {
+        "file": "tests/unit/sui-freschi-il-cambio-idea-non-diventa-un-reso.test.ts",
+        "righe": "1-140"
+      },
+      {
+        "file": "app/api/rider/orders/[id]/cliente-assente/route.ts",
+        "righe": "1-120"
+      },
+      {
+        "file": "lib/ordini/annulla.ts",
+        "righe": "230-280"
+      },
+      {
+        "file": "lib/ordini/annulla.ts",
+        "righe": "365-430"
+      },
+      {
+        "file": "app/rider/orders/[id]/page.tsx",
+        "righe": "700-740"
+      },
+      {
+        "file": "app/api/segnalazioni/route.ts",
+        "righe": "180-242"
+      },
+      {
+        "file": "lib/admin/segnalazioni-testi.ts",
+        "righe": "37-40"
+      },
+      {
+        "file": "lib/privacy/potature-ritenzione.ts",
+        "righe": "360-410"
+      },
+      {
+        "file": "app/privacy/page.tsx",
+        "righe": "123-125"
+      },
+      {
+        "file": "app/api/seller/subscription/checkout/route.ts",
+        "righe": "15-200"
+      },
+      {
+        "file": "app/seller/earnings/commissione.ts",
+        "righe": "80-95"
+      },
+      {
+        "file": "lib/stripe/webhook/abbonamenti.ts",
+        "righe": "95-175"
+      },
+      {
+        "file": "app/api/seller/subscription/portal/route.ts",
+        "righe": "35-57"
+      },
+      {
+        "file": "app/api/stripe/checkout/route.ts",
+        "righe": "625-680"
+      },
+      {
+        "file": "app/api/stripe/checkout/route.ts",
+        "righe": "760-830"
+      },
+      {
+        "file": "lib/stripe/payout.ts",
+        "righe": "190-300"
+      },
+      {
+        "file": "lib/stripe/payout.ts",
+        "righe": "350-425"
+      },
+      {
+        "file": "lib/stripe/client.ts",
+        "righe": "340-380"
+      },
+      {
+        "file": "app/api/vision/extract-product/route.ts",
+        "righe": "100-135"
+      },
+      {
+        "file": "app/api/vision/extract-product/route.ts",
+        "righe": "330-345"
+      },
+      {
+        "file": "app/api/vision/extract-product/route.ts",
+        "righe": "395-530"
+      },
+      {
+        "file": "app/api/vision/extract-products/route.ts",
+        "righe": "215-250"
+      },
+      {
+        "file": "app/api/vision/extract-products/route.ts",
+        "righe": "290-314"
+      },
+      {
+        "file": "lib/ai/client.ts",
+        "righe": "180-230"
+      },
+      {
+        "file": "lib/env.ts",
+        "righe": "228-250"
+      },
+      {
+        "file": "lib/supabase/server.ts",
+        "righe": "40-70"
+      },
+      {
+        "file": "lib/consent.ts",
+        "righe": "60-222"
+      },
+      {
+        "file": "app/auth/callback/route.ts",
+        "righe": "80-171"
+      },
+      {
+        "file": "lib/auth/accettazione-testi.ts",
+        "righe": "40-179"
+      },
+      {
+        "file": "middleware.ts",
+        "righe": "599-620"
+      },
+      {
+        "file": "lib/shipping.ts",
+        "righe": "38-45"
+      },
+      {
+        "file": "app/cart/page.tsx",
+        "righe": "1-45"
+      },
+      {
+        "file": "app/cart/page.tsx",
+        "righe": "510-560"
+      },
+      {
+        "file": "tests/unit/riparazione-r02-carrello-consegna-mutanti.test.ts",
+        "righe": "1-40"
+      },
+      {
+        "file": "tests/unit/riparazione-r02-carrello-consegna-mutanti.test.ts",
+        "righe": "230-234"
+      },
+      {
+        "file": "tests/unit/riparazione-r32-registro-consensi-senza-chiave.test.ts",
+        "righe": "1-40"
+      },
+      {
+        "file": "app/product/[id]/layout.tsx",
+        "righe": "1-150"
+      },
+      {
+        "file": "app/error.tsx",
+        "righe": "20-41"
+      },
+      {
+        "file": "lib/supabase/lettura-per-metadati.ts",
+        "righe": "1-80"
+      },
+      {
+        "file": "lib/supabase/client.ts",
+        "righe": "1-80"
+      },
+      {
+        "file": "lib/supabase/anonimo.ts",
+        "righe": "29-37"
+      },
+      {
+        "file": "lib/queries/metadati-vetrina.ts",
+        "righe": "30-66"
+      },
+      {
+        "file": "lib/queries/precarico.ts",
+        "righe": "69-106"
+      },
+      {
+        "file": "components/ProductGrid.tsx",
+        "righe": "534-534"
+      },
+      {
+        "file": "components/ProductGrid.tsx",
+        "righe": "596-620"
+      },
+      {
+        "file": "app/checkout/page.tsx",
+        "righe": "468-500"
+      },
+      {
+        "file": "app/checkout/page.tsx",
+        "righe": "838-856"
+      },
+      {
+        "file": "app/checkout/page.tsx",
+        "righe": "1020-1100"
+      },
+      {
+        "file": "app/checkout/page.tsx",
+        "righe": "1310-1345"
+      },
+      {
+        "file": "components/checkout/PaymentMethodSelector.tsx",
+        "righe": "120-221"
+      },
+      {
+        "file": "app/api/orders/cod/route.ts",
+        "righe": "55-80"
+      },
+      {
+        "file": "app/api/orders/cod/route.ts",
+        "righe": "367-372"
+      },
+      {
+        "file": "app/api/orders/cod/route.ts",
+        "righe": "1030-1030"
+      },
+      {
+        "file": "app/api/orders/cod/route.ts",
+        "righe": "1218-1218"
+      },
+      {
+        "file": "app/api/orders/cod/route.ts",
+        "righe": "1403-1454"
+      },
+      {
+        "file": "lib/ordini/riepilogo-cassa.ts",
+        "righe": "60-85"
+      },
+      {
+        "file": "lib/ordini/tetto-dei-contanti.ts",
+        "righe": "1-17"
+      },
+      {
+        "file": "lib/bozza-checkout.ts",
+        "righe": "50-170"
+      },
+      {
+        "file": "components/providers/QueryProvider.tsx",
+        "righe": "60-75"
+      },
+      {
+        "file": "app/faq/page.tsx",
+        "righe": "205-240"
+      },
+      {
+        "file": "components/CollectionHeader.tsx",
+        "righe": "60-90"
+      },
+      {
+        "file": "app/lavora-con-noi/page.tsx",
+        "righe": "176-218"
+      },
+      {
+        "file": "components/seller/DatiPerIBonifici.tsx",
+        "righe": "60-68"
+      },
+      {
+        "file": "app/globals.css",
+        "righe": "140-160"
+      },
+      {
+        "file": "components/MobileTabBar.tsx",
+        "righe": "106-135"
+      },
+      {
+        "file": "app/help/page.tsx",
+        "righe": "40-75"
+      },
+      {
+        "file": "app/rider/layout.tsx",
+        "righe": "1-40"
+      },
+      {
+        "file": "app/layout.tsx",
+        "righe": "28-60"
+      },
+      {
+        "file": "app/lists/[id]/page.tsx",
+        "righe": "85-200"
+      },
+      {
+        "file": "app/lists/[id]/page.tsx",
+        "righe": "360-400"
+      },
+      {
+        "file": "lib/queries/keys.ts",
+        "righe": "257-265"
+      },
+      {
+        "file": "tailwind.config.ts",
+        "righe": "150-175"
+      },
+      {
+        "file": "app/lists/[id]/page.tsx",
+        "righe": "1-240"
+      },
+      {
+        "file": "app/lists/[id]/page.tsx",
+        "righe": "262-290"
+      },
+      {
+        "file": "app/lists/page.tsx",
+        "righe": "110-165"
+      },
+      {
+        "file": "components/providers/QueryProvider.tsx",
+        "righe": "55-95"
+      },
+      {
+        "file": "components/AddToListButton.tsx",
+        "righe": "30-60"
+      },
+      {
+        "file": "lib/queries/keys.ts",
+        "righe": "255-268"
+      },
+      {
+        "file": "app/notifications/page.tsx",
+        "righe": "40-140"
+      },
+      {
+        "file": "app/orders/[id]/dispute/page.tsx",
+        "righe": "40-260"
+      },
+      {
+        "file": "app/api/returns/create/route.ts",
+        "righe": "120-175"
+      },
+      {
+        "file": "components/seller/ProductForm.tsx",
+        "righe": "897-898"
+      },
+      {
+        "file": "tailwind.config.ts",
+        "righe": "180-210"
+      },
+      {
+        "file": "lib/privacy/iban-per-email.ts",
+        "righe": "40-66"
+      },
+      {
+        "file": "lib/stripe/webhook/comune.ts",
+        "righe": "180-225"
+      },
+      {
+        "file": "lib/stripe/payout.ts",
+        "righe": "2395-2420"
+      },
+      {
+        "file": "app/product/[id]/opengraph-image.tsx",
+        "righe": "15-40"
+      },
+      {
+        "file": "app/product/[id]/layout.tsx",
+        "righe": "60-110"
+      },
+      {
+        "file": "app/product/[id]/page.tsx",
+        "righe": "335-365"
+      },
+      {
+        "file": "app/product/[id]/page.tsx",
+        "righe": "525-560"
+      },
+      {
+        "file": "app/product/[id]/page.tsx",
+        "righe": "1012-1045"
+      },
+      {
+        "file": "components/ActivePromoBadge.tsx",
+        "righe": "20-62"
+      },
+      {
+        "file": "migrations/036_curated_lists_and_indices.sql",
+        "righe": "16-29"
+      },
+      {
+        "file": "migrations/215_minori_s04_database.sql",
+        "righe": "265-295"
+      },
+      {
+        "file": "tests/sql/rls/48-i-difetti-minori-del-database.test.sql",
+        "righe": "1-40"
+      },
+      {
+        "file": "tests/sql/rls/48-i-difetti-minori-del-database.test.sql",
+        "righe": "223-250"
+      },
+      {
+        "file": "tests/sql/rls/riparazione-r18-reclamo-senza-ordine.test.sql",
+        "righe": "1-80"
+      },
+      {
+        "file": "tests/sql/harness/apply.sh",
+        "righe": "1-55"
+      },
+      {
+        "file": "tests/sql/harness/run.sh",
+        "righe": "1-32"
+      },
+      {
+        "file": "app/api/cron/release-payouts/route.ts",
+        "righe": "233-233"
+      },
+      {
+        "file": "app/product/[id]/page.tsx",
+        "righe": "70-95"
+      },
+      {
+        "file": "app/product/[id]/page.tsx",
+        "righe": "150-170"
+      },
+      {
+        "file": "app/product/[id]/page.tsx",
+        "righe": "330-420"
+      },
+      {
+        "file": "app/product/[id]/page.tsx",
+        "righe": "595-640"
+      },
+      {
+        "file": "app/product/[id]/page.tsx",
+        "righe": "1040-1075"
+      },
+      {
+        "file": "app/product/[id]/page.tsx",
+        "righe": "1195-1240"
+      },
+      {
+        "file": "app/product/[id]/page.tsx",
+        "righe": "1365-1380"
+      },
+      {
+        "file": "app/product/[id]/page.tsx",
+        "righe": "1625-1660"
+      },
+      {
+        "file": "app/product/[id]/page.tsx",
+        "righe": "1685-1705"
+      },
+      {
+        "file": "lib/promesse-pubbliche.ts",
+        "righe": "270-320"
+      },
+      {
+        "file": "components/ActivePromoBadge.tsx",
+        "righe": "20-60"
+      },
+      {
+        "file": "components/providers/QueryProvider.tsx",
+        "righe": "62-75"
+      },
+      {
+        "file": "components/ProductGrid.tsx",
+        "righe": "1-3"
+      },
+      {
+        "file": "components/ProductGrid.tsx",
+        "righe": "95-125"
+      },
+      {
+        "file": "components/ProductGrid.tsx",
+        "righe": "395-420"
+      },
+      {
+        "file": "components/Segnala.tsx",
+        "righe": "1-181"
+      },
+      {
+        "file": "app/api/segnalazioni/route.ts",
+        "righe": "1-175"
+      },
+      {
+        "file": "components/store-sections/ReviewsSection.tsx",
+        "righe": "1-110"
+      },
+      {
+        "file": "components/store-sections/ReviewsSection.tsx",
+        "righe": "220-330"
+      },
+      {
+        "file": "app/admin/segnalazioni/page.tsx",
+        "righe": "60-80"
+      },
+      {
+        "file": "app/terms/page.tsx",
+        "righe": "362-372"
+      },
+      {
+        "file": "app/terms/page.tsx",
+        "righe": "505-530"
+      },
+      {
+        "file": "migrations/364_una_domanda_si_segnala_e_si_nasconde.sql",
+        "righe": "25-40"
+      },
+      {
+        "file": "app/profile/addresses/page.tsx",
+        "righe": "50-130"
+      },
+      {
+        "file": "app/sell/page.tsx",
+        "righe": "60-185"
+      },
+      {
+        "file": "app/profile/page.tsx",
+        "righe": "15-30"
+      },
+      {
+        "file": "lib/shipping-coordinate.ts",
+        "righe": "30-60"
+      },
+      {
+        "file": "app/profile/settings/page.tsx",
+        "righe": "440-485"
+      },
+      {
+        "file": "app/profile/settings/page.tsx",
+        "righe": "628-668"
+      },
+      {
+        "file": "app/notifications/page.tsx",
+        "righe": "60-100"
+      },
+      {
+        "file": "components/hooks/useNotificationsCount.ts",
+        "righe": "13-45"
+      },
+      {
+        "file": "migrations/115_privacy_radiografia.sql",
+        "righe": "210-240"
+      },
+      {
+        "file": "migrations/215_minori_s04_database.sql",
+        "righe": "29-47"
+      },
+      {
+        "file": "migrations/215_minori_s04_database.sql",
+        "righe": "566-573"
+      },
+      {
+        "file": "migrations/215_minori_s04_database.sql",
+        "righe": "670-725"
+      },
+      {
+        "file": "app/rider/earnings/page.tsx",
+        "righe": "1-17"
+      },
+      {
+        "file": "app/rider/earnings/page.tsx",
+        "righe": "205-245"
+      },
+      {
+        "file": "app/rider/page.tsx",
+        "righe": "160-240"
+      },
+      {
+        "file": "app/rider/page.tsx",
+        "righe": "325-386"
+      },
+      {
+        "file": "app/rider/page.tsx",
+        "righe": "448-470"
+      },
+      {
+        "file": "app/rider/page.tsx",
+        "righe": "650-672"
+      },
+      {
+        "file": "app/rider/profile/page.tsx",
+        "righe": "100-200"
+      },
+      {
+        "file": "migrations/119_radiografia_18_agosto.sql",
+        "righe": "78-98"
+      },
+      {
+        "file": "app/seller/analytics/page.tsx",
+        "righe": "344-372"
+      },
+      {
+        "file": "app/seller/analytics/letture-dell-andamento.ts",
+        "righe": "47-61"
+      },
+      {
+        "file": "lib/guadagni/negozio.ts",
+        "righe": "1-200"
+      },
+      {
+        "file": "app/seller/earnings/page.tsx",
+        "righe": "120-240"
+      },
+      {
+        "file": "lib/stripe/payout.ts",
+        "righe": "170-200"
+      },
+      {
+        "file": "app/api/cron/release-payouts/route.ts",
+        "righe": "355-385"
+      },
+      {
+        "file": "tests/unit/riparazione-r17-guadagni-coi-contanti.test.ts",
+        "righe": "1-22"
+      },
+      {
+        "file": "tests/unit/riparazione-r17-guadagni-coi-contanti.test.ts",
+        "righe": "60-180"
+      },
+      {
+        "file": "tests/unit/riparazione-r03-o6-segnalazioni-oggetto-esiste.test.ts",
+        "righe": "1-78"
+      },
+      {
+        "file": "tests/unit/riparazione-r02-segnalazione-esito-solo-se-tolto.test.ts",
+        "righe": "1-95"
+      },
+      {
+        "file": "app/seller/layout.tsx",
+        "righe": "36-80"
+      },
+      {
+        "file": "app/seller/layout.tsx",
+        "righe": "100-230"
+      },
+      {
+        "file": "app/api/admin/users/[id]/moderate/route.ts",
+        "righe": "80-135"
+      },
+      {
+        "file": "app/seller/products/[id]/edit/page.tsx",
+        "righe": "25-45"
+      },
+      {
+        "file": "app/seller/products/[id]/edit/page.tsx",
+        "righe": "90-175"
+      },
+      {
+        "file": "lib/products/persistVariantsServer.ts",
+        "righe": "1-66"
+      },
+      {
+        "file": "app/api/admin/products/route.ts",
+        "righe": "100-130"
+      },
+      {
+        "file": "app/api/admin/products/route.ts",
+        "righe": "250-320"
+      },
+      {
+        "file": "app/seller/products/ai-batch/page.tsx",
+        "righe": "360-617"
+      },
+      {
+        "file": "app/api/ai/catalog-batch/cancel/route.ts",
+        "righe": "25-45"
+      },
+      {
+        "file": "app/seller/products/new/page.tsx",
+        "righe": "95-260"
+      },
+      {
+        "file": "components/providers/QueryProvider.tsx",
+        "righe": "55-80"
+      },
+      {
+        "file": "components/ActivePromoBadge.tsx",
+        "righe": "1-62"
+      },
+      {
+        "file": "app/product/[id]/page.tsx",
+        "righe": "1015-1045"
+      },
+      {
+        "file": "app/seller/promotions/page.tsx",
+        "righe": "80-120"
+      },
+      {
+        "file": "app/shared-cart/page.tsx",
+        "righe": "120-175"
+      },
+      {
+        "file": "app/checkout/page.tsx",
+        "righe": "250-300"
+      },
+      {
+        "file": "app/sitemap.ts",
+        "righe": "60-140"
+      },
+      {
+        "file": "app/store/[id]/layout.tsx",
+        "righe": "1-80"
+      },
+      {
+        "file": "app/store/[id]/page.tsx",
+        "righe": "1-12"
+      },
+      {
+        "file": "app/store/[id]/page.tsx",
+        "righe": "60-152"
+      },
+      {
+        "file": "lib/store-customization.ts",
+        "righe": "304-314"
+      },
+      {
+        "file": "lib/queries/precarico.ts",
+        "righe": "125-137"
+      },
+      {
+        "file": "components/store-sections/useStorePageData.ts",
+        "righe": "1-100"
+      },
+      {
+        "file": "components/store-sections/riepilogo-recensioni.ts",
+        "righe": "10-18"
+      },
+      {
+        "file": "migrations/127_minori_22_agosto.sql",
+        "righe": "775-795"
+      },
+      {
+        "file": "app/terms/page.tsx",
+        "righe": "105-125"
+      },
+      {
+        "file": "lib/home-site.ts",
+        "righe": "66-82"
+      },
+      {
+        "file": "components/home-sections/HomeSectionRenderer.tsx",
+        "righe": "205-240"
+      },
+      {
+        "file": "components/AIDescriptionButton.tsx",
+        "righe": "1-72"
+      },
+      {
+        "file": "lib/ordini/zona-di-consegna.ts",
+        "righe": "1-68"
+      },
+      {
+        "file": "app/shipping/page.tsx",
+        "righe": "36-60"
+      },
+      {
+        "file": "app/shipping/page.tsx",
+        "righe": "130-140"
+      },
+      {
+        "file": "lib/promesse-pubbliche.ts",
+        "righe": "225-225"
+      },
+      {
+        "file": "lib/promesse-pubbliche.ts",
+        "righe": "632-632"
+      },
+      {
+        "file": "app/cart/page.tsx",
+        "righe": "41-41"
+      },
+      {
+        "file": "app/cart/page.tsx",
+        "righe": "323-323"
+      },
+      {
+        "file": "tests/unit/lo-schermo-e-il-server-fanno-lo-stesso-conto.test.ts",
+        "righe": "1-12"
+      },
+      {
+        "file": "app/rider/orders/[id]/page.tsx",
+        "righe": "448-450"
+      },
+      {
+        "file": "components/home-sections/HomeSectionRenderer.tsx",
+        "righe": "215-240"
+      },
+      {
+        "file": "components/home-sections/HomeSectionRenderer.tsx",
+        "righe": "395-395"
+      },
+      {
+        "file": "app/about/page.tsx",
+        "righe": "110-125"
+      },
+      {
+        "file": "components/home/HowItWorks.tsx",
+        "righe": "1-106"
+      },
+      {
+        "file": "components/home/StoriesCarousel.tsx",
+        "righe": "40-130"
+      },
+      {
+        "file": "components/Navbar.tsx",
+        "righe": "270-300"
+      },
+      {
+        "file": "components/Navbar.tsx",
+        "righe": "320-350"
+      },
+      {
+        "file": "components/Navbar.tsx",
+        "righe": "372-400"
+      },
+      {
+        "file": "components/ProductCard.tsx",
+        "righe": "40-110"
+      },
+      {
+        "file": "components/ProductCard.tsx",
+        "righe": "162-200"
+      },
+      {
+        "file": "components/ProductCard.tsx",
+        "righe": "255-275"
+      },
+      {
+        "file": "lib/promotions.ts",
+        "righe": "1-50"
+      },
+      {
+        "file": "lib/promotions.ts",
+        "righe": "77-80"
+      },
+      {
+        "file": "components/ActivePromoBadge.tsx",
+        "righe": "25-62"
+      },
+      {
+        "file": "lib/cart.ts",
+        "righe": "270-293"
+      },
+      {
+        "file": "lib/format.ts",
+        "righe": "15-27"
+      },
+      {
+        "file": "components/checkout/CartGroupsList.tsx",
+        "righe": "36-56"
+      },
+      {
+        "file": "components/home/TrendingNow.tsx",
+        "righe": "80-100"
+      },
+      {
+        "file": "lib/queries/griglia-prodotti.ts",
+        "righe": "8-32"
+      },
+      {
+        "file": "lib/queries/griglia-prodotti.ts",
+        "righe": "86-122"
+      },
+      {
+        "file": "lib/queries/griglia-prodotti.ts",
+        "righe": "370-392"
+      },
+      {
+        "file": "lib/paginazione.ts",
+        "righe": "41-66"
+      },
+      {
+        "file": "tests/sql/rls/riparazione-r03-vetrina-senza-citta-del-cliente.test.sql",
+        "righe": "1-73"
+      },
+      {
+        "file": "tests/unit/riparazione-r01-home-col-testo-grande.test.tsx",
+        "righe": "1-60"
+      },
+      {
+        "file": "tests/unit/riparazione-r01-prezzo-scontato-scheda.test.tsx",
+        "righe": "8-70"
+      },
+      {
+        "file": "components/ProductGrid.tsx",
+        "righe": "183-217"
+      },
+      {
+        "file": "components/ProductGrid.tsx",
+        "righe": "250-330"
+      },
+      {
+        "file": "components/ProductGrid.tsx",
+        "righe": "493-495"
+      },
+      {
+        "file": "components/ProductGrid.tsx",
+        "righe": "673-673"
+      },
+      {
+        "file": "app/novita/page.tsx",
+        "righe": "44-62"
+      },
+      {
+        "file": "app/piu-venduti/page.tsx",
+        "righe": "50-66"
+      },
+      {
+        "file": "components/Segnala.tsx",
+        "righe": "100-181"
+      },
+      {
+        "file": "app/api/segnalazioni/route.ts",
+        "righe": "1-80"
+      },
+      {
+        "file": "components/seller/ProductForm.tsx",
+        "righe": "270-320"
+      },
+      {
+        "file": "components/seller/ProductForm.tsx",
+        "righe": "880-900"
+      },
+      {
+        "file": "components/seller/ProductForm.tsx",
+        "righe": "1030-1120"
+      },
+      {
+        "file": "components/seller/SellerShell.tsx",
+        "righe": "1-90"
+      },
+      {
+        "file": "lib/funzioni-al-lancio.ts",
+        "righe": "1-60"
+      },
+      {
+        "file": "app/seller/promote/page.tsx",
+        "righe": "95-105"
+      },
+      {
+        "file": "app/seller/promote/page.tsx",
+        "righe": "136-142"
+      },
+      {
+        "file": "app/seller/promote/page.tsx",
+        "righe": "212-248"
+      },
+      {
+        "file": "components/seller/site/dove-e-l-errore.ts",
+        "righe": "30-48"
+      },
+      {
+        "file": "components/VendorForm.tsx",
+        "righe": "134-220"
+      },
+      {
+        "file": "components/VendorForm.tsx",
+        "righe": "255-290"
+      },
+      {
+        "file": "components/VendorForm.tsx",
+        "righe": "305-309"
+      },
+      {
+        "file": "app/seller/profile/page.tsx",
+        "righe": "130-190"
+      },
+      {
+        "file": "components/seller/site/CollectionFields.tsx",
+        "righe": "18-30"
+      },
+      {
+        "file": "components/seller/site/GalleryFields.tsx",
+        "righe": "94-124"
+      },
+      {
+        "file": "lib/store-customization.ts",
+        "righe": "130-215"
+      },
+      {
+        "file": "lib/store-customization.ts",
+        "righe": "315-373"
+      },
+      {
+        "file": "components/StoreMediaManager.tsx",
+        "righe": "36-62"
+      },
+      {
+        "file": "components/ImageUrlField.tsx",
+        "righe": "50-64"
+      },
+      {
+        "file": "components/SellerApplicationForm.tsx",
+        "righe": "190-198"
+      },
+      {
+        "file": "lib/storage/casella-di-caricamento.ts",
+        "righe": "1-30"
+      },
+      {
+        "file": "lib/storage/regole-secchi.ts",
+        "righe": "49-60"
+      },
+      {
+        "file": "lib/storage/regole-secchi.ts",
+        "righe": "99-101"
+      },
+      {
+        "file": "components/StickyAddToCart.tsx",
+        "righe": "114-147"
+      },
+      {
+        "file": "app/product/[id]/page.tsx",
+        "righe": "528-545"
+      },
+      {
+        "file": "app/product/[id]/page.tsx",
+        "righe": "1676-1695"
+      },
+      {
+        "file": "components/SimilarProducts.tsx",
+        "righe": "25-60"
+      },
+      {
+        "file": "components/SimilarProducts.tsx",
+        "righe": "94-94"
+      },
+      {
+        "file": "components/store-sections/CollectionSection.tsx",
+        "righe": "26-161"
+      },
+      {
+        "file": "components/StorePreviewCard.tsx",
+        "righe": "84-120"
+      },
+      {
+        "file": "components/StoreListRow.tsx",
+        "righe": "45-60"
+      },
+      {
+        "file": "components/StoreShowcase.tsx",
+        "righe": "74-84"
+      },
+      {
+        "file": "app/stores/page.tsx",
+        "righe": "372-384"
+      },
+      {
+        "file": "app/near/page.tsx",
+        "righe": "356-368"
+      },
+      {
+        "file": "app/api/seller/apply/route.ts",
+        "righe": "82-90"
+      },
+      {
+        "file": "components/ui/AuthShell.tsx",
+        "righe": "108-160"
+      },
+      {
+        "file": "app/sign-up/page.tsx",
+        "righe": "360-368"
+      }
+    ],
+    "file_eseguiti": [
+      {
+        "file": "tests/unit/riparazione-r01-benvenuto-carta-rifiutata-poi-contanti.test.ts",
+        "comando": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r01-benvenuto-carta-rifiutata-poi-contanti.test.ts",
+        "esito": "1 file passato, 2 test verdi"
+      },
+      {
+        "file": "tests/unit/riparazione-r04-benvenuto-dopo-i-contanti.test.ts",
+        "comando": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r04-benvenuto-dopo-i-contanti.test.ts",
+        "esito": "1 file passato, 3 test verdi"
+      },
+      {
+        "file": "tests/unit/riparazione-r21-segnalazioni-email.test.ts",
+        "comando": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r21-segnalazioni-email.test.ts",
+        "esito": "1 file, 3 test verdi"
+      },
+      {
+        "file": "tests/unit/riparazione-r10-un-prezzo-abbonamento.test.tsx",
+        "comando": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r10-un-prezzo-abbonamento.test.tsx",
+        "esito": "1 file, 3 test verdi"
+      },
+      {
+        "file": "tests/unit/riparazione-r33-abbonamento-due-schede.test.ts",
+        "comando": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r33-abbonamento-due-schede.test.ts",
+        "esito": "1 file, 6 test verdi"
+      },
+      {
+        "file": "tests/unit/riparazione-r04-foto-uscita-modello.test.ts",
+        "comando": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r04-foto-uscita-modello.test.ts",
+        "esito": "1 file, 2 test verdi"
+      },
+      {
+        "file": "tests/unit/riparazione-r03-foto-solo-si-vero.test.ts",
+        "comando": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r03-foto-solo-si-vero.test.ts",
+        "esito": "1 file, 16 test verdi"
+      },
+      {
+        "file": "tests/unit/riparazione-r19-ho-gia-un-account-salva-la-bozza.test.ts",
+        "comando": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r19-ho-gia-un-account-salva-la-bozza.test.ts",
+        "esito": "1 file, 5 test verdi"
+      },
+      {
+        "file": "tests/unit/riparazione-r19-contanti-sopra-il-tetto.test.ts",
+        "comando": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r19-contanti-sopra-il-tetto.test.ts",
+        "esito": "1 file, 2 test verdi"
+      },
+      {
+        "file": "tests/unit/riparazione-r02-ancore-faq.test.ts",
+        "comando": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r02-ancore-faq.test.ts",
+        "esito": "1 file, 1 test verde"
+      },
+      {
+        "file": "tests/unit/riparazione-r01-notifiche-di-chi-guarda.test.tsx",
+        "comando": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r01-notifiche-di-chi-guarda.test.tsx",
+        "esito": "1 file, 7 test verdi"
+      },
+      {
+        "file": "tests/unit/riparazione-r07-reso-pane.test.tsx",
+        "comando": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r07-reso-pane.test.tsx",
+        "esito": "1 file, 3 test verdi"
+      },
+      {
+        "file": "tests/unit/riparazione-r03-o6-segnalazioni-oggetto-esiste.test.ts",
+        "comando": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r03-o6-segnalazioni-oggetto-esiste.test.ts",
+        "esito": "1 file, 5 test verdi"
+      },
+      {
+        "file": "tests/unit/riparazione-r02-segnalazione-esito-solo-se-tolto.test.ts",
+        "comando": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r02-segnalazione-esito-solo-se-tolto.test.ts",
+        "esito": "1 file, 6 test verdi"
+      },
+      {
+        "file": "tests/unit/riparazione-r01-bacheca-fattorino-stato-ignoto.test.tsx",
+        "comando": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r01-bacheca-fattorino-stato-ignoto.test.tsx",
+        "esito": "1 file, 3 test verdi"
+      },
+      {
+        "file": "tests/unit/riparazione-r17-guadagni-coi-contanti.test.ts",
+        "comando": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r17-guadagni-coi-contanti.test.ts",
+        "esito": "1 file, 10 test verdi"
+      },
+      {
+        "file": "tests/unit/riparazione-r02-contanti-col-carrello.test.tsx",
+        "comando": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r02-contanti-col-carrello.test.tsx",
+        "esito": "1 file, 8 test verdi"
+      },
+      {
+        "file": "tests/unit/riparazione-r16-salvataggio-tutto-o-niente.test.tsx",
+        "comando": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r16-salvataggio-tutto-o-niente.test.tsx",
+        "esito": "1 file, 6 test verdi"
+      },
+      {
+        "file": "tests/unit/riparazione-r19-insegna-del-negozio-non-approvato.test.ts",
+        "comando": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r19-insegna-del-negozio-non-approvato.test.ts",
+        "esito": "1 file, 4 test verdi"
+      },
+      {
+        "file": "tests/unit/riparazione-r06-sitemap-oltre-mille.test.ts",
+        "comando": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r06-sitemap-oltre-mille.test.ts",
+        "esito": "1 file, 3 test verdi"
+      },
+      {
+        "file": "tests/sql/harness/apply.sh",
+        "comando": "cd /home/user/ad-mycity/marketplace && tests/sql/harness/apply.sh mycity_s01c_l07",
+        "esito": "210 migrazioni applicate, 0 fallite (exit 0); database cancellato a fine lavoro"
+      },
+      {
+        "file": "tests/sql/rls/riparazione-r03-vetrina-senza-citta-del-cliente.test.sql",
+        "comando": "psql -q -X -d mycity_s01c_l07 -v ON_ERROR_STOP=1 -f tests/sql/rls/riparazione-r03-vetrina-senza-citta-del-cliente.test.sql",
+        "esito": "exit 0, 3 controlli verdi"
+      },
+      {
+        "file": "tests/unit/riparazione-r03-vetrina-dal-vivo-senza-citta.test.ts",
+        "comando": "npx vitest run tests/unit/riparazione-r03-vetrina-dal-vivo-senza-citta.test.ts",
+        "esito": "1 file, 1 test verde"
+      },
+      {
+        "file": "tests/unit/riparazione-r01-home-col-testo-grande.test.tsx",
+        "comando": "npx vitest run tests/unit/riparazione-r01-home-col-testo-grande.test.tsx",
+        "esito": "1 file, 4 test verdi (il file r10-home-non-scorre-di-lato citato nel referto non esiste più)"
+      },
+      {
+        "file": "tests/unit/riparazione-r01-prezzo-scontato-scheda.test.tsx",
+        "comando": "npx vitest run tests/unit/riparazione-r01-prezzo-scontato-scheda.test.tsx",
+        "esito": "1 file, 4 test verdi"
+      },
+      {
+        "file": "tests/unit/riparazione-r02-modifiche-non-salvate-negozio.test.tsx",
+        "comando": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r02-modifiche-non-salvate-negozio.test.tsx",
+        "esito": "1 file, 5 test verdi"
+      },
+      {
+        "file": "tests/unit/riparazione-r02-modifiche-non-salvate-profilo.test.tsx",
+        "comando": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r02-modifiche-non-salvate-profilo.test.tsx",
+        "esito": "1 file, 4 test verdi"
+      },
+      {
+        "file": "tests/unit/riparazione-r04-testo-lungo-vetrina.test.tsx",
+        "comando": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r04-testo-lungo-vetrina.test.tsx",
+        "esito": "1 file, 4 test verdi"
+      },
+      {
+        "file": "tests/unit/riparazione-r02-ritorno-con-google.test.tsx",
+        "comando": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r02-ritorno-con-google.test.tsx",
+        "esito": "1 file, 3 test verdi"
+      }
+    ],
+    "non_guardato": [
+      {
+        "cosa": "L01: Storia git dei file (per esempio lo stato al commit 3e820b069e0b della nascita delle voci sui resi)",
+        "perche": "La copia è un clone shallow: il commit di nascita non c'è, quindi ho giudicato solo sul codice di oggi."
+      },
+      {
+        "cosa": "L01: migrations/040_account_deletion_cooldown.sql e la 572 (process_expired_deletions)",
+        "perche": "Per la voce 2 basta la pipeline TypeScript: la RPC è una SELECT e non prende in carico gli account, cosa vista con un grep sulla 572."
+      },
+      {
+        "cosa": "L01: Il comportamento reale in produzione (tempi di cancellaAccount, budget AI, eventi GA4/PostHog)",
+        "perche": "È vietato toccare database, Vercel e servizi veri: tutte le voci sono state giudicate dalla copia locale."
+      },
+      {
+        "cosa": "L02: Se SUPABASE_SERVICE_ROLE_KEY oggi c'è sul progetto Vercel, cioè se i consensi entrano davvero nel registro",
+        "perche": "Divieto di usare Vercel e il database vero: dalla copia non si vede"
+      },
+      {
+        "cosa": "L02: Quante segnalazioni restano ferme in «ricevuta» o «in_esame», con l'email dentro",
+        "perche": "Servirebbe il database vero (vietato)"
+      },
+      {
+        "cosa": "L02: Come risponde Stripe a un bonifico verso un conto cancellato o scollegato (codice d'errore)",
+        "perche": "Servizio esterno, niente chiamate a Stripe"
+      },
+      {
+        "cosa": "L02: Il tempo reale che il modello impiega a scrivere 6000 token",
+        "perche": "Servizio esterno, non misurabile dalla copia"
+      },
+      {
+        "cosa": "L02: Le mutanti del collaudo originale sul carrello oltre a M2 e M5",
+        "perche": "Il file del collaudo originale non esiste più (lo dice il referto R10)"
+      },
+      {
+        "cosa": "L02: La pagina del reso montata con orologio finto",
+        "perche": "Solo letta: usa la stessa funzione recessoAperto della rotta, già provata"
+      },
+      {
+        "cosa": "L03: Misura reale in browser delle voci di impaginazione (280 px col testo al 200%: /stores, il link «Candidati», l'altezza della barra a schede)",
+        "perche": "Il compito vieta il browser: gli esiti vengono dal calcolo sulle classi Tailwind (spaziature di fabbrica in rem, verificato in tailwind.config.ts)"
+      },
+      {
+        "cosa": "L03: Comportamento a runtime di Next per l'errore lanciato dal layout e da generateMetadata (voce «senza database»)",
+        "perche": "Servirebbe avviare il sito senza database e aprirlo in un browser, cosa vietata. Ragionato sulla semantica dei confini d'errore dello stesso segmento"
+      },
+      {
+        "cosa": "L03: Stato reale nel database (saldo del credito, ordini, liste)",
+        "perche": "Divieto assoluto sugli strumenti del database vero; non serviva per voci tutte minori lette dal codice"
+      },
+      {
+        "cosa": "L03: Nessuna prova vitest nuova scritta da me",
+        "perche": "Tutte le voci sono minori: dove ho chiuso una voce bastavano la lettura del codice e i test già presenti nel repo, che ho lanciato"
+      },
+      {
+        "cosa": "L04: Dati veri del database (per esempio se i prodotti di Pane Quotidiano sono segnati «esclusi dal recesso», se ci sono reclami aperti o avvisi di bonifico veri)",
+        "perche": "Divieto assoluto di usare gli strumenti del database vero; si lavora solo sulla copia locale."
+      },
+      {
+        "cosa": "L04: Comportamento nel browser vero: il tasto indietro dopo l'eliminazione della lista (voce 1) e la cache avanti-indietro del browser (voce 3)",
+        "perche": "Niente browser in questo giro: le due voci si basano sulla lettura del codice e sulla configurazione di React Query."
+      },
+      {
+        "cosa": "L04: L'approvazione di Nicola sulla frase «entro un mese» fuori da registro-fatti, DECISIONI, BACHECA-SESSIONI e AZIONI-IN-ATTESA",
+        "perche": "È una decisione umana. Cercata solo con grep in quei quattro file."
+      },
+      {
+        "cosa": "L04: Le altre occorrenze di «rider» nelle pagine del negozio e del fattorino, e le singole 33 ombre una per una",
+        "perche": "Fuori dal perimetro della voce: è bastato confermare i punti citati e contare le ombre."
+      },
+      {
+        "cosa": "L05: Stato reale del database: se le migrazioni 364 e 215 sono applicate in produzione, e quante notifiche promo ci sono",
+        "perche": "Il compito vieta gli strumenti del database vero: il giudizio si basa solo sulla copia locale"
+      },
+      {
+        "cosa": "L05: Il file per intero della scheda prodotto (1720 righe) e della pagina Guadagni",
+        "perche": "Lavoro snello: ho letto solo le righe che servono alle voci"
+      },
+      {
+        "cosa": "L05: Una prova dal vivo dei tempi di disegno (la voce performance)",
+        "perche": "Niente browser e niente chiamate al sito vero: il giudizio viene dalla lettura dei layout"
+      },
+      {
+        "cosa": "L05: Da dove /rider/onboarding lascia ricaricare i documenti a un fattorino già approvato (voce 12)",
+        "perche": "Ho verificato solo che il caricamento non tocca is_approved. Il percorso dell'interfaccia per il fattorino approvato l'ho letto, non provato"
+      },
+      {
+        "cosa": "L06: Comportamento reale del servizio dati (tetto max_rows di PostgREST, cache ISR di Vercel dopo mezzanotte)",
+        "perche": "Vietato toccare il database vero e Vercel; le voci 8 e 10 sono valutate dal codice e dalla configurazione standard di Supabase (tetto di mille righe)"
+      },
+      {
+        "cosa": "L06: Quale prova manchi nella voce «buco nelle prove (variante)»",
+        "perche": "La descrizione rimanda a file di collaudo di un'altra sessione che non esistono più: senza quel riferimento non si può ricostruire il buco senza inventarlo"
+      },
+      {
+        "cosa": "L06: Prove nuove scritte da me",
+        "perche": "Tutte e 15 le voci sono minori: bastano la lettura del codice e i test già presenti nel repo. Nessun file temporaneo in tests/unit/_s01c/; git status --short è vuoto"
+      },
+      {
+        "cosa": "L07: Misure di scorrimento laterale nel browser (voci 5, 7, 10: 360/320/280 px col testo al 200%)",
+        "perche": "Browser vietato dal compito; giudicate dal codice e dai referti di riparazione"
+      },
+      {
+        "cosa": "L07: Se la migrazione 271 è applicata nel database vero",
+        "perche": "Strumenti del database vero vietati; verificato solo sulla copia locale ricostruita dalle migrazioni"
+      },
+      {
+        "cosa": "L07: I file app/api/ai/answer-qa e app/api/ai/reviews-summary citati nella voce del conto del carrello",
+        "perche": "Non servono a decidere se esiste la seconda copia del conto"
+      },
+      {
+        "cosa": "L07: app/come-funziona e LegalLayout (/privacy) citati nella descrizione originale della voce home//about",
+        "perche": "Il titolo della voce parla solo di home e /about"
+      },
+      {
+        "cosa": "L08: Impaginazione reale col nome lungo del negozio (voce layout-responsive)",
+        "perche": "Serve un browser per misurare se la pagina scorre di lato. Il browser è vietato in questo lotto e jsdom non calcola l'impaginazione. Ho giudicato solo dalla lettura del codice."
+      },
+      {
+        "cosa": "L08: Database vero, Vercel, Stripe",
+        "perche": "Vietati dal compito. Nessuna voce del lotto ne aveva bisogno."
+      },
+      {
+        "cosa": "L08: Tutti i caroselli della home uno per uno (voce prezzo promo)",
+        "perche": "Ho controllato SimilarProducts in dettaglio. Per RecentlyViewed, TrendingNow e SponsoredCarousel ho solo cercato con grep promo/sconto: bastava a dire che il difetto c'è ancora."
+      },
+      {
+        "cosa": "L08: Navigazioni con router.push senza link mentre il modulo ha modifiche non salvate",
+        "perche": "Fuori dal titolo della voce sugli avvisi d'uscita. I test esistenti coprono beforeunload, i link e «Tutte le impostazioni»."
+      }
+    ]
+  },
+  "difetti": [],
+  "scartati": [],
+  "regressioni": [],
+  "ricontrolli": [
+    {
+      "chiave": "api-backend|un account preso poco prima del tetto del ciclo non ha un tempo suo",
+      "esito": "ancora_vero",
+      "prova": "app/api/cron/process-deletions/route.ts:225 — il tetto (TETTO_CANCELLAZIONI_MS=150_000, riga 81) si guarda solo PRIMA di prendere l'account; :241 `await cancellaAccount(admin, userId)` parte senza scadenza propria; lib/account/cancellazione.ts:912 la firma non ha nessun limite di tempo; il commento :84-86 lo ammette («un account preso può durare a lungo»)",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Un account preso a 149 s gira senza un tempo suo: nessun Promise.race, timeout o AbortSignal nel route né in cancellaAccount.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Il tetto delle email (TETTO_EMAIL_MS, R01-002) protegge quello che viene dopo, ma l'account preso al limite non ha ancora un tempo suo."
+    },
+    {
+      "chiave": "privacy-legale|chi annulla la cancellazione dell'account mentre gira il giro notturno viene cancellato lo stesso",
+      "esito": "ancora_vero",
+      "prova": "app/api/cron/process-deletions/route.ts:236 rilegge deletion_requested_at (haAnnullatoNelFrattempo, :649-657) solo PRIMA di cancellaAccount; lib/account/cancellazione.ts:912-1012 non ricontrolla prima di `admin.auth.admin.deleteUser` (:1012); app/api/account/delete/route.ts:200-212 (annulla) azzera il campo senza condizioni e risponde «Richiesta annullata.»",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Chi annulla tra la rilettura (:236) e deleteUser (cancellazione.ts:1012) legge «Richiesta annullata» e viene cancellato lo stesso: non c'è lucchetto né rilettura dentro la pipeline.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Stessa forma già registrata il 6/11 come 'cambiato': la finestra si è ristretta da tutta la notte ai secondi di un account (anonimizzazione, storage, Stripe), ma non è chiusa."
+    },
+    {
+      "chiave": "architettura|la rotta delle email a orario si crea un suo client admin",
+      "esito": "ancora_vero",
+      "prova": "app/api/cron/send-emails/route.ts:2 importa createClient da @supabase/supabase-js; :263-267 `requireSupabaseService()` + `createClient(supaCfg.url, supaCfg.key, …)` invece di getAdminSupabase()",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Il client admin è ancora costruito a mano dentro la rotta.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null
+    },
+    {
+      "chiave": "deploy-sre|il commento del cron delle notifiche dice che il nuovo ordine manda la push subito, ma oggi nessun file lo fa",
+      "esito": "ancora_vero",
+      "prova": "app/api/cron/send-push/route.ts:23-27 dice che la push del nuovo ordine parte subito con `mandaSubitoLaPushDelNuovoOrdine`; la funzione esiste (lib/push/subito.ts:109) ma `grep -rn mandaSubitoLaPushDelNuovoOrdine app lib components` trova solo il commento e la definizione: la chiama solo tests/unit/riparazione-r02-push-nuovo-ordine-subito.test.ts",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Nessun file di produzione (rotta contanti, webhook carta) chiama l'invio subito: il commento descrive un comportamento che non c'è.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "È cambiato dalla nascita che ora l'aiutante esiste e ha un test, ma resta non collegato: il titolo («nessun file lo fa») resta vero."
+    },
+    {
+      "chiave": "privacy-legale|la conferma della newsletter scatta appena il link viene aperto, anche da un antivirus, e funziona anche con la newsletter spenta",
+      "esito": "ancora_vero",
+      "prova": "app/api/newsletter/confirm/route.ts:15-58 — GET che fa subito l'UPDATE active=true/confirmed_at (:47-52), senza pagina di conferma con un pulsante e senza leggere NEWSLETTER_ACCESA; lib/funzioni-al-lancio.ts:62 NEWSLETTER_ACCESA=false",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Basta aprire il link (anche un antivirus che lo apre da solo) per confermare, anche con la newsletter spenta.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Il commento a funzioni-al-lancio.ts:61 («Conferma e disiscrizione restano vive») è una scelta del codice, ma nel registro-fatti non c'è un fatto che dichiari voluta la conferma con un semplice GET: la voce resta aperta."
+    },
+    {
+      "chiave": "api-backend|l'annullo dal sito, il rifiuto del negozio e il cliente assente rispondono 500 senza riga nel registro quando l'annullo fallisce",
+      "esito": "ancora_vero",
+      "prova": "app/api/orders/[id]/cancel/route.ts:80, app/api/seller/orders/[id]/reject/route.ts:91, app/api/rider/orders/[id]/cliente-assente/route.ts:89 — `return ApiErrors.internal(...)` senza logger; lib/ordini/annulla.ts:400 restituisce ANNULLAMENTO_FALLITO con `dettaglio: updErr.message` senza loggarlo; lib/api/responses.ts:75 `internal` non scrive nel registro",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "In tutte e tre le rotte un update caduto finisce in 500 senza nessuna riga nel registro.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null
+    },
+    {
+      "chiave": "api-backend|coi contanti, il benvenuto restituito dalla pulizia di una cassa con la carta abbandonata resta bloccato 2 minuti",
+      "esito": "non_piu_vero",
+      "prova": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r01-benvenuto-carta-rifiutata-poi-contanti.test.ts — più lettura: app/api/orders/cod/route.ts:757-791 (R01-006, 21/11) dopo liberaRiserveAbbandonate chiude le righe coupon_redemptions delle casse liberate (letta `delivery.rivendicazione`), che la rotta della carta scrive in app/api/stripe/checkout/route.ts:1010-1012",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "1 file, 2 test verdi («30 secondi dopo il rifiuto della carta, l'ordine in contanti nasce col benvenuto»; «si chiude solo la rivendicazione della cassa con la carta liberata»).",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Il test esistente usa le due rotte vere e la pulizia vera su un database finto: se manca la chiusura della rivendicazione, il secondo ordine riceve un 400 e il test diventa rosso."
+    },
+    {
+      "chiave": "dati-analytics|gli ordini annullati o rimborsati restano venduti per sempre in google analytics e posthog",
+      "esito": "ancora_vero",
+      "prova": "lib/analytics/server.ts manda solo 'purchase' (:110, GA4 MP) e 'order_placed' (:238); lib/analytics/events.ts:273-274 trackOrderCanceled è solo client PostHog, chiamato soltanto da app/orders/[id]/page.tsx:288 (annullo del cliente dalla pagina); nessun evento 'refund' GA4 e nessun evento dal server in annulla.ts, reject, expire-stale-orders, webhook rimborsi",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Rifiuto del negozio, scadenza, rimborso Stripe o reso non tolgono la vendita da GA4 né da PostHog.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null
+    },
+    {
+      "chiave": "microcopy|la conferma al cliente conta il giorno da quando parte l'email, non da quando è nato l'ordine",
+      "esito": "ancora_vero",
+      "prova": "lib/email/templates.ts:146-152 — `nato = args.createdAt ? … : new Date()`; app/api/orders/cod/route.ts:1832-1840 e lib/stripe/webhook/ordini.ts:537-543 chiamano orderConfirmedBuyerTemplate senza createdAt (l'email al negozio invece lo passa, cod/route.ts:1816)",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Il giorno vero accanto a «Oggi/Domani» si conta dall'orologio del momento in cui parte l'email.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Il template ora accetta createdAt, ma nessuna delle due strade glielo passa."
+    },
+    {
+      "chiave": "qa-flussi|due veloci vendute nello stesso istante con un solo fattorino passano tutte e due",
+      "esito": "ancora_vero",
+      "prova": "app/api/orders/cod/route.ts:969-975 — veloceSiPuo con contaFattoriniOnline (lib/ordini/consegna-veloce.ts:148-169: conta fattorini online meno le veloci in corso), poi un insert normale (:1531) senza lucchetto né ricontrollo dopo l'inserimento",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Prima si controlla, poi si scrive, senza lucchetto: due clienti diversi nello stesso istante leggono tutti e due «1 libero» e passano tutti e due.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "La chiave di tentativo (chiaveTentativo) blocca solo i doppi invii dello stesso cliente."
+    },
+    {
+      "chiave": "qa-flussi|la rotta dei contanti non dichiara maxduration con le email in fila",
+      "esito": "ancora_vero",
+      "prova": "app/api/orders/cod/route.ts esporta solo `runtime` (:50) e `POST` (:345), nessun `maxDuration`; vercel.json:13-22 non ha una voce per app/api/orders/cod; le email in fila stanno in dopoLaRisposta a :1794-1850",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "La rotta gira col tempo predefinito della piattaforma mentre invia le email una alla volta.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null
+    },
+    {
+      "chiave": "qa-flussi|nessuna prova fa passare un codice sconto dalla cassa in contanti: il giorno in cui si accendono i codici, quella strada parte senza essere mai stata provata",
+      "esito": "non_piu_vero",
+      "prova": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r04-benvenuto-dopo-i-contanti.test.ts (e anche tests/unit/riparazione-r01-benvenuto-carta-rifiutata-poi-contanti.test.ts) — lettura: r04:37-39 mette CODICI_SCONTO_IN_CASSA: true, :194-201 fa una POST alla rotta vera app/api/orders/cod/route con couponCode 'BENVENUTO5'; rivendicaIlCodiceSconto e prezziDelCarrello sono quelli veri, è finto solo validateCoupon (sconto di 5); r01:285 controlla `db.ordini[0].coupon_code === 'BENVENUTO5'`",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "r04: 1 file, 3 test verdi; r01: 1 file, 2 test verdi. Un ordine in contanti nasce col codice sconto passando dalla rotta vera.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Lacuna che resta (non è il titolo): nessuno di questi test controlla l'importo dello sconto scritto sull'ordine (discount_amount / quote per negozio)."
+    },
+    {
+      "chiave": "ai-endpoints|«aggiorna ora» dei prezzi esterni: col budget ai finito l'admin legge ancora «riprova»",
+      "esito": "ancora_vero",
+      "prova": "app/api/products/[id]/external-refresh/route.ts:165-167 — riconosce solo il 404 (modelloNonTrovato), tutto il resto riceve badGateway «Aggiornamento non riuscito. Riprova.»; l'errore del tetto di spesa (AiCallError motivo 'tetto_spesa', lib/ai/run.ts:491-492) arriva fin qui perché lib/products/externalSync.ts:191 non lo intercetta",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Col budget AI finito l'admin legge ancora «Riprova» invece di «Budget AI giornaliero esaurito. Riprova domani.».",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null
+    },
+    {
+      "chiave": "api-backend|il reso già rimborsato si chiude con la cifra uscita su stripe, non con quella chiesta, e il negozio non lo sa",
+      "esito": "ancora_vero",
+      "prova": "app/api/returns/[id]/avanza/route.ts:312-315 — `if (giaSullaCarta) importoRimborso = giaSullaCarta.centesimi;` sovrascrive in silenzio la cifra chiesta (body.refundAmountCents o quella promessa); :369 la scrive sul reso; l'avviso va al cliente (:480) e la risposta (:494) non dice la cifra al negozio",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Il reso si chiude con la cifra uscita su Stripe e il negozio non riceve nessuna differenza o avviso.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Il ramo dei contanti (giaSullOrdine, :294-296) usa invece la cifra promessa: il difetto riguarda la carta."
+    },
+    {
+      "chiave": "api-backend|reso ritirato mentre il negozio lo approva: per pochi secondi il negozio riceve «il cliente ha ritirato la richiesta» mentre il reso risulta rimborsato",
+      "esito": "ancora_vero",
+      "prova": "app/api/returns/[id]/decide/route.ts:199-210 prende APPROVED, poi refundOrder (:264-277) dura qualche secondo; intanto app/api/returns/[id]/avanza/route.ts:109 (PARTENZE_DEL_RITIRO include APPROVED) e :81 lasciano passare il ritiro a CANCELED, con l'avviso al negozio «↩ Il cliente ha ritirato la richiesta di reso» (:480-488); decide poi scrive `.eq('status', statoRivendicato)` (:303-307), tocca 0 righe e risponde 500 con un avviso agli amministratori",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Non c'è un lucchetto tra l'approvazione con rimborso e il ritiro del cliente: il negozio riceve «ritirato» mentre i soldi stanno uscendo.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Il controllo dello stato sulla scrittura finale (5/11) fa scattare l'avviso agli amministratori, ma non impedisce l'incrocio."
+    },
+    {
+      "chiave": "qa-flussi|l'ultimo giorno del recesso il sito rifiuta il reso dal pomeriggio, e col cambio d'ora anche prima dell'ora della consegna",
+      "esito": "non_piu_vero",
+      "prova": "mkdir -p /home/user/ad-mycity/marketplace/tests/unit/_s01c && cp /tmp/claude-0/-home-user-ad-mycity/3a6dd9f1-c577-50de-a79b-fcb1dfee42de/scratchpad/prove/L02-recesso-ultimo-giorno.test.ts /home/user/ad-mycity/marketplace/tests/unit/_s01c/ && cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/_s01c/L02-recesso-ultimo-giorno.test.ts ; rm /home/user/ad-mycity/marketplace/tests/unit/_s01c/L02-recesso-ultimo-giorno.test.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "1 file, 4 test verdi. La prova chiama la vera rotta POST /api/returns/create, con banca dati finta e orologio finto (solo Date). Caso 1: consegna il 3/11 alle 10 di Piacenza, reso chiesto il 17/11 alle 18: 201. Caso 2: consegna il 20/10 alle 10 ora legale, reso chiesto il 3/11 alle 09:30 ora solare: 201. Caso 3: stesso ordine il 3/11 alle 23:30: 201. Controprova: il 4/11 alle 00:30: 400 «scaduto». Col vecchio conto a blocchi di 24 ore i casi 1 e 2 darebbero 400, quindi la prova sarebbe rossa.",
+      "verificato": true,
+      "verificato_da": "qa nuovo: Ho rilanciato identico il comando di L02: 1 file, 4 test su 4 verdi. Poi ho messo la stessa prova contro il vecchio conto a blocchi di 24 ore (mutante mio, mock di recessoAperto): 3 test rossi su 4 (casi 17/11 18:00, 3/11 09:30 col cambio d'ora, 3/11 23:30), controprova verde. Quindi la prova morde, e la rotta usa davvero recessoAperto (route.ts:21 e :103). → La chiusura regge e le due p",
+      "nota": "La rotta (app/api/returns/create/route.ts:100-105) e la pagina (app/orders/[id]/return/page.tsx:287-288) usano la stessa funzione recessoAperto (lib/ordini/termine-del-recesso.ts:72-74). Conta a giorni di calendario di Piacenza e sposta la scadenza se cade di sabato, domenica o festivo. La pagina l'ho solo letta, non montata: usa la stessa funzione."
+    },
+    {
+      "chiave": "qa-flussi|con «cliente assente» la merce torna subito in vendita sul sito mentre è ancora nello zaino del fattorino",
+      "esito": "ancora_vero",
+      "prova": "app/api/rider/orders/[id]/cliente-assente/route.ts:73-77: chiama annullaERimborsa senza merceNonTorna. lib/ordini/annulla.ts:275 e 405-410: senza quell'opzione restore_stock_for_order gira subito dopo l'annullo. Le scorte tornano in vendita nel momento in cui il fattorino preme il pulsante, non quando riporta la merce. Il testo per il fattorino (app/rider/orders/[id]/page.tsx:727-731) dice «Poi riporta la merce al negozio».",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Letto: nessuna attesa del rientro in negozio prima del ripristino delle scorte.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Il fatto firmato consegna.cliente-assente dice solo che «la merce torna al negozio», non quando torna in vendita: non rende voluto il ripristino immediato."
+    },
+    {
+      "chiave": "api-backend|l'esito di una segnalazione si rimanda due volte: dopo un errore parziale la pagina chiede di registrare di nuovo e tutti i canali ripartono, anche quelli già arrivati",
+      "esito": "ancora_vero",
+      "prova": "app/api/segnalazioni/esito/comunica.ts:109-142: a ogni chiamata manda email, notifica al segnalante e notifica al venditore. Non registra quali canali sono già arrivati. app/api/segnalazioni/route.ts:236-240: se un solo canale è fallito risponde 502. app/admin/segnalazioni/page.tsx:136-149 allora scrive «registra di nuovo la decisione per rimandarlo», e il nuovo invio rimanda tutti e tre i canali.",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Letto: nessuna traccia dei canali già andati a buon fine, nessuna chiave anti-doppione sull'email.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null
+    },
+    {
+      "chiave": "privacy-legale|l'esito di una segnalazione non dice né al venditore né a chi ha segnalato come si contesta la decisione",
+      "esito": "non_piu_vero",
+      "prova": "lib/admin/segnalazioni-testi.ts:37-40 definisce COME_CONTESTARE: contestazione gratuita da /contact entro sei mesi, riesame da una persona diversa, giudice, Termini. Il testo compare in tutti i messaggi di app/api/segnalazioni/esito/comunica.ts: email HTML e testo (righe 117-118), notifica a chi ha segnalato (riga 126), notifica al venditore (riga 138).",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Letto: le istruzioni per contestare sono presenti su tutti e tre i canali.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null
+    },
+    {
+      "chiave": "privacy-legale|chi fa una segnalazione lascia la sua email lì per sempre",
+      "esito": "cambiato",
+      "prova": "lib/privacy/potature-ritenzione.ts:382-394: la potatura notturna (cron process-deletions, vercel.json:35) azzera email_contatto e dettaglio 12 mesi dopo deciso_at (riga 60). L'informativa lo dichiara (app/privacy/page.tsx:125 e 226). Verifica: cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r21-segnalazioni-email.test.ts. Resta un caso scoperto: il filtro .lt('deciso_at', …) esclude le righe con deciso_at vuoto. app/admin/segnalazioni/page.tsx:122 lascia deciso_at vuoto per le segnalazioni 'in_esame', e anche le 'ricevuta' non lo hanno.",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "La prova esistente r21: 1 file, 3 test verdi. La lettura conferma che le segnalazioni mai decise non vengono mai potate.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Cosa è cambiato: per le segnalazioni decise l'email si cancella dopo 12 mesi. Per quelle mai decise (stato ricevuta o in_esame) l'email resta ancora per sempre."
+    },
+    {
+      "chiave": "architettura|il prezzo dell'abbonamento dei negozi è scritto a mano in sei posti, e la prova che dovrebbe tenerli uguali non se ne accorge se l'addebito cambia",
+      "esito": "non_piu_vero",
+      "prova": "app/seller/earnings/commissione.ts:89-90 è la fonte unica (ABBONAMENTO_CENTESIMI_MESE e PREZZO_ABBONAMENTO_MESE). La leggono la cassa (app/api/seller/subscription/checkout/route.ts:27 e 155, unit_amount), il banner (components/seller/SubscriptionBanner.tsx:14 e 91-97) e il modulo (components/SellerApplicationForm.tsx:23 e 285). «50» resta solo nei commenti. Verifica: cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r10-un-prezzo-abbonamento.test.tsx (finge un prezzo di 60 € e pretende unit_amount 6000).",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "1 file, 3 test verdi.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null
+    },
+    {
+      "chiave": "pagamenti-stripe|con l'abbonamento acceso, due schede aperte creano due abbonamenti da 50 euro, e il primo resta orfano e non si disdice dal sito",
+      "esito": "non_piu_vero",
+      "prova": "app/api/seller/subscription/checkout/route.ts:82-138: un solo cliente Stripe per negozio (clienteDelNegozio, righe 188 e seguenti). Un abbonamento già presente, anche «incomplete», blocca la seconda cassa con 409. Una cassa ancora aperta viene ridata invece di aprirne un'altra. lib/stripe/webhook/abbonamenti.ts:118-160: se arriva un secondo abbonamento resta il primo e il negozio viene avvisato. Il portale apre lo stesso cliente (portal/route.ts:47), quindi li mostra tutti e due. Verifica: cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r33-abbonamento-due-schede.test.ts",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "1 file, 6 test verdi.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Resta un ripiego solo se Stripe non risponde mentre si prepara il cliente: la cassa allora usa customer_email (route.ts:89-96)."
+    },
+    {
+      "chiave": "api-backend|con la carta, se la cassa cade dopo la rivendicazione del benvenuto, il codice resta bloccato fino a 2 minuti",
+      "esito": "non_piu_vero",
+      "prova": "app/api/stripe/checkout/route.ts:792-814: subito dopo la rivendicazione si legge quale riga di coupon_redemptions appartiene a questo tentativo. rilasciaCoupon (932-948), dopo aver restituito il codice, chiude anche quella riga (released_at). È chiamata su tutte le uscite successive alla rivendicazione: righe 967, 1023, 1082 e 1147. Verifica: cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r03-benvenuto-carta-cassa-caduta.test.ts",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Lanciata insieme alla prova della carta rifiutata: 2 file, 4 test verdi. Questo file: «Stripe cade dopo la rivendicazione: dieci secondi dopo il benvenuto vale per la cassa nuova».",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Il blocco di 2 minuti resta solo se fallisce la lettura della riga di rivendicazione (ripiego dichiarato nel codice, riga 795)."
+    },
+    {
+      "chiave": "api-backend|il codice di benvenuto restituito dopo un rifiuto della carta resta bloccato al tentativo dopo",
+      "esito": "non_piu_vero",
+      "prova": "app/api/stripe/checkout/route.ts:634-662: la pulizia dei tentativi abbandonati chiude le rivendicazioni scritte nelle loro righe di intento (delivery.rivendicazione, salvata alle righe 1010-1012). Chiude solo quelle dei tentativi appena liberati. Verifica: cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r03-benvenuto-carta-rifiutata.test.ts",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "2 file, 4 test verdi (insieme alla cassa caduta). In questo file: «carta rifiutata … 30 secondi dopo: la cassa si apre col benvenuto».",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null
+    },
+    {
+      "chiave": "pagamenti-stripe|un conto stripe non più valido sul profilo fa ritentare il bonifico ogni 15 minuti e «aggiorna stato» risponde «errore stripe»",
+      "esito": "ancora_vero",
+      "prova": "lib/stripe/payout.ts:252-262: prima del bonifico controlla solo che ci siano stripe_account_id e il flag stripe_payouts_enabled. payout.ts:413-419: qualunque errore del bonifico (anche un conto che non esiste più) rimette l'ordine in HELD, e il giro lo riprende. vercel.json:28: il giro release-payouts parte ogni 15 minuti. app/api/stripe/connect/refresh-status/route.ts:41-65: se accounts.retrieve lancia, la risposta è ApiErrors.internal('Errore Stripe'). In lib e app non c'è nessuna gestione di account.application.deauthorized né di «No such account».",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Letto: nessun riconoscimento del conto non valido, nessun limite ai ritentativi.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Solo l'onboarding (lib/stripe/client.ts:370 e seguenti) rifà un conto sconosciuto. Il bonifico e «Aggiorna stato» no."
+    },
+    {
+      "chiave": "ai-endpoints|la lettura di un prodotto da una foto va in errore 500 se il modello scrive il motivo del rifiuto in un formato inatteso",
+      "esito": "non_piu_vero",
+      "prova": "app/api/vision/extract-product/route.ts:433-442: policy_reason viene usato solo se è testo, altrimenti esce il messaggio generico con un 400. Righe 503-517: nome, descrizione, prezzo e testo alternativo sono controllati per tipo. Verifica: cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r04-foto-uscita-modello.test.ts",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "1 file, 2 test verdi. Tra questi: «motivo del rifiuto come oggetto: 400 con il messaggio generico, non 500».",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null
+    },
+    {
+      "chiave": "ai-endpoints|la lettura di più prodotti da foto accetta il «false» scritto come testo come prodotto ammesso",
+      "esito": "non_piu_vero",
+      "prova": "app/api/vision/extract-products/route.ts:306: policy_ok: p.policy_ok === true. Il «\"false\"» scritto come testo, o un campo mancante, esce come non ammesso. Verifica: cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r03-foto-solo-si-vero.test.ts",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "1 file, 16 test verdi, compreso il caso '\"false\"' → non ammesso.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null
+    },
+    {
+      "chiave": "ai-endpoints|la lettura di più prodotti da foto chiede 6000 token in un tentativo da 60 secondi",
+      "esito": "ancora_vero",
+      "prova": "app/api/vision/extract-products/route.ts:230: max_tokens: 6000. Il commento alle righe 227-229 lo dichiara: «Non oltre 6000: il client chiude ogni chiamata a 60 s». lib/ai/client.ts:201-202 e 227: TEMPO_TENTATIVO_AI_MS = 60_000 e RITENTATIVI_AI = 0.",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Letto: il rapporto tra token chiesti e tempo concesso è invariato.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Non ho misurato la velocità reale del modello (servizio esterno). La voce resta come scritta."
+    },
+    {
+      "chiave": "privacy-legale|nessun consenso finisce a verbale: termini e scelte sui cookie restano solo nel browser, e nessuno riprova a registrarli",
+      "esito": "non_verificabile",
+      "prova": "Parte nel codice, ora corretta. I cookie si rimandano: lib/consent.ts:65-130 (R32-015), e la rotta risponde 503 senza la chiave di servizio (app/api/consent/route.ts:137-150). I Termini si richiedono prima della cassa e nell'area del negozio (middleware.ts:599-620 e 731-737) e al prossimo accesso (lib/auth/accettazione-testi.ts:109). Verifica: cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r32-registro-consensi-senza-chiave.test.ts tests/unit/riparazione-r32-consenso-che-si-rimanda.test.ts",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "2 file, 6 test verdi: il ritentativo c'è.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "«Nessun consenso finisce a verbale» dipende da SUPABASE_SERVICE_ROLE_KEY sul progetto Vercel. Il registro-fatti la dava assente al 22/8, con errori su /api/consent. Dalla copia non si vede, e il divieto non permette di guardare Vercel né il database. Il «nessuno riprova» oggi non è più vero. Se la chiave manca ancora, i consensi restano comunque fuori dal registro, solo ritentati all'infinito."
+    },
+    {
+      "chiave": "qa-flussi|buco nelle prove del carrello: alcune mutanti del collaudo sul conto della consegna restano verdi",
+      "esito": "non_piu_vero",
+      "prova": "mkdir -p /home/user/ad-mycity/marketplace/tests/unit/_s01c && cp /tmp/claude-0/-home-user-ad-mycity/3a6dd9f1-c577-50de-a79b-fcb1dfee42de/scratchpad/prove/L02-carrello-mutanti.test.tsx /home/user/ad-mycity/marketplace/tests/unit/_s01c/ && cd /home/user/ad-mycity/marketplace && MUTANTE= npx vitest run tests/unit/_s01c/L02-carrello-mutanti.test.tsx ; MUTANTE=M2 npx vitest run tests/unit/_s01c/L02-carrello-mutanti.test.tsx ; MUTANTE=M5 npx vitest run tests/unit/_s01c/L02-carrello-mutanti.test.tsx ; rm tests/unit/_s01c/L02-carrello-mutanti.test.tsx",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "Controllo sul carrello vero: 6 test verdi su 6. M2 (spedizione tolta dalla consegna da pagare): 1 rosso, 5 verdi; a video 5,00 € invece di 13,55 €. M5 (latitudine e longitudine del negozio scambiate nel conto): 1 rosso, 5 verdi; a video 12.443,44 € invece di 13,55 €. Il file di prova genera il mutante accanto a sé, lo importa e lo cancella subito.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "La prova è la R03-018 (tests/unit/riparazione-r03-carrello-consegna.test.ts) che carica app/cart/page.tsx mutata. M2 e M5 erano le due mutanti rimaste verdi nel referto R10, e ora cadono. Le altre mutanti del collaudo originale non si possono rifare: il suo file non esiste più."
+    },
+    {
+      "chiave": "frontend-ux|una categoria con la lettura dei prodotti caduta resta una pagina bianca",
+      "esito": "non_piu_vero",
+      "prova": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r04-categoria-lettura-caduta.test.ts tests/unit/riparazione-r03-categoria-file-cadute.test.ts — insieme a app/category/[slug]/page.tsx:106-162 (conteggio dell'albero e stato delle file in memoria) e :438-462 (ErrorState «Non riesco a caricare i prodotti di questa categoria» con Riprova nel ramo madre); nel ramo foglia components/ProductGrid.tsx:606-615 mostra ErrorState con Riprova",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "2 file, 6 test verdi",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Riparato il 17/11: la pagina madre monta un ErrorState quando le file cadono, sia col conteggio caduto sia col conteggio che risponde. Le due prove montano la pagina vera, con i prodotti che non rispondono."
+    },
+    {
+      "chiave": "stati-ui|senza database la categoria e la scheda prodotto mostrano «qualcosa è andato storto» invece del loro errore con «riprova»",
+      "esito": "ancora_vero",
+      "prova": "lib/supabase/lettura-per-metadati.ts:52-67: un errore che non è PGRST116/22P02 viene rilanciato, e creaClientAnonimo lancia se mancano le variabili. app/product/[id]/layout.tsx: ProductLayout fa await fetchProduct, quindi il layout lancia. Il file app/product/[id]/error.tsx sta nello stesso segmento e non copre il proprio layout. app/category/[slug]/layout.tsx: generateMetadata chiama fetchCategory, cioè la stessa lettura che lancia, e nella cartella non c'è nessun error.tsx. In tutti e due i casi l'errore arriva a app/error.tsx:32 «Qualcosa è andato storto». I rami isError delle pagine (category/[slug]/page.tsx:222, product/[id]/page.tsx:467) non si raggiungono.",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "il codice si comporta ancora come dice il titolo",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Fiducia media, circa 75%: il ragionamento poggia su come Next gestisce i confini d'errore e non è stato provato in un browser. Il lancio è voluto, ed è scritto nel codice (S10: per non dire «non trovato» a Google): manca solo un error.tsx sopra i due layout che offra il loro «Riprova»."
+    },
+    {
+      "chiave": "flussi-conversione|chi sceglie il ritiro in negozio non dice mai a che ora passa",
+      "esito": "ancora_vero",
+      "prova": "app/checkout/page.tsx:1533-1536: col ritiro scelto si vede solo «Vai tu quando l'ordine è pronto», senza nessun selettore d'orario. app/api/orders/cod/route.ts:372 accetta un ritiro senza fascia, e :1509 scrive delivery_slot null. Nel codice non esiste nessun campo per l'orario del ritiro (grep di pickup_time, orario_ritiro e pickupSlot: vuoto).",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "il ritiro nasce ancora senza un orario",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Oggi il difetto è latente: lib/ritiro-in-negozio.ts:22 tiene RITIRO_IN_NEGOZIO_ATTIVO=false, quindi in cassa il ritiro non si può scegliere. Il registro-fatti (ritiro.in-negozio) però lo vuole acceso dal lancio. Appena si accende, il difetto torna visibile così com'è. Lo scarto fra il codice e la regola è già nel registro dei difetti (voce fuori_misura)."
+    },
+    {
+      "chiave": "frontend-ux|in cassa da ospite il link «ho già un account» fa perdere indirizzo e telefono appena scritti, anche se la pagina promette che restano salvati",
+      "esito": "non_piu_vero",
+      "prova": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r19-ho-gia-un-account-salva-la-bozza.test.ts — insieme a app/checkout/page.tsx:1490: il Link «Ho già un account» ha onClick={salvaLaBozzaPerAccesso}. :1316-1328 salva tutto il modulo in localStorage passando da bozzaDaSalvare. :522-555 lo rimette al ritorno. lib/bozza-checkout.ts:97-111 e :144-152 conservano i campi semplici, cioè indirizzo e telefono.",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "1 file, 5 test verdi",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Riparato con R19-004. Il link e «Ordina» da ospite usano lo stesso salvataggio, e al ritorno la cassa mostra l'indirizzo della bozza come mattonella scelta."
+    },
+    {
+      "chiave": "qa-flussi|con due schede aperte il credito mycity si spende nella prima, e la seconda ordina mostrando ancora lo sconto del credito",
+      "esito": "ancora_vero",
+      "prova": "app/checkout/page.tsx:473-480: il saldo si legge una volta sola, senza rilettura al ritorno sulla scheda (components/providers/QueryProvider.tsx:66-71 ha staleTime 30s e refetchOnWindowFocus false). Prima dell'invio non lo rilegge nessuno, e :1035 manda useCredit true. lib/ordini/riepilogo-cassa.ts:72-74 calcola lo sconto dal saldo vecchio. app/api/orders/cod/route.ts:1403-1454: wallet_debit toglie quello che c'è (0) e l'ordine nasce al lordo. Il server confronta solo i prezzi visti (subtotaliVistiCents, :1030), mai il credito visto.",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "nessun controllo del credito visto, né in cassa né sul server",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Il server non addebita due volte, perché wallet_debit è atomico. La seconda scheda però conferma l'ordine mostrando un totale più basso di quello vero, senza nessun avviso."
+    },
+    {
+      "chiave": "qa-flussi|la cassa propone i contanti anche sopra il tetto di legge",
+      "esito": "non_piu_vero",
+      "prova": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r19-contanti-sopra-il-tetto.test.ts — insieme a app/checkout/page.tsx:838-852 (contantiSopraIlTetto calcolato sul lordo, come fa la rotta, e passaggio automatico alla carta) e :1593, dove motivoNoContanti arriva a components/checkout/PaymentMethodSelector.tsx:143-171, che disabilita il radio dei contanti e scrive il perché.",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "1 file, 2 test verdi (a 5.200 € i contanti sono spenti e l'invio non parte; a 4.800 € restano e l'ordine parte)",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Riparato con R19-013. Il tetto è 4.999,99 € (lib/ordini/tetto-dei-contanti.ts), uguale a quello della rotta (route.ts:1218)."
+    },
+    {
+      "chiave": "layout-responsive|a 280 px col testo al 200% scorrono di lato anche faq, negozi, resi e lavora con noi",
+      "esito": "cambiato",
+      "prova": "Parte riparata: cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r02-pagine-testo-grande.test.tsx tests/unit/riparazione-r15-col-testo-grande-la-pagina-non-scorre-di-lato.test.tsx copre faq, resi e lavora con noi (app/faq/page.tsx:219 e :232 break-words/[overflow-wrap:anywhere]; app/returns/page.tsx:122). Parte rimasta: app/stores/page.tsx:296-301 usa CollectionHeader, e components/CollectionHeader.tsx:80 ha un h1 font-serif text-3xl font-extrabold SENZA break-words, dentro un div min-w-0 accanto a un'icona fissa da 52px con gap-3.5. In layout e in globals.css non c'è nessun overflow-x nascosto.",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "2 file, 14 test verdi per le tre pagine riparate; /stores senza riparazione",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Restano solo «Negozi» (/stores): a 280 px col testo al 200% restano circa 136 px per «Piacenza» scritto a 60px, che quindi esce. È un calcolo dalle classi, non una misura in browser. Il difetto originale misurava 381 px. Faq, resi e lavora con noi non scorrono più."
+    },
+    {
+      "chiave": "qa-flussi|altre due ancore sommano il loro scroll-mt allo scroll-padding da md in su",
+      "esito": "cambiato",
+      "prova": "app/faq/page.tsx:231 ora ha scroll-mt-24 md:scroll-mt-0 (verificato con cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r02-ancore-faq.test.ts, 1 test verde). components/seller/DatiPerIBonifici.tsx:65 invece ha ancora <form id=\"bonifici\" ... scroll-mt-24> senza md:scroll-mt-0, mentre app/globals.css:199-200 dà già scroll-padding-top da md in su.",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "una delle due ancore è riparata, l'altra no",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Delle due ancore ne resta una: #bonifici. È davvero usata: app/seller/earnings/page.tsx:246 porta a /seller/profile#bonifici, e da md in su il modulo si ferma circa 6rem più in basso del dovuto."
+    },
+    {
+      "chiave": "layout-responsive|col testo al 200% sul telefono la barra a schede è più alta del margine in fondo: l ultima parte della pagina finisce sotto la barra",
+      "esito": "ancora_vero",
+      "prova": "app/globals.css:153 --tabbar-altezza-vera: 58px (fisso in px), usato da :345 body padding-bottom. components/MobileTabBar.tsx:113-114: tabClass ha py-2 e gap-0.5, che sono in rem e col testo al 200% raddoppiano (circa 75 px contro 58).",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "altezza fissa in px contro una barra misurata in rem: invariato",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Niente è cambiato rispetto alla segnalazione."
+    },
+    {
+      "chiave": "qa-flussi|un cliente che esiste già non ha una strada da solo per diventare fattorino",
+      "esito": "ancora_vero",
+      "prova": "app/help/page.tsx:56-60: «Diventa rider» porta ancora a /contact. app/lavora-con-noi/page.tsx:36 porta a /sign-up?role=rider, ma app/sign-up/page.tsx non tratta chi ha già fatto l'accesso. app/rider/layout.tsx:20-26 manda alla home chi non è rider. Nessuna rotta permette di cambiare ruolo da soli (lo fa solo app/api/admin/users/[id]/moderate).",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "nessuna strada da soli per un account già esistente",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Il ruolo rider si sceglie solo creando un account nuovo."
+    },
+    {
+      "chiave": "layout-responsive|in lavora con noi, a 280 px col testo grande, le righe delle posizioni restano strettissime: il titolo e «candidati» vanno quasi una lettera per riga",
+      "esito": "cambiato",
+      "prova": "app/lavora-con-noi/page.tsx:188-211: il li ha flex-wrap e max-[300px]:px-3, e la colonna del titolo min-w-[min(200px,100%)]. Così il titolo prende tutta la riga (h3 a 17px fissi), quindi questa parte è a posto. Il link «Candidati» (:206-211) invece ha max-w-full, [overflow-wrap:anywhere] e px-4: col testo al 200% sono 64px di padding, più icona 16, gap 12 e bordi 2, su circa 134 px di riga. Al testo a 28px restano circa 40 px.",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "titolo a posto; «Candidati» ancora a circa 2 lettere per riga (calcolo)",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Il titolo e il link adesso stanno uno sotto l'altro. Resta stretto solo «Candidati», per colpa del padding del link stesso, che è in rem. È un calcolo dalle classi, non una misura in browser (vietato): fiducia circa 70%."
+    },
+    {
+      "chiave": "qa-flussi|il precarico proposto nel layout pesa su ogni pagina (costo dichiarato, da far decidere a chi lo applica)",
+      "esito": "ancora_vero",
+      "prova": "app/layout.tsx:36-39: unstable_cache(precaricaSito) con revalidate 60. :232 fa await precaricoDelSito() nel layout radice, e :281 mette la HydrationBoundary su tutte le pagine, /admin e /seller comprese. lib/queries/precarico.ts:74-90 legge l'albero delle categorie più le categorie piene.",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "il precarico è ancora su ogni pagina",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Era già stata posta come scelta di Nicola (R01-008, onda 7), ma in registro-fatti.json e in DECISIONI.md non c'è nessuna decisione. Resta aperta finché lui non sceglie."
+    },
+    {
+      "chiave": "frontend-ux|nella pagina di una lista il prezzo dei prodotti non tiene conto della promozione",
+      "esito": "ancora_vero",
+      "prova": "app/lists/[id]/page.tsx:387: <p>{formatPrice(Number(p.price))}</p>. Nella pagina non c'è nessuna lettura delle promozioni (grep di promo e sconto: vuoto), mentre components/ProductCard.tsx:11 usa discountedUnitCents.",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "si vede ancora il prezzo pieno",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Niente è cambiato rispetto alla segnalazione."
+    },
+    {
+      "chiave": "qa-flussi|il menu «aggiungi a lista» mostra il titolo vecchio dopo una rinomina",
+      "esito": "ancora_vero",
+      "prova": "app/lists/[id]/page.tsx:130-146: updateMeta.onSuccess invalida detail, lists.mine, lists.public e lists.inVetrina, ma non lists.mineMin (['lists','mine-min'] non comincia con ['lists','mine']). components/AddToListButton.tsx:39-41 legge proprio mineMin. Per confronto, l'eliminazione (:210-216) mineMin lo aggiorna.",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "mineMin non viene invalidata dopo una rinomina",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Il titolo vecchio resta finché la domanda non scade (30 s, staleTime globale) o la pagina non si ricarica."
+    },
+    {
+      "chiave": "qa-flussi|tolto un prodotto da una lista, il menu «aggiungi a lista» lo segna ancora dentro",
+      "esito": "ancora_vero",
+      "prova": "app/lists/[id]/page.tsx:167-185: removeItem.onSuccess invalida lists.items(id), mine, public e inVetrina, ma non lists.containing(productId). components/AddToListButton.tsx:58-59 legge proprio quella chiave per segnare le liste che contengono il prodotto.",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "containing(productId) non viene invalidata dopo la rimozione",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Il menu della scheda prodotto mostra ancora la spunta finché la domanda non scade (30 s)."
+    },
+    {
+      "chiave": "qa-flussi|tornando indietro dopo l eliminazione la lista eliminata ricompare per 30 secondi",
+      "esito": "ancora_vero",
+      "prova": "app/lists/[id]/page.tsx:202-219 — deleteList.onSuccess rilegge mine/public/inVetrina e toglie la lista da mineMin, ma non toglie né invalida queryKeys.lists.detail(id) né lists.items(id); components/providers/QueryProvider.tsx:66 staleTime 30s, gcTime 5 min. Col tasto indietro /lists/[id] rimonta coi dati in memoria (lista, Modifica, Elimina).",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Letto: nessuna removeQueries/invalidate sulla chiave del dettaglio dopo l'eliminazione.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Codice uguale a quello del referto, righe 207-213 ora 202-219. Non provato nel browser."
+    },
+    {
+      "chiave": "qa-flussi|una lista si può salvare col titolo vuoto",
+      "esito": "ancora_vero",
+      "prova": "app/lists/[id]/page.tsx:130-135 — updateMeta manda title: titleVal.trim() senza controllare che sia vuoto; :285 il bottone Salva è spento solo con isPending. migrations/036_curated_lists_and_indices.sql:19 title text NOT NULL (la stringa vuota passa), e nessuna migrazione dopo aggiunge un CHECK (grep product_lists in migrations/: solo 036 e 425, che dà i permessi).",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Letto: nessun controllo sul titolo vuoto, né nella pagina né nel database.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "La creazione su /lists invece lo vieta (app/lists/page.tsx:119)."
+    },
+    {
+      "chiave": "qa-flussi|una lista creata da /lists non compare subito nel menu «aggiungi a lista»",
+      "esito": "cambiato",
+      "prova": "app/lists/page.tsx:139 rilegge ancora solo lists.mine. ['lists','mine'] non è un prefisso di ['lists','mine-min'] (lib/queries/keys.ts:261-262). Però :140 fa window.location.href = /lists/<id>: è una navigazione piena e la memoria di React Query riparte vuota (grep persistQueryClient/PersistQueryClient in app, components e lib: nessun risultato; mineMin si usa solo in components/AddToListButton.tsx:40 e app/lists/[id]/page.tsx:214-216). Quindi il menu (AddToListButton.tsx:39-55) rilegge da zero.",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Letto: nel giro normale la lista nuova compare, perché la pagina si ricarica per intero.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "La causa (mineMin non riletto) c'è ancora, ma l'effetto resta solo in un caso stretto. Succede quando il browser ripristina dalla cache avanti-indietro il vecchio documento di /lists, con mineMin già in memoria e letto da meno di 30 secondi. Basta una riga (invalidare anche lists.mineMin). Non provato nel browser."
+    },
+    {
+      "chiave": "qa-flussi|la campanella del sito mostra le promozioni anche a chi le ha spente",
+      "esito": "ancora_vero",
+      "prova": "app/notifications/page.tsx:117-123 — select('*') su notifications con eq user_id, senza filtro di categoria o preferenza. In migrations/ nessun trigger su notifications guarda notif_promos (grep notif_promos/vuole_notifica: solo send-push, send-emails, settings, rider/cash-confirm e le migrazioni dei profili). components/hooks/useNotificationsCount.ts non filtra le promo.",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Letto: le promozioni si leggono e si contano anche con notif_promos spento.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Il filtro c'è ancora solo per i push (vuole_notifica in send-push)."
+    },
+    {
+      "chiave": "stati-ui|notifiche: segnaposto alla rilettura, sistemato in r01-varie",
+      "esito": "non_piu_vero",
+      "prova": "app/notifications/page.tsx:105-109 — placeholderData torna undefined se userId è null o se la chiave di prima è di un altro utente. Il segnaposto vale solo per lo stesso utente. Comando: cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r01-notifiche-di-chi-guarda.test.tsx",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "1 file, 7 test verdi",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Il titolo stesso dice «sistemato». Codice e test della correzione R01-varie sono presenti sul commit 1ad51b4c."
+    },
+    {
+      "chiave": "qa-flussi|il reclamo del cliente non arriva a nessuno, e intanto ferma il bonifico al negozio senza dirglielo",
+      "esito": "cambiato",
+      "prova": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r03-il-reclamo-arriva-a-qualcuno.test.ts tests/unit/riparazione-r03-pagina-del-reclamo.test.tsx && mkdir -p tests/unit/_s01c && cp /tmp/claude-0/-home-user-ad-mycity/3a6dd9f1-c577-50de-a79b-fcb1dfee42de/scratchpad/prove/L04-reclamo.test.ts tests/unit/_s01c/L04-reclamo.test.ts && npx vitest run tests/unit/_s01c/L04-reclamo.test.ts; rm -f tests/unit/_s01c/L04-reclamo.test.ts; tests/sql/harness/apply.sh mycity_s01c_l04 && psql -X -q -v ON_ERROR_STOP=1 -d mycity_s01c_l04 -f /tmp/claude-0/-home-user-ad-mycity/3a6dd9f1-c577-50de-a79b-fcb1dfee42de/scratchpad/prove/L04-reclamo-diretto.sql; psql -q -X -d postgres -c \"DROP DATABASE IF EXISTS mycity_s01c_l04 WITH (FORCE);\"",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "r03: 2 file, 4 test verdi. L04-reclamo: 1 file, 1 test verde (avviso agli amministratori, al negozio con «il bonifico … resta fermo», ricevuta al cliente). apply.sh: 210 migrazioni applicate, 0 fallite. psql: uscita 0, INFO «il cliente scrive ancora il reclamo direttamente in disputes (ruolo authenticated)» e «notifiche nate dalla scrittura diretta: 0».",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Dal sito il difetto è riparato. La pagina chiama POST /api/disputes (app/orders/[id]/dispute/page.tsx:186-196). La rotta (app/api/disputes/route.ts:85-135) avvisa gli amministratori e scrive al negozio che il bonifico è fermo. Manda anche la ricevuta al cliente. Resta l'altra forma: il database accetta ancora un reclamo scritto direttamente dal browser. Lo permettono la policy disputes_open_insert (migrations/215_minori_s04_database.sql:276-290) e il permesso INSERT dato ad authenticated in 425:71. Quel reclamo non avvisa nessuno, e ferma lo stesso il bonifico (release-payouts/route.ts:233 e :491). La migrazione 570, annunciata da R33 il 17/11, nel repo non c'è. tests/sql/rls/48 ⑩ pretende ancora che il cliente possa fare l'INSERT."
+    },
+    {
+      "chiave": "coerenza-brand|ombre nere fredde accanto alle ombre calde del brand; il token creato apposta non è usato mai",
+      "esito": "cambiato",
+      "prova": "cd /home/user/ad-mycity/marketplace && grep -rnoE 'shadow-sm-neutral' app components lib --include=*.tsx | wc -l  → 12. grep -rnoE \"(^|[\\\" '\\`])(hover:|focus:|group-hover:|md:|sm:|lg:)?shadow(-sm|-md|-lg|-xl|-2xl)?([\\\" '\\`]|$)\" app components lib --include=*.tsx --include=*.ts | grep -v '\\.test\\.' | wc -l  → 33. Esempi: app/category/[slug]/page.tsx:537 shadow-sm, app/seller/layout.tsx:130 shadow, app/admin/users/page.tsx:1122 shadow-md, app/seller/help/page.tsx:21 hover:shadow-lg.",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Token usato 12 volte; restano circa 33 classi d'ombra nere di Tailwind.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "La seconda metà del titolo non è più vera: il token sm-neutral oggi è usato 12 volte, tra cui ProductCard.tsx:196 e :295. I due punti citati sono sistemati: il riquadro del codice di consegna è shadow-warm-lg (app/orders/[id]/page.tsx:622) e ProductCard:146 usa hover:shadow-warm-lg. Restano però circa 33 ombre nere grezze, e tailwind.config.ts:180-190 non ridefinisce sm, DEFAULT, md e lg."
+    },
+    {
+      "chiave": "microcopy|il cliente e l'email leggono ancora «un rider passa a prenderlo», mentre il pulsante del negozio ora dice «fattorino»",
+      "esito": "ancora_vero",
+      "prova": "app/orders/[id]/page.tsx:382 READY: 'Pronto in negozio · un rider passa a prenderlo a breve'; lib/email/templates.ts:381 (html) e :397 (testo) «un rider passa a prenderlo e te lo porta a casa».",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Letto: la frase con «rider» c'è in tutti e tre i punti.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Le righe sono scese di 2 (380 → 382, 379 → 381). In registro-fatti.json nessun fatto stabilisce la parola da usare."
+    },
+    {
+      "chiave": "qa-flussi|il cliente non trova l'esito del reclamo nella pagina del suo ordine",
+      "esito": "ancora_vero",
+      "prova": "app/orders/[id]/page.tsx — grep disput/reclam trova solo :514 (commento) e :556-559, il link «Apri reclamo», sempre visibile sull'ordine consegnato: la pagina non legge la tabella disputes. app/orders/[id]/dispute/page.tsx:150-156 cerca solo i reclami open/under_review: con un reclamo risolto ripropone il modulo.",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Letto: né lo stato né l'esito del reclamo sono mostrati.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Per un reclamo ancora aperto la pagina del reclamo ora dice «Hai già un reclamo aperto» (:241-256). Per quello risolto niente."
+    },
+    {
+      "chiave": "frontend-ux|la pagina di richiesta reso accetta il ripensamento anche su ordini di pane",
+      "esito": "cambiato",
+      "prova": "cd /home/user/ad-mycity/marketplace && mkdir -p tests/unit/_s01c && cp /tmp/claude-0/-home-user-ad-mycity/3a6dd9f1-c577-50de-a79b-fcb1dfee42de/scratchpad/prove/L04-reso-pane.test.ts tests/unit/_s01c/L04-reso-pane.test.ts && npx vitest run tests/unit/_s01c/L04-reso-pane.test.ts; rm -f tests/unit/_s01c/L04-reso-pane.test.ts; npx vitest run tests/unit/riparazione-r07-reso-pane.test.tsx",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "L04-reso-pane: 1 file, 3 test verdi (pane segnato → rifiuto; pane non segnato → rifiuto null; migrazione 180 DEFAULT false). riparazione-r07-reso-pane: 1 file, 3 test verdi (la pagina spegne «Ho cambiato idea» quando il server rifiuta).",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Quando il pane è segnato, la correzione funziona. La pagina chiede /api/returns/ripensamento e spegne la scelta (app/orders/[id]/return/page.tsx:85-112, :358-376). Anche la rotta create la rifiuta (app/api/returns/create/route.ts:133-160). La forma rimasta: il segno «escluso dal recesso» parte spento (migrations/180: DEFAULT false; components/seller/ProductForm.tsx:897, in creazione parte da false). Un ordine di pane che il forno non ha spuntato viene ancora accettato dalla pagina come ripensamento. La regola legale.recesso-esclusi del registro-fatti dice che il pane è escluso dal recesso. Non verificato se i prodotti veri di Pane Quotidiano sono segnati: servirebbe il database vero."
+    },
+    {
+      "chiave": "privacy-legale|l'avviso del bonifico da fare, con dentro l'email del cliente, resta fra le notifiche degli amministratori anche a bonifico pagato, e dal sito non si può cancellare",
+      "esito": "ancora_vero",
+      "prova": "lib/privacy/iban-per-email.ts:57-66 L_AVVISO_A_CHI_PAGA «L'avviso resta lì finché non lo cancelliamo noi» (usato in app/privacy/page.tsx:104). lib/privacy/potature-ritenzione.ts: nessuna potatura tocca notifications. Su notifications non c'è nessuna policy né permesso DELETE (migrations/425:90 SELECT, :168 UPDATE is_read). L'unica cancellazione è togliLAvvisoAgliAmministratori (lib/stripe/webhook/comune.ts:201-216), che lib/stripe/payout.ts:2413 chiama solo quando il rimborso cade.",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Letto: l'avviso con l'email resta anche a bonifico pagato e dal sito non si cancella.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Aspetta la decisione di Nicola sulla durata (carta #208). Nel registro-fatti nessun fatto la fissa."
+    },
+    {
+      "chiave": "privacy-legale|l'informativa privacy promette «ti rispondiamo entro un mese»: frase nuova che nicola deve approvare",
+      "esito": "ancora_vero",
+      "prova": "app/privacy/page.tsx:354 «: ti rispondiamo entro un mese, come prevede la legge.» (il ramo con il recapito ma senza pulsanti automatici); lib/legal/titolare.ts:305 frase predefinita «Ti rispondiamo entro un mese, come prevede la legge.»",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Letto: la frase c'è. Nessuna approvazione in registro-fatti.json, DECISIONI.md, BACHECA-SESSIONI.md o AZIONI-IN-ATTESA.md (grep «entro un mese»: nessun risultato).",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "L'approvazione è una decisione umana: dal codice si vede solo che la frase c'è ancora."
+    },
+    {
+      "chiave": "frontend-ux|l immagine di anteprima social del prodotto e i dati per i motori di ricerca mostrano il prezzo pieno durante una promozione",
+      "esito": "ancora_vero",
+      "prova": "app/product/[id]/opengraph-image.tsx:31 price = formatPrice(p.price); app/product/[id]/layout.tsx:99 offers.price = Number(product.price).toFixed(2); lib/queries/metadati-vetrina.ts:39 legge 'id, name, description, price, images, status, stock, seller_id', senza promozione.",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Letto: né l'anteprima né il JSON-LD guardano la promozione attiva.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Resta aperta la parte segnata come «meno sicura» nel referto, cioè quale prezzo dichiarare a Google."
+    },
+    {
+      "chiave": "api-backend|sulla scheda prodotto lo sconto della promozione vale zero se la lettura cade, poi la cassa lo applica",
+      "esito": "non_piu_vero",
+      "prova": "app/product/[id]/page.tsx:341-353 e components/ActivePromoBadge.tsx:29-41: «if (error) throw error;» con retry 3, al posto di return 0. app/product/[id]/page.tsx:1037-1042: se la lettura cade del tutto (scontoNonVerificato) la scheda dice «Non riusciamo a verificare le promozioni del negozio: il prezzo finale … lo vedi nel carrello».",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Letto: il «return 0» sull'errore non c'è più in nessuna delle due letture.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Riparato da R02-011. Lo zero di ripiego (data = 0) resta solo come valore a video, accompagnato dall'avviso, e non si salva in memoria."
+    },
+    {
+      "chiave": "flussi-conversione|con la promozione e il prezzo barrato insieme, la scheda prodotto mostra due prezzi barrati e un risparmio sbagliato",
+      "esito": "ancora_vero",
+      "prova": "app/product/[id]/page.tsx:547 compareValid = compareAtNum != null && compareAtNum > prezzoPieno, senza guardare scontoPromo; :1017-1026 mostra il pieno barrato (scontoPromo > 0) e insieme compareAt barrato con «Risparmi {compareAtNum - prezzoPieno}».",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Letto: con promo e prezzo di listino insieme compaiono due prezzi barrati, e il risparmio è calcolato sul prezzo pieno.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Riga 514 → 547. In più ActivePromoBadge (:1036) disegna un terzo prezzo barrato."
+    },
+    {
+      "chiave": "flussi-conversione|la scheda prodotto promette «paghi alla consegna» anche sopra il tetto dei contanti",
+      "esito": "non_piu_vero",
+      "prova": "app/product/[id]/page.tsx:598-638: la scheda calcola il lordo di tutto il carrello (merce più consegna veloce) per le due strade «Compra ora» e «Aggiungi», poi applica sopraIlTettoDeiContanti. Righe 1056-1063: il riquadro chiama frasePagamento(undefined, lordoPiuAltoCents) solo se le due strade non divergono. lib/promesse-pubbliche.ts:292-302: sopra il tetto la frase diventa «Sopra X non si paga in contanti». page.tsx:1357: «paghi alla consegna» compare solo se contantiQui. page.tsx:1370: «paghi solo quando arriva» solo se contantiSuTutteEDue. page.tsx:1698-1702: la nota della barra in fondo si toglie se !contantiAggiungendo. Controprova: cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r02-contanti-col-carrello.test.tsx",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Lettura del codice: tutte le frasi che promettono i contanti sono legate al tetto. Il test esistente sulla scheda vera col carrello vero: 1 file, 8 test verdi.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Il testo è stato spostato rispetto alla riga 1205 citata. Ora ogni promessa dei contanti sulla scheda dipende dal lordo del carrello rispetto al tetto (R02-006 e R02-007)."
+    },
+    {
+      "chiave": "frontend-ux|la scheda prodotto aperta oltre la fine della promozione continua a mostrare il prezzo scontato",
+      "esito": "ancora_vero",
+      "prova": "app/product/[id]/page.tsx:341-352: lo sconto si legge con useQuery product_active_discount, staleTime 60s, senza refetchInterval e senza un timer sulla fine della promo. components/providers/QueryProvider.tsx:69-71: refetchOnWindowFocus è false. La scheda lasciata aperta tiene lo sconto letto all'apertura finché non si ricarica o si cambia pagina. page.tsx:541 calcola il prezzo grande da scontoPromo.",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Lettura del codice: non c'è nessuna rilettura legata alla scadenza della promo",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "È cambiata solo la gestione dell'errore (R02-011, retry 3). Il caso della promo che scade con la pagina aperta non è coperto."
+    },
+    {
+      "chiave": "performance|le pagine che vendono si disegnano solo nel browser, e il preload della prima foto non serve a niente",
+      "esito": "ancora_vero",
+      "prova": "Tutte le pagine citate iniziano con 'use client'. Solo app/product/[id]/layout.tsx:6-7,88,170 precarica sul server (HydrationBoundary + precaricaProdotto, R068 del 30/8, cioè prima della riapertura del 7/11). I layout di app/search, app/category/[slug], app/store/[id]/[slug], app/stores e app/near non hanno nessun precarico. components/ProductGrid.tsx:677 dà priority alle prime 4 foto, ma la griglia si riempie solo dopo la query nel browser.",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Lettura del codice: 5 pagine su 6 senza dati nell'HTML del server",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "La scheda prodotto è precaricata già da prima che il difetto venisse registrato. Ricerca, categoria, vetrina negozio, elenco negozi e «vicino a te» restano disegnati solo nel browser."
+    },
+    {
+      "chiave": "privacy-legale|le recensioni dei clienti non si possono segnalare, mentre i termini promettono di togliere quelle non genuine",
+      "esito": "cambiato",
+      "prova": "mkdir -p /home/user/ad-mycity/marketplace/tests/unit/_s01c && cp /tmp/claude-0/-home-user-ad-mycity/3a6dd9f1-c577-50de-a79b-fcb1dfee42de/scratchpad/prove/L05-recensione-segnalabile.test.tsx /home/user/ad-mycity/marketplace/tests/unit/_s01c/ && cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/_s01c/L05-recensione-segnalabile.test.tsx && npx vitest run tests/unit/riparazione-r03-o6-segnalazioni-oggetto-esiste.test.ts && npx vitest run tests/unit/riparazione-r02-segnalazione-esito-solo-se-tolto.test.ts ; rm -f tests/unit/_s01c/L05-recensione-segnalabile.test.tsx. Il primo test monta la vera ReviewsSection: trova «Segnala questo contenuto», il motivo «Recensione non genuina o ingannevole», e un POST /api/segnalazioni con tipo recensione e l'id della recensione. Lettura: app/admin/segnalazioni/page.tsx:72-74 (puoTogliere vale solo per prodotto e negozio: «Recensioni e messaggi non hanno ancora un'azione di rimozione»); app/terms/page.tsx:516-519 («Cosa rimuoviamo… recensioni non genuine»).",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "Test mio: 1 file, 1 test verde (la segnalazione di una recensione funziona). r03-o6: 1 file, 5 test verdi (l'API registra le recensioni di prodotto e di negozio). r02-esito-solo-se-tolto: 1 file, 6 test verdi, compreso «recensione accolta: da qui non si toglie, 409».",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Metà difetto è riparata (R02-005): ogni recensione, sulla scheda prodotto (page.tsx:1650-1654) e in vetrina (ReviewsSection.tsx:232-236), ha «Segnala», e l'API la accetta. Resta l'altra metà della promessa dei Termini: l'amministratore non ha nessun modo di togliere una recensione dal pannello segnalazioni. «Accolta» è spenta per le recensioni e il PATCH risponde 409. Quindi «rimuoviamo le recensioni non genuine» non ha ancora uno strumento che lo faccia."
+    },
+    {
+      "chiave": "api-backend|un rifiuto per troppe richieste della ricerca indirizzi fa salvare l'indirizzo senza coordinate per sempre",
+      "esito": "ancora_vero",
+      "prova": "app/profile/addresses/page.tsx:74-90: la chiamata fetch('/api/geocode') non controlla res.ok né il 429. Se la risposta non ha lat/lng, si salvano lat=null e lng=null e il cliente legge «controlla via e CAP». Un grep su app/ e lib/ non trova nessun posto che più tardi completi user_addresses.lat/lng.",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Lettura del codice: niente nuovo tentativo e niente completamento successivo",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Il messaggio al cliente, su un 429, dà anche la colpa all'indirizzo sbagliato."
+    },
+    {
+      "chiave": "qa-flussi|indirizzo, cap e città del profilo non si correggono più",
+      "esito": "ancora_vero",
+      "prova": "app/profile/page.tsx:19-25: il modulo del profilo ha solo full_name e phone. In nessuna pagina si possono correggere profiles.address, city e zip, che però restano nel database ed escono nell'export dei dati (app/api/account/export/route.ts:124 select('*')). app/sell/page.tsx:172-178: il modulo venditore non li precompila più (R16-010).",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Lettura del codice: nessun campo per correggerli",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "È sparita la conseguenza sul modulo venditore (non riceve più l'indirizzo vecchio). Il dato vecchio però resta salvato e consegnato nell'export, e la persona non lo può rettificare."
+    },
+    {
+      "chiave": "microcopy|chi spegne le promozioni continua a vederle nella campanella del sito",
+      "esito": "ancora_vero",
+      "prova": "migrations/215_minori_s04_database.sql:670-718: notify_favorite_price_drop inserisce notifiche 'promo' senza guardare notif_promos. vuole_notifica filtra solo il giro delle push (app/api/cron/send-push/route.ts:117-140). app/notifications/page.tsx:124-129 e components/hooks/useNotificationsCount.ts:26-36 leggono e contano tutte le categorie. app/profile/settings/page.tsx:657-663: l'interruttore «Promozioni e sconti» non dice che vale solo per le push.",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Lettura del codice: le promo arrivano lo stesso nella campanella",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Righe spostate: l'interruttore ora è a settings/page.tsx:657-663."
+    },
+    {
+      "chiave": "coerenza-brand|card a mano con bg-surface-0 restano fuori dal conteggio delle card ridisegnate",
+      "esito": "ancora_vero",
+      "prova": "app/rider/earnings/page.tsx:214 e :220: due div fatti a mano 'rounded-lg border border-cream-300 bg-surface-0' invece della primitiva Card (importata alla riga 11 e usata alle righe 157 e 185).",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Lettura del codice: le card a mano ci sono ancora",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Il piano di riparazione (R02-010) indica proprio questo file, che non è cambiato."
+    },
+    {
+      "chiave": "qa-flussi|nella pagina guadagni del fattorino la data nell'elenco delle consegne segue il fuso del telefono",
+      "esito": "ancora_vero",
+      "prova": "app/rider/earnings/page.tsx:231: new Date(o.delivered_at).toLocaleDateString('it-IT') senza timeZone, quindi vale il fuso del dispositivo. Il file importa giornoPiacenza alla riga 17 ma qui non lo usa.",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Lettura del codice: manca il fuso di Piacenza",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null
+    },
+    {
+      "chiave": "dati-analytics|sulla bacheca del fattorino una lettura caduta delle preferenze fa vedere l'interruttore su offline",
+      "esito": "non_piu_vero",
+      "prova": "app/rider/page.tsx:200-218: la lettura delle preferenze lancia l'errore, e statoOnlineIgnoto = !pref && isError. Righe 452-466: in quel caso compare «Non so se sei online» con «Riprova» al posto dell'interruttore. Riga 698: in quel caso non si scrive «Vai online». Controprova: cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r01-bacheca-fattorino-stato-ignoto.test.tsx",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Lettura del codice, più il test esistente: 1 file, 3 test verdi",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Resta un caso breve: durante il primo caricamento o il nuovo tentativo, isError è ancora false e per un attimo si vede «Sei offline». Lo stato finale dopo una lettura caduta è corretto."
+    },
+    {
+      "chiave": "qa-flussi|sulla bacheca del fattorino un «accetta» perso lascia l'ordine in elenco fino a un minuto, e fa girare tutti i pulsanti insieme",
+      "esito": "ancora_vero",
+      "prova": "app/rider/page.tsx:377-383: invalidateQueries(rider.orders) c'è solo in onSuccess; onError mostra solo il toast. L'ordine preso da un altro resta in elenco fino a refetchInterval di 60s (righe 190-193). Riga 664: loading={claim.isPending} è uguale per ogni pulsante «Accetta», quindi girano tutti insieme.",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Lettura del codice: le due parti del difetto ci sono ancora",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null
+    },
+    {
+      "chiave": "frontend-ux|nel profilo del fattorino il documento risulta «verificato» appena caricato, e l'attestato haccp resta «mancante» anche dopo il caricamento",
+      "esito": "cambiato",
+      "prova": "app/rider/profile/page.tsx:138-142 e 179-189: l'HACCP caricato ora si riconosce dal file (haccpUploaded) e dice «Caricato» o «In attesa di verifica», non più «Mancante». Il documento d'identità dice «Verificato» solo se is_approved è vero, altrimenti «Caricato · In attesa di verifica». app/api/kyc/upload-document/route.ts:244: il caricamento scrive solo la colonna del file e non tocca is_approved.",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Lettura del codice: il caso del fattorino nuovo è riparato, quello del fattorino già approvato no",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Per un fattorino non ancora approvato il difetto è sparito, e l'HACCP è riparato. Ma «Verificato» dipende dall'approvazione del profilo, non dall'esame di quel documento. Un fattorino già approvato che carica un documento d'identità nuovo da «Documenti e verifica» (/rider/onboarding) lo vede subito «Verificato»."
+    },
+    {
+      "chiave": "flussi-conversione|«vendi su mycity» è solo un muro di accesso: niente prezzo, niente vantaggi, nessuna persona da contattare",
+      "esito": "ancora_vero",
+      "prova": "app/sell/page.tsx:117-124: chi non ha fatto l'accesso vede solo «Diventa venditore / Serve un account per inviare la richiesta» e il pulsante «Accedi o registrati». Niente prezzo, vantaggi o contatto. Il prezzo compare solo dentro il modulo dopo l'accesso (components/SellerApplicationForm.tsx:269-285). components/home-sections/HomeSectionRenderer.tsx:390 e app/faq/page.tsx:169 portano comunque a /sell.",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Lettura del codice: il muro è ancora lì",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null
+    },
+    {
+      "chiave": "frontend-ux|un tasso di conversione fra il 50% e il 99% resta verde anche se gonfiato dal consenso ai cookie",
+      "esito": "ancora_vero",
+      "prova": "app/seller/analytics/letture-dell-andamento.ts:47-56: il tasso diventa null solo se ordini >= visite. app/seller/analytics/page.tsx:364-368: colore olive (verde) per >= 2%. Esempio: 9 ordini su 10 visite misurate fanno 90% in verde.",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Lettura del codice: tra il 50% e il 99% il colore resta verde",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "R02-008 e R09-005 hanno tolto solo i casi da 100% in su."
+    },
+    {
+      "chiave": "pagamenti-stripe|la pagina guadagni, con i soli contanti, dice al negozio commissione zero e soldi mai versati",
+      "esito": "cambiato",
+      "prova": "Metà riparata: cd marketplace && npx vitest run tests/unit/riparazione-r17-guadagni-coi-contanti.test.ts (1 file, 10 verdi: commissione e lordo contano i contrassegni consegnati, lib/guadagni/negozio.ts:101-153). Metà rimasta, su Postgres locale con le migrazioni del commit (tests/sql/harness/apply.sh mycity_s01c_v_l05: 210 applicate, 0 fallite): select count(*) from pg_proc where proname='segna_bonifico_manuale' → 0, mentre app/admin/payouts/page.tsx:123 la chiama; UPDATE orders set payout_status='PAID_MANUALLY' su un contrassegno consegnato in HELD → «violates check constraint orders_payout_status_check».",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "Test r17 verde, ma usa ordini PAID_MANUALLY che il database rifiuta: non morde sulla metà dei soldi versati. La funzione del bottone «Bonifico fatto» non esiste e lo stato PAID_MANUALLY è vietato dal vincolo: dopo il bonifico a mano del lunedì il negozio legge ancora «0,00 € già versati».",
+      "verificato": true,
+      "verificato_da": "qa nuovo: ha smentito la chiusura proposta dal lotto L05 — la metà «commissione zero» è riparata, la metà «soldi mai versati» resta (prova SQL sul database locale)",
+      "nota": "Cambiato: la commissione zero è riparata (R17-001); resta la metà dei soldi «mai versati» coi soli contanti, perché il bonifico a mano non si può registrare (dipende da R17-002; le migrazioni 350 e 410 non sono sul commit). Il lotto L05 aveva proposto non_piu_vero: il verificatore l'ha smentito, la voce resta aperta. La gravità grave regge."
+    },
+    {
+      "chiave": "qa-flussi|il negozio sospeso non vede più gli ordini aperti e non li può né preparare né rifiutare",
+      "esito": "ancora_vero",
+      "prova": "app/seller/layout.tsx:68 e :145-168 — con approval_status='suspended' il layout restituisce solo il riquadro «Negozio temporaneamente sospeso» e non i children: nessuna eccezione per /seller/orders (righe 36-80). app/api/admin/users/[id]/moderate/route.ts:110-115 — la sospensione cambia solo il profilo; la gestione delle consegne in corso (:371-403) vale solo per i fattorini (role=rider).",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Il difetto c'è ancora: il negozio sospeso non raggiunge nessuna pagina dei suoi ordini aperti",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Nel registro-fatti nessun fatto dichiara voluto questo comportamento. Le righe citate nella voce si sono spostate: il riquadro del sospeso ora sta a 145-168."
+    },
+    {
+      "chiave": "frontend-ux|il salvataggio fa due passi: se una variante è cambiata, nome e prezzo del prodotto restano salvati e le varianti no",
+      "esito": "non_piu_vero",
+      "prova": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r16-salvataggio-tutto-o-niente.test.tsx — e lettura di app/seller/products/[id]/edit/page.tsx:251-254 (controllaScorteVariantiDalBrowser chiamato PRIMA di salvaProdottoDalBrowser) e :265-284 (se le varianti cadono, il prodotto torna com'era con comEraPrima, :37-45); app/api/admin/products/route.ts:256-263 (controllo prima della scrittura) e :284-293 (rimettiComEra)",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "1 file, 6 test verdi",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Resta un caso solo: varianti cadute e annullamento caduto anche lui. Lì l'utente riceve un messaggio esplicito, «Le varianti non si sono salvate, ma le altre modifiche sì…». Il salvataggio in silenzio a metà non c'è più."
+    },
+    {
+      "chiave": "ai-endpoints|un lavoro «in invio» incerto non si può scartare: il negozio resta bloccato fino a 24 ore",
+      "esito": "ancora_vero",
+      "prova": "app/api/ai/catalog-batch/cancel/route.ts:39 — scarta solo con .eq('status','ready'). app/api/ai/catalog-batch/start/route.ts:100-106 — risponde 409 se c'è un lavoro «submitting». app/api/ai/catalog-batch/status/route.ts:79 e :108-127 — l'invio incerto si chiude da solo solo dopo 24 ore. app/seller/products/ai-batch/page.tsx:521 — col lavoro in corso c'è solo la rotella; :558-566 — «Scarta» compare solo con status 'ready'.",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Il difetto c'è ancora: nessuna via d'uscita da un lavoro «in invio» incerto prima delle 24 ore",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Oggi non si vede: la pagina è dietro AI_NEGOZI_ACCESA=false (lib/funzioni-al-lancio.ts:69, fatto prodotto.spente-al-lancio). Il difetto resta nel codice e tornerebbe alla riaccensione."
+    },
+    {
+      "chiave": "stati-ui|«duplica» con la sorgente in memoria da meno di 30 secondi si apre con le taglie e la spunta di prima",
+      "esito": "ancora_vero",
+      "prova": "app/seller/products/new/page.tsx:130-155 — le domande 'duplicate-source' e 'duplicate-variants' non hanno uno staleTime proprio, quindi ereditano i 30 secondi di components/providers/QueryProvider.tsx:66. copiaNonRiletta (:238-242) scatta solo con una lettura in volo; con la cache fresca non parte nessuna lettura, e la copia si apre e si salva con taglie e spunta della memoria. Nel repo nessuna invalidazione di queste due chiavi (grep su app, lib, components).",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Il difetto c'è ancora",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null
+    },
+    {
+      "chiave": "privacy-legale|le promozioni del negozio mostrano il prezzo barrato senza il prezzo più basso dei trenta giorni prima",
+      "esito": "ancora_vero",
+      "prova": "components/ActivePromoBadge.tsx:52-55 — barra basePrice e mostra il prezzo scontato. app/product/[id]/page.tsx:1017-1021 e :1036 — barra prezzoPieno quando scontoPromo>0. Nel codice non c'è nessun «prezzo più basso dei 30 giorni» (grep su app, components, lib: solo il commento in lib/funzioni-al-lancio.ts:56, che riguarda il Drop del giorno).",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Il difetto c'è ancora",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Il fatto prodotto.spente-al-lancio del registro-fatti spegne il «prezzo barrato scritto a mano» (compare_at_price), non le promozioni del negozio (seller_promotions). Queste non hanno un interruttore in lib/funzioni-al-lancio.ts."
+    },
+    {
+      "chiave": "frontend-ux|il negoziante col negozio non ancora approvato vede «negozio» al posto della sua insegna nella lista condivisa e alla cassa",
+      "esito": "non_piu_vero",
+      "prova": "app/shared-cart/page.tsx:145-157 e app/checkout/page.tsx:276-287 (R19-006) — per i negozi che seller_public_profiles non restituisce, il nome dell'insegna si legge dalla propria riga di profiles. Controllo in più: cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r19-insegna-del-negozio-non-approvato.test.ts",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Codice riparato in tutte e due le pagine; la prova esistente: 1 file, 4 test verdi (controllo sul testo del codice)",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Il nome si legge solo dalla propria riga: coordinate e orari restano come per la vista."
+    },
+    {
+      "chiave": "architettura|oltre i mille prodotti la mappa per google perde i più vecchi senza dirlo",
+      "esito": "non_piu_vero",
+      "prova": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r06-sitemap-oltre-mille.test.ts — e lettura di app/sitemap.ts:98-107 (leggiInBlocchiTutte a finestre di mille, lib/supabase/blocchi.ts:69-128)",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "1 file, 3 test verdi (un negozio con 1059 prodotti: tutti e 1059 nella mappa; 1200 negozi tutti presenti)",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Il tetto dei 5000 indirizzi di prodotto resta, ma quando scatta lo scrive nei registri del server (logger.warn, app/sitemap.ts:109-114)."
+    },
+    {
+      "chiave": "frontend-ux|la pagina del negozio in cache può mostrare un annuncio già scaduto dopo la mezzanotte",
+      "esito": "ancora_vero",
+      "prova": "app/store/[id]/layout.tsx:8 — revalidate = 300, e precaricaNegozio mette il negozio nell'HTML del server. app/store/[id]/page.tsx:78 — announcementActive(custom) viene calcolato al momento della resa (lib/store-customization.ts:304-314). L'HTML messo in cache prima di mezzanotte contiene il banner (:145-150) finché la pagina non viene rifatta; il browser lo toglie solo all'idratazione.",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Il difetto c'è ancora",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Dopo l'idratazione il browser ricalcola con l'ora vera e il banner sparisce. Restano esposti la prima schermata e chi legge senza JavaScript, cioè i motori di ricerca."
+    },
+    {
+      "chiave": "frontend-ux|orari, stelle e indirizzo web del negozio non arrivano a google nella prima lettura",
+      "esito": "non_piu_vero",
+      "prova": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r07-vetrina-orari-schema.test.tsx tests/unit/riparazione-r07-vetrina-stelle-dal-server.test.ts — e lettura di app/store/[id]/page.tsx:105 (openingHoursSpecification da store_hours, che domandaNegozio legge già: lib/queries/catalogo.ts:237), :107 (aggregateRating dal riepilogo precaricato: lib/queries/precarico.ts:125-136, chiave identica a quella di components/store-sections/useStorePageData.ts:84-85) e :114 (url da INDIRIZZO_DEL_SITO, uguale sul server e nel browser)",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "2 file, 5 test verdi",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null
+    },
+    {
+      "chiave": "qa-flussi|nella pagina dei negozi le categorie per negozio si leggono senza finestre: sopra i mille negozi con prodotti alcuni perderebbero le loro categorie nel filtro",
+      "esito": "ancora_vero",
+      "prova": "app/stores/page.tsx:106 — supabase.rpc('categorie_per_negozio') senza .range() e senza leggiTutteLeRighe. migrations/127_minori_22_agosto.sql:775-787 — la funzione restituisce una tabella con una riga per negozio (RETURNS TABLE), quindi incontra il tetto di mille righe per risposta del servizio dati. Nessuna migrazione successiva la ridefinisce: la 425 la nomina soltanto.",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Il difetto c'è ancora",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null
+    },
+    {
+      "chiave": "qa-flussi|nella pagina dei negozi, se la lettura delle categorie cade, i filtri spariscono senza avviso",
+      "esito": "ancora_vero",
+      "prova": "app/stores/page.tsx:150 — (categoriesRes.data ?? []): l'errore di categoriesRes non viene mai letto (lo stesso vale per categoriePerNegozioRes a :159). :368 — {categories.length > 0 && (…)}: con la lettura caduta le categorie sono vuote e la fila dei filtri sparisce senza messaggio.",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Il difetto c'è ancora",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Le righe si sono spostate: la resa del filtro ora sta a :368."
+    },
+    {
+      "chiave": "microcopy|nei termini mancano due spazi: si legge «risultatiorganici» e «contenutisponsorizzati»",
+      "esito": "non_piu_vero",
+      "prova": "app/terms/page.tsx:114 — «per i risultati{' '}» prima di <em>organici</em> (:115); :116 — «I contenuti{' '}» prima di <em>sponsorizzati</em> (:117)",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Gli spazi ci sono: si legge «risultati organici» e «contenuti sponsorizzati»",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null
+    },
+    {
+      "chiave": "privacy-legale|buco nelle prove (variante): macchina: regge. le due prove della bocciatura vecchia ora passano (cb6/riacc 2/2 e cb6r 2/2), quindi il motivo è chiuso",
+      "esito": "non_verificabile",
+      "prova": "La descrizione della voce (R29-024; MyCity-Vault/90-Memoria-AI/auto-coscienza/radiografia-marketplace.json, riga ~79368) dice solo «il sito è giusto, ma le prove hanno un buco». Cita «cB6/riacc 2/2 e cB6r 2/2» e un comando su uno scratchpad e un worktree di un'altra sessione (vitest.qa.config.mjs, SCRD=$S/cO6var), che non esistono più.",
+      "prova_tipo": "umano",
+      "prova_eseguita": false,
+      "esito_prova": "Non si può stabilire quale prova manchi, quindi nemmeno se ora c'è",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Era già non_verificabile il 6/11, non_fatto il 5/11 (S08: «senza sapere quale prova manca non si può scriverla senza inventare») e senza referto il 16/11 (R29). Serve che chi l'ha aperta dica quale comportamento dei Termini o della riaccettazione la prova dovrebbe coprire. Altrimenti la voce va archiviata come non azionabile da una persona."
+    },
+    {
+      "chiave": "qa-flussi|il pannello della home suggerisce ancora «i più amati / prodotti che vanno forte»",
+      "esito": "cambiato",
+      "prova": "components/admin/home/HomeSectionConfigForm.tsx:136-137 — i segnaposto ora sono «Appena arrivati» e «Ultimi arrivati dai negozi», quindi la coppia del titolo non c'è più. Però lib/home-site.ts:75, mostrato nel pannello da components/admin/home/HomeSectionsEditor.tsx:39 e :70, descrive ancora la sezione come «Prodotti popolari — Griglia dei prodotti più amati». La sezione invece mostra gli ultimi prodotti caricati (components/home-sections/HomeSectionRenderer.tsx:226-231).",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "La frase dei segnaposto è corretta; il pannello promette ancora «più amati» nell'elenco delle sezioni",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Cambiato: prima erano i segnaposto del modulo (righe 153-154), ora è la descrizione della sezione nell'elenco «aggiungi sezione» del pannello."
+    },
+    {
+      "chiave": "ai-endpoints|il messaggio di «genera con ai» dice «modifica come preferisci» anche quando il testo è solo una proposta",
+      "esito": "ancora_vero",
+      "prova": "components/AIDescriptionButton.tsx:53 — il messaggio è sempre «Descrizione generata — modifica come preferisci». components/seller/ProductForm.tsx:1078-1081 — se c'è già un testo, il risultato non entra nel campo: va in propostaDescrizione, mostrata in un riquadro da accettare (:1089-1099).",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Il difetto c'è ancora",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Oggi il pulsante non si vede: aiAccesa e AI_NEGOZI_ACCESA sono false (lib/funzioni-al-lancio.ts:69, fatto prodotto.spente-al-lancio). Il difetto resta nel codice."
+    },
+    {
+      "chiave": "architettura|la frase della zona vive in quattro posti (cassa, spedizioni, rifiuto, tendina della posizione) piu' faq e «vicino a te»: le tiene allineate solo una prova",
+      "esito": "ancora_vero",
+      "prova": "La frase è ancora scritta a mano in sei punti, e da una costante viene solo il numero: components/checkout/ShippingAddressForm.tsx:310 (hint «Consegniamo a Piacenza, fino a ${RAGGIO_CONSEGNA_KM} km dal negozio») · app/shipping/page.tsx:137 (JSX «Consegniamo a Piacenza, fino a {confine} dal negozio») · lib/ordini/zona-di-consegna.ts:61-68 (motivoFuoriZona) · components/LocationPill.tsx:221 · lib/promesse-pubbliche.ts:192, :225, :632, :680 (FAQ) · app/near/page.tsx:265. A tenerle allineate c'è solo la prova tests/unit/le-frasi-della-zona-dicono-il-confine-della-cassa.test.tsx.",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Sei copie della frase scritte a mano; nessuna funzione unica la produce per tutti.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Nel registro-fatti c'è consegna.raggio, che fissa il valore del raggio, non dove si scrive la frase: la duplicazione non è una regola firmata."
+    },
+    {
+      "chiave": "architettura|il conto del carrello ha una seconda copia che nessuna pagina usa, e la prova «lo schermo fa lo stesso conto del server» controlla proprio quella",
+      "esito": "ancora_vero",
+      "prova": "grep -rn \"useTotaliCarrello\\|calcolaTotali\" app components lib tests: components/checkout/useTotaliCarrello.ts:53/96 li definisce, ma li importano solo tre test (tests/unit/lo-schermo-e-il-server-fanno-lo-stesso-conto.test.ts:2, la-consegna-costa-3-o-4-euro-per-negozio.test.ts:4, la-consegna-e-una-sola-per-tutto-il-carrello.test.ts:50). Le pagine non li usano: la cassa usa riepilogoDaMostrare (app/checkout/page.tsx:23), il carrello usa prezziDelCarrello (app/cart/page.tsx:41, :526).",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Nessuna pagina importa useTotaliCarrello o calcolaTotali; la prova «stesso conto» importa calcolaTotali da quella copia.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null
+    },
+    {
+      "chiave": "privacy-legale|le mappe mandano a openstreetmap e a google la zona di casa del cliente, ma l'informativa nomina openstreetmap solo per cercare gli indirizzi",
+      "esito": "ancora_vero",
+      "prova": "Le mappe caricano le tessere da tile.openstreetmap.org: components/DeliveryMap.tsx:115, components/NearbyStoresMap.tsx:73, components/StoreLocationPicker.tsx:105. La pagina del rider apre Google Maps con le coordinate o l'indirizzo del cliente: app/rider/orders/[id]/page.tsx:448-450. L'informativa, app/privacy/page.tsx:272, dice solo «OpenStreetMap Foundation (Regno Unito) — geocoding indirizzi». Nessuna riga parla di mappe/tessere o della navigazione con Google (cercati «mappa», «tessere», «Maps», «navigat»).",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "L'informativa nomina ancora OSM solo per il geocoding; tessere OSM e link Google Maps non sono dichiarati.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Le righe della voce si sono spostate: DeliveryMap da :91 a :115, NearbyStoresMap da :69 a :73, rider da :519 a :448, privacy da :207/:217 a :272."
+    },
+    {
+      "chiave": "navigazione-gerarchia|il piè di pagina passa dall h1 all h3 su ogni pagina pubblica senza un h2 nel contenuto",
+      "esito": "ancora_vero",
+      "prova": "Tutti i titoli del piè di pagina sono h3 e non c'è nessun h2 nel file: components/Footer.tsx:224 (marchio), :250 «Esplora», :266 «Categorie», :289 «Aiuto», :322 «Azienda».",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Il piede parte da h3, senza un h2 né visibile né nascosto.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null
+    },
+    {
+      "chiave": "layout-responsive|la home e /about scorrono di lato col testo grande sul telefono",
+      "esito": "non_piu_vero",
+      "prova": "Lettura: le cause della voce (misurata a 360 px col testo al 200%) sono riparate. Il pulsante «Diventa venditore» ha max-w-full e solo sm:whitespace-nowrap, quindi sotto i 640 px va a capo (components/home-sections/HomeSectionRenderer.tsx:395). /about ha l'h1 con break-words (app/about/page.tsx:110) e la griglia dei numeri con max-[300px]:grid-cols-1 (:123). Comando: cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r01-home-col-testo-grande.test.tsx",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "1 file, 4 test verdi. Codice coerente con la riparazione R10-002, che misurava in Chromium la home a 360 px: da 422 px a 360.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Il residuo a 320 px (18 px, HowItWorks) è la voce 'la home a 320 px col testo al 200% scorre ancora di lato di 18 px', che resta aperta. La misura nel browser non l'ho rifatta: browser vietato. Confidenza circa 75%."
+    },
+    {
+      "chiave": "qa-flussi|l'icona a cuore accanto ad «appena arrivati» in home",
+      "esito": "ancora_vero",
+      "prova": "In components/home-sections/HomeSectionRenderer.tsx:224-228 c'è ancora <Heart size={14} /> nello stesso span dell'occhiello {c.eyebrow || 'Appena arrivati'} (sezione popularProducts).",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Il cuore dei preferiti è ancora accanto ad «Appena arrivati».",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Il percorso nella voce (components/home/HomeSectionRenderer.tsx) non esiste: il file vero è components/home-sections/HomeSectionRenderer.tsx."
+    },
+    {
+      "chiave": "layout-responsive|la home a 320 px col testo al 200% scorre ancora di lato di 18 px",
+      "esito": "ancora_vero",
+      "prova": "components/home/HowItWorks.tsx:74-81: l'h3 del titolo («Ricevi e paghi alla consegna») sta in una riga flex accanto a un cerchio shrink-0 w-12. L'h3 non ha né min-w-0 né break-words, quindi non può stringersi sotto la parola più lunga. Card padding lg (p-6), container px-4.",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "La causa probabile è invariata: nessuna riparazione sul titolo accanto all'icona.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Gli 18 px non li ho rimisurati: servirebbe un browser, vietato. Resta aperta per prudenza."
+    },
+    {
+      "chiave": "rls-database|il carosello delle storie legge 200 storie e poi taglia a 30: un solo negozio approvato con 200 storie in 24 ore spingerebbe fuori gli altri",
+      "esito": "cambiato",
+      "prova": "components/home/StoriesCarousel.tsx:79-85: la lettura principale aggancia la vista dei negozi con !inner e chiede .limit(STORIE_MOSTRATE)=30, ordinate per created_at, senza un tetto per negozio. :93-99: il ripiego (PGRST200/201) legge ancora 200 storie (STORIE_LETTE) e poi a :103 fa .slice(0, 30). Nessun limite di storie per negozio, né nel DB (migrazioni 035/403/404) né in app/seller/stories/page.tsx:167.",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Le 200 restano solo nel ripiego. Nella lettura principale bastano 30 storie recenti di un solo negozio approvato per riempire tutti i posti.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Cosa è cambiato: la R16-019 ha portato il filtro dentro la domanda (limit 30). Il difetto di fondo resta, un negozio che monopolizza il carosello, e con una soglia più bassa: 30 storie invece di 200."
+    },
+    {
+      "chiave": "privacy-legale|quello che il cliente scrive nel campo «città» compare a tutti nel riquadro dal vivo della home, accanto al nome del negozio",
+      "esito": "non_piu_vero",
+      "prova": "cd /home/user/ad-mycity/marketplace && tests/sql/harness/apply.sh mycity_s01c_l07 && psql -q -X -d mycity_s01c_l07 -v ON_ERROR_STOP=1 -f tests/sql/rls/riparazione-r03-vetrina-senza-citta-del-cliente.test.sql && npx vitest run tests/unit/riparazione-r03-vetrina-dal-vivo-senza-citta.test.ts && cp /tmp/claude-0/-home-user-ad-mycity/3a6dd9f1-c577-50de-a79b-fcb1dfee42de/scratchpad/prove/L07-riquadro-dal-vivo-senza-citta.test.tsx tests/unit/_s01c/ && npx vitest run tests/unit/_s01c/L07-riquadro-dal-vivo-senza-citta.test.tsx; rm -f tests/unit/_s01c/L07-riquadro-dal-vivo-senza-citta.test.tsx",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "apply.sh: 210 migrazioni applicate, 0 fallite. Prova SQL: exit 0, 3 controlli verdi; l'anonimo vede la farmacia, «città lette: Piacenza». Unit r03: 1 file, 1 test verde. Mio test col riquadro vero montato e delivery_city='Quarto, via Verdi 10 citofono Rossi': 1 file, 1 test verde; a schermo «Qualcuno a Piacenza … Farmacia del Corso», niente Verdi/Quarto/citofono.",
+      "verificato": true,
+      "verificato_da": "qa nuovo: Ho rilanciato la prova di L07 al commit 1ad51b4 (lo stesso dell'ultimo main), sul mio database di prova mycity_s01c_v_l07, poi cancellato. Ho fatto anche due controprove per vedere se la prova si accorgerebbe del difetto. Prima controprova: nel mio database ho rimesso la vista com'era prima, che passa il testo libero del cliente. Seconda controprova: un componente mutante, cioè una copia",
+      "nota": "La vista oggi (migrazione 271, nessuna migrazione dopo la ridefinisce) dà sempre 'Piacenza'::text AS delivery_city. Il componente scrive comunque sempre chiHaOrdinato()='Qualcuno a Piacenza' (components/LiveActivityFeed.tsx:24-26, :171). Le prove diventerebbero rosse se la vista o il riquadro tornassero a dare il testo libero. Non verificabile dalla copia: se la 271 è applicata nel database vero. Con una vista vecchia, il testo viaggerebbe ancora nella risposta di rete, ma non comparirebbe a schermo. Database di prova cancellato a fine lavoro: il comando lo ricrea."
+    },
+    {
+      "chiave": "layout-responsive|barra mobile a 280 px col testo al 200%: la pillola del luogo si stringe a zero e sparisce",
+      "esito": "ancora_vero",
+      "prova": "components/Navbar.tsx:385-391 (era :338-340): la pillola sta ancora dentro <div className=\"min-w-0 flex-1 flex justify-center\"><LocationPill compact /></div>, tra il logo shrink-0 whitespace-nowrap e il carrello shrink-0. Nessuna larghezza minima o shrink-0 garantisce spazio alla pillola. Nei referti delle riparazioni non risulta nessun intervento su questa voce (cercato «pillola del luogo» in consegne/riparazioni).",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Struttura invariata rispetto alla segnalazione; nessuna riparazione registrata.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "La misura a 280 px non l'ho rifatta: browser vietato. Confidenza circa 60%: resta aperta per prudenza."
+    },
+    {
+      "chiave": "frontend-ux|il bollino dello sconto della scheda prodotto mostra la percentuale grezza, oltre il 70% che il prezzo applica",
+      "esito": "ancora_vero",
+      "prova": "cd /home/user/ad-mycity/marketplace && cp /tmp/claude-0/-home-user-ad-mycity/3a6dd9f1-c577-50de-a79b-fcb1dfee42de/scratchpad/prove/L07-bollino-oltre-70.test.tsx tests/unit/_s01c/ && npx vitest run tests/unit/_s01c/L07-bollino-oltre-70.test.tsx; rm -f tests/unit/_s01c/L07-bollino-oltre-70.test.tsx — il codice: components/ProductCard.tsx:66-68 (badgePct = discountPercent grezzo) e :167 (-{badgePct}%), mentre il prezzo usa discountedUnitCents, tagliato a 70 (lib/promotions.ts:77-80).",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "1 test ROSSO, come atteso col difetto presente. La scheda montata con 10 € al -90% scrive «-90%» accanto a «3,00 €», cioè uno sconto del 70%.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Oggi il difetto è latente. Le fonti dello sconto sono tagliate prima: seller_promotions ha CHECK 5-70 (verificato sul DB locale), active_promo_products legge seller_promotions, fetchActiveDiscounts limita a 0-70 (lib/promotions.ts:29). Il componente da solo però non taglia."
+    },
+    {
+      "chiave": "immagini-media|se la foto di un prodotto è stata cancellata, la scheda resta un riquadro bianco invece della foto di ripiego",
+      "esito": "non_piu_vero",
+      "prova": "Lettura: tutti e tre i punti usano FotoConRipiego (components/ui/FotoConRipiego.tsx:16-30, che su onError passa a FOTO_MANCANTE): components/ProductCard.tsx:175, components/checkout/CartGroupsList.tsx:44, components/home/TrendingNow.tsx:89. Comando: cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r24-foto-che-non-risponde.test.tsx tests/unit/riparazione-r08-foto-con-ripiego.test.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "2 file, 10 test verdi: i componenti veri, con l'errore dell'immagine simulato, mostrano /foto-mancante.svg.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null
+    },
+    {
+      "chiave": "qa-flussi|con una promozione del negozio la vetrina scrive un prezzo e la cassa ne fa pagare un altro, di un centesimo per pezzo",
+      "esito": "ancora_vero",
+      "prova": "cd /home/user/ad-mycity/marketplace && cp /tmp/claude-0/-home-user-ad-mycity/3a6dd9f1-c577-50de-a79b-fcb1dfee42de/scratchpad/prove/L07-promo-riquadro.test.tsx tests/unit/_s01c/ && npx vitest run tests/unit/_s01c/L07-promo-riquadro.test.tsx; rm -f tests/unit/_s01c/L07-promo-riquadro.test.tsx — e node /tmp/claude-0/-home-user-ad-mycity/3a6dd9f1-c577-50de-a79b-fcb1dfee42de/scratchpad/prove/L07-promo-cent.mjs",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "Test 1 ROSSO, come atteso col difetto presente. Il riquadro «In promo» montato scrive «In promo -10% 1,15 € 1,04 €», mentre la cassa (discountedUnitCents) fa pagare 1,03 €. Script: 1322 coppie prezzo/sconto diverse su 660.000 (0,01-100 €, sconti 5-70%).",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "La scheda delle griglie è riparata (ProductCard:56-59 usa discountedUnitCents) e anche il prezzo grande della pagina prodotto (app/product/[id]/page.tsx:541). Resta components/ActivePromoBadge.tsx:46-55: basePrice * (1 - discount/100) senza arrotondare al centesimo, mostrato sulla pagina prodotto accanto al prezzo grande giusto."
+    },
+    {
+      "chiave": "qa-flussi|con una promozione la vetrina scrive un prezzo e la cassa ne fa pagare un altro, di un centesimo per pezzo (voce già nel registro, non assegnata in onda 2)",
+      "esito": "cambiato",
+      "prova": "Riparato il punto citato: cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r01-prezzo-scontato-scheda.test.tsx. Persiste altrove: cp /tmp/claude-0/-home-user-ad-mycity/3a6dd9f1-c577-50de-a79b-fcb1dfee42de/scratchpad/prove/L07-promo-riquadro.test.tsx tests/unit/_s01c/ && npx vitest run tests/unit/_s01c/L07-promo-riquadro.test.tsx; rm -f tests/unit/_s01c/L07-promo-riquadro.test.tsx",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "r01-prezzo-scontato-scheda: 1 file, 4 test verdi; la scheda scrive 1,03 € per 1,15 € al -10%, come la cassa. L07-promo-riquadro: 1 test rosso; ActivePromoBadge scrive 1,04 €.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "È un doppione della voce precedente. Il punto citato (components/ProductCard.tsx:56) è riparato (R01-011). Lo stesso scarto di un centesimo sopravvive in components/ActivePromoBadge.tsx:46-55, sulla pagina prodotto: il titolo resta vero, in un altro componente."
+    },
+    {
+      "chiave": "qa-flussi|«carica altri» sparisce quando una pagina della griglia perde righe al filtro dei negozi",
+      "esito": "ancora_vero",
+      "prova": "lib/queries/griglia-prodotti.ts:380-381 attacca alla pagina righeLette, cioè le righe lette prima del filtro. Ma components/ProductGrid.tsx:291 decide ancora con getNextPageParam: (ultima, tutte) => pagineSuccessiva(ultima.length, …), cioè le righe dopo il filtro. grep righeLette: nessun consumatore in components/app/lib. Solo tests/unit/riparazione-r02-carica-altri-dopo-il-filtro.test.ts:34-37 lo legge, con un suo helper «prossima» che ProductGrid non usa.",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "La riparazione R02-012 è nella libreria ma non è collegata alla griglia: una pagina piena con una riga scartata fa ancora sparire «Carica altri».",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "La prova esistente è verde perché controlla un helper scritto nel test, non il componente: falso verde."
+    },
+    {
+      "chiave": "qa-flussi|il conteggio della griglia non riceve i filtri «aperti ora» e «col voto»",
+      "esito": "cambiato",
+      "prova": "components/ProductGrid.tsx:301-310 — oggi la domanda del conteggio passa idsColVoto quando c'è vistaPerVoto (riga 308), quindi «col voto» arriva. apertiOra non viene mai passato a contaProdottiDellaGriglia, e la chiave (riga 303) non contiene onlyOpenStores né minRating. La lettura vera lo passa (riga 284). lib/queries/griglia-prodotti.ts:397 il filtro lo saprebbe usare.",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Riparato a metà: «col voto» arriva al conteggio, «aperti ora» no.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Riparato a metà. Oggi nessuna pagina che usa il conteggio vero (app/novita, app/piccoli-prezzi, app/piu-venduti) passa onlyOpenStores, quindi oggi il difetto non si vede. Torna il giorno in cui una di queste pagine aggiunge il filtro «aperti ora»."
+    },
+    {
+      "chiave": "privacy-legale|il modulo di segnalazione non permette di dare il nome di chi segnala né di dichiarare la buona fede",
+      "esito": "ancora_vero",
+      "prova": "components/Segnala.tsx:139-178 — il modulo ha solo motivo, dettaglio ed email, niente nome e niente spunta di buona fede. app/api/segnalazioni/route.ts:29-38 — anche lo schema Corpo ha solo tipo, oggettoId, motivo, dettaglio ed emailContatto.",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Nessun campo per il nome e nessuna dichiarazione di buona fede, né nel modulo né nella rotta.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Nel registro-fatti non c'è nessuna regola su nome o buona fede nelle segnalazioni."
+    },
+    {
+      "chiave": "stati-ui|con la proposta di «genera con ai» aperta, le correzioni fatte a mano nel frattempo si perdono premendo «usa questa»",
+      "esito": "ancora_vero",
+      "prova": "components/seller/ProductForm.tsx:1068-1111 — mentre la proposta è aperta la descrizione resta modificabile (register('description')). «Usa questa» (righe 1097-1101) fa setValue('description', propostaDescrizione): il testo scritto a mano nel frattempo viene sostituito senza avviso.",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "«Usa questa» sostituisce senza avviso quello che il negoziante ha scritto a mano.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null
+    },
+    {
+      "chiave": "stati-ui|il modulo prodotto ricalcola la spunta «escluso dal recesso» dell'apertura a ogni disegno",
+      "esito": "ancora_vero",
+      "prova": "components/seller/ProductForm.tsx:316 — `const recedibileAllApertura = initialValues?.nonRecedibile === true;` è una costante semplice, ricalcolata a ogni disegno (non useRef né useState). Al salvataggio (riga 897) il confronto si fa con questo valore ricalcolato, non con quello dell'apertura.",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Il valore di partenza si ricalcola a ogni disegno da initialValues.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null
+    },
+    {
+      "chiave": "navigazione-gerarchia|il menu del negoziante ha quattordici voci, fra cui sponsorizzate a pagamento e storie, per un fornaio solo",
+      "esito": "ancora_vero",
+      "prova": "components/seller/SellerShell.tsx:31-57 — NAV ha 3+4+4+3 = 14 voci con l'AI spenta (15 con l'AI accesa). In «Crescita» ci sono ancora Sponsorizza (/seller/promote) e Storie (/seller/stories). app/seller/promote/page.tsx:140 a sponsorizzate spente dice «non sono attive al lancio», ma la voce del menu resta.",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Il menu conta ancora 14 voci, con Sponsorizza e Storie.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Nel registro-fatti non c'è nessuna decisione che dichiari voluto questo menu."
+    },
+    {
+      "chiave": "frontend-ux|il conferma per le modifiche non salvate dice «la vetrina» anche sul profilo",
+      "esito": "ancora_vero",
+      "prova": "components/seller/site/dove-e-l-errore.ts:47 — il messaggio è fisso: «Hai modifiche alla vetrina non salvate…», senza parametri. components/VendorForm.tsx:174 lo usa, e VendorForm è montato anche in app/seller/profile/page.tsx:145 (mode=\"contact\", Contatti e orari).",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Sul profilo l'avviso dice ancora «vetrina».",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null
+    },
+    {
+      "chiave": "frontend-ux|altri campi brevi del sito del negozio tagliano ancora in silenzio con maxlength",
+      "esito": "ancora_vero",
+      "prova": "maxLength è ancora presente in components/seller/site/SectionConfigForm.tsx:54, :146, :168, :177-178; CollectionFields.tsx:24; GalleryFields.tsx:99, :119; MenuEditor.tsx:61; PageEditor.tsx:89, :110, :111. components/ui/Field.tsx non ha nessun contatore di caratteri: il browser taglia senza dire niente.",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Tutti i campi citati hanno ancora maxLength e nessun contatore.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null
+    },
+    {
+      "chiave": "frontend-ux|sulla pagina del negozio il testo lungo si taglia ancora in silenzio a 4.000 caratteri",
+      "esito": "non_piu_vero",
+      "prova": "components/seller/site/SectionConfigForm.tsx:132-154 — il campo richText non ha più maxLength. Ha un contatore (hint con lunghezza/RICHTEXT_MAX) e un errore prima del salvataggio. Conferma col test già esistente: cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r04-testo-lungo-vetrina.test.tsx",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "1 file, 4 test verdi (il campo non ha tetto, il modulo segnala oltre il limite, contatore, conteggio uguale allo schema).",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null
+    },
+    {
+      "chiave": "frontend-ux|le modifiche ai dettagli del negozio e al profilo si perdono uscendo, senza nessun avviso",
+      "esito": "non_piu_vero",
+      "prova": "components/seller/site/StoreDetailsEditor.tsx:37,66-67 — c'è lo stato dirty e una conferma su «Tutte le impostazioni». components/VendorForm.tsx:140-185 — beforeunload e cattura dei clic sui link interni quando c'è una modifica. Il profilo usa lo stesso VendorForm. Test già esistenti: cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r02-modifiche-non-salvate-negozio.test.tsx ; npx vitest run tests/unit/riparazione-r02-modifiche-non-salvate-profilo.test.tsx",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "negozio: 1 file, 5 test verdi; profilo: 1 file, 4 test verdi.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Restano i tasti che navigano con router.push senza un link: non li ho verificati, ma non sono il caso del titolo."
+    },
+    {
+      "chiave": "frontend-ux|incollare il link di instagram o scrivere il sito senza https blocca il salvataggio di tutta la vetrina con un messaggio che non dice dove",
+      "esito": "cambiato",
+      "prova": "lib/store-customization.ts:322-362 — normalizzaSocials ricava il nome utente dal link e aggiunge https:// al sito. components/VendorForm.tsx:260-281 — l'errore compare sotto il campo giusto, la sezione si apre da sola e il riepilogo nomina il campo. Il link con parametri resta e blocca (riga 327: `/\\?/.test(t)` restituisce il valore così com'è). Prova: cp /tmp/claude-0/-home-user-ad-mycity/3a6dd9f1-c577-50de-a79b-fcb1dfee42de/scratchpad/prove/L08-social.test.ts /home/user/ad-mycity/marketplace/tests/unit/_s01c/ && cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/_s01c/L08-social.test.ts ; rm tests/unit/_s01c/L08-social.test.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "1 file, 3 test verdi: il link semplice del profilo passa, il sito senza https passa, il link di condivisione https://www.instagram.com/<nome>?igsh=… NON passa.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Due parti su tre sono riparate: il link semplice, il sito senza https e il messaggio che non diceva dove. Il link copiato dal tasto «condividi profilo» dell'app Instagram porta ?igsh=…. Quello blocca ancora il salvataggio di tutta la vetrina, anche se adesso l'errore compare sotto il campo Instagram. Che l'app Instagram metta ?igsh= nel link condiviso lo so per esperienza mia: da qui non l'ho verificato."
+    },
+    {
+      "chiave": "qa-flussi|le maschere di caricamento delle foto accettano solo jpg, png e webp, mentre la porta e lo storage ne accettano sette",
+      "esito": "ancora_vero",
+      "prova": "Il filtro accept è ancora scritto a mano con 3 tipi in components/StoreMediaManager.tsx:54-58, components/ImageUrlField.tsx:59-63, components/VendorForm.tsx:189-193 e components/SellerApplicationForm.tsx:195. lib/storage/regole-secchi.ts:49-57 — TIPI_IMMAGINE ne ha 7 (anche gif, avif, heic, heif). Solo components/seller/site/ImageUpload.tsx usa mappaAccept di lib/storage/casella-di-caricamento.ts.",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Le quattro maschere citate accettano ancora 3 tipi su 7.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Adesso i file scartati danno un messaggio (onDropRejected), ma la differenza fra 3 e 7 tipi resta."
+    },
+    {
+      "chiave": "frontend-ux|con una promozione attiva la barra d'acquisto e i caroselli mostrano il prezzo pieno, mentre sopra c'è quello scontato",
+      "esito": "cambiato",
+      "prova": "Barra riparata: app/product/[id]/page.tsx:539-541 calcola price scontato, e alle righe 1690-1694 passa price e prezzoPieno. components/StickyAddToCart.tsx:114-147 mostra il prezzo scontato e il pieno barrato. Caroselli no: components/SimilarProducts.tsx:94 mostra formatPrice(p.price) e lib/queries/fasce-prodotti.ts:109 (leggiSimili) non legge le promozioni. Nessun riferimento a promo o sconto in components/RecentlyViewed.tsx, components/home/TrendingNow.tsx e components/SponsoredCarousel.tsx.",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "La barra d'acquisto mostra il prezzo scontato. I caroselli mostrano ancora il prezzo pieno.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Riparata solo la barra d'acquisto. «Potrebbe piacerti» sotto la scheda e gli altri caroselli mostrano ancora il prezzo pieno per un prodotto in promozione."
+    },
+    {
+      "chiave": "frontend-ux|le collezioni scelte a mano non passano il prezzo barrato del negozio",
+      "esito": "ancora_vero",
+      "prova": "components/store-sections/CollectionSection.tsx:45 — la select non legge compare_at_price. Alle righe 82-92 ProductCard riceve price e discountPercent, ma non compareAtPrice. ProductCard lo saprebbe usare (components/ProductCard.tsx:39,62), e ProductGrid lo passa (components/ProductGrid.tsx:673).",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "La collezione scelta a mano non passa il prezzo barrato del negozio.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "R02-013 ha aggiunto lo sconto promo (discountPercent), non il prezzo barrato del venditore."
+    },
+    {
+      "chiave": "layout-responsive|basta un negozio col nome lungo e sul telefono la home, l'elenco negozi e «vicino a te» diventano più larghe dello schermo",
+      "esito": "ancora_vero",
+      "prova": "components/StoreListRow.tsx:53-54 e components/StorePreviewCard.tsx:108-109 — il nome sta ancora in `h3 inline-flex … truncate` con dentro `span truncate`. Nessun max-w-full o min-w-0 sull'h3: un inline-flex prende la larghezza del suo contenuto, quindi il taglio non scatta. app/api/seller/apply/route.ts:86 accetta ancora fino a 80 caratteri senza nessun vincolo sulle parole lunghe.",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Lo schema che causava il difetto è ancora nel codice.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Confidenza media. È un difetto di impaginazione: senza browser (vietato in questo lotto) non posso misurare se la pagina scorre davvero di lato. In StorePreviewCard l'article ha overflow-hidden, che può contenere il danno nelle griglie. In StoreListRow (/near, /stores) non c'è niente che tagli. Nel dubbio la voce resta aperta."
+    },
+    {
+      "chiave": "qa-flussi|l accesso con google non porta il ritorno alla pagina di partenza",
+      "esito": "cambiato",
+      "prova": "Accesso riparato: components/ui/AuthShell.tsx:145-157 mette `next` nell'indirizzo di ritorno di /auth/callback, e app/sign-in/page.tsx:391 passa returnTo. Test già esistente: cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r02-ritorno-con-google.test.tsx. Registrazione no: app/sign-up/page.tsx legge returnTo alla riga 78 e lo usa per l'email (159, 201), ma alla riga 367 monta `<AuthAlternatives condizioniDalModulo={acceptTos} />` senza returnTo.",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Accesso: 1 file, 3 test verdi. Registrazione: con Google il ritorno si perde.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Da /sign-in il ritorno funziona. Da /sign-up?returnTo=/checkout (ci arriva chi parte dal carrello) chi sceglie Google viene rimandato alla home invece che alla cassa."
+    }
+  ],
+  "prove_per_la_palestra": [],
+  "domande_per_nicola": [],
+  "conto": {
+    "agenti": 11,
+    "permesso_regista": null,
+    "token_sessione": {
+      "agenti": 1,
+      "agenti_misurati": 1,
+      "turni": 30,
+      "input": 57,
+      "scritti_cache": 172455,
+      "letti_cache": 5795458,
+      "uscita": 26788,
+      "entrata_totale": 5967970
+    },
+    "token_subagenti": {
+      "agenti": 11,
+      "agenti_misurati": 11,
+      "turni": 725,
+      "input": 1450,
+      "scritti_cache": 1208246,
+      "letti_cache": 67589577,
+      "uscita": 370334,
+      "entrata_totale": 68799273
+    },
+    "nota": "8 cercatori qa (uno per lotto) e 3 verificatori qa sulle chiusure dei gravi (L02, L05, L07), nel tetto di 12. Token misurati con conto-token.mjs sulla trascrizione della sessione e sulle 11 trascrizioni dei subagenti del workflow; nessuna stima in dollari (lo strumento non la fa). Il conto della sessione è preso prima delle ultime chiamate (validazione e push)."
+  }
+}
