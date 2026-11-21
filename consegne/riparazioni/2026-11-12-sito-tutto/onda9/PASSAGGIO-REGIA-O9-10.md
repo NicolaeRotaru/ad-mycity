@@ -44,6 +44,10 @@ Niente: Nicola scrive alla 10.0 come alla 9.0.
 - R04-021: le casse con la carta aperte e non pagate occupano il fattorino?
 - R04-016: R04 manderà il diff di una prova comune (scarica-i-miei-dati-non-salta-nessuna-tabella.test.ts:44); la firma è di Nicola.
 
+- R01-021 (5bdb23a1): firma per spostare di 2 giorni le date di due prove comuni sul recesso (riparazione-r07-termine-recesso-server.test.ts, -pagina.test.tsx), chiesta alle 03:15.
+- R02-009 (6d2e1e7f): firma per portare il cricchetto di la-foto-chiesta-piu-piccola-del-riquadro.test.ts:174 da tre a zero, chiesta alle 03:15.
+- R01 ha segnalato un nato riservato (area sessione): i dettagli solo in chat dalla 9.0, va alla sessione riservata.
+
 ### Decisioni di Nicola già prese
 - 03:03 (alla 8.0): dal giro 5 riparare per causa, modello piccolo sui minori non delicati, firme date prima; «stessa efficienza» misurata a ogni giro. Aperti: tetto per le 1-2 settimane, lista «dopo» per i minori nati.
 - 03:08 (alla 9.0): «A» = collaudatori, controllore e riservata li apre Nicola o l'AD quando la regia lo chiede; firme su R02-004 e R02-005.
