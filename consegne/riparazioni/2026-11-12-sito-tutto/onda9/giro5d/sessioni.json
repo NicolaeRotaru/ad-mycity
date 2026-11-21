@@ -11,7 +11,8 @@
    "id": "session_015BmpnWVWumb9ZE1GdpoMkU",
    "ramo": "claude/adoring-bohr-kixq35-o9g5d-m01",
    "onda": 1,
-   "ultracode": true
+   "ultracode": true,
+   "costo_usd": 27.91
   },
   "R02": {
    "id": "session_015BmpnWi4DBbXtJVkdLEN8R",
@@ -25,6 +26,18 @@
   "R02": 30,
   "collaudo": 30
  },
- "collaudatori": {},
+ "collaudatori": {
+  "K01": {
+   "id": "session_015BmpnZNv7fMEVNfte1J3kC",
+   "ramo": "claude/adoring-bohr-kixq35-o9g5d-k01",
+   "partenza": "d7b21c473490dc02a554dca8569a19a557c53061",
+   "riparatori": [
+    "R01",
+    "R02"
+   ],
+   "ultracode": true,
+   "tetto_usd": 30
+  }
+ },
  "controllori": {}
 }
