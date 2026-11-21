@@ -303,6 +303,7 @@
     ["^\\.github/", ["S11"]],
     ["^messages/", ["S10"]],
     ["^app/(?!api/).*\\.(tsx|css|ttf)$", ["S10"]],
+    ["^app/fonts/", ["S10"]],
     ["^app/carattere-del-marchio\\.ts$", ["S10"]],
     ["^components/", ["S10"]],
     ["^app/admin/", ["S08"]],

@@ -13,3 +13,4 @@
 
 ## Fermo su
 - Niente: si apre il ricontrollo.
+- 2026-11-21 15:40 Nicola: «Sì, parti con 169 $» per il ricontrollo (4 sessioni, ultracode perché ognuna ha dei gravi).
