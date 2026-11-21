@@ -849,14 +849,18 @@ export const RE_SPENTA = /\b(?:it|test|describe)(?:\.\w+)*\.(?:skip|only|todo|fa
  * Perché esiste: nell'onda 9, giro 5m (21/11), R01-007 ha portato `it.skipIf(CATALOGO === null)` a
  * `it.skipIf(CATALOGO === null && !carattere.locale)` nella prova del corsivo. La guardia l'ha letta come «prova spenta»
  * e ha fermato tutto il giro nel registro, dopo l'unione di mycity#300. Correzione autorizzata da Nicola (21/11 verso
- * le 13:10, «Prova del corsivo»). X non può uscire dalla congiunzione: fuori da stringhe e parentesi non porta `||`,
- * `??`, `?`, `,`, `=` né `=>`. Ogni altro cambio di una riga spenta resta rosso.
+ * le 13:10, «Prova del corsivo»).
+ * Volutamente stretta: il primo collaudo (21/11 13:20) ha trovato cinque modi di far passare un salto PIÙ largo quando X
+ * poteva contenere stringhe, commenti, regex o parentesi (per esempio un commento con un apostrofo che nasconde un
+ * `|| true`). Adesso: nessun
+ * commento in nessuna delle due righe, nessuna virgoletta, barra o `...` prima della fine della condizione vecchia, e X è
+ * solo un nome, anche negato o con i punti (`!carattere.locale`). Ogni altro cambio di una riga spenta resta rosso.
  */
 export function restringeIlSalto(tolta, aggiunta) {
   const pezzi = (riga) => {
     const t = String(riga).trim();
     const m = /\.skipIf\s*\(/.exec(t);
-    if (!m) return null;
+    if (!m || /\/\/|\/\*|\*\//.test(t)) return null;
     const apre = m.index + m[0].length - 1;
     for (let i = apre, prof = 0; i < t.length; i++) {
       if (t[i] === "(") prof++;
@@ -866,11 +870,8 @@ export function restringeIlSalto(tolta, aggiunta) {
   };
   const a = pezzi(tolta), b = pezzi(aggiunta);
   if (!a || !b || !a.cond || a.prima !== b.prima || a.dopo !== b.dopo || !b.cond.startsWith(a.cond)) return false;
-  const resto = /^&&([\s\S]+)$/.exec(b.cond.slice(a.cond.length).trim());
-  if (!resto) return false;
-  let x = resto[1].replace(/'(?:\\.|[^'\\])*'|"(?:\\.|[^"\\])*"|`(?:\\.|[^`\\])*`/g, "S");
-  for (let prima = ""; prima !== x; ) { prima = x; x = x.replace(/\([^()]*\)|\[[^[\]]*\]|\{[^{}]*\}/g, "G"); }
-  return x.trim() !== "" && !/[()[\]{}]|\|\||\?|,|=>|(?:^|[^=!<>])=(?!=)/.test(x);
+  if (/['"`/]|\.\.\./.test(a.prima + a.cond)) return false;
+  return /^&&\s*!?\s*[A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)*$/.test(b.cond.slice(a.cond.length).trim());
 }
 /** Quante asserzioni porta il testo di una prova (vitest, node:test, assert). PURA. */
 // I commenti si tolgono prima di contare: un'asserzione COMMENTATA non controlla niente (radiografia del 12/11 notte).

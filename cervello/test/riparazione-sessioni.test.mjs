@@ -1262,12 +1262,21 @@ test("AR-1172 · eccezione firmata: un collaudo con la rimessa a mano ferma appl
 test("onda 9 giro 5m (21/11) · un salto che si stringe soltanto non è una prova spenta, uno che si allarga sì", () => {
   const vecchia = "    it.skipIf(CATALOGO === null)(";
   assert.ok(restringeIlSalto(vecchia, "    it.skipIf(CATALOGO === null && !carattere.locale)("), "il caso vero della prova del corsivo");
-  assert.ok(restringeIlSalto(vecchia, "    it.skipIf(CATALOGO === null && (a || b))("), "un || dentro le parentesi resta nella congiunzione");
+  assert.ok(restringeIlSalto(vecchia, "    it.skipIf(CATALOGO === null && process.env.CI)("), "un nome con i punti");
   for (const r of [
     "    it.skipIf(CATALOGO === null && false || true)(", "    it.skipIf(CATALOGO === null || true)(", "    it.skipIf(true)(",
     "    it.skip(", "    test.skipIf(CATALOGO === null && x)(", "    it.skipIf(CATALOGO === null && a ? b : c)(",
     "    it.skipIf(CATALOGO === null && a, true)(", "    it.skipIf(CATALOGO === null && (a)) || true)(", "    it.skipIf(CATALOGO === null &&)(",
+    "    it.skipIf(CATALOGO === null && (a || b))(", "    it.skipIf(CATALOGO === null && delete process.env.DB_URL)(",
+    // I cinque inganni del primo collaudo (21/11 13:20): commento con apostrofo, regex con virgolette, commento che
+    // apre la riga dopo, parentesi dentro una stringa della condizione vecchia, spread.
+    "    it.skipIf(CATALOGO === null && !carattere.locale /* l'ultimo */ || true /* dell'onda */)(",
+    "    it.skipIf(CATALOGO === null && b /* ' */ ? 1 : 1 /* ' */)(", "    it.skipIf(CATALOGO === null && /\"/ || \"/\")(",
+    "    it.skipIf(CATALOGO === null && !locale // )(",
   ]) assert.ok(!restringeIlSalto(vecchia, r), r);
+  assert.ok(!restringeIlSalto('it.skipIf(motivo.includes(")"))(', 'it.skipIf(motivo.includes(")" && ""))('), "una ) dentro una stringa");
+  assert.ok(!restringeIlSalto('it.skipIf(sep !== ")")(', 'it.skipIf(sep !== " && x)")('), "la X dentro la stringa");
+  assert.ok(!restringeIlSalto("it.skipIf(...cond)(", "it.skipIf(...cond && x)("), "lo spread");
   const { dir, g, scrivi } = depositoFinto();
   scrivi("tests/unit/corsivo.test.ts", "import { a } from '@/lib/a';\nit.skipIf(a === 0)('x', () => { expect(a).toBe(1); });\n");
   g("add", "-A"); g("commit", "-qm", "una prova con un salto");
