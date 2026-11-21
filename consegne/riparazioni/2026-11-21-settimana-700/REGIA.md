@@ -38,3 +38,18 @@ Quante voci risulteranno sparite: lo dicono i referti delle 4 sessioni.
 - 2026-11-21 16:11 S01b finita (120 voci: 31 non più vere, 3 gravi chiusi da riverificare in un'altra sessione). S01d finita alle 15:53 (99 voci: 25 non più vere), 16,81 $.
 - 2026-11-21 16:14 tutte e 4 finite: 114 non più vere (6 gravi confermati), costo 104,72 $ su 169. Prossimo: controllore finale CF.
 - 2026-11-21 16:35 CF finito: 3 gravi di S01b confermati, 117 chiusure scritte nel registro (749 → 632). Dettagli di alcune falle tolti dai referti nella cartella; restano nella storia dei rami pubblici: decide Nicola. Difetto nuovo da registrare: rimborso del negozio «1.250,00» → 1,25 € (ReturnRequestCard.tsx:116 e :147).
+
+## Regia seconda (session_015BmpnWf7s8MAmqD6Xbh5ap, presa la mano 2026-11-21 19:30)
+- Sito clonato a `main` 1ad51b4c. Dettagli riservati ricevuti in chat dalla regia prima alle 19:20: solo in chat.
+- Perimetro nuovo (19:35): 632 aperti · 463 lavorabili (4 bloccanti, 46 gravi, 413 minori) · fuori 88 riservate, 65 con domanda, 16 senza percorso.
+- Filtro dei delicati sul testo (regola 4): 281 delicati (tutti i 50 gravi e bloccanti + 231 minori su soldi, dati, permessi, annulli, privacy) · 182 semplici. Due cartelle: `normali/` e `delicati/`.
+- Divisione a 16 voci: normali 12 sessioni, 150 voci (32 alle onde dopo) · delicati 12 sessioni, 168 voci (4 bloccanti, 41 gravi; 113 alle onde dopo). Le due partono una dopo l'altra: i delicati si ridividono dall'integrazione dei normali (numeri R e fasce di migrazione oggi coincidono).
+- Preventivo dalle righe di misure.json con la stessa configurazione:
+  - normali, ultracode spento, regia corta (onde 7, 8, giro 1 e 4 dell'onda 9): circa 370 $ (300-480), circa 68 chiuse, circa 5,5 $ a chiusa (4,4-8).
+  - delicati, ultracode acceso (giro 3 e 5 dell'onda 9): circa 570 $ per 168 voci, circa 34 chiuse, circa 17 $ a chiusa → sopra 12 $, decide Nicola.
+  - Sessione riservata: tetto 25 $. Tetto della settimana 1.200 $, spesi circa 130 $.
+- `conti --preventivo` (solo l'ultima riga, giro 5 ultracode): 3,88 $ a voce, 707 $ sui normali: non usato, configurazione diversa.
+
+## Fermo su (dalla regia seconda)
+- Risposta di Nicola sulla riservatezza dei rami (storia del ramo della regia e dei 4 rami del ricontrollo).
+- Via di Nicola sul preventivo. Nessun riparatore aperto.
