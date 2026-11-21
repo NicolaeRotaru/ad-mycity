@@ -48,9 +48,10 @@ lo decide `dividi`, onda per onda; chi si scontra passa all'onda dopo, che parte
 
 > Nicola, 21/11: *«sì, scrivi le lezioni nelle misure e nella guida»*. Il conto, da `misure.json`: con
 > ultracode spento e la regia corta un difetto si chiude con 4-8 $ (onde 1, 4, 6, 7, 8, 8b e primo giro
-> dell'onda 9); con ultracode acceso con 12-27 $ (onda 2, giro del 19/11 in parte, terzo giro dell'onda 9).
-> Un avanzo non costa di più per forza: l'onda 8, quasi tutta avanzi, ha chiuso a 4,35 $. L'onda 9 è costata
-> circa 742 $ per 47 chiusi più 17 in attesa. La ricetta del 17/11
+> dell'onda 9); con ultracode acceso con 12-27 $ (onda 2, giro del 19/11 in parte, terzo giro dell'onda 9 a
+> 17,76 $).
+> Un avanzo non costa di più per forza: l'onda 8, quasi tutta avanzi, ha chiuso a 4,35 $. L'onda 9, fino al
+> terzo giro, è costata circa 745 $ per 62 chiusi: circa 12 $ l'uno. La ricetta del 17/11
 > (`consegne/audit/2026-11-17-costo-onda-5/ricetta.md`) diceva già quasi tutto: quattro punti su sei sono
 > saltati perché nessun programma li controllava.
 
@@ -58,7 +59,7 @@ lo decide `dividi`, onda per onda; chi si scontra passa all'onda dopo, che parte
    dalle righe di `misure.json` con la stessa configurazione (ultracode sì o no, delicati sì o no, regia
    corta o lunga), guidata da `casi_misurati_17_21_11`: `conti --preventivo` usa solo l'ultima riga «onda».
    Se supera 12 $, a Nicola va il numero, non solo il tetto. Il terzo giro dell'onda 9 è partito con un tetto
-   firmato (240 poi 280 $) ma senza il costo per chiusa: circa 15,50 $. Dopo due giri falliti la voce va a
+   firmato (240 poi 280 $) ma senza il costo per chiusa: 17,76 $. Dopo due giri falliti la voce va a
    Nicola (regola 8 del 15/11): nel terzo giro dodici voci al terzo tentativo sono rimaste dentro col suo sì,
    senza il numero davanti. *Solo testo: lo fa la regia, in F0, prima della FERMATA 1.*
 2. **Lotti da 12-16 voci, anche nei giri di correzione.** Il terzo giro ne ha date 21-22 a testa: 53 voci su 87
@@ -90,8 +91,9 @@ riparazioni prima che arrivassero al sito, perché rompevano altro, non reggevan
 gravi, una per giro (R03-019, R04-007, S01-001), tutte sulla scorta e sulla spunta del recesso in «Modifica
 prodotto».
 
-**Il fatto che non è una regola, in attesa di Nicola:** nelle onde 6-9 sono entrati nel registro almeno 108
-difetti nuovi contro 117 chiusi; le voci aperte sono 748, di cui 666 minori, 77 gravi e 5 bloccanti. Con
+**Il fatto che non è una regola, in attesa di Nicola:** nelle onde 6-9 sono entrati nel registro almeno 127
+difetti nuovi contro 132 chiusi, fino al terzo giro dell'onda 9; le voci aperte sono 751, di cui 669 minori, 77
+gravi e 5 bloccanti. Con
 `ad.uso-e-crediti` com'è oggi (il server si riaccende a zero difetti) il traguardo non arriva. Proposta dell'AD
 del 21/11: contare solo gravi e bloccanti (82), i minori quando li vede un cliente. Finché Nicola non firma,
 il fatto resta com'è.

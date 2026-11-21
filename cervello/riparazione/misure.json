@@ -1,6 +1,6 @@
 {
   "_cosa_e": "I tassi misurati delle campagne di riparazione. Il preventivo di un'onda si fa SOLO da qui (lezione 3 del 15/11), mai da un rimedio sperato. Si aggiunge una riga a ogni fase misurata; le righe vecchie non si riscrivono.",
-  "_aggiornato": "2026-11-21 02:20",
+  "_aggiornato": "2026-11-21 03:00",
   "calibrazione_limite": {
     "usd_per_punto": 30.5,
     "fonte": "Nicola 12/11 sera: onda 1 (610 $) = 20% del limite settimanale",
@@ -175,15 +175,18 @@
       "usd_per_voce_chiusa": 12.23
     },
     {
-      "fase": "in corso: onda 9 giro 3 (20-21/11)",
+      "fase": "onda 9 giro 3 (20-21/11)",
       "voci_lavorate": 89,
       "voci_che_reggono": 17,
-      "usd_finora": 263.77,
+      "voci_chiuse": 15,
+      "usd": 266.46,
       "usd_riparatori": 154.53,
-      "usd_collaudo_e_controllo": 77.33,
-      "usd_regia_finora": 31.91,
-      "usd_per_voce_che_regge": 15.52,
-      "nota": "Conto non chiuso: C03 al lavoro (tetto 10 $), regia 7.0 a 4,90 $ e ancora attiva, mycity#299 in bozza. Per questo la fase non comincia con «onda» e il preventivo non la legge: quando chiude si toglie «in corso: », usd_finora diventa usd e si scrivono le voci chiuse. Avanzi e delicati insieme: R01 11,14 + secondo 8,81 · R02 25,72 · R03 33,22 · R04 28,24 · R05 23,11 · S01 13,30 + secondo 10,99 $. 53 voci su 87 di R02-R05 mai toccate per il tetto (lotti da 21-22). Collaudi 77,33 $ contro un tetto di 44: circa 2 $ a verdetto, perché tutte le sessioni avevano ultracode e tre (R01, K01, K03) l hanno perso al riavvio e sono state rifatte. Regia 6.0 27,01 $.",
+      "usd_collaudo_e_controllo": 80.02,
+      "usd_regia": 31.91,
+      "usd_per_voce_lavorata": 2.99,
+      "usd_per_voce_chiusa": 17.76,
+      "nati": 19,
+      "nota": "Chiuso il 21/11: mycity#299 unita da Nicola alle 01:38, 15 chiusure, 19 nati. C03 2,69 $ (2 voci rosse). Regia 7.0 contata a 4,90 $, fino alle 01:25: il resto va al giro 4. Avanzi e delicati insieme: R01 11,14 + secondo 8,81 · R02 25,72 · R03 33,22 · R04 28,24 · R05 23,11 · S01 13,30 + secondo 10,99 $. 53 voci su 87 di R02-R05 mai toccate per il tetto (lotti da 21-22). Collaudi 77,33 $ contro un tetto di 44: circa 2 $ a verdetto, perché tutte le sessioni avevano ultracode e tre (R01, K01, K03) l hanno perso al riavvio e sono state rifatte. Regia 6.0 27,01 $.",
       "configurazione": "5 riparatori da 21-22 voci più una sessione dedicata alla scorta, ultracode su tutte, tetto firmato 240 poi 280 $"
     }
   ],
@@ -213,10 +216,10 @@
   },
   "casi_misurati_17_21_11": {
     "_cosa_e": "Quello che le onde 1-9 dicono sul costo di un difetto chiuso. È una correlazione su 11 fasi, non una prova: serve a fare il preventivo di un giro guardando le righe con la stessa configurazione (regola 1 del 21/11).",
-    "cosa_fa_salire_il_costo": "Ultracode spento e regia corta: 4-8 $ a chiusa (onde 1, 4, 6, 7, 8, 8b e giro 1 dell onda 9). Ultracode acceso: 12-27 $ (onda 2, giro del 19/11 in parte, giro 3). Eccezione: onda 5 a 23 $ con ultracode spento, perché le voci stavano in file di altri e 15 correzioni non sono passate dal collaudo.",
-    "avanzi": "Un avanzo non costa di più per forza: l onda 8, quasi tutta avanzi con i file in mano, ha chiuso il 60% delle voci a 4,35 $. Costa di più quando il file è di un altro (onda 5) o quando arriva insieme ai delicati e all ultracode (giro 3, 15,52 $ per voce che regge).",
+    "cosa_fa_salire_il_costo": "Ultracode spento e regia corta: 4-8 $ a chiusa (onde 1, 4, 6, 7, 8, 8b e giro 1 dell onda 9). Ultracode acceso: 12-27 $ (onda 2, giro del 19/11 in parte, giro 3 a 17,76 $). Eccezione: onda 5 a 23 $ con ultracode spento, perché le voci stavano in file di altri e 15 correzioni non sono passate dal collaudo.",
+    "avanzi": "Un avanzo non costa di più per forza: l onda 8, quasi tutta avanzi con i file in mano, ha chiuso il 60% delle voci a 4,35 $. Costa di più quando il file è di un altro (onda 5) o quando arriva insieme ai delicati e all ultracode (giro 3, 17,76 $ a chiusa).",
     "regia_quota_misurata": "0,20 dell onda 9 (151,36 su 742,50 $): 0,63 $ per voce data, contro il tetto di 0,25 $ della ricetta del 17/11. Il 19/11 da sola il 30%.",
     "collaudo_usd_per_verdetto": "0,49 (giro 1) · 1,05 (19/11) · circa 2 (giro 3, ultracode e sessioni rifatte), contro 0,4-0,5 della ricetta",
-    "nati_contro_chiusi": "onde 6-9: almeno 108 nati contro 117 chiusi. Il registro non cala: 727 aperte prima delle chiusure dell onda 9, 748 dopo."
+    "nati_contro_chiusi": "onde 6-9 fino al giro 3: almeno 127 nati contro 132 chiusi. Il registro non cala: 727 aperte prima delle chiusure dell onda 9, 751 dopo il giro 3 (669 minori, 77 gravi, 5 bloccanti)."
   }
 }
