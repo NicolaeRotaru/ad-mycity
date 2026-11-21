@@ -66,3 +66,4 @@ Quante voci risulteranno sparite: lo dicono i referti delle 4 sessioni.
 - 2026-11-22 00:33 piano R06 approvato; tolte R06-010 (documento d'identità): ai delicati; R06-008 (ritiro in negozio, quarto giro): a Nicola.
 - 2026-11-22 00:34 piano R07 approvato; tolta R07-008 (annullo ordine, merce rimessa in vendita): ai delicati.
 - 2026-11-22 00:35 piano R08 approvato; tolta R08-002 (filtro dati personali del filmato): ai delicati.
+- 2026-11-22 00:36 piano R09 approvato; tolta R09-010 (oscurare dati personali nei log): ai delicati.
