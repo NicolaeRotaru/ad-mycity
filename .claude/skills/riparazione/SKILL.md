@@ -92,12 +92,11 @@ riparazioni prima che arrivassero al sito, perché rompevano altro, non reggevan
 gravi, una per giro (R03-019, R04-007, S01-001), tutte sulla scorta e sulla spunta del recesso in «Modifica
 prodotto».
 
-**Il fatto che non è una regola, in attesa di Nicola:** nelle onde 6-9 sono entrati nel registro almeno 127
-difetti nuovi contro 132 chiusi, fino al terzo giro dell'onda 9; le voci aperte sono 751, di cui 669 minori, 77
-gravi e 5 bloccanti. Con
-`ad.uso-e-crediti` com'è oggi (il server si riaccende a zero difetti) il traguardo non arriva. Proposta dell'AD
-del 21/11: contare solo gravi e bloccanti (82), i minori quando li vede un cliente. Finché Nicola non firma,
-il fatto resta com'è.
+**Il traguardo, deciso da Nicola il 21/11:** la macchina si riaccende solo quando sono risolti tutti i
+difetti, minori compresi («devono essere risolti tutti prima di accendere la macchina», fatto
+`ad.uso-e-crediti`). La proposta di contare solo gravi e bloccanti è respinta. Il conto da battere: nelle
+onde 6-9 sono entrati nel registro almeno 127 difetti nuovi contro 132 chiusi, e le voci aperte sono 751 (669
+minori, 77 gravi, 5 bloccanti). Il numero scende solo se ogni giro chiude più voci di quante ne nascono.
 
 ## Le regole del 15/11 — le lezioni delle onde 1 e 2 (valgono SOPRA le sezioni più vecchie che le contraddicono)
 
