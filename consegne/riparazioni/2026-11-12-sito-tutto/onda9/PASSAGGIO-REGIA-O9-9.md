@@ -1,7 +1,7 @@
 ---
 data: 2026-11-21 03:02
 tipo: passaggio di regia
-da: «Ondata 9 · 8.0» (session_015BmpnX37gUC8Poxk3muVMa), a 253 mila token (regola 3 del 21/11)
+da: «Ondata 9 · 8.0», session_015BmpnX37gUC8Poxk3muVMa. Passa la mano a 253 mila token, per la regola 3 del 21/11.
 a: «Ondata 9 · 9.0»
 ---
 
@@ -18,12 +18,12 @@ Niente: Nicola scrive alla 9.0 come scriveva alla 8.0.
 ## Cosa devi fare
 1. Dire ai quattro riparatori il tuo id (le risposte arrivano alla 8.0 finché non lo sanno).
 2. La catena di sorveglianza della 8.0 (`trig_01YX157iitNbqVSBra94Hdpj`, 03:04) la cancella la 8.0: la 9.0 ne apre una sua a 30 minuti.
-3. Sorvegliare R01-R04 (tetto 35 $), a «finita» i collaudi; dopo l'onda 1 la riservata (dettagli in chat dalla 8.0).
+3. Sorvegliare R01-R04: il tetto è 35 $ ciascuno. A «finita» si aprono i collaudi. Dopo l'onda 1 parte la riservata: i dettagli li manda la 8.0 in chat.
 4. Unione, verify, harness SQL, controllore, PR in bozza: come il giro 3 (skill `riparazione`, F3, sul ramo `claude/stoic-ramanujan-p9tmso`).
 
 ## Cosa non ho verificato
 - Il codice dei riparatori: solo la guardia, nessun referto ancora finito.
-- Il conto dei difetti aperti: `radiografia-marketplace.json` filtrato a mano dice 824 (729 minori, 90 gravi, 5 bloccanti), la skill dice 751 (669/77/5). Va rifatto con `conti` o con lo strumento giusto prima di dare numeri a Nicola.
+- Il conto dei difetti aperti non torna. Il registro `radiografia-marketplace.json`, filtrato a mano, dice 824: 729 minori, 90 gravi, 5 bloccanti. La skill dice 751: 669, 77 e 5. Va rifatto con lo strumento giusto prima di dare numeri a Nicola.
 
 ---
 
