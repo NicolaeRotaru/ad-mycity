@@ -58,3 +58,7 @@
 2026-11-21 04:45 · regia 11.0 ferma dalle 04:29 su un permesso «Add Repo» che solo Nicola può dare (dorme): interrotta e archiviata; la regia resta alla 10.0
 2026-11-21 04:45 · R03 · punta dedbe1c3, R03-018 parziale senza commit · valida-referto ✅ · guardia ✅ · passata a K02 secondo
 2026-11-21 04:45 · K02 secondo · in lavoro su R04 e R03, ultracode attivo, 16,89 $
+2026-11-21 04:47 · K02 secondo: R04 5 reggono su 10 (4 parziali, R04-010 non regge); R03 14 reggono su 19 (3 parziali, R03-014 non regge, R03-019 rompe_altro con R04-021: veloce in contanti bloccata con un fattorino solo); 16,89 $
+2026-11-21 04:52 · integrazione claude/stoic-ramanujan-p9tmso (sito) da 2d19787b: R01-R04 uniti senza conflitti; tolti col loro commit R03-019, R03-014, R04-010
+2026-11-21 04:55 · harness SQL: 210 migrazioni applicate, 0 fallite; run.sh tutti verdi · verify in corso
+2026-11-21 04:56 · applica a vuoto: 88 voci, 20 si chiudono dopo l'unione, 14 già riparate, 54 aperte, 23 nati · spesa giro 4: riparatori 110,65 $ + collaudi 31,62 $ = 142,27 $ (≈ 4,2 $ per chiusa)
