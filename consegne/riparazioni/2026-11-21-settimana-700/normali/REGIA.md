@@ -1,0 +1,1 @@
+- 2026-11-21 19:37 · preventivo (conti --preventivo): 182 voci × 3.88 $ = stima 706.88 $ · tetto 918.94 $ · massimo 1416.81 $ (collaudo 106.03 $, regia 70.69 $ dentro; misure.json, fase «onda 9 giro 5, correzione del giro 4 (21/11 notte)»)

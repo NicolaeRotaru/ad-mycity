@@ -38,6 +38,10 @@ test("le schede dei riparatori restano vive", () => {
   assert.equal(esente("consegne/riparazioni/2026-11-12-sito-tutto/piano.json", []), false);
   assert.equal(esente("consegne/riparazioni/2026-11-12-sito-tutto/onda6/schede/R02.md", []), false);
   assert.equal(esente("consegne/riparazioni/2026-11-12-sito-tutto/onda9/giro4/schede/R01.md", []), false);
+  // 21/11: la fotocopia della radiografia in sessioni (ricontrollo, #990) è esente, il resto della cartella no.
+  assert.equal(esente("consegne/radiografia/2026-11-21-ricontrollo/registro-compatto.txt", []), true);
+  assert.equal(esente("consegne/radiografia/2026-11-21-ricontrollo/piano.json", []), false);
+  assert.equal(esente("consegne/radiografia/2026-11-21-ricontrollo/schede/S01.md", []), false);
 });
 
 test("lo stesso nome fuori posto non è esente", () => {
