@@ -1,0 +1,239 @@
+{
+  "casa": "sito",
+  "profilo": "scelta",
+  "creato": "2026-11-21 04:52",
+  "registro": "MyCity-Vault/90-Memoria-AI/auto-coscienza/radiografia-marketplace.json",
+  "deposito": "NicolaeRotaru/mycity",
+  "base": "0f98fb8a372c6f31bcda8ca3c2ef4385c9c21b23",
+  "filtri": {
+    "gravita": null,
+    "dimensioni": null,
+    "chiavi": 20,
+    "nati_dal": null,
+    "diff": null,
+    "anche_umani": false,
+    "anche_rimandati": false
+  },
+  "conti": {
+    "aperti": 751,
+    "nel_filtro": 20,
+    "lavorabili": 20,
+    "riservate": 0,
+    "domande": 0,
+    "rimandati": 0,
+    "umani": 0,
+    "sospese": 0,
+    "senza_percorso": 0
+  },
+  "lavorabili": [
+    {
+      "chiave": "architettura|la regola che vieta i tipi «qualunque» non è accesa: 46 sono passati, e 40 permessi di saltare il controllo non saltano niente",
+      "titolo": "La regola che vieta i tipi «qualunque» non è accesa: 46 sono passati, e 40 permessi di saltare il controllo non saltano niente",
+      "gravita": "minore",
+      "dimensione": "architettura",
+      "file": [
+        ".eslintrc.json",
+        "tsconfig.json"
+      ]
+    },
+    {
+      "chiave": "architettura|l'elenco delle librerie dichiara una libreria mai usata e ne usa una che non dichiara, e il lint gira con un comando che next 16 toglie",
+      "titolo": "L'elenco delle librerie dichiara una libreria mai usata e ne usa una che non dichiara, e il lint gira con un comando che Next 16 toglie",
+      "gravita": "minore",
+      "dimensione": "architettura",
+      "file": [
+        "package.json",
+        ".eslintrc.json"
+      ]
+    },
+    {
+      "chiave": "architettura|se sulla macchina delle prove manca postgres, sette file di prova si saltano in silenzio e la verifica esce verde lo stesso",
+      "titolo": "Se sulla macchina delle prove manca Postgres, sette file di prova si saltano in silenzio e la verifica esce verde lo stesso",
+      "gravita": "minore",
+      "dimensione": "architettura",
+      "file": [
+        "tests/unit/postgres-usa-e-getta.ts",
+        "tests/unit/un-invito-scritto-a-mano-non-paga.test.ts",
+        ".github/workflows/ci.yml"
+      ]
+    },
+    {
+      "chiave": "frontend-ux|le modifiche ai dettagli del negozio e al profilo si perdono uscendo, senza nessun avviso",
+      "titolo": "Le modifiche ai dettagli del negozio e al profilo si perdono uscendo, senza nessun avviso",
+      "gravita": "minore",
+      "dimensione": "frontend-ux",
+      "file": [
+        "components/seller/site/StoreDetailsEditor.tsx",
+        "components/VendorForm.tsx",
+        "app/seller/profile/page.tsx"
+      ]
+    },
+    {
+      "chiave": "layout-responsive|col testo ingrandito al massimo sul telefono, le pagine pubbliche scorrono di lato per colpa del piè di pagina",
+      "titolo": "Col testo ingrandito al massimo sul telefono, le pagine pubbliche scorrono di lato per colpa del piè di pagina",
+      "gravita": "minore",
+      "dimensione": "layout-responsive",
+      "file": [
+        "components/Footer.tsx",
+        "app/lavora-con-noi/page.tsx",
+        "app/returns/page.tsx",
+        "app/faq/page.tsx"
+      ]
+    },
+    {
+      "chiave": "deploy-sre|la costruzione del sito dipende dal download dei caratteri da google e ogni tanto fallisce da sola",
+      "titolo": "La costruzione del sito dipende dal download dei caratteri da Google e ogni tanto fallisce da sola",
+      "gravita": "minore",
+      "dimensione": "deploy-sre",
+      "file": [
+        "app/layout.tsx",
+        ".github/workflows/ci.yml"
+      ]
+    },
+    {
+      "chiave": "frontend-ux|con una promozione attiva la barra d'acquisto e i caroselli mostrano il prezzo pieno, mentre sopra c'è quello scontato",
+      "titolo": "Con una promozione attiva la barra d'acquisto e i caroselli mostrano il prezzo pieno, mentre sopra c'è quello scontato",
+      "gravita": "minore",
+      "dimensione": "frontend-ux",
+      "file": [
+        "components/StickyAddToCart.tsx"
+      ]
+    },
+    {
+      "chiave": "frontend-ux|incollare il link di instagram o scrivere il sito senza https blocca il salvataggio di tutta la vetrina con un messaggio che non dice dove",
+      "titolo": "Incollare il link di Instagram o scrivere il sito senza https blocca il salvataggio di tutta la vetrina con un messaggio che non dice dove",
+      "gravita": "minore",
+      "dimensione": "frontend-ux",
+      "file": [
+        "components/seller/SocialLinksFields.tsx",
+        "lib/store-customization.ts",
+        "components/VendorForm.tsx",
+        "components/seller/CustomizationSection.tsx"
+      ]
+    },
+    {
+      "chiave": "architettura|gli strumenti degli sviluppatori portano altre 19 falle note, 10 alte, ma nessuna arriva al sito",
+      "titolo": "Gli strumenti degli sviluppatori portano altre 19 falle note, 10 alte, ma nessuna arriva al sito",
+      "gravita": "minore",
+      "dimensione": "architettura",
+      "file": [
+        "package-lock.json"
+      ]
+    },
+    {
+      "chiave": "mobile-pwa|il manifest blocca l'app in verticale e non ha le schermate per la finestra d'installazione",
+      "titolo": "Il manifest blocca l'app in verticale e non ha le schermate per la finestra d'installazione",
+      "gravita": "minore",
+      "dimensione": "mobile-pwa",
+      "file": [
+        "public/manifest.json"
+      ]
+    },
+    {
+      "chiave": "qa-flussi|buco nelle prove del carrello: alcune mutanti del collaudo sul conto della consegna restano verdi",
+      "titolo": "Buco nelle prove del carrello: alcune mutanti del collaudo sul conto della consegna restano verdi",
+      "gravita": "minore",
+      "dimensione": "qa-flussi",
+      "file": [
+        "app/cart/page.tsx"
+      ]
+    },
+    {
+      "chiave": "frontend-ux|il controllo sul taglio dei campi di testo del costruttore della home tronca ancora titoli e sottotitoli in silenzio",
+      "titolo": "Il controllo sul taglio dei campi di testo del costruttore della home tronca ancora titoli e sottotitoli in silenzio",
+      "gravita": "minore",
+      "dimensione": "frontend-ux",
+      "file": [
+        "components/admin/home/HomeSectionConfigForm.tsx"
+      ]
+    },
+    {
+      "chiave": "architettura|il generatore dei tipi scrive le colonne array (text[], uuid[]) come string invece di string[]",
+      "titolo": "Il generatore dei tipi scrive le colonne array (text[], uuid[]) come string invece di string[]",
+      "gravita": "minore",
+      "dimensione": "architettura",
+      "file": [
+        "scripts/gen-db-types.mjs"
+      ]
+    },
+    {
+      "chiave": "frontend-ux|il link delle storie rifiuta l'indirizzo intero del sito stesso (https://<dominio>/promozioni), che è quello che il negoziante copia dalla barra",
+      "titolo": "Il link delle storie rifiuta l'indirizzo intero del sito stesso (https://<dominio>/promozioni), che è quello che il negoziante copia dalla barra",
+      "gravita": "minore",
+      "dimensione": "frontend-ux",
+      "file": [
+        "app/seller/stories/page.tsx"
+      ]
+    },
+    {
+      "chiave": "frontend-ux|dopo un salvataggio, il blocco di testo della vetrina mostra «&amp;» al posto di «&» (e «&lt;» al posto di «<»)",
+      "titolo": "dopo un salvataggio, il blocco di testo della vetrina mostra «&amp;» al posto di «&» (e «&lt;» al posto di «<»)",
+      "gravita": "minore",
+      "dimensione": "frontend-ux",
+      "file": [
+        "components/seller/site/SectionConfigForm.tsx"
+      ]
+    },
+    {
+      "chiave": "deploy-sre|un'ultima prova ordina ancora le migrazioni con l'ordine vecchio",
+      "titolo": "Un'ultima prova ordina ancora le migrazioni con l'ordine vecchio",
+      "gravita": "minore",
+      "dimensione": "deploy-sre",
+      "file": [
+        "tests/unit/le-migrazioni-a-mano-partono-solo-con-la-conferma.test.ts"
+      ]
+    },
+    {
+      "chiave": "architettura|una quinta copia scritta a mano del finto clienteavvisi nelle prove degli avvisi",
+      "titolo": "Una quinta copia scritta a mano del finto ClienteAvvisi nelle prove degli avvisi",
+      "gravita": "minore",
+      "dimensione": "architettura",
+      "file": [
+        "tests/unit/minori-s08-avvisi.test.ts"
+      ]
+    },
+    {
+      "chiave": "stati-ui|campanello del negozio non azzerato se la rilettura dopo «segna tutte come lette» cade",
+      "titolo": "campanello del negozio non azzerato se la rilettura dopo «Segna tutte come lette» cade",
+      "gravita": "minore",
+      "dimensione": "stati-ui",
+      "file": [
+        "components/seller/SellerShell.tsx"
+      ]
+    },
+    {
+      "chiave": "frontend-ux|nella finestra dei reclami, i dati del pagamento vecchi non danno avviso",
+      "titolo": "Nella finestra dei reclami, i dati del pagamento vecchi non danno avviso",
+      "gravita": "minore",
+      "dimensione": "frontend-ux",
+      "file": [
+        "app/admin/disputes/page.tsx"
+      ]
+    },
+    {
+      "chiave": "qa-flussi|l etichetta «rimborso (€)» non è collegata al suo campo",
+      "titolo": "L etichetta «Rimborso (€)» non è collegata al suo campo",
+      "gravita": "minore",
+      "dimensione": "qa-flussi",
+      "file": [
+        "app/admin/disputes/page.tsx"
+      ]
+    }
+  ],
+  "fuori": {
+    "riservate": [],
+    "domande": [],
+    "rimandati": [],
+    "umani": [],
+    "sospese": [],
+    "senza_percorso": []
+  },
+  "percorsi_spariti": [
+    {
+      "chiave": "frontend-ux|il controllo sul taglio dei campi di testo del costruttore della home tronca ancora titoli e sottotitoli in silenzio",
+      "file": [
+        "BannerFields.tsx"
+      ]
+    }
+  ]
+}

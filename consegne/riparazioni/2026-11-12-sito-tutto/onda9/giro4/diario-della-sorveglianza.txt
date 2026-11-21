@@ -62,3 +62,5 @@
 2026-11-21 04:52 · integrazione claude/stoic-ramanujan-p9tmso (sito) da 2d19787b: R01-R04 uniti senza conflitti; tolti col loro commit R03-019, R03-014, R04-010
 2026-11-21 04:55 · harness SQL: 210 migrazioni applicate, 0 fallite; run.sh tutti verdi · verify in corso
 2026-11-21 04:56 · applica a vuoto: 88 voci, 20 si chiudono dopo l'unione, 14 già riparate, 54 aperte, 23 nati · spesa giro 4: riparatori 110,65 $ + collaudi 31,62 $ = 142,27 $ (≈ 4,2 $ per chiusa)
+2026-11-21 04:53 · C04 aperto (session_015BmpnXKo33YzvVFzsQLFiR, tetto 10 $) sull'integrazione 0f98fb8a
+2026-11-21 05:00 · giro di correzione preparato: giro5d (19 delicate: soldi, annulli, cancellazioni, rilascio) e giro5m (20 non delicate), base 0f98fb8a, 2+2 sessioni da 9-10 voci, nessun file in comune; fuori 7 voci (2 legate alla scelta di Nicola su Sentry, 1 alla riservata, 4 rifacimenti larghi da sessione dedicata) e 6 in attesa di scelte o firme di Nicola

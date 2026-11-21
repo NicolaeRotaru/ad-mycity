@@ -1,0 +1,212 @@
+{
+  "casa": "sito",
+  "profilo": "scelta",
+  "creato": "2026-11-21 04:52",
+  "registro": "MyCity-Vault/90-Memoria-AI/auto-coscienza/radiografia-marketplace.json",
+  "deposito": "NicolaeRotaru/mycity",
+  "base": "0f98fb8a372c6f31bcda8ca3c2ef4385c9c21b23",
+  "filtri": {
+    "gravita": null,
+    "dimensioni": null,
+    "chiavi": 19,
+    "nati_dal": null,
+    "diff": null,
+    "anche_umani": false,
+    "anche_rimandati": false
+  },
+  "conti": {
+    "aperti": 751,
+    "nel_filtro": 19,
+    "lavorabili": 19,
+    "riservate": 0,
+    "domande": 0,
+    "rimandati": 0,
+    "umani": 0,
+    "sospese": 0,
+    "senza_percorso": 0
+  },
+  "lavorabili": [
+    {
+      "chiave": "deploy-sre|la notifica sul telefono per un nuovo ordine arriva fino a 5 minuti dopo, non in pochi secondi",
+      "titolo": "La notifica sul telefono per un nuovo ordine arriva fino a 5 minuti dopo, non in pochi secondi",
+      "gravita": "minore",
+      "dimensione": "deploy-sre",
+      "file": [
+        "app/api/cron/send-push/route.ts"
+      ]
+    },
+    {
+      "chiave": "deploy-sre|il cancello delle migrazioni promette di confrontare il contenuto ma confronta solo i nomi, e registra in un passo separato",
+      "titolo": "Il cancello delle migrazioni promette di confrontare il contenuto ma confronta solo i nomi, e registra in un passo separato",
+      "gravita": "minore",
+      "dimensione": "deploy-sre",
+      "file": [
+        "scripts/check-migration-drift.mjs",
+        "scripts/applica-migrazioni-mancanti.sh"
+      ]
+    },
+    {
+      "chiave": "architettura|email di annullo spedita dentro la richiesta, senza coda: fino a circa 20 s di attesa, e se fallisce resta solo nel registro",
+      "titolo": "Email di annullo spedita dentro la richiesta, senza coda: fino a circa 20 s di attesa, e se fallisce resta solo nel registro",
+      "gravita": "minore",
+      "dimensione": "architettura",
+      "file": [
+        "lib/ordini/annulla.ts",
+        "app/api/cron/expire-stale-orders/route.ts"
+      ]
+    },
+    {
+      "chiave": "architettura|il carrello in contanti si ritrova solo dalla tabella contro il doppio clic: senza quella riga la regola del negozio che rifiuta non scatta e nessuno lo sa",
+      "titolo": "Il carrello in contanti si ritrova solo dalla tabella contro il doppio clic: senza quella riga la regola del negozio che rifiuta non scatta e nessuno lo sa",
+      "gravita": "minore",
+      "dimensione": "architettura",
+      "file": [
+        "lib/ordini/annulla.ts"
+      ]
+    },
+    {
+      "chiave": "architettura|carrello di più negozi: se cade la scrittura del secondo ordine, il primo resta spostato in silenzio",
+      "titolo": "Carrello di più negozi: se cade la scrittura del secondo ordine, il primo resta spostato in silenzio",
+      "gravita": "minore",
+      "dimensione": "architettura",
+      "file": [
+        "lib/ordini/veloce-non-confermata.ts"
+      ]
+    },
+    {
+      "chiave": "architettura|una fascia «domani» inviata alle 23:59 e arrivata alla rotta dopo mezzanotte si giudica sul giorno dopo",
+      "titolo": "Una fascia «Domani» inviata alle 23:59 e arrivata alla rotta dopo mezzanotte si giudica sul giorno dopo",
+      "gravita": "minore",
+      "dimensione": "architettura",
+      "file": [
+        "lib/store-hours.ts"
+      ]
+    },
+    {
+      "chiave": "deploy-sre|il ritorno indietro può ancora scegliere il rilascio sbagliato in due casi rari: un solo altro commit negli ultimi 20 rilasci, o un dominio che non dice il suo commit",
+      "titolo": "Il ritorno indietro può ancora scegliere il rilascio sbagliato in due casi rari: un solo altro commit negli ultimi 20 rilasci, o un dominio che non dice il suo commit",
+      "gravita": "minore",
+      "dimensione": "deploy-sre",
+      "file": [
+        "scripts/prova-di-fumo.mjs"
+      ]
+    },
+    {
+      "chiave": "flussi-conversione|la scheda prodotto promette «paghi alla consegna» anche sopra il tetto dei contanti",
+      "titolo": "La scheda prodotto promette «paghi alla consegna» anche sopra il tetto dei contanti",
+      "gravita": "minore",
+      "dimensione": "flussi-conversione",
+      "file": [
+        "app/product/[id]/page.tsx"
+      ]
+    },
+    {
+      "chiave": "api-backend|se il servizio di posta conserva anche le risposte d'errore, una promozione mai partita risulta spedita",
+      "titolo": "Se il servizio di posta conserva anche le risposte d'errore, una promozione mai partita risulta spedita",
+      "gravita": "minore",
+      "dimensione": "api-backend",
+      "file": [
+        "lib/email/client.ts"
+      ]
+    },
+    {
+      "chiave": "api-backend|la chiusura dell allarme «scrivile tu» legge al massimo 200 avvisi senza ordine né filtro: oltre 200, quelli aperti possono restare fuori",
+      "titolo": "la chiusura dell allarme «scrivile tu» legge al massimo 200 avvisi senza ordine né filtro: oltre 200, quelli aperti possono restare fuori",
+      "gravita": "minore",
+      "dimensione": "api-backend",
+      "file": [
+        "app/api/cron/process-deletions/route.ts"
+      ]
+    },
+    {
+      "chiave": "api-backend|il tetto di tempo delle email della notte parte dall inizio del giro, e il ciclo delle cancellazioni resta senza tetto: con una notte lunga non parte nessuna email e non c è allarme",
+      "titolo": "il tetto di tempo delle email della notte parte dall inizio del giro, e il ciclo delle cancellazioni resta senza tetto: con una notte lunga non parte nessuna email e non c è allarme",
+      "gravita": "minore",
+      "dimensione": "api-backend",
+      "file": [
+        "app/api/cron/process-deletions/route.ts"
+      ]
+    },
+    {
+      "chiave": "architettura|la funzione della spedizione in centesimi accetta ancora i sette ingressi che non servono",
+      "titolo": "La funzione della spedizione in centesimi accetta ancora i sette ingressi che non servono",
+      "gravita": "minore",
+      "dimensione": "architettura",
+      "file": [
+        "lib/shipping.ts"
+      ]
+    },
+    {
+      "chiave": "qa-flussi|un cliente che esiste già non ha una strada da solo per diventare fattorino",
+      "titolo": "Un cliente che esiste già non ha una strada da solo per diventare fattorino",
+      "gravita": "minore",
+      "dimensione": "qa-flussi",
+      "file": [
+        "app/help/page.tsx"
+      ]
+    },
+    {
+      "chiave": "api-backend|con la carta, se la cassa cade dopo la rivendicazione del benvenuto, il codice resta bloccato fino a 2 minuti",
+      "titolo": "Con la carta, se la cassa cade dopo la rivendicazione del benvenuto, il codice resta bloccato fino a 2 minuti",
+      "gravita": "minore",
+      "dimensione": "api-backend",
+      "file": [
+        "app/api/stripe/checkout/route.ts"
+      ]
+    },
+    {
+      "chiave": "api-backend|la chiusura della rivendicazione del benvenuto non è limitata al tentativo in corso",
+      "titolo": "La chiusura della rivendicazione del benvenuto non è limitata al tentativo in corso",
+      "gravita": "minore",
+      "dimensione": "api-backend",
+      "file": [
+        "app/api/orders/cod/route.ts"
+      ]
+    },
+    {
+      "chiave": "api-backend|cancellazione utente e annullo ordine dell'amministrazione rispondono 500 senza scrivere nel registro",
+      "titolo": "Cancellazione utente e annullo ordine dell'amministrazione rispondono 500 senza scrivere nel registro",
+      "gravita": "minore",
+      "dimensione": "api-backend",
+      "file": [
+        "app/api/admin/users/[id]/delete/route.ts"
+      ]
+    },
+    {
+      "chiave": "qa-flussi|nella scheda utente dell'amministrazione i dati del negozio mostrano «—» mentre si caricano",
+      "titolo": "Nella scheda utente dell'amministrazione i dati del negozio mostrano «—» mentre si caricano",
+      "gravita": "minore",
+      "dimensione": "qa-flussi",
+      "file": [
+        "app/admin/users/page.tsx"
+      ]
+    },
+    {
+      "chiave": "api-backend|all'assistenza la stessa chiave con un testo diverso fa perdere il secondo testo in silenzio",
+      "titolo": "All'assistenza la stessa chiave con un testo diverso fa perdere il secondo testo in silenzio",
+      "gravita": "minore",
+      "dimensione": "api-backend",
+      "file": [
+        "app/api/support/conversation/route.ts"
+      ]
+    },
+    {
+      "chiave": "api-backend|il codice di benvenuto restituito dopo un rifiuto della carta resta bloccato al tentativo dopo",
+      "titolo": "Il codice di benvenuto restituito dopo un rifiuto della carta resta bloccato al tentativo dopo",
+      "gravita": "minore",
+      "dimensione": "api-backend",
+      "file": [
+        "app/api/stripe/checkout/route.ts"
+      ]
+    }
+  ],
+  "fuori": {
+    "riservate": [],
+    "domande": [],
+    "rimandati": [],
+    "umani": [],
+    "sospese": [],
+    "senza_percorso": []
+  },
+  "percorsi_spariti": []
+}

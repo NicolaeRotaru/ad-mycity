@@ -1,0 +1,281 @@
+{
+  "casa": "sito",
+  "profilo": "scelta",
+  "creato": "2026-11-21 04:52",
+  "onde": [
+    {
+      "onda": 1,
+      "base": "0f98fb8a372c6f31bcda8ca3c2ef4385c9c21b23",
+      "creata": "2026-11-21 04:52",
+      "per_sessione": 12,
+      "candidate": [
+        "architettura|la regola che vieta i tipi «qualunque» non è accesa: 46 sono passati, e 40 permessi di saltare il controllo non saltano niente",
+        "architettura|l'elenco delle librerie dichiara una libreria mai usata e ne usa una che non dichiara, e il lint gira con un comando che next 16 toglie",
+        "architettura|se sulla macchina delle prove manca postgres, sette file di prova si saltano in silenzio e la verifica esce verde lo stesso",
+        "frontend-ux|le modifiche ai dettagli del negozio e al profilo si perdono uscendo, senza nessun avviso",
+        "layout-responsive|col testo ingrandito al massimo sul telefono, le pagine pubbliche scorrono di lato per colpa del piè di pagina",
+        "deploy-sre|la costruzione del sito dipende dal download dei caratteri da google e ogni tanto fallisce da sola",
+        "frontend-ux|con una promozione attiva la barra d'acquisto e i caroselli mostrano il prezzo pieno, mentre sopra c'è quello scontato",
+        "frontend-ux|incollare il link di instagram o scrivere il sito senza https blocca il salvataggio di tutta la vetrina con un messaggio che non dice dove",
+        "architettura|gli strumenti degli sviluppatori portano altre 19 falle note, 10 alte, ma nessuna arriva al sito",
+        "mobile-pwa|il manifest blocca l'app in verticale e non ha le schermate per la finestra d'installazione",
+        "qa-flussi|buco nelle prove del carrello: alcune mutanti del collaudo sul conto della consegna restano verdi",
+        "frontend-ux|il controllo sul taglio dei campi di testo del costruttore della home tronca ancora titoli e sottotitoli in silenzio",
+        "architettura|il generatore dei tipi scrive le colonne array (text[], uuid[]) come string invece di string[]",
+        "frontend-ux|il link delle storie rifiuta l'indirizzo intero del sito stesso (https://<dominio>/promozioni), che è quello che il negoziante copia dalla barra",
+        "frontend-ux|dopo un salvataggio, il blocco di testo della vetrina mostra «&amp;» al posto di «&» (e «&lt;» al posto di «<»)",
+        "deploy-sre|un'ultima prova ordina ancora le migrazioni con l'ordine vecchio",
+        "architettura|una quinta copia scritta a mano del finto clienteavvisi nelle prove degli avvisi",
+        "stati-ui|campanello del negozio non azzerato se la rilettura dopo «segna tutte come lette» cade",
+        "frontend-ux|nella finestra dei reclami, i dati del pagamento vecchi non danno avviso",
+        "qa-flussi|l etichetta «rimborso (€)» non è collegata al suo campo"
+      ],
+      "sessioni": {
+        "R01": {
+          "tema": "architettura",
+          "voci": [
+            {
+              "id": "R01-001",
+              "chiave": "architettura|la regola che vieta i tipi «qualunque» non è accesa: 46 sono passati, e 40 permessi di saltare il controllo non saltano niente",
+              "gravita": "minore",
+              "titolo": "La regola che vieta i tipi «qualunque» non è accesa: 46 sono passati, e 40 permessi di saltare il controllo non saltano niente",
+              "file": [
+                ".eslintrc.json",
+                "tsconfig.json"
+              ]
+            },
+            {
+              "id": "R01-002",
+              "chiave": "architettura|se sulla macchina delle prove manca postgres, sette file di prova si saltano in silenzio e la verifica esce verde lo stesso",
+              "gravita": "minore",
+              "titolo": "Se sulla macchina delle prove manca Postgres, sette file di prova si saltano in silenzio e la verifica esce verde lo stesso",
+              "file": [
+                "tests/unit/postgres-usa-e-getta.ts",
+                "tests/unit/un-invito-scritto-a-mano-non-paga.test.ts",
+                ".github/workflows/ci.yml"
+              ]
+            },
+            {
+              "id": "R01-003",
+              "chiave": "architettura|gli strumenti degli sviluppatori portano altre 19 falle note, 10 alte, ma nessuna arriva al sito",
+              "gravita": "minore",
+              "titolo": "Gli strumenti degli sviluppatori portano altre 19 falle note, 10 alte, ma nessuna arriva al sito",
+              "file": [
+                "package-lock.json"
+              ]
+            },
+            {
+              "id": "R01-004",
+              "chiave": "architettura|l'elenco delle librerie dichiara una libreria mai usata e ne usa una che non dichiara, e il lint gira con un comando che next 16 toglie",
+              "gravita": "minore",
+              "titolo": "L'elenco delle librerie dichiara una libreria mai usata e ne usa una che non dichiara, e il lint gira con un comando che Next 16 toglie",
+              "file": [
+                "package.json",
+                ".eslintrc.json"
+              ]
+            },
+            {
+              "id": "R01-005",
+              "chiave": "architettura|il generatore dei tipi scrive le colonne array (text[], uuid[]) come string invece di string[]",
+              "gravita": "minore",
+              "titolo": "Il generatore dei tipi scrive le colonne array (text[], uuid[]) come string invece di string[]",
+              "file": [
+                "scripts/gen-db-types.mjs"
+              ]
+            },
+            {
+              "id": "R01-006",
+              "chiave": "architettura|una quinta copia scritta a mano del finto clienteavvisi nelle prove degli avvisi",
+              "gravita": "minore",
+              "titolo": "Una quinta copia scritta a mano del finto ClienteAvvisi nelle prove degli avvisi",
+              "file": [
+                "tests/unit/minori-s08-avvisi.test.ts"
+              ]
+            },
+            {
+              "id": "R01-007",
+              "chiave": "deploy-sre|la costruzione del sito dipende dal download dei caratteri da google e ogni tanto fallisce da sola",
+              "gravita": "minore",
+              "titolo": "La costruzione del sito dipende dal download dei caratteri da Google e ogni tanto fallisce da sola",
+              "file": [
+                "app/layout.tsx",
+                ".github/workflows/ci.yml"
+              ]
+            },
+            {
+              "id": "R01-008",
+              "chiave": "frontend-ux|con una promozione attiva la barra d'acquisto e i caroselli mostrano il prezzo pieno, mentre sopra c'è quello scontato",
+              "gravita": "minore",
+              "titolo": "Con una promozione attiva la barra d'acquisto e i caroselli mostrano il prezzo pieno, mentre sopra c'è quello scontato",
+              "file": [
+                "components/StickyAddToCart.tsx"
+              ]
+            },
+            {
+              "id": "R01-009",
+              "chiave": "mobile-pwa|il manifest blocca l'app in verticale e non ha le schermate per la finestra d'installazione",
+              "gravita": "minore",
+              "titolo": "Il manifest blocca l'app in verticale e non ha le schermate per la finestra d'installazione",
+              "file": [
+                "public/manifest.json"
+              ]
+            },
+            {
+              "id": "R01-010",
+              "chiave": "qa-flussi|buco nelle prove del carrello: alcune mutanti del collaudo sul conto della consegna restano verdi",
+              "gravita": "minore",
+              "titolo": "Buco nelle prove del carrello: alcune mutanti del collaudo sul conto della consegna restano verdi",
+              "file": [
+                "app/cart/page.tsx"
+              ]
+            }
+          ],
+          "file": [
+            ".eslintrc.json",
+            ".github/workflows/ci.yml",
+            "app/cart/page.tsx",
+            "app/layout.tsx",
+            "components/StickyAddToCart.tsx",
+            "package-lock.json",
+            "package.json",
+            "public/manifest.json",
+            "scripts/gen-db-types.mjs",
+            "tsconfig.json"
+          ],
+          "migrazioni": [
+            630,
+            639
+          ]
+        },
+        "R02": {
+          "tema": "deploy-sre",
+          "voci": [
+            {
+              "id": "R02-001",
+              "chiave": "deploy-sre|un'ultima prova ordina ancora le migrazioni con l'ordine vecchio",
+              "gravita": "minore",
+              "titolo": "Un'ultima prova ordina ancora le migrazioni con l'ordine vecchio",
+              "file": [
+                "tests/unit/le-migrazioni-a-mano-partono-solo-con-la-conferma.test.ts"
+              ]
+            },
+            {
+              "id": "R02-002",
+              "chiave": "frontend-ux|nella finestra dei reclami, i dati del pagamento vecchi non danno avviso",
+              "gravita": "minore",
+              "titolo": "Nella finestra dei reclami, i dati del pagamento vecchi non danno avviso",
+              "file": [
+                "app/admin/disputes/page.tsx"
+              ]
+            },
+            {
+              "id": "R02-003",
+              "chiave": "frontend-ux|il link delle storie rifiuta l'indirizzo intero del sito stesso (https://<dominio>/promozioni), che è quello che il negoziante copia dalla barra",
+              "gravita": "minore",
+              "titolo": "Il link delle storie rifiuta l'indirizzo intero del sito stesso (https://<dominio>/promozioni), che è quello che il negoziante copia dalla barra",
+              "file": [
+                "app/seller/stories/page.tsx"
+              ]
+            },
+            {
+              "id": "R02-004",
+              "chiave": "frontend-ux|il controllo sul taglio dei campi di testo del costruttore della home tronca ancora titoli e sottotitoli in silenzio",
+              "gravita": "minore",
+              "titolo": "Il controllo sul taglio dei campi di testo del costruttore della home tronca ancora titoli e sottotitoli in silenzio",
+              "file": [
+                "components/admin/home/HomeSectionConfigForm.tsx"
+              ]
+            },
+            {
+              "id": "R02-005",
+              "chiave": "frontend-ux|dopo un salvataggio, il blocco di testo della vetrina mostra «&amp;» al posto di «&» (e «&lt;» al posto di «<»)",
+              "gravita": "minore",
+              "titolo": "dopo un salvataggio, il blocco di testo della vetrina mostra «&amp;» al posto di «&» (e «&lt;» al posto di «<»)",
+              "file": [
+                "components/seller/site/SectionConfigForm.tsx"
+              ]
+            },
+            {
+              "id": "R02-006",
+              "chiave": "frontend-ux|le modifiche ai dettagli del negozio e al profilo si perdono uscendo, senza nessun avviso",
+              "gravita": "minore",
+              "titolo": "Le modifiche ai dettagli del negozio e al profilo si perdono uscendo, senza nessun avviso",
+              "file": [
+                "components/seller/site/StoreDetailsEditor.tsx",
+                "components/VendorForm.tsx",
+                "app/seller/profile/page.tsx"
+              ]
+            },
+            {
+              "id": "R02-007",
+              "chiave": "frontend-ux|incollare il link di instagram o scrivere il sito senza https blocca il salvataggio di tutta la vetrina con un messaggio che non dice dove",
+              "gravita": "minore",
+              "titolo": "Incollare il link di Instagram o scrivere il sito senza https blocca il salvataggio di tutta la vetrina con un messaggio che non dice dove",
+              "file": [
+                "components/seller/SocialLinksFields.tsx",
+                "lib/store-customization.ts",
+                "components/VendorForm.tsx",
+                "components/seller/CustomizationSection.tsx"
+              ]
+            },
+            {
+              "id": "R02-008",
+              "chiave": "layout-responsive|col testo ingrandito al massimo sul telefono, le pagine pubbliche scorrono di lato per colpa del piè di pagina",
+              "gravita": "minore",
+              "titolo": "Col testo ingrandito al massimo sul telefono, le pagine pubbliche scorrono di lato per colpa del piè di pagina",
+              "file": [
+                "components/Footer.tsx",
+                "app/lavora-con-noi/page.tsx",
+                "app/returns/page.tsx",
+                "app/faq/page.tsx"
+              ]
+            },
+            {
+              "id": "R02-009",
+              "chiave": "qa-flussi|l etichetta «rimborso (€)» non è collegata al suo campo",
+              "gravita": "minore",
+              "titolo": "L etichetta «Rimborso (€)» non è collegata al suo campo",
+              "file": [
+                "app/admin/disputes/page.tsx"
+              ]
+            },
+            {
+              "id": "R02-010",
+              "chiave": "stati-ui|campanello del negozio non azzerato se la rilettura dopo «segna tutte come lette» cade",
+              "gravita": "minore",
+              "titolo": "campanello del negozio non azzerato se la rilettura dopo «Segna tutte come lette» cade",
+              "file": [
+                "components/seller/SellerShell.tsx"
+              ]
+            }
+          ],
+          "file": [
+            "app/admin/disputes/page.tsx",
+            "app/faq/page.tsx",
+            "app/lavora-con-noi/page.tsx",
+            "app/returns/page.tsx",
+            "app/seller/profile/page.tsx",
+            "app/seller/stories/page.tsx",
+            "components/Footer.tsx",
+            "components/VendorForm.tsx",
+            "components/admin/home/HomeSectionConfigForm.tsx",
+            "components/seller/CustomizationSection.tsx",
+            "components/seller/SellerShell.tsx",
+            "components/seller/SocialLinksFields.tsx",
+            "components/seller/site/SectionConfigForm.tsx",
+            "components/seller/site/StoreDetailsEditor.tsx",
+            "lib/store-customization.ts"
+          ],
+          "migrazioni": [
+            640,
+            649
+          ]
+        }
+      },
+      "rimandate": [],
+      "regia": []
+    }
+  ],
+  "cucitura": [],
+  "eccedenza": []
+}

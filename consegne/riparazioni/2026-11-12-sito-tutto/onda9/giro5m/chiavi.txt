@@ -1,0 +1,20 @@
+deploy-sre|un'ultima prova ordina ancora le migrazioni con l'ordine vecchio
+frontend-ux|nella finestra dei reclami, i dati del pagamento vecchi non danno avviso
+frontend-ux|il link delle storie rifiuta l'indirizzo intero del sito stesso (https://<dominio>/promozioni), che è quello che il negoziante copia dalla barra
+frontend-ux|il controllo sul taglio dei campi di testo del costruttore della home tronca ancora titoli e sottotitoli in silenzio
+frontend-ux|le modifiche ai dettagli del negozio e al profilo si perdono uscendo, senza nessun avviso
+frontend-ux|incollare il link di instagram o scrivere il sito senza https blocca il salvataggio di tutta la vetrina con un messaggio che non dice dove
+qa-flussi|l etichetta «rimborso (€)» non è collegata al suo campo
+stati-ui|campanello del negozio non azzerato se la rilettura dopo «segna tutte come lette» cade
+frontend-ux|dopo un salvataggio, il blocco di testo della vetrina mostra «&amp;» al posto di «&» (e «&lt;» al posto di «<»)
+frontend-ux|con una promozione attiva la barra d'acquisto e i caroselli mostrano il prezzo pieno, mentre sopra c'è quello scontato
+layout-responsive|col testo ingrandito al massimo sul telefono, le pagine pubbliche scorrono di lato per colpa del piè di pagina
+mobile-pwa|il manifest blocca l'app in verticale e non ha le schermate per la finestra d'installazione
+qa-flussi|buco nelle prove del carrello: alcune mutanti del collaudo sul conto della consegna restano verdi
+architettura|la regola che vieta i tipi «qualunque» non è accesa: 46 sono passati, e 40 permessi di saltare il controllo non saltano niente
+architettura|se sulla macchina delle prove manca postgres, sette file di prova si saltano in silenzio e la verifica esce verde lo stesso
+architettura|gli strumenti degli sviluppatori portano altre 19 falle note, 10 alte, ma nessuna arriva al sito
+architettura|l'elenco delle librerie dichiara una libreria mai usata e ne usa una che non dichiara, e il lint gira con un comando che next 16 toglie
+architettura|il generatore dei tipi scrive le colonne array (text[], uuid[]) come string invece di string[]
+architettura|una quinta copia scritta a mano del finto clienteavvisi nelle prove degli avvisi
+deploy-sre|la costruzione del sito dipende dal download dei caratteri da google e ogni tanto fallisce da sola
