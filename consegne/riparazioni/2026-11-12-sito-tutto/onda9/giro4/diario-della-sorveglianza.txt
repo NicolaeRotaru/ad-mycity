@@ -51,3 +51,7 @@
 2026-11-21 03:47 · R04 · in lavoro FINITA · guardia ✅ · referto ✅ 21 voci · unione (sotto) · nessuna
 2026-11-21 03:47 · K01 · collaudo · guardia ✅ · collaudo ✅ · nessuna
 2026-11-21 03:47 · onda 1 · prova-unione ✅
+2026-11-21 03:47 · Nicola ha fermato la regia (messaggio a R01 rifiutato); ripartita alle 04:24 con «lavora senza mai fermarti risolvendo il maggior numero di difetti»
+2026-11-21 03:57 · K01 secondo: R01 collaudato, 10 reggono su 15, 5 parziali (già dichiarate), 0 non_regge, 3 nati minori (1 da R01-015); 4,49 $
+2026-11-21 04:25 · K02 non era mai partito (commit di partenza sbagliato, errore della regia): archiviato, aperto «K02 secondo» (session_015BmpnVznX8Z2f413vhALzY, ultracode, tetto 35 $) su R04 e R03
+2026-11-21 04:25 · R03 · referto rosso su R03-018 (commit condiviso con R03-001): chiesto di segnarla parziale

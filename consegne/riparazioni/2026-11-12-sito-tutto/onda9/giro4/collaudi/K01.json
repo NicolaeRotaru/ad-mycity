@@ -1,9 +1,10 @@
 {
  "collaudatore": "K01",
  "riparatori": [
-  "R02"
+  "R02",
+  "R01"
  ],
- "aggiornato": "2026-11-21 03:44",
+ "aggiornato": "2026-11-21 03:56",
  "finita": true,
  "voci": [
   {
@@ -265,14 +266,226 @@
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02-022 --base 1b418f27^ --file app/admin/orders/page.tsx,app/orders/[id]/page.tsx,app/orders/page.tsx,app/seller/analytics/page.tsx,app/seller/dashboard/page.tsx,app/seller/orders/page.tsx,app/seller/products/page.tsx --prove tests/unit/riparazione-r02-etichette-maiuscole-lotto3.test.ts --json"
    },
    "nota": "Parziale onesto. 1b418f27: 8 righe in 7 pagine a tracking-label (tailwind.config.ts letterSpacing label 0.04em), tutte etichette; il codice di consegna vero resta tracking-[0.3em] e non è toccato. Il resto dichiarato (62 righe uppercase con spaziatura diversa) torna con lo stesso grep. Prova rimessa 0."
+  },
+  {
+   "id": "R01-001",
+   "chiave": "accessibilita|tra 768 e 1023 px i tasti ordini, consegne e admin della testata sono solo un'icona senza nome per chi vede",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01-001 --base 6ab1441c^ --file components/Navbar.tsx --prove tests/unit/riparazione-r01-tasti-di-mestiere-nel-menu-sui-tablet.test.tsx --json"
+   },
+   "nota": "Per ruolo (admin > negoziante > rider): nessuno perde un tasto; sotto 1024 px i tasti stanno nel menu dell'account col nome (Navbar.tsx:624-625), sotto 768 la barra non è toccata, da 1024 in su come prima. Con hidden il link esce dall'albero di accessibilità, nel menu i link sono veri e raggiungibili con Tab. Mutanti (Admin di nuovo visibile sotto 1024; «Consegne» tolto dal menu) presi dalla prova. Prova rimessa 0."
+  },
+  {
+   "id": "R01-017",
+   "chiave": "mobile-pwa|quando la sessione scade da sola, il telefono perde le notifiche in silenzio e al nuovo accesso nessuno le riaccende",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01-017 --base f2ccd210^ --file components/Navbar.tsx --prove tests/unit/riparazione-r01-notifiche-sessione-scaduta-al-caricamento.test.ts --json"
+   },
+   "nota": "Dichiarata parziale: il pezzo fatto c'è (Navbar.tsx:223-243: al SIGNED_OUT il segno per persona e l'avviso «Riattiva» al rientro; dopo un'uscita volontaria non compare perché handleSignOut disiscrive prima). Non spegne le notifiche in più casi di prima. «cosa_resta» onesto ma incompleto: il buco è più largo di come suona (basta attivare le notifiche e non avere un altro evento di sessione prima della scadenza, Navbar.tsx:238-241), e non nomina il pezzo della voce middleware.ts:436-441 (cookie rinnovati buttati via, sessione persa senza evento); il «nessuno le riaccende» è coperto solo dall'avviso. Prova debole: un mutante che scrive il segno anche senza «disiscritto» resta verde. Prova rimessa 0."
+  },
+  {
+   "id": "R01-022",
+   "chiave": "stati-ui|quando la rete torna, le pagine prodotto del negoziante rimettono il caricamento al posto del modulo e le modifiche non salvate si perdono",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01-022 --base d59eee42^ --file app/seller/products/new/page.tsx,app/seller/products/[id]/edit/page.tsx --prove tests/unit/riparazione-r01-modulo-prodotto-quando-torna-la-rete.test.tsx --json"
+   },
+   "nota": "Nuovo e Modifica: il caricamento si vede solo la prima volta, l'errore di rete al primo caricamento resta con «Riprova»; a modulo aperto i dati nuovi del server non sovrascrivono il testo (initialValues solo come stato iniziale), Modifica avvisa «cambiato altrove» e il Salva scrive solo quello cambiato qui. Mutanti su Modifica presi; su Nuovo togliere «giaAperto ||» (new/page.tsx:341) resta verde: si vedrebbe il caricamento sopra il modulo senza perdere il testo (prova debole sul caso Nuovo/Duplica). Prova rimessa 0."
+  },
+  {
+   "id": "R01-008",
+   "chiave": "frontend-ux|la pagina «sotto i 10 €» mostra prodotti da 10 € e nasconde quelli che in promozione costano meno di 10",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01-008 --base dba68fbf^ --file components/ProductGrid.tsx,lib/queries/griglia-prodotti.ts --prove tests/unit/riparazione-r01-sotto-i-dieci-in-promo.test.tsx --json"
+   },
+   "nota": "Soglia stretta (10,00 € fuori), 12 € al 20% dentro, tetto al 70% con discountedUnitCents, promo scadute o di altri negozi escluse dalla funzione active_promo_products; conteggio e lista usano gli stessi id; senza prezzoSotto le altre griglie restano col vecchio filtro (solo /piccoli-prezzi lo passa). Mutanti sugli id nella lettura e nel conteggio presi; «pagato <= soglia» non preso (un promo che scende a 10,00 esatti entrerebbe nel conteggio, la lista lo scarta a ProductGrid.tsx:449): il codice oggi è giusto, la prova è debole lì. L'ordine «prezzo crescente» sul pieno è già tra i nuovi difetti del riparatore. Prova rimessa 0."
+  },
+  {
+   "id": "R01-011",
+   "chiave": "frontend-ux|la scheda prodotto delle griglie calcola il prezzo scontato con una formula sua",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01-011 --base 8a4c9546^ --file components/ProductCard.tsx --prove tests/unit/riparazione-r01-prezzo-scontato-scheda.test.tsx --json"
+   },
+   "nota": "ProductCard.tsx:60 usa discountedUnitCents/100 e il carrello riceve lo stesso prezzo: 3,33 € al 15% = 2,83, 0,99 al 33% = 0,66, sconto 0/null = pieno. Tutti i chiamanti (griglie, promozioni, PromoDeals, preferiti, collezioni, striscia in evidenza) passano euro. La prova monta la scheda vera; mutante senza tetto preso. Prova rimessa 0."
+  },
+  {
+   "id": "R01-016",
+   "chiave": "microcopy|la pagina dei più recensiti presenta 40 prodotti come «scelti dai clienti» anche quando nessuno ha una recensione",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Già riparato alla base 2d19787b: occhiello «Con recensioni» a app/piu-venduti/page.tsx:33, soloRecensiti a :58, vistaPerVoto in ProductGrid.tsx (~:201), migrazione 127 tiene solo i prodotti con almeno una recensione. Prove r15 e r09 verdi; il collegamento pagina→griglia è una ricerca di parole (ammessa sui minori), la lettura col finto database morde. Lente nata_rotta: dba68fbf (R01-008) tocca ProductGrid.tsx e griglia-prodotti.ts; le prove r15 e r09 girano verdi alla testa 438462e9, vistaPerVoto e soloRecensiti invariati."
+  },
+  {
+   "id": "R01-020",
+   "chiave": "qa-flussi|la pagina novità mostra tutto il catalogo, anche un prodotto di tre mesi fa, e il numero in alto conta solo i prodotti già caricati",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Già riparato alla base 2d19787b: app/novita/page.tsx:51, ProductGrid.tsx:248 (creatiDal) e :289 (contaVero), griglia-prodotti.ts:140. Dopo dba68fbf (R01-008) creatiDal resta nella chiave e nelle due letture, idsScontatiSotto è undefined senza prezzoSotto: la pagina novità non cambia. Prove r15-novita verdi."
+  },
+  {
+   "id": "R01-004",
+   "chiave": "deploy-sre|nei log la spesa dell ai non mostra i token",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01-004 --base 26cb0598^ --file lib/ai/run.ts --prove tests/unit/riparazione-r01-token-nei-log-della-spesa.test.ts --json"
+   },
+   "nota": "Provato col logger vero: ai_usage esce con unita, ingresso, uscita, cacheScritta, cacheLetta in chiaro, e ai_risposta_tagliata con tettoUscita e uscita. Nessuna chiave nuova combacia con l'oscuramento, passano solo numeri; nessun consumatore cercava i nomi vecchi. Mutante (inputTokens rimesso) preso. Prova rimessa 0."
+  },
+  {
+   "id": "R01-005",
+   "chiave": "deploy-sre|il giorno del lancio un errore del sito non lo vede nessuno: il registratore degli errori è spento e l'unico allarme dipende dalla chiave che manca",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01-005 --base 831f5a05^ --file lib/logger.ts,app/api/cron/operational-alerts/route.ts,app/api/health/route.ts --prove tests/unit/riparazione-r01-errori-del-sito-senza-sentry.test.ts --json"
+   },
+   "nota": "Dichiarata parziale. Funziona: senza Sentry logger.error sul server conta in Upstash e operational-alerts (route.ts:735-748) manda ERRORI_DEL_SITO per campanella ed email; senza Upstash non lancia; nessun giro (il conto usa solo fetch); dal browser esce subito e non tocca chiavi. Mutanti presi. «cosa_resta» onesto ma incompleto: un errore non gestito di rotta o pagina non si conta (instrumentation.ts:26-29 chiama solo Sentry, spento) e gli errori del browser dei clienti non si contano mai; va scritto che quelle due classi restano invisibili. Prova rimessa 0."
+  },
+  {
+   "id": "R01-014",
+   "chiave": "immagini-media|se l'abbonamento supabase scade, le foto del sito tornano rotte e nessun controllo se ne accorge",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Già riparato alla base 2d19787b: app/api/health/route.ts:338-366 chiede a /render/image una foto vera e dice «degradato»; interruttore trasformazioneFotoSpenta in lib/image-url.ts. Prove r30 e r15 verdi, mutante (sempre ok) preso. Nota: il semaforo risponde 200 e nessun controllo automatico lo legge (vedi nuovi difetti). Lente nata_rotta: 831f5a05 (R01-005) tocca app/api/health/route.ts; le prove r30 e r15 girano verdi alla testa 438462e9, il controllo della foto è invariato."
+  },
+  {
+   "id": "R01-018",
+   "chiave": "performance|l'elenco dei negozi fa una domanda sulla consegna veloce per ogni scheda, invece di una sola per tutta la lista",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Già riparato alla base 2d19787b: DeliveryCutoff.tsx:60-119 raccoglie le schede dello stesso giro e fa una domanda a blocchi da 100 (= MAX_NEGOZI della rotta); negozio senza riga = «non so». Prova verde, monta l'hook vero; mutante (blocchi da 1) preso."
+  },
+  {
+   "id": "R01-021",
+   "chiave": "qa-flussi|la scadenza del recesso non si sposta quando l'ultimo giorno cade di sabato, domenica o in un festivo",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01-021 --base 5bdb23a1^ --file lib/ordini/termine-del-recesso.ts --prove tests/unit/riparazione-r01-recesso-sabato-domenica-festivi.test.ts --json"
+   },
+   "nota": "Pasqua e Lunedì dell'Angelo giusti su 1990-2100, le 10 feste nazionali fisse in lista più 4/7 e dal 2026 il 4/10; 14 casi a mano giusti (25-26/12 col fine settimana → 29/12, 25/4/2026 di sabato → 27/4), fuso Europe/Rome giusto a mezzanotte e al cambio d'ora; pagina (app/orders/[id]/return/page.tsx) e server (app/api/returns/create/route.ts:103) usano la stessa funzione. Prove comuni: 438462e9 (firmato) sposta solo le date di 2 giorni, da domenica a martedì, nessuna asserzione tolta. Prova debole: togliere una qualunque di 1/1, 6/1, 25/4, 1/5, 15/8, 1/11, 8/12, 26/12, 4/7 o 4/10 resta verde. Il patrono di Piacenza (4/7) è discutibile per i clienti di altre città (il reg. 1182/71 parla di festivi dello Stato), ma è a favore del consumatore. Prova rimessa 0 (a 5bdb23a1 con la sola prova r01: le r07 sono state allineate nel commit dopo)."
+  },
+  {
+   "id": "R01-002",
+   "chiave": "coerenza-brand|la scala tipografica è aggirata 330 volte con misure a mano",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01-002 --base c3281100^ --file app/admin/disputes/page.tsx,app/novita/page.tsx,app/piccoli-prezzi/page.tsx,app/piu-venduti/page.tsx,app/rider/earnings/page.tsx,app/search/page.tsx,app/seller/stories/page.tsx,components/Navbar.tsx,components/admin/AdminSidebar.tsx,components/seller/SellerShell.tsx --prove tests/unit/riparazione-r01-scala-del-testo.test.ts --json"
+   },
+   "nota": "Dichiarata parziale: nei 10 file toccati nessuna misura a mano fuori dai commenti; il cricchetto guarda solo gli 11 file elencati (un nuovo text-[11px] altrove non lo fa diventare rosso, dichiarato). Mutante in Navbar preso. Il conto residuo torna: 241 occorrenze (in 81 file, non 82). Il testo cresce solo per 11→12 px e 13→14 px (10 px va a text-2xs = 10 px); i badge stretti di Navbar e barra admin crescono col contenuto, niente truncate. Prova rimessa 0."
+  },
+  {
+   "id": "R01-024",
+   "chiave": "tipografia|la scala delle dimensioni del testo viene scavalcata circa trecentotrenta volte",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01-002 --base c3281100^ --file app/admin/disputes/page.tsx,app/novita/page.tsx,app/piccoli-prezzi/page.tsx,app/piu-venduti/page.tsx,app/rider/earnings/page.tsx,app/search/page.tsx,app/seller/stories/page.tsx,components/Navbar.tsx,components/admin/AdminSidebar.tsx,components/seller/SellerShell.tsx --prove tests/unit/riparazione-r01-scala-del-testo.test.ts --json"
+   },
+   "nota": "Dichiarata parziale, stesso commit di R01-002: in ProductCard.tsx alla base c'era solo un text-[…] dentro un commento (oggi :239), app/globals.css:22-32 è la scala dichiarata: lì niente da fare. Restano le 241 occorrenze del sito, dichiarate. Prova rimessa 0 (la stessa di R01-002)."
+  },
+  {
+   "id": "R01-015",
+   "chiave": "layout-responsive|la home e /about scorrono di lato col testo grande sul telefono",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01-015 --base d24f3138^ --file components/home-sections/HomeSectionRenderer.tsx --prove tests/unit/riparazione-r01-home-col-testo-grande.test.tsx --json"
+   },
+   "nota": "Dichiarata parziale. Provato in Chromium a 360 px e testo a 32 px su un HTML con le stesse classi: senza min-w-0 break-words la pagina scorre di lato (1311 su 360), con le classi no; il pulsante dei negozi resta dentro lo schermo. «cosa_resta» nomina LiveActivityFeed.tsx e HowItWorks.tsx con la cura; /about non provato in un browser. Effetto accanto, minore: col pulsante «Diventa venditore» che va a capo l'icona si schiaccia (provato da me in Chromium con svg width=18: 18 → 12 px, HomeSectionRenderer.tsx:397, manca shrink-0), solo sotto 640 px e col testo molto grande, dove prima la pagina scorreva di lato. Prova rimessa 0."
   }
  ],
  "campione": {
   "R02": {
    "accettato": false
+  },
+  "R01": {
+   "accettato": true
   }
  },
- "nota": "R02 (punta 6f6c827b, testa adf7ec6e, base 2d19787b): 18 voci da collaudare, tutte minori, tutte con giudizio pieno (lotto di 22 voci, niente campione). 9 reggono, 9 parziali: 6 dichiarate parziali e oneste (R02-012, R02-018, R02-011, R02-016, R02-002, R02-022) e 3 dichiarate riparate che sono parziali (R02-006, R02-004, R02-005). Nessun non_regge, nessun rompe_altro. Prove comuni: quella di R02-008 (r09, non segnalata dalla guardia, non firmata) e quella di R02-006 (contanti-sopra-il-tetto, non firmata) NON sono indebolite; le firmate di R02-004, R02-005 e R02-009 nemmeno. 4 revisori qa (2 opus, 2 sonnet).",
+ "nota": "R02 (punta 6f6c827b, testa adf7ec6e, base 2d19787b): 18 voci da collaudare, tutte minori, tutte con giudizio pieno (lotto di 22 voci, niente campione). 9 reggono, 9 parziali: 6 dichiarate parziali e oneste (R02-012, R02-018, R02-011, R02-016, R02-002, R02-022) e 3 dichiarate riparate che sono parziali (R02-006, R02-004, R02-005). Nessun non_regge, nessun rompe_altro. Prove comuni: quella di R02-008 (r09, non segnalata dalla guardia, non firmata) e quella di R02-006 (contanti-sopra-il-tetto, non firmata) NON sono indebolite; le firmate di R02-004, R02-005 e R02-009 nemmeno. 4 revisori qa (2 opus, 2 sonnet). · K01 secondo, R01 (punta b25acfc1, testa 438462e9, base 2d19787b): 15 voci da collaudare, tutte minori, tutte con giudizio pieno (lotto di 24, niente campione). 10 reggono, 5 parziali (R01-002, R01-024, R01-005, R01-015, R01-017, tutte dichiarate parziali; R01-005 e R01-017 con «cosa_resta» incompleto, detto nella voce). Nessun non_regge, nessun rompe_altro. Prova rimessa uscita 0 su tutti i 10 commit. Prove comuni: R01 cambia solo le due prove r07 firmate (date +2 giorni, nessuna asserzione tolta), nessuna prova non firmata toccata. R01-003 non_codice e gli 8 non_fatto per il tetto fuori dal collaudo; la voce riservata non guardata. 4 revisori qa (sonnet).",
  "nuovi_difetti_visti": [
   {
    "titolo": "La striscia «In evidenza» del negozio mostra il prezzo pieno con una promozione attiva",
@@ -308,6 +521,27 @@
    "severita": "minore",
    "dimensione": "deploy-sre",
    "fonte": "revisore di K01, letto nel codice dopo 5d59d92a (R02-005)"
+  },
+  {
+   "titolo": "Col testo grande sul telefono l'icona del pulsante «Diventa venditore» si schiaccia quando la scritta va a capo",
+   "file": "components/home-sections/HomeSectionRenderer.tsx:397",
+   "severita": "minore",
+   "dimensione": "layout-responsive",
+   "fonte": "K01 secondo, provato in Chromium (svg width=18 → 12 px a 360 px con testo a 32 px); nato da d24f3138 (R01-015, max-w-full sul pulsante, icona senza shrink-0)"
+  },
+  {
+   "titolo": "Senza il registratore degli errori, gli errori non gestiti delle pagine e quelli del browser dei clienti non arrivano al conto degli errori",
+   "file": "instrumentation.ts:26-29",
+   "severita": "minore",
+   "dimensione": "deploy-sre",
+   "fonte": "revisore di K01, letto nel codice: onRequestError chiama solo Sentry; il conto di R01-005 vede solo logger.error sul server"
+  },
+  {
+   "titolo": "Il controllo delle foto dice «degradato» ma risponde 200 e nessun controllo automatico lo legge",
+   "file": "app/api/health/route.ts:420",
+   "severita": "minore",
+   "dimensione": "deploy-sre",
+   "fonte": "revisore di K01, letto nel codice e nel runbook (docs/runbook.md:485): operational-alerts non consulta il semaforo; già sulla base"
   }
  ]
 }

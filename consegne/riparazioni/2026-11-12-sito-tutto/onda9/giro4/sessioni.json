@@ -16,25 +16,29 @@
    "id": "session_015BmpnYYucAqVBr7nJGfNnu",
    "ramo": "claude/adoring-bohr-kixq35-o9g4-m01",
    "onda": 1,
-   "ultracode": false
+   "ultracode": false,
+   "costo_usd": 25.97
   },
   "R02": {
    "id": "session_015BmpnXTYcNLHuqHCtPy8uw",
    "ramo": "claude/adoring-bohr-kixq35-o9g4-m02",
    "onda": 1,
-   "ultracode": false
+   "ultracode": false,
+   "costo_usd": 23.82
   },
   "R03": {
    "id": "session_015BmpnZ5wA1LkPL3qZuawv1",
    "ramo": "claude/adoring-bohr-kixq35-o9g4-m03",
    "onda": 1,
-   "ultracode": true
+   "ultracode": true,
+   "costo_usd": 35.15
   },
   "R04": {
    "id": "session_015BmpnZLFNqvaVHUjPwSmo6",
    "ramo": "claude/adoring-bohr-kixq35-o9g4-m04",
    "onda": 1,
-   "ultracode": true
+   "ultracode": true,
+   "costo_usd": 25.71
   }
  },
  "tetti_usd": {
@@ -57,7 +61,29 @@
     "R01"
    ],
    "ultracode": false,
+   "secondo": {
+    "id": "session_015BmpnXJDYTrbKj6zcC9iir",
+    "partenza": "4b8d2ee37ae4fcea5371ceda27b7dff4bd813e8f",
+    "riparatori": [
+     "R01"
+    ],
+    "costo_usd": 4.49
+   },
+   "costo_usd": 10.24,
    "tetto_usd": 25
+  },
+  "K02": {
+   "id": "session_015BmpnVznX8Z2f413vhALzY",
+   "titolo": "K02 secondo",
+   "ramo": "claude/adoring-bohr-kixq35-o9g4-k02",
+   "partenza": "709d7abb2ed6b56f52c092d3d659187557c91191",
+   "riparatori": [
+    "R04",
+    "R03"
+   ],
+   "ultracode": true,
+   "tetto_usd": 35,
+   "nota": "il primo K02 (session_015BmpnY2rLqpA8XfBuSBkzY) non è mai partito: commit di partenza scritto a mano e sbagliato; archiviato"
   }
  },
  "controllori": {},
