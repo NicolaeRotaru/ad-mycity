@@ -54,3 +54,8 @@ Quante voci risulteranno sparite: lo dicono i referti delle 4 sessioni.
 - Risposta di Nicola sulla riservatezza dei rami (storia del ramo della regia e dei 4 rami del ricontrollo).
 - Via di Nicola sul preventivo. Nessun riparatore aperto.
 - 2026-11-21 23:15 Nicola: riservatezza «scegli tu» → strada b; preventivo «inizia con le 182 semplici». Cancellazione dei 5 rami laterali rifiutata dalla sessione (403): la fa Nicola. Regia seconda 5,08 $, passa la mano a 250 mila token (PASSAGGIO-3.md).
+
+## Regia terza (session_015BmpnZUjbtZs5V56c5GPWN, presa la mano 2026-11-21 23:30)
+- Sito clonato a `main` 1ad51b4c. Iscritta alla PR #990.
+- 2026-11-21 23:40 schede `normali/` (12 sessioni, 150 voci): schede, copertura-prima, segnaposti verdi. SHA_REGISTA = 12fa1dde.
+- 2026-11-21 23:45 apertura R01-R12 (base 1ad51b4c, rami `-m01`…`-m12`, xhigh, auto, senza ultracode). Tetto del giro 480 $ (`stima_usd` 370).
