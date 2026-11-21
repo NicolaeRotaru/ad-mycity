@@ -8,9 +8,13 @@ a: la regia terza della settimana dei 700
 # Settimana dei 700: il passaggio alla regia terza
 
 ## In parole semplici
+Questo foglio serve alla regia terza per riprendere la settimana dei 700 senza rileggere la chat.
 Nicola ha detto sì: si parte con le 182 voci semplici, con la strategia preparata. Sono 12 sessioni da 16 voci, ultracode spento, circa 370 $.
 Le delicate restano ferme finché Nicola non dice sì al loro costo (circa 17 $ a chiusa).
 Nessun riparatore è ancora aperto.
+
+## Cosa cambia per te
+Niente sul sito finché i riparatori non consegnano. Per esempio: la prima sessione, R01, lavora 16 voci sul suo ramo `-m01`, e il sito cambia solo quando Nicola unisce.
 
 ## Cosa non ho verificato
 - Le schede e `copertura-prima` della cartella `normali/` non sono ancora state scritte.
@@ -20,7 +24,7 @@ Nessun riparatore è ancora aperto.
 1. Leggi la skill `riparazione`, `REGIA.md` e questo foglio. I dettagli delle voci riservate te li mando in chat: non vanno mai nel deposito.
 2. Iscriviti alla PR ad-mycity#990 (`subscribe_pr_activity`): io mi tolgo.
 3. In `consegne/riparazioni/2026-11-21-settimana-700/normali/`: `schede --ramo claude/settimana-700-regia --regista <il tuo id>`, poi `copertura-prima` e `segnaposti`, tutti verdi. Commit e push: lo SHA è `SHA_REGISTA`.
-4. Apri R01-R12 sul sito (base `1ad51b4c`, rami `claude/settimana-700-regia-m01`…`-m12`), senza ultracode, `effort: "xhigh"`, `permission_mode: "auto"`, con LEGGIMI-riparatore e scheda per intero nel primo messaggio. Poi la sorveglianza, i collaudatori (ceil(12/3)=4) e il controllore come da skill.
+4. Apri R01-R12 sul sito (base `1ad51b4c`, rami `claude/settimana-700-regia-m01`…`-m12`), senza ultracode, `effort: "xhigh"`, `permission_mode: "auto"`, con LEGGIMI-riparatore e scheda per intero nel primo messaggio. Poi la sorveglianza. Poi 4 collaudatori, uno ogni 3 riparatori. Poi il controllore, come dice la skill.
 5. Tetto di questo giro: 480 $ (il massimo della forchetta). Oltre, ci si ferma e si dice a Nicola.
 6. Passa la mano a 250 mila token, con un foglio come questo.
 
