@@ -1,0 +1,41 @@
+{
+  "corsia": 1,
+  "territorio": "R01",
+  "difetti": [
+    {
+      "chiave": "accessibilita|nell'elenco conversazioni dell'assistenza il lettore di schermo dice solo il numero dei non letti",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r01-non-letti-assistenza.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 560394a6^ --file app/admin/support-chat/page.tsx --prove tests/unit/riparazione-r01-non-letti-assistenza.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01 --base f93d246a42b25cd5fa86da712755526d7d6388dc --file app/admin/support-chat/page.tsx --prove tests/unit/riparazione-r01-non-letti-assistenza.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "Il numero nel pallino ora è aria-hidden e accanto c'è in sr-only «1 messaggio non letto» o «N messaggi non letti»."
+    },
+    {
+      "chiave": "accessibilita|nella pagina del reclamo il bottone resta spento senza dire cosa manca",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r01-reclamo-dice-cosa-manca.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base d4b70c7db3e14e1af859d4a5afc3e8714184282c^ --file 'app/orders/[id]/dispute/page.tsx' --prove tests/unit/riparazione-r01-reclamo-dice-cosa-manca.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01 --base 750c726e3f52bea5019afa2c6352790b9fc2e284 --file app/orders/[id]/dispute/page.tsx --prove tests/unit/riparazione-r01-reclamo-dice-cosa-manca.test.tsx --json → uscita 0 (K02)",
+      "nota_fix": "Sotto il bottone spento compare cosa manca (il motivo, i caratteri che mancano ai 20), legato al bottone con aria-describedby e con le stesse condizioni che lo spengono; cosa invia il reclamo non cambia."
+    },
+    {
+      "chiave": "accessibilita|nel modulo «nuova promozione» l'etichetta «cosa scontare» non è legata a nessun campo",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r01-cosa-scontare.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base a281044b^ --file app/seller/promotions/page.tsx --prove tests/unit/riparazione-r01-cosa-scontare.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01 --base 560394a66a48eb8ec6c13c7a89ce422baeee1da6 --file app/seller/promotions/page.tsx --prove tests/unit/riparazione-r01-cosa-scontare.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "Il blocco «Cosa scontare» ora è un fieldset con la scritta come legend, come per «Sconto»: dà il nome al gruppo dei due radio. Il label slegato non c'è più."
+    },
+    {
+      "chiave": "accessibilita|il campo file nascosto della fotocamera del negoziante si raggiunge col tab ma non mostra il fuoco",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r01-fotocamera-fuoco.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base d81e9758^ --file components/seller/CameraCapture.tsx --prove tests/unit/riparazione-r01-fotocamera-fuoco.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01 --base 4a4bee7eeb6e8145fcd23e9e35a7cdb23ce061e7 --file components/seller/CameraCapture.tsx --prove tests/unit/riparazione-r01-fotocamera-fuoco.test.tsx --json → uscita 0 (K02)",
+      "nota_fix": "Pulsante e campo file sr-only sono diventati un label che contiene il campo, con focus-within:ring-2: una sola fermata di Tab con l'anello visibile; la trappola del fuoco del Modal resta chiusa (provato col Modal vero)."
+    },
+    {
+      "chiave": "qa-flussi|le visualizzazioni e i clic dei prodotti sponsorizzati non arrivano mai al database",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r01-sponsorizzati-contano.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 8474cbefb9f30891028b9f1cd8b5d68d70eb4107^ --file components/SponsoredCarousel.tsx --prove tests/unit/riparazione-r01-sponsorizzati-contano.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01 --base 85f2677b7576b29c7e7e8594699dcba58609579f --file components/SponsoredCarousel.tsx --prove tests/unit/riparazione-r01-sponsorizzati-contano.test.tsx --json → uscita 0 (K02)",
+      "nota_fix": "`void supabase.rpc(...)` preparava la richiesta senza spedirla (postgrest manda la fetch solo in then()); ora un aiutante conta() chiama .then(ok, ko). Stesse funzioni e argomenti. Non delicata: visualizzazioni e clic servono solo alle statistiche; l'annuncio è pagato prima a prezzo fisso (lib/stripe/webhook/sponsorizzati.ts:130-141), nessuna migrazione."
+    }
+  ]
+}

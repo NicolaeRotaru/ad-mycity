@@ -1,0 +1,110 @@
+{
+ "regista": "session_015BmpnUxR79mzccgeUCjeKq",
+ "integrazione": {
+  "ramo": "main del sito",
+  "partenza": "336f2fbda9b1b50209fbe94e1f5fde1c74134ab7",
+  "nota": "giro di correzione del 19/11: i rami -o9g2-mNN partono da main (336f2fbd); la PR nuova del sito parte da main"
+ },
+ "sessioni": {
+  "R01": {
+   "id": "session_015BmpnYSh3TqJYaUAn5LbzC",
+   "ramo": "claude/adoring-bohr-kixq35-o9g2-m01",
+   "onda": 1,
+   "partenza": "336f2fbda9b1b50209fbe94e1f5fde1c74134ab7",
+   "tetto_usd": 20,
+   "consegna_usd": 15,
+   "aperta": "2026-11-19 10:16",
+   "ultracode": true,
+   "finita": true,
+   "punta": "96e08bb2",
+   "testa": "8aa18de2",
+   "costo_usd": 25.37,
+   "nota": "oltre il tetto di 20 $; 2 riparati, R01-003 parziale, R01-varie sistemato; valida-referto verde; guardia rossa solo per 2 messaggi che citano R10-012; dettagli riservati solo in chat"
+  },
+  "R02": {
+   "id": "session_015BmpnZ1Wkp2xNjd4ANiCvc",
+   "ramo": "claude/adoring-bohr-kixq35-o9g2-m02",
+   "onda": 2,
+   "partenza": "336f2fbda9b1b50209fbe94e1f5fde1c74134ab7",
+   "tetto_usd": 35,
+   "consegna_usd": 30,
+   "aperta": "2026-11-19 10:16",
+   "ultracode": false,
+   "finita": true,
+   "punta": "8ef61d3f",
+   "testa": "d0def26c",
+   "costo_usd": 9.66,
+   "nota": "4 riparati, 3 parziali, 1 scelta di Nicola (002: didascalia stringe la ricerca da 114 a 52 px); valida-referto verde; guardia rossa solo per le 5 prove esistenti ritoccate per «fattorino» (R02-007, dichiarate)"
+  },
+  "R03": {
+   "id": "session_015BmpnXkBjEmdqxziZHfEuL",
+   "ramo": "claude/adoring-bohr-kixq35-o9g2-m03",
+   "onda": 2,
+   "partenza": "336f2fbda9b1b50209fbe94e1f5fde1c74134ab7",
+   "tetto_usd": 35,
+   "consegna_usd": 30,
+   "aperta": "2026-11-19 10:16",
+   "ultracode": true,
+   "finita": true,
+   "punta": "b94d0f04",
+   "testa": "17e99ba7",
+   "costo_usd": 22.56,
+   "nota": "6 riparati, 1 parziale (005); valida-referto verde; guardia rossa: 12 prove comuni ritoccate (dichiarate, nel piano approvato: servono la firma prove_comuni o la regia) e il commit 3bba8949 che cita R06-006 e R31-023"
+  },
+  "R04": {
+   "id": "session_015BmpnX1yEdRhDCAv37ejnv",
+   "ramo": "claude/adoring-bohr-kixq35-o9g2-m04",
+   "onda": 2,
+   "partenza": "336f2fbda9b1b50209fbe94e1f5fde1c74134ab7",
+   "tetto_usd": 40,
+   "consegna_usd": 35,
+   "aperta": "2026-11-19 10:16",
+   "ultracode": true,
+   "finita": true,
+   "punta": "d2db4b86",
+   "testa": "be90b6d3",
+   "costo_usd": 19.35,
+   "nota": "4 riparati, 2 parziali, 1 serve_file_altrui; guardia e referto verdi; la prova della home vuole Chromium nella CI (modifica di ci.yml nel referto)"
+  }
+ },
+ "collaudatori": {
+  "K01": {
+   "id": "session_015BmpnXjLt1YzgPeiC2aNGS",
+   "ramo": "claude/adoring-bohr-kixq35-o9g2-k01",
+   "partenza": "18a0bc417ca207edf82ab9e73df73fad9ffadfd3",
+   "riparatori": [
+    "R01",
+    "R02"
+   ],
+   "aperta": "2026-11-19 11:53",
+   "consegna_usd": 20,
+   "tetto_usd": 25,
+   "finita": true,
+   "punta": "28301c8b",
+   "costo_usd": 10.75,
+   "nota": "11 voci: reggono R01-001, R01-varie, R02-001, 004, 007; parziali R01-003, R02-005, 006, 008; R02-002 scelta (decisa: menu account); rompe_altro R01-002 (campanello azzerato all utente a video) e R02-003 (la prova di fumo dopo il deploy farebbe rollback da sola); parte riservata regge; 5 prove di R02-007 non indebolite"
+  },
+  "K02": {
+   "id": "session_015BmpnWwKgsr121zG854BW2",
+   "ramo": "claude/adoring-bohr-kixq35-o9g2-k02",
+   "partenza": "18a0bc417ca207edf82ab9e73df73fad9ffadfd3",
+   "riparatori": [
+    "R03",
+    "R04"
+   ],
+   "aperta": "2026-11-19 11:53",
+   "consegna_usd": 25,
+   "tetto_usd": 30,
+   "finita": true,
+   "punta": "92eb3caa",
+   "costo_usd": 17.11,
+   "nota": "13 voci: 8 reggono, 3 parziali, 2 rompe_altro (R03-006 minore, R04-007 grave: secondo giro fallito, va a Nicola)"
+  }
+ },
+ "controllori": {},
+ "regista_prima": [
+  "session_015BmpnXTF1dKwFmtRWd5L1s",
+  "session_015BmpnZZ9mpJFdTk5mxvbY8"
+ ],
+ "pr_sito_giro2": "NicolaeRotaru/mycity#298, ramo claude/adoring-bohr-kixq35-o9b @ d403fa41: unita da Nicola il 20/11 (merge b2c62f34, albero 180c80eb)"
+}

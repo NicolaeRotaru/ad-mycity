@@ -7216,3 +7216,72 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Colore:** 🟡 modifica della macchina (testo e dati, nessun programma toccato), su ramo `claude/stoic-ramanujan-p9tmso`; l'unione è di Nicola.
 - **Correzione delle 02:50, dopo il collaudo indipendente:** l'onda 6 ha chiuso 10 voci, non 5 (5 col passo 0 e mycity#294, 5 con mycity#295), quindi nelle onde 6-9 i chiusi sono 117, non 112. «Un avanzo costa il doppio» era sbagliato: l'onda 8, quasi tutta avanzi, ha chiuso a 4,35 $. Il costo sale con ultracode acceso (12-27 $ contro 4-8 $), con la regia lunga e con i delicati. Misure e guida corrette nello stesso ramo.
 - **Aggiornamento delle 03:00:** il terzo giro dell'onda 9 si è chiuso con mycity#299 (15 chiusure, 19 nati, circa 266 $: 17,76 $ a chiusa). La sua riga in `misure.json` non è più «in corso». Fino al terzo giro: onda 9 circa 745 $ per 62 chiusi; onde 6-9 almeno 127 nati contro 132 chiusi; registro a 751 aperte (669 minori, 77 gravi, 5 bloccanti).
+## 2026-11-18 12:52 — Onda 9: Nicola firma le eccezioni sulle prove comuni e sui sei commit di R02, R03 e R06 (🟡, firmato da Nicola)
+**Le parole di Nicola, nella chat «Ondata 9 · 3.0» (`session_015BmpnZQiGiFfMYaWbMDKVT`):** «Firmo l'eccezione», in risposta alla richiesta di firmare le due eccezioni.
+- **Cosa vale:** `eccezioni_firmate` in `consegne/riparazioni/2026-11-12-sito-tutto/onda9/piano.json`, onda 1: le due prove comuni ritoccate da R02 (`prove_comuni`) e i sei commit di R02, R03 e R06 (`id_nel_commit`).
+- **Cosa ha prodotto:** `applica --git` sospende le due prove comuni. I sei commit restano rossi per un'altra regola, «il messaggio cita una voce di un'altra sessione», che il programma oggi non lascia sospendere con una firma. Serve una scelta di Nicola.
+- **Colore:** 🟡 regole della campagna, firmate. Il codice del sito è già unito da Nicola (mycity#297).
+
+## 2026-11-19 11:50 — Le 12 scelte dell'onda 9 le decide l'AD, su delega di Nicola (🟡, delega firmata da Nicola)
+**Le parole di Nicola, nella chat «Ondata 9» (`session_015BmpnYq3DQDRwTXdBwfzud`), 19/11 verso le 11:45:** «rispondi tu alle 12 scelte, dimmi tu».
+1. **Recesso nei festivi (R02-011):** la scadenza si sposta alla fine del primo giorno lavorativo dopo, se il 14° giorno cade di sabato, di domenica, in un festivo nazionale o il 4 luglio. Fatto `legale.recesso-scadenza-festivi`.
+2. **Testo a 11 pixel (R06-001, 71 punti):** a 12 pixel, la misura più piccola che c'è già nella scala (`text-xs`). Nessuna misura nuova.
+3. **Tasti Ordini, Consegne e Admin sui tablet (R01-005):** fra 768 e 1023 px vanno nel menu dell'account. Una scritta sotto l'icona toglierebbe spazio alla ricerca.
+4. **Consegne veloci (R10-010):** una alla volta per fattorino disponibile. Fatto `consegna.veloce-per-fattorino`.
+5. **Notifiche dell'ordine (R07-003):** partono subito, alla creazione dell'ordine; il giro a orario resta come rete di sicurezza. È già scritto in `controllo.tre-livelli` («fa suonare i telefoni in pochi secondi»).
+6. **Registro degli errori e allarme (R07-008):** si accendono prima del lancio, sul piano gratuito di Sentry. Il Pannello legge già gli errori di Sentry (`controllo.tre-livelli`). Serve un clic di Nicola: creare l'account e mettere la chiave pubblica (DSN) su Vercel.
+7. **Controllo notturno (R07-009):** se l'archivio dello storico delle foto non si crea, la notte diventa rossa.
+8. **Aggiornamenti del database (R07-010):** ogni migrazione si applica e si registra nella stessa transazione. Le poche che non possono stare in una transazione lo dichiarano nel nome.
+9. **Ritorno alla versione precedente (R07-011):** resta a mano. Lo script propone la versione e si ferma se non è sicuro.
+10. **Upstash o colonna nuova (R03-014, R03-016):** nessuno dei due adesso, perché l'IA per i negozi è spenta al lancio (`prodotto.spente-al-lancio`). Quando si riaccende, la colonna nel database: niente servizio nuovo e niente chiavi nuove.
+11. **Foto (R10-001):** il piano Pro di Supabase comprende 100 foto trasformate al mese, poi 5 $ ogni 1.000 (documentazione Supabase, letta il 19/11). Il controllo di 5 minuti del Pannello deve caricare anche una foto vera di prodotto, così una foto rotta diventa un allarme. L'indirizzo del controllo esterno è `https://mycity-marketplace.com/api/health`.
+12. **Schermate dell'app installabile (R06-005):** non servono adesso, l'app installabile è spenta al lancio. Quando si riaccende, le fa l'AD dal sito col browser.
+- **Colore:** 🟡. Codice nei rami; unione, migrazioni e database vero restano di Nicola. Il punto 6 chiede un suo clic.
+
+## 2026-11-20 18:05 — Onda 9: firme di Nicola sulle regole della guardia (chat «Ondata 9 · 5.0»)
+- **Cosa:** Nicola, 20/11: «Ti do il permesso sulle 2 cose» e «ti firmo le 23 prove ritoccate». (1) Il programma della riparazione legge la firma «id_nel_commit» anche quando il messaggio di un commit cita una voce di un'altra sessione (riga in `cervello/riparazione-sessioni.mjs`, prova nuova, collaudo di un agente diverso). (2) Firmati i 2 commit di R08 del 19/11 (`f6d4f4c1`, `a431ee63`). (3) Firmate le prove esistenti ritoccate: 17 del giro 2 (5 di R02, 12 di R03) scritte in `onda9/giro2/piano.json`; le altre già coperte dall'eccezione del 18/11, più quella del drop corretta dalla regia (`d403fa41`).
+- **Perché:** senza la riga le firme del 18/11 non contavano e le chiusure di mycity#297 e #298 restavano ferme. I collaudatori K01–K04 avevano giudicato le prove non indebolite.
+- **Resta aperto:** firma su 3 commit del giro 2 (`3bba8949` di R03, `9a60bc75` e `8aa18de2` di R01); la strada per la scorta in Modifica/Duplica (R04-007 del giro 2).
+- **Colore:** 🟡, firmato da Nicola.
+
+## 2026-11-20 19:29 — Onda 9: firma di Nicola sui 3 commit del giro 2
+- **Cosa:** «Firmo i 3 commit del giro 2»: `9a60bc75` e `8aa18de2` (R01), `3bba8949` (R03), regola «id_nel_commit», scritti in `onda9/giro2/piano.json`. Chiuse 12 voci del giro 2 con mycity#298.
+- **Colore:** 🟡, firmato da Nicola.
+
+## 2026-11-20 19:31 — Onda 9: la scorta in Modifica/Duplica va a una sessione dedicata
+- **Cosa:** Nicola, chat «Ondata 9 · 5.0»: «Scorte sessione dedicata». R04-007 del giro 2 (nata da R03-019) esce dal giro dopo e va a una sessione sola su quella voce, con la prova E2/D2 del collaudo K02 del giro 2 come rossa di partenza e la regola «se le taglie non arrivano il Salva si blocca con un avviso, il testo resta». Stima 20-30 $.
+- **Perché:** due giri di riparazione falliti sullo stesso buco (scorta che si stacca dalla somma delle taglie).
+- **Chi:** la regia 6.0 (`session_015BmpnUxR79mzccgeUCjeKq`), avvisata in chat.
+- **Colore:** 🟡, deciso da Nicola.
+
+## 2026-11-20 19:58 — Onda 9 giro 3: tetto 240 $, le 12 voci al terzo giro dentro, via
+- **Cosa:** Nicola, chat «Ondata 9 · 6.0»: «Va bene il tetto 240, le 12 voci tienile dentro e via». Giro 3 dell'onda 9 sul sito da `b2c62f34`: 89 voci minori in R01 (riservata) e R02-R05, più la sessione dedicata alla scorta (S01, 20-30 $ a parte, decisa alle 19:31). Le 12 voci al terzo giro (regola 8) restano dentro: cambia il riparatore e il motivo della bocciatura è scritto.
+- **Chi:** la regia 6.0 (`session_015BmpnUxR79mzccgeUCjeKq`).
+- **Colore:** 🟡, firmato da Nicola. Unione e migrazioni restano sue.
+
+## 2026-11-21 00:08 — Onda 9 giro 3: tetto a 280 $, scorta S01-001 tolta, fascia scelta, firme, ok migrazioni
+- **Cosa:** Nicola, chat «Ondata 9 · 7.0»: «280 sì, b, fascia, firmo tutto, ok migrazioni, Sentry dopo». ① Tetto del giro 3 alzato da 240 a 280 $ (speso 258,87 $ alle 23:31). ② S01-001 (la scorta) tolta dall'unione dopo due bocciature, S01-002 resta. ③ R05-008: se cade la scrittura del secondo ordine veloce, il primo resta nella fascia oraria scelta dal cliente (non torna «Adesso»): regola per il prossimo giro. ④ Firmate le prove ritoccate di R02 (3) e R04 (4) e i commit di R02 che citano voci di altre onde (`fa5dd0fa`, `19291cd4`, `e3231f8e`, quest'ultimo è il ritocco delle due prove firmate): scritte in `giro3/piano.json` → `eccezioni_firmate`. ⑤ «ok migrazioni» per la 620 (R05-006). ⑥ Sentry resta spento per ora.
+- **Chi:** la regia 7.0 (`session_015BmpnYruq7734YUce72wCa`).
+- **Colore:** 🔴 per tetto e migrazione, firmati da Nicola. L'unione della PR resta sua.
+
+## 2026-11-21 02:01 — 🔴 Sei migrazioni nel database vero, col via di Nicola
+- **Cosa:** dopo l'unione di mycity#299 la 620 non era in produzione: il «Rilascio dopo CI verde» si ferma senza le chiavi Vercel e Vercel pubblica da solo, senza migrazioni. La «Deriva migrazioni» del 20/11 diceva che mancavano già 500, 501, 540, 541 e 572 (unioni dell'onda 9). Nicola: «ok 6 migrazioni» (21/11 ~01:50). Lanciato «Migrazioni a mano» (giro 44846535636: APPLICA, quante 6, ultima 620); passo di scrittura verde alle 01:59.
+- **Verificato dopo, in sola lettura:** il registro di produzione ha le 6 versioni; la funzione `sposta_la_consegna_nel_carrello` della 620 esiste.
+- **Resta aperto:** finché mancano le chiavi Vercel su GitHub, ogni migrazione nuova del sito resta fuori dal database dopo l'unione, e va messa col pulsante.
+- **Chi:** la regia 7.0 (`session_015BmpnYruq7734YUce72wCa`). **Colore:** 🔴 scrittura sul database vero, firmata da Nicola.
+
+## 2026-11-21 02:30 — Onda 9 giro 4: strada A, tetto 250 $, via
+- **Cosa:** Nicola, chat «Ondata 9 · 7.0»: «A» sul preventivo del giro 4 (proposta: «A, tetto 250, via»). 89 voci minori (69 rimaste aperte dal giro 3, 19 nati del giro 3, la scorta), 4 riparatori da 35 $, collaudi 60 $, riservata 25 $, controllore e regia 25 $. Attesi circa 15 chiusi (misura del giro 3: circa 18 $ a chiuso). Fuori: R03-002 e R03-003 rimandate da Nicola; R03-021 riservata va in una sessione riservata dopo l'onda 1 (lib/logger.ts è di R01).
+- **Chi:** la regia 7.0. **Colore:** 🔴 spesa, firmata da Nicola.
+
+## 2026-11-21 03:03 — Onda 9: tutti i difetti in 1-2 settimane, si ripara per causa
+- **Cosa:** Nicola, chat «Ondata 9 · 8.0»: «devono essere risolti in 1/2 settimane» e «usa la strategia che proponi, però mantieni la stessa efficienza». Dal giro 5: minori raggruppati per file e per causa con prediagnosi; modello piccolo e ultracode spento sui minori non delicati, grande e ultracode solo sui delicati; firme date prima su prove comuni ritoccate senza togliere asserzioni e sul testo dei commit (i testi vanno mostrati prima del giro 5).
+- **Perché:** nell'onda 9 circa 19 chiusi al giorno, uno su tre regge al collaudo, circa 12 $ a chiusa e per ogni chiuso circa 1,5 nati; due giorni fermi ad aspettare firme. Al ritmo di oggi i difetti non finiscono.
+- **Vincolo:** «stessa efficienza» = la quota che regge al collaudo e il costo per chiusa non peggiorano; si misurano a ogni giro, se peggiorano la regia si ferma e lo dice.
+- **Aperti con Nicola:** il tetto di spesa per le 1-2 settimane; se i minori nati durante le riparazioni vanno in una lista «dopo» che non sposta il traguardo; la proposta su gravi e bloccanti per `ad.uso-e-crediti`.
+- **Chi:** la regia 8.0, poi la 9.0. **Colore:** 🟡 metodo; la spesa resta 🔴 a ogni preventivo.
+
+## 2026-11-21 03:08 — Onda 9 giro 4: chi apre le sessioni e due firme su R02
+- **Cosa:** Nicola, «A, firmo la prima, la seconda cambiala». (1) La regia 9.0 è a profondità 8 su 8 e non può aprire sessioni: collaudatori, controllore e sessione riservata li apre Nicola o l'AD quando la 9.0 lo chiede. (2) R02-004: firmato il ritocco del finto psql in una prova comune, senza togliere asserzioni. (3) R02-005: si cambia il comportamento della prova di fumo sui due casi rari e si aggiornano le due prove che li fissavano.
+- **Perché:** il limite di profondità non si cambia; le due voci di R02 restavano non_fatto senza una scelta.
+- **Chi:** regia 9.0. **Colore:** 🟡.

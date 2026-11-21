@@ -1,0 +1,20 @@
+{
+  "corsia": 2,
+  "territorio": "R02",
+  "difetti": [
+    {
+      "chiave": "qa-flussi|la pagina dei negozi legge le categorie senza range: oltre il tetto di righe di postgrest si perderebbero delle categorie madri",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r02-negozi-categorie-a-pagine.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 6324bb64c1ff4c7c8dcbd8b4f73460f399870b7e^ --file app/stores/page.tsx --prove tests/unit/riparazione-r02-negozi-categorie-a-pagine.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 6324bb64c1ff4c7c8dcbd8b4f73460f399870b7e^ --file app/stores/page.tsx --prove tests/unit/riparazione-r02-negozi-categorie-a-pagine.test.tsx --json → uscita 0 (K01)",
+      "nota_fix": "Le categorie si leggono con l'helper esistente leggiTutteLeRighe (lib/supabase/blocchi), a finestre con .range(), ordinate per nome e per id. La prova monta la pagina con react-query vero su un finto PostgREST che taglia a mille righe, con 1.103 categorie: la madre dopo la millesima compare tra i filtri e trova il suo negozio."
+    },
+    {
+      "chiave": "qa-flussi|nella vetrina del negozio la data delle recensioni è nel fuso del telefono, non di piacenza",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r02-recensioni-giorno-di-piacenza.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 3b19f233b21caeccc7bd57d9763159a32291a0ea^ --file components/store-sections/ReviewsSection.tsx --prove tests/unit/riparazione-r02-recensioni-giorno-di-piacenza.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 3b19f233b21caeccc7bd57d9763159a32291a0ea^ --file components/store-sections/ReviewsSection.tsx --prove tests/unit/riparazione-r02-recensioni-giorno-di-piacenza.test.tsx --json → uscita 0 (K01)",
+      "nota_fix": "La data usa toLocaleDateString('it-IT', { timeZone: FUSO_PIACENZA }) con FUSO_PIACENZA da lib/tempo-piacenza (oggi la riga è la 162, non la 109 del registro). La prova gira con TZ=America/New_York su una recensione delle 23:30Z del 16/11: mostra 17/11/2026; senza la correzione 16/11."
+    }
+  ]
+}

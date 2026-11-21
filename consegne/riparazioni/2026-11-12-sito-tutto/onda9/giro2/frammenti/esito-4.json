@@ -1,0 +1,27 @@
+{
+  "corsia": 4,
+  "territorio": "R04",
+  "difetti": [
+    {
+      "chiave": "deploy-sre|dopo un ritorno indietro il riepilogo del rilascio rassicura a torto se una migrazione ha tolto una funzione o una vista",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r04-ritorno-non-scarta-la-riga.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 94c6d30ce3a7fac777b273db92b68b14fbd764c7^ --file .github/workflows/deploy-dopo-ci.yml --prove tests/unit/riparazione-r04-ritorno-non-scarta-la-riga.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R04 --base 94c6d30ce3a7fac777b273db92b68b14fbd764c7^ --file .github/workflows/deploy-dopo-ci.yml --prove tests/unit/riparazione-r04-ritorno-non-scarta-la-riga.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "Il filtro del ritorno indietro non butta più la riga intera. Un sed toglie dalla riga solo DROP DEFAULT/IDENTITY/EXPRESSION, il resto si cerca come prima, e c'è un ramo nuovo per «, DROP col». La prova esegue nota_database estratta dal YAML vero, sotto set -euo pipefail. I casi 901, 902, 902b e 903 sono rossi col filtro di 3b65a6a9; 904 e «solo DROP DEFAULT» restano come devono."
+    },
+    {
+      "chiave": "deploy-sre|se lo script delle migrazioni cade fra un file e il successivo, il riepilogo accusa una migrazione sana",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r04-migrazioni-cadute-incertezza.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 93c6dc2c36f6d3a10baf07918cad01a483a234bd^ --file .github/workflows/deploy-dopo-ci.yml --prove tests/unit/riparazione-r04-migrazioni-cadute-incertezza.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R04 --base 93c6dc2c36f6d3a10baf07918cad01a483a234bd^ --file .github/workflows/deploy-dopo-ci.yml --prove tests/unit/riparazione-r04-migrazioni-cadute-incertezza.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "Lo script è scripts/applica-migrazioni-mancanti.sh (non mio, senza riga «✔ registrata»), quindi l'incertezza resta nel YAML. Con uscita 3 il riepilogo accusa la migrazione rotta. Con ogni altra uscita parla dell'«ultima cominciata», che può essere applicata, rimasta a metà (se ha un COMMIT suo) o non registrata, e non dice più «Nessuna migrazione da correggere». La prova gira sul passo vero e sullo script vero, con un psql finto: (a) è rossa sulla base, (b) è rossa sul codice di 9842603c. Il residuo «INSERT di registrazione caduto = uscita 3», che temevo, non c'è: il revisore ha visto che l'INSERT è psql -c ed esce con 1, quindi finisce nel ramo prudente."
+    },
+    {
+      "chiave": "microcopy|gli errori dei moduli controllati dal server arrivano al cliente in inglese, per esempio «string must contain at most 120 character»",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r04-errori-rotte-in-italiano.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 1037f1e7051f333e44d0c491399d5585b584cded^ --file lib/api/responses.ts --prove tests/unit/riparazione-r04-errori-rotte-in-italiano.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R04 --base 1037f1e7051f333e44d0c491399d5585b584cded^ --file lib/api/responses.ts --prove tests/unit/riparazione-r04-errori-rotte-in-italiano.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "In testa a lib/api/responses.ts c'è import '@/lib/zod-i18n', e tutte e 13 le rotte elencate importano quel file (controllato con grep). La prova chiama le rotte vere admin/categories e chat/messages, con accesso e database finti. Risponde «Massimo 60 caratteri», «Campo obbligatorio», «ID non valido»; senza la correzione i tre casi sono rossi. Il modulo contatti era già a posto."
+    }
+  ]
+}

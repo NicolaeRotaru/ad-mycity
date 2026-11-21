@@ -1,0 +1,41 @@
+{
+  "corsia": 3,
+  "territorio": "R03",
+  "difetti": [
+    {
+      "chiave": "ai-endpoints|le rotte catalog-apply e catalog-apply-bulk non leggono l'interruttore ai_negozi_accesa",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-interruttore-apply.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base cad84038^ --file app/api/ai/catalog-apply/route.ts,app/api/ai/catalog-apply-bulk/route.ts --prove tests/unit/riparazione-r03-interruttore-apply.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03 --base cad84038a5f3d5fde855bc8a32e11614e4922c51^ --file app/api/ai/catalog-apply/route.ts,app/api/ai/catalog-apply-bulk/route.ts --prove tests/unit/riparazione-r03-interruttore-apply.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "Nelle due rotte import di AI_NEGOZI_ACCESA e, come prima riga del gestore dentro withSellerAuth (come le rotte sorelle), return ApiErrors.unavailable(...): chi non è autenticato riceve ancora 401. La prova nuova, con l'interruttore spento, controlla 503, nessun accesso al database, nessuna scrittura, nessun filtro e niente audit; poi le stesse richieste con l'interruttore acceso."
+    },
+    {
+      "chiave": "ai-endpoints|un lotto ai partito e pagato ma non agganciato alla sua riga si chiude come fallito dopo 15 minuti e se ne può pagare un secondo",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-lotto-motivo-rifiutato.test.ts tests/unit/riparazione-r03-lotto-chiusura-ritentata.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base fa420dda^ --file app/api/ai/catalog-batch/start/route.ts --prove tests/unit/riparazione-r03-lotto-motivo-rifiutato.test.ts --json (rilanciata dopo 154f87e4 con --base e60c1296: regge, 0) → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03 --base fa420ddadd45f30b7956b3a98fae85fba8f7e2a9^ --file app/api/ai/catalog-batch/start/route.ts --prove tests/unit/riparazione-r03-lotto-motivo-rifiutato.test.ts,tests/unit/riparazione-r03-lotto-chiusura-ritentata.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "Cura solo in start/route.ts: la riga nasce già nell'insert col motivo INVIO_SENZA_RISPOSTA (che status tiene aperto 24 ore); aggancio e fallimento netto tolgono il motivo; le due scritture del motivo leggono error e lo registrano. Se il database le rifiuta la riga resta «forse partito», non si chiude dopo 15 minuti e il secondo avvio riceve 409."
+    },
+    {
+      "chiave": "ai-endpoints|la lettura da foto accetta il testo «false» del modello come prodotto ammesso",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-foto-solo-si-vero.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 63742fad^ --file app/api/vision/extract-products/route.ts --prove tests/unit/riparazione-r03-foto-solo-si-vero.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03 --base 63742fade53e2b2c94cb5b179020e7cfa01c7847^ --file app/api/vision/extract-products/route.ts --prove tests/unit/riparazione-r03-foto-solo-si-vero.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "extract-product regge già dall'onda 9 (riga 433 policy_ok !== true, riga 339 verifica sul web solo con === true). In extract-products policy_ok: p.policy_ok !== false diventa p.policy_ok === true, la stessa regola. La prova copre per extract-products 'false', 'False', ' false ', 'no', '0', 0, null, campo assente e 'true' testo → false, true → true; per extract-product quattro varianti (400) e la controprova (200)."
+    },
+    {
+      "chiave": "ai-endpoints|se l'invio di un lotto ai resta senza risposta, il sito lo rimanda e anthropic ne esegue due, uno pagato e mai visto",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-lotto-forse-partito.test.ts tests/unit/riparazione-r03-lotto-524.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base e60c1296^ --file lib/ai/batch.ts --prove tests/unit/riparazione-r03-lotto-forse-partito.test.ts,tests/unit/riparazione-r03-lotto-524.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03 --base e60c12967ef0a90e47693d0af78dbe179f89d9f2^ --file lib/ai/batch.ts --prove tests/unit/riparazione-r03-lotto-forse-partito.test.ts,tests/unit/riparazione-r03-lotto-524.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "In batch.ts il 520 entra fra i «forse partito»; un 2xx senza id di lotto lancia l'errore di risposta illeggibile, che vale «forse partito»; l'invio ha un tempo suo di 70 s per risposta e corpo (AbortController passato come signal a batches.create, accettato dall'SDK 0.100.1) e l'interruzione finisce nel ramo «forse partito». Prova col client vero dell'SDK su fetch finto e orologio finto."
+    },
+    {
+      "chiave": "qa-flussi|quando il fattorino segna «cliente assente» il negozio riceve solo la campanella, non l'email di annullo",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-cliente-assente-email.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 3bba8949^ --file \"app/api/rider/orders/[id]/cliente-assente/route.ts\" --prove tests/unit/riparazione-r03-cliente-assente-email.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03 --base 3bba8949bfb210165426e738f7f082f6f7375f65^ --file \"app/api/rider/orders/[id]/cliente-assente/route.ts\" --prove tests/unit/riparazione-r03-cliente-assente-email.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "Applicate pulite con git apply cura_pronta_patch e prove_comuni_patch di R06-006 (referto R06, ramo o9-m06); prova nuova rinominata riparazione-r03-cliente-assente-email.test.ts. La rotta chiama await avvisaIlNegozioDellAnnullo(admin, order, fraseAlNegozio) dopo la campanella, come le altre rotte d'annullo; non tocca contanti, rimborsi o importi."
+    }
+  ]
+}

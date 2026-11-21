@@ -1,0 +1,34 @@
+{
+  "corsia": 2,
+  "territorio": "R02",
+  "difetti": [
+    {
+      "chiave": "deploy-sre|se il secchio dello storico delle foto non si crea, lo storico finisce nello stesso secchio della copia e la notte resta verde",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r02-backup-storico-rosso.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 19291cd4^ --file scripts/backup-db.sh --prove tests/unit/riparazione-r02-backup-storico-rosso.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 19291cd4^ --file scripts/backup-db.sh --prove tests/unit/riparazione-r02-backup-storico-rosso.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "Tolto il ripiego su «<destinazione>/_storico» (R15-003/R07-009). Se il secchio dello storico non risponde e rclone mkdir fallisce (predefinito «-storico» o STORAGE_SYNC_STORICO scritto a mano): «esito-foto: fallita» nel registro, riepilogo rosso «manca il secchio dello storico», nessuna sync delle foto (la copia della notte prima resta com'era: una sync senza storico toglierebbe dalla copia le foto sparite) ed exit 5 come le altre copie delle foto fallite. Prova come quelle esistenti: blocco foto di backup-db.sh lanciato da vitest con bash e rclone finto nel PATH (aiutante riparazione-r15-rclone-finto, solo importato, non modificato): destinazione con e senza barra finale e storico a mano → uscita diversa da 0, nel secchio della copia solo products/a.jpg e products/cancellata.jpg, nessun _storico; caso normale (secchio -storico esistente o creabile) verde, foto sparita in b2:mycity-foto-storico/T1/products."
+    },
+    {
+      "chiave": "frontend-ux|sul telefono il riquadro verde della scheda prodotto diventa un muro di testo di 264 caratteri, e dopo il caricamento cresce ancora di una riga",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r02-riga-consegna-non-cresce.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base fa5dd0fa^ --file components/ui/DeliveryCutoff.tsx --prove tests/unit/riparazione-r02-riga-consegna-non-cresce.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base fa5dd0fa^ --file components/ui/DeliveryCutoff.tsx --prove tests/unit/riparazione-r02-riga-consegna-non-cresce.test.tsx --json → uscita 0 (K02)",
+      "nota_fix": "Prima metà già sulla base (R08-002): nel riquadro la tariffa da 264 caratteri è diventata la riga corta «Consegna MyCity da 3,00 € per tutto il carrello · come si calcola» (prova riparazione-r08-riquadro-consegna-corto). Restava la crescita col negozio chiuso: dopo il caricamento la frase di rigaConsegnaDellaScheda (lib/promessa-consegna.ts, non toccata) diventa «Il negozio è chiuso ora, riapre domani alle 08:00: in cassa scegli l'ora della consegna» (87 caratteri) = 3 righe a 360 px e nella colonna lg 1024-1279 (la più stretta, ~253 px), contro 2 righe riservate. DeliveryCutoff inline ora riserva 3 righe sotto i 1280 (max-xl:min-h-[3.75rem]) e 2 da 1280 (min-h-[2.5rem] invariata, le prove comuni minori-s10/R08 restano verdi). Prova: tutte le frasi della regola in una settimana (4 orari, ogni 15', veloce sì/no/non so) misurate con la stima della prova della barra (0,58 em, a capo per parole) contro le righe riservate dal componente vero a 360/1023/1024/1280 px, più il componente vero montato col forno chiuso giovedì 21:30 (orologio finto): frase lunga, stessa classe prima e dopo, entra nelle righe tenute."
+    },
+    {
+      "chiave": "qa-flussi|dalla scheda prodotto il carrello riceve il prezzo pieno anche con una promozione attiva, e il carrello può dire che il prezzo è sceso",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r02-prezzo-promo-al-carrello.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 96c07a90^ --file app/product/[id]/page.tsx --prove tests/unit/riparazione-r02-prezzo-promo-al-carrello.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 96c07a90^ --file app/product/[id]/page.tsx --prove tests/unit/riparazione-r02-prezzo-promo-al-carrello.test.tsx --json → uscita 0 (K02)",
+      "nota_fix": "«Aggiungi al carrello» e «Compra ora» passano a addToCart `price` (scontato con discountedUnitCents, non toccata) invece di prezzoPieno. Carrello e cassa non scontano di nuovo: sostituiscono il prezzo salvato col pieno del database meno la promo (app/cart/page.tsx:323, app/checkout/page.tsx:225), quindi il «Buona notizia: il prezzo è sceso» non scatta più; lib/cart.ts e la pagina carrello non servono cambiati. Prova con promo del negozio ATTIVA sull'orologio finto (regola di product_active_discount: starts_at ≤ adesso ≤ ends_at): 34,90 € al -15% → riga a 29,67 €, condizione del carrello «cambiato» falsa, barra e suo onAdd allo stesso prezzo, «Compra ora» uguale; fuori finestra (prima e dopo) tutto a prezzo pieno."
+    },
+    {
+      "chiave": "qa-flussi|la scheda prodotto passa il prezzo pieno alla barra d'acquisto e al carrello con una promozione attiva",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r02-prezzo-promo-al-carrello.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 96c07a90^ --file app/product/[id]/page.tsx --prove tests/unit/riparazione-r02-prezzo-promo-al-carrello.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 96c07a90^ --file app/product/[id]/page.tsx --prove tests/unit/riparazione-r02-prezzo-promo-al-carrello.test.tsx --json → uscita 0 (K02)",
+      "nota_fix": "Stessa cura di R02-020: sulla base la barra mostrava già `price` (scontato), ma il suo onAdd (handleAdd) e «Compra ora» salvavano il pieno; ora barra, scheda e carrello hanno lo stesso prezzo promozionale. Prova: la barra riceve 29,67 € e il suo onAdd mette in carrello 29,67 €; fuori finestra 34,90 €."
+    }
+  ]
+}

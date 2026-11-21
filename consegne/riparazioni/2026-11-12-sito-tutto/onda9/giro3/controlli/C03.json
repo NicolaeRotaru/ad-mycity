@@ -1,0 +1,90 @@
+{
+  "controllore": "C03",
+  "onda": 9,
+  "giro": 3,
+  "finita": true,
+  "testa": "ee85dafac2355383eb1af256d64a3af9af3c7976",
+  "base": "b2c62f34e26f6ff86eab45ccf39fa456ed3767bb",
+  "sha_regista": "de61b94b066569f8277c62ae3f38dd59586b8904",
+  "tolte_con_revert": [
+    "R05-007",
+    "R04-021",
+    "R03-021",
+    "S01-001"
+  ],
+  "verify": {
+    "comando": "npm run verify && tests/sql/harness/apply.sh && tests/sql/harness/run.sh",
+    "esito": "verde",
+    "dettaglio": "verify: 1847 file di prova verdi, 1 saltato (11556 prove). apply: 210 migrazioni applicate, 0 fallite, su Postgres 16 locale. run: tutti i controlli SQL verdi."
+  },
+  "voci_rosse": [
+    {
+      "chiave": "frontend-ux|con una promozione attiva la barra d'acquisto e i caroselli mostrano il prezzo pieno, mentre sopra c'è quello scontato",
+      "id": "R03-012",
+      "perche": "StickyAddToCart.tsx:39 accetta ora prezzoPieno, ma app/product/[id]/page.tsx:1610-1625 non lo passa: nel ramo unito il barrato della barra non compare mai, e il codice nuovo non viene mai usato. Ai caroselli non è stato fatto nulla (la voce era già dichiarata parziale)."
+    },
+    {
+      "chiave": "deploy-sre|la notifica sul telefono per un nuovo ordine arriva fino a 5 minuti dopo, non in pochi secondi",
+      "id": "R02-004",
+      "perche": "lib/push/subito.ts:109 mandaSubitoLaPushDelNuovoOrdine non ha chiamanti in app/, lib/, components/, scripts/ (grep fatto): né cod/route.ts né stripe/checkout/route.ts la importano, quindi la push arriva ancora col giro dei 5 minuti. In più il commento di app/api/cron/send-push/route.ts:25 dice che la push parte subito, e non è vero (voce già dichiarata parziale)."
+    }
+  ],
+  "nuovi_difetti_visti": [
+    {
+      "titolo": "Il codice di benvenuto restituito dopo un rifiuto della carta resta bloccato al tentativo dopo",
+      "dimensione": "api-backend",
+      "severita": "minore",
+      "file": "app/api/stripe/checkout/route.ts:877",
+      "descrizione": "R04-007 ha chiuso la rivendicazione del codice solo nel percorso in contanti (cod/route.ts, chiudiLaRivendicazione). Nel percorso con carta, rilasciaCoupon chiama ancora release_coupon con il solo p_code. Secondo migrations/361:128-167 la riga di coupon_redemptions si chiude solo nella variante con p_order_id. Esempio: benvenuto valido solo sul primo ordine, Stripe rifiuta oppure la merce è finita. Il contatore torna indietro, ma la rivendicazione resta aperta: al tentativo dopo il cliente legge «Coupon non disponibile» anche se non è nato nessun ordine. Non sono stati verificati i rilasci in lib/stripe/webhook/* e app/api/cron/*.",
+      "nota_regia": "regia 7.0, 21/11: «medio» non è nell'elenco; minore come R04-007, lo stesso difetto nel percorso in contanti"
+    },
+    {
+      "titolo": "Nella scheda utente dell'amministrazione il codice fiscale appare vuoto mentre si sta ancora caricando",
+      "dimensione": "api-backend",
+      "severita": "minore",
+      "file": "app/admin/users/page.tsx:1139",
+      "descrizione": "datoIdentita mostra '—' anche quando datiIdentita è ancora undefined, cioè mentre la lettura di /kyc è in volo (righe 1139, 1149, 1249). Per un istante un negozio con codice fiscale e partita IVA veri sembra non averli mai dati: è lo stesso equivoco di R04-002, limitato al caricamento. Con staleTime 0 e gcTime 0 si rivede a ogni apertura."
+    },
+    {
+      "titolo": "L'avviso «registratore degli errori acceso solo sul server» resta finché non si rifà il deploy",
+      "dimensione": "deploy-sre",
+      "severita": "minore",
+      "file": "app/api/cron/operational-alerts/route.ts:677",
+      "descrizione": "Se NEXT_PUBLIC_SENTRY_DSN viene messa su Vercel dopo l'ultima build, il server la legge subito ma il pacchetto del browser no, e l'avviso resta fino al nuovo deploy. Il testo dell'avviso dice già «rifai il deploy»: è una nota, non un errore di logica."
+    }
+  ],
+  "controlli_dei_revert": "Nessun pezzo orfano di R05-007, R04-021, R03-021 e S01-001. cod/route.ts è coerente con la migrazione 620, che resta l'ultima. S01-002 in app/seller/products/new/page.tsx è coerente dopo il revert di S01-001: l'import, recessoSegnabileQui e il passaggio al ProductForm ci sono (letto, non compilato a parte; il typecheck di verify è verde).",
+  "voci_che_reggono": [
+    "R01-001",
+    "R01-002",
+    "R02-005",
+    "R02-007",
+    "R02-009",
+    "R02-018",
+    "R02-020",
+    "R02-021",
+    "R03-004",
+    "R03-007",
+    "R03-020",
+    "R04-002",
+    "R04-007 (solo il percorso in contanti, vedi difetto nuovo)",
+    "R04-008",
+    "R04-009",
+    "R04-011",
+    "R04-012",
+    "R04-015",
+    "R05-005",
+    "R05-006",
+    "R05-009",
+    "R05-010",
+    "S01-002"
+  ],
+  "file_toccati": 70,
+  "file_guardati": 33,
+  "perche_non_tutti": "I 33 file di codice e la migrazione 620 sono stati letti a occhio, sul diff. Gli altri 37 sono file di prova (tests/unit, tests/sql): li ho eseguiti tutti con verify e run.sh, che sono verdi, ma non li ho riletti, perché secondo il LEGGIMI il collaudo voce per voce lo ha già fatto il collaudatore.",
+  "nota_ultracode": "get_session non espone il campo is_ultracode_active, né per questa sessione né per la regista. Ho proceduto perché la regista mi ha lanciato con questo incarico, e lo segnalo.",
+  "conto": {
+    "subagenti": 5,
+    "token_stimati": 470000
+  }
+}

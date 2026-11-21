@@ -2047,5 +2047,101 @@
     }
   ],
   "cucitura": [],
-  "eccedenza": []
+  "eccedenza": [],
+  "eccezioni_firmate": [
+    {
+      "onda": 1,
+      "sessione": "R02",
+      "regole": [
+        "prove_comuni"
+      ],
+      "file": [
+        "tests/unit/riparazione-r03-chi-siamo-testo-grande.test.ts",
+        "tests/unit/riparazione-r15-col-testo-grande-la-pagina-non-scorre-di-lato.test.tsx"
+      ],
+      "perche": "Per le voci del testo grande R02 ha ritoccato due prove comuni di altre sessioni. Il collaudo K01 le ha guardate: nessuna asserzione persa, e rimettendo il difetto tornano rosse.",
+      "firma": "Nicola, 18/11 alle 12:52, chat «Ondata 9 · 3.0» session_015BmpnZQiGiFfMYaWbMDKVT: «Firmo l'eccezione»",
+      "scritta": "2026-11-18 12:52, regia 3.0 dell'onda 9"
+    },
+    {
+      "onda": 1,
+      "commit": "ab1dfaf95e60051ea94380aeb479fd3568a06c74",
+      "regole": [
+        "id_nel_commit"
+      ],
+      "perche": "Commit di R02: il collaudo K01 ha visto che il titolo del commit è fuori regola ma il commit tocca solo la sua voce.",
+      "firma": "Nicola, 18/11 alle 12:52, chat «Ondata 9 · 3.0» session_015BmpnZQiGiFfMYaWbMDKVT: «Firmo l'eccezione»",
+      "scritta": "2026-11-18 12:52, regia 3.0 dell'onda 9"
+    },
+    {
+      "onda": 1,
+      "commit": "f07aaad50144ae663f2c203e8022ba5557b1324c",
+      "regole": [
+        "id_nel_commit"
+      ],
+      "perche": "Commit di R02: il collaudo K01 ha visto che il titolo del commit è fuori regola ma il commit tocca solo la sua voce.",
+      "firma": "Nicola, 18/11 alle 12:52, chat «Ondata 9 · 3.0» session_015BmpnZQiGiFfMYaWbMDKVT: «Firmo l'eccezione»",
+      "scritta": "2026-11-18 12:52, regia 3.0 dell'onda 9"
+    },
+    {
+      "onda": 1,
+      "commit": "d5cc38278982a85d5274e4c5a2feb308fd30f829",
+      "regole": [
+        "id_nel_commit"
+      ],
+      "perche": "Commit di R03: il collaudo K01 ha visto che il titolo del commit è fuori regola ma il commit tocca solo la sua voce.",
+      "firma": "Nicola, 18/11 alle 12:52, chat «Ondata 9 · 3.0» session_015BmpnZQiGiFfMYaWbMDKVT: «Firmo l'eccezione»",
+      "scritta": "2026-11-18 12:52, regia 3.0 dell'onda 9"
+    },
+    {
+      "onda": 1,
+      "commit": "7ffe94441a90a1bfe309877ea37c4b87ad8dfd77",
+      "regole": [
+        "id_nel_commit"
+      ],
+      "perche": "Commit di R03: il collaudo K01 ha visto che il titolo del commit è fuori regola ma il commit tocca solo la sua voce.",
+      "firma": "Nicola, 18/11 alle 12:52, chat «Ondata 9 · 3.0» session_015BmpnZQiGiFfMYaWbMDKVT: «Firmo l'eccezione»",
+      "scritta": "2026-11-18 12:52, regia 3.0 dell'onda 9"
+    },
+    {
+      "onda": 1,
+      "commit": "ef3188359d8c51ed964382bc2fd585450196f6f3",
+      "regole": [
+        "id_nel_commit"
+      ],
+      "perche": "Commit di R03: il collaudo K01 ha visto che il titolo del commit è fuori regola ma il commit tocca solo la sua voce.",
+      "firma": "Nicola, 18/11 alle 12:52, chat «Ondata 9 · 3.0» session_015BmpnZQiGiFfMYaWbMDKVT: «Firmo l'eccezione»",
+      "scritta": "2026-11-18 12:52, regia 3.0 dell'onda 9"
+    },
+    {
+      "onda": 1,
+      "commit": "677b393d04c004441f81b6dd175ff16135bb3375",
+      "regole": [
+        "id_nel_commit"
+      ],
+      "perche": "Commit di R06: il collaudo K01 ha visto che il titolo del commit è fuori regola ma il commit tocca solo la sua voce.",
+      "firma": "Nicola, 18/11 alle 12:52, chat «Ondata 9 · 3.0» session_015BmpnZQiGiFfMYaWbMDKVT: «Firmo l'eccezione»",
+      "scritta": "2026-11-18 12:52, regia 3.0 dell'onda 9"
+    },
+    {
+      "onda": 1,
+      "commit": "f6d4f4c1e380865c79ed0354de882186508e044e",
+      "regole": [
+        "id_nel_commit"
+      ],
+      "perche": "Commit di R08 del 19/11: il messaggio cita una voce di un altro riparatore; il collaudo K04 ha giudicato le voci di R08 (6 reggono su 7).",
+      "firma": "Nicola, 20/11 alle 18:03, chat «Ondata 9 · 5.0» session_015BmpnZZ9mpJFdTk5mxvbY8: «Ti do il permesso sulle 2 cose»",
+      "scritta": "2026-11-20 18:03, regia 5.0 dell onda 9"
+    },
+    {
+      "onda": 1,
+      "commit": "a431ee637d8472097fc63cc377c4b4c738a5597b",
+      "regole": [
+        "id_nel_commit"
+      ],
+      "perche": "Commit di R08 del 19/11: il messaggio cita una voce di un altro riparatore; il collaudo K04 ha giudicato le voci di R08 (6 reggono su 7).",
+      "firma": "Nicola, 20/11 alle 18:03, chat «Ondata 9 · 5.0» session_015BmpnZZ9mpJFdTk5mxvbY8: «Ti do il permesso sulle 2 cose»",
+      "scritta": "2026-11-20 18:03, regia 5.0 dell onda 9"
+    }
+  ]
 }

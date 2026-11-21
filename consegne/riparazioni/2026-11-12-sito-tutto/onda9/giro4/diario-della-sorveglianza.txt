@@ -1,0 +1,29 @@
+2026-11-21 02:33 · R01 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-21 02:33 · R02 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-21 02:33 · R03 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-21 02:33 · R04 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-21 02:33 · onda 1 · prova-unione ⏳
+2026-11-21 02:33 · R01 · al lavoro (lotto 1) · guardia ⏳ · referto ⏳ · unione ⏳ · regia passata alla 8.0, avvisato
+2026-11-21 02:33 · R02 · al lavoro (lotto 1) · guardia ⏳ · referto ⏳ · unione ⏳ · regia passata alla 8.0, avvisato
+2026-11-21 02:33 · R03 · al lavoro (lotto 1) · guardia ⏳ · referto ⏳ · unione ⏳ · regia passata alla 8.0, avvisato
+2026-11-21 02:33 · R04 · al lavoro (lotto 1) · guardia ⏳ · referto ⏳ · unione ⏳ · regia passata alla 8.0, avvisato
+2026-11-21 02:50 · R01 9,81 $ · R02 12,62 $ · R03 10,85 $ · R04 9,20 $ · nessun ramo spinto · lotto 1 di 3 per tutti · ritmo sopra il tetto: soglia d'allarme R02 a 20 $ senza commit
+2026-11-21 02:54 · R01 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-21 02:54 · R02 · in lavoro · guardia 🔴 · referto – · unione (sotto) · nessuna
+2026-11-21 02:54 · R03 · in lavoro · guardia 🔴 · referto – · unione (sotto) · nessuna
+2026-11-21 02:54 · R04 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-21 02:54 · onda 1 · prova-unione ⏳
+2026-11-21 02:54 · R02 · lotto 1 spinto (0a157ea3), lotto 2 su sonnet · guardia 🔴 (1 prova comune ritoccata, c7525734) · referto ⏳ · unione ⏳ · scritto a R02: motivo nel referto, firma a Nicola all'unione
+2026-11-21 02:54 · R03 · lotto 1 spinto · guardia 🔴 (2 prove comuni: finto database allineato, 82d3d4c4 e 155d11a4) · referto ⏳ · unione ⏳ · scritto a R03: motivo nel referto, firma a Nicola all'unione
+2026-11-21 03:02 · R01 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-21 03:02 · R02 · in lavoro · guardia 🔴 · referto – · unione (sotto) · nessuna
+2026-11-21 03:02 · R03 · in lavoro · guardia 🔴 · referto – · unione (sotto) · nessuna
+2026-11-21 03:02 · R04 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-21 03:02 · onda 1 · prova-unione ⏳
+2026-11-21 03:03 · R01 13,81 $ · R02 16,53 $ · R03 16,64 $ · R04 13,96 $ · totale 60,94 $ · regia 9.0 al primo giro
+2026-11-21 03:03 · R01 · lotto 1 in corso, ramo non ancora spinto · guardia – · referto – · unione – · nessuna (sorvegliare: 13,8 $ senza commit)
+2026-11-21 03:03 · R02 · lotti 1-2 spinti (06fa5e4d), lotto 3 in corso · guardia 🔴 (prova comune c7525734, già nota) · referto ⏳ · unione ⏳ · nessuna
+2026-11-21 03:03 · R03 · lotti 1-2 in spinta (82d3d4c4) · guardia 🔴 (2 prove comuni, già note) · referto ⏳ · unione ⏳ · nessuna
+2026-11-21 03:03 · R04 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna (sorvegliare: 14 $ senza commit)
+2026-11-21 03:03 · regia 9.0 · send_later rifiutato (profondità 8 su 8): catena di sorveglianza con un timer locale; collaudatori, controllore e riservata non si possono aprire da qui, chiesto a Nicola
+2026-11-21 03:07 · R02 · tre lotti spinti (1b418f27): 8 riparati, 5 parziali, 3 già riparati, 3 serve_file_altrui, 3 non_fatto · 17,84 $, stima finale 24-27 $ · revisori in corso · ok della regia

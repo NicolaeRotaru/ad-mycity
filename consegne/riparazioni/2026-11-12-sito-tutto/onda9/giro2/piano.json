@@ -1,0 +1,490 @@
+{
+  "casa": "sito",
+  "profilo": "scelta",
+  "creato": "2026-11-19 10:12",
+  "onde": [
+    {
+      "onda": 1,
+      "base": "336f2fbda9b1b50209fbe94e1f5fde1c74134ab7",
+      "creata": "2026-11-19 10:12",
+      "per_sessione": 5,
+      "candidate": [
+        "navigazione-gerarchia|su notifiche e messaggi i titoli saltano dal titolo principale al terzo livello",
+        "stati-ui|con la sessione scaduta il pulsante «apri reclamo» non fa niente, non chiede di rientrare e il testo scritto si perde",
+        "stati-ui|nelle notifiche il tasto «carica altre» sparisce mentre carica, e un errore cancella dalla pagina l'elenco già letto"
+      ],
+      "sessioni": {
+        "R01": {
+          "tema": "navigazione-gerarchia",
+          "voci": [
+            {
+              "id": "R01-001",
+              "chiave": "navigazione-gerarchia|su notifiche e messaggi i titoli saltano dal titolo principale al terzo livello",
+              "gravita": "minore",
+              "titolo": "Su notifiche e messaggi i titoli saltano dal titolo principale al terzo livello",
+              "file": [
+                "app/notifications/page.tsx",
+                "app/messages/page.tsx"
+              ]
+            },
+            {
+              "id": "R01-002",
+              "chiave": "stati-ui|nelle notifiche il tasto «carica altre» sparisce mentre carica, e un errore cancella dalla pagina l'elenco già letto",
+              "gravita": "minore",
+              "titolo": "Nelle notifiche il tasto «Carica altre» sparisce mentre carica, e un errore cancella dalla pagina l'elenco già letto",
+              "file": [
+                "app/notifications/page.tsx"
+              ]
+            },
+            {
+              "id": "R01-003",
+              "chiave": "stati-ui|con la sessione scaduta il pulsante «apri reclamo» non fa niente, non chiede di rientrare e il testo scritto si perde",
+              "gravita": "minore",
+              "titolo": "Con la sessione scaduta il pulsante «Apri reclamo» non fa niente, non chiede di rientrare e il testo scritto si perde",
+              "file": [
+                "app/orders/[id]/dispute/page.tsx"
+              ]
+            }
+          ],
+          "file": [
+            "app/messages/page.tsx",
+            "app/notifications/page.tsx",
+            "app/orders/[id]/dispute/page.tsx"
+          ],
+          "migrazioni": [
+            580,
+            589
+          ]
+        }
+      },
+      "rimandate": [],
+      "regia": []
+    },
+    {
+      "onda": 2,
+      "base": "336f2fbda9b1b50209fbe94e1f5fde1c74134ab7",
+      "creata": "2026-11-19 10:12",
+      "per_sessione": 9,
+      "candidate": [
+        "accessibilita|nella pagina chi siamo e nella vetrina del negozio il banner ignora il testo alternativo e lascia la scritta bianca sulla foto senza velo",
+        "ai-endpoints|le rotte catalog-apply e catalog-apply-bulk non leggono l'interruttore ai_negozi_accesa",
+        "ai-endpoints|l'allarme del tetto di spesa ai scatta solo se la stessa copia del sito resta accesa per un'ora, e su vercel può non arrivare mai",
+        "microcopy|gli errori dei moduli controllati dal server arrivano al cliente in inglese, per esempio «string must contain at most 120 character»",
+        "qa-flussi|quando il fattorino segna «cliente assente» il negozio riceve solo la campanella, non l'email di annullo",
+        "deploy-sre|un'ultima prova ordina ancora le migrazioni con l'ordine vecchio",
+        "immagini-media|se l'abbonamento supabase scade, le foto del sito tornano rotte e nessun controllo se ne accorge",
+        "microcopy|il pulsante del negozio dice «pronto per il rider»: in tutto il resto del sito è «fattorino»",
+        "layout-responsive|chi siamo a 280 px col testo al 200% scorre ancora di lato",
+        "layout-responsive|col testo ingrandito al massimo sul telefono, le pagine pubbliche scorrono di lato per colpa del piè di pagina",
+        "deploy-sre|se lo script delle migrazioni cade fra un file e il successivo, il riepilogo accusa una migrazione sana",
+        "layout-responsive|la home e /about scorrono di lato col testo grande sul telefono",
+        "stati-ui|quando la rete torna, le pagine prodotto del negoziante rimettono il caricamento al posto del modulo e le modifiche non salvate si perdono",
+        "deploy-sre|dopo un ritorno indietro il riepilogo del rilascio rassicura a torto se una migrazione ha tolto una funzione o una vista",
+        "ai-endpoints|se l'invio di un lotto ai resta senza risposta, il sito lo rimanda e anthropic ne esegue due, uno pagato e mai visto",
+        "ai-endpoints|un lotto ai partito e pagato ma non agganciato alla sua riga si chiude come fallito dopo 15 minuti e se ne può pagare un secondo",
+        "accessibilita|tra 768 e 1023 px i tasti ordini, consegne e admin della testata sono solo un'icona senza nome per chi vede",
+        "ai-endpoints|la lettura da foto accetta il testo «false» del modello come prodotto ammesso",
+        "ai-endpoints|quando anthropic non risponde, vercel spegne la funzione ai prima che il negozio legga un errore chiaro",
+        "tipografia|otto spaziature diverse per la stessa etichetta maiuscola",
+        "deploy-sre|se il secchio dello storico delle foto non si crea, lo storico finisce nello stesso secchio della copia e la notte resta verde",
+        "microcopy|nella pagina delle sponsorizzazioni colonne e valori sono in inglese e in codici del database"
+      ],
+      "sessioni": {
+        "R02": {
+          "tema": "accessibilita",
+          "voci": [
+            {
+              "id": "R02-001",
+              "chiave": "accessibilita|nella pagina chi siamo e nella vetrina del negozio il banner ignora il testo alternativo e lascia la scritta bianca sulla foto senza velo",
+              "gravita": "minore",
+              "titolo": "Nella pagina Chi siamo e nella vetrina del negozio il banner ignora il testo alternativo e lascia la scritta bianca sulla foto senza velo",
+              "file": [
+                "components/cms/CmsBlockRenderer.tsx",
+                "components/store-sections/BannerSection.tsx",
+                "lib/store-site.ts",
+                "components/seller/site/BannerFields.tsx"
+              ]
+            },
+            {
+              "id": "R02-002",
+              "chiave": "accessibilita|tra 768 e 1023 px i tasti ordini, consegne e admin della testata sono solo un'icona senza nome per chi vede",
+              "gravita": "minore",
+              "titolo": "Tra 768 e 1023 px i tasti Ordini, Consegne e Admin della testata sono solo un'icona senza nome per chi vede",
+              "file": [
+                "components/Navbar.tsx"
+              ]
+            },
+            {
+              "id": "R02-003",
+              "chiave": "immagini-media|se l'abbonamento supabase scade, le foto del sito tornano rotte e nessun controllo se ne accorge",
+              "gravita": "minore",
+              "titolo": "Se l'abbonamento Supabase scade, le foto del sito tornano rotte e nessun controllo se ne accorge",
+              "file": [
+                "lib/image-url.ts",
+                "lib/image-loader.ts",
+                "app/api/health/ready/route.ts"
+              ]
+            },
+            {
+              "id": "R02-004",
+              "chiave": "layout-responsive|chi siamo a 280 px col testo al 200% scorre ancora di lato",
+              "gravita": "minore",
+              "titolo": "Chi siamo a 280 px col testo al 200% scorre ancora di lato",
+              "file": [
+                "app/about/page.tsx"
+              ]
+            },
+            {
+              "id": "R02-005",
+              "chiave": "layout-responsive|col testo ingrandito al massimo sul telefono, le pagine pubbliche scorrono di lato per colpa del piè di pagina",
+              "gravita": "minore",
+              "titolo": "Col testo ingrandito al massimo sul telefono, le pagine pubbliche scorrono di lato per colpa del piè di pagina",
+              "file": [
+                "components/Footer.tsx",
+                "app/lavora-con-noi/page.tsx",
+                "app/returns/page.tsx",
+                "app/faq/page.tsx",
+                "app/help/page.tsx",
+                "app/contact/page.tsx",
+                "app/terms/page.tsx",
+                "components/ui/LegalLayout.tsx"
+              ]
+            },
+            {
+              "id": "R02-006",
+              "chiave": "microcopy|nella pagina delle sponsorizzazioni colonne e valori sono in inglese e in codici del database",
+              "gravita": "minore",
+              "titolo": "Nella pagina delle sponsorizzazioni colonne e valori sono in inglese e in codici del database",
+              "file": [
+                "app/admin/sponsored/page.tsx"
+              ]
+            },
+            {
+              "id": "R02-007",
+              "chiave": "microcopy|il pulsante del negozio dice «pronto per il rider»: in tutto il resto del sito è «fattorino»",
+              "gravita": "minore",
+              "titolo": "Il pulsante del negozio dice «Pronto per il rider»: in tutto il resto del sito è «fattorino»",
+              "file": [
+                "lib/order-status.ts",
+                "tests/unit/la-targhetta-dell-ordine-non-manda-il-cliente-a-ritirarlo.test.ts",
+                "tests/unit/le-promesse-della-consegna-cambiano-solo-di-proposito.test.tsx",
+                "tests/unit/minori-s02-varie.test.ts",
+                "tests/unit/minori-s06-centro-venditori.test.ts",
+                "tests/unit/minori-s06-ordine-del-negozio.test.tsx"
+              ]
+            },
+            {
+              "id": "R02-008",
+              "chiave": "tipografia|otto spaziature diverse per la stessa etichetta maiuscola",
+              "gravita": "minore",
+              "titolo": "Otto spaziature diverse per la stessa etichetta maiuscola",
+              "file": [
+                "tailwind.config.ts"
+              ]
+            }
+          ],
+          "file": [
+            "app/about/page.tsx",
+            "app/admin/sponsored/page.tsx",
+            "app/api/health/ready/route.ts",
+            "app/contact/page.tsx",
+            "app/faq/page.tsx",
+            "app/help/page.tsx",
+            "app/lavora-con-noi/page.tsx",
+            "app/returns/page.tsx",
+            "app/terms/page.tsx",
+            "components/Footer.tsx",
+            "components/Navbar.tsx",
+            "components/cms/CmsBlockRenderer.tsx",
+            "components/seller/site/BannerFields.tsx",
+            "components/store-sections/BannerSection.tsx",
+            "components/ui/LegalLayout.tsx",
+            "lib/image-loader.ts",
+            "lib/image-url.ts",
+            "lib/order-status.ts",
+            "lib/store-site.ts",
+            "tailwind.config.ts"
+          ],
+          "migrazioni": [
+            590,
+            599
+          ]
+        },
+        "R03": {
+          "tema": "ai-endpoints",
+          "voci": [
+            {
+              "id": "R03-001",
+              "chiave": "ai-endpoints|le rotte catalog-apply e catalog-apply-bulk non leggono l'interruttore ai_negozi_accesa",
+              "gravita": "minore",
+              "titolo": "le rotte catalog-apply e catalog-apply-bulk non leggono l'interruttore AI_NEGOZI_ACCESA",
+              "file": [
+                "app/api/ai/catalog-apply/route.ts",
+                "app/api/ai/catalog-apply-bulk/route.ts",
+                "tests/unit/il-copilot-applica-tutto-in-una-volta.test.ts",
+                "tests/unit/il-copilot-dice-cosa-non-e-entrato.test.ts",
+                "tests/unit/il-copilot-non-dice-applicato-se-il-prezzo-non-e-entrato.test.ts",
+                "tests/unit/il-freno-sul-prezzo-si-accende-davvero.test.ts",
+                "tests/unit/il-prezzo-rifiutato-si-dice-anche-quando-la-chat-si-ferma-per-altro.test.ts",
+                "tests/unit/la-chat-non-dice-salvate-se-il-prezzo-e-rimasto.test.ts",
+                "tests/unit/minori-s10-copilot-applica.test.ts",
+                "tests/unit/riparazione-r10-traccia-del-prezzo-una-forma.test.ts",
+                "tests/unit/una-dichiarazione-che-la-scheda-non-ha-non-si-chiede.test.ts"
+              ]
+            },
+            {
+              "id": "R03-002",
+              "chiave": "ai-endpoints|un lotto ai partito e pagato ma non agganciato alla sua riga si chiude come fallito dopo 15 minuti e se ne può pagare un secondo",
+              "gravita": "minore",
+              "titolo": "Un lotto AI partito e pagato ma non agganciato alla sua riga si chiude come fallito dopo 15 minuti e se ne può pagare un secondo",
+              "file": [
+                "app/api/ai/catalog-batch/start/route.ts"
+              ]
+            },
+            {
+              "id": "R03-003",
+              "chiave": "ai-endpoints|la lettura da foto accetta il testo «false» del modello come prodotto ammesso",
+              "gravita": "minore",
+              "titolo": "la lettura da foto accetta il testo «false» del modello come prodotto ammesso",
+              "file": [
+                "app/api/vision/extract-product/route.ts",
+                "app/api/vision/extract-products/route.ts"
+              ]
+            },
+            {
+              "id": "R03-004",
+              "chiave": "ai-endpoints|se l'invio di un lotto ai resta senza risposta, il sito lo rimanda e anthropic ne esegue due, uno pagato e mai visto",
+              "gravita": "minore",
+              "titolo": "Se l'invio di un lotto AI resta senza risposta, il sito lo rimanda e Anthropic ne esegue due, uno pagato e mai visto",
+              "file": [
+                "lib/ai/batch.ts",
+                "lib/ai/client.ts",
+                "app/api/ai/catalog-batch/start/route.ts"
+              ]
+            },
+            {
+              "id": "R03-005",
+              "chiave": "ai-endpoints|quando anthropic non risponde, vercel spegne la funzione ai prima che il negozio legga un errore chiaro",
+              "gravita": "minore",
+              "titolo": "Quando Anthropic non risponde, Vercel spegne la funzione AI prima che il negozio legga un errore chiaro",
+              "file": [
+                "lib/ai/client.ts",
+                "vercel.json",
+                "app/api/vision/extract-product/route.ts"
+              ]
+            },
+            {
+              "id": "R03-006",
+              "chiave": "ai-endpoints|l'allarme del tetto di spesa ai scatta solo se la stessa copia del sito resta accesa per un'ora, e su vercel può non arrivare mai",
+              "gravita": "minore",
+              "titolo": "L'allarme del tetto di spesa AI scatta solo se la stessa copia del sito resta accesa per un'ora, e su Vercel può non arrivare mai",
+              "file": [
+                "lib/ai/tettoSpesa.ts",
+                "app/api/cron/operational-alerts/route.ts"
+              ]
+            },
+            {
+              "id": "R03-007",
+              "chiave": "qa-flussi|quando il fattorino segna «cliente assente» il negozio riceve solo la campanella, non l'email di annullo",
+              "gravita": "minore",
+              "titolo": "Quando il fattorino segna «cliente assente» il negozio riceve solo la campanella, non l'email di annullo",
+              "file": [
+                "app/api/rider/orders/[id]/cliente-assente/route.ts",
+                "tests/unit/il-cliente-assente-col-credito-non-tornato-legge-la-verita.test.ts",
+                "tests/unit/riparazione-r30-fattorino-sospeso-rotte.test.ts"
+              ]
+            }
+          ],
+          "file": [
+            "app/api/ai/catalog-apply-bulk/route.ts",
+            "app/api/ai/catalog-apply/route.ts",
+            "app/api/ai/catalog-batch/start/route.ts",
+            "app/api/cron/operational-alerts/route.ts",
+            "app/api/rider/orders/[id]/cliente-assente/route.ts",
+            "app/api/vision/extract-product/route.ts",
+            "app/api/vision/extract-products/route.ts",
+            "lib/ai/batch.ts",
+            "lib/ai/client.ts",
+            "lib/ai/tettoSpesa.ts",
+            "vercel.json"
+          ],
+          "migrazioni": [
+            600,
+            609
+          ]
+        },
+        "R04": {
+          "tema": "deploy-sre",
+          "voci": [
+            {
+              "id": "R04-001",
+              "chiave": "deploy-sre|dopo un ritorno indietro il riepilogo del rilascio rassicura a torto se una migrazione ha tolto una funzione o una vista",
+              "gravita": "minore",
+              "titolo": "Dopo un ritorno indietro il riepilogo del rilascio rassicura a torto se una migrazione ha tolto una funzione o una vista",
+              "file": [
+                ".github/workflows/deploy-dopo-ci.yml"
+              ]
+            },
+            {
+              "id": "R04-002",
+              "chiave": "deploy-sre|se lo script delle migrazioni cade fra un file e il successivo, il riepilogo accusa una migrazione sana",
+              "gravita": "minore",
+              "titolo": "Se lo script delle migrazioni cade fra un file e il successivo, il riepilogo accusa una migrazione sana",
+              "file": [
+                ".github/workflows/deploy-dopo-ci.yml"
+              ]
+            },
+            {
+              "id": "R04-003",
+              "chiave": "deploy-sre|se il secchio dello storico delle foto non si crea, lo storico finisce nello stesso secchio della copia e la notte resta verde",
+              "gravita": "minore",
+              "titolo": "Se il secchio dello storico delle foto non si crea, lo storico finisce nello stesso secchio della copia e la notte resta verde",
+              "file": [
+                "scripts/backup-db.sh"
+              ]
+            },
+            {
+              "id": "R04-004",
+              "chiave": "deploy-sre|un'ultima prova ordina ancora le migrazioni con l'ordine vecchio",
+              "gravita": "minore",
+              "titolo": "Un'ultima prova ordina ancora le migrazioni con l'ordine vecchio",
+              "file": [
+                "tests/unit/le-migrazioni-a-mano-partono-solo-con-la-conferma.test.ts"
+              ]
+            },
+            {
+              "id": "R04-005",
+              "chiave": "layout-responsive|la home e /about scorrono di lato col testo grande sul telefono",
+              "gravita": "minore",
+              "titolo": "La home e /about scorrono di lato col testo grande sul telefono",
+              "file": [
+                "components/home-sections/HomeSectionRenderer.tsx",
+                "components/LiveActivityFeed.tsx",
+                "components/home/HowItWorks.tsx"
+              ]
+            },
+            {
+              "id": "R04-006",
+              "chiave": "microcopy|gli errori dei moduli controllati dal server arrivano al cliente in inglese, per esempio «string must contain at most 120 character»",
+              "gravita": "minore",
+              "titolo": "Gli errori dei moduli controllati dal server arrivano al cliente in inglese, per esempio «String must contain at most 120 character»",
+              "file": [
+                "app/api/contact/route.ts",
+                "lib/zod-i18n.ts",
+                "components/providers/QueryProvider.tsx",
+                "lib/errors.ts",
+                "lib/api/responses.ts"
+              ]
+            },
+            {
+              "id": "R04-007",
+              "chiave": "stati-ui|quando la rete torna, le pagine prodotto del negoziante rimettono il caricamento al posto del modulo e le modifiche non salvate si perdono",
+              "gravita": "minore",
+              "titolo": "quando la rete torna, le pagine prodotto del negoziante rimettono il caricamento al posto del modulo e le modifiche non salvate si perdono",
+              "file": [
+                "app/seller/products/new/page.tsx",
+                "app/seller/products/[id]/edit/page.tsx"
+              ]
+            }
+          ],
+          "file": [
+            ".github/workflows/deploy-dopo-ci.yml",
+            "app/api/contact/route.ts",
+            "app/seller/products/[id]/edit/page.tsx",
+            "app/seller/products/new/page.tsx",
+            "components/LiveActivityFeed.tsx",
+            "components/home-sections/HomeSectionRenderer.tsx",
+            "components/home/HowItWorks.tsx",
+            "components/providers/QueryProvider.tsx",
+            "lib/api/responses.ts",
+            "lib/errors.ts",
+            "lib/zod-i18n.ts",
+            "scripts/backup-db.sh"
+          ],
+          "migrazioni": [
+            610,
+            619
+          ]
+        }
+      },
+      "rimandate": [],
+      "regia": []
+    }
+  ],
+  "cucitura": [],
+  "eccedenza": [],
+  "eccezioni_firmate": [
+    {
+      "onda": 2,
+      "sessione": "R02",
+      "regole": [
+        "prove_comuni",
+        "prova_esistente_altrui"
+      ],
+      "file": [
+        "tests/unit/la-targhetta-dell-ordine-non-manda-il-cliente-a-ritirarlo.test.ts",
+        "tests/unit/le-promesse-della-consegna-cambiano-solo-di-proposito.test.tsx",
+        "tests/unit/minori-s02-varie.test.ts",
+        "tests/unit/minori-s06-centro-venditori.test.ts",
+        "tests/unit/minori-s06-ordine-del-negozio.test.tsx"
+      ],
+      "perche": "R02-007 (pronto per il fattorino) ha cambiato la parola in 5 prove esistenti. Il collaudo K01 del giro 2 le ha giudicate non indebolite.",
+      "firma": "Nicola, 20/11 alle 18:04, chat «Ondata 9 · 5.0» session_015BmpnZZ9mpJFdTk5mxvbY8: «ti firmo le 23 prove ritoccate»",
+      "scritta": "2026-11-20 18:04, regia 5.0 dell onda 9"
+    },
+    {
+      "onda": 2,
+      "sessione": "R03",
+      "regole": [
+        "prove_comuni"
+      ],
+      "file": [
+        "tests/unit/il-cliente-assente-col-credito-non-tornato-legge-la-verita.test.ts",
+        "tests/unit/il-copilot-applica-tutto-in-una-volta.test.ts",
+        "tests/unit/il-copilot-dice-cosa-non-e-entrato.test.ts",
+        "tests/unit/il-copilot-non-dice-applicato-se-il-prezzo-non-e-entrato.test.ts",
+        "tests/unit/il-freno-sul-prezzo-si-accende-davvero.test.ts",
+        "tests/unit/il-prezzo-rifiutato-si-dice-anche-quando-la-chat-si-ferma-per-altro.test.ts",
+        "tests/unit/l-allarme-che-non-parte-non-si-spaccia-per-spedito.test.ts",
+        "tests/unit/la-chat-non-dice-salvate-se-il-prezzo-e-rimasto.test.ts",
+        "tests/unit/minori-s10-copilot-applica.test.ts",
+        "tests/unit/riparazione-r10-traccia-del-prezzo-una-forma.test.ts",
+        "tests/unit/riparazione-r30-fattorino-sospeso-rotte.test.ts",
+        "tests/unit/una-dichiarazione-che-la-scheda-non-ha-non-si-chiede.test.ts"
+      ],
+      "perche": "R03 del giro 2 ha ritoccato 12 prove comuni (catalog-apply, cliente assente, tetto). Il collaudo K02 del giro 2 le ha giudicate non indebolite.",
+      "firma": "Nicola, 20/11 alle 18:04, chat «Ondata 9 · 5.0» session_015BmpnZZ9mpJFdTk5mxvbY8: «ti firmo le 23 prove ritoccate»",
+      "scritta": "2026-11-20 18:04, regia 5.0 dell onda 9"
+    },
+    {
+      "onda": 1,
+      "commit": "9a60bc759392d51d483100c3a9593b9af3fac2ec",
+      "regole": [
+        "id_nel_commit"
+      ],
+      "perche": "Commit di R01 del giro 2: il messaggio cita una voce di un altra sessione; le voci di R01 le ha giudicate il collaudo K01 del giro 2.",
+      "firma": "Nicola, 20/11 alle 19:28, chat «Ondata 9 · 5.0» session_015BmpnZZ9mpJFdTk5mxvbY8: «Firmo i 3 commit del giro 2»",
+      "scritta": "2026-11-20 19:28, regia 5.0 dell onda 9"
+    },
+    {
+      "onda": 1,
+      "commit": "8aa18de2c530c6339e88f26bbdefc1ce4556abad",
+      "regole": [
+        "id_nel_commit"
+      ],
+      "perche": "Commit di R01 del giro 2: il messaggio cita una voce di un altra sessione; le voci di R01 le ha giudicate il collaudo K01 del giro 2.",
+      "firma": "Nicola, 20/11 alle 19:28, chat «Ondata 9 · 5.0» session_015BmpnZZ9mpJFdTk5mxvbY8: «Firmo i 3 commit del giro 2»",
+      "scritta": "2026-11-20 19:28, regia 5.0 dell onda 9"
+    },
+    {
+      "onda": 2,
+      "commit": "3bba8949bfb210165426e738f7f082f6f7375f65",
+      "regole": [
+        "id_nel_commit"
+      ],
+      "perche": "Commit di R03 del giro 2: il messaggio cita una voce di un altra sessione; le voci di R03 le ha giudicate il collaudo K02 del giro 2.",
+      "firma": "Nicola, 20/11 alle 19:28, chat «Ondata 9 · 5.0» session_015BmpnZZ9mpJFdTk5mxvbY8: «Firmo i 3 commit del giro 2»",
+      "scritta": "2026-11-20 19:28, regia 5.0 dell onda 9"
+    }
+  ]
+}

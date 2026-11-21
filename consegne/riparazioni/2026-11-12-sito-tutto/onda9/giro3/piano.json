@@ -1,0 +1,1225 @@
+{
+  "casa": "sito",
+  "profilo": "scelta",
+  "creato": "2026-11-20 19:42",
+  "onde": [
+    {
+      "onda": 1,
+      "base": "b2c62f34e26f6ff86eab45ccf39fa456ed3767bb",
+      "creata": "2026-11-20 19:42",
+      "per_sessione": 25,
+      "candidate": [
+        "stati-ui|con la sessione scaduta il pulsante «apri reclamo» non fa niente, non chiede di rientrare e il testo scritto si perde",
+        "stati-ui|nelle notifiche il tasto «carica altre» sparisce mentre carica, e un errore cancella dalla pagina l'elenco già letto"
+      ],
+      "sessioni": {
+        "R01": {
+          "tema": "stati-ui",
+          "voci": [
+            {
+              "id": "R01-001",
+              "chiave": "stati-ui|nelle notifiche il tasto «carica altre» sparisce mentre carica, e un errore cancella dalla pagina l'elenco già letto",
+              "gravita": "minore",
+              "titolo": "Nelle notifiche il tasto «Carica altre» sparisce mentre carica, e un errore cancella dalla pagina l'elenco già letto",
+              "file": [
+                "app/notifications/page.tsx"
+              ]
+            },
+            {
+              "id": "R01-002",
+              "chiave": "stati-ui|con la sessione scaduta il pulsante «apri reclamo» non fa niente, non chiede di rientrare e il testo scritto si perde",
+              "gravita": "minore",
+              "titolo": "Con la sessione scaduta il pulsante «Apri reclamo» non fa niente, non chiede di rientrare e il testo scritto si perde",
+              "file": [
+                "app/orders/[id]/dispute/page.tsx"
+              ]
+            }
+          ],
+          "file": [
+            "app/notifications/page.tsx",
+            "app/orders/[id]/dispute/page.tsx",
+            "components/providers/QueryProvider.tsx",
+            "components/account/AccountShell.tsx"
+          ],
+          "migrazioni": [
+            580,
+            589
+          ]
+        }
+      },
+      "rimandate": [],
+      "regia": []
+    },
+    {
+      "onda": 2,
+      "base": "b2c62f34e26f6ff86eab45ccf39fa456ed3767bb",
+      "creata": "2026-11-20 19:42",
+      "per_sessione": 25,
+      "candidate": [
+        "accessibilita|tra 768 e 1023 px i tasti ordini, consegne e admin della testata sono solo un'icona senza nome per chi vede",
+        "mobile-pwa|quando la sessione scade da sola, il telefono perde le notifiche in silenzio e al nuovo accesso nessuno le riaccende",
+        "qa-flussi|anche chi sceglie «venditore» nell'iscrizione vede il pulsante google, che probabilmente crea un cliente",
+        "layout-responsive|col testo ingrandito al massimo sul telefono, le pagine pubbliche scorrono di lato per colpa del piè di pagina",
+        "qa-flussi|un admin che pubblica una storia dall'area negozio lascia una foto orfana nel deposito: dopo la 404 l'inserimento gli è rifiutato",
+        "qa-flussi|la scadenza del recesso non si sposta quando l'ultimo giorno cade di sabato, domenica o in un festivo",
+        "tipografia|la scala delle dimensioni del testo viene scavalcata circa trecentotrenta volte",
+        "ai-endpoints|quando anthropic non risponde, vercel spegne la funzione ai prima che il negozio legga un errore chiaro",
+        "ai-endpoints|l'allarme del tetto di spesa ai scatta solo se la stessa copia del sito resta accesa per un'ora, e su vercel può non arrivare mai",
+        "ai-endpoints|il freno di sei ore sui prodotti importati in errore regge solo con upstash: senza, ogni copia del sito ripaga le chiamate ai",
+        "api-backend|«duplica» di un prodotto escluso dal recesso: finché non si sa se la colonna c'è, la copia si salva recedibile senza avviso",
+        "api-backend|quando l'amministrazione cambia solo le taglie di un prodotto, il registro delle azioni non scrive più niente",
+        "api-backend|nelle azioni dell'amministrazione un guasto del database diventa «non trovato», e nei dati del negozio un trattino",
+        "api-backend|se la lettura dei ruoli cade, all'assistenza arriva l'email «un cliente ti ha scritto» pensata per un negozio",
+        "api-backend|il giro notturno delle cancellazioni non ha un tetto di tempo nemmeno sul ciclo degli account scaduti",
+        "api-backend|il tetto di tempo delle email della notte parte dall inizio del giro, e il ciclo delle cancellazioni resta senza tetto: con una notte lunga non parte nessuna email e non c è allarme",
+        "api-backend|la chiusura dell allarme «scrivile tu» legge al massimo 200 avvisi senza ordine né filtro: oltre 200, quelli aperti possono restare fuori",
+        "api-backend|dopo il tetto dei contanti o il rollback di un ordine in contanti il benvenuto resta bloccato fino a 2 ore",
+        "api-backend|ogni tappa del reso cancella la nota del negozio, anche quando la tappa la fa il cliente",
+        "api-backend|se il database non risponde, chi decide un reso legge «ordine non trovato» o «non autorizzato»",
+        "api-backend|se la domanda per diventare negozio parte due volte insieme, viene registrata due volte e gli amministratori ricevono l'avviso due volte",
+        "api-backend|due invii uguali all'assistenza nello stesso istante creano due messaggi e due avvisi",
+        "api-backend|la pagina d'errore dice «abbiamo registrato il problema», ma un errore nel telefono del cliente non lo registra nessuno",
+        "api-backend|il modulo dell'assistenza non manda nessuna chiave per invio",
+        "api-backend|la cancellazione legge un 404 qualsiasi come «account già chiuso»: un 404 di un gateway sbagliato verrebbe scambiato per un account già cancellato",
+        "api-backend|se il servizio di posta conserva anche le risposte d'errore, una promozione mai partita risulta spedita",
+        "api-backend|oltre 20.000 iscritti la ricerca utenti risulta sempre caduta e l'esportazione dell'elenco intero non esce, con un «riprova fra poco» che non serve",
+        "architettura|la regola che vieta i tipi «qualunque» non è accesa: 46 sono passati, e 40 permessi di saltare il controllo non saltano niente",
+        "architettura|se sulla macchina delle prove manca postgres, sette file di prova si saltano in silenzio e la verifica esce verde lo stesso",
+        "architettura|il gancio semancalachiave rende morti i catch sulla chiave nelle rotte; senzachiave e sullaporta copiati in due file",
+        "architettura|migrazione-124 ha dovuto creare un suo client admin, perché la fabbrica del sito porta next/headers",
+        "architettura|email di annullo spedita dentro la richiesta, senza coda: fino a circa 20 s di attesa, e se fallisce resta solo nel registro",
+        "architettura|i soldi passano fra gli ordini del carrello con scritture una riga alla volta e una compensazione scritta a mano, non con una transazione",
+        "architettura|il carrello in contanti si ritrova solo dalla tabella contro il doppio clic: senza quella riga la regola del negozio che rifiuta non scatta e nessuno lo sa",
+        "architettura|carrello di più negozi: se cade la scrittura del secondo ordine, il primo resta spostato in silenzio",
+        "architettura|la frase per l'assistente scrive a mano la soglia dei 10 euro della consegna",
+        "architettura|nella regola della consegna per l'ai la soglia dei 10 € e' scritta a mano",
+        "architettura|in home ogni sezione chiede di nuovo alla vetrina lo stesso negozio, e ogni fascia compare un giro di rete più tardi",
+        "architettura|la funzione della spedizione in centesimi accetta ancora i sette ingressi che non servono",
+        "architettura|una fascia «domani» inviata alle 23:59 e arrivata alla rotta dopo mezzanotte si giudica sul giorno dopo",
+        "architettura|gli strumenti degli sviluppatori portano altre 19 falle note, 10 alte, ma nessuna arriva al sito",
+        "architettura|l'elenco delle librerie dichiara una libreria mai usata e ne usa una che non dichiara, e il lint gira con un comando che next 16 toglie",
+        "architettura|il generatore dei tipi scrive le colonne array (text[], uuid[]) come string invece di string[]",
+        "architettura|una quinta copia scritta a mano del finto clienteavvisi nelle prove degli avvisi",
+        "architettura|la prova sull'export elenca ancora cod_reconciliations fra le tabelle escluse",
+        "deploy-sre|la costruzione del sito dipende dal download dei caratteri da google e ogni tanto fallisce da sola",
+        "flussi-conversione|se il carrello scade tutto nello stesso giro, il cliente riceve avvisi «il conto è cambiato» con cifre già superate",
+        "coerenza-brand|la scala tipografica è aggirata 330 volte con misure a mano",
+        "coerenza-brand|la primitiva card è usata in 10 file, mentre 141 card sono ridisegnate a mano con quattro raggi diversi",
+        "mobile-pwa|il manifest blocca l'app in verticale e non ha le schermate per la finestra d'installazione",
+        "qa-flussi|un cliente che esiste già non ha una strada da solo per diventare fattorino",
+        "qa-flussi|nelle recensioni della vetrina chi ha solo il nome pubblico (senza nome vero) adesso appare come «cliente»",
+        "tipografia|otto spaziature diverse per la stessa etichetta maiuscola",
+        "deploy-sre|la notifica sul telefono per un nuovo ordine arriva fino a 5 minuti dopo, non in pochi secondi",
+        "deploy-sre|il giorno del lancio un errore del sito non lo vede nessuno: il registratore degli errori è spento e l'unico allarme dipende dalla chiave che manca",
+        "deploy-sre|se il secchio dello storico delle foto non si crea, lo storico finisce nello stesso secchio della copia e la notte resta verde",
+        "deploy-sre|il cancello delle migrazioni promette di confrontare il contenuto ma confronta solo i nomi, e registra in un passo separato",
+        "deploy-sre|il ritorno indietro può ancora scegliere il rilascio sbagliato in due casi rari: un solo altro commit negli ultimi 20 rilasci, o un dominio che non dice il suo commit",
+        "deploy-sre|un'ultima prova ordina ancora le migrazioni con l'ordine vecchio",
+        "qa-flussi|il logger oscura solo le chiavi del contesto, non il testo del messaggio né un contesto stringa",
+        "flussi-conversione|la scheda prodotto promette «paghi alla consegna» anche sopra il tetto dei contanti",
+        "frontend-ux|sul telefono il riquadro verde della scheda prodotto diventa un muro di testo di 264 caratteri, e dopo il caricamento cresce ancora di una riga",
+        "performance|l'elenco dei negozi fa una domanda sulla consegna veloce per ogni scheda, invece di una sola per tutta la lista",
+        "qa-flussi|dalla scheda prodotto il carrello riceve il prezzo pieno anche con una promozione attiva, e il carrello può dire che il prezzo è sceso",
+        "qa-flussi|la scheda prodotto passa il prezzo pieno alla barra d'acquisto e al carrello con una promozione attiva",
+        "qa-flussi|un capo con più di cento combinazioni di taglia e colore perde le ultime in silenzio, e il cliente che le sceglie non può comprarle",
+        "frontend-ux|se la rilettura dei reclami cade a finestra aperta, la decisione resta su dati vecchi",
+        "frontend-ux|in chat, se l'assistenza scrive il secondo messaggio mentre il primo sta partendo, il secondo sparisce senza essere inviato",
+        "frontend-ux|la pagina «sotto i 10 €» mostra prodotti da 10 € e nasconde quelli che in promozione costano meno di 10",
+        "frontend-ux|il «conversion rate» del negozio può superare il 100% e viene colorato di verde",
+        "frontend-ux|il link delle storie rifiuta l'indirizzo intero del sito stesso (https://<dominio>/promozioni), che è quello che il negoziante copia dalla barra",
+        "frontend-ux|restano tre pagine con le foto sgranate perché `unoptimized` spegne srcset e sizes",
+        "frontend-ux|il controllo sul taglio dei campi di testo del costruttore della home tronca ancora titoli e sottotitoli in silenzio",
+        "frontend-ux|dopo un salvataggio, il blocco di testo della vetrina mostra «&amp;» al posto di «&» (e «&lt;» al posto di «<»)",
+        "frontend-ux|le modifiche ai dettagli del negozio e al profilo si perdono uscendo, senza nessun avviso",
+        "frontend-ux|incollare il link di instagram o scrivere il sito senza https blocca il salvataggio di tutta la vetrina con un messaggio che non dice dove",
+        "frontend-ux|con una promozione attiva la barra d'acquisto e i caroselli mostrano il prezzo pieno, mentre sopra c'è quello scontato",
+        "immagini-media|quattro foto sotto la piega vengono chieste come «urgenti» su ogni home",
+        "microcopy|la pagina dei più recensiti presenta 40 prodotti come «scelti dai clienti» anche quando nessuno ha una recensione",
+        "performance|quasi tutte le pagine del sito nascono vuote e le riempie il browser con chiamate al database, non solo la home e la scheda prodotto",
+        "qa-flussi|la pagina novità mostra tutto il catalogo, anche un prodotto di tre mesi fa, e il numero in alto conta solo i prodotti già caricati",
+        "immagini-media|se l'abbonamento supabase scade, le foto del sito tornano rotte e nessun controllo se ne accorge",
+        "layout-responsive|la home e /about scorrono di lato col testo grande sul telefono",
+        "microcopy|nella pagina delle sponsorizzazioni colonne e valori sono in inglese e in codici del database",
+        "qa-flussi|buco nelle prove del carrello: alcune mutanti del collaudo sul conto della consegna restano verdi",
+        "qa-flussi|la consegna veloce si vende a tutti insieme anche con un solo fattorino: nessuno conta quante veloci ha già in mano",
+        "api-backend|un ordine con carta senza coordinate passa senza controllo della zona e senza avviso agli amministratori"
+      ],
+      "sessioni": {
+        "R02": {
+          "tema": "accessibilita",
+          "voci": [
+            {
+              "id": "R02-001",
+              "chiave": "accessibilita|tra 768 e 1023 px i tasti ordini, consegne e admin della testata sono solo un'icona senza nome per chi vede",
+              "gravita": "minore",
+              "titolo": "Tra 768 e 1023 px i tasti Ordini, Consegne e Admin della testata sono solo un'icona senza nome per chi vede",
+              "file": [
+                "components/Navbar.tsx"
+              ]
+            },
+            {
+              "id": "R02-002",
+              "chiave": "coerenza-brand|la scala tipografica è aggirata 330 volte con misure a mano",
+              "gravita": "minore",
+              "titolo": "La scala tipografica è aggirata 330 volte con misure a mano",
+              "file": [
+                "components/seller/SellerShell.tsx",
+                "app/rider/earnings/page.tsx",
+                "app/search/page.tsx",
+                "components/admin/AdminSidebar.tsx"
+              ]
+            },
+            {
+              "id": "R02-003",
+              "chiave": "coerenza-brand|la primitiva card è usata in 10 file, mentre 141 card sono ridisegnate a mano con quattro raggi diversi",
+              "gravita": "minore",
+              "titolo": "La primitiva Card è usata in 10 file, mentre 141 card sono ridisegnate a mano con quattro raggi diversi",
+              "file": [
+                "components/ui/Card.tsx"
+              ]
+            },
+            {
+              "id": "R02-004",
+              "chiave": "deploy-sre|la notifica sul telefono per un nuovo ordine arriva fino a 5 minuti dopo, non in pochi secondi",
+              "gravita": "minore",
+              "titolo": "La notifica sul telefono per un nuovo ordine arriva fino a 5 minuti dopo, non in pochi secondi",
+              "file": [
+                "app/api/cron/send-push/route.ts"
+              ]
+            },
+            {
+              "id": "R02-005",
+              "chiave": "deploy-sre|se il secchio dello storico delle foto non si crea, lo storico finisce nello stesso secchio della copia e la notte resta verde",
+              "gravita": "minore",
+              "titolo": "Se il secchio dello storico delle foto non si crea, lo storico finisce nello stesso secchio della copia e la notte resta verde",
+              "file": [
+                "scripts/backup-db.sh"
+              ]
+            },
+            {
+              "id": "R02-006",
+              "chiave": "deploy-sre|il ritorno indietro può ancora scegliere il rilascio sbagliato in due casi rari: un solo altro commit negli ultimi 20 rilasci, o un dominio che non dice il suo commit",
+              "gravita": "minore",
+              "titolo": "Il ritorno indietro può ancora scegliere il rilascio sbagliato in due casi rari: un solo altro commit negli ultimi 20 rilasci, o un dominio che non dice il suo commit",
+              "file": [
+                "scripts/prova-di-fumo.mjs"
+              ]
+            },
+            {
+              "id": "R02-007",
+              "chiave": "flussi-conversione|la scheda prodotto promette «paghi alla consegna» anche sopra il tetto dei contanti",
+              "gravita": "minore",
+              "titolo": "La scheda prodotto promette «paghi alla consegna» anche sopra il tetto dei contanti",
+              "file": [
+                "app/product/[id]/page.tsx"
+              ]
+            },
+            {
+              "id": "R02-008",
+              "chiave": "frontend-ux|in chat, se l'assistenza scrive il secondo messaggio mentre il primo sta partendo, il secondo sparisce senza essere inviato",
+              "gravita": "minore",
+              "titolo": "In chat, se l'assistenza scrive il secondo messaggio mentre il primo sta partendo, il secondo sparisce senza essere inviato",
+              "file": [
+                "app/messages/[id]/page.tsx"
+              ]
+            },
+            {
+              "id": "R02-009",
+              "chiave": "frontend-ux|sul telefono il riquadro verde della scheda prodotto diventa un muro di testo di 264 caratteri, e dopo il caricamento cresce ancora di una riga",
+              "gravita": "minore",
+              "titolo": "Sul telefono il riquadro verde della scheda prodotto diventa un muro di testo di 264 caratteri, e dopo il caricamento cresce ancora di una riga",
+              "file": [
+                "app/product/[id]/page.tsx",
+                "lib/promesse-pubbliche.ts",
+                "components/ui/DeliveryCutoff.tsx"
+              ]
+            },
+            {
+              "id": "R02-010",
+              "chiave": "frontend-ux|il link delle storie rifiuta l'indirizzo intero del sito stesso (https://<dominio>/promozioni), che è quello che il negoziante copia dalla barra",
+              "gravita": "minore",
+              "titolo": "Il link delle storie rifiuta l'indirizzo intero del sito stesso (https://<dominio>/promozioni), che è quello che il negoziante copia dalla barra",
+              "file": [
+                "app/seller/stories/page.tsx"
+              ]
+            },
+            {
+              "id": "R02-011",
+              "chiave": "frontend-ux|il controllo sul taglio dei campi di testo del costruttore della home tronca ancora titoli e sottotitoli in silenzio",
+              "gravita": "minore",
+              "titolo": "Il controllo sul taglio dei campi di testo del costruttore della home tronca ancora titoli e sottotitoli in silenzio",
+              "file": [
+                "components/admin/home/HomeSectionConfigForm.tsx"
+              ]
+            },
+            {
+              "id": "R02-012",
+              "chiave": "frontend-ux|le modifiche ai dettagli del negozio e al profilo si perdono uscendo, senza nessun avviso",
+              "gravita": "minore",
+              "titolo": "Le modifiche ai dettagli del negozio e al profilo si perdono uscendo, senza nessun avviso",
+              "file": [
+                "components/seller/site/StoreDetailsEditor.tsx",
+                "components/VendorForm.tsx",
+                "app/seller/profile/page.tsx"
+              ]
+            },
+            {
+              "id": "R02-013",
+              "chiave": "frontend-ux|incollare il link di instagram o scrivere il sito senza https blocca il salvataggio di tutta la vetrina con un messaggio che non dice dove",
+              "gravita": "minore",
+              "titolo": "Incollare il link di Instagram o scrivere il sito senza https blocca il salvataggio di tutta la vetrina con un messaggio che non dice dove",
+              "file": [
+                "components/seller/SocialLinksFields.tsx",
+                "lib/store-customization.ts",
+                "components/VendorForm.tsx",
+                "components/seller/CustomizationSection.tsx"
+              ]
+            },
+            {
+              "id": "R02-014",
+              "chiave": "immagini-media|se l'abbonamento supabase scade, le foto del sito tornano rotte e nessun controllo se ne accorge",
+              "gravita": "minore",
+              "titolo": "Se l'abbonamento Supabase scade, le foto del sito tornano rotte e nessun controllo se ne accorge",
+              "file": [
+                "lib/image-url.ts",
+                "lib/image-loader.ts"
+              ]
+            },
+            {
+              "id": "R02-015",
+              "chiave": "layout-responsive|la home e /about scorrono di lato col testo grande sul telefono",
+              "gravita": "minore",
+              "titolo": "La home e /about scorrono di lato col testo grande sul telefono",
+              "file": [
+                "components/home-sections/HomeSectionRenderer.tsx"
+              ]
+            },
+            {
+              "id": "R02-016",
+              "chiave": "mobile-pwa|quando la sessione scade da sola, il telefono perde le notifiche in silenzio e al nuovo accesso nessuno le riaccende",
+              "gravita": "minore",
+              "titolo": "Quando la sessione scade da sola, il telefono perde le notifiche in silenzio e al nuovo accesso nessuno le riaccende",
+              "file": [
+                "components/Navbar.tsx",
+                "lib/push/dispositivo.ts",
+                "components/PushNotificationOptIn.tsx",
+                "middleware.ts"
+              ]
+            },
+            {
+              "id": "R02-017",
+              "chiave": "mobile-pwa|il manifest blocca l'app in verticale e non ha le schermate per la finestra d'installazione",
+              "gravita": "minore",
+              "titolo": "Il manifest blocca l'app in verticale e non ha le schermate per la finestra d'installazione",
+              "file": [
+                "public/manifest.json"
+              ]
+            },
+            {
+              "id": "R02-018",
+              "chiave": "performance|l'elenco dei negozi fa una domanda sulla consegna veloce per ogni scheda, invece di una sola per tutta la lista",
+              "gravita": "minore",
+              "titolo": "L'elenco dei negozi fa una domanda sulla consegna veloce per ogni scheda, invece di una sola per tutta la lista",
+              "file": [
+                "components/ui/DeliveryCutoff.tsx"
+              ]
+            },
+            {
+              "id": "R02-019",
+              "chiave": "qa-flussi|un cliente che esiste già non ha una strada da solo per diventare fattorino",
+              "gravita": "minore",
+              "titolo": "Un cliente che esiste già non ha una strada da solo per diventare fattorino",
+              "file": [
+                "app/help/page.tsx"
+              ]
+            },
+            {
+              "id": "R02-020",
+              "chiave": "qa-flussi|dalla scheda prodotto il carrello riceve il prezzo pieno anche con una promozione attiva, e il carrello può dire che il prezzo è sceso",
+              "gravita": "minore",
+              "titolo": "dalla scheda prodotto il carrello riceve il prezzo pieno anche con una promozione attiva, e il carrello può dire che il prezzo è sceso",
+              "file": [
+                "app/product/[id]/page.tsx"
+              ]
+            },
+            {
+              "id": "R02-021",
+              "chiave": "qa-flussi|la scheda prodotto passa il prezzo pieno alla barra d'acquisto e al carrello con una promozione attiva",
+              "gravita": "minore",
+              "titolo": "La scheda prodotto passa il prezzo pieno alla barra d'acquisto e al carrello con una promozione attiva",
+              "file": [
+                "app/product/[id]/page.tsx"
+              ]
+            },
+            {
+              "id": "R02-022",
+              "chiave": "qa-flussi|un capo con più di cento combinazioni di taglia e colore perde le ultime in silenzio, e il cliente che le sceglie non può comprarle",
+              "gravita": "minore",
+              "titolo": "Un capo con più di cento combinazioni di taglia e colore perde le ultime in silenzio, e il cliente che le sceglie non può comprarle",
+              "file": [
+                "lib/products/variants.ts",
+                "app/product/[id]/page.tsx"
+              ]
+            }
+          ],
+          "file": [
+            "app/api/cron/send-push/route.ts",
+            "app/help/page.tsx",
+            "app/messages/[id]/page.tsx",
+            "app/product/[id]/page.tsx",
+            "app/rider/earnings/page.tsx",
+            "app/search/page.tsx",
+            "app/seller/profile/page.tsx",
+            "app/seller/stories/page.tsx",
+            "components/Navbar.tsx",
+            "components/PushNotificationOptIn.tsx",
+            "components/VendorForm.tsx",
+            "components/admin/AdminSidebar.tsx",
+            "components/admin/home/HomeSectionConfigForm.tsx",
+            "components/home-sections/HomeSectionRenderer.tsx",
+            "components/seller/CustomizationSection.tsx",
+            "components/seller/SellerShell.tsx",
+            "components/seller/SocialLinksFields.tsx",
+            "components/seller/site/StoreDetailsEditor.tsx",
+            "components/ui/Card.tsx",
+            "components/ui/DeliveryCutoff.tsx",
+            "lib/image-loader.ts",
+            "lib/image-url.ts",
+            "lib/products/variants.ts",
+            "lib/promesse-pubbliche.ts",
+            "lib/push/dispositivo.ts",
+            "lib/store-customization.ts",
+            "middleware.ts",
+            "public/manifest.json",
+            "scripts/backup-db.sh",
+            "scripts/prova-di-fumo.mjs"
+          ],
+          "migrazioni": [
+            590,
+            599
+          ]
+        },
+        "R03": {
+          "tema": "ai-endpoints",
+          "voci": [
+            {
+              "id": "R03-001",
+              "chiave": "ai-endpoints|quando anthropic non risponde, vercel spegne la funzione ai prima che il negozio legga un errore chiaro",
+              "gravita": "minore",
+              "titolo": "Quando Anthropic non risponde, Vercel spegne la funzione AI prima che il negozio legga un errore chiaro",
+              "file": [
+                "lib/ai/client.ts",
+                "vercel.json",
+                "app/api/vision/extract-product/route.ts"
+              ]
+            },
+            {
+              "id": "R03-002",
+              "chiave": "ai-endpoints|l'allarme del tetto di spesa ai scatta solo se la stessa copia del sito resta accesa per un'ora, e su vercel può non arrivare mai",
+              "gravita": "minore",
+              "titolo": "L'allarme del tetto di spesa AI scatta solo se la stessa copia del sito resta accesa per un'ora, e su Vercel può non arrivare mai",
+              "file": [
+                "lib/ai/tettoSpesa.ts"
+              ]
+            },
+            {
+              "id": "R03-003",
+              "chiave": "ai-endpoints|il freno di sei ore sui prodotti importati in errore regge solo con upstash: senza, ogni copia del sito ripaga le chiamate ai",
+              "gravita": "minore",
+              "titolo": "Il freno di sei ore sui prodotti importati in errore regge solo con Upstash: senza, ogni copia del sito ripaga le chiamate AI",
+              "file": [
+                "lib/products/externalSync.ts"
+              ]
+            },
+            {
+              "id": "R03-004",
+              "chiave": "deploy-sre|il giorno del lancio un errore del sito non lo vede nessuno: il registratore degli errori è spento e l'unico allarme dipende dalla chiave che manca",
+              "gravita": "minore",
+              "titolo": "Il giorno del lancio un errore del sito non lo vede nessuno: il registratore degli errori è spento e l'unico allarme dipende dalla chiave che manca",
+              "file": [
+                "lib/logger.ts",
+                "sentry.server.config.ts",
+                "next.config.js",
+                "app/api/health/route.ts",
+                "app/api/cron/operational-alerts/route.ts",
+                "docs/runbook.md"
+              ]
+            },
+            {
+              "id": "R03-005",
+              "chiave": "deploy-sre|il cancello delle migrazioni promette di confrontare il contenuto ma confronta solo i nomi, e registra in un passo separato",
+              "gravita": "minore",
+              "titolo": "Il cancello delle migrazioni promette di confrontare il contenuto ma confronta solo i nomi, e registra in un passo separato",
+              "file": [
+                "scripts/check-migration-drift.mjs",
+                "scripts/applica-migrazioni-mancanti.sh"
+              ]
+            },
+            {
+              "id": "R03-006",
+              "chiave": "deploy-sre|un'ultima prova ordina ancora le migrazioni con l'ordine vecchio",
+              "gravita": "minore",
+              "titolo": "Un'ultima prova ordina ancora le migrazioni con l'ordine vecchio",
+              "file": [
+                "tests/unit/le-migrazioni-a-mano-partono-solo-con-la-conferma.test.ts"
+              ]
+            },
+            {
+              "id": "R03-007",
+              "chiave": "frontend-ux|se la rilettura dei reclami cade a finestra aperta, la decisione resta su dati vecchi",
+              "gravita": "minore",
+              "titolo": "Se la rilettura dei reclami cade a finestra aperta, la decisione resta su dati vecchi",
+              "file": [
+                "app/admin/disputes/page.tsx"
+              ]
+            },
+            {
+              "id": "R03-008",
+              "chiave": "frontend-ux|la pagina «sotto i 10 €» mostra prodotti da 10 € e nasconde quelli che in promozione costano meno di 10",
+              "gravita": "minore",
+              "titolo": "La pagina «Sotto i 10 €» mostra prodotti da 10 € e nasconde quelli che in promozione costano meno di 10",
+              "file": [
+                "app/piccoli-prezzi/page.tsx",
+                "lib/queries/griglia-prodotti.ts",
+                "components/ProductGrid.tsx"
+              ]
+            },
+            {
+              "id": "R03-009",
+              "chiave": "frontend-ux|il «conversion rate» del negozio può superare il 100% e viene colorato di verde",
+              "gravita": "minore",
+              "titolo": "Il «Conversion rate» del negozio può superare il 100% e viene colorato di verde",
+              "file": [
+                "app/seller/analytics/letture-dell-andamento.ts",
+                "app/seller/analytics/page.tsx",
+                "lib/analytics/visita-prodotto.ts"
+              ]
+            },
+            {
+              "id": "R03-010",
+              "chiave": "frontend-ux|restano tre pagine con le foto sgranate perché `unoptimized` spegne srcset e sizes",
+              "gravita": "minore",
+              "titolo": "Restano tre pagine con le foto sgranate perché `unoptimized` spegne srcSet e sizes",
+              "file": [
+                "app/shared-cart/page.tsx",
+                "app/seller/products/page.tsx",
+                "app/orders/[id]/page.tsx"
+              ]
+            },
+            {
+              "id": "R03-011",
+              "chiave": "frontend-ux|dopo un salvataggio, il blocco di testo della vetrina mostra «&amp;» al posto di «&» (e «&lt;» al posto di «<»)",
+              "gravita": "minore",
+              "titolo": "dopo un salvataggio, il blocco di testo della vetrina mostra «&amp;» al posto di «&» (e «&lt;» al posto di «<»)",
+              "file": [
+                "components/seller/site/SectionConfigForm.tsx"
+              ]
+            },
+            {
+              "id": "R03-012",
+              "chiave": "frontend-ux|con una promozione attiva la barra d'acquisto e i caroselli mostrano il prezzo pieno, mentre sopra c'è quello scontato",
+              "gravita": "minore",
+              "titolo": "Con una promozione attiva la barra d'acquisto e i caroselli mostrano il prezzo pieno, mentre sopra c'è quello scontato",
+              "file": [
+                "components/StickyAddToCart.tsx"
+              ]
+            },
+            {
+              "id": "R03-013",
+              "chiave": "immagini-media|quattro foto sotto la piega vengono chieste come «urgenti» su ogni home",
+              "gravita": "minore",
+              "titolo": "Quattro foto sotto la piega vengono chieste come «urgenti» su ogni home",
+              "file": [
+                "components/ProductGrid.tsx",
+                "components/home/PromoDeals.tsx",
+                "components/store-sections/CollectionSection.tsx",
+                "app/promozioni/page.tsx"
+              ]
+            },
+            {
+              "id": "R03-014",
+              "chiave": "layout-responsive|col testo ingrandito al massimo sul telefono, le pagine pubbliche scorrono di lato per colpa del piè di pagina",
+              "gravita": "minore",
+              "titolo": "Col testo ingrandito al massimo sul telefono, le pagine pubbliche scorrono di lato per colpa del piè di pagina",
+              "file": [
+                "components/Footer.tsx",
+                "app/lavora-con-noi/page.tsx",
+                "app/returns/page.tsx",
+                "app/faq/page.tsx"
+              ]
+            },
+            {
+              "id": "R03-015",
+              "chiave": "microcopy|nella pagina delle sponsorizzazioni colonne e valori sono in inglese e in codici del database",
+              "gravita": "minore",
+              "titolo": "Nella pagina delle sponsorizzazioni colonne e valori sono in inglese e in codici del database",
+              "file": [
+                "app/admin/sponsored/page.tsx"
+              ]
+            },
+            {
+              "id": "R03-016",
+              "chiave": "microcopy|la pagina dei più recensiti presenta 40 prodotti come «scelti dai clienti» anche quando nessuno ha una recensione",
+              "gravita": "minore",
+              "titolo": "La pagina dei più recensiti presenta 40 prodotti come «scelti dai clienti» anche quando nessuno ha una recensione",
+              "file": [
+                "app/piu-venduti/page.tsx",
+                "components/ProductGrid.tsx",
+                "lib/queries/griglia-prodotti.ts"
+              ]
+            },
+            {
+              "id": "R03-017",
+              "chiave": "performance|quasi tutte le pagine del sito nascono vuote e le riempie il browser con chiamate al database, non solo la home e la scheda prodotto",
+              "gravita": "minore",
+              "titolo": "Quasi tutte le pagine del sito nascono vuote e le riempie il browser con chiamate al database, non solo la home e la scheda prodotto",
+              "file": [
+                "app/page.tsx",
+                "app/seller/page.tsx",
+                "app/orders/page.tsx",
+                "app/orders/[id]/page.tsx",
+                "app/seller/orders/page.tsx",
+                "app/seller/dashboard/page.tsx",
+                "app/admin/orders/page.tsx"
+              ]
+            },
+            {
+              "id": "R03-018",
+              "chiave": "qa-flussi|buco nelle prove del carrello: alcune mutanti del collaudo sul conto della consegna restano verdi",
+              "gravita": "minore",
+              "titolo": "Buco nelle prove del carrello: alcune mutanti del collaudo sul conto della consegna restano verdi",
+              "file": [
+                "app/cart/page.tsx"
+              ]
+            },
+            {
+              "id": "R03-019",
+              "chiave": "qa-flussi|la pagina novità mostra tutto il catalogo, anche un prodotto di tre mesi fa, e il numero in alto conta solo i prodotti già caricati",
+              "gravita": "minore",
+              "titolo": "La pagina Novità mostra tutto il catalogo, anche un prodotto di tre mesi fa, e il numero in alto conta solo i prodotti già caricati",
+              "file": [
+                "app/novita/page.tsx",
+                "lib/queries/griglia-prodotti.ts",
+                "components/ProductGrid.tsx"
+              ]
+            },
+            {
+              "id": "R03-020",
+              "chiave": "qa-flussi|anche chi sceglie «venditore» nell'iscrizione vede il pulsante google, che probabilmente crea un cliente",
+              "gravita": "minore",
+              "titolo": "Anche chi sceglie «venditore» nell'iscrizione vede il pulsante Google, che probabilmente crea un cliente",
+              "file": [
+                "app/sign-up/page.tsx"
+              ]
+            },
+            {
+              "id": "R03-021",
+              "chiave": "qa-flussi|il logger oscura solo le chiavi del contesto, non il testo del messaggio né un contesto stringa",
+              "gravita": "minore",
+              "titolo": "Il logger oscura solo le chiavi del contesto, non il testo del messaggio né un contesto stringa",
+              "file": [
+                "lib/logger.ts"
+              ]
+            },
+            {
+              "id": "R03-022",
+              "chiave": "tipografia|la scala delle dimensioni del testo viene scavalcata circa trecentotrenta volte",
+              "gravita": "minore",
+              "titolo": "La scala delle dimensioni del testo viene scavalcata circa trecentotrenta volte",
+              "file": [
+                "app/globals.css",
+                "components/ProductCard.tsx"
+              ]
+            }
+          ],
+          "file": [
+            "app/admin/disputes/page.tsx",
+            "app/admin/orders/page.tsx",
+            "app/admin/sponsored/page.tsx",
+            "app/api/cron/operational-alerts/route.ts",
+            "app/api/health/route.ts",
+            "app/api/vision/extract-product/route.ts",
+            "app/cart/page.tsx",
+            "app/faq/page.tsx",
+            "app/globals.css",
+            "app/lavora-con-noi/page.tsx",
+            "app/novita/page.tsx",
+            "app/orders/[id]/page.tsx",
+            "app/orders/page.tsx",
+            "app/page.tsx",
+            "app/piccoli-prezzi/page.tsx",
+            "app/piu-venduti/page.tsx",
+            "app/promozioni/page.tsx",
+            "app/returns/page.tsx",
+            "app/seller/analytics/letture-dell-andamento.ts",
+            "app/seller/analytics/page.tsx",
+            "app/seller/dashboard/page.tsx",
+            "app/seller/orders/page.tsx",
+            "app/seller/page.tsx",
+            "app/seller/products/page.tsx",
+            "app/shared-cart/page.tsx",
+            "app/sign-up/page.tsx",
+            "components/Footer.tsx",
+            "components/ProductCard.tsx",
+            "components/ProductGrid.tsx",
+            "components/StickyAddToCart.tsx",
+            "components/home/PromoDeals.tsx",
+            "components/seller/site/SectionConfigForm.tsx",
+            "components/store-sections/CollectionSection.tsx",
+            "docs/runbook.md",
+            "lib/ai/client.ts",
+            "lib/ai/tettoSpesa.ts",
+            "lib/analytics/visita-prodotto.ts",
+            "lib/logger.ts",
+            "lib/products/externalSync.ts",
+            "lib/queries/griglia-prodotti.ts",
+            "next.config.js",
+            "scripts/applica-migrazioni-mancanti.sh",
+            "scripts/check-migration-drift.mjs",
+            "sentry.server.config.ts",
+            "vercel.json"
+          ],
+          "migrazioni": [
+            600,
+            609
+          ]
+        },
+        "R04": {
+          "tema": "api-backend",
+          "voci": [
+            {
+              "id": "R04-001",
+              "chiave": "api-backend|quando l'amministrazione cambia solo le taglie di un prodotto, il registro delle azioni non scrive più niente",
+              "gravita": "minore",
+              "titolo": "Quando l'amministrazione cambia solo le taglie di un prodotto, il registro delle azioni non scrive più niente",
+              "file": [
+                "app/api/admin/products/route.ts"
+              ]
+            },
+            {
+              "id": "R04-002",
+              "chiave": "api-backend|nelle azioni dell'amministrazione un guasto del database diventa «non trovato», e nei dati del negozio un trattino",
+              "gravita": "minore",
+              "titolo": "Nelle azioni dell'amministrazione un guasto del database diventa «non trovato», e nei dati del negozio un trattino",
+              "file": [
+                "app/api/admin/users/[id]/moderate/route.ts",
+                "app/api/admin/users/[id]/delete/route.ts",
+                "app/api/admin/orders/[id]/cancel/route.ts",
+                "app/api/admin/disputes/[id]/resolve/route.ts",
+                "app/admin/users/page.tsx"
+              ]
+            },
+            {
+              "id": "R04-003",
+              "chiave": "api-backend|se la lettura dei ruoli cade, all'assistenza arriva l'email «un cliente ti ha scritto» pensata per un negozio",
+              "gravita": "minore",
+              "titolo": "Se la lettura dei ruoli cade, all'Assistenza arriva l'email «un cliente ti ha scritto» pensata per un negozio",
+              "file": [
+                "app/api/chat/messages/route.ts"
+              ]
+            },
+            {
+              "id": "R04-004",
+              "chiave": "api-backend|il giro notturno delle cancellazioni non ha un tetto di tempo nemmeno sul ciclo degli account scaduti",
+              "gravita": "minore",
+              "titolo": "Il giro notturno delle cancellazioni non ha un tetto di tempo nemmeno sul ciclo degli account scaduti",
+              "file": [
+                "app/api/cron/process-deletions/route.ts"
+              ]
+            },
+            {
+              "id": "R04-005",
+              "chiave": "api-backend|il tetto di tempo delle email della notte parte dall inizio del giro, e il ciclo delle cancellazioni resta senza tetto: con una notte lunga non parte nessuna email e non c è allarme",
+              "gravita": "minore",
+              "titolo": "il tetto di tempo delle email della notte parte dall inizio del giro, e il ciclo delle cancellazioni resta senza tetto: con una notte lunga non parte nessuna email e non c è allarme",
+              "file": [
+                "app/api/cron/process-deletions/route.ts"
+              ]
+            },
+            {
+              "id": "R04-006",
+              "chiave": "api-backend|la chiusura dell allarme «scrivile tu» legge al massimo 200 avvisi senza ordine né filtro: oltre 200, quelli aperti possono restare fuori",
+              "gravita": "minore",
+              "titolo": "la chiusura dell allarme «scrivile tu» legge al massimo 200 avvisi senza ordine né filtro: oltre 200, quelli aperti possono restare fuori",
+              "file": [
+                "app/api/cron/process-deletions/route.ts"
+              ]
+            },
+            {
+              "id": "R04-007",
+              "chiave": "api-backend|dopo il tetto dei contanti o il rollback di un ordine in contanti il benvenuto resta bloccato fino a 2 ore",
+              "gravita": "minore",
+              "titolo": "Dopo il tetto dei contanti o il rollback di un ordine in contanti il benvenuto resta bloccato fino a 2 ore",
+              "file": [
+                "app/api/orders/cod/route.ts"
+              ]
+            },
+            {
+              "id": "R04-008",
+              "chiave": "api-backend|ogni tappa del reso cancella la nota del negozio, anche quando la tappa la fa il cliente",
+              "gravita": "minore",
+              "titolo": "Ogni tappa del reso cancella la nota del negozio, anche quando la tappa la fa il cliente",
+              "file": [
+                "app/api/returns/[id]/avanza/route.ts"
+              ]
+            },
+            {
+              "id": "R04-009",
+              "chiave": "api-backend|se il database non risponde, chi decide un reso legge «ordine non trovato» o «non autorizzato»",
+              "gravita": "minore",
+              "titolo": "Se il database non risponde, chi decide un reso legge «ordine non trovato» o «non autorizzato»",
+              "file": [
+                "app/api/returns/chi-comanda-il-reso.ts",
+                "app/api/returns/[id]/decide/route.ts",
+                "app/api/returns/[id]/avanza/route.ts"
+              ]
+            },
+            {
+              "id": "R04-010",
+              "chiave": "api-backend|se la domanda per diventare negozio parte due volte insieme, viene registrata due volte e gli amministratori ricevono l'avviso due volte",
+              "gravita": "minore",
+              "titolo": "Se la domanda per diventare negozio parte due volte insieme, viene registrata due volte e gli amministratori ricevono l'avviso due volte",
+              "file": [
+                "app/api/seller/apply/route.ts"
+              ]
+            },
+            {
+              "id": "R04-011",
+              "chiave": "api-backend|un ordine con carta senza coordinate passa senza controllo della zona e senza avviso agli amministratori",
+              "gravita": "minore",
+              "titolo": "Un ordine con carta senza coordinate passa senza controllo della zona e senza avviso agli amministratori",
+              "file": [
+                "app/api/stripe/checkout/route.ts"
+              ]
+            },
+            {
+              "id": "R04-012",
+              "chiave": "api-backend|due invii uguali all'assistenza nello stesso istante creano due messaggi e due avvisi",
+              "gravita": "minore",
+              "titolo": "Due invii uguali all'assistenza nello stesso istante creano due messaggi e due avvisi",
+              "file": [
+                "app/api/support/conversation/route.ts"
+              ]
+            },
+            {
+              "id": "R04-013",
+              "chiave": "api-backend|la pagina d'errore dice «abbiamo registrato il problema», ma un errore nel telefono del cliente non lo registra nessuno",
+              "gravita": "minore",
+              "titolo": "La pagina d'errore dice «Abbiamo registrato il problema», ma un errore nel telefono del cliente non lo registra nessuno",
+              "file": [
+                "app/error.tsx",
+                "app/global-error.tsx",
+                "app/admin/error.tsx",
+                "lib/analytics/sentry.tsx"
+              ]
+            },
+            {
+              "id": "R04-015",
+              "chiave": "api-backend|il modulo dell'assistenza non manda nessuna chiave per invio",
+              "gravita": "minore",
+              "titolo": "Il modulo dell'assistenza non manda nessuna chiave per invio",
+              "file": [
+                "components/SupportChatModal.tsx"
+              ]
+            },
+            {
+              "id": "R04-016",
+              "chiave": "api-backend|la cancellazione legge un 404 qualsiasi come «account già chiuso»: un 404 di un gateway sbagliato verrebbe scambiato per un account già cancellato",
+              "gravita": "minore",
+              "titolo": "la cancellazione legge un 404 qualsiasi come «account già chiuso»: un 404 di un gateway sbagliato verrebbe scambiato per un account già cancellato",
+              "file": [
+                "lib/account/cancellazione.ts"
+              ]
+            },
+            {
+              "id": "R04-017",
+              "chiave": "api-backend|se il servizio di posta conserva anche le risposte d'errore, una promozione mai partita risulta spedita",
+              "gravita": "minore",
+              "titolo": "Se il servizio di posta conserva anche le risposte d'errore, una promozione mai partita risulta spedita",
+              "file": [
+                "lib/email/client.ts"
+              ]
+            },
+            {
+              "id": "R04-018",
+              "chiave": "api-backend|oltre 20.000 iscritti la ricerca utenti risulta sempre caduta e l'esportazione dell'elenco intero non esce, con un «riprova fra poco» che non serve",
+              "gravita": "minore",
+              "titolo": "oltre 20.000 iscritti la ricerca utenti risulta sempre caduta e l'esportazione dell'elenco intero non esce, con un «riprova fra poco» che non serve",
+              "file": [
+                "lib/supabase/blocchi.ts"
+              ]
+            },
+            {
+              "id": "R04-019",
+              "chiave": "qa-flussi|un admin che pubblica una storia dall'area negozio lascia una foto orfana nel deposito: dopo la 404 l'inserimento gli è rifiutato",
+              "gravita": "minore",
+              "titolo": "Un admin che pubblica una storia dall'area negozio lascia una foto orfana nel deposito: dopo la 404 l'inserimento gli è rifiutato",
+              "file": [
+                "app/seller/layout.tsx"
+              ]
+            },
+            {
+              "id": "R04-020",
+              "chiave": "qa-flussi|nelle recensioni della vetrina chi ha solo il nome pubblico (senza nome vero) adesso appare come «cliente»",
+              "gravita": "minore",
+              "titolo": "Nelle recensioni della vetrina chi ha solo il nome pubblico (senza nome vero) adesso appare come «Cliente»",
+              "file": [
+                "components/store-sections/useStorePageData.ts"
+              ]
+            },
+            {
+              "id": "R04-021",
+              "chiave": "qa-flussi|la consegna veloce si vende a tutti insieme anche con un solo fattorino: nessuno conta quante veloci ha già in mano",
+              "gravita": "minore",
+              "titolo": "La consegna veloce si vende a tutti insieme anche con un solo fattorino: nessuno conta quante veloci ha già in mano",
+              "file": [
+                "lib/ordini/consegna-veloce.ts"
+              ]
+            },
+            {
+              "id": "R04-022",
+              "chiave": "tipografia|otto spaziature diverse per la stessa etichetta maiuscola",
+              "gravita": "minore",
+              "titolo": "Otto spaziature diverse per la stessa etichetta maiuscola",
+              "file": [
+                "tailwind.config.ts"
+              ]
+            }
+          ],
+          "file": [
+            "app/admin/error.tsx",
+            "app/admin/users/page.tsx",
+            "app/api/admin/disputes/[id]/resolve/route.ts",
+            "app/api/admin/orders/[id]/cancel/route.ts",
+            "app/api/admin/products/route.ts",
+            "app/api/admin/users/[id]/delete/route.ts",
+            "app/api/admin/users/[id]/moderate/route.ts",
+            "app/api/chat/messages/route.ts",
+            "app/api/cron/process-deletions/route.ts",
+            "app/api/orders/cod/route.ts",
+            "app/api/returns/[id]/avanza/route.ts",
+            "app/api/returns/[id]/decide/route.ts",
+            "app/api/returns/chi-comanda-il-reso.ts",
+            "app/api/seller/apply/route.ts",
+            "app/api/stripe/checkout/route.ts",
+            "app/api/support/conversation/route.ts",
+            "app/error.tsx",
+            "app/global-error.tsx",
+            "app/seller/layout.tsx",
+            "components/SupportChatModal.tsx",
+            "components/store-sections/useStorePageData.ts",
+            "lib/account/cancellazione.ts",
+            "lib/analytics/sentry.tsx",
+            "lib/email/client.ts",
+            "lib/ordini/consegna-veloce.ts",
+            "lib/supabase/blocchi.ts",
+            "tailwind.config.ts"
+          ],
+          "migrazioni": [
+            610,
+            619
+          ]
+        },
+        "R05": {
+          "tema": "architettura",
+          "voci": [
+            {
+              "id": "R05-001",
+              "chiave": "architettura|la regola che vieta i tipi «qualunque» non è accesa: 46 sono passati, e 40 permessi di saltare il controllo non saltano niente",
+              "gravita": "minore",
+              "titolo": "La regola che vieta i tipi «qualunque» non è accesa: 46 sono passati, e 40 permessi di saltare il controllo non saltano niente",
+              "file": [
+                ".eslintrc.json",
+                "tsconfig.json"
+              ]
+            },
+            {
+              "id": "R05-002",
+              "chiave": "architettura|se sulla macchina delle prove manca postgres, sette file di prova si saltano in silenzio e la verifica esce verde lo stesso",
+              "gravita": "minore",
+              "titolo": "Se sulla macchina delle prove manca Postgres, sette file di prova si saltano in silenzio e la verifica esce verde lo stesso",
+              "file": [
+                "tests/unit/postgres-usa-e-getta.ts",
+                "tests/unit/un-invito-scritto-a-mano-non-paga.test.ts",
+                ".github/workflows/ci.yml"
+              ]
+            },
+            {
+              "id": "R05-003",
+              "chiave": "architettura|il gancio semancalachiave rende morti i catch sulla chiave nelle rotte; senzachiave e sullaporta copiati in due file",
+              "gravita": "minore",
+              "titolo": "Il gancio seMancaLaChiave rende morti i catch sulla chiave nelle rotte; senzaChiave e sullaPorta copiati in due file",
+              "file": [
+                "lib/api/middleware.ts",
+                "app/api/account/delete/route.ts",
+                "app/api/account/export/route.ts"
+              ]
+            },
+            {
+              "id": "R05-004",
+              "chiave": "architettura|migrazione-124 ha dovuto creare un suo client admin, perché la fabbrica del sito porta next/headers",
+              "gravita": "minore",
+              "titolo": "migrazione-124 ha dovuto creare un suo client admin, perché la fabbrica del sito porta next/headers",
+              "file": [
+                "lib/db/migrazione-124.ts",
+                "lib/supabase/server.ts"
+              ]
+            },
+            {
+              "id": "R05-005",
+              "chiave": "architettura|email di annullo spedita dentro la richiesta, senza coda: fino a circa 20 s di attesa, e se fallisce resta solo nel registro",
+              "gravita": "minore",
+              "titolo": "Email di annullo spedita dentro la richiesta, senza coda: fino a circa 20 s di attesa, e se fallisce resta solo nel registro",
+              "file": [
+                "lib/ordini/annulla.ts",
+                "app/api/cron/expire-stale-orders/route.ts"
+              ]
+            },
+            {
+              "id": "R05-006",
+              "chiave": "architettura|i soldi passano fra gli ordini del carrello con scritture una riga alla volta e una compensazione scritta a mano, non con una transazione",
+              "gravita": "minore",
+              "titolo": "I soldi passano fra gli ordini del carrello con scritture una riga alla volta e una compensazione scritta a mano, non con una transazione",
+              "file": [
+                "lib/ordini/annulla.ts"
+              ]
+            },
+            {
+              "id": "R05-007",
+              "chiave": "architettura|il carrello in contanti si ritrova solo dalla tabella contro il doppio clic: senza quella riga la regola del negozio che rifiuta non scatta e nessuno lo sa",
+              "gravita": "minore",
+              "titolo": "Il carrello in contanti si ritrova solo dalla tabella contro il doppio clic: senza quella riga la regola del negozio che rifiuta non scatta e nessuno lo sa",
+              "file": [
+                "lib/ordini/annulla.ts"
+              ]
+            },
+            {
+              "id": "R05-008",
+              "chiave": "architettura|carrello di più negozi: se cade la scrittura del secondo ordine, il primo resta spostato in silenzio",
+              "gravita": "minore",
+              "titolo": "Carrello di più negozi: se cade la scrittura del secondo ordine, il primo resta spostato in silenzio",
+              "file": [
+                "lib/ordini/veloce-non-confermata.ts"
+              ]
+            },
+            {
+              "id": "R05-009",
+              "chiave": "architettura|la frase per l'assistente scrive a mano la soglia dei 10 euro della consegna",
+              "gravita": "minore",
+              "titolo": "La frase per l'assistente scrive a mano la soglia dei 10 euro della consegna",
+              "file": [
+                "lib/products/economics.ts"
+              ]
+            },
+            {
+              "id": "R05-010",
+              "chiave": "architettura|nella regola della consegna per l'ai la soglia dei 10 € e' scritta a mano",
+              "gravita": "minore",
+              "titolo": "nella regola della consegna per l'AI la soglia dei 10 € e' scritta a mano",
+              "file": [
+                "lib/products/economics.ts"
+              ]
+            },
+            {
+              "id": "R05-011",
+              "chiave": "architettura|in home ogni sezione chiede di nuovo alla vetrina lo stesso negozio, e ogni fascia compare un giro di rete più tardi",
+              "gravita": "minore",
+              "titolo": "In home ogni sezione chiede di nuovo alla vetrina lo stesso negozio, e ogni fascia compare un giro di rete più tardi",
+              "file": [
+                "lib/queries/seller-public-profiles.ts"
+              ]
+            },
+            {
+              "id": "R05-012",
+              "chiave": "architettura|la funzione della spedizione in centesimi accetta ancora i sette ingressi che non servono",
+              "gravita": "minore",
+              "titolo": "La funzione della spedizione in centesimi accetta ancora i sette ingressi che non servono",
+              "file": [
+                "lib/shipping.ts"
+              ]
+            },
+            {
+              "id": "R05-013",
+              "chiave": "architettura|una fascia «domani» inviata alle 23:59 e arrivata alla rotta dopo mezzanotte si giudica sul giorno dopo",
+              "gravita": "minore",
+              "titolo": "Una fascia «Domani» inviata alle 23:59 e arrivata alla rotta dopo mezzanotte si giudica sul giorno dopo",
+              "file": [
+                "lib/store-hours.ts"
+              ]
+            },
+            {
+              "id": "R05-014",
+              "chiave": "architettura|gli strumenti degli sviluppatori portano altre 19 falle note, 10 alte, ma nessuna arriva al sito",
+              "gravita": "minore",
+              "titolo": "Gli strumenti degli sviluppatori portano altre 19 falle note, 10 alte, ma nessuna arriva al sito",
+              "file": [
+                "package-lock.json"
+              ]
+            },
+            {
+              "id": "R05-015",
+              "chiave": "architettura|l'elenco delle librerie dichiara una libreria mai usata e ne usa una che non dichiara, e il lint gira con un comando che next 16 toglie",
+              "gravita": "minore",
+              "titolo": "L'elenco delle librerie dichiara una libreria mai usata e ne usa una che non dichiara, e il lint gira con un comando che Next 16 toglie",
+              "file": [
+                "package.json",
+                ".eslintrc.json"
+              ]
+            },
+            {
+              "id": "R05-016",
+              "chiave": "architettura|il generatore dei tipi scrive le colonne array (text[], uuid[]) come string invece di string[]",
+              "gravita": "minore",
+              "titolo": "Il generatore dei tipi scrive le colonne array (text[], uuid[]) come string invece di string[]",
+              "file": [
+                "scripts/gen-db-types.mjs"
+              ]
+            },
+            {
+              "id": "R05-017",
+              "chiave": "architettura|una quinta copia scritta a mano del finto clienteavvisi nelle prove degli avvisi",
+              "gravita": "minore",
+              "titolo": "Una quinta copia scritta a mano del finto ClienteAvvisi nelle prove degli avvisi",
+              "file": [
+                "tests/unit/minori-s08-avvisi.test.ts"
+              ]
+            },
+            {
+              "id": "R05-018",
+              "chiave": "architettura|la prova sull'export elenca ancora cod_reconciliations fra le tabelle escluse",
+              "gravita": "minore",
+              "titolo": "La prova sull'export elenca ancora cod_reconciliations fra le tabelle escluse",
+              "file": [
+                "tests/unit/scarica-i-miei-dati-non-salta-nessuna-tabella.test.ts"
+              ]
+            },
+            {
+              "id": "R05-019",
+              "chiave": "deploy-sre|la costruzione del sito dipende dal download dei caratteri da google e ogni tanto fallisce da sola",
+              "gravita": "minore",
+              "titolo": "La costruzione del sito dipende dal download dei caratteri da Google e ogni tanto fallisce da sola",
+              "file": [
+                "app/layout.tsx",
+                ".github/workflows/ci.yml"
+              ]
+            },
+            {
+              "id": "R05-020",
+              "chiave": "flussi-conversione|se il carrello scade tutto nello stesso giro, il cliente riceve avvisi «il conto è cambiato» con cifre già superate",
+              "gravita": "minore",
+              "titolo": "Se il carrello scade tutto nello stesso giro, il cliente riceve avvisi «il conto è cambiato» con cifre già superate",
+              "file": [
+                "app/api/cron/expire-stale-orders/route.ts"
+              ]
+            },
+            {
+              "id": "R05-021",
+              "chiave": "qa-flussi|la scadenza del recesso non si sposta quando l'ultimo giorno cade di sabato, domenica o in un festivo",
+              "gravita": "minore",
+              "titolo": "La scadenza del recesso non si sposta quando l'ultimo giorno cade di sabato, domenica o in un festivo",
+              "file": [
+                "lib/ordini/termine-del-recesso.ts"
+              ]
+            }
+          ],
+          "file": [
+            ".eslintrc.json",
+            ".github/workflows/ci.yml",
+            "app/api/account/delete/route.ts",
+            "app/api/account/export/route.ts",
+            "app/api/cron/expire-stale-orders/route.ts",
+            "app/layout.tsx",
+            "lib/api/middleware.ts",
+            "lib/db/migrazione-124.ts",
+            "lib/ordini/annulla.ts",
+            "lib/ordini/termine-del-recesso.ts",
+            "lib/ordini/veloce-non-confermata.ts",
+            "lib/products/economics.ts",
+            "lib/queries/seller-public-profiles.ts",
+            "lib/shipping.ts",
+            "lib/store-hours.ts",
+            "lib/supabase/server.ts",
+            "package-lock.json",
+            "package.json",
+            "scripts/gen-db-types.mjs",
+            "tsconfig.json"
+          ],
+          "migrazioni": [
+            620,
+            629
+          ]
+        }
+      },
+      "rimandate": [
+        "api-backend|«duplica» di un prodotto escluso dal recesso: finché non si sa se la colonna c'è, la copia si salva recedibile senza avviso"
+      ],
+      "regia": []
+    }
+  ],
+  "cucitura": [],
+  "eccedenza": [],
+  "eccezioni_firmate": [
+    {
+      "onda": 2,
+      "sessione": "R02",
+      "regole": [
+        "prove_comuni",
+        "prova_esistente_altrui"
+      ],
+      "file": [
+        "tests/unit/minori-s09-scheda-prodotto.test.ts",
+        "tests/unit/riparazione-r07-storico-nello-stesso-secchio.test.ts",
+        "tests/unit/riparazione-r15-backup-storico.test.ts"
+      ],
+      "perche": "R02 ha ritoccato tre prove esistenti: secondo il collaudo K02 del giro 3 codificavano il difetto e nessuna è indebolita.",
+      "firma": "Nicola, 21/11 poco prima delle 00:08, chat «Ondata 9 · 7.0» session_015BmpnYruq7734YUce72wCa: «firmo tutto»",
+      "scritta": "2026-11-21 00:08, regia 7.0 dell onda 9"
+    },
+    {
+      "onda": 2,
+      "sessione": "R04",
+      "regole": [
+        "prove_comuni"
+      ],
+      "file": [
+        "tests/unit/l-email-nuovo-ordine-dalla-rotta-dei-contanti-dice-la-scadenza-vera.test.ts",
+        "tests/unit/le-rotte-fanno-pagare-la-veloce-in-centesimi.test.ts",
+        "tests/unit/minori-s02-coda-della-rotta-dei-contanti.test.ts",
+        "tests/unit/riparazione-r31-campanella-quando-contanti.test.ts"
+      ],
+      "perche": "R04 ha adattato quattro prove della rotta dei contanti: il collaudo K03 del giro 3 le ha giudicate non indebolite.",
+      "firma": "Nicola, 21/11 poco prima delle 00:08, chat «Ondata 9 · 7.0» session_015BmpnYruq7734YUce72wCa: «firmo tutto»",
+      "scritta": "2026-11-21 00:08, regia 7.0 dell onda 9"
+    },
+    {
+      "onda": 2,
+      "commit": "fa5dd0fa691631fe62b69a0117b99a5759c1adc0",
+      "regole": [
+        "id_nel_commit"
+      ],
+      "perche": "Commit di R02 che cita voci di altre onde: tocca solo la sua voce (e3231f8e è il ritocco delle due prove firmate qui sopra).",
+      "firma": "Nicola, 21/11 poco prima delle 00:08, chat «Ondata 9 · 7.0» session_015BmpnYruq7734YUce72wCa: «firmo tutto»",
+      "scritta": "2026-11-21 00:08, regia 7.0 dell onda 9"
+    },
+    {
+      "onda": 2,
+      "commit": "19291cd47c91dfac1a4b465e434e608850f8e658",
+      "regole": [
+        "id_nel_commit"
+      ],
+      "perche": "Commit di R02 che cita voci di altre onde: tocca solo la sua voce (e3231f8e è il ritocco delle due prove firmate qui sopra).",
+      "firma": "Nicola, 21/11 poco prima delle 00:08, chat «Ondata 9 · 7.0» session_015BmpnYruq7734YUce72wCa: «firmo tutto»",
+      "scritta": "2026-11-21 00:08, regia 7.0 dell onda 9"
+    },
+    {
+      "onda": 2,
+      "commit": "e3231f8ec44dc59351d5eb7d2d328a32a14047cb",
+      "regole": [
+        "id_nel_commit"
+      ],
+      "perche": "Commit di R02 che cita voci di altre onde: tocca solo la sua voce (e3231f8e è il ritocco delle due prove firmate qui sopra).",
+      "firma": "Nicola, 21/11 poco prima delle 00:08, chat «Ondata 9 · 7.0» session_015BmpnYruq7734YUce72wCa: «firmo tutto»",
+      "scritta": "2026-11-21 00:08, regia 7.0 dell onda 9"
+    }
+  ]
+}
