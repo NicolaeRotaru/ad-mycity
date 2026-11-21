@@ -2,3 +2,7 @@
 2026-11-21 15:53 · onda 1 · S01b · guardia ⚪ · referto ⚪ 0 difetti
 2026-11-21 15:53 · onda 1 · S01c · guardia ⚪ · referto ⚪ 0 difetti
 2026-11-21 15:53 · onda 1 · S01d · guardia ⚪ · referto ⚪ 0 difetti
+2026-11-21 16:08 · onda 1 · S01 · guardia ✅ · referto ✅ 0 difetti
+2026-11-21 16:08 · onda 1 · S01b · guardia ⚪ · referto ⚪ 0 difetti
+2026-11-21 16:08 · onda 1 · S01c · guardia ⚪ · referto ⚪ 0 difetti
+2026-11-21 16:08 · onda 1 · S01d · guardia ✅ · referto ✅ 0 difetti · finita
