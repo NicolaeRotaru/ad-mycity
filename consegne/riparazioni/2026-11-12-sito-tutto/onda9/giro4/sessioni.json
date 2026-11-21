@@ -7,9 +7,10 @@
  ],
  "sha_regista": "717a8e651fed10717dbb1783dceb2e9f00b239a6",
  "integrazione": {
-  "ramo": "main del sito",
+  "ramo": "claude/stoic-ramanujan-p9tmso (sito)",
   "partenza": "2d19787b789236307ac7ddd6c05b038a658a3d9d",
-  "nota": "giro 4 del 21/11: i rami -o9g4-mNN partono da main (2d19787b)"
+  "unita": "0f98fb8a372c6f31bcda8ca3c2ef4385c9c21b23",
+  "pr": "NicolaeRotaru/mycity#300"
  },
  "sessioni": {
   "R01": {
@@ -17,28 +18,28 @@
    "ramo": "claude/adoring-bohr-kixq35-o9g4-m01",
    "onda": 1,
    "ultracode": false,
-   "costo_usd": 25.97
+   "costo_usd": 29.11
   },
   "R02": {
    "id": "session_015BmpnXTYcNLHuqHCtPy8uw",
    "ramo": "claude/adoring-bohr-kixq35-o9g4-m02",
    "onda": 1,
    "ultracode": false,
-   "costo_usd": 23.82
+   "costo_usd": 24.34
   },
   "R03": {
    "id": "session_015BmpnZ5wA1LkPL3qZuawv1",
    "ramo": "claude/adoring-bohr-kixq35-o9g4-m03",
    "onda": 1,
    "ultracode": true,
-   "costo_usd": 35.15
+   "costo_usd": 36.18
   },
   "R04": {
    "id": "session_015BmpnZLFNqvaVHUjPwSmo6",
    "ramo": "claude/adoring-bohr-kixq35-o9g4-m04",
    "onda": 1,
    "ultracode": true,
-   "costo_usd": 25.71
+   "costo_usd": 27.84
   }
  },
  "tetti_usd": {
@@ -86,6 +87,12 @@
    "nota": "il primo K02 (session_015BmpnY2rLqpA8XfBuSBkzY) non è mai partito: commit di partenza scritto a mano e sbagliato; archiviato"
   }
  },
- "controllori": {},
+ "controllori": {
+  "C04": {
+   "id": "session_015BmpnXKo33YzvVFzsQLFiR",
+   "ramo": "claude/adoring-bohr-kixq35-o9g4-c04",
+   "costo_usd": 7.96
+  }
+ },
  "nota_regia": "2026-11-21 03:20 · la 10.0 prende la mano dalla 9.0 (passaggio PASSAGGIO-REGIA-O9-10.md); profondità 0"
 }

@@ -67,3 +67,6 @@
 2026-11-21 05:00 · verify verde su 0f98fb8a (1890 file, 11722 prove, lint 0 errori) · aperti R01/R02 g5d (ultracode) e R01/R02 g5m (senza), base 0f98fb8a, tetto 30 $ ciascuno
 2026-11-21 05:03 · i riparatori del giro 5 non possono clonare ad-mycity (add_repo negato): regole, schede e referti del giro 4 messi in sola lettura sul sito, ramo claude/adoring-bohr-kixq35-o9g5-istruzioni @ 15a3f53d; i controlli del programma li lancia la regia
 2026-11-21 05:05 · C04: integrazione verde (verify 1889+1 saltato, 210 migrazioni, SQL verdi); 2 voci rosse già aperte (R02-004, R01-005), 6 nati minori, nessun grave; 6,54 $ · applica a vuoto: 20 si chiudono, 14 già riparate, 54 aperte, 29 nati
+2026-11-21 05:06 · archiviati R01-R04 g4, K01, K01 secondo, K02 secondo, C04 · costi finali giro 4: riparatori 117,47 $ (29,11 + 24,34 + 36,18 + 27,84), collaudi 35,76 $, controllore 7,96 $ = 161,19 $ per 34 chiusure (≈ 4,7 $ l'una), 29 nati
+2026-11-21 05:06 · PR in bozza sul sito: NicolaeRotaru/mycity#300 (integrazione 0f98fb8a, nessuna migrazione nuova)
+2026-11-21 05:07 · aperta S01 g5, la riservata (session_015BmpnUzW8AxERgG23qX2Lj, ultracode, tetto 25 $), ramo claude/adoring-bohr-kixq35-o9g5-s01: dettagli solo in chat
