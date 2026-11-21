@@ -70,3 +70,4 @@ Quante voci risulteranno sparite: lo dicono i referti delle 4 sessioni.
 - 2026-11-22 00:38 piano R10 approvato; tolta R10-002 (stato «verificato» documenti fattorino): ai delicati. R10-016 solo la lettura unica, force-dynamic resta.
 - 2026-11-22 00:39 piano R11 approvato senza tolte (12 voci).
 - 2026-11-22 00:40 piano R12 approvato senza tolte (14 voci). Tutti e 12 i piani approvati: 11 voci tolte (10 ai delicati, R06-008 a Nicola). Sorveglianza: send_later 01:09.
+- 2026-11-22 00:58 R11 finita (7 riparati, 2 già, 1 parziale, 2 file altrui, 5,27 $). valida-referto verde. guardia rossa solo su tests/unit/cercare-per-pertinenza-non-e-ordinare-per-data.test.ts (+1 riga attesa per R11-009, importa solo griglia-prodotti e l'aiuto finto-postgrest): accettata dalla regia, da ricontrollare con prova-unione. Aspetta il collaudo.
