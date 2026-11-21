@@ -12,13 +12,14 @@
    "ramo": "claude/adoring-bohr-kixq35-o9g5d-m01",
    "onda": 1,
    "ultracode": true,
-   "costo_usd": 27.91
+   "costo_usd": 30.28
   },
   "R02": {
    "id": "session_015BmpnWi4DBbXtJVkdLEN8R",
    "ramo": "claude/adoring-bohr-kixq35-o9g5d-m02",
    "onda": 1,
-   "ultracode": true
+   "ultracode": true,
+   "costo_usd": 30.28
   }
  },
  "tetti_usd": {
