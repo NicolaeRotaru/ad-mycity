@@ -1113,5 +1113,36 @@
   "cucitura": [
     "immagini-media|quattro foto sotto la piega vengono chieste come «urgenti» su ogni home"
   ],
-  "eccedenza": []
+  "eccedenza": [],
+  "eccezioni_firmate": [
+    {
+      "onda": 1,
+      "sessione": "R02",
+      "regole": [
+        "prove_comuni",
+        "prova_esistente_altrui"
+      ],
+      "file": [
+        "tests/unit/il-rilascio-non-riallinea-da-solo-un-database-rimasto-indietro.test.ts"
+      ],
+      "perche": "R02-004: il finto psql va allineato (dopo APPLICATO, con INSERT, anche REGISTRATO) senza togliere asserzioni.",
+      "firma": "Nicola, 21/11, chat «Ondata 9 · 9.0» session_015BmpnVsaBSAMXVLwgUxhRH: «A, firmo la prima, la seconda cambiala»",
+      "scritta": "2026-11-21 03:08, regia 9.0 dell onda 9"
+    },
+    {
+      "onda": 1,
+      "sessione": "R02",
+      "regole": [
+        "prove_comuni",
+        "prova_esistente_altrui"
+      ],
+      "file": [
+        "tests/unit/il-ritorno-indietro-torna-a-quello-che-usano-i-clienti.test.ts",
+        "tests/unit/riparazione-r07-ritorno-dominio-senza-commit.test.ts"
+      ],
+      "perche": "R02-005: Nicola cambia il comportamento della prova di fumo sui due casi rari; le due prove che li fissavano come voluti si aggiornano.",
+      "firma": "Nicola, 21/11, chat «Ondata 9 · 9.0» session_015BmpnVsaBSAMXVLwgUxhRH: «A, firmo la prima, la seconda cambiala»",
+      "scritta": "2026-11-21 03:08, regia 9.0 dell onda 9"
+    }
+  ]
 }

@@ -7272,3 +7272,8 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Vincolo:** «stessa efficienza» = la quota che regge al collaudo e il costo per chiusa non peggiorano; si misurano a ogni giro, se peggiorano la regia si ferma e lo dice.
 - **Aperti con Nicola:** il tetto di spesa per le 1-2 settimane; se i minori nati durante le riparazioni vanno in una lista «dopo» che non sposta il traguardo; la proposta su gravi e bloccanti per `ad.uso-e-crediti`.
 - **Chi:** la regia 8.0, poi la 9.0. **Colore:** 🟡 metodo; la spesa resta 🔴 a ogni preventivo.
+
+## 2026-11-21 03:08 — Onda 9 giro 4: chi apre le sessioni e due firme su R02
+- **Cosa:** Nicola, «A, firmo la prima, la seconda cambiala». (1) La regia 9.0 è a profondità 8 su 8 e non può aprire sessioni: collaudatori, controllore e sessione riservata li apre Nicola o l'AD quando la 9.0 lo chiede. (2) R02-004: firmato il ritocco del finto psql in una prova comune, senza togliere asserzioni. (3) R02-005: si cambia il comportamento della prova di fumo sui due casi rari e si aggiornano le due prove che li fissavano.
+- **Perché:** il limite di profondità non si cambia; le due voci di R02 restavano non_fatto senza una scelta.
+- **Chi:** regia 9.0. **Colore:** 🟡.
