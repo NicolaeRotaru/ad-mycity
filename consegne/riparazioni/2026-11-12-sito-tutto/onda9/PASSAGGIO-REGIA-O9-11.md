@@ -3,7 +3,7 @@ data: 2026-11-21 04:30
 tipo: passaggio di regia
 da: «Regia onda 9 MyCity 10.0», session_015BmpnZ6sDXhTVpCDMSp2nP (profondità 0)
 perche: storia lunga, regola 3 del 21/11 (passare la mano a 250 mila token)
-a: «Ondata 9 · 11.0», aperta dalla 10.0
+a: «Ondata 9 · 11.0», aperta dalla 10.0 — mai partita (ferma su un permesso alle 04:29, archiviata alle 04:45: la regia resta alla 10.0)
 ---
 
 # Onda 9, giro 4: il passaggio alla regia 11.0

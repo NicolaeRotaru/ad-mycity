@@ -55,3 +55,6 @@
 2026-11-21 03:57 · K01 secondo: R01 collaudato, 10 reggono su 15, 5 parziali (già dichiarate), 0 non_regge, 3 nati minori (1 da R01-015); 4,49 $
 2026-11-21 04:25 · K02 non era mai partito (commit di partenza sbagliato, errore della regia): archiviato, aperto «K02 secondo» (session_015BmpnVznX8Z2f413vhALzY, ultracode, tetto 35 $) su R04 e R03
 2026-11-21 04:25 · R03 · referto rosso su R03-018 (commit condiviso con R03-001): chiesto di segnarla parziale
+2026-11-21 04:45 · regia 11.0 ferma dalle 04:29 su un permesso «Add Repo» che solo Nicola può dare (dorme): interrotta e archiviata; la regia resta alla 10.0
+2026-11-21 04:45 · R03 · punta dedbe1c3, R03-018 parziale senza commit · valida-referto ✅ · guardia ✅ · passata a K02 secondo
+2026-11-21 04:45 · K02 secondo · in lavoro su R04 e R03, ultracode attivo, 16,89 $
