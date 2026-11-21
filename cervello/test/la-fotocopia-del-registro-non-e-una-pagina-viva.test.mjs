@@ -28,6 +28,9 @@ test("la fotocopia nella cartella di un giro dentro un'onda è esente", () => {
   // di due difetti («al lancio si paga solo in contanti», «fino a 10 km dal negozio»).
   assert.equal(esente("consegne/riparazioni/2026-11-12-sito-tutto/onda9/giro4/registro-compatto.txt", []), true);
   assert.equal(esente("consegne/riparazioni/2026-11-12-sito-tutto/onda9/giro12/registro-compatto.txt", []), true);
+  // Lo stesso 21/11 il giro di correzione ha due cartelle, `giro5d` per le voci delicate e `giro5m` per le altre.
+  assert.equal(esente("consegne/riparazioni/2026-11-12-sito-tutto/onda9/giro5d/registro-compatto.txt", []), true);
+  assert.equal(esente("consegne/riparazioni/2026-11-12-sito-tutto/onda9/giro5m/registro-compatto.txt", []), true);
 });
 
 test("le schede dei riparatori restano vive", () => {
@@ -45,6 +48,8 @@ test("lo stesso nome fuori posto non è esente", () => {
   assert.equal(esente("consegne/riparazioni/a/giro4/registro-compatto.txt", []), false);
   assert.equal(esente("consegne/riparazioni/a/onda9/giro4/x/registro-compatto.txt", []), false);
   assert.equal(esente("consegne/riparazioni/a/onda9/giro/registro-compatto.txt", []), false);
+  assert.equal(esente("consegne/riparazioni/a/onda9/giro5dd/registro-compatto.txt", []), false);
+  assert.equal(esente("consegne/riparazioni/a/onda9/giro5d/schede/registro-compatto.txt", []), false);
   assert.equal(esente("consegne/riparazioni/2026-11-12-sito-tutto/registro-compatto.txt.md", []), false);
 });
 
