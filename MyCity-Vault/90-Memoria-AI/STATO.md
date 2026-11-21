@@ -1,8 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-11-17 14:14
+aggiornato: 2026-11-21 01:45
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> ✅ **2026-11-21 01:45 — Il giro 3 dell'onda 9 è sul sito.**
+>
+> Nicola ha unito mycity#299 alle 01:38 del 21/11 (merge `2d19787b`). Nel registro si chiudono 15 difetti, 1 era già riparato, 72 restano aperti per il prossimo giro e 19 difetti nuovi sono scritti (2 riservati fuori, solo in chat). Tolte all'unione 4 riparazioni bocciate (R05-007, R04-021, R03-021 e la parte della scorta S01-001). Spesa del giro 3 circa 266 $ su un tetto alzato da Nicola a 280 $. La migrazione 620 (soldi fra gli ordini del carrello in una transazione) la applica il rilascio automatico, con l'«ok migrazioni» di Nicola.
 
 > ✅ **2026-11-17 13:12 — L'onda 5 del sito è pronta da unire.**
 >

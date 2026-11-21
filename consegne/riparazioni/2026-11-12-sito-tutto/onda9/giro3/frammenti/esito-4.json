@@ -1,0 +1,48 @@
+{
+  "corsia": 4,
+  "territorio": "R04",
+  "difetti": [
+    {
+      "chiave": "api-backend|nelle azioni dell'amministrazione un guasto del database diventa «non trovato», e nei dati del negozio un trattino",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r04-admin-guasto-non-e-non-trovato.test.ts tests/unit/riparazione-r04-admin-dati-negozio-non-disponibili.test.ts tests/unit/riparazione-r04-id-storto-admin.test.ts tests/unit/riparazione-r04-reclamo-ordine-non-letto.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 8b499227^ --file \"app/api/admin/users/[id]/moderate/route.ts,app/api/admin/users/[id]/delete/route.ts,app/api/admin/orders/[id]/cancel/route.ts,app/api/admin/disputes/[id]/resolve/route.ts,app/admin/users/page.tsx\" --prove tests/unit/riparazione-r04-admin-guasto-non-e-non-trovato.test.ts,tests/unit/riparazione-r04-admin-dati-negozio-non-disponibili.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 8b4992273c842d43fcc8f8c801f0778cf319eefa^ --file app/api/admin/users/[id]/moderate/route.ts,app/api/admin/users/[id]/delete/route.ts,app/api/admin/orders/[id]/cancel/route.ts,app/api/admin/disputes/[id]/resolve/route.ts,app/admin/users/page.tsx --prove tests/unit/riparazione-r04-admin-guasto-non-e-non-trovato.test.ts,tests/unit/riparazione-r04-admin-dati-negozio-non-disponibili.test.ts --json → uscita 0 (K03)",
+      "nota_fix": "Nelle quattro rotte (moderate:205, delete:46, cancel:38, resolve:113) un errore del database dà 500 «riprova» senza scrivere niente; 404 solo per PGRST116; permessi identici. Pagina Utenti: se la domanda kyc fallisce (page.tsx:480) la scheda scrive «non disponibile: riprova» invece di «—» (datoIdentita, page.tsx:1050). Dopo la revisione: (1) un id non uuid (22P02) torna 404 nelle quattro rotte, come lib/supabase/lettura-per-metadati.ts:64 (99011728); (2) in resolve la lettura dell'ordine caduta (non PGRST116/22P02) dà 500 «riprova» prima di ogni scrittura, rimborso o avviso: prima un guasto faceva saltare il tetto R84 e il controllo «Stripe non configurato» (resolve/route.ts:139-152, 728a956a)."
+    },
+    {
+      "chiave": "api-backend|dopo il tetto dei contanti o il rollback di un ordine in contanti il benvenuto resta bloccato fino a 2 ore",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r04-benvenuto-dopo-i-contanti.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 1c838577^ --file app/api/orders/cod/route.ts --prove tests/unit/riparazione-r04-benvenuto-dopo-i-contanti.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 1c8385773c46ffa70112697b225d4baa05a32558^ --file app/api/orders/cod/route.ts --prove tests/unit/riparazione-r04-benvenuto-dopo-i-contanti.test.ts --json → uscita 0 (K03)",
+      "nota_fix": "release_coupon(p_code) rimetteva l'uso nel contatore ma lasciava aperta la rivendicazione in coupon_redemptions (migrazione 361), che blocca il codice «solo primo ordine». Nuovo chiudiLaRivendicazione (route.ts:1150), chiamato dopo un rilascio riuscito sia al tetto dei contanti (:1171) sia nel rollback (:1296). Nella 361 di oggi il lucchetto dura 2 minuti dalla rivendicazione, non 2 ore. Prova con orologio finto che emula la 361."
+    },
+    {
+      "chiave": "api-backend|ogni tappa del reso cancella la nota del negozio, anche quando la tappa la fa il cliente",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r04-reso-nota-del-negozio.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 1a4e5d78^ --file \"app/api/returns/[id]/avanza/route.ts\" --prove tests/unit/riparazione-r04-reso-nota-del-negozio.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 1a4e5d78d3c380cf1ca7d05c3c07ce6ec283e677^ --file app/api/returns/[id]/avanza/route.ts --prove tests/unit/riparazione-r04-reso-nota-del-negozio.test.ts --json → uscita 0 (K03)",
+      "nota_fix": "avanza.ts:365: decision_notes si scrive solo con comando.autorizzato (negozio o amministratore) e una nota nel corpo; prima era `decision_notes: body.note ?? null` a ogni tappa. Prove: ritiro del cliente con o senza nota e tappa del negozio senza nota non toccano decision_notes; quella del negozio con nota lo aggiorna."
+    },
+    {
+      "chiave": "api-backend|se il database non risponde, chi decide un reso legge «ordine non trovato» o «non autorizzato»",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r04-reso-database-giu.test.ts tests/unit/riparazione-r04-id-storto-reso.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 6a0dc3af^ --file \"app/api/returns/[id]/decide/route.ts,app/api/returns/[id]/avanza/route.ts\" --prove tests/unit/riparazione-r04-reso-database-giu.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 6a0dc3af9c4b3bd486f6f8736c61dc06c0acf6c5^ --file app/api/returns/[id]/decide/route.ts,app/api/returns/[id]/avanza/route.ts --prove tests/unit/riparazione-r04-reso-database-giu.test.ts --json → uscita 0 (K03)",
+      "nota_fix": "chi-comanda-il-reso.ts distingueva già il guasto (5/11): non toccato. Nelle rotte la lettura caduta del reso (decide.ts:57, avanza.ts:177), la rilettura caduta dell'ordine prima del rimborso (decide.ts:129, avanza.ts:259) e il controllo caduto «sei il cliente?» del ritiro (avanza.ts:116, :201) ora danno 503 «riprova» invece di 404/403. PGRST116 resta 404; chi non è né negozio né cliente resta 403. Dopo la revisione: un id di reso non uuid (22P02) torna 404 «Reso non trovato» in decide:59-61 e avanza:179-181; un guasto vero resta 503 (ba17ffc8)."
+    },
+    {
+      "chiave": "api-backend|due invii uguali all'assistenza nello stesso istante creano due messaggi e due avvisi",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r04-assistenza-doppione.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 5aa465c6^ --file app/api/support/conversation/route.ts --prove tests/unit/riparazione-r04-assistenza-doppione.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 5aa465c69b147e1453c8e48e2e1cf38de98a355f^ --file app/api/support/conversation/route.ts --prove tests/unit/riparazione-r04-assistenza-doppione.test.ts --json → uscita 0 (K03)",
+      "nota_fix": "Il corpo accetta idempotency_key (forma /^[A-Za-z0-9_-]{8,100}$/, route.ts:17, altrimenti 400). L'id del messaggio nasce da persona + chiave (SHA-256 in forma di UUID, idDelMessaggio :34), come idOrdiniDelTentativo dei contanti: la chiave primaria di messages rifiuta il secondo invio (23505) e chi arriva secondo riceve 200 {giaRicevuto:true} senza un altro avviso (:169). Senza chiave tutto come prima. Migrazione 610 non scritta: una colonna nuova avrebbe sfasato lib/database.types.ts (controllato in CI); la chiave primaria dà lo stesso vincolo atomico."
+    },
+    {
+      "chiave": "api-backend|il modulo dell'assistenza non manda nessuna chiave per invio",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r04-assistenza-chiave-nel-corpo.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base d1e96612^ --file components/SupportChatModal.tsx --prove tests/unit/riparazione-r04-assistenza-chiave-nel-corpo.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base d1e96612c037af01db30dd55be46e2adf5866fe4^ --file components/SupportChatModal.tsx --prove tests/unit/riparazione-r04-assistenza-chiave-nel-corpo.test.ts --json → uscita 0 (K03)",
+      "nota_fix": "Il 19/11 la chiave partiva solo nell'intestazione idempotency-key, che la rotta non legge. Ora va anche nel corpo come idempotency_key (SupportChatModal.tsx:113), lo stesso campo che usa la rotta (R04-012); l'intestazione resta. Prove: il corpo porta la chiave; il doppio clic ne porta una sola; il ritentativo dopo rete caduta la riusa; dopo un invio riuscito la chiave è nuova."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "corsia": 3,
+  "territorio": "R03",
+  "difetti": [
+    {
+      "chiave": "frontend-ux|se la rilettura dei reclami cade a finestra aperta, la decisione resta su dati vecchi",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run --reporter=dot tests/unit/riparazione-r03-reclami-rilettura-caduta.test.ts",
+      "non_vacuita": "timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo . --base 19e4d5572dee5612b1427187016f093ec5bca629^ --file app/admin/disputes/page.tsx --prove tests/unit/riparazione-r03-reclami-rilettura-caduta.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 19e4d5572dee5612b1427187016f093ec5bca629^ --file app/admin/disputes/page.tsx --prove tests/unit/riparazione-r03-reclami-rilettura-caduta.test.ts --json → uscita 0 (K03)",
+      "nota_fix": "Con la rilettura dei reclami caduta (React Query tiene i dati vecchi) la finestra «Risolvi reclamo» mostra un avviso in italiano con «Riprova» e i tre pulsanti di decisione restano spenti finché una rilettura non riesce. Prova sulla pagina vera, stesso Supabase finto delle prove S05/R09: rilettura al ritorno sulla scheda che cade -> pulsanti spenti e avviso; «Riprova» riuscito -> di nuovo accesi."
+    },
+    {
+      "chiave": "qa-flussi|anche chi sceglie «venditore» nell'iscrizione vede il pulsante google, che probabilmente crea un cliente",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run --reporter=dot tests/unit/riparazione-r03-iscrizione-venditore-senza-google.test.ts",
+      "non_vacuita": "timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo . --base 1c99f8d195a3e5c421deaeb0d64723e9494d8bb4^ --file app/sign-up/page.tsx --prove tests/unit/riparazione-r03-iscrizione-venditore-senza-google.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 1c99f8d195a3e5c421deaeb0d64723e9494d8bb4^ --file app/sign-up/page.tsx --prove tests/unit/riparazione-r03-iscrizione-venditore-senza-google.test.ts --json → uscita 0 (K03)",
+      "nota_fix": "Verificato in sola lettura: il pulsante Google (AuthShell, signInWithOAuth senza data) non porta il ruolo, /auth/callback non lo tocca e handle_new_user (migrations/421) crea 'buyer'. Quindi crea davvero un cliente: con «Venditore» scelto il pulsante non si mostra, una riga dice «Con Google si crea un account cliente: i negozi si iscrivono con email e password.» e col controllo anti-bot rotto la pagina non consiglia Google (come per il fattorino, R02-009). Prova sulla pagina vera: cliente -> Google c'è, venditore (dal link o dalla mattonella) -> non c'è."
+    }
+  ]
+}
