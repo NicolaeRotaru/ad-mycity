@@ -1,0 +1,43 @@
+{
+ "controllore": "C05",
+ "onda": 9,
+ "giro": "5d",
+ "finita": true,
+ "testa": "572111326abb18ec06cb5789570b07932a352e53",
+ "base": "0f98fb8a372c6f31bcda8ca3c2ef4385c9c21b23",
+ "ramo_integrazione": "claude/stoic-ramanujan-p9tmso",
+ "sha_regista": "92fc21b16d30a480bde4f5151da034e0a811cc49",
+ "data": "2026-11-21 07:02",
+ "tolte_con_revert": [
+  "R02-007",
+  "R02-002"
+ ],
+ "verify": {
+  "comando": "npm run verify && tests/sql/harness/apply.sh && tests/sql/harness/run.sh",
+  "esito": "verde",
+  "dettaglio": "Albero unito 57211132, uno solo per i due giri 5d e 5m. typecheck ok; lint 0 errori e 126 avvisi (98 alla base: i 28 in piu' sono gli avvisi «Unused eslint-disable directive» accesi da R01-001 del giro 5m, gia' dichiarati nel suo cosa_resta); vitest 1912 file di prova verdi su 1912, 11834 prove, nessuna saltata. apply: 210 migrazioni applicate, 0 fallite, su Postgres 16 locale. run: 77 file di controlli SQL, tutti verdi."
+ },
+ "voci_rosse": [],
+ "nuovi_difetti_visti": [
+  {
+   "titolo": "Quando la notte finisce il tempo delle email, l'allarme agli amministratori conta come «non partite» anche le spiegazioni gia' arrivate per email nelle notti prima",
+   "dimensione": "api-backend",
+   "severita": "minore",
+   "file": "app/api/cron/process-deletions/route.ts:481",
+   "descrizione": "Nato dalle righe nuove di R01-002. rimaste = dovuti.slice(i) prende tutti gli avvisi dovuti della notte, e dovuti contiene ogni notte anche quelli con l'email gia' partita (lib/privacy/avvisi-a-chi-aspetta.ts:219-221: 'gia-partita' ripassa apposta). avvisaDelleEmailSenzaTempo (riga 503) li conta tutti nel testo «Stanotte N spiegazioni ... non sono partite per email» e li mette nella chiave (riga 509). Esempio: 12 persone in attesa, 8 con l'email gia' arrivata nelle notti scorse; il tetto scatta all'indice 0 e l'allarme dice 12 invece di 4. Quando l'insieme cambia (una persona in piu' o in meno) la chiave cambia e arriva un allarme nuovo anche se le 4 vere sono sempre le stesse. Rimedio: contare e mettere in chiave solo gli avvisi senza EMAIL_PARTITA."
+  }
+ ],
+ "controlli_dei_revert": "R02-007 tolta all'unione: il diff di 8fdc1784 e' esattamente il rovescio di 9e1bbc0b; scripts/applica-migrazioni-mancanti.sh e tests/unit/riparazione-r02-registrazione-col-commit-proprio.test.ts non compaiono nel diff base..testa. R02-002 tolta dal riparatore sul suo ramo: il diff di e8f65c46 e' esattamente il rovescio di 34cd633e; la migrazione 640, lib/database.types.ts e la prova SQL riparazione-r02-carrello-contanti non compaiono nel diff, e annulla.ts e veloce-non-confermata.ts portano solo le righe di R02-001 e R02-003.",
+ "incroci_fra_riparatori": "Nessun file di codice e' toccato sia dal giro 5d sia dal giro 5m. Nel giro 5d R01 e R02 non condividono file (R01: cod/route.ts, process-deletions, scheda prodotto; R02: annulla.ts, expire-stale-orders, veloce-non-confermata.ts, prova-di-fumo.mjs). Gli unici file in comune fra le unioni sono le cancellazioni dei vecchi referti .riparazione/referto-R01.json e -R02.json del giro 4, che restano nel quaderno della regia.",
+ "voci_parziali_gia_dichiarate": "R02-003 (il primo ordine, in cosa_resta) e R02-008 (lo scenario [Y, X] col dominio non letto, in cosa_resta) restano come scritti. R01-002, R01-003, R01-005, R01-006, R01-009 e R02-001 hanno gia' dal collaudatore K01 il verdetto parziale o non_regge: non li ripeto e non li conto come rossi. Sull'albero unito non ho trovato pezzi nuovi oltre a quelli.",
+ "esiti_per_file": "Guardati gli scarti sulle righe cambiate. cod/route.ts (R01-006), annulla.ts ed expire-stale-orders (R02-001), veloce-non-confermata.ts (R02-003): reggono, nessun doppio uso del benvenuto, nessuna email doppia, i conti del credito tornano. process-deletions (R01-002, R01-003): regge salvo il difetto minore sopra. Scheda prodotto (R01-009): regge, la promessa dei contanti sparisce solo quando non vale su tutte e due le strade. prova-di-fumo.mjs (R02-008): regge, la regola nuova restituisce null solo in piu' casi, mai un indirizzo in piu'.",
+ "cosa_non_ho_verificato": "Le email «Rimborso emesso» del giro degli scaduti ora partono tutte dopo la risposta: non ho provato da qui se, con molti rimborsi nella stessa notte, il servizio di posta ne rifiuta una parte per troppe richieste o se il tempo massimo della funzione le tronca. Lo stesso schema c'era gia' alla base per le email di annullo al negozio e al cliente.",
+ "file_toccati": 22,
+ "file_guardati": 13,
+ "file_non_guardati": "I 9 file di prova nuovi del giro (riparazione-r01-* e riparazione-r02-*) li ho fatti girare e sono verdi, ma non li ho letti: il loro contenuto lo ha gia' giudicato il collaudatore. Guardati: 7 file di codice, 2 prove modificate, 4 referti vecchi cancellati.",
+ "conto": {
+  "subagenti": 2,
+  "token_stimati": 205000,
+  "dettaglio": "backend-dev su soldi e ordini (144 mila token), backend-dev su sonnet sulle cancellazioni della notte (61 mila). La scheda prodotto l'ha guardata il subagente frontend contato nel referto del giro 5m."
+ }
+}

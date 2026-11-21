@@ -1,0 +1,38 @@
+{
+ "controllore": "C05",
+ "onda": 9,
+ "giro": "5m",
+ "finita": true,
+ "testa": "572111326abb18ec06cb5789570b07932a352e53",
+ "base": "0f98fb8a372c6f31bcda8ca3c2ef4385c9c21b23",
+ "ramo_integrazione": "claude/stoic-ramanujan-p9tmso",
+ "sha_regista": "92fc21b16d30a480bde4f5151da034e0a811cc49",
+ "data": "2026-11-21 07:02",
+ "tolte_con_revert": [],
+ "verify": {
+  "comando": "npm run verify && tests/sql/harness/apply.sh && tests/sql/harness/run.sh",
+  "esito": "verde",
+  "dettaglio": "Albero unito 57211132, uno solo per i due giri 5d e 5m. typecheck ok; lint 0 errori e 126 avvisi (98 alla base: i 28 in piu' sono avvisi «Unused eslint-disable directive» accesi da R01-001, 29 righe in tutto nel registro del lint, gia' dichiarati nel suo cosa_resta); vitest 1912 file di prova verdi su 1912, 11834 prove, nessuna saltata. apply: 210 migrazioni applicate, 0 fallite, su Postgres 16 locale. run: 77 file di controlli SQL, tutti verdi."
+ },
+ "voci_rosse": [
+  {
+   "chiave": "frontend-ux|incollare il link di instagram o scrivere il sito senza https blocca il salvataggio di tutta la vetrina con un messaggio che non dice dove",
+   "id": "R02-007",
+   "perche": "lib/store-customization.ts:327-330: la riparazione toglie la coda «?…» prima di leggere il nome e toglie anche la guardia /\\?/ che prima lasciava interi i link non di profilo; la lista degli esclusi resta profile.php|p|reel|reels|share|groups|pages|watch. Cosi' https://www.facebook.com/people/Forno-Rossi/100063?mibextid=abc si salva come «people», facebook.com/story.php?story_fbid=1&id=2 come «story.php», instagram.com/stories/forno/123?igsh=x come «stories»: lo schema li accetta e il tasto della vetrina porta alla pagina sbagliata, senza nessun errore. Prima quei link restavano interi e il controllo li fermava con un messaggio. Rimedio: rimettere la guardia sulla coda per i link non di profilo, o allargare la lista (people, story.php, stories, explore, tv, events, hashtag, photo)."
+  }
+ ],
+ "nuovi_difetti_visti": [],
+ "controlli_dei_revert": "Nel giro 5m nessuna voce e' stata tolta con un revert.",
+ "incroci_fra_riparatori": "components/VendorForm.tsx e' l'unico file di codice toccato da due voci del giro (R02-006 e R02-007, stesso riparatore, commit diversi): insieme reggono, la fotografia dell'avviso di uscita usa la stessa normalizzazione dei social del salvataggio. Nessun file di codice in comune col giro 5d.",
+ "voci_parziali_gia_dichiarate": "R01-001 (29 eslint-disable inutili e 36 any in file altrui), R01-009 (le schermate del manifest le fornisce Nicola), R02-003 (la migrazione 403, scelta di Nicola) restano come scritti in cosa_resta. R01-006 e R02-001 hanno gia' dal collaudatore K01 il verdetto non_regge, R01-010, R02-006 e R02-007 il verdetto parziale: non li ripeto. R02-007 sta qui sopra in voci_rosse per un pezzo nuovo che il collaudatore non ha scritto (lui ha visto solo i sottodomini web. e it-it.).",
+ "esiti_per_file": "Guardati gli scarti sulle righe cambiate. VendorForm, StoreDetailsEditor, profilo (R02-006): reggono, l'avviso di uscita non scatta dopo un salvataggio riuscito e resta se il salvataggio cade. SocialLinksFields e CustomizationSection (R02-007): reggono. SectionConfigForm (R02-005): regge, il testo passa sempre da sanitizeRichText. Storie (R02-003): regge, un altro dominio resta rifiutato. Reclami dell'amministrazione (R02-002, R02-009): reggono. layout.tsx coi caratteri locali (R01-007) ed .eslintrc.json (R01-001): reggono.",
+ "cosa_non_ho_verificato": "Con next/font/local ogni file dei caratteri e' precaricato (12 file, circa 300 KB: Inter dritto e corsivo, Fraunces 400-800 dritto e corsivo), mentre con Google si precaricavano i file del sottoinsieme latino. Non ho fatto una costruzione del sito, quindi non so se i byte scaricati a ogni pagina sono cresciuti o calati: non lo conto come difetto.",
+ "file_toccati": 43,
+ "file_guardati": 16,
+ "file_non_guardati": "I 14 file dei caratteri (12 woff2 e 2 licenze OFL) non li ho aperti: li controlla la prova riparazione-r01-caratteri-locali, verde. I 13 file di prova nuovi o riscritti del giro (fra cui minori-s08-avvisi e il-corsivo-del-sito) li ho fatti girare e sono verdi, ma non li ho letti: il loro contenuto lo ha gia' giudicato il collaudatore. Guardati: 11 file di codice, 3 prove modificate, 2 referti vecchi cancellati.",
+ "conto": {
+  "subagenti": 1,
+  "token_stimati": 67000,
+  "dettaglio": "frontend-dev sui moduli del negozio e sulla scheda prodotto (67 mila token, 9 file: 8 del giro 5m e la scheda prodotto del giro 5d). Il rilievo su lib/store-customization.ts l'ho ricontrollato io dalla riga citata, col diff base..testa."
+ }
+}
