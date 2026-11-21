@@ -854,7 +854,8 @@ export const RE_SPENTA = /\b(?:it|test|describe)(?:\.\w+)*\.(?:skip|only|todo|fa
  * poteva contenere stringhe, commenti, regex o parentesi (per esempio un commento con un apostrofo che nasconde un
  * `|| true`). Adesso: nessun
  * commento in nessuna delle due righe, nessuna virgoletta, barra o `...` prima della fine della condizione vecchia, e X è
- * solo un nome, anche negato o con i punti (`!carattere.locale`). Ogni altro cambio di una riga spenta resta rosso.
+ * solo un nome, anche negato o con i punti (`!carattere.locale`). Il secondo collaudo (21/11 13:40) ha aggiunto: lo
+ * `.skipIf` è quello di vitest in testa alla riga, e la condizione vecchia non assegna. Ogni altro cambio resta rosso.
  */
 export function restringeIlSalto(tolta, aggiunta) {
   const pezzi = (riga) => {
@@ -871,6 +872,9 @@ export function restringeIlSalto(tolta, aggiunta) {
   const a = pezzi(tolta), b = pezzi(aggiunta);
   if (!a || !b || !a.cond || a.prima !== b.prima || a.dopo !== b.dopo || !b.cond.startsWith(a.cond)) return false;
   if (/['"`/]|\.\.\./.test(a.prima + a.cond)) return false;
+  // Secondo collaudo (21/11 13:40): il salto è quello di vitest, chiamato in testa alla riga, e la condizione vecchia
+  // non assegna niente (un `x = A && X` stringerebbe x e allargherebbe un `!x` letto da un'altra prova).
+  if (!/^(?:it|test|describe)(?:\.\w+)*\.skipIf\s*\($/.test(a.prima) || /(?:^|[^=!<>])=(?![=>])/.test(a.cond)) return false;
   return /^&&\s*!?\s*[A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)*$/.test(b.cond.slice(a.cond.length).trim());
 }
 /** Quante asserzioni porta il testo di una prova (vitest, node:test, assert). PURA. */

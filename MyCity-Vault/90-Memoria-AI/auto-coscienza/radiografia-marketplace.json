@@ -410,12 +410,12 @@
   "fonti_non_lette": [],
   "sintesi": "Il problema più grave trovato oggi era una chiave del database leggibile da chiunque, e Nicola l'ha già spenta. Dei difetti nuovi nessuno è bloccante, ma il rimborso di un ordine in contanti va ancora fatto a mano, fuori dal sito.",
   "meta": {
-    "findings": 3384,
+    "findings": 3389,
     "bloccanti": 37,
     "gravi": 678,
-    "minori": 2669,
+    "minori": 2674,
     "agenti": null,
-    "aggiornato": "2026-11-21 13:02"
+    "aggiornato": "2026-11-21 13:27"
   },
   "confronto_precedente": {
     "data": "2026-11-05",
@@ -5759,10 +5759,10 @@
         "perche": "parziale: 36 any in 16 file non miei (elenco in serve_file_altrui); due permessi eslint-disable che ancora non saltano niente perché stanno sulla riga sbagliata (lib/email/avviso-messaggio-negozio.ts:64, app/api/cron/send-emails/route.ts:333); la regola copre solo app, components e lib (tests/, scripts/ e types/ restano fuori da npm run lint). Quando gli any saranno tipizzati, togliere l override «warn» da .eslintrc.json. tsconfig.json:7 è già \"strict\": true, niente da cambiare."
       },
       "riparazione_21_11": {
-        "esito": "non_fatto",
-        "sessione": "R04",
-        "collaudo": null,
-        "perche": "non_fatto: tetto di spesa: sopra 24,50 $ niente lotti nuovi (regia 10.0, 21/11); il lotto C (strumenti e prove) non è partito. Spesa al momento della fermata: 25,71 $."
+        "esito": "parziale",
+        "sessione": "R01",
+        "collaudo": "parziale",
+        "perche": "parziale: 29 eslint-disable inutili (ora avvisi) e 36 any in 16 file a warn, tutti in file altrui: elenco in serve_file_altrui e nel rapporto del lotto. tsconfig.json:7 è già strict: true, niente da accendere."
       }
     },
     {
@@ -5821,7 +5821,7 @@
       "impatto": "Il giorno del passaggio a Next 16, npm run verify si rompe sul lint. Se eslint-config-next smette di portarsi dietro il plugin, il lint si ferma con «plugin non trovato».",
       "fix": "Togliere iconv-lite, dichiarare @typescript-eslint/eslint-plugin in devDependencies, passare il lint a `eslint .` con il codemod next-lint-to-eslint-cli.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "gia_riparato_prima",
       "prova": "grep -rn \"iconv-lite\" app lib components scripts tests; grep -n \"eslint-plugin\" package.json; npm run lint 2>&1 | grep -i deprecated",
       "prova_tipo": "comando",
       "prova_eseguita": true,
@@ -5860,11 +5860,13 @@
         "perche": "collaudo: parziale"
       },
       "riparazione_21_11": {
-        "esito": "non_fatto",
-        "sessione": "R04",
-        "collaudo": null,
-        "perche": "non_fatto: tetto di spesa: sopra 24,50 $ niente lotti nuovi (regia 10.0, 21/11); il lotto C (strumenti e prove) non è partito. Spesa al momento della fermata: 25,71 $."
-      }
+        "esito": "gia_riparato_prima",
+        "sessione": "R01",
+        "collaudo": "K01",
+        "prova": "package.json:9 il lint è già `eslint --ext … app components lib` (nessun next lint né configurazione equivalente in .eslintrc.json o next.config.js); package.json:42 dichiara iconv-lite usata da pdfkit; server-only non è più importato (lib/health/checks.ts:1). Già in base con le prove riparazione-r05-librerie-dichiarate e riparazione-r23-librerie-dichiarate."
+      },
+      "chiuso_il": "2026-11-21 13:27",
+      "chiuso_da": "riparazione giro5m · R01 · collaudo K01"
     },
     {
       "dimensione": "architettura",
@@ -5919,7 +5921,7 @@
       "impatto": "Oggi nessun verde finto. Il giorno in cui l'immagine del runner togliesse Postgres, o una macchina di sviluppo non lo avesse, le prove sul buono regalo e sull'interruttore dell'ordine sparirebbero dalla CI senza che nessuno se ne accorga: la verifica resterebbe verde.",
       "fix": "Nel lavoro unit-tests impostare PG_BIN esplicito, oppure aggiungere un controllo che fallisce se BIN_POSTGRES è null con CI=true; contare i file saltati e far fallire la CI se superano lo zero atteso.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "gia_riparato_prima",
       "prova": "in una copia: base Postgres spostata su /nonesiste/postgresql, PG_BIN tolta e PATH ridotto al solo node, poi node node_modules/vitest/vitest.mjs run tests/unit/il-buono-regalo-segue-il-suo-pagamento.test.ts; con Postgres presente lo stesso comando",
       "prova_tipo": "comando",
       "prova_eseguita": true,
@@ -5958,11 +5960,13 @@
         "perche": "serve_file_altrui: Nessun commit. Il pezzo in ci.yml era già chiuso da R01-011 (installa Postgres, esce rosso se initdb o psql mancano, PROVE_POSTGRES_OBBLIGATORIE=1 nel passo Test), ma quella variabile oggi non la legge nessun file di prova: con le modifiche sopra l'aiutante la leggerà. Resta scoperto il npm run verify locale."
       },
       "riparazione_21_11": {
-        "esito": "non_fatto",
-        "sessione": "R04",
-        "collaudo": null,
-        "perche": "non_fatto: tetto di spesa: sopra 24,50 $ niente lotti nuovi (regia 10.0, 21/11); il lotto C (strumenti e prove) non è partito. Spesa al momento della fermata: 25,71 $."
-      }
+        "esito": "gia_riparato_prima",
+        "sessione": "R01",
+        "collaudo": "K01",
+        "prova": ".github/workflows/ci.yml:90-109 (job unit-tests): passo che installa e accende PostgreSQL e passo «Le prove col database vero non si possono saltare» (esce 1 se /usr/lib/postgresql/*/bin/initdb manca o se psql -d postgres select 1 non risponde), prima del passo Test; cerca negli stessi percorsi e con lo stesso psql di tests/unit/postgres-usa-e-getta.ts:37 e un-invito-scritto-a-mano-non-paga.test.ts:24-25. Prova già alla base: tests/unit/riparazione-r01-prove-col-database-in-ci.test.ts, 3 su 3 verdi."
+      },
+      "chiuso_il": "2026-11-21 13:27",
+      "chiuso_da": "riparazione giro5m · R01 · collaudo K01"
     },
     {
       "dimensione": "architettura",
@@ -8099,10 +8103,10 @@
         "perche": "non_fatto: Riparazione fatta e poi annullata su decisione della regia (strada B del 19/11): i controllori hanno trovato un peggioramento rispetto alla base e il tetto di 6 subagenti non permetteva un giro di correzione. Va al prossimo giro di correzione, con un altro padrone. Cosa faceva la riparazione annullata: VendorForm (Dettagli negozio e profilo) avvisava alla chiusura o ricarica della pagina e chiedeva conferma sul clic dei link interni; «Tutte le impostazioni» chiedeva prima di tornare indietro."
       },
       "riparazione_21_11": {
-        "esito": "non_fatto",
-        "sessione": "R01",
-        "collaudo": null,
-        "perche": "non_fatto: tetto: il lotto 3 non è partito perché la spesa della sessione era sopra 24,50 $ (regola della regia 10.0, consegna al 70% di 35 $). Nessun codice toccato per questa voce."
+        "esito": "riparato",
+        "sessione": "R02",
+        "collaudo": "parziale",
+        "perche": "collaudo: parziale"
       }
     },
     {
@@ -10425,7 +10429,7 @@
         "esito": "serve_file_altrui",
         "sessione": "R02",
         "collaudo": null,
-        "perche": "serve_file_altrui: Nessuna modifica né commit miei: i file di R02 della voce erano già a posto. Resta solo il Turnstile (file non di R02, nemmeno app/contact)."
+        "perche": "serve_file_altrui: Nessun commit: resta solo il Turnstile, file non mio."
       }
     },
     {
@@ -15903,7 +15907,7 @@
       "impatto": "Il rosso su main diventa rumore e può coprire un rosso vero. Quando il rilascio dopo CI verde sarà acceso, un capriccio di Google basterà a fermare un rilascio sano.",
       "fix": "Si servono i caratteri dal deposito con next/font/local, mettendo i file di Inter e Fraunces in app/fonts. Così la costruzione non dipende più dalla rete.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Comando eseguito in sola lettura: gh api repos/NicolaeRotaru/mycity/actions/jobs/124919974779/logs | grep -A3 'next/font'. Lo stesso con il job 124811431415. Atteso: costruzione riuscita. Reale: «An error occurred in `next/font`. TypeError: Cannot read properties of null (reading '1') at …/google/loader.js:122:78».",
       "prova_tipo": "comando",
       "prova_eseguita": true,
@@ -15952,11 +15956,14 @@
         "perche": "collaudo: rompe_altro"
       },
       "riparazione_21_11": {
-        "esito": "non_fatto",
-        "sessione": "R04",
-        "collaudo": null,
-        "perche": "non_fatto: tetto di spesa: sopra 24,50 $ niente lotti nuovi (regia 10.0, 21/11); il lotto C (strumenti e prove) non è partito. Spesa al momento della fermata: 25,71 $."
-      }
+        "esito": "riparato",
+        "sessione": "R01",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      },
+      "chiuso_il": "2026-11-21 13:27",
+      "chiuso_da": "PR #300 · 1ad51b4c",
+      "nota_riparazione": "app/layout.tsx passa da next/font/google a next/font/local con gli stessi caratteri: Inter variabile (peso 100 900) e Fraunces 400-800, normale e corsivo, sottoinsieme latino, stesse variabili CSS, display swap e preload, adjustFontFallback Arial per Inter e Times New Roman per Fraunces come fa Google. 12 woff2 da @fontsource-variable/inter 5.3.0 e @fontsource/fraunces 5.3.0 in app/fonts con OFL-Inter.txt e OFL-Fraunces.txt accanto (fuori da --file della rimessa: da sole non cambiano il comportamento). Nessuna dipendenza nuova; la costruzione non scarica più niente da Google. In ci.yml:80-88 non c era nessun ripiego da togliere. — prova: npx vitest run tests/unit/riparazione-r01-caratteri-locali.test.ts --reporter=dot — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 37e5b8cc768f1e0ee64398b4de164ce9b81d8b28^ --file app/layout.tsx,app/fonts/fraunces-latin-400-italic.woff2,app/fonts/fraunces-latin-400-normal.woff2,app/fonts/fraunces-latin-500-italic.woff2,app/fonts/fraunces-latin-500-normal.woff2,app/fonts/fraunces-latin-600-italic.woff2,app/fonts/fraunces-latin-600-normal.woff2,app/fonts/fraunces-latin-700-italic.woff2,app/fonts/fraunces-latin-700-normal.woff2,app/fonts/fraunces-latin-800-italic.woff2,app/fonts/fraunces-latin-800-normal.woff2,app/fonts/inter-latin-wght-italic.woff2,app/fonts/inter-latin-wght-normal.woff2 --prove tests/unit/riparazione-r01-caratteri-locali.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01-007 --base 37e5b8cc^ --file app/layout.tsx,app/fonts/fraunces-latin-400-italic.woff2,app/fonts/fraunces-latin-400-normal.woff2,app/fonts/fraunces-latin-500-italic.woff2,app/fonts/fraunces-latin-500-normal.woff2,app/fonts/fraunces-latin-600-italic.woff2,app/fonts/fraunces-latin-600-normal.woff2,app/fonts/fraunces-latin-700-italic.woff2,app/fonts/fraunces-latin-700-normal.woff2,app/fonts/fraunces-latin-800-italic.woff2,app/fonts/fraunces-latin-800-normal.woff2,app/fonts/inter-latin-wght-italic.woff2,app/fonts/inter-latin-wght-normal.woff2 --prove tests/unit/riparazione-r01-caratteri-locali.test.ts --json → uscita 0 (K01)"
     },
     {
       "dimensione": "deploy-sre",
@@ -24607,10 +24614,10 @@
         "perche": "non_fatto: fuori dal giro del 19/11: soldi (prezzo mostrato)"
       },
       "riparazione_21_11": {
-        "esito": "parziale",
-        "sessione": "R02",
-        "collaudo": "parziale",
-        "perche": "parziale: I caroselli nominati dal titolo stampano ancora il prezzo pieno e non sono file di R02: components/SimilarProducts.tsx:94, components/RecentlyViewed.tsx:110, components/SponsoredCarousel.tsx:136, components/SearchBar.tsx:249 (suggerimenti della ricerca), components/home/TrendingNow.tsx:120. Le modifiche esatte sono in serve_file_altrui. (FrequentlyBoughtTogether e CartUpsell applicano già lo sconto; HeroStoreCard è chiusa da R02-010.)"
+        "esito": "serve_file_altrui",
+        "sessione": "R01",
+        "collaudo": null,
+        "perche": "serve_file_altrui: La barra è già a posto alla base: app/product/[id]/page.tsx:1647 passa prezzoPieno={prezzoPieno} e components/StickyAddToCart.tsx:114-118 barra il pieno solo se prezzoPieno > price; tests/unit/riparazione-r02-barra-prezzo-pieno-dalla-scheda.test.tsx 3 su 3 verdi. Nessun difetto resta in StickyAddToCart.tsx. Restano i 5 caroselli in file altrui; modello components/products/FrequentlyBoughtTogether.tsx:15 e :53-54. Oltre ai 5 caroselli, anche la pagina dei preferiti e la vetrina del negozio montano ProductCard senza lo sconto (aggiunte qui sotto, trovate dal revisore). DropOfDay usa drop_price proprio, ReorderRail mostra il prezzo storico dell ordine: non c entrano."
       }
     },
     {
@@ -25045,10 +25052,10 @@
         "perche": "non_fatto: Riparazione fatta e poi annullata su decisione della regia (strada B del 19/11): i controllori hanno trovato un peggioramento rispetto alla base e il tetto di 6 subagenti non permetteva un giro di correzione. Va al prossimo giro di correzione, con un altro padrone. Cosa faceva la riparazione annullata: il link copiato dall'app (?igsh=, ?mibextid=, ?lang=) si riduceva al nome, l'errore compariva sotto il campo giusto, la sezione «Social e contatti» si apriva da sola."
       },
       "riparazione_21_11": {
-        "esito": "non_fatto",
-        "sessione": "R01",
-        "collaudo": null,
-        "perche": "non_fatto: tetto: il lotto 3 non è partito perché la spesa della sessione era sopra 24,50 $ (regola della regia 10.0, consegna al 70% di 35 $). Nessun codice toccato per questa voce."
+        "esito": "riparato",
+        "sessione": "R02",
+        "collaudo": "parziale",
+        "perche": "collaudo: parziale"
       }
     },
     {
@@ -34245,10 +34252,10 @@
         "perche": "parziale: 18 avvisi chiedono aggiornamenti che rompono (--force): @storybook/builder-webpack5, @storybook/nextjs, webpack-dev-middleware (high), zod (high), @sentry/nextjs, resend, @react-email/render, glob/minimatch/editorconfig/js-beautify, elliptic, crypto-browserify. Scelta della regista se farli."
       },
       "riparazione_21_11": {
-        "esito": "non_fatto",
-        "sessione": "R04",
+        "esito": "scelta_di_nicola",
+        "sessione": "R01",
         "collaudo": null,
-        "perche": "non_fatto: tetto di spesa: sopra 24,50 $ niente lotti nuovi (regia 10.0, 21/11); il lotto C (strumenti e prove) non è partito. Spesa al momento della fermata: 25,71 $."
+        "perche": "scelta_di_nicola: npm audit fix senza --force: da 18 falle (5 basse, 9 moderate, 4 alte) a 19 (5 basse, 10 moderate, 4 alte, compare fork-ts-checker-webpack-plugin), e tirerebbe dentro due salti maggiori (cosmiconfig 8→9, fs-extra 10→11): lockfile rimesso come alla base, nessun commit. Falle prima, per gravità: alte @storybook/builder-webpack5, @storybook/nextjs, webpack-dev-middleware, zod; moderate @react-email/render, @sentry/bundler-plugins, @sentry/nextjs, @sentry/webpack-plugin, editorconfig, glob, js-beautify, minimatch, resend; basse browserify-sign, create-ecdh, crypto-browserify, elliptic, node-polyfill-webpack-plugin. Dopo: le stesse più fork-ts-checker-webpack-plugin (moderata). Prova: npm audit --json prima e dopo."
       }
     },
     {
@@ -42791,9 +42798,9 @@
       },
       "riparazione_21_11": {
         "esito": "parziale",
-        "sessione": "R02",
+        "sessione": "R01",
         "collaudo": "parziale",
-        "perche": "parziale: public/manifest.json ha già \"id\": \"/\" (riga 5) e \"display_override\": [\"standalone\",\"minimal-ui\"] (riga 8) e non ha più \"orientation\" (grep orientation: nessun risultato); nessuna modifica necessaria. Manca solo \"screenshots\": in public/ non ci sono schermate vere (solo icone e marker). Servono almeno 2 PNG reali dell'app: una form_factor \"narrow\" (telefono, es. 1080x1920 o 540x960, home e scheda prodotto) e una form_factor \"wide\" (computer, es. 1280x720 o più, home), poi aggiungere in manifest.json screenshots:[{src,sizes,type:'image/png',form_factor,label}]."
+        "perche": "parziale: Manca la chiave screenshots: servono 2 PNG veri del sito (non generati da una build locale senza dati), uno narrow (es. 1080x1920) e uno wide (es. 1280x720 o più); poi in public/manifest.json screenshots:[{src,sizes,type:\"image/png\",form_factor:\"narrow\"|\"wide\",label}]. Le schermate le deve fornire Nicola."
       }
     },
     {
@@ -70911,10 +70918,10 @@
         "perche": "non_fatto: delicata: fuori dall'onda 9. La voce riguarda le prove del conto della consegna nel carrello (app/cart/page.tsx), cioè i soldi dei clienti: stasera non si tocca (regola 3)."
       },
       "riparazione_21_11": {
-        "esito": "parziale",
-        "sessione": "R02",
+        "esito": "riparato",
+        "sessione": "R01",
         "collaudo": "parziale",
-        "perche": "parziale: la cura è la sola prova: prova-rimessa non si applica; mutanti applicate a mano: consegnaVeloce true nel conto, couponScontoCents 100, supplementoVeloceCents 0 → rosse"
+        "perche": "collaudo: parziale"
       }
     },
     {
@@ -84050,10 +84057,10 @@
         "perche": "parziale: components/seller/site/BannerFields.tsx (file di un'altra sessione) ha ancora tre maxLength; lib/admin/editor-della-home.ts:41 dice «manca il titolo» per un titolo troppo lungo (vedi serve_file_altrui). I maxLength tolti sono 28, non 27."
       },
       "riparazione_21_11": {
-        "esito": "non_fatto",
-        "sessione": "R01",
+        "esito": "serve_file_altrui",
+        "sessione": "R02",
         "collaudo": null,
-        "perche": "non_fatto: tetto: il lotto 3 non è partito perché la spesa della sessione era sopra 24,50 $ (regola della regia 10.0, consegna al 70% di 35 $). Nessun codice toccato per questa voce."
+        "perche": "serve_file_altrui: Nessun commit: la parte del mio file era già chiusa sulla base."
       }
     },
     {
@@ -84079,7 +84086,7 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R11",
-      "stato": "aperto",
+      "stato": "gia_riparato_prima",
       "riparazione_20_11": {
         "esito": "serve_file_altrui",
         "sessione": "R05",
@@ -84087,11 +84094,13 @@
         "perche": "serve_file_altrui: Commit della correzione: eddf0534; annullo: 0cb2424c. Il risultato del ramo su questa voce è zero."
       },
       "riparazione_21_11": {
-        "esito": "non_fatto",
-        "sessione": "R04",
-        "collaudo": null,
-        "perche": "non_fatto: tetto di spesa: sopra 24,50 $ niente lotti nuovi (regia 10.0, 21/11); il lotto C (strumenti e prove) non è partito. Spesa al momento della fermata: 25,71 $."
-      }
+        "esito": "gia_riparato_prima",
+        "sessione": "R01",
+        "collaudo": "K01",
+        "prova": "scripts/gen-db-types.mjs:35-40: sqlTypeToTs riconosce `[]` e `_tipo` prima del tipo base e restituisce `<tipo>[]`; lib/database.types.ts ha già 18 colonne string[] (es. riga 1014). Già in base con la prova tests/unit/riparazione-r05-tipi-colonne-array.test.ts."
+      },
+      "chiuso_il": "2026-11-21 13:27",
+      "chiuso_da": "riparazione giro5m · R01 · collaudo K01"
     },
     {
       "dimensione": "frontend-ux",
@@ -84890,10 +84899,10 @@
         "perche": "parziale: La voce nomina anche la migrazione 403 (migrations/403:21-25), che mette NULL anche ai link interi verso il nostro dominio nelle storie vecchie: una migrazione esistente non si tocca e in questo giro non se ne scrivono di nuove; serve una migrazione nuova che riduca a percorso i link interi del nostro dominio invece di cancellarli (la 403 non è applicata al database vero). Minore: un http:// del nostro dominio riceve «I siti esterni non si possono collegare»."
       },
       "riparazione_21_11": {
-        "esito": "non_fatto",
-        "sessione": "R01",
-        "collaudo": null,
-        "perche": "non_fatto: tetto: il lotto 3 non è partito perché la spesa della sessione era sopra 24,50 $ (regola della regia 10.0, consegna al 70% di 35 $). Nessun codice toccato per questa voce."
+        "esito": "parziale",
+        "sessione": "R02",
+        "collaudo": "parziale",
+        "perche": "parziale: La voce nomina anche la migrazione 403 (migrations/403_il_link_delle_storie_porta_solo_dentro_mycity.sql:21-25), che mette NULL anche ai link interi del nostro dominio nelle storie vecchie. Una migrazione esistente non si tocca e in questo giro non se ne scrivono: serve la scelta di Nicola (vedi nota)."
       }
     },
     {
@@ -87289,7 +87298,7 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione onda8 · R03",
-      "stato": "aperto",
+      "stato": "riparato",
       "riparazione_20_11": {
         "esito": "non_fatto",
         "sessione": "R09",
@@ -87297,11 +87306,14 @@
         "perche": "non_fatto: Riparazione fatta e poi annullata su decisione della regia (strada B del 19/11): i controllori hanno trovato un peggioramento rispetto alla base e il tetto di 6 subagenti non permetteva un giro di correzione. Va al prossimo giro di correzione, con un altro padrone. Cosa faceva la riparazione annullata: il blocco di testo della vetrina rileggeva «&» e «<» com'erano scritti (decodifica in htmlInACapo, ricodifica di & < > in aCapoInHtml)."
       },
       "riparazione_21_11": {
-        "esito": "parziale",
+        "esito": "riparato",
         "sessione": "R02",
-        "collaudo": "parziale",
-        "perche": "parziale: Casi limite trovati dal revisore: un testo con la scritta letterale «&amp;» si rilegge «&», e «&lt;b&gt;» scritto letteralmente torna «<b>» e al salvataggio dopo diventa un tag vero. La radice è in lib/sanitize-html.ts (file altrui): sanitizeRichText lascia «&» crudo quando nel testo non c'è «<», quindi il formato salvato non dice se «&amp;» era un'entità o testo. Serve che sanitizeRichText codifichi sempre «&» in «&amp;»; poi htmlInACapo decodifica una volta sola senza ambiguità."
-      }
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      },
+      "chiuso_il": "2026-11-21 13:27",
+      "chiuso_da": "PR #300 · 1ad51b4c",
+      "nota_riparazione": "aCapoInHtml codifica & < > prima degli a-capo, così il formato salvato è sempre codificato e htmlInACapo decodifica una volta sola; con il sanitizeRichText vero tre giri salva-rileggi tornano identici anche su «a &amp; b» e «&lt;b&gt;», senza entità doppie. lib/sanitize-html.ts non serve toccarlo. Giro di correzione: htmlInACapo decodifica in un solo passaggio anche &nbsp; (U+00A0), &quot;, &apos;/&#39; e le entità numeriche, così uno spazio non separabile incollato da Word non diventa «&amp;nbsp;» e «&nbsp;» scritto a lettere torna letterale. — prova: npx vitest run tests/unit/riparazione-r02-testo-vetrina-entita.test.ts --reporter=dot — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 06bfab08^ --file components/seller/site/SectionConfigForm.tsx --prove tests/unit/riparazione-r02-testo-vetrina-entita.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02-005 --base 06bfab08^ --file components/seller/site/SectionConfigForm.tsx --prove tests/unit/riparazione-r02-testo-vetrina-entita.test.ts --json → uscita 0 (K01)"
     },
     {
       "dimensione": "qa-flussi",
@@ -87452,10 +87464,10 @@
         "perche": "serve_file_altrui: Modifica fatta e provata (37/37 verdi) e messa in un commit, ma guardia-ramo è uscita rossa: «è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista». Il commit, mai spinto, l'ho tolto con git reset --hard HEAD~1, come voleva la regia. Oggi l'ordine con LC_ALL=C e con -V è lo stesso: la prova non può ancora diventare rossa."
       },
       "riparazione_21_11": {
-        "esito": "non_fatto",
-        "sessione": "R01",
-        "collaudo": null,
-        "perche": "non_fatto: tetto: il lotto 3 non è partito perché la spesa della sessione era sopra 24,50 $ (regola della regia 10.0, consegna al 70% di 35 $). Nessun codice toccato per questa voce."
+        "esito": "riparato",
+        "sessione": "R02",
+        "collaudo": "non_regge",
+        "perche": "collaudo: non_regge"
       }
     },
     {
@@ -87518,10 +87530,10 @@
         "perche": "serve_file_altrui"
       },
       "riparazione_21_11": {
-        "esito": "non_fatto",
-        "sessione": "R04",
-        "collaudo": null,
-        "perche": "non_fatto: tetto di spesa: sopra 24,50 $ niente lotti nuovi (regia 10.0, 21/11); il lotto C (strumenti e prove) non è partito. Spesa al momento della fermata: 25,71 $."
+        "esito": "riparato",
+        "sessione": "R01",
+        "collaudo": "non_regge",
+        "perche": "collaudo: non_regge"
       }
     },
     {
@@ -88429,13 +88441,15 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione giro3 · R01",
-      "stato": "aperto",
+      "stato": "gia_riparato_prima",
       "riparazione_21_11": {
-        "esito": "non_fatto",
-        "sessione": "R01",
-        "collaudo": null,
-        "perche": "non_fatto: tetto: il lotto 3 non è partito perché la spesa della sessione era sopra 24,50 $ (regola della regia 10.0, consegna al 70% di 35 $). Nessun codice toccato per questa voce."
-      }
+        "esito": "gia_riparato_prima",
+        "sessione": "R02",
+        "collaudo": "K01",
+        "prova": "app/notifications/page.tsx:203 fa setQueriesData sul prefisso queryKeys.notifications.count per le chiavi che finiscono con l'utente, quindi azzera anche ['notifications','count','seller-bell',<userId>] prima dell'invalidazione; tests/unit/riparazione-r01-notifiche-segna-tutte.test.tsx:304 lo verifica con le riletture bloccate (verde sulla base)."
+      },
+      "chiuso_il": "2026-11-21 13:27",
+      "chiuso_da": "riparazione giro5m · R02 · collaudo K01"
     },
     {
       "dimensione": "qa-flussi",
@@ -88510,13 +88524,16 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione giro3 · R03",
-      "stato": "aperto",
+      "stato": "riparato",
       "riparazione_21_11": {
-        "esito": "non_fatto",
-        "sessione": "R01",
-        "collaudo": null,
-        "perche": "non_fatto: tetto: il lotto 3 non è partito perché la spesa della sessione era sopra 24,50 $ (regola della regia 10.0, consegna al 70% di 35 $). Nessun codice toccato per questa voce."
-      }
+        "esito": "riparato",
+        "sessione": "R02",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      },
+      "chiuso_il": "2026-11-21 13:27",
+      "chiuso_da": "PR #300 · 1ad51b4c",
+      "nota_riparazione": "L'avviso role=alert compare ogni volta che la rilettura dei pagamenti cade, non solo quando il pagamento manca; se resta mostrato il pagamento vecchio, dice che «Rimborsabile al massimo» può non essere aggiornato. Le 15 prove esistenti della pagina restano verdi. — prova: npx vitest run tests/unit/riparazione-r02-reclami-pagamento-vecchio.test.tsx --reporter=dot — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base f92ac1f1^ --file app/admin/disputes/page.tsx --prove tests/unit/riparazione-r02-reclami-pagamento-vecchio.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02-002 --base f92ac1f1^ --file app/admin/disputes/page.tsx --prove tests/unit/riparazione-r02-reclami-pagamento-vecchio.test.tsx --json → uscita 0 (K01)"
     },
     {
       "dimensione": "qa-flussi",
@@ -88529,13 +88546,16 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione giro3 · R03",
-      "stato": "aperto",
+      "stato": "riparato",
       "riparazione_21_11": {
-        "esito": "non_fatto",
-        "sessione": "R01",
-        "collaudo": null,
-        "perche": "non_fatto: tetto: il lotto 3 non è partito perché la spesa della sessione era sopra 24,50 $ (regola della regia 10.0, consegna al 70% di 35 $). Nessun codice toccato per questa voce."
-      }
+        "esito": "riparato",
+        "sessione": "R02",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      },
+      "chiuso_il": "2026-11-21 13:27",
+      "chiuso_da": "PR #300 · 1ad51b4c",
+      "nota_riparazione": "La label ha htmlFor=\"reclamo-rimborso-eur\" e l'input del rimborso lo stesso id; la prova controlla che l'etichetta punti al campo. — prova: npx vitest run tests/unit/riparazione-r02-reclami-etichetta-rimborso.test.tsx --reporter=dot — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base e4be3aa9^ --file app/admin/disputes/page.tsx --prove tests/unit/riparazione-r02-reclami-etichetta-rimborso.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02-009 --base e4be3aa9^ --file app/admin/disputes/page.tsx --prove tests/unit/riparazione-r02-reclami-etichetta-rimborso.test.tsx --json → uscita 0 (K01)"
     },
     {
       "dimensione": "frontend-ux",
@@ -89247,6 +89267,66 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione giro5d · C05",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "Architettura",
+      "titolo": "la variabile che rende obbligatorie le prove col database in CI non la legge nessuno",
+      "severita": "minore",
+      "file": ".github/workflows/ci.yml:142",
+      "descrizione": "PROVE_POSTGRES_OBBLIGATORIE=1 è impostata nel passo Test ma nessun file in tests/, lib/ o scripts/ la legge: la protezione vera è il passo guardia prima delle prove. Fuori dalla CI l aiutante tests/unit/postgres-usa-e-getta.ts continua a saltare in silenzio se manca Postgres.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione giro5m · R01",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "Interfaccia",
+      "titolo": "nella pagina di una lista il prezzo dei prodotti non tiene conto della promozione",
+      "severita": "minore",
+      "file": "app/lists/[id]/page.tsx:387",
+      "descrizione": "stampa formatPrice(Number(p.price)) senza applicare lo sconto attivo (fetchActiveDiscounts/discountedUnitCents), come i caroselli della voce sulla barra d acquisto.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione giro5m · R01",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "Interfaccia",
+      "titolo": "l immagine di anteprima social del prodotto e i dati per i motori di ricerca mostrano il prezzo pieno durante una promozione",
+      "severita": "minore",
+      "file": "app/product/[id]/opengraph-image.tsx:31 · app/product/[id]/layout.tsx:99",
+      "descrizione": "la card social stampa il prezzo pieno e il JSON-LD dell offerta ha price: product.price; con una promozione attiva il prezzo pubblicato è diverso da quello che si paga (il secondo punto è meno sicuro come difetto: va deciso quale prezzo dichiarare a Google).",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione giro5m · R01",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "Interfaccia",
+      "titolo": "altri campi brevi del sito del negozio tagliano ancora in silenzio con maxLength",
+      "severita": "minore",
+      "file": "components/seller/site/SectionConfigForm.tsx:54 · :132 · components/seller/site/CollectionFields.tsx:24 · GalleryFields.tsx:99 · :119 · MenuEditor.tsx:61 · PageEditor.tsx:89 · :110 · :111",
+      "descrizione": "Stesso meccanismo della voce del costruttore della home: un incollato più lungo del tetto si tronca senza avviso. Fuori dalla voce, visto dallo smentitore del lotto A.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione giro5m · R02",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "Interfaccia",
+      "titolo": "il conferma per le modifiche non salvate dice «la vetrina» anche sul profilo",
+      "severita": "minore",
+      "file": "components/seller/site/dove-e-l-errore.ts:47",
+      "descrizione": "Il testo di clicDaFermare nomina «modifiche alla vetrina» anche quando l'avviso parte dal modulo contatti e orari del profilo.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione giro5m · R02",
       "stato": "aperto"
     }
   ],

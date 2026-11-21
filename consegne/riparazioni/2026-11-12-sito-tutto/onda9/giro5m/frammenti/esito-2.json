@@ -1,0 +1,27 @@
+{
+  "corsia": 2,
+  "territorio": "R02",
+  "difetti": [
+    {
+      "chiave": "frontend-ux|nella finestra dei reclami, i dati del pagamento vecchi non danno avviso",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r02-reclami-pagamento-vecchio.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base f92ac1f1^ --file app/admin/disputes/page.tsx --prove tests/unit/riparazione-r02-reclami-pagamento-vecchio.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02-002 --base f92ac1f1^ --file app/admin/disputes/page.tsx --prove tests/unit/riparazione-r02-reclami-pagamento-vecchio.test.tsx --json → uscita 0 (K01)",
+      "nota_fix": "L'avviso role=alert compare ogni volta che la rilettura dei pagamenti cade, non solo quando il pagamento manca; se resta mostrato il pagamento vecchio, dice che «Rimborsabile al massimo» può non essere aggiornato. Le 15 prove esistenti della pagina restano verdi."
+    },
+    {
+      "chiave": "frontend-ux|dopo un salvataggio, il blocco di testo della vetrina mostra «&amp;» al posto di «&» (e «&lt;» al posto di «<»)",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r02-testo-vetrina-entita.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 06bfab08^ --file components/seller/site/SectionConfigForm.tsx --prove tests/unit/riparazione-r02-testo-vetrina-entita.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02-005 --base 06bfab08^ --file components/seller/site/SectionConfigForm.tsx --prove tests/unit/riparazione-r02-testo-vetrina-entita.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "aCapoInHtml codifica & < > prima degli a-capo, così il formato salvato è sempre codificato e htmlInACapo decodifica una volta sola; con il sanitizeRichText vero tre giri salva-rileggi tornano identici anche su «a &amp; b» e «&lt;b&gt;», senza entità doppie. lib/sanitize-html.ts non serve toccarlo. Giro di correzione: htmlInACapo decodifica in un solo passaggio anche &nbsp; (U+00A0), &quot;, &apos;/&#39; e le entità numeriche, così uno spazio non separabile incollato da Word non diventa «&amp;nbsp;» e «&nbsp;» scritto a lettere torna letterale."
+    },
+    {
+      "chiave": "qa-flussi|l etichetta «rimborso (€)» non è collegata al suo campo",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r02-reclami-etichetta-rimborso.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base e4be3aa9^ --file app/admin/disputes/page.tsx --prove tests/unit/riparazione-r02-reclami-etichetta-rimborso.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02-009 --base e4be3aa9^ --file app/admin/disputes/page.tsx --prove tests/unit/riparazione-r02-reclami-etichetta-rimborso.test.tsx --json → uscita 0 (K01)",
+      "nota_fix": "La label ha htmlFor=\"reclamo-rimborso-eur\" e l'input del rimborso lo stesso id; la prova controlla che l'etichetta punti al campo."
+    }
+  ]
+}

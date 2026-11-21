@@ -26957,6 +26957,29 @@
       },
       "nato_come": "scoperta",
       "cura_proposta": "eccezioneFirmata(piano, onda, regola, commit, contesto): se l'eccezione ha «sessione», vale solo per quella sessione; se ha «file», vale solo per quei percorsi. Le eccezioni vecchie senza i due campi restano per l'onda intera, come oggi. guardia-ramo, valida-collaudo e applica passano il contesto. Chiesto il sì di Nicola il 21/11 03:31."
+    },
+    {
+      "id": "AR-1193",
+      "titolo": "La guardia dei rami non vede cinque modi di spegnere una prova che c'era, e il ramo passa verde",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato": "2026-11-21 13:45",
+      "origine": "regia 10.0 dell'onda 9 del sito: secondo collaudo indipendente della correzione sui salti che si stringono (21/11 13:40)",
+      "dove": "cervello/riparazione-sessioni.mjs, guardia-ramo: RE_SPENTA (verso la riga 845) e il filtro delle righe aggiunte del diff (cerca «tolteSpente»)",
+      "descrizione": "Il collaudatore ha provato la guardia del commit 73c6ab3ca, prima della correzione del 21/11, su una prova che girava. Cinque forme la spengono e la guardia esce con 0: P1 una riga «if (false)» davanti a it('y', …); P2 «it» su una riga e «.skip('y', …)» sulla riga sotto; P3 it['skip']('y', …); P4 una riga aggiunta che comincia con «++» (per esempio «++n; it.skip(…)») viene scartata dal filtro di «+++»; P5 un byte NUL nel file rende il diff binario e la guardia non vede nessuna riga.",
+      "impatto": "Un riparatore può far tornare verde una riparazione sbagliata spegnendo la prova che la teneva chiusa, e applica la chiude nel registro. È proprio il passo indietro nascosto che la guardia deve fermare.",
+      "prova": {
+        "tipo": "comando",
+        "comando": "node --input-type=module -e \"import {RE_SPENTA} from './cervello/riparazione-sessioni.mjs'; const forma=\\\"it['skip']('y', () => {})\\\"; const vista=RE_SPENTA.test(forma); console.log(vista?'la guardia vede it[skip]':'la guardia non vede una prova spenta scritta it[skip]'); process.exit(vista?0:1)\""
+      },
+      "verifica": {
+        "tipo": "comando",
+        "esito": "riprodotto",
+        "quando": "2026-11-21 13:45",
+        "nota": "La prova copre la forma P3 ed esce 1 oggi. Le forme P1, P2, P4 e P5 sono state riprodotte dal collaudatore con guardia-ramo vera su un deposito finto; la cura deve portare una prova per ognuna."
+      },
+      "nato_come": "scoperta",
+      "cura_proposta": "RE_SPENTA riconosce anche la forma con le parentesi quadre; il filtro delle righe aggiunte scarta solo l'intestazione «+++ b/…», non ogni riga che comincia con «++»; il diff si chiede con --text; per P1 e P2 la guardia confronta quante prove girano alla base e alla punta (per esempio con vitest --list) invece di leggere le righe."
     }
   ],
   "meta": {

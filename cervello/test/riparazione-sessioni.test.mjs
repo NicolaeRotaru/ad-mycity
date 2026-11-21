@@ -1277,6 +1277,10 @@ test("onda 9 giro 5m (21/11) · un salto che si stringe soltanto non è una prov
   assert.ok(!restringeIlSalto('it.skipIf(motivo.includes(")"))(', 'it.skipIf(motivo.includes(")" && ""))('), "una ) dentro una stringa");
   assert.ok(!restringeIlSalto('it.skipIf(sep !== ")")(', 'it.skipIf(sep !== " && x)")('), "la X dentro la stringa");
   assert.ok(!restringeIlSalto("it.skipIf(...cond)(", "it.skipIf(...cond && x)("), "lo spread");
+  // Il secondo collaudo (21/11 13:40): uno skipIf che non è di vitest, e un'assegnazione riletta da un'altra prova.
+  assert.ok(!restringeIlSalto("it.runIf(cfg.skipIf(a === 1))('x', () => {", "it.runIf(cfg.skipIf(a === 1 && locale))('x', () => {"), "uno skipIf dentro runIf");
+  assert.ok(!restringeIlSalto("it.skipIf(soloLocale = !process.env.CI)('a', () => {", "it.skipIf(soloLocale = !process.env.CI && rete)('a', () => {"), "un'assegnazione");
+  assert.ok(restringeIlSalto("describe.concurrent.skipIf(a !== b)('x', () => {", "describe.concurrent.skipIf(a !== b && c)('x', () => {"), "!== non è un'assegnazione");
   const { dir, g, scrivi } = depositoFinto();
   scrivi("tests/unit/corsivo.test.ts", "import { a } from '@/lib/a';\nit.skipIf(a === 0)('x', () => { expect(a).toBe(1); });\n");
   g("add", "-A"); g("commit", "-qm", "una prova con un salto");
