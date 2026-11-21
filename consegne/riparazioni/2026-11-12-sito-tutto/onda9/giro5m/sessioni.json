@@ -1,0 +1,30 @@
+{
+ "regista": "session_015BmpnZ6sDXhTVpCDMSp2nP",
+ "sha_regista": "b800d83d433fbb4867c173cefe85fbddb5df88a4",
+ "integrazione": {
+  "ramo": "claude/stoic-ramanujan-p9tmso",
+  "partenza": "0f98fb8a372c6f31bcda8ca3c2ef4385c9c21b23",
+  "nota": "giro di correzione del giro 4, 21/11 notte"
+ },
+ "sessioni": {
+  "R01": {
+   "id": "session_015BmpnY55nAAiPz2MPJBwAF",
+   "ramo": "claude/adoring-bohr-kixq35-o9g5m-m01",
+   "onda": 1,
+   "ultracode": false
+  },
+  "R02": {
+   "id": "session_015BmpnWpEnWtzbkrdkX2fM9",
+   "ramo": "claude/adoring-bohr-kixq35-o9g5m-m02",
+   "onda": 1,
+   "ultracode": false
+  }
+ },
+ "tetti_usd": {
+  "R01": 30,
+  "R02": 30,
+  "collaudo": 20
+ },
+ "collaudatori": {},
+ "controllori": {}
+}
