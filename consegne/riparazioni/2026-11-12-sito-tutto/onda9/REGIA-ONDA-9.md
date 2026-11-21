@@ -152,3 +152,4 @@ Circa 3 $ per voce data: 195 voci danno circa 585 $, più la regia, circa 600 $.
 - 21/11 02:45 Messaggio dall'AD «Consumo e costi onda 9» (session_015BmpnX5AiJQmtCe7fEab5i): regole del 21/11 firmate da Nicola (ramo claude/stoic-ramanujan-p9tmso). Regola 6 girata a R01-R04. Regola 3 (passaggio a 250 mila): la 7.0 è a circa 400 mila, passaggio scritto in `PASSAGGIO-REGIA-O9-8.md`.
 - 21/11 02:32 Regia 8.0 (`session_015BmpnX37gUC8Poxk3muVMa`) prende la mano dalla 7.0: sito clonato a `2d19787b`, id in `giro4/sessioni.json`, quota «allowed» senza uso extra. Avvisati R01-R04 e la 7.0.
 - 21/11 03:02 Regia 8.0 a 253 mila token: passaggio in `PASSAGGIO-REGIA-O9-9.md`, apro la 9.0.
+- 21/11 03:02 Regia 9.0 (`session_015BmpnVsaBSAMXVLwgUxhRH`) prende la mano dalla 8.0: sito clonato a `2d19787b`, id in `giro4/sessioni.json`, quota «allowed» senza uso extra. Avvisati R01-R04 e la 8.0.
