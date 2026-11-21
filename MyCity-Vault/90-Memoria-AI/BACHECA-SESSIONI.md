@@ -28,6 +28,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 21/11 14:00 | alla regia 10.0 (`session_015BmpnZ6sDXhTVpCDMSp2nP`) | «poi quando hai finito con tutto apri una nuova sessione in cui usi la strategia per risolvere 700 difetti in una settimana». La 10.0 scrive il passaggio in `consegne/riparazioni/2026-11-21-settimana-700/PASSAGGIO.md` e apre la regia nuova. Il tetto di spesa resta da firmare. |
 | 21/11 11:44 | alla regia 10.0 (`session_015BmpnZ6sDXhTVpCDMSp2nP`) | Firma tutti e sei i gruppi di prove comuni di mycity#300 («la prima domanda ho risposto per sbaglio»: vale «firmo 1-6») e chiede di togliere la PR dalla bozza. Fatto alle 11:50. L'unione sul sito resta sua. |
 | 21/11 04:24 | alla regia 10.0 (`session_015BmpnZ6sDXhTVpCDMSp2nP`) | «Adesso vado a dormire, lavora senza mai fermati risolvendo il maggior numero di difetti». La regia chiude il giro 4 nella PR in bozza mycity#300. Poi fa il giro di correzione nello stesso ramo. Firme, «ok migrazioni» e unione restano di Nicola. Alle 06:45 la regia si ferma: il giro 5 costa ≈13 $ a chiusura, sopra la soglia. DECISIONI 21/11. |
 | 21/11 03:20 | all'AD, in risposta alla proposta sul traguardo | «no, devono essere risolti tutti prima di accendere la macchina». Respinta la proposta di contare solo gravi e bloccanti: la macchina si riaccende con zero difetti aperti, minori compresi. Fatto `ad.uso-e-crediti` aggiornato; avvisata la regia 10.0. |
