@@ -1,8 +1,8 @@
 {
  "sessione": "S01",
  "base_sito": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
- "aggiornato": "2026-11-21 16:07",
- "finita": false,
+ "aggiornato": "2026-11-21 16:13",
+ "finita": true,
  "lotti": [
   {
    "id": "L01",
@@ -2208,8 +2208,8 @@
    "prova_tipo": "comando",
    "prova_eseguita": true,
    "esito_prova": "Test temporaneo verde: 12 su 12, più il controllo negativo, 13 su 13. Il controllo prova che la frase vecchia, senza condizione, farebbe diventare rossa la prova. Verdi anche r09 (4 su 4) ed email (3 su 3). Codice: lib/ordini/veloce-non-confermata.ts:174, lib/email/templates.ts:285-287, regola di annullo solo NEW in app/api/orders/[id]/cancel/route.ts:52-54.",
-   "verificato": false,
-   "verificato_da": null,
+   "verificato": true,
+   "verificato_da": "qa nuovo: cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/zz-s01-ver-L05-0.test.ts (63 combinazioni rami×confermati×non spostati, campanella+email) e poi → Il mio test passa 65 su 65, e il controllo negativo lo farebbe fallire con la frase vecchia. I tre test già esistenti passano 10 su 10, compreso quello che fa girare il freno vero. La frase della camp",
    "nota": null
   },
   {
@@ -2340,8 +2340,8 @@
    "prova_tipo": "comando",
    "prova_eseguita": true,
    "esito_prova": "4 file, 14 test verdi. Nell'HTML del server vetrina, piede e menu non elencano le vuote, mentre la piena c'è in vetrina e piede. La controprova senza il precarico delle piene elenca le vuote, quindi il test diventa rosso se il difetto torna. Verdi anche menu «Tutte le categorie», sitemap e noindex delle categorie vuote.",
-   "verificato": false,
-   "verificato_da": null,
+   "verificato": true,
+   "verificato_da": "qa nuovo: cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/zz-s01-ver-L06-1.test.tsx + i 3 test citati (riparazione-r01, le-categorie-vuote, la-mappa-del- → Al commit il difetto non c'è più: 6 test miei verdi su 6 e i 3 test citati verdi. Ho usato i veri precaricaSito e precaricaHome, con il client del browser e fetch bloccati, così filtra solo il precari",
    "nota": null
   },
   {
@@ -2390,14 +2390,14 @@
   },
   {
    "chiave": "pagamenti-stripe|dopo un guasto, chiudere il reso con i passi normali registra due volte lo stesso rimborso, e al negozio la sua parte viene tolta due volte",
-   "esito": "non_piu_vero",
-   "prova": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r03-reso-ripreso-non-rimborsa-due-volte.test.ts ; poi copia temporanea tests/unit/zz-s01-L07-1.test.ts dello stesso test con rimborsiGiaScritti che non vede il segno wallet: (guardia R03-005 spenta), lanciata e cancellata. Codice: lib/stripe/payout.ts:2137-2171 (guardia) e 2536-2548 (segno scritto dopo la quota del negozio).",
+   "esito": "cambiato",
+   "prova": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r03-reso-ripreso-non-rimborsa-due-volte.test.ts ; poi npx vitest run tests/unit/zz-s01-ver-L07-1.test.ts (5 varianti, file poi cancellato)",
    "prova_tipo": "comando",
    "prova_eseguita": true,
-   "esito_prova": "Test vero: 2 su 2 verdi. Lo scenario è lo stesso della prova originale (decide 500, avanza RECEIVED+REFUNDED, ordine a 2000, quota tolta 1800, credito uscito una volta). Con la guardia spenta il test diventa ROSSO con «expected 4000 to be 2000», lo stesso sintomo della prova originale; il finto database ignora la chiave, quindi è la guardia a reggere.",
-   "verificato": false,
-   "verificato_da": null,
-   "nota": null
+   "esito_prova": "La strada della scheda è chiusa: decide risponde 500 perché cade solo la scrittura del reso, poi il reso si chiude coi passi normali. Il test vero dà 2 su 2 verdi, e con la guardia spenta diventa rosso (4000 invece di 2000). L'ordine misto credito più contanti regge. Il titolo però si riproduce ancora. Basta un guasto solo: la funzione muore fra la quota e il segno wallet:. Oppure cade la scrittura del segno (registrata solo nel log, nessun avviso). In tutti e due i casi avanza dà 4000 rimborsati invece di 2000, quota tolta 3600 invece di 1800, stato REFUNDED, credito uscito una volta. Ragionamento in /tmp/claude-0/-home-user-ad-mycity/0dbd6362-4b2a-52a4-8d14-e8675c4ff224/scratchpad/log/verifica-L07-2.md",
+   "verificato": true,
+   "verificato_da": "qa nuovo (verificatore): la strada della scheda è chiusa dalla guardia R03-005, ma il titolo si riproduce con un solo guasto in un altro punto — gravità grave regge sull'impatto",
+   "nota": "Cambiato: la strada originale (decide che risponde 500, poi il reso chiuso coi passi normali) è chiusa dalla guardia R03-005, test riparazione-r03 verde e rosso a guardia spenta. Il difetto del titolo però c'è ancora per un'altra strada: se la funzione muore fra la quota tolta al negozio e la scrittura del segno «wallet:», o se quella scrittura cade (finisce solo nel log, nessun avviso), «avanza» registra 4000 centesimi rimborsati invece di 2000 e toglie al negozio 3600 invece di 1800. Probabilità più bassa dell'originale, impatto uguale. Ragionamento del verificatore nello scratchpad della sessione S01 (log/verifica-L07-2.md)."
   },
   {
    "chiave": "pagamenti-stripe|dopo un rimborso parziale, una contestazione vinta senza promemoria ripaga al negozio anche la parte del rimborso, e le prove vecchie lo danno per giusto",
@@ -2560,8 +2560,8 @@
    "prova_tipo": "comando",
    "prova_eseguita": true,
    "esito_prova": "Test della rotta: 5 su 5 verdi (il primo caso pretende 200 per il negozio approvato: col vecchio 409 sarebbe rosso). Test temporaneo: 1 su 1 verde. Variante con DatiPerIBonifici sostituito da null: rossa («expected false to be true»), quindi la prova è sensibile al difetto.",
-   "verificato": false,
-   "verificato_da": null,
+   "verificato": true,
+   "verificato_da": "qa nuovo: cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r11-dati-per-i-bonifici.test.ts ; npx vitest run tests/unit/zz-s01-ver-L08-3.test.t → Il test della rotta passa 5 su 5. Il mio test temporaneo passa 1 su 1: il negozio approvato, con IBAN e partita IVA vuoti, trova i campi in /seller/profile e li compila. Il salvataggio fa una PATCH ch",
    "nota": null
   },
   {
@@ -2720,12 +2720,33 @@
   }
  ],
  "prove_per_la_palestra": [],
- "domande_per_nicola": [],
+ "domande_per_nicola": [
+  "La regola di GitHub che dovrebbe fermare il codice rosso prima di main (il ruleset «Main» del deposito mycity) è accesa e guarda il ramo main? Da visitatore non si legge: basta aprire Settings → Rules del deposito e dire se è «Active» e su quale ramo. Finché non lo sappiamo, la voce grave resta aperta.",
+  "Quanti ordini sono ancora fermi con la contestazione «aperta» per colpa del vecchio grilletto della migrazione 063? Serve una lettura del database vero confrontata con Stripe, vietata alla radiografia: la voce grave resta aperta finché qualcuno con l'accesso non la fa."
+ ],
  "conto": {
-  "agenti": 0,
+  "agenti": 12,
   "permesso_regista": null,
-  "token_sessione": {},
-  "token_subagenti": {},
-  "nota": ""
+  "token_sessione": {
+   "agenti": 1,
+   "agenti_misurati": 1,
+   "turni": 44,
+   "input": 85,
+   "scritti_cache": 201012,
+   "letti_cache": 9232696,
+   "uscita": 43049,
+   "entrata_totale": 9433793
+  },
+  "token_subagenti": {
+   "agenti": 12,
+   "agenti_misurati": 12,
+   "turni": 624,
+   "input": 1248,
+   "scritti_cache": 1305959,
+   "letti_cache": 57434663,
+   "uscita": 388345,
+   "entrata_totale": 58741870
+  },
+  "nota": "12 subagenti qa in due workflow: 8 cercatori (uno per lotto, wf_8f39a676-6b1) e 4 verificatori delle chiusure dei gravi (wf_3628b224-370). Un terzo lancio è fallito prima di partire per un mio errore negli argomenti: 0 agenti, 0 token. Tutti i test temporanei zz-s01-* sono stati creati e cancellati: la copia del sito è pulita al commit. Dalla copertura ho tolto 33 voci che non sono file del sito al commit (pagine pubbliche lette da visitatore, file della memoria, test temporanei). Costo in dollari non calcolato: ci sono solo i conteggi dei token."
  }
 }
