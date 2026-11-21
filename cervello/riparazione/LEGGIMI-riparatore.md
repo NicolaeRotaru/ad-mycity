@@ -179,8 +179,9 @@ andati in rilettura, non in lavoro. Quindi:
   Così ogni voce si prova da sola e, se rompe qualcosa, si toglie da sola. Due voci che vivono nella stessa
   riga vanno insieme solo dichiarandolo: `insieme_a` su tutte e due.
 - I commit che non sono di una voce (formattazione, lint) portano `RNN-varie`.
-- **Mai l'id di un'altra voce nel messaggio**, neanche come contesto («come R07-009», «la voce dell'onda 5»).
-  `guardia-ramo` lo ferma (`id_nel_commit`) e per chiudere serve una firma di Nicola: nell'onda 9 è successo
+- **Mai l'id di un'altra voce nel messaggio**, neanche come contesto («come R07-009»). Ogni codice fatto come
+  `R07-009` che non è una voce del tuo lotto fa scattare `guardia-ramo` (`id_nel_commit`), anche in fondo al
+  messaggio, e per chiudere serve una firma di Nicola: nell'onda 9 è successo
   quattro volte, e le chiusure sono rimaste ferme due giorni. Il contesto va nel referto, non nel commit.
 - **Il referto.** Mentre lavori lo tieni in `../referto-RNN.json`, **fuori** dall'albero: la prova rimessa vuole
   l'albero pulito. Ogni 10 voci o ogni ora, quello che arriva prima, lo copi in `.riparazione/referto-RNN.json`,

@@ -58,7 +58,8 @@ lo decide `dividi`, onda per onda; chi si scontra passa all'onda dopo, che parte
    dell'onda 9 è partito con un tetto firmato (240 poi 280 $) ma senza il costo per chiusa: circa 15,50 $.
    Una voce al terzo tentativo esce dalle onde e va a Nicola (rafforza la regola 8 del 15/11). *Solo testo.*
 2. **Lotti da 12-16 voci, anche nei giri di correzione.** Il terzo giro ne ha date 21-22 a testa: 53 voci su 87
-   mai toccate perché il tetto era finito. *Solo testo, finché `dividi --per-sessione` non rifiuta più di 16.*
+   mai toccate perché il tetto era finito. Il valore di partenza di `dividi` è ancora 25 (`PER_SESSIONE`): si
+   passa sempre `--per-sessione 16` o meno. *Solo testo, finché `dividi` non rifiuta più di 16.*
 3. **La regia passa la mano a 250 mila token, davvero.** A ogni risveglio legge il suo `get_session` (senza id)
    e sopra 250 mila scrive il passaggio. Nell'onda 9: 7 regie, passaggi fra 343 e 650 mila, 151 $ cioè il 20%
    della spesa, 0,63 $ per voce data contro il tetto di 0,25 $. *Solo testo.*
@@ -74,7 +75,7 @@ lo decide `dividi`, onda per onda; chi si scontra passa all'onda dopo, che parte
    messaggio ai riparatori ed è scritto in `cervello/riparazione/LEGGIMI-riparatore.md`. *Lo ferma
    `guardia-ramo`, ma solo dopo il commit.*
 7. **A fine giro la regia scrive la sua riga in `misure.json`.** Il file era fermo al 17/11 mentre giravano le
-   onde 6-9: il preventivo dell'onda 9 è stato fatto senza le loro misure. Una fase non chiusa si scrive con
+   onde 6-9: il preventivo dell'onda 9 ha preso a memoria il 50% dell'onda 7, non dal file. Una fase non chiusa si scrive con
    «in corso: » davanti, così `conti --preventivo` non la legge. *Solo testo.*
 
 **Cosa ha funzionato, da tenere:** il doppio controllo. Collaudatori e controllori hanno tolto 17 riparazioni
