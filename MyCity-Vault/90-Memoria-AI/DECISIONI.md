@@ -7310,3 +7310,9 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa:** dopo l'unione di mycity#300 (13:01, commit `1ad51b4c`) la regia scrive nel registro le chiusure dei giri 4 e 5d. Il giro 5m era fermo per un falso rosso della guardia dei rami. Su tre correzioni proposte, Nicola autorizza solo quella: un `.skipIf` che si stringe soltanto non è più una «prova spenta». Non autorizza, per ora, la firma valida solo sui suoi file (AR-1192) né la rimessa a mano con uscita 2.
 - **Come:** `restringeIlSalto` in `cervello/riparazione-sessioni.mjs`, con due collaudi indipendenti. Il primo ha trovato 5 inganni, il secondo 2: tutti chiusi e messi nella prova. Il secondo ha trovato anche cinque buchi vecchi della guardia, registrati come AR-1193. Poi il giro 5m è scritto nel registro alle 13:27: 4 riparate, 4 già riparate, 5 nati.
 - **Chi:** Nicola (autorizzazione), regia 10.0. **Colore:** 🟡 (modifica alla macchina, vale con l'unione della PR della memoria).
+
+## 2026-11-21 03:25 — La macchina si riaccende solo con tutti i difetti risolti, minori compresi (🔴, decisione di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD («Consumo e costi onda 9»), 21/11 verso le 03:20: «no, devono essere risolti tutti prima di accendere la macchina».
+- **Cosa:** respinta la proposta dell'AD delle 02:20 (contare solo gravi e bloccanti, 82 su 751). Il fatto `ad.uso-e-crediti` dice ora «nessun difetto aperto, minori compresi»; la guida della riparazione lo scrive come traguardo deciso.
+- **Il conto da battere:** onde 6-9, almeno 127 nati contro 132 chiusi; aperte 751 (669 minori, 77 gravi, 5 bloccanti). Il numero scende solo se ogni giro chiude più voci di quante ne nascono.
+- **Colore:** 🔴 scelta di visione di Nicola; la scrittura nei file è 🟡, ramo `claude/stoic-ramanujan-p9tmso`.

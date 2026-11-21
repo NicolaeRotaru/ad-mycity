@@ -1,16 +1,26 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-11-19 11:46",
+  "aggiornato": "2026-11-21 03:27",
   "fatti": [
     {
       "id": "ad.uso-e-crediti",
       "nome": "Come lavora l'AD e quanto consuma",
-      "valore": "Il server dell'AD si riaccende quando il sito non ha più difetti, perché anche Pannello, AD e senior hanno molti errori da sistemare; poi resta sempre acceso. Fino ad allora guardia e conto della sera girano nel Pannello. Si resta sul piano Max attuale e non si paga MAI un'API di IA: le 18 funzioni IA del sito restano spente e quel lavoro lo fa l'AD. Regole del consumo: prima il programma, poi l'IA; tutti i negozi in un giro solo; modello piccolo per i lavori semplici, grande per diagnosi, strategia e collaudi; si rifà un lavoro solo se qualcosa è cambiato; ogni negozio ha un tetto di consumo al mese, misurato dal primo e letto nel Pannello. Da solo l'AD fa: diagnosi dei guasti, analisi dei negozi, piano del mattino e report della sera, ricerca settimanale su concorrenti ed eventi. Quando deve scegliere: prima il sito che vende, poi la macchina.",
-      "fonte": "Nicola, conversazione del 2026-11-01 mattina (fino alle 12:18), sessione «cosa serve per essere pronti»",
-      "aggiornato": "2026-11-01 12:19",
-      "storia": [],
-      "caccia": [],
+      "valore": "Il server dell'AD si riaccende quando il sito non ha più nessun difetto aperto, minori compresi (Nicola, 21/11: «devono essere risolti tutti prima di accendere la macchina»), perché anche Pannello, AD e senior hanno molti errori da sistemare; poi resta sempre acceso. Fino ad allora guardia e conto della sera girano nel Pannello. Si resta sul piano Max attuale e non si paga MAI un'API di IA: le 18 funzioni IA del sito restano spente e quel lavoro lo fa l'AD. Regole del consumo: prima il programma, poi l'IA; tutti i negozi in un giro solo; modello piccolo per i lavori semplici, grande per diagnosi, strategia e collaudi; si rifà un lavoro solo se qualcosa è cambiato; ogni negozio ha un tetto di consumo al mese, misurato dal primo e letto nel Pannello. Da solo l'AD fa: diagnosi dei guasti, analisi dei negozi, piano del mattino e report della sera, ricerca settimanale su concorrenti ed eventi. Quando deve scegliere: prima il sito che vende, poi la macchina.",
+      "fonte": "Nicola, conversazione del 2026-11-01 mattina (fino alle 12:18), sessione «cosa serve per essere pronti»; minori compresi: Nicola in chat all'AD «Consumo e costi onda 9», 2026-11-21 verso le 03:20, rifiutando la proposta di contare solo gravi e bloccanti",
+      "aggiornato": "2026-11-21 03:27",
+      "storia": [
+        {
+          "valore": "Il server dell'AD si riaccende quando il sito non ha più difetti, perché anche Pannello, AD e senior hanno molti errori da sistemare; poi resta sempre acceso. Fino ad allora guardia e conto della sera girano nel Pannello. Si resta sul piano Max attuale e non si paga MAI un'API di IA: le 18 funzioni IA del sito restano spente e quel lavoro lo fa l'AD. Regole del consumo: prima il programma, poi l'IA; tutti i negozi in un giro solo; modello piccolo per i lavori semplici, grande per diagnosi, strategia e collaudi; si rifà un lavoro solo se qualcosa è cambiato; ogni negozio ha un tetto di consumo al mese, misurato dal primo e letto nel Pannello. Da solo l'AD fa: diagnosi dei guasti, analisi dei negozi, piano del mattino e report della sera, ricerca settimanale su concorrenti ed eventi. Quando deve scegliere: prima il sito che vende, poi la macchina.",
+          "fino_a": "2026-11-21 03:27"
+        }
+      ],
+      "caccia": [
+        {
+          "pattern": "Il server dell'AD si riaccende quando il sito non ha più difetti, perché anche Pannello, AD e senior hanno molti errori da sistemare; poi resta sempre acceso. Fino ad allora guardia e conto della sera girano nel Pannello. Si resta sul piano Max attuale e non si paga MAI un'API di IA: le 18 funzioni IA del sito restano spente e quel lavoro lo fa l'AD. Regole del consumo: prima il programma, poi l'IA; tutti i negozi in un giro solo; modello piccolo per i lavori semplici, grande per diagnosi, strategia e collaudi; si rifà un lavoro solo se qualcosa è cambiato; ogni negozio ha un tetto di consumo al mese, misurato dal primo e letto nel Pannello. Da solo l'AD fa: diagnosi dei guasti, analisi dei negozi, piano del mattino e report della sera, ricerca settimanale su concorrenti ed eventi. Quando deve scegliere: prima il sito che vende, poi la macchina.",
+          "dal": "2026-11-21 03:27"
+        }
+      ],
       "esenzioni": []
     },
     {

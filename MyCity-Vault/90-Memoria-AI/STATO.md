@@ -1,16 +1,20 @@
 ---
 tipo: stato
-aggiornato: 2026-11-21 06:50
+aggiornato: 2026-11-21 13:55
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
-> ⏳ **2026-11-21 06:50 — L'onda 9 aspetta Nicola nella PR mycity#300.**
+> ✅ **2026-11-21 13:55 — I giri 4 e 5 dell'onda 9 sono sul sito e nel registro.**
 >
-> Alle 04:24 Nicola ha scritto «lavora senza fermarti». Stanotte la regia 10.0 ha chiuso il giro 4 e un giro di correzione. Tutto sta nella PR in bozza mycity#300, che è verde. Il giro 4 chiude 34 voci, a circa 4,7 $ l'una. Il giro di correzione ne chiude circa 12, a circa 13 $ l'una: sopra la soglia di 12 $, quindi la regia si è fermata. Per chiudere servono le firme di Nicola su alcune prove comuni. Le migrazioni nuove sono zero.
+> Nicola ha firmato le sei prove comuni alle 11:44 e ha unito mycity#300 alle 13:01. Nel registro si chiudono 45 difetti: 34 del giro 4 e 11 del giro di correzione. Nella stessa notte ne sono nati 43, quindi gli aperti scendono solo da 751 a 749. Per scrivere il giro di correzione Nicola ha autorizzato una correzione della guardia dei rami; il collaudo ha trovato cinque buchi vecchi della guardia, registrati come AR-1193.
+
+> ✅ **2026-11-21 03:35 — La macchina si riaccende solo a zero difetti, minori compresi.**
+>
+> Nicola, alle 03:20: «devono essere risolti tutti prima di accendere la macchina». Oggi i difetti aperti sono 751: 669 minori, 77 gravi e 5 bloccanti. Nelle onde dalla 6 alla 9 ne sono entrati almeno 127 nuovi, contro 132 chiusi. Il numero scende solo se ogni giro chiude più voci di quante ne nascono. L'onda 9, fino al giro 3, è costata circa 745 $ per 62 difetti chiusi: circa 12 $ l'uno. Le lezioni delle onde 6-9 sono nelle misure e nella guida della riparazione, unite da Nicola alle 03:13. Il costo sale con la modalità potente accesa, con la regia lunga e con i difetti delicati. Il giro 4 è in corso con la regia 10.0, con un tetto di 250 $.
 
 > ✅ **2026-11-21 01:45 — Il giro 3 dell'onda 9 è sul sito.**
 >
-> Nicola ha unito mycity#299 alle 01:38 del 21/11. Il commit di unione è `2d19787b`. Nel registro si chiudono 15 difetti, e 1 era già riparato. 72 difetti restano aperti per il prossimo giro. Sono scritti 19 difetti nuovi; 2 riservati restano fuori, solo in chat. All'unione sono state tolte 4 riparazioni bocciate: R05-007, R04-021, R03-021 e la parte della scorta S01-001. Spesa del giro 3 circa 266 $ su un tetto alzato da Nicola a 280 $. La migrazione 620 tiene in una transazione sola i soldi fra gli ordini del carrello. È entrata in produzione alle 01:59 col pulsante «Migrazioni a mano», con l'ok di Nicola.
+> Nicola ha unito mycity#299 alle 01:38 del 21/11. Nel registro si chiudono 15 difetti. Uno era già riparato. Ne restano aperti 72 per il prossimo giro. I difetti nuovi scritti sono 19, e altri 2 riservati stanno solo in chat. All'unione sono state tolte 4 riparazioni bocciate: R05-007, R04-021, R03-021 e la parte della scorta S01-001. Il giro 3 è costato circa 266 $, con un tetto alzato da Nicola a 280 $. La migrazione 620 sposta i soldi fra gli ordini del carrello in una sola transazione. È in produzione dalle 02:01: dopo l'«ok 6 migrazioni» di Nicola l'ha applicata a mano il flusso «Migrazioni a mano», poi controllata.
 
 > ✅ **2026-11-17 13:12 — L'onda 5 del sito è pronta da unire.**
 >
