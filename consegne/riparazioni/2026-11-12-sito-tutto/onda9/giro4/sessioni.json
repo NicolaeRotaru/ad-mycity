@@ -47,7 +47,19 @@
   "controllore": 10,
   "regia": 15
  },
- "collaudatori": {},
+ "collaudatori": {
+  "K01": {
+   "id": "session_015BmpnZ4cmytXiuJNEUHbjF",
+   "ramo": "claude/adoring-bohr-kixq35-o9g4-k01",
+   "partenza": "ce5c5c561b855aa140eb2e86c2f4d5ea3d5fca57",
+   "riparatori": [
+    "R02",
+    "R01"
+   ],
+   "ultracode": false,
+   "tetto_usd": 25
+  }
+ },
  "controllori": {},
  "nota_regia": "2026-11-21 03:20 · la 10.0 prende la mano dalla 9.0 (passaggio PASSAGGIO-REGIA-O9-10.md); profondità 0"
 }
