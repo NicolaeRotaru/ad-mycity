@@ -60,3 +60,4 @@ Quante voci risulteranno sparite: lo dicono i referti delle 4 sessioni.
 - 2026-11-21 23:40 schede `normali/` (12 sessioni, 150 voci): schede, copertura-prima, segnaposti verdi. SHA_REGISTA = 12fa1dde.
 - 2026-11-21 23:45 apertura R01-R12 (base 1ad51b4c, rami `-m01`…`-m12`, xhigh, auto, senza ultracode). Tetto del giro 480 $ (`stima_usd` 370).
 - 2026-11-22 00:25 piano R01 approvato; R01-010 (permessi) tolto: va ai delicati con ultracode.
+- 2026-11-22 00:28 piani R02 e R03 approvati; tolte R03-016 (permessi) e R03-005 (ciclo cancellazioni account): ai delicati.
