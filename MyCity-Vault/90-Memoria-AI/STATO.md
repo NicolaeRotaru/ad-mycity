@@ -1,8 +1,16 @@
 ---
 tipo: stato
-aggiornato: 2026-11-17 14:14
+aggiornato: 2026-11-21 03:35
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> ✅ **2026-11-21 03:35 — La macchina si riaccende solo a zero difetti, minori compresi.**
+>
+> Nicola, alle 03:20: «devono essere risolti tutti prima di accendere la macchina». Oggi i difetti aperti sono 751: 669 minori, 77 gravi e 5 bloccanti. Nelle onde dalla 6 alla 9 ne sono entrati almeno 127 nuovi, contro 132 chiusi. Il numero scende solo se ogni giro chiude più voci di quante ne nascono. L'onda 9, fino al giro 3, è costata circa 745 $ per 62 difetti chiusi: circa 12 $ l'uno. Le lezioni delle onde 6-9 sono nelle misure e nella guida della riparazione, unite da Nicola alle 03:13. Il costo sale con la modalità potente accesa, con la regia lunga e con i difetti delicati. Il giro 4 è in corso con la regia 10.0, con un tetto di 250 $.
+
+> ✅ **2026-11-21 01:45 — Il giro 3 dell'onda 9 è sul sito.**
+>
+> Nicola ha unito mycity#299 alle 01:38 del 21/11. Nel registro si chiudono 15 difetti. Uno era già riparato. Ne restano aperti 72 per il prossimo giro. I difetti nuovi scritti sono 19, e altri 2 riservati stanno solo in chat. All'unione sono state tolte 4 riparazioni bocciate: R05-007, R04-021, R03-021 e la parte della scorta S01-001. Il giro 3 è costato circa 266 $, con un tetto alzato da Nicola a 280 $. La migrazione 620 sposta i soldi fra gli ordini del carrello in una sola transazione. È in produzione dalle 02:01: dopo l'«ok 6 migrazioni» di Nicola l'ha applicata a mano il flusso «Migrazioni a mano», poi controllata.
 
 > ✅ **2026-11-17 13:12 — L'onda 5 del sito è pronta da unire.**
 >
