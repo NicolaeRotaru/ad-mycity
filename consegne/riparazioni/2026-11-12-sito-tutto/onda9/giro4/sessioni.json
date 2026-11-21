@@ -1,6 +1,7 @@
 {
- "regista": "session_015BmpnVsaBSAMXVLwgUxhRH",
+ "regista": "session_015BmpnZ6sDXhTVpCDMSp2nP",
  "regista_prima": [
+  "session_015BmpnVsaBSAMXVLwgUxhRH",
   "session_015BmpnYruq7734YUce72wCa",
   "session_015BmpnX37gUC8Poxk3muVMa"
  ],
@@ -47,5 +48,6 @@
   "regia": 15
  },
  "collaudatori": {},
- "controllori": {}
+ "controllori": {},
+ "nota_regia": "2026-11-21 03:20 · la 10.0 prende la mano dalla 9.0 (passaggio PASSAGGIO-REGIA-O9-10.md); profondità 0"
 }
