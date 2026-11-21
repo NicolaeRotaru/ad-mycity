@@ -1143,6 +1143,35 @@
       "perche": "R02-005: Nicola cambia il comportamento della prova di fumo sui due casi rari; le due prove che li fissavano come voluti si aggiornano.",
       "firma": "Nicola, 21/11, chat «Ondata 9 · 9.0» session_015BmpnVsaBSAMXVLwgUxhRH: «A, firmo la prima, la seconda cambiala»",
       "scritta": "2026-11-21 03:08, regia 9.0 dell onda 9"
+    },
+    {
+      "onda": 1,
+      "sessione": "R01",
+      "regole": [
+        "prove_comuni",
+        "prova_esistente_altrui"
+      ],
+      "file": [
+        "tests/unit/riparazione-r07-termine-recesso-server.test.ts",
+        "tests/unit/riparazione-r07-termine-recesso-pagina.test.tsx"
+      ],
+      "perche": "R01-021: il recesso che cade di festivo slitta al primo giorno lavorativo; le date di prova (due domeniche) si spostano di 2 giorni senza togliere asserzioni.",
+      "firma": "Nicola, 21/11, chat «Ondata 9 · 9.0» session_015BmpnVsaBSAMXVLwgUxhRH: «firmo tutte e due»",
+      "scritta": "2026-11-21 03:17, regia 9.0 dell onda 9"
+    },
+    {
+      "onda": 1,
+      "sessione": "R02",
+      "regole": [
+        "prove_comuni",
+        "prova_esistente_altrui"
+      ],
+      "file": [
+        "tests/unit/la-foto-chiesta-piu-piccola-del-riquadro.test.ts"
+      ],
+      "perche": "R02-009: il cricchetto delle foto senza caricatore passa da tre a zero (prova più forte).",
+      "firma": "Nicola, 21/11, chat «Ondata 9 · 9.0» session_015BmpnVsaBSAMXVLwgUxhRH: «firmo tutte e due»",
+      "scritta": "2026-11-21 03:17, regia 9.0 dell onda 9"
     }
   ]
 }
