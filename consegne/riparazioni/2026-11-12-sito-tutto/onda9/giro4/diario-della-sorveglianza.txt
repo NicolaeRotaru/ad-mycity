@@ -36,3 +36,11 @@
 2026-11-21 03:22 · R01 21,20 $ · R02 23,50 $ · R03 23,76 $ · R04 22,79 $ · totale 91,25 $ · regia 10.0 al primo giro
 2026-11-21 03:22 · R04 · guardia 🔴: commit di unione fd1400c9 (stesso contenuto del primo genitore ac69a108) · scritto a R04: reset o rebase su ac69a108 e push --force-with-lease sul suo ramo
 2026-11-21 03:22 · R03 · chiede quale tetto vale (70% o 33 $) · risposto a tutti e quattro: sopra 24,50 $ niente lotti o giri nuovi, quello partito si finisce, fermata dura a 33 $
+2026-11-21 03:26 · R01 · in lavoro · guardia ✅ · referto – · unione (sotto) · nessuna
+2026-11-21 03:26 · R02 · in lavoro FINITA · guardia ✅ · referto ✅ 22 voci · unione (sotto) · nessuna
+2026-11-21 03:26 · R03 · in lavoro · guardia ✅ · referto – · unione (sotto) · nessuna
+2026-11-21 03:26 · R04 · in lavoro · guardia ✅ · referto – · unione (sotto) · nessuna
+2026-11-21 03:26 · onda 1 · prova-unione ✅
+2026-11-21 03:27 · R04 · unione tolta (356502b7, stesso albero) · guardia ✅ · 25,71 $: lotto C non_fatto per il tetto · firme chieste per R04-016, R04-009, R04-019, R04-010
+2026-11-21 03:27 · R02 · FINITA: punta 6f6c827b, testa adf7ec6e, verify verde, 23,82 $ · 9 riparati, 6 parziali, 3 già riparati, 3 serve_file_altrui, 1 non_fatto · al collaudo K01
+2026-11-21 03:27 · regia · guardia-ramo: le eccezioni firmate del giro 4 portano «sessione» e «file», ma eccezioneFirmata() le applica a tutta l'onda per regola: la firma di R02-004 sospende anche prove mai firmate (R02-006, R03-008, R03-013, R02-008). Detto a Nicola; le prove non firmate le tiene la regia a mano.
