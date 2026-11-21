@@ -1,24 +1,24 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-11-21 03:37",
+  "aggiornato": "2026-11-21 13:38",
   "giorni_sospetto": 3,
-  "difetti_aperti": 369,
-  "difetti_da_fare": 369,
+  "difetti_aperti": 370,
+  "difetti_da_fare": 370,
   "conto": {
     "letto": true,
     "motivo": null,
-    "totale": 1182,
+    "totale": 1183,
     "chiusi": 813,
-    "aperti": 358,
+    "aperti": 359,
     "in_corso": 1,
     "da_riverificare": 10,
     "altri": 0,
-    "da_fare": 369,
+    "da_fare": 370,
     "senza_data_nascita": 17,
     "per_stato": {
       "chiuso": 813,
-      "aperto": 358,
+      "aperto": 359,
       "da-riverificare": 10,
       "in-corso": 1
     },
@@ -26,14 +26,14 @@
   },
   "bilancio": {
     "torna": true,
-    "attese": 369,
-    "viste": 369,
+    "attese": 370,
+    "viste": 370,
     "fuori": 0,
-    "motivo": "bilancio a posto: 813 chiuse + 369 classificate = 1182 schede, e ogni stato vivo è dentro (358 aperto · 1 in-corso · 10 da-riverificare)"
+    "motivo": "bilancio a posto: 813 chiuse + 370 classificate = 1183 schede, e ogni stato vivo è dentro (359 aperto · 1 in-corso · 10 da-riverificare)"
   },
   "per_classe": {
     "umana": 323,
-    "prova-debole-su-grave": 27,
+    "prova-debole-su-grave": 28,
     "auto-comando": 15,
     "auto-sospetta": 4
   },
@@ -201,11 +201,17 @@
       "gravita": "grave",
       "impatto_crescita": null,
       "perche": "questo difetto è un GRAVE, e la sua prova è una prova che dichiara una forma che non ha. Un difetto così si chiude solo con `{comando: \"node cervello/test/<nome>.test.mjs\"}` — una prova che diventa rossa se il difetto torna — oppure con `{tipo:\"umano\"}` dichiarato, se nessun guardiano potrà mai chiuderlo."
+    },
+    {
+      "id": "AR-1193",
+      "gravita": "grave",
+      "impatto_crescita": null,
+      "perche": "questo difetto è un GRAVE, e la sua prova è una prova che dichiara una forma che non ha. Un difetto così si chiude solo con `{comando: \"node cervello/test/<nome>.test.mjs\"}` — una prova che diventa rossa se il difetto torna — oppure con `{tipo:\"umano\"}` dichiarato, se nessun guardiano potrà mai chiuderlo."
     }
   ],
   "chiuderebbe_lo_stesso": [],
   "schede_non_giudicabili": 10,
-  "schede_campi_illeggibili": 27,
+  "schede_campi_illeggibili": 28,
   "campi_illeggibili": [
     {
       "id": "AR-576",
@@ -341,6 +347,11 @@
       "id": "AR-1192",
       "gravita": null,
       "impatto_crescita": null
+    },
+    {
+      "id": "AR-1193",
+      "gravita": null,
+      "impatto_crescita": null
     }
   ],
   "chiuse_su_prova_non_ammessa": 0,
@@ -408,7 +419,7 @@
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo"
     }
   ],
-  "non_auto_chiudibili": 354,
+  "non_auto_chiudibili": 355,
   "bloccanti_ciechi": [
     "AR-518",
     "AR-568",
@@ -500,6 +511,13 @@
     },
     {
       "id": "AR-1192",
+      "gravita": "grave",
+      "manca": [
+        "impatto_crescita"
+      ]
+    },
+    {
+      "id": "AR-1193",
       "gravita": "grave",
       "manca": [
         "impatto_crescita"
@@ -1832,6 +1850,18 @@
     },
     {
       "id": "AR-1192",
+      "stato": "aperto",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "grave",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-1193",
       "stato": "aperto",
       "alias": [
         {
@@ -6813,6 +6843,22 @@
       "prova_obbligatoria": true,
       "non_giudicabile": false,
       "titolo": "Una firma di Nicola su una prova comune fa passare in silenzio tutte le prove comuni del giro, anche quelle ma",
+      "classe": "prova-debole-su-grave",
+      "prova_impossibile": false,
+      "prova_debole_su_grave": true,
+      "senza_controllo": false,
+      "perche": "questo difetto è un GRAVE, e la sua prova è una prova che dichiara una forma che non ha. Un difetto così si chiude solo con `{comando: \"node cervello/test/<nome>.test.mjs\"}` — una prova che diventa rossa se il difetto torna — oppure con `{tipo:\"umano\"}` dichiarato, se nessun guardiano potrà mai chiuderlo.",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-1193",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "impatto_crescita": null,
+      "prova_esegue": false,
+      "prova_obbligatoria": true,
+      "non_giudicabile": false,
+      "titolo": "La guardia dei rami non vede cinque modi di spegnere una prova che c'era, e il ramo passa verde",
       "classe": "prova-debole-su-grave",
       "prova_impossibile": false,
       "prova_debole_su_grave": true,
