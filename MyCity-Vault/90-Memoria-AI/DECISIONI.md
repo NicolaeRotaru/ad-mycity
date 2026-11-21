@@ -7322,3 +7322,5 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa:** tetto di spesa 1.200 $ (al posto dei 600 $ fino a giovedì o dei 2.300 $ proposti). Firme a e b valide per tutta la settimana. Prima il ricontrollo delle voci con le righe cambiate, senza data o senza file (circa 450), poi le riparazioni sulle voci ancora vere.
 - **Perché:** 700 chiusi in una settimana non sono raggiungibili (577 lavorabili); il ricontrollo costa circa 0,33 $ a voce contro circa 7 $ per una chiusura con riparazione.
 - **Colore:** 🔴 spesa firmata da Nicola; ramo `claude/settimana-700-regia`.
+
+- 2026-11-21 23:15 · Settimana dei 700 · Nicola dà il via alle 182 voci semplici del sito (12 sessioni, stima circa 370 $, tetto del giro 480 $), con la strategia preparata dalla regia seconda; le 281 delicate restano ferme. Sulla riservatezza dei rami lascia scegliere alla regia: cancellare i rami laterali e unire la #990 compressa.

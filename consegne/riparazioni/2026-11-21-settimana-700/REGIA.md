@@ -53,3 +53,4 @@ Quante voci risulteranno sparite: lo dicono i referti delle 4 sessioni.
 ## Fermo su (dalla regia seconda)
 - Risposta di Nicola sulla riservatezza dei rami (storia del ramo della regia e dei 4 rami del ricontrollo).
 - Via di Nicola sul preventivo. Nessun riparatore aperto.
+- 2026-11-21 23:15 Nicola: riservatezza «scegli tu» → strada b; preventivo «inizia con le 182 semplici». Cancellazione dei 5 rami laterali rifiutata dalla sessione (403): la fa Nicola. Regia seconda 5,08 $, passa la mano a 250 mila token (PASSAGGIO-3.md).
