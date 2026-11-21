@@ -155,3 +155,4 @@ Circa 3 $ per voce data: 195 voci danno circa 585 $, più la regia, circa 600 $.
 - 21/11 03:02 Regia 9.0 (`session_015BmpnVsaBSAMXVLwgUxhRH`) prende la mano dalla 8.0: sito clonato a `2d19787b`, id in `giro4/sessioni.json`, quota «allowed» senza uso extra. Avvisati R01-R04 e la 8.0.
 - 21/11 03:08 Nicola: «A, firmo la prima, la seconda cambiala». A = collaudatori, controllore e riservata li apre Nicola o l'AD su richiesta della 9.0 (profondità 8 su 8). Firme in `giro4/piano.json` (eccezioni_firmate): R02-004 ritocca il finto psql, R02-005 cambia comportamento e aggiorna due prove. Girato a R02.
 - 21/11 03:12 Regia 9.0 a 231 mila token: passaggio in `PASSAGGIO-REGIA-O9-10.md`; la 10.0 la apre Nicola o l'AD.
+- 21/11 03:17 Nicola: «firmo tutte e due» = R01-021 (date di due prove comuni sul recesso spostate di 2 giorni) e R02-009 (cricchetto delle foto da tre a zero). Firme in `giro4/piano.json`, girate a R01 e R02.

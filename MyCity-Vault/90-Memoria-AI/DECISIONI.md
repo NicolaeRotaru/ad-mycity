@@ -7285,3 +7285,8 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa:** Nicola, «A, firmo la prima, la seconda cambiala». (1) La regia 9.0 è a profondità 8 su 8 e non può aprire sessioni: collaudatori, controllore e sessione riservata li apre Nicola o l'AD quando la 9.0 lo chiede. (2) R02-004: firmato il ritocco del finto psql in una prova comune, senza togliere asserzioni. (3) R02-005: si cambia il comportamento della prova di fumo sui due casi rari e si aggiornano le due prove che li fissavano.
 - **Perché:** il limite di profondità non si cambia; le due voci di R02 restavano non_fatto senza una scelta.
 - **Chi:** regia 9.0. **Colore:** 🟡.
+
+## 2026-11-21 03:17 — Onda 9 giro 4: altre due firme su prove comuni
+- **Cosa:** Nicola, «firmo tutte e due». R01-021: spostate di 2 giorni le date di due prove sul recesso (cadevano di domenica). R02-009: il cricchetto delle foto senza caricatore passa da tre a zero.
+- **Perché:** nessuna asserzione tolta; senza firma le due riparazioni tornavano indietro.
+- **Chi:** regia 9.0. **Colore:** 🟡.

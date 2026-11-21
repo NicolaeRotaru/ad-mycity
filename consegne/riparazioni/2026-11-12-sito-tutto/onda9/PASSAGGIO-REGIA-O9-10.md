@@ -1,6 +1,7 @@
 ---
 data: 2026-11-21 03:12
 tipo: passaggio di regia
+scopo: dire alla regia 10.0 a che punto è il giro 4. Esempio: chi deve aprire i collaudi.
 da: «Ondata 9 · 9.0», session_015BmpnVsaBSAMXVLwgUxhRH
 perche: 231 mila token, regola 3 del 21/11
 a: «Ondata 9 · 10.0», aperta da Nicola o dall'AD
@@ -26,6 +27,8 @@ Niente: Nicola scrive alla 10.0 come alla 9.0.
 2. Ricevere dalla 9.0, in chat, i dettagli della riservata (mai nel deposito).
 3. Sorvegliare R01-R04 ogni 30 minuti (`bash cervello/riparazione/sorveglia.sh consegne/riparazioni/2026-11-12-sito-tutto/onda9/giro4 1`), tetto di spesa 35 $ per ciascun riparatore.
 4. A «finita» con guardia e referto verdi: collaudatori (F2), poi unione, verify, harness SQL, controllore, PR in bozza (F3 della skill `riparazione` sul ramo `claude/stoic-ramanujan-p9tmso`).
+5. Unire main nel ramo della regia: Nicola ha unito ad-mycity#987 alle 03:13, con le lezioni delle onde 6-9. In DECISIONI e BACHECA si tengono tutte e due le parti.
+6. A fine giro 4 scrivere la riga del giro in `cervello/riparazione/misure.json` (regola 7 del 21/11).
 
 
 ---
@@ -44,8 +47,8 @@ Niente: Nicola scrive alla 10.0 come alla 9.0.
 - R04-021: le casse con la carta aperte e non pagate occupano il fattorino?
 - R04-016: R04 manderà il diff di una prova comune (scarica-i-miei-dati-non-salta-nessuna-tabella.test.ts:44); la firma è di Nicola.
 
-- R01-021 (5bdb23a1): firma per spostare di 2 giorni le date di due prove comuni sul recesso (riparazione-r07-termine-recesso-server.test.ts, -pagina.test.tsx), chiesta alle 03:15.
-- R02-009 (6d2e1e7f): firma per portare il cricchetto di la-foto-chiesta-piu-piccola-del-riquadro.test.ts:174 da tre a zero, chiesta alle 03:15.
+- R01-021 (5bdb23a1): firma per spostare di 2 giorni le date di due prove comuni sul recesso (riparazione-r07-termine-recesso-server.test.ts, -pagina.test.tsx), chiesta alle 03:15, FIRMATA da Nicola (03:17).
+- R02-009 (6d2e1e7f): firma per portare il cricchetto di la-foto-chiesta-piu-piccola-del-riquadro.test.ts:174 da tre a zero, chiesta alle 03:15, FIRMATA da Nicola (03:17).
 - R01 ha segnalato un nato riservato (area sessione): i dettagli solo in chat dalla 9.0, va alla sessione riservata.
 
 ### Decisioni di Nicola già prese
