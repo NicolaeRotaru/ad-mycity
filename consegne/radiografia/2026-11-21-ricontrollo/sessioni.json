@@ -1,0 +1,7 @@
+{"regista": "session_015BmpnV6hh4YTsgDkt8stTW",
+ "sessioni": {
+  "S01":  {"id": "session_015BmpnZLwZGwbPB4WXh3jSs", "ramo": "claude/settimana-700-regia-s01",  "onda": 1, "partenza": "d81cd86134fa926957aa51e6a445d508610f1994"},
+  "S01b": {"id": "session_015BmpnXqYCy1e26rxMAEnbz", "ramo": "claude/settimana-700-regia-s01b", "onda": 1, "partenza": "d81cd86134fa926957aa51e6a445d508610f1994"},
+  "S01c": {"id": "session_015BmpnXjBD8k3P8FMHxenFL", "ramo": "claude/settimana-700-regia-s01c", "onda": 1, "partenza": "d81cd86134fa926957aa51e6a445d508610f1994"},
+  "S01d": {"id": "session_015BmpnXa8Fh6wRhHUsqJynC", "ramo": "claude/settimana-700-regia-s01d", "onda": 1, "partenza": "d81cd86134fa926957aa51e6a445d508610f1994"}
+ }}

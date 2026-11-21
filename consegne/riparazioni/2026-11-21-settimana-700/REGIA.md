@@ -14,3 +14,4 @@
 ## Fermo su
 - Niente: si apre il ricontrollo.
 - 2026-11-21 15:40 Nicola: «Sì, parti con 169 $» per il ricontrollo (4 sessioni, ultracode perché ognuna ha dei gravi).
+- 2026-11-21 15:25 aperte S01, S01b, S01c, S01d (ricontrollo, ultracode attivo, stima 169 $). Sorveglianza: send_later ogni 30 min, `node cervello/radiografia-sessioni.mjs sorveglia --cartella consegne/radiografia/2026-11-21-ricontrollo --onda 1`.
