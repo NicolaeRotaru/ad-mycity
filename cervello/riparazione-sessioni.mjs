@@ -843,6 +843,35 @@ export const RE_SETACCIO = /\b(?:readdirSync|readdir|opendirSync|opendir|globSyn
 const senzaCommentiJs = (t) => String(t).replace(/\/\*[\s\S]*?\*\//g, "").replace(/(^|[^:\\])\/\/.*$/gm, "$1");
 // Radiografia del 12/11 notte: anche `.skip.each(…)`, `.skip.each\`…\``, `describe.skip.each` e `ctx.skip()` / `context.skip()`.
 export const RE_SPENTA = /\b(?:it|test|describe)(?:\.\w+)*\.(?:skip|only|todo|fails|skipIf|runIf)(?:\.\w+)*\s*[(`]|\bx(?:it|test|describe)\s*\(|\{\s*(?:skip|todo)\s*:|\b(?:t|ctx|context)\.(?:skip|todo)\s*\(/;
+/**
+ * Vero se la riga aggiunta STRINGE il salto della riga tolta: la stessa riga, con `.skipIf(VECCHIA)` diventato
+ * `.skipIf(VECCHIA && X)`. Una prova che si salta solo con una condizione in più si salta meno spesso, non di più. PURA.
+ * Perché esiste: nell'onda 9, giro 5m (21/11), R01-007 ha portato `it.skipIf(CATALOGO === null)` a
+ * `it.skipIf(CATALOGO === null && !carattere.locale)` nella prova del corsivo. La guardia l'ha letta come «prova spenta»
+ * e ha fermato tutto il giro nel registro, dopo l'unione di mycity#300. Correzione autorizzata da Nicola (21/11 verso
+ * le 13:10, «Prova del corsivo»). X non può uscire dalla congiunzione: fuori da stringhe e parentesi non porta `||`,
+ * `??`, `?`, `,`, `=` né `=>`. Ogni altro cambio di una riga spenta resta rosso.
+ */
+export function restringeIlSalto(tolta, aggiunta) {
+  const pezzi = (riga) => {
+    const t = String(riga).trim();
+    const m = /\.skipIf\s*\(/.exec(t);
+    if (!m) return null;
+    const apre = m.index + m[0].length - 1;
+    for (let i = apre, prof = 0; i < t.length; i++) {
+      if (t[i] === "(") prof++;
+      else if (t[i] === ")" && --prof === 0) return { prima: t.slice(0, apre + 1), cond: t.slice(apre + 1, i).trim(), dopo: t.slice(i) };
+    }
+    return null;
+  };
+  const a = pezzi(tolta), b = pezzi(aggiunta);
+  if (!a || !b || !a.cond || a.prima !== b.prima || a.dopo !== b.dopo || !b.cond.startsWith(a.cond)) return false;
+  const resto = /^&&([\s\S]+)$/.exec(b.cond.slice(a.cond.length).trim());
+  if (!resto) return false;
+  let x = resto[1].replace(/'(?:\\.|[^'\\])*'|"(?:\\.|[^"\\])*"|`(?:\\.|[^`\\])*`/g, "S");
+  for (let prima = ""; prima !== x; ) { prima = x; x = x.replace(/\([^()]*\)|\[[^[\]]*\]|\{[^{}]*\}/g, "G"); }
+  return x.trim() !== "" && !/[()[\]{}]|\|\||\?|,|=>|(?:^|[^=!<>])=(?!=)/.test(x);
+}
 /** Quante asserzioni porta il testo di una prova (vitest, node:test, assert). PURA. */
 // I commenti si tolgono prima di contare: un'asserzione COMMENTATA non controlla niente (radiografia del 12/11 notte).
 export const contaAsserzioni = (testo) => (String(testo).replace(/\/\*[\s\S]*?\*\//g, "").replace(/(^|[^:\\])\/\/.*$/gm, "$1").match(/\bexpect\s*\(|\bassert(?:\.\w+)?\s*\(|\bt\.(?:assert|equal|deepEqual|ok|throws)\b/g) || []).length;
@@ -1166,7 +1195,17 @@ export function giudicaRamo(opz, per, piano, ramo, nome) {
   for (const p of [...cancellati].sort()) if (eProva(p) && esisteAllaBase(p)) rossi.push(`${p}: una prova esistente non si cancella`);
   for (const p of daGiudicare.filter((f) => eProva(f) && !cancellati.has(f)).sort()) {
     const diff = gitOk(dir, ["diff", partenza, ref, "--", p]) ?? "";
-    if (diff.split("\n").some((r) => r.startsWith("+") && !r.startsWith("+++") && RE_SPENTA.test(r))) rossi.push(`${p}: aggiunge una prova spenta (.skip, .only, .todo, .fails, .skipIf, { skip: }, xit): una prova non si spegne per farla passare`);
+    // Una riga spenta che c'era e si stringe soltanto (restringeIlSalto) non è una prova spenta nuova: ogni riga tolta
+    // vale per una sola riga aggiunta.
+    const righeDiff = diff.split("\n");
+    const tolteSpente = righeDiff.filter((r) => r.startsWith("-") && !r.startsWith("---") && RE_SPENTA.test(r)).map((r) => r.slice(1));
+    const spenteNuove = righeDiff.filter((r) => r.startsWith("+") && !r.startsWith("+++") && RE_SPENTA.test(r)).filter((r) => {
+      const i = tolteSpente.findIndex((t) => restringeIlSalto(t, r.slice(1)));
+      if (i < 0) return true;
+      tolteSpente.splice(i, 1);
+      return false;
+    });
+    if (spenteNuove.length) rossi.push(`${p}: aggiunge una prova spenta (.skip, .only, .todo, .fails, .skipIf, { skip: }, xit): una prova non si spegne per farla passare`);
     // Una prova svuotata non porta nessun «.skip»: le si tolgono le asserzioni. Si contano alla base e alla punta.
     if (esisteAllaBase(p)) {
       const prima = contaAsserzioni(gitOk(dir, ["show", `${partenza}:${p}`]) ?? "");

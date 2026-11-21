@@ -18,7 +18,7 @@ import { symlinkSync } from "node:fs";
 import {
   fileDaCampoSito, fileDaSchedaMacchina, assegnaOnda, controllaOnda, giudicaPercorso, importDi, percorsiNominati,
   regoleReferto, regoleCollaudo, campioneDi, decidi, chiaviDoppie, classifica, CONDIVISI_MACCHINA, RE_SPENTA, contaAsserzioni,
-  eccezioneFirmata,
+  eccezioneFirmata, restringeIlSalto,
 } from "../riparazione-sessioni.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
@@ -1257,4 +1257,37 @@ test("AR-1172 · eccezione firmata: un collaudo con la rimessa a mano ferma appl
     assert.equal(r.status, 1, r.stdout);
     assert.equal(ultimo(r.stdout).eccezioni_firmate.length, 1, `applica fermo per un altro motivo porta lo stesso i sospesi: ${r.stdout}`);
   } finally { rmSync(c, { recursive: true, force: true }); }
+});
+
+test("onda 9 giro 5m (21/11) · un salto che si stringe soltanto non è una prova spenta, uno che si allarga sì", () => {
+  const vecchia = "    it.skipIf(CATALOGO === null)(";
+  assert.ok(restringeIlSalto(vecchia, "    it.skipIf(CATALOGO === null && !carattere.locale)("), "il caso vero della prova del corsivo");
+  assert.ok(restringeIlSalto(vecchia, "    it.skipIf(CATALOGO === null && (a || b))("), "un || dentro le parentesi resta nella congiunzione");
+  for (const r of [
+    "    it.skipIf(CATALOGO === null && false || true)(", "    it.skipIf(CATALOGO === null || true)(", "    it.skipIf(true)(",
+    "    it.skip(", "    test.skipIf(CATALOGO === null && x)(", "    it.skipIf(CATALOGO === null && a ? b : c)(",
+    "    it.skipIf(CATALOGO === null && a, true)(", "    it.skipIf(CATALOGO === null && (a)) || true)(", "    it.skipIf(CATALOGO === null &&)(",
+  ]) assert.ok(!restringeIlSalto(vecchia, r), r);
+  const { dir, g, scrivi } = depositoFinto();
+  scrivi("tests/unit/corsivo.test.ts", "import { a } from '@/lib/a';\nit.skipIf(a === 0)('x', () => { expect(a).toBe(1); });\n");
+  g("add", "-A"); g("commit", "-qm", "una prova con un salto");
+  const base = g("rev-parse", "HEAD");
+  const c = cartellaCampagna(base);
+  try {
+    g("checkout", "-q", "-b", "r01", base);
+    scrivi("tests/unit/corsivo.test.ts", "import { a } from '@/lib/a';\nit.skipIf(a === 0 && !locale)('x', () => { expect(a).toBe(1); });\n");
+    g("commit", "-qam", "R01-001 il salto si stringe");
+    let r = lancia("guardia-ramo", "r01", "R01", "--cartella", c, "--git", dir);
+    assert.doesNotMatch(r.stdout, /prova spenta/, r.stdout);
+    g("checkout", "-q", "-B", "r01", base);
+    scrivi("tests/unit/corsivo.test.ts", "import { a } from '@/lib/a';\nit.skipIf(a === 0 || true)('x', () => { expect(a).toBe(1); });\n");
+    g("commit", "-qam", "R01-001 il salto si allarga");
+    r = lancia("guardia-ramo", "r01", "R01", "--cartella", c, "--git", dir);
+    assert.match(r.stdout, /prova spenta/, "allargare il salto resta rosso");
+    g("checkout", "-q", "-B", "r01", base);
+    scrivi("tests/unit/corsivo.test.ts", "import { a } from '@/lib/a';\nit.skipIf(a === 0 && !locale)('x', () => { expect(a).toBe(1); });\nit.skipIf(a === 0 && !locale)('y', () => { expect(a).toBe(1); });\n");
+    g("commit", "-qam", "R01-001 una riga stretta e una nuova");
+    r = lancia("guardia-ramo", "r01", "R01", "--cartella", c, "--git", dir);
+    assert.match(r.stdout, /prova spenta/, "una riga tolta vale per una sola riga aggiunta");
+  } finally { rmSync(c, { recursive: true, force: true }); rmSync(dir, { recursive: true, force: true }); }
 });
