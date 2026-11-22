@@ -2,9 +2,10 @@
   "collaudatore": "K06",
   "riparatori": [
     "R18",
-    "R16"
+    "R16",
+    "R17"
   ],
-  "aggiornato": "2026-11-22 20:15",
+  "aggiornato": "2026-11-22 20:30",
   "finita": false,
   "voci": [
     {
@@ -189,6 +190,52 @@
         "chiude_tutta",
         "nata_rotta"
       ],
+      "nota": "in corso"
+    },
+    {
+      "id": "R17-007",
+      "chiave": "performance|le pagine di prodotto, negozio e categoria non usano la cache che dichiarano, e rileggono due volte la stessa riga a ogni visita",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16-1 --base 32d7582c^ --file 'lib/queries/precarico.ts,app/product/[id]/layout.tsx,app/store/[id]/layout.tsx' --prove tests/unit/riparazione-r17-una-lettura-per-richiesta.test.ts --json (worktree a 32d7582c)"
+      },
+      "nota": "in corso",
+      "nota_rimessa": "Con --file anche lib/supabase/lettura-per-metadati.ts l'uscita è 1: in quel file il commit cambia solo un commento (4 righe), non porta la correzione. Rimessa sui tre file con la correzione: uscita 0."
+    },
+    {
+      "id": "R17-009",
+      "chiave": "performance-percepita|il traduttore degli errori dei moduli (zod) viaggia in ogni pagina, anche dove non c'è nessun modulo",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16-2 --base ab9ecb0f^ --file components/providers/QueryProvider.tsx --prove tests/unit/riparazione-r17-traduttore-zod-dopo.test.tsx --json (worktree a ab9ecb0f)"
+      },
+      "nota": "in corso"
+    },
+    {
+      "id": "R17-012",
+      "chiave": "stati-ui|con la proposta di «genera con ai» aperta, le correzioni fatte a mano nel frattempo si perdono premendo «usa questa»",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16-3 --base 3fcec934^ --file components/seller/ProductForm.tsx --prove tests/unit/riparazione-r17-proposta-ai.test.tsx --json (worktree a 3fcec934)"
+      },
       "nota": "in corso"
     }
   ],
