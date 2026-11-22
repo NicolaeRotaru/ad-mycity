@@ -131,3 +131,4 @@ Quante voci risulteranno sparite: lo dicono i referti delle 4 sessioni.
 - 2026-11-22 17:53 piano R16 approvato (13 voci, nessuna tolta; note su prova r12, file altrui compatti, testo intero di R16-007).
 - 2026-11-22 17:55 piano R15 approvato; tolte R15-004 (totale lordo), R15-005/006 (ciclo cancellazioni account), R15-012 (interruttore sulla rotta degli ordini in contanti): ai delicati. Lock di R15-009 al minimo.
 - 2026-11-22 17:55 piano R18 approvato; tolte R18-007 (preferenze promozioni, tocca la 115), R18-008 (merce rimessa in vendita, annullo), R18-009 (dati personali nei log), R18-010 (giorni del reso): ai delicati. R18-011 senza deroga: serve_file_altrui.
+- 2026-11-22 18:00 piano.json e scheda R14: le tre stringhe di file unite da virgola/«+» (errore di dividi) divise in percorsi veri; copilot/route.ts resta di R13; aggiunto tests/unit/aiuti/schermo.ts a R14 (R14-011). copertura-prima e segnaposti verdi.

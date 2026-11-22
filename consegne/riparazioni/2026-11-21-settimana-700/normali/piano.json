@@ -2244,11 +2244,25 @@
               "gravita": "minore",
               "titolo": "Il freno sulla rotta regge per 3 interruttori su 9: AI, newsletter, classifica e caricamento da file stanno solo nelle pagine",
               "file": [
+                "app/api/ai/answer-qa/route.ts",
+                "app/api/ai/barcode-lookup/route.ts",
+                "app/api/ai/catalog-batch/cancel/route.ts",
+                "app/api/ai/catalog-batch/status/route.ts",
+                "app/api/ai/catalog-chat/route.ts",
+                "app/api/ai/description/route.ts",
+                "app/api/ai/diagnose/route.ts",
+                "app/api/ai/improve-product/route.ts",
+                "app/api/ai/product-chat/route.ts",
+                "app/api/ai/reviews-summary/route.ts",
+                "app/api/ai/seo/route.ts",
+                "app/api/ai/variants/route.ts",
+                "app/api/ai/voice-product/route.ts",
                 "app/api/newsletter/route.ts",
-                "lib/funzioni-al-lancio.ts",
-                "app/api/ai/answer-qa/route.ts, app/api/ai/barcode-lookup/route.ts, app/api/ai/catalog-chat/route.ts, app/api/ai/copilot/route.ts, app/api/ai/description/route.ts, app/api/ai/diagnose/route.ts, app/api/ai/improve-product/route.ts, app/api/ai/product-chat/route.ts, app/api/ai/reviews-summary/route.ts, app/api/ai/seo/route.ts, app/api/ai/variants/route.ts, app/api/ai/voice-product/route.ts",
-                "app/api/ai/catalog-batch/status/route.ts, app/api/ai/catalog-batch/cancel/route.ts",
-                "supabase/migrations (vista public.referral_leaderboard) + app/profile/referral/leaderboard/page.tsx"
+                "app/profile/referral/leaderboard/page.tsx",
+                "lib/funzioni-al-lancio.ts"
+              ],
+              "file_altrui": [
+                "app/api/ai/copilot/route.ts"
               ]
             },
             {
@@ -2363,13 +2377,25 @@
           ],
           "file": [
             "app/api/admin/products/route.ts",
-            "app/api/ai/answer-qa/route.ts, app/api/ai/barcode-lookup/route.ts, app/api/ai/catalog-chat/route.ts, app/api/ai/copilot/route.ts, app/api/ai/description/route.ts, app/api/ai/diagnose/route.ts, app/api/ai/improve-product/route.ts, app/api/ai/product-chat/route.ts, app/api/ai/reviews-summary/route.ts, app/api/ai/seo/route.ts, app/api/ai/variants/route.ts, app/api/ai/voice-product/route.ts",
+            "app/api/ai/answer-qa/route.ts",
+            "app/api/ai/barcode-lookup/route.ts",
             "app/api/ai/catalog-batch/apply/route.ts",
-            "app/api/ai/catalog-batch/status/route.ts, app/api/ai/catalog-batch/cancel/route.ts",
+            "app/api/ai/catalog-batch/cancel/route.ts",
+            "app/api/ai/catalog-batch/status/route.ts",
+            "app/api/ai/catalog-chat/route.ts",
+            "app/api/ai/description/route.ts",
+            "app/api/ai/diagnose/route.ts",
+            "app/api/ai/improve-product/route.ts",
+            "app/api/ai/product-chat/route.ts",
+            "app/api/ai/reviews-summary/route.ts",
+            "app/api/ai/seo/route.ts",
+            "app/api/ai/variants/route.ts",
+            "app/api/ai/voice-product/route.ts",
             "app/api/cron/process-deletions/route.ts",
             "app/api/newsletter/route.ts",
             "app/api/segnalazioni/esito/comunica.ts",
             "app/profile/addresses/page.tsx",
+            "app/profile/referral/leaderboard/page.tsx",
             "app/rider/onboarding/page.tsx",
             "app/seller/products/new/page.tsx",
             "components/ProductQA.tsx",
@@ -2378,13 +2404,14 @@
             "lib/errors.ts",
             "lib/funzioni-al-lancio.ts",
             "lib/maggiore-eta.ts",
-            "supabase/migrations (vista public.referral_leaderboard) + app/profile/referral/leaderboard/page.tsx",
-            "tailwind.config.ts"
+            "tailwind.config.ts",
+            "tests/unit/aiuti/schermo.ts"
           ],
           "migrazioni": [
             760,
             769
-          ]
+          ],
+          "nota_regia": "2026-11-22 17:58 regia settima: le tre stringhe unite da virgola/«+» divise in percorsi veri; copilot/route.ts resta di R13; aggiunto tests/unit/aiuti/schermo.ts (R14-011, di nessuno)."
         },
         "R15": {
           "tema": "architettura",
