@@ -63,6 +63,42 @@
       "id": "session_015BmpnVm5Fgqt6Ssd6toRoH",
       "ramo": "claude/settimana-700-regia-m12",
       "onda": 1
+    },
+    "R13": {
+      "id": "session_015BmpnZDZHzqxGNYEkWMdLD",
+      "ramo": "claude/settimana-700-regia-m13",
+      "onda": 2,
+      "base": "b57195e2f913ee3056414bfcc3594de18265d4d5"
+    },
+    "R14": {
+      "id": "session_015BmpnZ2RL2k6K5RogzvTaa",
+      "ramo": "claude/settimana-700-regia-m14",
+      "onda": 2,
+      "base": "b57195e2f913ee3056414bfcc3594de18265d4d5"
+    },
+    "R15": {
+      "id": "session_015BmpnXuN9HB3RuuzPNxppb",
+      "ramo": "claude/settimana-700-regia-m15",
+      "onda": 2,
+      "base": "b57195e2f913ee3056414bfcc3594de18265d4d5"
+    },
+    "R16": {
+      "id": "session_015BmpnXTwS2umRhCqiuAV9n",
+      "ramo": "claude/settimana-700-regia-m16",
+      "onda": 2,
+      "base": "b57195e2f913ee3056414bfcc3594de18265d4d5"
+    },
+    "R17": {
+      "id": "session_015BmpnVRsMHDE17p6GNs9Jn",
+      "ramo": "claude/settimana-700-regia-m17",
+      "onda": 2,
+      "base": "b57195e2f913ee3056414bfcc3594de18265d4d5"
+    },
+    "R18": {
+      "id": "session_015BmpnZAUzqs2xWe9zbS3e5",
+      "ramo": "claude/settimana-700-regia-m18",
+      "onda": 2,
+      "base": "b57195e2f913ee3056414bfcc3594de18265d4d5"
     }
   },
   "collaudatori": {
@@ -118,5 +154,6 @@
   },
   "regie_precedenti": [
     "session_015BmpnZW4izcN94UePb2UMg"
-  ]
+  ],
+  "sha_regista_onda2": "ab2adc105f990a2b97c5db111833bfa2c524b670"
 }
