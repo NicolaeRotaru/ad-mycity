@@ -1,9 +1,10 @@
 {
   "collaudatore": "K06",
   "riparatori": [
-    "R18"
+    "R18",
+    "R16"
   ],
-  "aggiornato": "2026-11-22 19:20",
+  "aggiornato": "2026-11-22 19:45",
   "finita": false,
   "voci": [
     {
@@ -64,6 +65,129 @@
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R18-012 --base adafa0fa^ --file lib/ai/statoLavoroCatalogo.ts --prove tests/unit/riparazione-r18-testo-lavoro-incerto.test.ts --json (worktree a 83686b8f)"
       },
+      "nota": "in corso"
+    },
+    {
+      "id": "R16-001",
+      "chiave": "coerenza-brand|card a mano con bg-surface-0 restano fuori dal conteggio delle card ridisegnate",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16-1 --base e3592f96^ --file app/near/page.tsx --prove tests/unit/riparazione-r16-card-surface.test.ts --json (worktree a e3592f96)"
+      },
+      "verdetto": "parziale",
+      "giudizio": "nessuno",
+      "nota": "Parziale come dichiarato: 1 riquadro convertito (app/near/page.tsx), il resto è serve_file_altrui. Rimessa verde, nessun giudizio pieno (parziale, fuori dal campione)."
+    },
+    {
+      "id": "R16-002",
+      "chiave": "coerenza-brand|la scala tipografica è aggirata 330 volte con misure a mano",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16-1 --base 63dd487d^ --file components/ImageUrlField.tsx --prove tests/unit/riparazione-r16-scala-tipografica.test.ts --json (worktree a 63dd487d)"
+      },
+      "verdetto": "parziale",
+      "giudizio": "nessuno",
+      "nota": "Parziale come dichiarato: ImageUrlField text-[10px] -> text-2xs, restano 76 file altrui. Rimessa verde, nessun giudizio pieno."
+    },
+    {
+      "id": "R16-003",
+      "chiave": "coerenza-brand|la primitiva card è usata in 10 file, mentre 141 card sono ridisegnate a mano con quattro raggi diversi",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16-2 --base c185c3ab^ --file app/faq/page.tsx,app/stores/page.tsx,app/contact/page.tsx,app/seller/profile/page.tsx --prove tests/unit/riparazione-r16-card-a-mano.test.ts --json (worktree a c185c3ab)"
+      },
+      "verdetto": "parziale",
+      "giudizio": "nessuno",
+      "nota": "Parziale come dichiarato: 7 riquadri convertiti in 4 file, il resto serve_file_altrui. Rimessa verde (rossa togliendo ciascuno dei 4 file), nessun giudizio pieno."
+    },
+    {
+      "id": "R16-006",
+      "chiave": "layout-responsive|a 280 px col testo al 200% scorrono di lato anche faq, negozi, resi e lavora con noi",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16-2 --base 76cf8c37^ --file app/stores/page.tsx --prove tests/unit/riparazione-r16-negozi-280px.test.ts --json (worktree a 76cf8c37)"
+      },
+      "verdetto": "parziale",
+      "giudizio": "nessuno",
+      "nota": "Parziale come dichiarato: break-words su /stores, causa in CollectionHeader.tsx:80 (file altrui). Rimessa verde, nessun giudizio pieno; la prova legge le classi del sorgente, la misura viva l'ha fatta il riparatore."
+    },
+    {
+      "id": "R16-007",
+      "chiave": "layout-responsive|col testo ingrandito al massimo sul telefono, le pagine pubbliche scorrono di lato per colpa del piè di pagina",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16-3 --base b69a14d0^ --file components/Turnstile.tsx,app/contact/page.tsx --prove tests/unit/riparazione-r16-turnstile-compatto.test.tsx --json (worktree a b69a14d0)"
+      },
+      "verdetto": "parziale",
+      "giudizio": "nessuno",
+      "nota": "Parziale come dichiarato: Turnstile compatto sotto 340 px, contatti contenuti; help e terms serve_file_altrui. Rimessa verde, nessun giudizio pieno. Rilievo del revisore di R16 non smentito: innerWidth letto una volta, niente ascolto del resize."
+    },
+    {
+      "id": "R16-008",
+      "chiave": "layout-responsive|basta un negozio col nome lungo e sul telefono la home, l'elenco negozi e «vicino a te» diventano più larghe dello schermo",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16-3 --base efe92beb^ --file app/near/page.tsx,components/VendorForm.tsx --prove tests/unit/riparazione-r16-nome-lungo.test.tsx --json (worktree a efe92beb)"
+      },
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "in corso"
+    },
+    {
+      "id": "R16-009",
+      "chiave": "performance|ogni pagina aperta fa tre letture uguali per tutti direttamente al database, e le categorie le legge due o tre volte",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16-4 --base 4a3a295c^ --file 'app/search/page.tsx,app/category/[slug]/page.tsx' --prove tests/unit/riparazione-r16-letture-condivise.test.tsx --json (worktree a 4a3a295c)"
+      },
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "in corso",
+      "nota_rimessa": "Con --file anche components/CategoryBar.tsx,components/Footer.tsx l'uscita è 1: Footer alla base resta verde (stessa chiave ['categories','tree'] e stessa lettura: è un riordino, non la correzione), CategoryBar alla base è rossa solo per la struttura (le pagine importano domandaAlberoCategorie). La correzione sta nelle due pagine: rimessa sulle due, uscita 0."
+    },
+    {
+      "id": "R16-010",
+      "chiave": "qa-flussi|altre due ancore sommano il loro scroll-mt allo scroll-padding da md in su",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16-1 --base bad84235^ --file components/seller/DatiPerIBonifici.tsx --prove tests/unit/riparazione-r16-ancora-bonifici.test.ts --json (worktree a bad84235)"
+      },
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "in corso"
+    },
+    {
+      "id": "R16-013",
+      "chiave": "qa-flussi|le maschere di caricamento delle foto accettano solo jpg, png e webp, mentre la porta e lo storage ne accettano sette",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16-4 --base 7598e314^ --file components/ImageUrlField.tsx,components/VendorForm.tsx,components/SellerApplicationForm.tsx --prove tests/unit/riparazione-r16-foto-sette-tipi.test.tsx --json (worktree a 7598e314)"
+      },
+      "verdetto": "parziale",
+      "giudizio": "nessuno",
+      "nota": "Parziale come dichiarato: tre caselle con i sette tipi da mappaAccept(), StoreMediaManager serve_file_altrui. Rimessa verde (rossa togliendo ciascuno dei tre file), nessun giudizio pieno."
+    },
+    {
+      "id": "R16-005",
+      "chiave": "frontend-ux|tre etichette del modulo negozio e una del profilo non sono legate al loro campo",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "nota": "in corso"
     }
   ],
