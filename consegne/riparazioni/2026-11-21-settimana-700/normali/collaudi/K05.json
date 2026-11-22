@@ -5,7 +5,7 @@
     "R15",
     "R13"
   ],
-  "aggiornato": "2026-11-22 19:35",
+  "aggiornato": "2026-11-22 19:45",
   "finita": false,
   "voci": [
     {
@@ -221,6 +221,71 @@
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R13g --base f042b55a^ --file tests/unit/riparazione-r13-scheda-prodotto-sulla-scala-del-testo.test.ts --prove tests/unit/riparazione-r13-scheda-prodotto-sulla-scala-del-testo.test.ts --json → «un file non può essere insieme correzione e prova» (nessun file di codice corretto)"
       },
       "nota": "Nessun codice cambiato: alla base components/ProductCard.tsx non ha dimensioni a mano (l'unico text-[11px] è nel commento di :239); la prova nuova la tiene ferma. Ricontato alla base con git grep su app e components: 201 dimensioni a mano in 79 file, come dice il riparatore (che scrive «dopo il mio commit», ma è il conto della base). Parziale onesto: le 201 stanno in file non suoi e vogliono una scelta di design (gradini 11 e 13 px). Buco dichiarato della prova: text-[length:…] e text-[clamp(…)] non li vede (alla base 0 occorrenze)."
+    },
+    {
+      "id": "R15-014",
+      "chiave": "frontend-ux|il cliente legge «il tuo rider» e il negozio legge «cliente» al posto dei nomi, perché le due strade nuove per i nomi non esistono nel database vero",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 3,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15a --base 1e223b94^ --file lib/queries/seller-public-profiles.ts --prove tests/unit/riparazione-r15-nomi-senza-le-funzioni-nuove.test.ts --json → rosso_strutturale (nome nuovo fetchNomiDeiClienti)",
+        "a_mano": {
+          "comando": "in ../wt-R15a a 1e223b94: `} else if (funzioneNonAncoraCreata(error)) {` → `} else if (false && funzioneNonAncoraCreata(error)) {` in lib/queries/seller-public-profiles.ts, npx vitest run tests/unit/riparazione-r15-nomi-senza-le-funzioni-nuove.test.ts, poi git checkout",
+          "uscita_senza_correzione": 1,
+          "uscita_con_correzione": 0
+        }
+      },
+      "nota": "Spento il ripiego, 3 casi su 6 rossi sull'asserzione («expected undefined to be 'Maria R.'»). Ripiego sicuro: un ordine ha un solo negozio e il negozio legge solo i suoi (regole di orders 001:96, 011:109, 012:48, 540:191); non legge profiles; il cliente non arriva mai a questa strada (controparte-della-chat.ts:76, solo dove guarda il negozio). Le tre modifiche per i file altrui si applicano sulle righe della base: tsc 0, 22/22 e 420/420 verdi su chat, recensioni e vetrina. Parziale giusto: alla testa 923bcb31 fetchNomiDeiClienti non ha chiamanti, quindi oggi sul sito non cambia niente; il nome del fattorino aspetta la 164. Limite minore: il nome è quello di consegna dell'ordine più recente (può essere un'altra persona, app/checkout/page.tsx:508)."
+    },
+    {
+      "id": "R15-007",
+      "chiave": "architettura|in home ogni sezione chiede di nuovo alla vetrina lo stesso negozio, e ogni fascia compare un giro di rete più tardi",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15b --base 2cc02585^ --file lib/queries/seller-public-profiles.ts --prove tests/unit/riparazione-r15-vetrina-stesse-colonne.test.ts --json"
+      },
+      "nota": "Sei casi provati: alias, cast e «*» restano domande separate; spazi, a capo e ordine diverso si uniscono (giusto). Unico buco, oggi irraggiungibile: due select con agganci diversi («store_name, t(a, b)» e «t(a, store_name, b)») danno la stessa chiave perché la divisione sulle virgole entra nelle parentesi (seller-public-profiles.ts:125); nessuno dei 19 chiamanti usa agganci o alias. 183 file della vetrina verdi (1672 casi). Il «resta» è onesto (r06-vetrina-una-volta-sola:59-64 vieta la memoria dopo l'arrivo; il secondo giro di rete resta)."
+    },
+    {
+      "id": "R15-013",
+      "chiave": "flussi-conversione|il cliente con la carta riceve un'email in più, quasi vuota, quando il suo carrello scade tutto nello stesso giro",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15c --base 3391e948^ --file app/api/cron/expire-stale-orders/route.ts --prove tests/unit/riparazione-r15-carrello-carta-scaduto-una-email.test.ts --json"
+      },
+      "nota": "Carta, ordine singolo: arriva «Rimborso emesso»; due ordini scaduti nello stesso giro: due rimborsi, nessun annullo vuoto; su due giri: al primo rimborso + annullo che nomina il rimasto, al secondo solo il rimborso; carta non pagata e contanti: sempre l'annullo. Carrello misto carta+contanti e carta+credito non esistono. 31 file della rotta verdi (253 casi). Fuori voce e già alla base: con rimborso impossibile (route.ts:304-305, continue) il cliente con la carta non riceve né email né campanella, lo sanno solo gli amministratori: difetto a sé da registrare."
+    },
+    {
+      "id": "R15-015",
+      "chiave": "performance|la velocità del sito vista dai clienti veri non la misura nessuno",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15e --base 24ca8692^ --file lib/analytics/posthog.tsx --prove tests/unit/riparazione-r15-velocita-clienti-veri.test.tsx --json"
+      },
+      "nota": "Niente misure prima del consenso, partono al consenso tardivo, nessun doppio con due avvisi di fila né con StrictMode, niente dopo la revoca; senza gtag nessun errore, server protetto (posthog.tsx:448); montato sempre nel layout (app/layout.tsx:306). Smontare e rimontare raddoppia le registrazioni, ma succedeva già prima e il layout non si rimonta. 39 file verdi (322 casi). Parziale onesto: senza NEXT_PUBLIC_GA_MEASUREMENT_ID e con PostHog spento le misure non vanno da nessuna parte, quindi oggi sul sito non cambia niente."
     }
   ],
   "campione": {}
