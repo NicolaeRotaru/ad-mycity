@@ -1,6 +1,6 @@
 {
   "campagna": "normali",
-  "quando": "2026-11-22 20:07",
+  "quando": "2026-11-22 21:30",
   "decisioni": [
     {
       "id": "R01-001",
@@ -2736,14 +2736,15 @@
       "chiave": "microcopy|il cliente e l'email leggono ancora «un rider passa a prenderlo», mentre il pulsante del negozio ora dice «fattorino»",
       "gravita": "minore",
       "esito": "riparato",
-      "verdetto": "regge",
+      "verdetto": "rossa_al_controllo",
       "collaudatore": "K06",
-      "decisione": "si_chiude",
-      "perche": "",
+      "decisione": "resta_aperta",
+      "perche": "rossa al controllo sul ramo unito (C02: R18-006 dice copre_tutta_la_voce ma cambia solo le quattro frasi di stato e il riquadro d'errore: la campanella dell'ordine pronto (migrations/321_l_ordine_pronto_dice_la_fascia.sql:66, ultima versione di notify_buyer_on_order_status) dice ancora «un rider passa a prenderlo»; la stessa pagina del cliente dice ancora «Rider» sulla mappa (app/orders/[id]/page.tsx:380-381), «al rider» nella riga del codice (:706), «Il tuo rider» (:801) e «al rider» nel pagamento (:891, :898), accanto alle frasi nuove con «fattorino»; la pagina del negozio, citata nel registro (app/seller/orders/[id]/page.tsx:556, 571, 572, 631), non è toccata. La prova guarda solo le frasi di stato e l'email.)",
       "come": "collaudo pieno",
       "verifica_comando": "npx vitest run tests/unit/riparazione-r18-parola-fattorino.test.ts --reporter=dot",
       "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 1a5b98067d5a5eb4692639c59882332b11bc02ee^ --file app/orders/[id]/page.tsx,lib/email/templates.ts --prove tests/unit/riparazione-r18-parola-fattorino.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R18 --base 1a5b9806^ --file app/orders/[id]/page.tsx,lib/email/templates.ts --prove tests/unit/riparazione-r18-parola-fattorino.test.ts --json (worktree a 1a5b9806, punta 2763712d) → uscita 0 (K06)",
-      "nota_fix": "Pagina dell'ordine: le frasi di stato READY, ASSIGNED, PICKED_UP e OUT_FOR_DELIVERY e la riga del codice di consegna dicono «fattorino». Email orderReadyTemplate (html, testo e commento): «un fattorino passa a prenderlo». Le due prove esistenti sono ritoccate come scritto in scheda, con la firma di Nicola sulle prove comuni (2026-11-22 19:45). È la patch del lotto B applicata tale e quale con git apply."
+      "nota_fix": "Pagina dell'ordine: le frasi di stato READY, ASSIGNED, PICKED_UP e OUT_FOR_DELIVERY e la riga del codice di consegna dicono «fattorino». Email orderReadyTemplate (html, testo e commento): «un fattorino passa a prenderlo». Le due prove esistenti sono ritoccate come scritto in scheda, con la firma di Nicola sulle prove comuni (2026-11-22 19:45). È la patch del lotto B applicata tale e quale con git apply.",
+      "controllo": "C02: R18-006 dice copre_tutta_la_voce ma cambia solo le quattro frasi di stato e il riquadro d'errore: la campanella dell'ordine pronto (migrations/321_l_ordine_pronto_dice_la_fascia.sql:66, ultima versione di notify_buyer_on_order_status) dice ancora «un rider passa a prenderlo»; la stessa pagina del cliente dice ancora «Rider» sulla mappa (app/orders/[id]/page.tsx:380-381), «al rider» nella riga del codice (:706), «Il tuo rider» (:801) e «al rider» nel pagamento (:891, :898), accanto alle frasi nuove con «fattorino»; la pagina del negozio, citata nel registro (app/seller/orders/[id]/page.tsx:556, 571, 572, 631), non è toccata. La prova guarda solo le frasi di stato e l'email."
     },
     {
       "id": "R18-007",

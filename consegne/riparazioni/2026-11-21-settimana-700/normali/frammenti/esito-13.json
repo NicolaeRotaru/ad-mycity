@@ -1,0 +1,27 @@
+{
+  "corsia": 13,
+  "territorio": "R13",
+  "difetti": [
+    {
+      "chiave": "ai-endpoints|l'allarme del tetto di spesa ai scatta solo se la stessa copia del sito resta accesa per un'ora, e su vercel può non arrivare mai",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r13-allarme-tetto-dal-cron.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 3ed83b72^ --file app/api/cron/operational-alerts/route.ts,lib/ai/tettoSpesa.ts --prove tests/unit/riparazione-r13-allarme-tetto-dal-cron.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R13c --base 3ed83b72^ --file app/api/cron/operational-alerts/route.ts,lib/ai/tettoSpesa.ts --prove tests/unit/riparazione-r13-allarme-tetto-dal-cron.test.ts --json → uscita 0 (K05)",
+      "nota_fix": "Il cron degli avvisi chiama allarmiTettoSpesaAiPerIlCron() (firma vera: opzioni facoltative, torna AllarmeTetto[], compatibile con AlertRow) a ogni giro, dopo gli altri controlli e prima del dedup e dell'uscita «nessuna anomalia»; se lancia, il giro lo dice fra i controlli saltati. In lib/ai/tettoSpesa.ts la funzione esce subito senza tetto configurato (allarmiDelTetto tornerebbe vuoto): niente sonda ogni 5 minuti, niente righe in operational_alert_log, niente errori nel registro (senza questo, la riga del tetto finiva fra le «attese» di l-allarme-che-non-parte-non-si-spaccia-per-spedito). Prova col sorvegliante vero: primo giro ricorda l'inizio nel database, due ore dopo su una copia nuova suona (120 min), al ritorno del conto la riga si toglie, senza tetto niente sonda."
+    },
+    {
+      "chiave": "frontend-ux|se il servizio degli indirizzi è giù o limitato, il negozio legge «indirizzo non trovato, prova ad essere più specifico»",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r13-indirizzi-servizio-giu-rotta.test.ts tests/unit/riparazione-r13-indirizzi-servizio-giu-messaggio.test.tsx --reporter=dot",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base ccc6e936^ --file app/api/geocode/route.ts,components/StoreLocationPicker.tsx --prove <le due prove> --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R13d --base ccc6e936^ --file app/api/geocode/route.ts,components/StoreLocationPicker.tsx --prove tests/unit/riparazione-r13-indirizzi-servizio-giu-rotta.test.ts,tests/unit/riparazione-r13-indirizzi-servizio-giu-messaggio.test.tsx --json → uscita 0 (K05)",
+      "nota_fix": "La rotta risponde 503 con error servizio_non_disponibile quando Nominatim risponde con errore (429, 5xx, ecc.), non è raggiungibile o scade; «nessun risultato» resta 200 con coordinate nulle. Il picker con 429 o 5xx dice che il servizio non risponde e di riprovare fra poco, e «Indirizzo non trovato» solo quando davvero non c'è. Gli altri due chiamanti (indirizzi del profilo, cassa) leggono solo lat/lng e si comportano come prima."
+    },
+    {
+      "chiave": "qa-flussi|le prove delle frasi pubbliche cercano parole nel codice: sette mutanti che rimettono i difetti restano verdi",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r13-frasi-pubbliche.test.tsx --reporter=dot",
+      "non_vacuita": "mutanti a mano (ognuno rimesso nel sorgente, prova nuova rossa, poi git checkout): scheda prodotto frase del pagamento scritta a mano; carrello frase scritta a mano; HomeSectionRenderer senzaNegozio={false}; ConfirmDialog Maiusc+Tab rotto; rider/help tel:+390523000000; AttributesFields checked={!!values[f.key]}; scheda prodotto filtro griglia CHIAVI_FUORI_DALLA_GRIGLIA tolto. Sette su sette rossi (vitest uscita 1) → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R13f --base 7efafdfd5d5eca4ac85f6c0fd5c0c12e8632aadb --file components/home-sections/HomeSectionRenderer.tsx,app/rider/help/page.tsx,components/seller/AttributesFields.tsx,app/cart/page.tsx --prove tests/unit/riparazione-r13-frasi-pubbliche.test.tsx --json (wt-R13f a 4482a69f, albero identico a d8c691ff; 7efafdfd = d8c691ff più 4 mutanti che rimettono i difetti della voce: HomeSectionRenderer senzaNegozio={false}, app/rider/help tel:112 → tel:+390523000000, AttributesFields checked={!!values[f.key]}, carrello con la frase del pagamento scritta a mano «Paghi in contanti alla consegna» al posto di {frasePagamento()}; 4482a69f = il revert di 7efafdfd; commit locali mai spinti; ramo claude/settimana-700-regia-m13 punta 4cc975d1) → uscita 0 (K05)",
+      "nota_fix": "Prova nuova che disegna le pagine e i componenti veri (scheda, carrello, home con orologio finto, dialogo, aiuto fattorini, caratteristiche) e legge il testo a video. Rispetto alla prova del lotto R04 aggiunge il carrello con la carta accesa (finto di funzioni-al-lancio) e la riga esatta del riepilogo: un mutante con la frase del carrello scritta a mano sopravviveva a quella. Nessun file di codice toccato."
+    }
+  ]
+}

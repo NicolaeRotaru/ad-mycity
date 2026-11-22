@@ -410,10 +410,10 @@
   "fonti_non_lette": [],
   "sintesi": "Il problema più grave trovato oggi era una chiave del database leggibile da chiunque, e Nicola l'ha già spenta. Dei difetti nuovi nessuno è bloccante, ma il rimborso di un ordine in contanti va ancora fatto a mano, fuori dal sito.",
   "meta": {
-    "findings": 3436,
+    "findings": 3461,
     "bloccanti": 37,
     "gravi": 678,
-    "minori": 2721,
+    "minori": 2746,
     "agenti": null,
     "aggiornato": "2026-11-22 17:43"
   },
@@ -1293,7 +1293,7 @@
         "collaudo": "parziale",
         "perche": "parziale: applicare la migrazione; prova rimessa automatica impossibile per una migrazione nuova"
       },
-      "chiuso_il": "2026-11-22 17:42",
+      "chiuso_il": "2026-11-22 21:30",
       "chiuso_da": "riparazione normali · R06 · collaudo K01",
       "riparazione_22_11": {
         "esito": "gia_riparato_prima",
@@ -1473,7 +1473,7 @@
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Adesso il conteggio c'è, con un tetto di una veloce per fattorino (scelta di Nicola del 19/11) e una finestra di 3 ore. Resta che il controllo non è atomico: due clienti nello stesso istante passano tutti e due. Restano fuori anche le casse con la carta aperte e le fasce vicine. La vendita 'a tutti insieme' è possibile solo nello stesso istante, non più in sequenza."
       },
-      "chiuso_il": "2026-11-22 17:42",
+      "chiuso_il": "2026-11-22 21:30",
       "chiuso_da": "riparazione normali · R01 · collaudo K01",
       "riparazione_22_11": {
         "esito": "gia_riparato_prima",
@@ -2299,10 +2299,10 @@
         "nota": "Il fatto firmato consegna.cliente-assente dice solo che «la merce torna al negozio», non quando torna in vendita: non rende voluto il ripristino immediato."
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "non_fatto",
         "sessione": "R18",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_fatto: tolta dalla regia: delicata (merce rimessa in vendita, tocca l'annullo); va ai delicati con ultracode"
       }
     },
     {
@@ -2331,10 +2331,10 @@
         "nota": null
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "non_fatto",
         "sessione": "R14",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_fatto: tolta dalla regia: delicata (va ai delicati, che girano a parte con ultracode)"
       }
     },
     {
@@ -6496,7 +6496,7 @@
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Nel codice il fix c'è. Non ho fatto girare le semine sullo schema di oggi: il Postgres locale è riservato alle voci gravi. Le semine non girano in CI e dopo il 12/11 sono arrivate centinaia di migrazioni (fino alla 620), quindi possono essersi rotte di nuovo. Per decidere serve lanciare lo script harness."
       },
-      "chiuso_il": "2026-11-22 17:42",
+      "chiuso_il": "2026-11-22 21:30",
       "chiuso_da": "riparazione normali · R05 · collaudo K02",
       "riparazione_22_11": {
         "esito": "gia_riparato_prima",
@@ -8862,10 +8862,10 @@
         "perche": "non_fatto: lotto 4 non partito: tetto di spesa della sessione (consegna a 25 $)"
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "riparato",
         "sessione": "R13",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "K05 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -10898,10 +10898,10 @@
         "nota": "Confidenza media. È un difetto di impaginazione: senza browser (vietato in questo lotto) non posso misurare se la pagina scorre davvero di lato. In StorePreviewCard l'article ha overflow-hidden, che può contenere il danno nelle griglie. In StoreListRow (/near, /stores) non c'è niente che tagli. Nel dubbio la voce resta aperta."
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "riparato",
         "sessione": "R16",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "K06 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -11017,10 +11017,10 @@
         "nota": "Il piede non è più la causa. Una pagina pubblica, /contact, può ancora scorrere di lato per il Turnstile: tengo aperta la voce."
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "parziale",
         "sessione": "R16",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "parziale",
+        "perche": "parziale: app/help (riquadro Email) e app/terms («sponsorizzati»): misurati a 280 px/200% su next dev, scrollWidth 280, nessun overflow visibile; non sono miei. La modifica difensiva è scritta in serve_file_altrui. Widget Turnstile non misurato dal vivo (serve chiave vera)."
       }
     },
     {
@@ -12870,7 +12870,7 @@
         "collaudo": "parziale",
         "perche": "parziale: applicare la migrazione; prova rimessa automatica impossibile per una migrazione nuova"
       },
-      "chiuso_il": "2026-11-22 17:42",
+      "chiuso_il": "2026-11-22 21:30",
       "chiuso_da": "riparazione normali · R06 · collaudo K01",
       "riparazione_22_11": {
         "esito": "gia_riparato_prima",
@@ -14100,10 +14100,10 @@
         "nota": "Non ho controllato l'assenza di NEXT_PUBLIC_POSTHOG_KEY in Production: serve Vercel, vietato qui. Dal codice la misura resta legata solo a PostHog."
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "parziale",
         "sessione": "R15",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "parziale",
+        "perche": "parziale: Se GA4 resta senza ID e PostHog spento, nessun posto riceve ancora le misure. Strada propria: far accettare 'web_vital' a /api/track (file non mio)."
       }
     },
     {
@@ -16577,10 +16577,10 @@
         "perche": "il riparatore non l'ha scritta nel referto"
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "non_fatto",
         "sessione": "R15",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_fatto: tolta dalla regia: delicata"
       }
     },
     {
@@ -16959,10 +16959,10 @@
         "perche": "serve_file_altrui: Nessun cambio al cron, che resta la rete di sicurezza per le push non mandate (pushed_at vuoto). Nessun costo Vercel."
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "serve_file_altrui",
         "sessione": "R18",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "serve_file_altrui: Causa verificata: il cron non ha filtri né attese per la categoria 'order' (CATEGORIE_CHE_ASPETTANO è solo promo/group/newsletter). Il ritardo viene solo dalla cadenza */5 di vercel.json. L'aiutante pronto è lib/push/subito.ts, già provato da tests/unit/riparazione-r02-push-nuovo-ordine-subito.test.ts, ma non collegato. Un cron al minuto invece dipende dal piano Vercel. vercel.json non è stato toccato."
       }
     },
     {
@@ -17090,10 +17090,10 @@
         "nota": "Il difetto c'è solo se in produzione la 166 non è applicata. Lo stato del database vero non si può leggere da qui. Il codice non ha niente da correggere."
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "riparato",
         "sessione": "R18",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "K06 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -21944,10 +21944,10 @@
         "perche": "non_fatto: serve una migrazione: va in un'onda con l'ok migrazioni di Nicola. La promessa al cliente è già tolta (components/ProductQA.tsx:95-96 toast «Domanda pubblicata: la risposta del negozio comparirà qui sotto.», e :136-138); manca l'avviso vero al negozio e a chi chiede. Le modifiche esatte sono in modifiche_scritte (colonne verificate sulle migrazioni 001, 008, 027, 055, 115, 215, 364; SQL non passato da nessun Postgres: va provato con --sql rNN_rimessa quando si scrive)."
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "parziale",
         "sessione": "R14",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "parziale",
+        "perche": "parziale: Chiusa la metà della promessa: alla base components/ProductQA.tsx:96 non promette più la notifica al cliente (gia_riparato_prima per questa metà). Resta vera la metà «non arrivano a nessuno»: il negozio non riceve nessun avviso per le domande (nessuna rotta né trigger su product_questions). Serve una rotta o un trigger (migrazione) che scriva in notifications, più la chiamata da components/ProductQA.tsx: scritto in nuovi_difetti_visti. Esito portato da gia_riparato_prima a parziale dopo il collaudo K05."
       }
     },
     {
@@ -26844,10 +26844,10 @@
         "perche": "non_codice: Nicola: applicare in produzione la migrazione 164 (vista nomi_pubblici, solo authenticated) e la 181 (funzione nomi_dei_clienti_del_negozio, solo authenticated), già nel deposito; la 164 va con la 161 o dopo. Nessuna modifica al codice: appena ci sono, cliente e negozio leggono i nomi di battesimo al posto di «Il tuo rider» e «Cliente»."
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "parziale",
         "sessione": "R15",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "parziale",
+        "perche": "parziale: Il nome del fattorino («Il tuo rider» per il cliente, «Rider assegnato» per il negozio) non ha un ripiego sicuro: nessuna tabella che cliente o negozio leggono già porta il nome del fattorino, e leggerlo dal server con la chiave di servizio mostrerebbe più dati di prima. Torna solo con la 164. I tre file in serve_file_altrui vanno cambiati per collegare il ripiego del negozio."
       }
     },
     {
@@ -32082,10 +32082,10 @@
         "nota": null
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "serve_file_altrui",
         "sessione": "R17",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "non_regge",
+        "perche": "serve_file_altrui: La 404 vera in rete (next build, next start e curl) non l'ho fatta, per decisione del capo squadra sulla spesa. Collaudo K06 (7fb1894a) sulla ricetta: non completa così com è: la patch r17-002-radice-e-prova non si applica più alla testa per due pezzi di commento (app/product/[id]/layout.tsx:115, app/store/[id]/layout.tsx:113, contesto cambiato da R17-007) e va applicata a mano; le due prove comuni perdono il controllo del segnale d attesa invece di adeguarlo. Decisione della regia (22/11 19:47): resta serve_file_altrui con la domanda a Nicola."
       }
     },
     {
@@ -35783,10 +35783,10 @@
         "nota": "I punti con doppio ridimensionamento sono scesi da 10 a 4. Sono riparati: foto delle recensioni nella scheda prodotto, ReviewsSection, StoriesCarousel, StoryViewer, ShopOfMonthHero."
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "parziale",
         "sessione": "R13",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "parziale",
+        "perche": "parziale: I dieci punti sono senza doppia ottimizzazione (verificato a mano), ma la prova tests/unit/riparazione-r13-foto-una-sola-riduzione.test.ts cerca loader=/unoptimized nel testo del tag: un commento /* loader= */ o loader={undefined} la lasciano verde, e il secondo caso (src già trasformata) guarda solo 4 file. Va resa strutturale (leggere l'attributo vero, non il testo)."
       }
     },
     {
@@ -35944,10 +35944,10 @@
         "perche": "non_fatto: non cominciata: tetto di spesa della sessione (consegna a 25 $)"
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "parziale",
         "sessione": "R17",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "parziale",
+        "perche": "parziale: Per decisione della regia restano il force-dynamic di app/layout.tsx e le revalidate dichiarate senza effetto (prodotto 300, pagina su misura 300, categoria 600, profilo /u 300; la vetrina dichiara 0). La vetrina legge ancora 2 volte la riga del negozio (vetrina e «Venduto da»): unirle vuol dire due ripieghi, 124 e 126, sulla stessa domanda. Le pagine su misura [slug] rileggono la riga. Un prodotto che il lettore anonimo non vede, o un guasto, rilegge come prima."
       }
     },
     {
@@ -36051,10 +36051,10 @@
         "perche": "il riparatore non l'ha scritta nel referto"
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "parziale",
         "sessione": "R16",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "parziale",
+        "perche": "parziale: branding e promo attive si leggono ancora dal browser alla prima pagina di ogni visitatore (una lettura ciascuno, condivisa nella pagina): per servirli dalla cache del server uguale per tutti serve la modifica di lib/queries/precarico.ts qui sotto (file non mio). Resta anche app/categorie/page.tsx:20-30 (file non mio, visto dal collaudo K06): legge lo stesso albero dal browser con la sua chiave ['all-categories-tree'] e le stesse colonne, quindi su /categorie le categorie si leggono ancora due volte (menu e piede da una parte, pagina dall'altra) e senza il precarico."
       }
     },
     {
@@ -36123,10 +36123,10 @@
         "nota": "Prima i corsivi erano 2 file (circa 95 KB) indicati con <link> nell'HTML. Ora, con next/font/local, sono 6 file (circa 167 KB) precaricati via header HTTP Link. Non ho rimisurato quali pagine usano davvero i corsivi: serviva un browser."
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "serve_file_altrui",
         "sessione": "R17",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "serve_file_altrui: Decisione della regia (22/11 19:57): la regola «prova spenta» della guardia non si deroga nemmeno con la firma, quindi la voce torna serve_file_altrui. Compromesso visto da K06: il corsivo di Fraunces non si precarica più neanche in home (il «veri» di app/page.tsx:29 si disegna prima col carattere di riserva inclinato)."
       }
     },
     {
@@ -41215,10 +41215,10 @@
         "nota": "Il numero è sceso da 330 a 245 e i quattro file citati sono puliti. Restano però misure fuori scala, misure che ripetono un gradino già esistente, e mezzi pixel."
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "parziale",
         "sessione": "R16",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "parziale",
+        "perche": "parziale: 76 file non miei con text-[Npx] (elenco in serve_file_altrui) e i due 22px senza passo."
       }
     },
     {
@@ -41705,10 +41705,10 @@
         "perche": "parziale: components/ui/Card.tsx è già allineato (radius di base 'xl' = 16px, '2xl' per prodotto/negozio, 'lg' per riquadri interni; tailwind.config.ts borderRadius xl=1rem): nessuna modifica. Restano le card scritte a mano in file altrui. Conteggio: grep -rEoh \"bg-white border border-(cream-300|surface-200)[^\\\"'`]*rounded-(lg|xl|2xl|md|3xl)\\b\" app components --include=*.tsx | grep -Eo 'rounded-[a-z0-9]+$' | sort | uniq -c → 78 rounded-2xl, 56 rounded-xl, 15 rounded-lg (149 in 73 file; 13 file importano Card). Regola di sostituzione: il div → <Card variant=\"bordered\" radius=\"…\">: rounded-xl → <Card> (di base), rounded-2xl → <Card radius=\"2xl\"> se è una card prodotto/negozio, altrimenti <Card> (16px); rounded-lg → <Card radius=\"lg\"> solo se è un riquadro dentro un'altra card; il padding p-4/p-6 → padding=\"md\"/\"lg\" e le classi restanti in className."
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "parziale",
         "sessione": "R16",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "parziale",
+        "perche": "parziale: Card a mano nei file non miei e nei miei non convertiti (form, link, aside, li)."
       }
     },
     {
@@ -42290,10 +42290,10 @@
         "perche": "parziale: Come R01-002: 241 occorrenze in 82 file altrui."
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "parziale",
         "sessione": "R13",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "parziale",
+        "perche": "parziale: Dopo il mio commit `grep -rEo \"text-\\[[0-9.]+(px|rem)\\]\" app components | wc -l` dà 201 (in 79 file, alcuni sono commenti), non più ~330. I file con più punti, tutti non miei: app/rider/page.tsx 18, app/rider/profile/page.tsx 11, app/seller/analytics/page.tsx 10, app/seller/earnings/page.tsx 9, app/rider/reviews/page.tsx 9, app/rider/availability/page.tsx 9, components/account/AccountSidebar.tsx 7, app/rider/history/page.tsx 7, app/admin/page.tsx 6, components/ui/AuthShell.tsx 5, components/home/HeroStoreCard.tsx 5. Servono gradini 13 e 11 px (o ricondurli a 12/14 e 10/12): scelta di design, da fare nelle pagine di chi le possiede. Inoltre la prova leggera non vede text-[length:13px] né text-[clamp(...)]: la regex accetta solo cifre fra le quadre."
       }
     },
     {
@@ -42439,10 +42439,10 @@
         "perche": "parziale: Fuori dai file di R02 restano 62 righe uppercase con spaziatura diversa dal valore del design. Comando: grep -rnE \"uppercase\" app components --include=*.tsx | grep -E \"tracking-(wider|widest|\\[0\\.0[0-9]*em\\])\" → 34 tracking-wider, 2 tracking-widest, 14 [0.03em], 5 [0.05em], 4 [0.04em], 2 [0.06em], 1 [0.08em]. Sostituzione: su ogni riga con uppercase, quelle classi → tracking-label (tracking-wide vale già 0.04em, resta lecito). Esclusi i codici non etichetta (es. tracking-[0.3em]/[0.5em] senza uppercase)."
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "parziale",
         "sessione": "R14",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "parziale",
+        "perche": "parziale: Ricontate sulla base b57195e2: 92 righe in 54 file (non 90 in 52); 3 righe in 2 file le ho fatte io, restano 89 righe in 52 file non miei, elenco esatto in serve_file_altrui (righe della base b57195e2)."
       }
     },
     {
@@ -43665,10 +43665,10 @@
         "perche": "non_fatto: tetto di spesa: la regista ha fermato i lotti nuovi a 16,14 $ su 35 (20/11); la voce non è stata aperta in questo giro."
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "parziale",
         "sessione": "R18",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "parziale",
+        "perche": "parziale: La priorità delle prime 4 foto deve dipendere dalla posizione della griglia nella pagina, e la posizione la conosce solo chi monta le sezioni (file non di R18). Restano due casi. (1) Pagine del negozio senza schede (SectionRenderer.tsx:248-256, ramo !tabs, pagine [slug]): onProductCount non arriva, quindi prioritaPrimeFoto={!onCount} vale sempre true. La griglia però può stare in qualunque posizione, non solo in cima: per esempio con testo, due collezioni e poi la griglia la priorità per sezione è [false,false,true], e ci sono 4 foto urgenti sotto la piega (visto dal collaudo). (2) Home con una sola scheda e senza barra (SectionRenderer.tsx:137-145) o senza copertina: onProductCount arriva sempre, quindi la priorità è spenta anche quando la griglia sta in cima. La cura completa è una prop esplicita inCima, calcolata dall'indice della sezione, passata da SectionRenderer a ProductGridSection e a StoreProductExplorer (vedi serve_file_altrui)."
       }
     },
     {
@@ -44412,10 +44412,10 @@
         "perche": "parziale: Manca la chiave screenshots: servono 2 PNG veri del sito (non generati da una build locale senza dati), uno narrow (es. 1080x1920) e uno wide (es. 1280x720 o più); poi in public/manifest.json screenshots:[{src,sizes,type:\"image/png\",form_factor:\"narrow\"|\"wide\",label}]. Le schermate le deve fornire Nicola."
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "parziale",
         "sessione": "R13",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "parziale",
+        "perche": "parziale: le schermate per la finestra d'installazione: servono immagini vere del sito (larga e stretta). Il sito locale parte senza chiavi Supabase ma la home esce senza catalogo né negozi, quindi non ho prodotto schermate che mostrino il sito vero. Alla base `orientation` non c'è (mai stato in public/manifest.json), `id` (\"/\") e `display_override` ([\"standalone\",\"minimal-ui\"]) ci sono già: public/manifest.json:5 e :8."
       }
     },
     {
@@ -45185,10 +45185,10 @@
         "nota": "Righe spostate: l'interruttore ora è a settings/page.tsx:657-663."
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "non_fatto",
         "sessione": "R18",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_fatto: tolta dalla regia: delicata (preferenze delle promozioni, tocca la 115 della privacy); va ai delicati con ultracode"
       }
     },
     {
@@ -46684,10 +46684,10 @@
         "perche": "non_fatto: Togliere l import da QueryProvider non basta: lib/errors.ts importa lib/zod-i18n (FRASI_ZOD, riga 14) ed è caricato quasi ovunque. Lavoro vero: 1) FRASI_ZOD in un file nuovo senza effetti (lib/zod-frasi.ts) importato da errors.ts; 2) z.setErrorMap solo in lib/zod-i18n.ts; 3) importarlo nei punti che usano Zod nel browser (components/SellerApplicationForm.tsx, components/VendorForm.tsx, "
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "parziale",
         "sessione": "R17",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "parziale",
+        "perche": "parziale: Il traduttore resta lo stesso nel pacchetto della radice per un'altra strada: components/Footer.tsx → NewsletterForm.tsx → lib/errors.ts:17 (R14) → lib/zod-i18n.ts. Zod resta comunque nella radice per lib/site-branding.ts, importato da Navbar e Footer: il guadagno possibile è solo il traduttore."
       }
     },
     {
@@ -61776,10 +61776,10 @@
         "nota": "R06-009 unisce le domande identiche nello stesso istante. Non c'è la cache condivisa proposta: il commento dice che resta da fare nei componenti. Le colonne diverse annullano quasi tutto il guadagno in home."
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "parziale",
         "sessione": "R15",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "parziale",
+        "perche": "parziale: (1) Una memoria che resti dopo l'arrivo: la prova comune tests/unit/riparazione-r06-vetrina-una-volta-sola.test.ts:59-64 la vieta apposta («a volo atterrato la domanda successiva torna al database»); una memoria di N secondi lascerebbe in vetrina un negozio sospeso fino alla scadenza: è una scelta. (2) Il secondo giro di rete di ogni fascia (prima i prodotti, poi la vetrina) resta: si toglie precaricando i negozi sul server (lib/queries/precarico.ts, precaricaHome) o con la cache di React Query nei componenti, file non miei. (3) Colonne davvero diverse restano domande separate."
       }
     },
     {
@@ -63031,10 +63031,10 @@
         "nota": "[tolto per riservatezza dal CF del 21/11: il dettaglio resta nella chat della sessione]"
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "parziale",
         "sessione": "R14",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "parziale",
+        "perche": "parziale: 1) app/api/ai/copilot/route.ts e app/api/ai/catalog-chat/route.ts non sono miei (R13): stesso controllo, diff esatto in serve_file_altrui. 2) Classifica inviti: la vista public.referral_leaderboard si legge dal browser (GRANT SELECT a authenticated, migrations/151:84-85), quindi una rotta non frenerebbe niente: va chiusa con una migrazione, decisione di Nicola (domande_per_nicola)."
       }
     },
     {
@@ -67012,10 +67012,10 @@
         "perche": "non_fatto: fuori dal tetto degli 8 agenti già nel piano approvato (regista O3, 15/11): non tentata."
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "non_fatto",
         "sessione": "R15",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_fatto: tolta dalla regia: delicata"
       }
     },
     {
@@ -67209,10 +67209,10 @@
         "perche": "non_fatto: fuori dal tetto degli 8 agenti già nel piano approvato (regista O3, 15/11): non tentata."
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "non_fatto",
         "sessione": "R15",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_fatto: tolta dalla regia: delicata"
       }
     },
     {
@@ -67265,10 +67265,10 @@
         "nota": "Da quattro copie si è passati a un finto comune più un involucro. Il resto del titolo non è cambiato: la prova grossa mescola ancora tre cose, la scansione non guarda components/ e si aggira con una concatenazione, e il caso «la posta dice di no la prima notte» è provato in due file (chi-vuole-cancellarsi:482 e la-spiegazione:78)."
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "serve_file_altrui",
         "sessione": "R15",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "serve_file_altrui: La prova importa avvisi-a-chi-aspetta.ts solo con un import dinamico (riga 971), ma il riordino è grande, dipende da tests/unit/aiuti/finto-giro-notturno.ts (non di R15) e dalle rotte di altre sessioni, e le voci su avvisi-a-chi-aspetta.ts sono state tolte dalla regia: non toccata."
       }
     },
     {
@@ -70708,10 +70708,10 @@
         "nota": "Il dialogo adesso viene montato (:100-135), ma la prova non preme Maiusc+Tab."
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "riparato",
         "sessione": "R13",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "K05 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -72317,10 +72317,10 @@
         "nota": null
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "non_fatto",
         "sessione": "R15",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_fatto: tolta dalla regia: delicata"
       }
     },
     {
@@ -74323,10 +74323,10 @@
         "perche": "serve_file_altrui: Fatta e provata (commit 0dbe534c, rimessa a 0), poi tolta col commit 9f071f72: guardia-ramo vieta di togliere asserzioni da una prova esistente (25 → 21 e 63 → 60) e la regola non ha deroga per il riparatore. Le prove di comportamento che sostituiscono i due casi sono già sulla base e verdi: tests/unit/riparazione-r22-veloce-cassa-chiede-al-server.test.ts:147 e tests/unit/riparazione-r22-veloce-l-invio-rilegge-l-ora.test.ts:153."
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "serve_file_altrui",
         "sessione": "R17",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "serve_file_altrui: Righe e testo ricontrollati sul codice di oggi, coincidono. La prova di comportamento tests/unit/riparazione-r04-veloce.test.ts esiste sulla base (commit 8ec4485d) ed è verde: `npx vitest run tests/unit/riparazione-r04-veloce.test.ts --reporter=dot` → 5 passate su 5. Nessuna deroga. La seconda guardia (la riga sotto le mattonelle), nel primo giro, aveva la rimessa a uscita 3 (rossa per struttura: il commit correttore era vecchio e app/checkout/page.tsx è cambiato troppo). La prova nuova la copre con il comportamento (riga sotto le mattonelle: minuti con «Adesso», fascia scelta con «Domani»)."
       }
     },
     {
@@ -76637,10 +76637,10 @@
         "nota": null
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "serve_file_altrui",
         "sessione": "R15",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "serve_file_altrui"
       }
     },
     {
@@ -82856,10 +82856,10 @@
         "perche": "serve_file_altrui: La riparazione (commit 76e8dc3: comunica.ts prende ogni canale con un UPDATE condizionato prima di spedire, migrazione 385 con tre segni per canale su public.segnalazioni e trigger che li azzera se la decisione cambia; prova unit e prova SQL) reggeva: prova rimessa del codice uscita 0, revisore 3 regge. Il verify finale l ha trovata in contrasto con due prove comuni di R11 (tests/unit/riparazione-r11-tipi-che-possono-restare-vuoti.test.ts e tests/unit/riparazione-r11-viste-nei-tipi.test.ts): i tipi salvati lib/database.types.ts, che non sono di R14, non hanno le tre colonne nuove. Tolta intera col revert 004218b, come vuole la regola."
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "riparato",
         "sessione": "R14",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "K05 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -83231,10 +83231,10 @@
         "nota": null
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "riparato",
         "sessione": "R13",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "K05 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -83626,10 +83626,10 @@
         "nota": "Dipende da una scelta di Nicola (l'ordine in due tempi: prima i segreti, poi la parola). In registro-fatti.json non ho trovato con grep nessun fatto firmato che lo cambi."
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "scelta_di_nicola",
         "sessione": "R18",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "scelta_di_nicola: La cura sta in vercel.json (righe 7-9), ma il flag non va girato prima dei segreti: lo dice .github/workflows/deploy-dopo-ci.yml alle righe 41-43 e 267 («al contrario il sito smette di aggiornarsi»). Non è stato cambiato niente. Passi per Nicola: 1) su GitHub, Settings → Secrets and variables → Actions, mettere i tre segreti (il token da Vercel → Account Settings → Tokens, i due id da Vercel → progetto → Settings → General); 2) fare un rilascio di prova da lì con un cambio innocuo; 3) dire a una sessione di mettere main:false in vercel.json, con la prova che legge il file."
       }
     },
     {
@@ -84342,7 +84342,7 @@
       "file": "tests/unit/zz-collaudo-termini-chi.test.tsx",
       "descrizione": "Come la 2222: il nome non dice cosa protegge.",
       "fonte": "dieci sessioni del 5/11, S04 (visto strada facendo)",
-      "stato": "aperto",
+      "stato": "gia_riparato_prima",
       "nato_oggi": true,
       "giro": "dieci-sessioni-5-11",
       "riverifica_6_11": {
@@ -84379,11 +84379,13 @@
         "perche": "serve_file_altrui: Fatta e provata (commit 695e6bc9, rimessa a 0), poi tolta col commit 92094312: guardia-ramo legge la rinomina come cancellazione di una prova esistente, e quella regola non ha deroga per il riparatore. Il nome scritto nella correzione (i-termini-nominano-…) farebbe anche rosso «prova nuova senza il nome della sessione»: per questo il nome nuovo porta riparazione-r02-. Nessun file del deposito nomina il vecchio percorso; la prova importa solo app/terms/page."
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
-        "sessione": "R13",
+        "esito": "serve_file_altrui",
+        "sessione": "R08",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
-      }
+        "perche": "serve_file_altrui: La prova importa solo @/app/terms/page, nessun file di R08, e nessun file del deposito nomina il vecchio percorso. Una rinomina dentro un ramo da riparatore guardia-ramo la legge come cancellazione di una prova esistente: va fatta dalla regista o da Nicola. Collaudo C1: seguite le importazioni a catena (24 file), nessun file di R08."
+      },
+      "chiuso_il": "2026-11-22 21:30",
+      "chiuso_da": "riparazione normali · R13 · collaudo K05"
     },
     {
       "dimensione": "qa-flussi",
@@ -84858,10 +84860,10 @@
         "nota": "Riparato a metà, come aveva già detto il collaudo K11 del 17/11. Resta solo la gara fra due avvii simultanei, cioè la stessa forma della voce «due avvii insieme…»: si possono fondere."
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "parziale",
         "sessione": "R13",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "parziale",
+        "perche": "parziale: Come R13-001: migrazione 750 + tipi rigenerati, scrittura del segno e lettura dell'errore di rimettiPronto in apply/route.ts (R14), aiutante finto-catalogo, prova nuova di apply. Elenco e diff esatti in R13-001.serve_file_altrui."
       }
     },
     {
@@ -85622,10 +85624,10 @@
         "nota": "Cambiato: prima erano i segnaposto del modulo (righe 153-154), ora è la descrizione della sezione nell'elenco «aggiungi sezione» del pannello."
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "serve_file_altrui",
         "sessione": "R16",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "serve_file_altrui"
       }
     },
     {
@@ -85719,7 +85721,7 @@
         "collaudo": "parziale",
         "perche": "parziale: Collaudo K04: la voce ha un secondo caso, la cookie policy che non nomina YouTube e Vimeo; app/cookies e app/privacy non sono miei e non li nominano ancora (vedi nuovi_difetti_visti)."
       },
-      "chiuso_il": "2026-11-22 17:42",
+      "chiuso_il": "2026-11-22 21:30",
       "chiuso_da": "riparazione normali · R11 · collaudo K01",
       "riparazione_22_11": {
         "esito": "gia_riparato_prima",
@@ -86150,10 +86152,10 @@
         "perche": "serve_file_altrui: La tabella esiste ancora (migrazioni 126, 360, 501) e l'esportazione la legge già: l'esclusione è falsa e nasconde un passo indietro. È una prova comune: il diff è alla regia per la firma di Nicola."
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "serve_file_altrui",
         "sessione": "R15",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "serve_file_altrui: La prova legge solo migrazioni e app/api/account/export/route.ts, nessun file di R15: non toccata."
       }
     },
     {
@@ -86390,10 +86392,10 @@
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R06",
       "stato": "aperto",
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "non_fatto",
         "sessione": "R17",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_fatto: tolta dalla regia: delicata (va all'onda dei delicati, con ultracode; decisione della regia settima al piano, 22/11)"
       }
     },
     {
@@ -86435,10 +86437,10 @@
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R07",
       "stato": "aperto",
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "non_fatto",
         "sessione": "R18",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_fatto: tolta dalla regia: delicata (giorni del reso, rimborso); va ai delicati con ultracode"
       }
     },
     {
@@ -86460,10 +86462,10 @@
         "nota": "La finestra fra la scrittura del prodotto e quella delle varianti c'è ancora."
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "non_fatto",
         "sessione": "R14",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_fatto: tolta dalla regia: delicata (va ai delicati, che girano a parte con ultracode)"
       }
     },
     {
@@ -86829,10 +86831,10 @@
         "nota": "Riparata la parte HomeSectionConfigForm (R09-008). Resta la parte BannerFields.tsx (righe spostate da 57,64 a 60,67), che sta nel costruttore della vetrina del negozio."
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "riparato",
         "sessione": "R16",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "K06 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -87425,10 +87427,10 @@
         "perche": "scelta_di_nicola: Codice sulla base: c'è (app/store/loading.tsx disegna ScheletroNegozio sopra app/store/[id]/layout.tsx, che è async e aspetta precaricaNegozio). Misura: oggi nessun file sotto app/store importa next/navigation né chiama notFound() sul server (le due «notFound» di app/store/[id]/[slug] sono un riquadro disegnato nel browser e un oggetto di metadati); e app/loading.tsx della radice avvolge anche il guscio del negozio (un loading.tsx copre tutto quello che sta sotto il suo layout), quindi anche togliendo app/store/loading.tsx la risposta resta 200 in streaming. La cura di R03-002 cambia solo il titolo, non rende naturale un notFound() nel guscio (servirebbe distinguere «non esiste» da «lettura caduta» e cambierebbe la pagina che vede il cliente: la 404 generica al posto del riquadro col «Vedi tutti i negozi»). Quindi togliere app/store/loading.tsx oggi non dà nessun 404 e riporta lo scheletro generico della radice mentre il guscio legge (il salto che la prova proteggeva): resta solo la scelta. Se Nicola sceglie il 404, il lavoro è pronto e tutto nei miei file: cancellare app/store/loading.tsx e capovolgere il caso «il sipario copre anche il guscio, non solo la pagina» di tests/unit/aprendo-un-negozio-si-vede-una-cosa-sola-mentre-arriva.test.ts (righe 90-106) in «sotto app/store/ nessun loading.tsx sopra il guscio, che deve poter rispondere 404» (prova esistente toccabile: legge per nome app/store/loading.tsx e app/store/[id]/layout.tsx, miei, e ScheletroNegozio.tsx, HeroSection.tsx e misure-vetrina, che non sono di R01 né di R02); app/loading.tsx resta (protetto da tests/unit/minori-s09-aspetto.test.ts:219-224). Una via che tiene tutte e due le cose (lo scheletro del negozio dentro il guscio, in un Suspense dopo il controllo di esistenza) cambia la forma del guscio e due prove che lo eseguono (il-guscio-della-pagina-legge-il-negozio-sul-server, la-vetrina-del-negozio-parte-gia-piena): non l'ho fatta senza la scelta."
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "serve_file_altrui",
         "sessione": "R17",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "non_regge",
+        "perche": "serve_file_altrui: guardia-ramo: la prova è comune (non è di nessuna sessione), la tocca solo la regista. Con la firma prove_comuni la cura si rimette con git revert 4c619346. Collaudo K06 (7fb1894a) sulla ricetta: non completa così com è: la patch r17-002-radice-e-prova non si applica più alla testa per due pezzi di commento (app/product/[id]/layout.tsx:115, app/store/[id]/layout.tsx:113, contesto cambiato da R17-007) e va applicata a mano; le due prove comuni perdono il controllo del segnale d attesa invece di adeguarlo. Decisione della regia (22/11 19:47): resta serve_file_altrui con la domanda a Nicola."
       }
     },
     {
@@ -87527,10 +87529,10 @@
         "nota": "Era già stata posta come scelta di Nicola (R01-008, onda 7), ma in registro-fatti.json e in DECISIONI.md non c'è nessuna decisione. Resta aperta finché lui non sceglie."
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "scelta_di_nicola",
         "sessione": "R17",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "scelta_di_nicola: Ancora vero sulla base: app/layout.tsx:36-39, :232 e :281. Nessun commit."
       }
     },
     {
@@ -87671,10 +87673,10 @@
         "perche": "serve_file_altrui"
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "serve_file_altrui",
         "sessione": "R18",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "serve_file_altrui: La regia ha negato la deroga. Le righe della scheda sono ancora giuste per i due file di prova, mentre lo script si è spostato (la scheda diceva 370-377 e 437)."
       }
     },
     {
@@ -87767,7 +87769,7 @@
         "collaudo": "parziale",
         "perche": "parziale: La voce nomina anche la migrazione 403 (migrations/403_il_link_delle_storie_porta_solo_dentro_mycity.sql:21-25), che mette NULL anche ai link interi del nostro dominio nelle storie vecchie. Una migrazione esistente non si tocca e in questo giro non se ne scrivono: serve la scelta di Nicola (vedi nota)."
       },
-      "chiuso_il": "2026-11-22 17:42",
+      "chiuso_il": "2026-11-22 21:30",
       "chiuso_da": "riparazione normali · R10 · collaudo K04",
       "riparazione_22_11": {
         "esito": "gia_riparato_prima",
@@ -88095,10 +88097,10 @@
         "perche": "serve_file_altrui: Chiamanti: l'unico è app/seller/products/ai-batch/page.tsx:439, che manda sempre productIds (job.results.map(r => r.product_id)), anche con «Applica a tutti» (stessa funzione apply): la cura non rompe l'app. Misura con la cura messa a mano e poi tolta: 13 prove rosse in 5 file (le stesse dell'onda 7). Tutti e 5 i file usano lib/rate-limit.ts, che in quest'onda è di R01 (3 lo mockano, 2 importano __resetRateLimitBuckets): per la regola delle prove esistenti non li posso toccare, quindi la rotta resta com'è e chiedo tutto insieme. Ho provato la proposta intera nell'albero (rotta + 5 prove + prova nuova) e l'ho tolta: 9 file, 92 prove verdi; la prova nuova senza la rotta corretta è rossa (2 casi su 3: 200 invece di 400). Gli altri file che chiamano la rotta restano verdi senza cambi: riparazione-r02-traccia-porte-ai-catalogo e riparazione-r18-lotto-applica-quello-che-si-vede mandano già productIds, le-funzioni-spente-le-ferma-la-rotta-anche-a-mano si ferma prima (funzione spenta, 503)."
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "riparato",
         "sessione": "R14",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "K05 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -88279,13 +88281,15 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R19",
-      "stato": "aperto",
+      "stato": "gia_riparato_prima",
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "gia_riparato_prima",
         "sessione": "R15",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
-      }
+        "collaudo": "K05",
+        "prova": "git grep -n -i -E \"chromium|from ['\\\"]playwright\" b57195e2 -- tests/unit: nessuna prova unitaria apre il browser (solo commenti «misurato in Chromium» e testi della config e2e). La misura vera nel browser nominata dalla voce era già stata tolta dalle prove unitarie prima della base."
+      },
+      "chiuso_il": "2026-11-22 21:30",
+      "chiuso_da": "riparazione normali · R15 · collaudo K05"
     },
     {
       "dimensione": "stati-ui",
@@ -88647,10 +88651,10 @@
         "nota": "Adesso i file scartati danno un messaggio (onDropRejected), ma la differenza fra 3 e 7 tipi resta."
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "parziale",
         "sessione": "R16",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "parziale",
+        "perche": "parziale: components/StoreMediaManager.tsx (copertine della vetrina, file non mio) accetta ancora solo JPG, PNG e WEBP: la modifica esatta è qui sotto."
       }
     },
     {
@@ -88739,10 +88743,10 @@
         "perche": "scelta_di_nicola: Il codice dice il contrario della voce: placehold.co è ancora ammesso apposta in quattro elenchi tenuti uguali da prove (togliendolo solo da next.config.js diventa rossa tests/unit/l-indirizzo-che-il-sito-non-sa-mostrare-lo-dice-subito.test.ts:284), e seeds/001_piacenza_stores.sql:130-153 crea prodotti con foto placehold.co. Per sapere se il database vero ha ancora indirizzi placehold.co serve una lettura del database che il riparatore non può fare. Se la risposta è sì, va tolto insieme da tutti i file elencati, che a parte next.config.js non sono di R02. Prima: Non tolto: lib/ usa ancora placehold.co come host ammesso. lib/indirizzo-immagine-ammesso.ts:34 (HOST_IMMAGINI_AMMESSI, il campo «indirizzo immagine» lo accetta; la prova l-indirizzo-che-il-sito-non-sa-mostrare-lo-dice-subito.test.ts:284 pretende che sia uguale a remotePatterns, quindi togliendolo solo da next.config.js diventa rossa), lib/immagine-categoria.ts:47 (HOST_FOTO_AMMESSI, le foto di categoria da placehold.co sono ammesse), lib/ai/productContext.ts:50 (HOST_ESTERNI_DICHIARATI, foto mandate al modello). In più middleware.ts:313 (img-src della CSP) e seeds/001_piacenza_stores.sql:130-153 (prodotti in bozza con foto placehold.co). Per chiudere la voce va tolto insieme da next.config.js:51 e da questi elenchi (file non miei), aggiornando le prove che li legano."
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "serve_file_altrui",
         "sessione": "R13",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "serve_file_altrui: Grep fatto: nel codice che gira nessuno chiede più placehold.co (restano un commento in lib/image-url.ts:223 e lib/foto-mancante.ts:4, stories/StoreAvatar.stories.tsx:22,34 e seeds/001_piacenza_stores.sql con 240 foto placehold.co). Il commit con tutte e nove le modifiche (91beb6f5, poi tolto) era verde: 73 file di prova legati ai cinque file, 636 prove; ma guardia-ramo l'ha dato rosso per TRE prove comuni, non una: oltre a le-foto-che-arrivano-al-modello-sono-le-nostre (rossa nonostante il permesso), anche l-indirizzo-che-il-sito-non-sa-mostrare-lo-dice-subito e un-indirizzo-travestito-da-percorso-del-sito-non-passa danno placehold.co per ammesso (la scheda non le contava). Senza toccarle nessuno dei cinque elenchi si può togliere da solo (la prima lega HOST_IMMAGINI_AMMESSI a remotePatterns e a img-src; HOST_FOTO_AMMESSI da solo farebbe dire «ammesso» al campo e poi niente in pagina; productContext da solo fa rossa la terza): ho tolto il commit della voce e lasciato il ramo com'era per questi file. Le nove modifiche vanno insieme, in un commit della regista."
       }
     },
     {
@@ -88997,10 +89001,10 @@
         "perche": "serve_file_altrui: Diagnosi ricontrollata sul codice: firmaDisiscrizione usa crypto.randomBytes(12) (lib/email/unsubscribe.ts:65); sendEmail firma il link a ogni invio (lib/email/client.ts:142) e per le promozioni lo mette nel corpo e in List-Unsubscribe (client.ts:157-171); la coda rimanda la riga con la stessa chiave `email-queue/${row.id}` (app/api/cron/send-emails/route.ts:533), quindi il corpo cambia, Resend dà 409 invalid_idempotent_request e client.ts:207-209 risponde { ok: true, id: '' } → la coda scrive sent_at anche se la prima risposta conservata era un errore. Nei modelli delle promozioni non ho trovato altro di casuale. client.ts NON toccato. Modifica per il GIRO DOPO, solo dopo quella di unsubscribe.ts (testo, non applicata): in lib/email/client.ts togliere le righe 203-210 (commento «13/11/2026 (R22-001, R22-011) — Il 409…» e l'if `opzioni && String(error.name) === 'invalid_idempotent_request'` che ritorna { ok: true, id: '' }); così il 409 cade nel ramo d'errore normale (lastErr = error.message, non ritentabile) e sendEmail risponde { ok: false, error }. Provato in copia: con le due modifiche i 27 file che usano il client vero + r22 verdi (241 prove); con la sola modifica di client.ts r22 «anche una promozione … non esce due volte» diventa rossa, che è il motivo dell'ordine."
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "non_fatto",
         "sessione": "R14",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_fatto: tolta dalla regia: delicata (va ai delicati, che girano a parte con ultracode)"
       }
     },
     {
@@ -89637,10 +89641,10 @@
         "perche": "collaudo: parziale"
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "non_fatto",
         "sessione": "R14",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_fatto: tolta dalla regia: delicata (va ai delicati, che girano a parte con ultracode)"
       }
     },
     {
@@ -90065,10 +90069,10 @@
         "nota": null
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "non_fatto",
         "sessione": "R18",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_fatto: tolta dalla regia: delicata (dati personali nei log); va ai delicati con ultracode"
       }
     },
     {
@@ -90292,10 +90296,10 @@
         "nota": "Delle due ancore ne resta una: #bonifici. È davvero usata: app/seller/earnings/page.tsx:246 porta a /seller/profile#bonifici, e da md in su il modulo si ferma circa 6rem più in basso del dovuto."
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "riparato",
         "sessione": "R16",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "K06 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -90892,10 +90896,10 @@
         "nota": "Restano solo «Negozi» (/stores): a 280 px col testo al 200% restano circa 136 px per «Piacenza» scritto a 60px, che quindi esce. È un calcolo dalle classi, non una misura in browser. Il difetto originale misurava 381 px. Faq, resi e lavora con noi non scorrono più."
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "parziale",
         "sessione": "R16",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "parziale",
+        "perche": "parziale: La causa è in components/CollectionHeader.tsx:80 (h1 senza break-words), file non mio: lo stesso titolo può scorrere in app/category, promozioni, novita, piu-venduti, piccoli-prezzi, events, lists, regali."
       }
     },
     {
@@ -90973,10 +90977,10 @@
         "nota": null
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "riparato",
         "sessione": "R16",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "K06 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -91079,10 +91083,10 @@
         "nota": null
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "riparato",
         "sessione": "R18",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "K06 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -91235,10 +91239,10 @@
         "nota": "La regola non ha un filtro per criterio (stato o categoria). Il tetto di 40 voci singole sta ancora solo nel prompt."
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "parziale",
         "sessione": "R13",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "parziale",
+        "perche": "parziale: In app/api/ai/copilot/route.ts:127 un campo del criterio vuoto ('' o di soli spazi, per categoria o stato) va trattato come null: oggi {stato:'available', categoria:''} dà ancora 0 modifiche con il riepilogo che ne promette N. C'erano già alla base: route.ts:325-328 con tutti:true più filtro vince «tutti» (200 invece di 150, bozze comprese); route.ts:327-328 con product_ids espliciti e un filtro vuoto gli id vengono buttati (0 modifiche)."
       }
     },
     {
@@ -91260,10 +91264,10 @@
         "nota": null
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "parziale",
         "sessione": "R17",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "parziale",
+        "perche": "parziale: Il caso della voce è chiuso (con la descrizione cambiata a mano «Usa questa» chiede conferma, con «no» la modifica resta). Restano due bordi visti dal revisore: (1) components/seller/ProductForm.tsx:1083-1089, se il venditore svuota la descrizione e rigenera, il testo entra subito nel campo ma la proposta vecchia resta aperta e il testo ricordato non si aggiorna, quindi il «Usa questa» dopo confronta con un testo superato (la proposta stantia c era già); (2) ProductForm.tsx:1109, dove window.confirm è soppresso o torna false da solo (iframe di altra origine, alcune webview) «Usa questa» non fa niente e non lo dice: il sito ha components/ConfirmDialog.tsx come alternativa."
       }
     },
     {
@@ -91305,10 +91309,10 @@
         "nota": null
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "serve_file_altrui",
         "sessione": "R13",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "serve_file_altrui: Provata applicando il diff in prova e togliendolo: tsc verde, eslint verde, le prove di apply verdi. Il diff di R13-001 su apply va applicato DOPO questo."
       }
     },
     {
@@ -91405,10 +91409,10 @@
         "nota": null
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "riparato",
         "sessione": "R14",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "K05 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -91450,10 +91454,10 @@
         "nota": "Il messaggio al cliente, su un 429, dà anche la colpa all'indirizzo sbagliato."
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "serve_file_altrui",
         "sessione": "R14",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "serve_file_altrui"
       }
     },
     {
@@ -91548,10 +91552,10 @@
         "nota": null
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "riparato",
         "sessione": "R15",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "K05 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -91620,10 +91624,10 @@
         "nota": "Il piano di riparazione (R02-010) indica proprio questo file, che non è cambiato."
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "parziale",
         "sessione": "R16",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "parziale",
+        "perche": "parziale: Gli altri file non miei (regola e elenco in serve_file_altrui)."
       }
     },
     {
@@ -91750,7 +91754,7 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione onda9 · R09",
-      "stato": "aperto",
+      "stato": "gia_riparato_prima",
       "riverifica_21_11": {
         "data": "2026-11-21 16:27",
         "esito": "ancora_vero",
@@ -91759,11 +91763,13 @@
         "nota": null
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
-        "sessione": "R16",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
-      }
+        "esito": "parziale",
+        "sessione": "R10",
+        "collaudo": "parziale",
+        "perche": "parziale: Il campo vero del «Banner annuncio», la textarea in components/seller/AnnouncementEditor.tsx:32-39 (non mio), resta senza etichetta: il gruppo con il titolo non basta."
+      },
+      "chiuso_il": "2026-11-22 21:30",
+      "chiuso_da": "riparazione normali · R16 · collaudo K06"
     },
     {
       "dimensione": "frontend-ux",
@@ -91837,10 +91843,10 @@
         "nota": null
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "serve_file_altrui",
         "sessione": "R17",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "non_regge",
+        "perche": "serve_file_altrui: i due file di R17 sono già a posto: `grep -rni maxlength components/seller/site/SectionConfigForm.tsx components/seller/site/CollectionFields.tsx` trova solo commenti (SectionConfigForm.tsx:14 e :145, CollectionFields.tsx:9), nessun attributo; i campi usano `error={sopraIlTetto(...)}` (SectionConfigForm.tsx:67 e :159, CollectionFields.tsx:37). Stessa lista di R17-004, scritta intera. Le righe di SectionConfigForm elencate nel registro (140,162,171,172) non hanno più maxLength."
       }
     },
     {
@@ -92074,10 +92080,10 @@
         "nota": "Gli 18 px non li ho rimisurati: servirebbe un browser, vietato. Resta aperta per prudenza."
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "serve_file_altrui",
         "sessione": "R17",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "non_regge",
+        "perche": "serve_file_altrui: HowItWorks.tsx è già a posto sulla base: riga 78 `flex flex-wrap items-center gap-3`, riga 85 `min-w-0 grow basis-24 break-words` sul titolo, riga 73 `!p-[min(1.5rem,7vw)]` sulla scheda. Non ho trovato niente di largo, quindi non ho toccato nulla e non ho scritto prove nuove: le due prove del primo giro esistono (tests/unit/riparazione-r12-testo-grande.test.ts e tests/unit/riparazione-r12-pagine-200.test.ts). Il difetto di scorrimento resta per i due file altrui."
       }
     },
     {
@@ -92187,10 +92193,10 @@
         "nota": null
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "riparato",
         "sessione": "R14",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "K05 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -92213,10 +92219,10 @@
         "nota": null
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "serve_file_altrui",
         "sessione": "R13",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "serve_file_altrui"
       }
     },
     {
@@ -92266,10 +92272,10 @@
         "nota": "Le righe sono scese di 2 (380 → 382, 379 → 381). In registro-fatti.json nessun fatto stabilisce la parola da usare."
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "riparato",
         "sessione": "R18",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "rossa_al_controllo",
+        "perche": "rossa al controllo sul ramo unito (C02: R18-006 dice copre_tutta_la_voce ma cambia solo le quattro frasi di stato e il riquadro d'errore: la campanella dell'ordine pronto (migrations/321_l_ordine_pronto_dice_la_fascia.sql:66, ultima versione di notify_buyer_on_order_status) dice ancora «un rider passa a prenderlo»; la stessa pagina del cliente dice ancora «Rider» sulla mappa (app/orders/[id]/page.tsx:380-381), «al rider» nella riga del codice (:706), «Il tuo rider» (:801) e «al rider» nel pagamento (:891, :898), accanto alle frasi nuove con «fattorino»; la pagina del negozio, citata nel registro (app/seller/orders/[id]/page.tsx:556, 571, 572, 631), non è toccata. La prova guarda solo le frasi di stato e l'email.)"
       }
     },
     {
@@ -92403,10 +92409,10 @@
         "nota": "start/route.ts:87-106 legge e poi inserisce a :151-162. Nelle migrazioni non c'è un indice unico su catalog_ai_jobs."
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "parziale",
         "sessione": "R13",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "parziale",
+        "perche": "parziale: Il segno di fine non esiste ancora: (1) la migrazione 750 (pronta, file nuovo della fascia) non è nel commit perché aggiunge una colonna e i tipi generati (lib/database.types.ts, non miei) vanno rigenerati nello stesso commit, se no due prove R11 dei tipi diventano rosse; (2) /apply deve scrivere il segno a fine applicazione, azzerarlo in rimettiPronto e dire il 23505 al negozio (file di R14). Finché non c'è la colonna la rotta di avvio si comporta come alla base. Ordine: R13-003 su apply, poi questa su apply + finto-catalogo + tipi + 750 + le due prove nuove, tutto insieme; la 750 si applica al database solo dopo che /apply scrive il segno."
       }
     },
     {
@@ -92983,10 +92989,10 @@
         "nota": null
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "riparato",
         "sessione": "R14",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "K05 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -93131,10 +93137,10 @@
         "nota": "È cambiato dalla nascita che ora l'aiutante esiste e ha un test, ma resta non collegato: il titolo («nessun file lo fa») resta vero."
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "riparato",
         "sessione": "R18",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "K06 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -93357,10 +93363,10 @@
         "nota": "app/api/consegna/veloce/route.ts non ha più la frase letterale, le altre due rotte della veloce e la cassa sì."
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "serve_file_altrui",
         "sessione": "R15",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "serve_file_altrui"
       }
     },
     {
@@ -93478,10 +93484,10 @@
         "nota": "Con la carta e nessun ordine rimasto parte ancora l'email di annullo senza righe del carrello, oltre a «Rimborso emesso»."
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "riparato",
         "sessione": "R15",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "K05 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -93702,10 +93708,10 @@
         "nota": null
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "serve_file_altrui",
         "sessione": "R15",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "serve_file_altrui"
       }
     },
     {
@@ -93746,7 +93752,7 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione giro5m · R01",
-      "stato": "aperto",
+      "stato": "gia_riparato_prima",
       "riverifica_21_11": {
         "data": "2026-11-21 16:27",
         "esito": "ancora_vero",
@@ -93755,11 +93761,13 @@
         "nota": null
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
-        "sessione": "R15",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
-      }
+        "esito": "parziale",
+        "sessione": "R05",
+        "collaudo": "parziale",
+        "perche": "parziale: La variabile morta è tolta (nessun file l'ha mai letta: git log -S), ma la prova guardiana guarda solo tests/ e scripts/, non i file di configurazione in radice (vitest.config.*, setup): una variabile letta solo lì risulterebbe «morta», e il commento nuovo in ci.yml:137-139 è più largo di quello che la prova controlla. Da allargare la prova alla radice."
+      },
+      "chiuso_il": "2026-11-22 21:30",
+      "chiuso_da": "riparazione normali · R15 · collaudo K05"
     },
     {
       "dimensione": "frontend-ux",
@@ -93818,10 +93826,10 @@
         "nota": null
       },
       "riparazione_22_11": {
-        "esito": "senza_referto",
+        "esito": "serve_file_altrui",
         "sessione": "R17",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "non_regge",
+        "perche": "serve_file_altrui: i due file di R17 sono già a posto: `grep -rni maxlength components/seller/site/SectionConfigForm.tsx components/seller/site/CollectionFields.tsx` trova solo commenti (SectionConfigForm.tsx:14 e :145, CollectionFields.tsx:9), nessun attributo; i campi usano `error={sopraIlTetto(...)}` (es. SectionConfigForm.tsx:67, CollectionFields.tsx:37). Righe dei diff ricontrollate sul codice di oggi e tetti ricontrollati su lib/store-site.ts (120/30/60/70/180/160/200/40). Una riga è cambiata rispetto al primo giro: in AnnouncementEditor.tsx la textarea è a riga 35, non 34. La stessa lista è scritta intera in R17-005."
       }
     },
     {
@@ -94415,6 +94423,306 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione normali · C01",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "immagini-media",
+      "reparto": "Immagini e media",
+      "titolo": "le prove di sviluppo seminano 240 foto di prodotto da placehold.co",
+      "severita": "minore",
+      "file": "seeds/001_piacenza_stores.sql:130-414",
+      "descrizione": "Quando entra la cura di R13-006 (placehold.co tolto da img-src e dagli elenchi) i prodotti creati da questo seme mostrano foto bloccate dal browser negli ambienti seminati; anche stories/StoreAvatar.stories.tsx:22,34 usa loghi placehold.co. Se il database vero ha ancora indirizzi placehold.co, quei prodotti perdono la foto: da controllare lato Nicola prima di applicare R13-006.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione normali · R13",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "titolo": "una migrazione che aggiunge una colonna non si può consegnare da sola: i tipi generati vanno rigenerati nello stesso commit",
+      "severita": "minore",
+      "file": "tests/unit/riparazione-r11-tipi-che-possono-restare-vuoti.test.ts, tests/unit/riparazione-r11-viste-nei-tipi.test.ts, lib/database.types.ts",
+      "descrizione": "Le due prove pretendono lib/database.types.ts identico all'uscita di scripts/gen-db-types.mjs sulle migrazioni del disco; lib/database.types.ts non è nell'elenco di nessuna sessione, quindi un riparatore con una fascia di migrazioni non può aggiungere una colonna senza far rossa la verifica. Da prevedere nelle schede (tipi rigenerati come file di chi ha la migrazione).",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione normali · R13",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "mobile-pwa",
+      "reparto": "Mobile e app",
+      "titolo": "Il manifest del sito ha la registrazione vecchia: la voce parlava di orientation portrait che alla base non c'è",
+      "severita": "minore",
+      "file": "public/manifest.json:1",
+      "descrizione": "Il registro dice che alla riga 9 c'è orientation portrait e che mancano id e display_override: alla base orientation non c'è e gli altri due ci sono già. Solo gli screenshots mancano.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione normali · R13",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "ai-endpoints",
+      "reparto": "Endpoint AI",
+      "titolo": "l'allarme del tetto di spesa ai può dire «non risponde da tre giorni» al primo guasto di cinque minuti",
+      "severita": "minore",
+      "file": "lib/ai/tettoSpesa.ts:464-476",
+      "descrizione": "La riga ai-tetto-condiviso:ripiego-da di operational_alert_log si legge senza limite d'età e l'uscita senza tetto (riga ~456) non la toglie: rimasta da un guasto vecchio, al primo guasto nuovo l'allarme suona subito con i minuti contati da allora. Il cron che ora la chiama a ogni giro rende vivo il difetto. Cura suggerita: ignorare (e riscrivere) una riga più vecchia di 24 h. File di R13: da fare in un giro dopo.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione normali · R13",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "immagini-media",
+      "reparto": "Immagini e media",
+      "titolo": "il logo del negozio del mese viene ritagliato a quadrato",
+      "severita": "minore",
+      "file": "components/home/ShopOfMonthHero.tsx:95-101",
+      "descrizione": "Il logo usa caricatoreFotoRemote: con width 256/384 il caricatore sceglie il formato quadrato e aggiunge height=width e resize=cover, quindi un logo con la scritta esce tagliato; logoNegozio(...,176) nel src non lo evita. Dovrebbe usare caricatoreLogoNegozio. C'era già alla base, R13 non l'ha toccato.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione normali · R13",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "Interfaccia",
+      "titolo": "il picker degli indirizzi legge il limite della rotta come «servizio che non risponde»",
+      "severita": "minore",
+      "file": "components/StoreLocationPicker.tsx:170",
+      "descrizione": "Il 429 del limite proprio della rotta (30/min per IP, rate_limited) e il 503 del servizio esterno danno lo stesso messaggio: il testo («riprova fra poco») resta giusto, ma non dice che il limite è del negozio stesso.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione normali · R13",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "titolo": "le domande dei clienti sotto i prodotti non avvisano il negozio",
+      "severita": "minore",
+      "file": "components/ProductQA.tsx:96",
+      "descrizione": "Il testo al cliente ora è veritiero, ma il negozio non riceve nessun avviso quando arriva una domanda (nessuna notifica, nessun trigger su product_questions): la vede solo aprendo la pagina del prodotto. Per avvisarlo servirebbe una rotta server (o un trigger in una migrazione 760-769) che scriva in notifications, più la chiamata da components/ProductQA.tsx.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione normali · R14",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "titolo": "l'aiutante di prova accendi, con la Suspense, rende vuoto in silenzio un componente che resta sospeso per sempre: una prova che controlla un'assenza può passare senza aver provato niente",
+      "severita": "minore",
+      "file": "tests/unit/aiuti/schermo.ts:24",
+      "descrizione": "Prima della Suspense un componente sospeso faceva fallire accendi; con fallback null rende vuoto. Le prove che cercano un elemento falliscono comunque, quelle che asseriscono un'assenza (not.toContain, querySelector nullo) potrebbero passare a vuoto. Nessun caso in atto nel campione di 60 file. Cura possibile: un fallback con un segno riconoscibile e un controllo in attendi() che fallisce se il segno resta dopo gli effetti.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione normali · R14",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "API",
+      "titolo": "quando è il servizio delle mappe a rispondere «troppe richieste», la rotta della ricerca indirizzi risponde 200 senza coordinate e la pagina salva l'indirizzo come «posizione non trovata»",
+      "severita": "minore",
+      "file": "app/api/geocode/route.ts:46",
+      "descrizione": "Il 429 di Nominatim diventa 200 con {lat:null,lng:null}: la pagina indirizzi lo legge come indirizzo non trovato e salva senza coordinate (non per sempre: una nuova ricerca le rifà). Cura: inoltrare 429 con error:'rate_limited', come fa già il freno della rotta.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione normali · R14",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "stati-ui",
+      "reparto": "Stati dell'interfaccia",
+      "titolo": "dopo un errore su un solo canale, la pagina delle segnalazioni dice che l'esito non è partito né a chi ha segnalato né al venditore",
+      "severita": "minore",
+      "file": "app/admin/segnalazioni/page.tsx:149",
+      "descrizione": "La pagina guarda solo r.ok e scrive sempre «a chi ha segnalato e al venditore»; il consiglio di registrare di nuovo ora è giusto (rimanda solo il canale fallito), ma il messaggio dovrebbe nominare il canale caduto.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione normali · R14",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "flussi-conversione",
+      "reparto": "Flussi di conversione",
+      "titolo": "con la carta e il credito MyCity, quando il carrello scade tutto nessuna email dice che il credito è tornato",
+      "severita": "minore",
+      "file": "app/api/cron/expire-stale-orders/route.ts:448",
+      "descrizione": "L'email «Rimborso emesso» per un ordine pagato con la carta non nomina il credito MyCity restituito. Con un ordine solo era già così; dopo la riparazione dell'email vuota del carrello vale anche per il carrello scaduto tutto, dove prima lo diceva l'email di annullo. Va aggiunta la riga sul credito all'email del rimborso (lib/ordini/annulla.ts o il modello dell'email).",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione normali · R15",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "Interfaccia",
+      "titolo": "nel ripiego dei nomi dei clienti il limite di 1000 ordini vale per tutti gli id insieme",
+      "severita": "minore",
+      "file": "lib/queries/seller-public-profiles.ts:335",
+      "descrizione": "Su un negozio con molti ordini, un cliente che ha recensito tanto tempo fa può restare «Cliente» finché manca la 181. Vale solo finché la migrazione non è applicata.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione normali · R15",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "deploy-sre",
+      "reparto": "Rilascio e affidabilita'",
+      "titolo": "senza la 181 ogni apertura della chat o delle recensioni del negozio scrive un avviso nel registro",
+      "severita": "minore",
+      "file": "lib/queries/seller-public-profiles.ts:309",
+      "descrizione": "Il ripiego registra un avviso a ogni chiamata finché la funzione manca: rumore nel registro. Sparisce applicando la 181.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione normali · R15",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "deploy-sre",
+      "reparto": "Rilascio e affidabilita'",
+      "titolo": "il README nomina la variabile di Google Analytics con il nome vecchio",
+      "severita": "minore",
+      "file": "README.md:82",
+      "descrizione": "Il README dice NEXT_PUBLIC_GA_ID, ma il codice legge NEXT_PUBLIC_GA_MEASUREMENT_ID (components/GoogleAnalytics.tsx:10, .env.example:112): chi segue il README imposta la variabile sbagliata e GA4 resta spento.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione normali · R15",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "Architettura",
+      "titolo": "la misura della velocità manda a GA4 da una porta sua, fuori dall'aiutante comune",
+      "severita": "minore",
+      "file": "lib/analytics/posthog.tsx:452",
+      "descrizione": "mandaMisuraDiVelocita chiama gtag direttamente invece di passare da ga() di lib/analytics/events.ts, come sconsiglia il commento in components/GoogleAnalytics.tsx:105-121. Il consenso lo legge comunque. Con consenso dato ma GA4 e PostHog spenti, web-vitals si carica senza mandare niente.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione normali · R15",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "titolo": "il nome del negozio non ha un tetto nel database: dal modulo del negozio si salva direttamente nella tabella dei profili",
+      "severita": "minore",
+      "file": "components/seller/site/StoreDetailsEditor.tsx:46",
+      "descrizione": "StoreDetailsEditor aggiorna profiles.store_name dal browser (supabase.from('profiles').update) e la colonna non ha un vincolo di lunghezza: il tetto di 80 adesso c'è nel modulo (VendorForm) e nella rotta d'iscrizione, ma una richiesta scritta a mano passa ancora. Servirebbe un CHECK (char_length(store_name) <= 80) in una migrazione nuova (dopo aver controllato che nessun nome esistente lo superi).",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione normali · R16",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "layout-responsive",
+      "reparto": "Layout e schermi",
+      "titolo": "Il titolo di CollectionHeader non va a capo sulle parole lunghe a 280 px col testo al 200%",
+      "severita": "minore",
+      "file": "components/CollectionHeader.tsx:80",
+      "descrizione": "h1 senza break-words: «Piacenza» in corpo grande allarga la pagina; sulle altre pagine che lo usano vale lo stesso.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione normali · R16",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "performance-percepita",
+      "reparto": "Velocita' percepita",
+      "titolo": "Il traduttore degli errori di Zod entra in ogni pagina passando dal piede del sito",
+      "severita": "minore",
+      "file": "lib/errors.ts:17",
+      "descrizione": "lib/errors.ts importa FRASI_ZOD da lib/zod-i18n.ts, che accende z.setErrorMap e si porta dietro Zod. È nel pacchetto comune via Footer → NewsletterForm (patch pronta: zod-frasi-errors.patch).",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione normali · R17",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "performance",
+      "reparto": "Velocita'",
+      "titolo": "Zod intero nel pacchetto comune per la validazione del marchio",
+      "severita": "minore",
+      "file": "lib/site-branding.ts:2",
+      "descrizione": "lib/site-branding.ts importa zod in modo statico ed è usato da Navbar e Footer, cioè in ogni pagina.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione normali · R17",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "Interfaccia",
+      "titolo": "Un negozio senza nome ha metadati indicizzabili mentre la sua pagina risponde «non trovato»",
+      "severita": "minore",
+      "file": "app/store/[id]/layout.tsx:92",
+      "descrizione": "Visto dal revisore di R17, già sulla base (non introdotto dal giro): senza store_name generateMetadata scrive «Negozio a Piacenza — …» indicizzabile, mentre il guscio (circa riga 142) chiama notFound().",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione normali · R17",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "microcopy",
+      "reparto": "Microcopy",
+      "titolo": "la campanella «ordine pronto» e quella del ritiro dicono ancora «rider»; la pagina dell'ordine, la cassa e altre pagine del cliente pure",
+      "severita": "minore",
+      "file": "migrations/321_l_ordine_pronto_dice_la_fascia.sql:59-77",
+      "descrizione": "Nel database: la funzione della 321 (più recente della 215: migrations/215_minori_s04_database.sql:364-375) scrive «un rider passa a prenderlo»; migrations/540_il_fattorino_sospeso_non_tocca_piu_le_consegne.sql:93 scrive «Il rider ha ritirato il tuo ordine». Serve una migrazione nuova, e tests/unit/minori-s04-ordine-pronto-dice-una-cosa-sola.test.ts:20 fissa la frase della 215. Nella pagina dell'ordine, fuori dalla voce: app/orders/[id]/page.tsx:706 («mostra questo codice al rider»), :801 («Il tuo rider»), :380-381 (mappa «Rider»), :891 e :898 (contanti al rider). Altri punti: components/OrderTimeline.tsx:45, components/checkout/OrderSummary.tsx:220, components/checkout/PaymentMethodSelector.tsx:168, components/checkout/ShippingAddressForm.tsx:324, app/checkout/page.tsx:1659, app/profile/addresses/page.tsx:219, app/orders/[id]/review/page.tsx:274, components/PWAInstallBanner.tsx:203. Nei testi legali (app/terms/page.tsx:183 e :354, app/privacy/page.tsx:248, lib/legal/promessa-cliente-assente.ts:248 e :263-265) «Rider» può essere un termine contrattuale: lo decide Nicola.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione normali · R18",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "titolo": "una prova del promemoria del carrello resta verde solo per caso",
+      "severita": "minore",
+      "file": "tests/unit/le-email-d-ordine-escono-senza-il-tasto-per-smettere.test.ts:100",
+      "descrizione": "Il suo database finto risponde {data: []} anche a maybeSingle e [] vale vero: se un giorno risponderà null, il promemoria in quella prova non partirà più.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione normali · R18",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "titolo": "in un commento del cron delle notifiche resta l'id di un'altra sessione",
+      "severita": "minore",
+      "file": "app/api/cron/send-push/route.ts:10",
+      "descrizione": "C'era già alla base. Lasciato com'è: va tolto con un commit RNN-varie se la regia vuole.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione normali · R18",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "ai-endpoints",
+      "reparto": "Endpoint AI",
+      "titolo": "Con l'AI dei negozi spenta al lancio, l'allarme sul conto condiviso della spesa AI può arrivare lo stesso ogni sei ore",
+      "severita": "minore",
+      "file": "lib/ai/tettoSpesa.ts:456",
+      "descrizione": "Nasce da R13-004. Ora il cron degli avvisi chiama allarmiTettoSpesaAiPerIlCron a ogni giro (app/api/cron/operational-alerts/route.ts:759-764). La funzione esce solo se manca il tetto (tettoSpesa.ts:456), non se l'AI è spenta: se AI_GLOBAL_DAILY_BUDGET_EUR è impostata e il conto condiviso non risponde (la funzione della migrazione 131 assente, caso che il registro dà per attuale e che ha già un suo allarme), parte l'allarme del tetto non condiviso, ogni 6 ore per email e campanella (cooldown di operational-alerts/route.ts:89). Intanto AI_NEGOZI_ACCESA è false e lib/ai/client.ts:217 blocca ogni chiamata al modello: spendere è impossibile, quindi è rumore sull'unico canale degli allarmi. Non ho visto le variabili di produzione né se la 131 è applicata. Cura: tornare [] anche quando l'AI dei negozi è spenta.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione normali · C02",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "stati-ui",
+      "reparto": "Stati dell'interfaccia",
+      "titolo": "Sotto un lavoro sul catalogo chiuso che dice di chiedere all'assistenza prima di ripartire, il pulsante «Avvia sul catalogo» resta lì",
+      "severita": "minore",
+      "file": "lib/ai/statoLavoroCatalogo.ts:34",
+      "descrizione": "Nasce accanto a R18-012. Esempio: un invio resta senza risposta per 24 ore e la rotta dello stato chiude il lavoro col motivo «chiedi all'assistenza prima di avviarne un altro». R18-012 toglie dalla riga «Puoi avviarne un altro» (statoLavoroCatalogo.ts:56-60), ma puoAvviareLavoro (:34) torna vero per ogni lavoro chiuso e la pagina del lotto AI mostra il pulsante di avvio subito sopra (app/seller/products/ai-batch/page.tsx:516); nemmeno la rotta di avvio lo ferma. La contraddizione resta, detta da un pulsante invece che da una frase, con lo stesso rischio di un lotto pagato due volte. Cura: una regola sola, cioè puoAvviareLavoro non riapre l'avvio quando il motivo è «chiedi all'assistenza», oppure il motivo smette di vietarlo.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione normali · C02",
       "stato": "aperto"
     }
   ],

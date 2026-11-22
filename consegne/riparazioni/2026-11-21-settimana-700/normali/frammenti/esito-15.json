@@ -1,0 +1,20 @@
+{
+  "corsia": 15,
+  "territorio": "R15",
+  "difetti": [
+    {
+      "chiave": "architettura|tre librerie usate dalle prove non sono dichiarate in package.json",
+      "esito": "riparato",
+      "verifica_comando": "npm ls @testing-library/dom attr-accept esbuild && npx vitest run tests/unit/riparazione-r15-ci.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 3af74b30cbb94ade8c8897dc5243a25064bbd81c^ --file package.json,package-lock.json --prove tests/unit/riparazione-r15-ci.test.ts --comando \"npx vitest run {prove} --reporter=dot\" --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15d --base 3af74b30^ --file package.json,package-lock.json --prove tests/unit/riparazione-r15-ci.test.ts --json → uscita 0 (K05)",
+      "nota_fix": "Le tre librerie dichiarate in devDependencies, in ordine alfabetico, alle versioni già nel lock (@testing-library/dom 10.4.2, attr-accept 2.2.5, esbuild 0.28.1). `npm install --package-lock-only --ignore-scripts`: il diff di package-lock.json sono solo 3 righe aggiunte nell'elenco devDependencies della radice. npm ls e npm ci --dry-run ok."
+    },
+    {
+      "chiave": "flussi-conversione|il cliente con la carta riceve un'email in più, quasi vuota, quando il suo carrello scade tutto nello stesso giro",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r15-carrello-carta-scaduto-una-email.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 3391e94815857f321bad207e5202de2319bfc15c^ --file app/api/cron/expire-stale-orders/route.ts --prove tests/unit/riparazione-r15-carrello-carta-scaduto-una-email.test.ts --comando \"npx vitest run {prove} --reporter=dot\" --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15c --base 3391e948^ --file app/api/cron/expire-stale-orders/route.ts --prove tests/unit/riparazione-r15-carrello-carta-scaduto-una-email.test.ts --json → uscita 0 (K05)",
+      "nota_fix": "Nell'invio a fine giro la condizione `!x.isCardPaid || carrello` diventa `!x.isCardPaid || (avviso && avviso.rimasti.length > 0)`: con la carta l'email di annullo parte solo se nomina ordini del carrello che restano; se il carrello è scaduto tutto arriva solo «Rimborso emesso», uno per ordine. Contanti, rimborsi e annulli come prima. Prova sulla rotta vera con ordini finti e orologio finto."
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "corsia": 14,
+  "territorio": "R14",
+  "difetti": [
+    {
+      "chiave": "api-backend|comunicare due volte l'esito di una segnalazione rimanda la mail e le notifiche, e dopo un errore il nuovo tentativo rimanda anche i canali già riusciti",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r14-esito-una-volta.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base b97d6aa4^ --file app/api/segnalazioni/esito/comunica.ts --prove tests/unit/riparazione-r14-esito-una-volta.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14a --base b97d6aa4^ --file app/api/segnalazioni/esito/comunica.ts --prove tests/unit/riparazione-r14-esito-una-volta.test.ts --json → uscita 0 (K05)",
+      "nota_fix": "comunicaEsito ricorda canale per canale cosa è arrivato: ogni canale riuscito (mail a chi segnala, notifica a chi segnala, notifica al venditore) scrive una riga in audit_logs (tabella esistente, nessuna colonna nuova) con target_id = id della segnalazione e l'impronta sha256 di destinatario+decisione+motivazione; un canale riparte solo se la sua ULTIMA riga per quella segnalazione ha un'impronta diversa. Così comunicare due volte non rimanda niente, il nuovo tentativo dopo un errore parziale rimanda solo il canale fallito, accolta→respinta→accolta riparte ogni volta e due segnalazioni con la stessa motivazione restano separate (i due casi che avevano fatto bocciare il tentativo precedente). Se audit_logs non si legge si manda come prima (meglio un esito doppio che uno perso)."
+    },
+    {
+      "chiave": "api-backend|l'esito di una segnalazione si rimanda due volte: dopo un errore parziale la pagina chiede di registrare di nuovo e tutti i canali ripartono, anche quelli già arrivati",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r14-esito-una-volta.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base b97d6aa4^ --file app/api/segnalazioni/esito/comunica.ts --prove tests/unit/riparazione-r14-esito-una-volta.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14a --base b97d6aa4^ --file app/api/segnalazioni/esito/comunica.ts --prove tests/unit/riparazione-r14-esito-una-volta.test.ts --json → uscita 0 (K05)",
+      "nota_fix": "Stesso commit di R14-003, stesse righe di comunicaEsito (111-142). La pagina admin, dopo un errore parziale, fa registrare di nuovo la decisione (nuovo deciso_at): la memoria non guarda deciso_at ma destinatario+stato+motivazione, quindi la stessa decisione registrata di nuovo rimanda solo i canali falliti (prova: 'dopo un errore parziale il nuovo tentativo rimanda solo il canale che era fallito')."
+    },
+    {
+      "chiave": "qa-flussi|la rotta del lotto sul catalogo, se non riceve l'elenco dei prodotti, applica ancora tutti i risultati",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r14-lotto-senza-elenco.test.ts tests/unit/il-lotto-non-scrive-quello-che-il-filtro-nega.test.ts tests/unit/le-dichiarazioni-di-un-alimento-le-scrive-il-negoziante.test.ts tests/unit/le-funzioni-spente-al-lancio-le-rifiuta-il-server.test.ts tests/unit/le-funzioni-spente-le-ferma-la-rotta-anche-a-mano.test.ts tests/unit/minori-s10-lotto-applica.test.ts tests/unit/riparazione-r02-traccia-porte-ai-catalogo.test.ts tests/unit/riparazione-r18-lotto-applica-quello-che-si-vede.test.tsx tests/unit/una-voce-scritta-male-non-ferma-le-modifiche-in-massa.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 3ecde09e^ --file app/api/ai/catalog-batch/apply/route.ts --prove tests/unit/riparazione-r14-lotto-senza-elenco.test.ts,tests/unit/il-lotto-non-scrive-quello-che-il-filtro-nega.test.ts,tests/unit/le-dichiarazioni-di-un-alimento-le-scrive-il-negoziante.test.ts,tests/unit/le-funzioni-spente-al-lancio-le-rifiuta-il-server.test.ts,tests/unit/le-funzioni-spente-le-ferma-la-rotta-anche-a-mano.test.ts,tests/unit/minori-s10-lotto-applica.test.ts,tests/unit/riparazione-r02-traccia-porte-ai-catalogo.test.ts,tests/unit/riparazione-r18-lotto-applica-quello-che-si-vede.test.tsx,tests/unit/una-voce-scritta-male-non-ferma-le-modifiche-in-massa.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 3ecde09e^ --file app/api/ai/catalog-batch/apply/route.ts --prove tests/unit/riparazione-r14-lotto-senza-elenco.test.ts --json (wt-R14 a 3ecde09e, ramo claude/settimana-700-regia-m14 punta 74e75fbf) → uscita 0 (K05)",
+      "nota_fix": "Applicata la patch pronta dopo la firma: senza productIds la rotta risponde 400, non scrive niente e il lavoro resta «ready»; con l'elenco applica solo i prodotti scelti. Le 5 prove comuni che mandavano solo jobId mandano ora l'elenco; prova nuova riparazione-r14-lotto-senza-elenco. L'unico chiamante (app/seller/products/ai-batch/page.tsx:445-448) manda già productIds. 9 prove della rotta 91/91 verdi; rimessa 0."
+    },
+    {
+      "chiave": "qa-flussi|l'aiutante di prova accendi non regge due montaggi di una pagina con use(params) dopo un invio",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r14-accendi-due-volte.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base c319550b^ --file tests/unit/aiuti/schermo.ts --prove tests/unit/riparazione-r14-accendi-due-volte.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14b --base c319550b^ --file tests/unit/aiuti/schermo.ts --prove tests/unit/riparazione-r14-accendi-due-volte.test.ts --json → uscita 0 (K05)",
+      "nota_fix": "accendi() monta il componente dentro un Suspense (fallback null), come da diff della scheda. Prova: pagina finta con use(params), montata due volte con un invio in mezzo. Tutte le 281 prove che importano aiuti/schermo restano verdi (1713 casi)."
+    },
+    {
+      "chiave": "stati-ui|«duplica» con la sorgente in memoria da meno di 30 secondi si apre con le taglie e la spunta di prima",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r14-duplica-con-sorgente-in-cache.test.tsx",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 173a21ad^ --file app/seller/products/new/page.tsx --prove tests/unit/riparazione-r14-duplica-con-sorgente-in-cache.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14c --base 173a21ad^ --file app/seller/products/new/page.tsx --prove tests/unit/riparazione-r14-duplica-con-sorgente-in-cache.test.tsx --json (worktree a 826984cd) → uscita 0 (K05)",
+      "nota_fix": "173a21ad: la sorgente e le taglie di «Duplica» hanno staleTime 0 (si rileggono a ogni apertura anche con la memoria fresca del sito) e il modulo non si apre finché le due letture non sono arrivate. 826984cd (giro di correzione dopo il collaudo): se la rilettura cade o all'apertura non c'è rete il modulo si apre ancora sulla sorgente della memoria; ora, come per le taglie, anche la spunta del recesso e gli altri valori che il modulo legge solo all'apertura (la firma di initialValues senza le taglie) si confrontano con quelli riletti: se sono cambiati la copia non si salva e si offre «Riapri la copia con i dati aggiornati». Prova: i 3 casi del collaudo (rilettura della sorgente caduta poi «Riprova»; riletture di sorgente e taglie cadute poi «Riprova»; aperta senza rete poi la rete torna) rossi sul codice di prima e verdi ora, più una controprova (riaperta, la copia ha la spunta vera e si salva esclusa dal recesso). Rimessa regge anche sul solo commit nuovo (--base 826984cd^, uscita 0)."
+    }
+  ]
+}

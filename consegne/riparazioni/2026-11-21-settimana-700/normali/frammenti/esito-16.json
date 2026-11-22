@@ -1,0 +1,34 @@
+{
+  "corsia": 16,
+  "territorio": "R16",
+  "difetti": [
+    {
+      "chiave": "frontend-ux|il controllo sul taglio dei campi di testo del costruttore della home tronca ancora titoli e sottotitoli in silenzio",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r16-banner-campi-brevi.test.tsx tests/unit/riparazione-r02-banner-alt.test.tsx",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 1a91d22a^ --file components/seller/site/BannerFields.tsx --prove tests/unit/riparazione-r16-banner-campi-brevi.test.tsx,tests/unit/riparazione-r02-banner-alt.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16-004 --base 1a91d22a^ --file components/seller/site/BannerFields.tsx --prove tests/unit/riparazione-r16-banner-campi-brevi.test.tsx,tests/unit/riparazione-r02-banner-alt.test.tsx --json (worktree a 1a91d22a, punta 069956cb) → uscita 0 (K06)",
+      "nota_fix": "Nel banner della vetrina (BannerFields) i quattro maxLength (titolo 120, sottotitolo 200, testo alternativo 160, pulsante 40) sono diventati un errore sotto il campo, col testo che resta intero; HomeSectionConfigForm era già a posto. La prova comune r02-banner-alt ora controlla niente maxLength ed errore oltre 160 (eccezione firmata prove_comuni, onda 2). Rimesso col commit 1a91d22a dopo il ritorno 40da5b80."
+    },
+    {
+      "chiave": "layout-responsive|basta un negozio col nome lungo e sul telefono la home, l'elenco negozi e «vicino a te» diventano più larghe dello schermo",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r16-nome-lungo.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base efe92beb^ --file app/near/page.tsx,components/VendorForm.tsx --prove tests/unit/riparazione-r16-nome-lungo.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16-3 --base efe92beb^ --file app/near/page.tsx,components/VendorForm.tsx --prove tests/unit/riparazione-r16-nome-lungo.test.tsx --json (worktree a efe92beb) → uscita 0 (K06)",
+      "nota_fix": "Sulla base le schede (StorePreviewCard, StoreListRow: max-w-full, truncate, min-w-0, flex-wrap) e il tetto di 80 caratteri nella rotta e nel modulo d'iscrizione c'erano già, con le loro prove (riparazione-r12-nome-lungo, riparazione-r28-nome-negozio-troppo-lungo); StoreShowcase usa grid-cols-2 (minmax(0,1fr)). Restavano: (1) «vicino a te» a 280/320 px col testo al 200% larga 359 px (misurato in Chromium col CSS compilato: selettore Lista/Mappa in linea senza tetto e cursore del raggio w-40) → selettore max-w-full flex-wrap, riga del raggio flex-wrap, cursore max-w-full: 280/320/375 px a 100% e 200% senza scorrimento, al 100% posizioni identiche a prima; (2) il nome si cambiava senza limite dal modulo del negozio (VendorForm, modo branding) → stesso tetto di 80 e stessa frase della domanda. Prova: render di VendorForm con 81 lettere attaccate (avviso, niente salvataggio, valore intero) e controprova con 80; classi del selettore e del cursore lette dal sorgente di app/near/page.tsx."
+    },
+    {
+      "chiave": "qa-flussi|altre due ancore sommano il loro scroll-mt allo scroll-padding da md in su",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r16-ancora-bonifici.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base bad84235^ --file components/seller/DatiPerIBonifici.tsx --prove tests/unit/riparazione-r16-ancora-bonifici.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16-1 --base bad84235^ --file components/seller/DatiPerIBonifici.tsx --prove tests/unit/riparazione-r16-ancora-bonifici.test.ts --json (worktree a bad84235) → uscita 0 (K06)",
+      "nota_fix": "Il form #bonifici ora porta scroll-mt-24 md:scroll-mt-0. L'ancora di app/faq/page.tsx:229 (ora :231) era già a posto alla base (prova comune riparazione-r02-ancore-faq)."
+    },
+    {
+      "chiave": "qa-flussi|nella pagina dei negozi le categorie per negozio si leggono senza finestre: sopra i mille negozi con prodotti alcuni perderebbero le loro categorie nel filtro",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r16-negozi-categorie.test.tsx tests/unit/riparazione-r02-negozi-categorie-a-pagine.test.tsx tests/unit/riparazione-r12-negozi-categorie.test.tsx",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 8c8e6853^ --file app/stores/page.tsx --prove tests/unit/riparazione-r16-negozi-categorie.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16-011 --base 8c8e6853^ --file app/stores/page.tsx --prove tests/unit/riparazione-r16-negozi-categorie.test.tsx --json (worktree a 8c8e6853, punta 069956cb) → uscita 0 (K06)",
+      "nota_fix": "Le categorie per negozio si leggono a finestre di mille ordinate per negozio (leggiTutteLeRighe + order + range); prova nuova con 1.102 righe. La prova comune r02-negozi-categorie-a-pagine ha il finto rpc con order/range/then, come nel commit 8f8973f3 (eccezione firmata prove_comuni, onda 2); la prova r12 era già verde. Rimesso col commit 8c8e6853 dopo il ritorno 5a804dbe."
+    }
+  ]
+}
