@@ -5,13 +5,13 @@
     "R06",
     "R11"
   ],
-  "aggiornato": "2026-11-22 02:05",
+  "aggiornato": "2026-11-22 04:15",
   "finita": true,
   "voci": [
     {
       "id": "R01-006",
       "chiave": "qa-flussi|il cliente non trova l'esito del reclamo nella pagina del suo ordine",
-      "verdetto": "rompe_altro",
+      "verdetto": "regge",
       "giudizio": "pieno",
       "lenti": [
         "chiude_tutta",
@@ -19,9 +19,9 @@
       ],
       "rimessa": {
         "uscita": 0,
-        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01-006 --base 54fec5e1bc74a714721ac210726cbadbdb9de311^ --file app/orders/[id]/page.tsx,app/orders/[id]/dispute/page.tsx --prove tests/unit/riparazione-r01-esito-del-reclamo.test.ts --json"
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt2-R01-006d --base 31451f1b1090601e358a1a2316d1f5ccf9d4350e^ --file app/orders/[id]/page.tsx,app/orders/[id]/dispute/page.tsx --prove tests/unit/riparazione-r01-esito-del-reclamo.test.ts --json"
       },
-      "nota": "La voce in sé è chiusa: il cliente legge il reclamo (policy disputes_party_read, 027:350), i 5 stati della tabella sono gestiti, più reclami e note reggono nelle varianti. Rompe accanto: app/orders/[id]/page.tsx:592 nasconde «Apri reclamo» con qualunque reclamo, anche chiuso, e dispute/page.tsx:283-304 su un reclamo chiuso mostra solo l'esito. Il server invece accetta un secondo reclamo dopo la chiusura (api/disputes/route.ts rifiuta solo se ce n'è uno aperto; indice unico 063:80 solo su open/under_review), e solo un reclamo aperto ferma il bonifico al negozio (184:32-36). Dal sito il cliente non può più riaprire: scelta di prodotto non chiesta dalla voce, da far decidere a Nicola o da togliere. Residuo: se la lettura dei reclami fallisce la pagina mostra «Apri reclamo» senza avviso."
+      "nota": "Secondo giro (31451f1b): il difetto del primo giro è chiuso. «Apri reclamo» si nasconde solo con un reclamo aperto (app/orders/[id]/page.tsx:595), come il server; con un reclamo chiuso la pagina del reclamo mostra l’esito e sotto il modulo (dispute/page.tsx:310-324). Aperto più chiuso: vince l’aperto (prova alla riga 126). Stati sconosciuti scartati (la tabella non li accetta, 027:336). Prova rimessa a uscita 0 sia togliendo solo il secondo giro (base 31451f1b^) sia tutta la correzione (base 54fec5e1^). 77 file vicini verdi, tsc 0 errori. Residuo minore, invariato: se la lettura dei reclami fallisce nessun avviso al cliente (page.tsx:289, dispute/page.tsx:176)."
     },
     {
       "id": "R01-008",
@@ -67,7 +67,7 @@
     {
       "id": "R01-011",
       "chiave": "stati-ui|un lavoro sul catalogo «in invio» incerto promette «tra poco lo vedi partire» per 24 ore, e a riga chiusa dice «puoi avviarne un altro» mentre il motivo dice di chiedere all'assistenza",
-      "verdetto": "rompe_altro",
+      "verdetto": "parziale",
       "giudizio": "pieno",
       "lenti": [
         "chiude_tutta",
@@ -75,9 +75,9 @@
       ],
       "rimessa": {
         "uscita": 0,
-        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01-011 --base d01e2ab007d44436d4e544fc9557a750a4ddbb49^ --file lib/ai/statoLavoroCatalogo.ts --prove tests/unit/riparazione-r01-testo-lavoro-incerto.test.ts --json"
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt2-R01-011d --base f5836cc53745fe47e535f796aa4ab10bfe28c503^ --file lib/ai/statoLavoroCatalogo.ts --prove tests/unit/riparazione-r01-testo-lavoro-incerto.test.ts --json"
       },
-      "nota": "La seconda metà regge: a riga chiusa con motivo che cita l'assistenza (status/route.ts:118 e :229) non dice più «Puoi avviarne un altro». Rompe accanto: la riga nasce già col motivo INVIO_SENZA_RISPOSTA (app/api/ai/catalog-batch/start/route.ts:153-160, dal 19/11), quindi invioIncerto (statoLavoroCatalogo.ts:43-45) è vero anche per ogni invio normale in corso: nei primi secondi il negoziante legge «non ha avuto risposta… chiedi all'assistenza» invece di «tra poco lo vedi partire», che lì era vero. La prova del caso normale usa error:null, uno stato che il server non produce più: controllo vuoto. Serve distinguere per età della riga."
+      "nota": "Secondo giro (f5836cc5), ora parziale dichiarato, ed è giusto. Il difetto del primo giro è chiuso: un invio appena partito non dice più «non ha avuto risposta»; sul sito ogni riga col motivo mostra una frase neutra e vera (statoLavoroCatalogo.ts:70-71). I rami per età (120 s, coerenti con vercel.json app/api/ai/**) sul sito non scattano ancora: serialize() della rotta di stato non manda createdAt; il referto lo dice in cosa_resta e in serve_file_altrui. La prova del caso normale ora usa lo stato vero del server. Quando l’età arriverà, calcolarla col Date.now() del browser è fragile (telefono avanti di minuti): meglio un segno calcolato dal server. Prova rimessa a uscita 0 togliendo il secondo giro e tutta la correzione. Il pulsante «Avvia» sotto la riga chiusa resta (già dichiarato difetto nuovo)."
     },
     {
       "id": "R01-007",
@@ -134,7 +134,7 @@
     {
       "id": "R11-012",
       "chiave": "qa-flussi|se il filtro finale sui negozi approvati scarta righe, «carica altri» si ferma",
-      "verdetto": "parziale",
+      "verdetto": "rompe_altro",
       "giudizio": "pieno",
       "lenti": [
         "chiude_tutta",
@@ -142,14 +142,14 @@
       ],
       "rimessa": {
         "uscita": 0,
-        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R11-012 --base d4143c9ffd26ec55b21bde8d497ba6fae795adcc^ --file components/ProductGrid.tsx --prove tests/unit/riparazione-r11-carica-altri.test.tsx --json"
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt2-R11-012d --base fa2f15880c4fed87cfc661db471057dfa985b80e^ --file components/ProductGrid.tsx --prove tests/unit/riparazione-r11-carica-altri.test.tsx --json"
       },
-      "nota": "Nel caso principale regge: montata la griglia vera, premere e rileggere chiede le finestre [0,3] [4,7] [8,11] e l’ultima pagina vera spegne il pulsante; griglia-prodotti.ts alla base attaccava già righeLette (oggi :384). Bordo aperto: se la PRIMA pagina perde tutte le righe al filtro dei negozi, components/ProductGrid.tsx:632 esce con «Nessun prodotto trovato» prima del pulsante (:779), quindi «Carica altri» non c’è. La prova del riparatore non preme e non rilegge: resta verde con getNextPageParam rimesso a ultima.length (:304) o senza structuralSharing:false (:303); morde solo togliendo tutto il file."
+      "nota": "Secondo giro (fa2f1588): i difetti del primo giro sono chiusi. La prima pagina tutta scartata ora legge da sola la pagina dopo; su errore si ferma dopo 2 letture; a fine elenco si ferma; finestre [0,3] [4,7] [8,11]. La prova del riparatore ora diventa rossa con le due mutazioni del giro 1. Prova rimessa a uscita 0 togliendo il secondo giro e tutta la correzione. Difetto nuovo del secondo giro: vuotaMaCeNeSonoAltre (components/ProductGrid.tsx:512, effetto :515-518) guarda filtered, cioè l’elenco dopo TUTTI i filtri del browser (promozione, orari, sotto i N €), non solo quello dei negozi. Con onlyPromo e zero promozioni la griglia legge da sola tutto il catalogo con lo scheletro e solo alla fine dice «nessun prodotto»: succede su app/promozioni/page.tsx:116-121 (zero promozioni, 192 righe per pagina; sonda: 13 pagine su 13) e col filtro «In promozione» di ricerca e categoria. Cura: decidere sulle righe dopo il solo filtro dei negozi (products.length === 0) o un tetto di pagine automatiche. Minore: durante la lettura automatica parte trackSearchPerformed(parola, 0) e onCount dichiara 0 prima del numero vero (:547, :525)."
     },
     {
       "id": "R11-007",
       "chiave": "qa-flussi|«carica altri» sparisce quando una pagina della griglia perde righe al filtro dei negozi",
-      "verdetto": "parziale",
+      "verdetto": "rompe_altro",
       "giudizio": "pieno",
       "lenti": [
         "chiude_tutta",
@@ -157,14 +157,14 @@
       ],
       "rimessa": {
         "uscita": 0,
-        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R11-012 --base d4143c9ffd26ec55b21bde8d497ba6fae795adcc^ --file components/ProductGrid.tsx --prove tests/unit/riparazione-r11-carica-altri.test.tsx --json"
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt2-R11-012d --base fa2f15880c4fed87cfc661db471057dfa985b80e^ --file components/ProductGrid.tsx --prove tests/unit/riparazione-r11-carica-altri.test.tsx --json"
       },
-      "nota": "Stessa correzione della gemella R11-012 (commit d4143c9f), stessi esiti. Bordo aperto: se la PRIMA pagina perde tutte le righe al filtro dei negozi, components/ProductGrid.tsx:632 esce con «Nessun prodotto trovato» prima del pulsante (:779), quindi «Carica altri» non c’è."
+      "nota": "Stessa correzione della gemella R11-012 (fa2f1588), stessi esiti. Difetto nuovo del secondo giro: vuotaMaCeNeSonoAltre (components/ProductGrid.tsx:512, effetto :515-518) guarda filtered, cioè l’elenco dopo TUTTI i filtri del browser (promozione, orari, sotto i N €), non solo quello dei negozi. Con onlyPromo e zero promozioni la griglia legge da sola tutto il catalogo con lo scheletro e solo alla fine dice «nessun prodotto»: succede su app/promozioni/page.tsx:116-121 (zero promozioni, 192 righe per pagina; sonda: 13 pagine su 13) e col filtro «In promozione» di ricerca e categoria. Cura: decidere sulle righe dopo il solo filtro dei negozi (products.length === 0) o un tetto di pagine automatiche. Minore: durante la lettura automatica parte trackSearchPerformed(parola, 0) e onCount dichiara 0 prima del numero vero (:547, :525)."
     },
     {
       "id": "R11-010",
       "chiave": "qa-flussi|il conteggio delle novità non applica il filtro sui negozi approvati",
-      "verdetto": "rompe_altro",
+      "verdetto": "regge",
       "giudizio": "pieno",
       "lenti": [
         "chiude_tutta",
@@ -172,14 +172,14 @@
       ],
       "rimessa": {
         "uscita": 0,
-        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R11-010 --base b371cf10961353da75f655004ffdff2495b183d0^ --file lib/queries/griglia-prodotti.ts --prove tests/unit/riparazione-r11-conteggio-negozi-approvati.test.ts --json"
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt2-R11-010d --base 945b6a1c1ef2be115870caedee3b7c41f2f7a0a3^ --file lib/queries/griglia-prodotti.ts --prove tests/unit/riparazione-r11-conteggio-negozi-approvati.test.ts --json"
       },
-      "nota": "L’aggancio negozio:seller_public_profiles!inner(id) in lib/queries/griglia-prodotti.ts:414 non nomina il vincolo: fra products e la vista ci sono due strade (products_seller_id_fkey e la tabella recently_viewed, chiave (user_id, product_id), migrations/027:205-210), e PostgREST rifiuta con PGRST201. È lo stesso aggancio già tolto due volte per questo motivo (233f5421 per R01-013, ab7afac0 per R02-011). Il ripiego a :426-431 guarda error.code, ma il conteggio è una richiesta HEAD: postgrest-js 2.106.1 su HEAD in errore dà {message:\"\"} senza codice (dist/index.cjs:373-386), il ripiego non scatta e :432 restituisce null. Provato dal revisore con un server locale che risponde come PostgREST e supabase-js vero: null dopo la riparazione, 7 alla base. La prova passa solo perché il finto dà un codice a una HEAD (riparazione-r11-conteggio-negozi-approvati.test.ts:30). Sul sito il numero in alto si perde per tutti (ProductGrid.tsx:509 ripiega sulle schede caricate) e il conteggio della categoria madre (app/category/[slug]/page.tsx:118-126) resta sempre null. Cura: !products_seller_id_fkey!inner e ripiego deciso sullo status, poi una prova su PostgREST vero."
+      "nota": "Secondo giro (945b6a1c): chiuso. Server HTTP locale con supabase-js vero e HEAD senza corpo: un servizio che senza vincolo dà 300 e col vincolo conta gli approvati restituisce 5 con 1 richiesta; un servizio che non conosce l’aggancio (400) ripiega e dà 7. Dalla sorgente di PostgREST v12.2.3 l’indicazione !products_seller_id_fkey sceglie la sola relazione molti-a-uno (non provato su un PostgREST vivo). Prova rimessa a uscita 0 togliendo il secondo giro e tutta la correzione. Minore: con il servizio giù (503) il ripiego raddoppia i tentativi (8 richieste, circa 14 s prima del null) e la riga «N prodotti» aspetta di più."
     },
     {
       "id": "R11-011",
       "chiave": "qa-flussi|nella pagina novità il numero in alto conta anche prodotti che la griglia non mostra",
-      "verdetto": "rompe_altro",
+      "verdetto": "regge",
       "giudizio": "pieno",
       "lenti": [
         "chiude_tutta",
@@ -187,9 +187,9 @@
       ],
       "rimessa": {
         "uscita": 0,
-        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R11-010 --base b371cf10961353da75f655004ffdff2495b183d0^ --file lib/queries/griglia-prodotti.ts --prove tests/unit/riparazione-r11-conteggio-negozi-approvati.test.ts --json"
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt2-R11-010d --base 945b6a1c1ef2be115870caedee3b7c41f2f7a0a3^ --file lib/queries/griglia-prodotti.ts --prove tests/unit/riparazione-r11-conteggio-negozi-approvati.test.ts --json"
       },
-      "nota": "Stessa causa della gemella R11-010 (commit b371cf10): sul sito vero il numero sopra Novità diventa null per tutti. L’aggancio negozio:seller_public_profiles!inner(id) in lib/queries/griglia-prodotti.ts:414 non nomina il vincolo: fra products e la vista ci sono due strade (products_seller_id_fkey e la tabella recently_viewed, chiave (user_id, product_id), migrations/027:205-210), e PostgREST rifiuta con PGRST201."
+      "nota": "Stessa correzione della gemella R11-010 (945b6a1c): il numero sopra Novità torna e conta solo i negozi approvati; il ripiego dà il numero senza aggancio e non null. Stessa riserva: non provato su un PostgREST vivo."
     },
     {
       "id": "R11-008",
@@ -209,7 +209,7 @@
     {
       "id": "R11-009",
       "chiave": "qa-flussi|cercando una parola a metà il sito trova solo una parte dei prodotti, e dentro la vetrina di un negozio può dire «nessun risultato»",
-      "verdetto": "parziale",
+      "verdetto": "regge",
       "giudizio": "pieno",
       "lenti": [
         "chiude_tutta",
@@ -217,9 +217,9 @@
       ],
       "rimessa": {
         "uscita": 0,
-        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R11-009 --base 440facaa8b09669de6290356c2597f70bbd8a440^ --file lib/queries/griglia-prodotti.ts --prove tests/unit/riparazione-r11-ricerca-a-meta-parola.test.ts --json"
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt2-R11-009d --base 1fc65eb2fb41e1570eff6c3c890ac97cfe50c554^ --file lib/queries/griglia-prodotti.ts --prove tests/unit/riparazione-r11-ricerca-piu-pagine.test.ts,tests/unit/riparazione-r11-ricerca-a-meta-parola.test.ts --json"
       },
-      "nota": "Regge su una pagina, senza filtri, in vetrina e col voto minimo (7 sonde: 4 rosse alla base, ora verdi). Resta aperto sfogliando più pagine con un filtro che toglie pertinenti (vetrina, solo disponibili, prezzo, categoria): alcuni prodotti con la parola nel nome non escono mai, con doppioni fra pagine (griglia-prodotti.ts:274-276 e :351-366). Effetti nuovi: ogni ricerca per pertinenza legge 200 + 96·k righe per pagina (:354, :357), torna la crescita che R080 aveva tolto; se cade la lettura per nome tutta la griglia va in errore (throw errNome, :358). La prova comune cercare-per-pertinenza-non-e-ordinare-per-data cambia solo l’attesa nuova di R11-009 (una riga), le altre 4 prove invariate e verdi."
+      "nota": "Secondo giro (1fc65eb2): chiuso. I pertinenti hanno un tetto fisso (200 a pagina, griglia-prodotti.ts:275), poi .range(da-|Pf|, a-|Pf|) sui prodotti trovati per nome: costo per pagina costante. Sonde su più pagine con «solo disponibili» e in vetrina: nessun mancante, nessun doppione (al giro 1 mancavano). Vetrina col voto e voto minimo reggono. Prova rimessa a uscita 0 togliendo il secondo giro e tutta la correzione. La prova comune cercare-per-pertinenza è identica al giro 1. Prova indebolita: il caso tolto («anche con la finestra di Carica altri») era giusto e il codice nuovo lo passa, ma il finto comune tests/unit/aiuti/finto-postgrest.ts:125 non capisce or=(id.not.in.(…)) (griglia-prodotti.ts:388): va insegnato al finto e rimesso il caso. Rischi non provati: indirizzo troppo lungo (414) con fino a 100 id esclusi più id col voto e scontati; un errore della lettura per nome finisce solo in console.warn (:394), senza «riprova»."
     },
     {
       "id": "R11-003",
@@ -254,13 +254,17 @@
     {
       "id": "R11-005",
       "chiave": "qa-flussi|le zone del fattorino dicono «salvate» prima dell'esito",
-      "verdetto": "non_regge",
+      "verdetto": "rompe_altro",
       "giudizio": "pieno",
       "lenti": [
         "chiude_tutta",
         "nata_rotta"
       ],
-      "nota": "Non è già riparato. Alla base app/rider/availability/page.tsx:121-124 saveZones fa setZones(next) prima dell'esito e non torna indietro se la scrittura fallisce (i turni invece rimettono avail con setAvail(prima), :112-119). Variante con scrittura in errore: il messaggio d'errore sparisce, la zona resta spuntata, «Selezionate: 1/6», e la riga fissa :327 dice «Le preferenze sono salvate sul tuo profilo». Cura: rimettere le zone di prima se l'esito non è ok."
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt2-R11-005d --base 7735a55c7c3762dd75d13eda34d1019047bb0b35^ --file app/rider/availability/page.tsx --prove tests/unit/riparazione-r11-zone-dopo-l-esito.test.tsx --json"
+      },
+      "nota": "Secondo giro (50362063 + 7735a55c, ora riparato). Il difetto della voce è chiuso: con la scrittura in errore la zona non resta spuntata, «Selezionate» non sale e la riga fissa non dice «salvate»; la coda scrive in ordine anche dopo un errore; la zona personalizzata segue la stessa regola; turni e interruttore online invariati (una riga in più, setNonSalvato a :107); 3 file di prove vicine verdi (13 prove). Prova rimessa a uscita 0 togliendo l’ultimo commit e tutta la correzione. Rompe accanto, nato dalla riparazione (minore): con la rete lenta la zona resta non spuntata durante la scrittura, senza segno di attesa (né aria-busy né disabled), e un secondo tocco la trova già prevista e la toglie (toggleZone, app/rider/availability/page.tsx:154-163): misurate 2 scritture, [Stazione] poi [], zona finale non scelta. Prima la spunta immediata evitava il secondo tocco. Cura: mostrare la zona «in salvataggio» o ignorare un secondo tocco sulla stessa zona finché la prima scrittura è in volo. Altri punti: cambiaZone (:136-151) ha try/finally senza catch, una scrittura che lancia bloccherebbe la coda (oggi postgrest-js non lancia); con 6 zone una rimozione fallita più un’aggiunta fa sparire l’aggiunta senza messaggio; le zone personalizzate non si vedono come zone da toccare (già alla base, :227)."
     },
     {
       "id": "R11-006",
