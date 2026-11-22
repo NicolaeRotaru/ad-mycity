@@ -79,3 +79,7 @@ Quante voci risulteranno sparite: lo dicono i referti delle 4 sessioni.
 - Sito clonato a `main` 1ad51b4c. Iscritta alla PR #990. Dettagli riservati ricevuti in chat dalla regia terza: solo in chat.
 - 2026-11-22 01:45 sorveglianza: 7 riparatori finiti e verdi (R01 R02 R04 R05 R06 R07 R08). Aperti K02 (R02 R04 R05) e K03 (R07 R08 R09). Rossi mandati: R10 (unione nel ramo, titolo della falla riservata), R12 (terza prova comune), R03 (fermo: R03-007 al giro di correzione o firma).
 - Firme da chiedere a Nicola prima di F3: `prove_comuni` onda 1 (R09, R11, ed eventuale R12); `rimessa_a_mano` (R04-005, R04-009); `id_nel_commit` su 3cc4248 se 006/007 reggono.
+- 2026-11-22 01:50 finiti anche R02 (11 riparati, 23,44 $), R04 (7, 19,95 $), R05 (1 riparato, 5 parziali, 19,94 $), R07 (6, 22,92 $), R08 (6, 22,94 $). #990 unita da Nicola (squash): `main` unito nel ramo, disiscritta.
+- R10: unione nel ramo per un push rifiutato; togliere l'unione è una spinta forzata → chiesto il permesso a Nicola. R12: R12-012 ora serve_file_altrui (prova comune rimessa), prova_tipo onesto voce per voce.
+- Da fare in F3 dalla regia: R08-009 (`git mv` della prova zz-collaudo, guardia la legge come cancellazione); le modifiche ai file altrui scritte nei referti vanno al giro di correzione.
+- Riservati nuovi arrivati in chat (R03, R08): solo in chat, per la sessione riservata.
