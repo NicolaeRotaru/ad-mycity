@@ -141,6 +141,15 @@
         "R12",
         "R10"
       ]
+    },
+    "K05": {
+      "id": "session_015BmpnZCBhZ71MAt3Le1zEK",
+      "ramo": "claude/settimana-700-regia-k05",
+      "partenza": "4b15fc990cb335a1378942e6491368ff894c0bab",
+      "riparatori": [
+        "R14"
+      ],
+      "onda": 2
     }
   },
   "controllori": {
