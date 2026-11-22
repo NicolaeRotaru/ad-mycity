@@ -1,9 +1,10 @@
 {
   "collaudatore": "K05",
   "riparatori": [
-    "R14"
+    "R14",
+    "R15"
   ],
-  "aggiornato": "2026-11-22 18:48",
+  "aggiornato": "2026-11-22 19:05",
   "finita": false,
   "voci": [
     {
@@ -50,6 +51,43 @@
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14d --base c1e4d046^ --file app/profile/addresses/page.tsx,components/ProductQA.tsx --prove tests/unit/riparazione-r14-etichette-maiuscole.test.ts --json"
       },
       "nota": "Le 3 righe fatte reggono (nessuna spaziatura vecchia resta nei 2 file; tracking-label = 0.04em in tailwind.config.ts). Ricontato sulla base b57195e2 con git grep su app, components, lib: 92 righe maiuscole con una delle otto spaziature in 54 file, come dice il riparatore; tolti i 2 file fatti, i 52 file di serve_file_altrui sono esattamente quelli rimasti e le righe elencate sono 89. Parziale onesto: la voce resta aperta per i file altrui."
+    },
+    {
+      "id": "R15-009",
+      "chiave": "architettura|tre librerie usate dalle prove non sono dichiarate in package.json",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15d --base 3af74b30^ --file package.json,package-lock.json --prove tests/unit/riparazione-r15-ci.test.ts --json"
+      },
+      "nota": "Le tre librerie della voce stanno in devDependencies alle versioni del lock; nel lock cambiano solo 3 righe dell'elenco della radice (git diff b57195e2 923bcb31). Le usano solo le prove (@testing-library/dom in 21 file, attr-accept in tests/unit/la-foto-dell-iphone…test.ts:4, esbuild in tests/unit/aiuti/compila.mjs:19), quindi devDependencies è il posto giusto. Alla testa la prova tiene solo questo blocco (il passo Chromium è stato tolto)."
+    },
+    {
+      "id": "R15-001",
+      "chiave": "architettura|la variabile che rende obbligatorie le prove col database in ci non la legge nessuno",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Alla base b57195e2 PROVE_POSTGRES_OBBLIGATORIE compare solo in tests/unit/riparazione-r05-ci-variabili.test.ts:25 come not.toContain; in .github/workflows/ci.yml:124-135 il passo «Le prove col database vero non si possono saltare» sta nel lavoro unit-tests (righe 90-141), prima di npm run test (:141), e fallisce se initdb manca o PostgreSQL non risponde. Il difetto è assente alla base."
+    },
+    {
+      "id": "R15-016",
+      "chiave": "qa-flussi|il lavoro «unit tests» della ci non installa chromium: la misura vera di r19-007 lì si salta",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Alla base nessuna prova in tests/unit apre il browser: git grep di chromium, playwright, pw-browsers, executablePath, headless trova solo commenti («misurato in Chromium») e testi della config e2e; vitest.config.ts include solo tests/unit. Il passo Chromium aggiunto in 153e1ab9 è stato tolto in 923bcb31: alla testa ci.yml è identico alla base. Il difetto è assente alla base."
     }
   ],
   "campione": {}
