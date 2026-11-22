@@ -1,0 +1,1166 @@
+{
+  "creato": "2026-11-22 17:26",
+  "conti": {
+    "A": 0,
+    "B": 21,
+    "C": 11,
+    "D": 26
+  },
+  "righe_B": 21,
+  "precedenti": {
+    "microcopy|il cliente e l'email leggono ancora «un rider passa a prenderlo», mentre il pulsante del negozio ora dice «fattorino»": {
+      "id": "R01-002",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "app/orders/[id]/page.tsx",
+          "modifica": "(file di R01, da applicare insieme alle due prove sotto) nella mappa delle frasi di stato: READY 'Pronto in negozio · un fattorino passa a prenderlo a breve', ASSIGNED 'Un fattorino sta arrivando in negozio', PICKED_UP 'Il fattorino ha ritirato il tuo ordine', OUT_FOR_DELIVERY 'Il fattorino è in viaggio verso di te'; e la riga del codice di consegna 'Il fattorino ne ha bisogno per chiudere la consegna.'"
+        },
+        {
+          "file": "lib/email/templates.ts",
+          "modifica": "(file di R01) orderReadyTemplate, html (:381) e testo (:397): «un rider passa a prenderlo» → «un fattorino passa a prenderlo»; commento :377 uguale."
+        },
+        {
+          "file": "tests/unit/minori-s04-ordine-pronto-dice-una-cosa-sola.test.ts",
+          "modifica": ":11 titolo «dice «un fattorino passa a prenderlo», come l’email»; :14 expect(riga).toMatch(/un fattorino passa a prenderlo/)"
+        },
+        {
+          "file": "tests/unit/la-guida-del-secondo-giorno-non-promette-il-ritiro-spento.test.ts",
+          "modifica": ":150 nella regex PAROLE_DEL_RITIRO `(?<!rider\\s)` → `(?<!(?:rider|fattorino)\\s)` (commento :148 «il «rider» (o «fattorino») davanti»); dopo :238 aggiungere `expect('un fattorino passa a prenderlo a breve').not.toMatch(PAROLE_DEL_RITIRO);`"
+        },
+        {
+          "file": "tests/unit/riparazione-r01-parola-fattorino.test.ts (nuova)",
+          "modifica": "la riga READY della pagina e l'email (html e testo) dicono «un fattorino passa a prenderlo» e non «rider»"
+        }
+      ],
+      "file_che_servono": [
+        "app/orders/[id]/page.tsx",
+        "lib/email/templates.ts",
+        "tests/unit/minori-s04-ordine-pronto-dice-una-cosa-sola.test.ts",
+        "tests/unit/la-guida-del-secondo-giorno-non-promette-il-ritiro-spento.test.ts",
+        "tests/unit/riparazione-r01-parola-fattorino.test.ts (nuova)"
+      ]
+    },
+    "qa-flussi|la rotta del lotto sul catalogo, se non riceve l'elenco dei prodotti, applica ancora tutti i risultati": {
+      "id": "R01-004",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "app/api/ai/catalog-batch/apply/route.ts",
+          "modifica": "(file di R01, da applicare insieme alle prove sotto) righe 74-76: `if (!Array.isArray(body.productIds)) return ApiErrors.invalidRequest('Scegli i prodotti a cui applicare le modifiche.'); const onlyIds = new Set(body.productIds.filter((s): s is string => typeof s === 'string'));` e nel filtro dei risultati (riga 97) `(r) => r.product_id && onlyIds.has(r.product_id)`."
+        },
+        {
+          "file": "tests/unit/il-lotto-non-scrive-quello-che-il-filtro-nega.test.ts",
+          "modifica": ":116 `{ jobId: 'job-1' }` → `{ jobId: 'job-1', productIds: ['p1', 'p2'] }`"
+        },
+        {
+          "file": "tests/unit/le-dichiarazioni-di-un-alimento-le-scrive-il-negoziante.test.ts",
+          "modifica": "dopo jobId aggiungere: :293 `productIds: ['focaccia']`, :325 `productIds: ['tagliere']`, :353 `productIds: ['focaccia']`"
+        },
+        {
+          "file": "tests/unit/le-funzioni-spente-al-lancio-le-rifiuta-il-server.test.ts",
+          "modifica": ":213 e :221 `{ jobId: 'job-1' }` → `{ jobId: 'job-1', productIds: ['p1'] }` (anche la :213, se no il 400 del translate arriva per l'elenco mancante)"
+        },
+        {
+          "file": "tests/unit/minori-s10-lotto-applica.test.ts",
+          "modifica": ":102 corpo predefinito → `{ jobId: 'l1', productIds: ((db.lavoro?.results ?? []) as Array<{ product_id: string }>).map((r) => r.product_id) }`"
+        },
+        {
+          "file": "tests/unit/una-voce-scritta-male-non-ferma-le-modifiche-in-massa.test.ts",
+          "modifica": ":212 aggiungere `productIds: ['p1', 'p2', 'p3']`"
+        },
+        {
+          "file": "tests/unit/riparazione-r01-lotto-senza-elenco.test.ts (nuova)",
+          "modifica": "con solo jobId la rotta risponde 400, non scrive niente e il lavoro resta «ready»; con productIds ['p1'] scrive solo p1"
+        }
+      ],
+      "file_che_servono": [
+        "app/api/ai/catalog-batch/apply/route.ts",
+        "tests/unit/il-lotto-non-scrive-quello-che-il-filtro-nega.test.ts",
+        "tests/unit/le-dichiarazioni-di-un-alimento-le-scrive-il-negoziante.test.ts",
+        "tests/unit/le-funzioni-spente-al-lancio-le-rifiuta-il-server.test.ts",
+        "tests/unit/minori-s10-lotto-applica.test.ts",
+        "tests/unit/una-voce-scritta-male-non-ferma-le-modifiche-in-massa.test.ts",
+        "tests/unit/riparazione-r01-lotto-senza-elenco.test.ts (nuova)"
+      ]
+    },
+    "qa-flussi|la campanella del sito mostra le promozioni anche a chi le ha spente": {
+      "id": "R01-005",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "app/notifications/page.tsx",
+          "modifica": "(file di R01, da applicare insieme agli altri due) :124-129 prima di leggere le notifiche: `const { data: preferenze, error: errPreferenze } = await supabase.from('profiles').select('notif_promos').eq('id', user.id).maybeSingle(); if (errPreferenze) throw errPreferenze; let lettura = supabase.from('notifications').select('*').eq('user_id', user.id); if (preferenze?.notif_promos !== true) lettura = lettura.neq('category', 'promo');` poi `await lettura.order('created_at', { ascending: false }).limit(quante)`"
+        },
+        {
+          "file": "components/hooks/useNotificationsCount.ts",
+          "modifica": ":32-36 la stessa lettura di notif_promos per userId (errore → throw), poi `.neq('category','promo')` sul conteggio quando notif_promos !== true"
+        },
+        {
+          "file": "components/seller/SellerShell.tsx",
+          "modifica": ":113-117 (useNotifUnread) la stessa cosa (errore → return 0, come oggi)"
+        }
+      ],
+      "file_che_servono": [
+        "app/notifications/page.tsx",
+        "components/hooks/useNotificationsCount.ts",
+        "components/seller/SellerShell.tsx"
+      ]
+    },
+    "qa-flussi|l'aiutante di prova accendi non regge due montaggi di una pagina con use(params) dopo un invio": {
+      "id": "R01-009",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "tests/unit/aiuti/schermo.ts",
+          "modifica": "Riga 7: `import { act, createElement, Suspense, type ComponentType } from 'react';`. In accendi(): `root.render(createElement(componente as ComponentType<Record<string, unknown>>, proprieta));` diventa `root.render(createElement(Suspense, { fallback: null }, createElement(componente as ComponentType<Record<string, unknown>>, proprieta)));`"
+        }
+      ],
+      "file_che_servono": [
+        "tests/unit/aiuti/schermo.ts"
+      ]
+    },
+    "rls-database|chi apre un reclamo può indirizzarlo a un negozio qualunque, e il negozio giusto non lo vede": {
+      "id": "R01-010",
+      "elenco": "D",
+      "esito": "non_fatto",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "stati-ui|un lavoro sul catalogo «in invio» incerto promette «tra poco lo vedi partire» per 24 ore, e a riga chiusa dice «puoi avviarne un altro» mentre il motivo dice di chiedere all'assistenza": {
+      "id": "R01-011",
+      "elenco": "C",
+      "esito": "parziale",
+      "cosa_resta": "Finché la rotta di stato non manda createdAt, una riga «in invio» col motivo mostra la frase neutra (di solito parte in pochi secondi; se resta così potrebbe essere già partito, non riavviarlo, chiedi all'assistenza): non dice più come un fatto che l'invio non ha avuto risposta e non promette la partenza, ma la frase precisa per ciascun caso arriva solo con la riga in serialize(). Il motivo alla nascita (start/route.ts:159) non va tolto: protegge da un secondo lotto pagato se la funzione si spegne dopo l'invio.",
+      "modifiche": [
+        {
+          "file": "app/api/ai/catalog-batch/status/route.ts",
+          "modifica": "in serialize() (righe 243-252) aggiungere `createdAt: job.created_at ?? null,` all'oggetto restituito; created_at è già letto in COLONNE (riga 81). La pagina app/seller/products/ai-batch/page.tsx non cambia: passa a testoStatoLavoro l'oggetto JSON intero."
+        }
+      ],
+      "file_che_servono": [
+        "app/api/ai/catalog-batch/status/route.ts"
+      ]
+    },
+    "ai-endpoints|due avvii insieme di un lavoro sul catalogo superano entrambi il controllo dei lavori aperti": {
+      "id": "R02-004",
+      "elenco": "C",
+      "esito": "parziale",
+      "cosa_resta": "Il «rimetti pronto» di apply/route.ts può ricevere 23505 dalla 640 se il negozio avvia un lavoro mentre un applicazione è in corso (gara rara, già possibile alla base con due lavori aperti). Cura intera: (1) apply/route.ts scrive un segno di fine a fine applicazione e lo azzera in rimettiPronto, e legge l errore di rimettiPronto dicendo il 23505 al negozio; (2) una colonna nuova nullable (es. applicazione_finita_il timestamptz) in una migrazione della fascia 641-649, che la regia porta a Nicola; (3) start/route.ts dà 409 solo se l ultimo lavoro applied ha quel segno nullo e updated_at entro 120 s.",
+      "modifiche": [
+        {
+          "file": "app/api/ai/catalog-batch/apply/route.ts",
+          "modifica": "a fine applicazione (riga ~345, dopo `if (ripetibile) await rimettiPronto();`), se non ripetibile, scrivere un segno di fine sulla riga: `await admin.from('catalog_ai_jobs').update({ applicazione_finita_il: new Date().toISOString() }).eq('id', job.id).eq('seller_id', user.id)`; e rimettere a null lo stesso campo dentro rimettiPronto (riga 124-128)."
+        },
+        {
+          "file": "migrations/<numero nella fascia R02>_catalog_ai_jobs_applicazione_finita_il.sql",
+          "modifica": "aggiungere `applicazione_finita_il timestamptz` nullable a catalog_ai_jobs (non toccare la 640). Poi in start/route.ts (mio) il 409 vale solo se l'ultimo 'applied' ha applicazione_finita_il null e updated_at più recente di 120 s: lo faccio io appena il segno esiste."
+        }
+      ],
+      "file_che_servono": [
+        "app/api/ai/catalog-batch/apply/route.ts",
+        "migrations/<numero nella fascia R02>_catalog_ai_jobs_applicazione_finita_il.sql"
+      ]
+    },
+    "ai-endpoints|la conformità dei prodotti (classifyproductpolicy) non ha un tempo suo e i lavori sul catalogo la chiamano in 40 giri di fila": {
+      "id": "R02-009",
+      "elenco": "C",
+      "esito": "parziale",
+      "cosa_resta": "catalog-batch/apply/route.ts (righe 41-53 e 222) chiama il filtro a gruppi da 5 su fino a 200 righe senza tetto di tempo: con 10 s a controllo sfora i 120 s della rotta.",
+      "modifiche": [
+        {
+          "file": "app/api/ai/catalog-batch/apply/route.ts",
+          "modifica": "dare ad `aGruppi` una scadenza: `const inizio = Date.now()` all'inizio dell'handler; in aGruppi, prima di ogni gruppo, `if (Date.now() > scadenza) break` (le voci non controllate restano senza esito); alla chiamata di riga ~222 passare `inizio + 70_000`; chi non ha verdetto (verdetti[i] undefined) va nei saltati con motivo «non controllato in tempo: rimandalo», e la risposta lo dice. Stesso schema di catalog-apply-bulk/route.ts."
+        }
+      ],
+      "file_che_servono": [
+        "app/api/ai/catalog-batch/apply/route.ts"
+      ]
+    },
+    "ai-endpoints|l'allarme del tetto di spesa ai scatta solo se la stessa copia del sito resta accesa per un'ora, e su vercel può non arrivare mai": {
+      "id": "R02-011",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "app/api/cron/operational-alerts/route.ts",
+          "modifica": "dopo la costruzione di `alerts` (const alerts a riga ~101, prima del filtro di dedup) aggiungere `alerts.push(...(await allarmiTettoSpesaAiPerIlCron()))`, importando `allarmiTettoSpesaAiPerIlCron` da '@/lib/ai/tettoSpesa': la funzione esiste già (lib/ai/tettoSpesa.ts, ricorda l'inizio del guasto nella riga ai-tetto-condiviso:ripiego-da di operational_alert_log) ma nessuno la chiama (grep in app e lib)."
+        }
+      ],
+      "file_che_servono": [
+        "app/api/cron/operational-alerts/route.ts"
+      ]
+    },
+    "qa-flussi|la rotta del lavoro ai sul catalogo non rifiuta un secondo lavoro": {
+      "id": "R02-013",
+      "elenco": "C",
+      "esito": "parziale",
+      "cosa_resta": "Il «rimetti pronto» di apply/route.ts può ricevere 23505 dalla 640 se il negozio avvia un lavoro mentre un applicazione è in corso (gara rara, già possibile alla base con due lavori aperti). Cura intera: (1) apply/route.ts scrive un segno di fine a fine applicazione e lo azzera in rimettiPronto, e legge l errore di rimettiPronto dicendo il 23505 al negozio; (2) una colonna nuova nullable (es. applicazione_finita_il timestamptz) in una migrazione della fascia 641-649, che la regia porta a Nicola; (3) start/route.ts dà 409 solo se l ultimo lavoro applied ha quel segno nullo e updated_at entro 120 s.",
+      "modifiche": [
+        {
+          "file": "app/api/ai/catalog-batch/apply/route.ts",
+          "modifica": "come R02-004 (segno di fine applicazione), più gestire il 23505 di rimettiPronto (riga 124-131)."
+        },
+        {
+          "file": "migrations/<numero nella fascia R02>_catalog_ai_jobs_applicazione_finita_il.sql",
+          "modifica": "come R02-004."
+        }
+      ],
+      "file_che_servono": [
+        "app/api/ai/catalog-batch/apply/route.ts",
+        "migrations/<numero nella fascia R02>_catalog_ai_jobs_applicazione_finita_il.sql"
+      ]
+    },
+    "api-backend|le notifiche push partono due volte se due giri del cron si sovrappongono: la presa in carico non è atomica": {
+      "id": "R03-009",
+      "elenco": "D",
+      "esito": "serve_file_altrui",
+      "cosa_resta": "Applicare insieme ai tipi la patch la patch R03-009-cura (nel campo patch_pronta di questa voce; i tipi in patch_tipi) (rotta send-push con presa condizionata su push_claimed_at, presa valida 10 minuti, prese non mandate ridate, ripiego se la colonna manca; migrations/650_le_push_si_prendono_in_carico.sql; tests/unit/riparazione-r03-push.test.ts; tests/sql/rls/riparazione-r03-push.test.sql; 5 prove esistenti che importano la rotta, adattate solo nel finto). Poi commit R03-009 e prova rimessa: vitest con --file app/api/cron/send-push/route.ts (rossa 3 su 5 senza la rotta); la --sql r03_rimessa sulla 650 darà 3 per costruzione (la prova nomina la colonna nuova: 42703).",
+      "modifiche": [
+        {
+          "file": "lib/database.types.ts",
+          "modifica": "Rigenerare con `node scripts/gen-db-types.mjs` dopo la migrazione 650: aggiunge in notifications.Row `push_claimed_at: string | null;` e in Insert e Update `push_claimed_at?: string | null;` (3 righe, nient'altro; patch pronta in scratchpad/R03-009-tipi.patch)."
+        }
+      ],
+      "file_che_servono": [
+        "lib/database.types.ts"
+      ]
+    },
+    "api-backend|la ricerca degli indirizzi chiama il servizio pubblico delle mappe più volte al secondo, senza un freno per tutto il sito": {
+      "id": "R03-010",
+      "elenco": "D",
+      "esito": "scelta_di_nicola",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "api-backend|il freno sulla rotta regge per 3 interruttori su 9: ai, newsletter, classifica e caricamento da file stanno solo nelle pagine": {
+      "id": "R03-011",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": "Restano senza controllo esplicito all'inizio 11 rotte AI (le altre già lo hanno) e la classifica inviti, letta dal browser dalla vista referral_leaderboard (nessuna rotta: il freno è solo nella pagina, come dice lib/funzioni-al-lancio.ts:30-33; chiuderla vuole una modifica della vista nel database, cioè una migrazione, non mia).",
+      "modifiche": [
+        {
+          "file": "app/api/ai/answer-qa/route.ts, app/api/ai/barcode-lookup/route.ts, app/api/ai/catalog-chat/route.ts, app/api/ai/copilot/route.ts, app/api/ai/description/route.ts, app/api/ai/diagnose/route.ts, app/api/ai/improve-product/route.ts, app/api/ai/product-chat/route.ts, app/api/ai/reviews-summary/route.ts, app/api/ai/seo/route.ts, app/api/ai/variants/route.ts, app/api/ai/voice-product/route.ts",
+          "modifica": "Aggiungere `import { AI_NEGOZI_ACCESA } from '@/lib/funzioni-al-lancio';` e, all'inizio di ogni gestore (POST/GET, dopo l'autenticazione e prima del freno di frequenza e di ogni lettura o scrittura), `if (!AI_NEGOZI_ACCESA) return ApiErrors.unavailable('Gli strumenti AI per i negozi non sono ancora attivi.');` (stessa frase delle rotte catalog-create/apply). Dove una rotta ha più gestori (catalog-chat, copilot, description, product-chat, voice-product) il controllo va in ognuno."
+        },
+        {
+          "file": "app/api/ai/catalog-batch/status/route.ts, app/api/ai/catalog-batch/cancel/route.ts",
+          "modifica": "Stesso import e stesso controllo all'inizio del gestore (status: prima del rateLimitAsync, che oggi conta e fa poll di Anthropic; cancel: prima del rateLimitAsync)."
+        },
+        {
+          "file": "supabase/migrations (vista public.referral_leaderboard) + app/profile/referral/leaderboard/page.tsx",
+          "modifica": "Classifica inviti: la pagina legge la vista dal browser; per farla reggere sul server la vista deve restituire zero righe finché CLASSIFICA_INVITI_ACCESA è falso (migrazione nuova, decisione di Nicola, non applicata da me), oppure una rotta server che legge la vista e controlla l'interruttore con `if (!CLASSIFICA_INVITI_ACCESA) return ApiErrors.unavailable(...)` e la pagina che chiama la rotta. È un'eccezione dichiarata in lib/funzioni-al-lancio.ts:30-33: nessun premio passa di mano."
+        }
+      ],
+      "file_che_servono": [
+        "app/api/ai/answer-qa/route.ts, app/api/ai/barcode-lookup/route.ts, app/api/ai/catalog-chat/route.ts, app/api/ai/copilot/route.ts, app/api/ai/description/route.ts, app/api/ai/diagnose/route.ts, app/api/ai/improve-product/route.ts, app/api/ai/product-chat/route.ts, app/api/ai/reviews-summary/route.ts, app/api/ai/seo/route.ts, app/api/ai/variants/route.ts, app/api/ai/voice-product/route.ts",
+        "app/api/ai/catalog-batch/status/route.ts, app/api/ai/catalog-batch/cancel/route.ts",
+        "supabase/migrations (vista public.referral_leaderboard) + app/profile/referral/leaderboard/page.tsx"
+      ]
+    },
+    "api-backend|un rifiuto per troppe richieste della ricerca indirizzi fa salvare l'indirizzo senza coordinate per sempre": {
+      "id": "R03-014",
+      "elenco": "C",
+      "esito": "parziale",
+      "cosa_resta": "La metà del negoziante: components/StoreLocationPicker.tsx:169-172, sul 429 della ricerca il negoziante legge ancora «Indirizzo non trovato» (la rotta /api/geocode risponde {lat:null,lng:null,error:'rate_limited'} con 429). Il file non è di R03.",
+      "modifiche": [
+        {
+          "file": "components/StoreLocationPicker.tsx",
+          "modifica": "In searchAddress, subito dopo la fetch a /api/geocode e prima di `const data = await res.json();` (riga 170) aggiungere:\n+      if (res.status === 429) {\n+        setError('Troppe ricerche in questo momento: riprova fra qualche secondo o sposta il pin sulla mappa.');\n+        return;\n+      }\nCosì il 429 non si legge più come «Indirizzo non trovato» (il finally rimette searching a false). Prova suggerita: montare StoreLocationPicker con fetch che risponde 429, cliccare la ricerca, attendersi il testo «Troppe ricerche» e nessun onChange."
+        }
+      ],
+      "file_che_servono": [
+        "components/StoreLocationPicker.tsx"
+      ]
+    },
+    "api-backend|se il servizio di posta conserva anche le risposte d'errore, una promozione mai partita risulta spedita": {
+      "id": "R03-015",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "lib/email/unsubscribe.ts",
+          "modifica": "Rendere deterministico il link di disiscrizione per lo stesso destinatario e la stessa riga della coda (oggi ha una parte casuale, :65): così un nuovo tentativo dalla coda ha lo stesso corpo e la stessa idempotencyKey, e Resend restituisce la risposta conservata (errore = non spedita) invece del 409 invalid_idempotent_request."
+        }
+      ],
+      "file_che_servono": [
+        "lib/email/unsubscribe.ts"
+      ]
+    },
+    "api-backend|un fattorino puo' legare il suo sos a un ordine che non e' suo": {
+      "id": "R03-016",
+      "elenco": "D",
+      "esito": "non_fatto",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "qa-flussi|due ordini dello stesso carrello possono finire a due fattorini diversi, e il secondo fa un viaggio intero per 1 euro": {
+      "id": "R04-006",
+      "elenco": "D",
+      "esito": "scelta_di_nicola",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "rls-database|il carosello delle storie legge 200 storie e poi taglia a 30: un solo negozio approvato con 200 storie in 24 ore spingerebbe fuori gli altri": {
+      "id": "R04-010",
+      "elenco": "D",
+      "esito": "parziale",
+      "cosa_resta": "La 662 si prova solo con la rimessa SQL, che esce 3 (rossa per struttura, perché la prova nomina la funzione nuova): per chiudere serve la deroga rimessa_a_mano. La 662 è scritta e NON applicata: finché Nicola non la applica, in produzione il carosello usa il ripiego, dove tre negozi da più di 30 storie possono ancora nascondere gli altri.",
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "architettura|commenti delle rotte della veloce dicono ancora «un fattorino approvato e online»": {
+      "id": "R05-002",
+      "elenco": "C",
+      "esito": "parziale",
+      "cosa_resta": "Il commento della rotta dei contanti è vero; lo stesso senso vecchio («un fattorino approvato e online», «un fattorino online») resta nella rotta gemella della carta e nelle pagine della cassa e del carrello, che non sono file di R05.",
+      "modifiche": [
+        {
+          "file": "app/api/stripe/checkout/route.ts",
+          "modifica": "Righe 529-530: «8-21, negozi aperti adesso, un / fattorino approvato e online.» → «8-21, negozi aperti adesso (e ancora per un quarto d'ora), almeno un fattorino approvato, con l'interruttore acceso e libero (non ha già in mano tutte le veloci che può portare).» Riga 370: «fattorino online» → «un fattorino approvato, acceso e libero»."
+        },
+        {
+          "file": "app/checkout/page.tsx",
+          "modifica": "Riga 661: «negozi aperti, un fattorino approvato e online» → «negozi aperti ancora per un quarto d'ora, almeno un fattorino approvato, con l'interruttore acceso e libero»."
+        },
+        {
+          "file": "app/cart/page.tsx",
+          "modifica": "Riga 95: «senza un fattorino online» → «senza un fattorino approvato, acceso e libero». Riga 196: «(negozi aperti, 8-21, un fattorino online)» → «(negozi aperti ancora per un quarto d'ora, 8-21, un fattorino approvato, acceso e libero)»."
+        },
+        {
+          "file": "components/checkout/DeliverySlotPicker.tsx",
+          "modifica": "Riga 50: «negozi / aperti e un fattorino online» → «negozi aperti ancora per un quarto d'ora, 8-21, e un fattorino approvato, acceso e libero»."
+        }
+      ],
+      "file_che_servono": [
+        "app/api/stripe/checkout/route.ts",
+        "app/checkout/page.tsx",
+        "app/cart/page.tsx",
+        "components/checkout/DeliverySlotPicker.tsx"
+      ]
+    },
+    "architettura|le email dopo la risposta partono tutte insieme: nel giro degli ordini scaduti un limite d'invio della posta può farne cadere alcune": {
+      "id": "R05-003",
+      "elenco": "C",
+      "esito": "parziale",
+      "cosa_resta": "Il giro degli scaduti non passa da lib/api/dopo-la-risposta: le sue tre email le registra la funzione privata dopoLaRisposta di lib/ordini/annulla.ts:503-510, che chiama after() da sé. Nella rotta del cron non c'è niente da cambiare.",
+      "modifiche": [
+        {
+          "file": "lib/ordini/annulla.ts",
+          "modifica": "nella funzione privata dopoLaRisposta (righe 503-510) sostituire `after(lavoro);` con `after(() => nellaFila(lavoro));` e aggiungere `import { nellaFila } from '@/lib/api/dopo-la-risposta';`. Il ritorno booleano e il ripiego `await lavoro()` restano come sono."
+        }
+      ],
+      "file_che_servono": [
+        "lib/ordini/annulla.ts"
+      ]
+    },
+    "architettura|email partita ma non segnata: la notte dopo riparte, e se fallisce l'allarme dice «non partita» per un'email già arrivata": {
+      "id": "R05-006",
+      "elenco": "C",
+      "esito": "parziale",
+      "cosa_resta": "Se il segno «partita» cade per un errore che dura più dei tre tentativi (o fisso), la notte dopo l'email riparte, e se quella cade l'allarme dice «non partita» per un'email arrivata. Distinguerlo richiede un segno dell'invio caduto in avvisi-a-chi-aspetta.ts e un testo d'allarme diverso («potrebbe essere già arrivata») in app/api/cron/process-deletions/route.ts:699-703, che non è un file di R05.",
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "architettura|da controllare sui dati: un negozio che oggi ha salvato 7 giorni vuoti diventa chiuso sempre appena esce la modifica": {
+      "id": "R05-009",
+      "elenco": "D",
+      "esito": "non_codice",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "architettura|ferie salvate con l'editor di prima su 3 giorni o meno: il negozio resta aperto a qualunque ora": {
+      "id": "R05-010",
+      "elenco": "D",
+      "esito": "scelta_di_nicola",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "architettura|due migrazioni citano una migrazione 426 sui profili che nel deposito non c'è": {
+      "id": "R05-012",
+      "elenco": "D",
+      "esito": "non_fatto",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "architettura|gli strumenti degli sviluppatori portano altre 19 falle note, 10 alte, ma nessuna arriva al sito": {
+      "id": "R05-013",
+      "elenco": "D",
+      "esito": "scelta_di_nicola",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "architettura|zod, resend, @sentry/nextjs, minimatch e glob, librerie che vanno nel sito, hanno 10 avvisi pubblici di npm audit (zod alto) che si chiudono solo con aggiornamenti che rompono": {
+      "id": "R05-014",
+      "elenco": "D",
+      "esito": "scelta_di_nicola",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "architettura|il finto clienteavvisi è riscritto in quattro posti e la prova da 1033 righe mescola rotte, notte e una scansione del sorgente": {
+      "id": "R05-016",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "tests/unit/chi-vuole-cancellarsi-trova-una-strada-che-funziona.test.ts",
+          "modifica": "Togliere adminDiProva (righe 70-129) e da `stato` i quattro interruttori; getAdminSupabase rende stato.mondo.admin; il mondo nasce con fintoGiroNotturno({ indirizzi: { 'rider-1': 'rider@example.com', 'rider-2': 'rider2@example.com' } }). Ogni interruttore diventa stato.mondo.guasti.push(...): rifiutaAvvisiA=X → {tabella:'notifications',azione:'insert',messaggio:'permission denied',seRiga:r=>r.user_id===X}; rifiutaLetturaDi=ID → {tabella:'notifications',azione:'select',messaggio:'canceling statement due to statement timeout',seFiltro:['id',ID]}; registroInviiRotto → due guasti su audit_logs (select e insert) con 'permission denied for table audit_logs'; registroInviiRifiutaLeRighe → {tabella:'audit_logs',azione:'insert',messaggio:'new row for relation \"audit_logs\" violates check constraint \"audit_logs_action_check\"',codice:'23514'}."
+        },
+        {
+          "file": "tests/unit/chi-vuole-cancellarsi-trova-una-strada-che-funziona.test.ts",
+          "modifica": "Spostare la scansione readdirSync (describe righe 562-578) in un file suo ed estenderla a components/. Spostare in un file della notte i describe che fanno girare solo la notte (267-321, 481-560, 672-836, 878-896, 925-1035, più i casi 455-474). Togliere la copia del caso «la posta dice di no la prima notte» (482), già provato in la-spiegazione-…:78. Nel file restano le rotte account/delete, export e contact."
+        }
+      ],
+      "file_che_servono": [
+        "tests/unit/chi-vuole-cancellarsi-trova-una-strada-che-funziona.test.ts"
+      ]
+    },
+    "architettura|tre librerie usate dalle prove non sono dichiarate in package.json": {
+      "id": "R06-001",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "package.json",
+          "modifica": "In devDependencies aggiungere, in ordine alfabetico: \"@testing-library/dom\": \"10.4.2\" (importata da 18 prove), \"attr-accept\": \"2.2.5\" (tests/unit/la-foto-dell-iphone-entra-nella-vetrina-e-chi-resta-fuori-lo-sa.test.ts:4), \"esbuild\": \"0.28.1\" (tests/unit/aiuti/compila.mjs). Sono le versioni già in package-lock.json e node_modules."
+        },
+        {
+          "file": "package-lock.json",
+          "modifica": "Rigenerare con npm install --package-lock-only dopo la modifica a package.json: cambia solo l'elenco devDependencies della radice (le tre librerie ci sono già)."
+        }
+      ],
+      "file_che_servono": [
+        "package.json",
+        "package-lock.json"
+      ]
+    },
+    "architettura|la prova sull'export elenca ancora cod_reconciliations fra le tabelle escluse": {
+      "id": "R06-002",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "tests/unit/scarica-i-miei-dati-non-salta-nessuna-tabella.test.ts",
+          "modifica": "Togliere da FUORI_DALL_EXPORT la riga 44 «cod_reconciliations: 'quadratura della cassa contanti: registro contabile',». L'export la legge già (app/api/account/export/route.ts:215, from('cod_reconciliations')…eq('rider_id', userId)) e la tabella esiste (migrations/024:120): finché resta fra le escluse, la prova non si accorge se la lettura sparisce."
+        }
+      ],
+      "file_che_servono": [
+        "tests/unit/scarica-i-miei-dati-non-salta-nessuna-tabella.test.ts"
+      ]
+    },
+    "qa-flussi|un cliente che esiste già non ha una strada da solo per diventare fattorino": {
+      "id": "R06-004",
+      "elenco": "D",
+      "esito": "scelta_di_nicola",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "qa-flussi|indirizzo, cap e città del profilo non si correggono più": {
+      "id": "R06-005",
+      "elenco": "D",
+      "esito": "scelta_di_nicola",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "qa-flussi|la risalita dei genitori delle categorie non ha un tetto": {
+      "id": "R06-007",
+      "elenco": "D",
+      "esito": "scelta_di_nicola",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "qa-flussi|il ritiro in negozio è ancora spento, mentre nicola ha deciso che al lancio è acceso e gratis per il cliente": {
+      "id": "R06-008",
+      "elenco": "D",
+      "esito": "scelta_di_nicola",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "qa-flussi|le prove che fanno girare tutto lo script del backup non hanno un psql finto": {
+      "id": "R06-009",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "tests/unit/aiuti/finto-rclone.ts",
+          "modifica": "Accanto a FINTO_PGDUMP (riga ~74) aggiungere: export const FINTO_PSQL = ['#!/usr/bin/env bash', 'cat >/dev/null', 'echo \"psql: could not connect to server\" >&2', 'exit 2'].join('\\n') + '\\n'; (database irraggiungibile: scripts/backup-db.sh:370-377, con psql che esce non-zero, ricade sulla memoria)."
+        },
+        {
+          "file": "tests/unit/la-copia-delle-foto-si-riapre-davvero.test.ts",
+          "modifica": "Aggiungere FINTO_PSQL all'import della riga 34, e in bancoDiProva, subito dopo la coppia writeFileSync/chmodSync di rclone (righe 59-60), aggiungere writeFileSync(join(finti, 'psql'), FINTO_PSQL); chmodSync(join(finti, 'psql'), 0o755); (finti è già in testa al PATH). Oggi, con SUPABASE_DB_URL=…localhost:5432, lo script usa il /usr/bin/psql vero della macchina e l'esito dipende da cosa gira lì; con lo stub, scripts/backup-db.sh:370-376 esce con return 1 e la riga 437 ricade su nel_database=\"\" (il ripiego voluto). Da valutare uguale per le altre prove che lanciano scripts/backup-db.sh con SUPABASE_DB_URL; modello già esistente: PSQL_FINTO in tests/unit/riparazione-r15-rclone-finto.ts:37-49."
+        }
+      ],
+      "file_che_servono": [
+        "tests/unit/aiuti/finto-rclone.ts",
+        "tests/unit/la-copia-delle-foto-si-riapre-davvero.test.ts"
+      ]
+    },
+    "rls-database|manca la colonna della scadenza del documento d'identità: si può controllare solo patente e polizza": {
+      "id": "R06-010",
+      "elenco": "D",
+      "esito": "non_fatto",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "tipografia|otto spaziature diverse per la stessa etichetta maiuscola": {
+      "id": "R06-011",
+      "elenco": "C",
+      "esito": "parziale",
+      "cosa_resta": "90 etichette maiuscole in 52 file non miei usano ancora una delle otto spaziature (tracking-wide 30, tracking-wider 33, tracking-widest 2, tracking-[0.03em] 14, [0.04em] 4, [0.05em] 4, [0.06em] 2, [0.08em] 1): elenco esatto in serve_file_altrui.",
+      "modifiche": [
+        {
+          "file": "app/category/[slug]/page.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 291 (tracking-wide), 310 (tracking-wide), 337 (tracking-wide) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "app/admin/activity/page.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 465 (tracking-wide), 476 (tracking-wide) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "app/admin/users/page.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 677 (tracking-wide), 1002 (tracking-wide), 1020 (tracking-wide), 1028 (tracking-wide) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "app/admin/orders/[id]/page.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 289 (tracking-wide) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "app/admin/funnel/page.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 416 (tracking-[0.04em]), 440 (tracking-wide), 447 (tracking-wide), 451 (tracking-wide), 469 (tracking-wide) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "app/admin/disputes/page.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 332 (tracking-wide) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "app/admin/today/page.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 104 (tracking-[0.04em]), 184 (tracking-wide) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "app/admin/products/page.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 177 (tracking-wide) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "app/admin/coupons/page.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 238 (tracking-wide) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "app/admin/payouts/page.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 338 (tracking-[0.04em]), 358 (tracking-[0.03em]) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "app/seller/orders/[id]/page.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 565 (tracking-wide) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "app/seller/customers/page.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 107 (tracking-wide), 113 (tracking-wide), 117 (tracking-wide), 177 (tracking-wide) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "app/seller/earnings/page.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 397 (tracking-[0.03em]), 460 (tracking-wide) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "app/seller/promotions/page.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 262 (tracking-wide) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "app/profile/loyalty/page.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 198 (tracking-wide), 263 (tracking-wide), 273 (tracking-wide) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "app/profile/returns/page.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 42 (tracking-[0.05em]) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "app/profile/gift-cards/page.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 226 (tracking-wide) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "app/profile/referral/page.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 126 (tracking-wide), 182 (tracking-wide), 186 (tracking-wide), 190 (tracking-wide) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "app/profile/addresses/page.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 153 (tracking-[0.05em]) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "app/rider/history/page.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 149 (tracking-[0.03em]) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "app/rider/orders/[id]/page.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 527 (tracking-[0.03em]) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "app/rider/profile/page.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 253 (tracking-[0.03em]), 282 (tracking-[0.03em]) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "app/rider/page.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 110 (tracking-[0.03em]), 512 (tracking-[0.03em]) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "app/rider/help/page.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 116 (tracking-[0.03em]) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "app/rider/availability/page.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 197 (tracking-[0.03em]), 251 (tracking-[0.03em]), 314 (tracking-[0.03em]) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "app/favorites/page.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 105 (tracking-[0.05em]) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "app/come-funziona/page.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 56 (tracking-wide) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "components/LiveActivityFeed.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 60 (tracking-wide), 158 (tracking-wide) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "components/admin/AdminUI.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 27 (tracking-[0.06em]), 40 (tracking-[0.03em]), 63 (tracking-[0.04em]) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "components/admin/home/HomeSectionsEditor.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 60 (tracking-wide) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "components/admin/RimborsiDaDividere.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 66 (tracking-wide) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "components/seller/VoiceProductButton.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 170 (tracking-wide) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "components/seller/QuickAiTools.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 155 (tracking-wide) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "components/seller/ImproveAllPanel.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 206 (tracking-wide), 261 (tracking-wide), 280 (tracking-wide) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "components/seller/site/PageSectionsEditor.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 58 (tracking-wide) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "components/seller/site/PageListEditor.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 93 (tracking-wide), 94 (tracking-wide) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "components/seller/SellerHealthScore.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 172 (tracking-wide) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "components/seller/SellerPageTitle.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 37 (tracking-[0.06em]) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "components/StoreProductExplorer.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 126 (tracking-wide), 144 (tracking-wide), 162 (tracking-wide), 189 (tracking-wide) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "components/ProductQA.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 223 (tracking-wide), 238 (tracking-wide) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "components/store-sections/HoursSection.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 58 (tracking-wide) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "components/account/AccountSidebar.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 143 (tracking-[0.08em]) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "components/home-sections/HomeSectionRenderer.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 224 (tracking-wide), 316 (tracking-wide), 348 (tracking-wide) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "components/home-sections/ReorderRail.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 179 (tracking-wide) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "components/CollectionHeader.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 79 (tracking-[0.05em]) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "components/SearchBar.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 307 (tracking-wide), 322 (tracking-wide) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "components/home/PromoDeals.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 43 (tracking-wide) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "components/home/HowItWorks.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 62 (tracking-wide) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "components/home/TrendingNow.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 64 (tracking-wide) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "components/products/VendutoDa.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 59 (tracking-[0.03em]) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "components/SponsoredCarousel.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 112 (tracking-wide) (righe della base 1ad51b4c)"
+        },
+        {
+          "file": "components/MobileAccountSheet.tsx",
+          "modifica": "nelle classi con «uppercase», sostituire la spaziatura con tracking-label alle righe 95 (tracking-wide) (righe della base 1ad51b4c)"
+        }
+      ],
+      "file_che_servono": [
+        "app/category/[slug]/page.tsx",
+        "app/admin/activity/page.tsx",
+        "app/admin/users/page.tsx",
+        "app/admin/orders/[id]/page.tsx",
+        "app/admin/funnel/page.tsx",
+        "app/admin/disputes/page.tsx",
+        "app/admin/today/page.tsx",
+        "app/admin/products/page.tsx",
+        "app/admin/coupons/page.tsx",
+        "app/admin/payouts/page.tsx",
+        "app/seller/orders/[id]/page.tsx",
+        "app/seller/customers/page.tsx",
+        "app/seller/earnings/page.tsx",
+        "app/seller/promotions/page.tsx",
+        "app/profile/loyalty/page.tsx",
+        "app/profile/returns/page.tsx",
+        "app/profile/gift-cards/page.tsx",
+        "app/profile/referral/page.tsx",
+        "app/profile/addresses/page.tsx",
+        "app/rider/history/page.tsx",
+        "app/rider/orders/[id]/page.tsx",
+        "app/rider/profile/page.tsx",
+        "app/rider/page.tsx",
+        "app/rider/help/page.tsx",
+        "app/rider/availability/page.tsx",
+        "app/favorites/page.tsx",
+        "app/come-funziona/page.tsx",
+        "components/LiveActivityFeed.tsx",
+        "components/admin/AdminUI.tsx",
+        "components/admin/home/HomeSectionsEditor.tsx",
+        "components/admin/RimborsiDaDividere.tsx",
+        "components/seller/VoiceProductButton.tsx",
+        "components/seller/QuickAiTools.tsx",
+        "components/seller/ImproveAllPanel.tsx",
+        "components/seller/site/PageSectionsEditor.tsx",
+        "components/seller/site/PageListEditor.tsx",
+        "components/seller/SellerHealthScore.tsx",
+        "components/seller/SellerPageTitle.tsx",
+        "components/StoreProductExplorer.tsx",
+        "components/ProductQA.tsx",
+        "components/store-sections/HoursSection.tsx",
+        "components/account/AccountSidebar.tsx",
+        "components/home-sections/HomeSectionRenderer.tsx",
+        "components/home-sections/ReorderRail.tsx",
+        "components/CollectionHeader.tsx",
+        "components/SearchBar.tsx",
+        "components/home/PromoDeals.tsx",
+        "components/home/HowItWorks.tsx",
+        "components/home/TrendingNow.tsx",
+        "components/products/VendutoDa.tsx",
+        "components/SponsoredCarousel.tsx",
+        "components/MobileAccountSheet.tsx"
+      ]
+    },
+    "coerenza-brand|card a mano con bg-surface-0 restano fuori dal conteggio delle card ridisegnate": {
+      "id": "R07-001",
+      "elenco": "C",
+      "esito": "parziale",
+      "cosa_resta": "24 card a mano con bg-surface-0 in 9 file non di R07 (elenco in serve_file_altrui). Nei file di R07 resta solo il pannello a comparsa delle notifiche in components/seller/SellerShell.tsx:172: non è una card ma una finestra (role=dialog, aria-modal, ref per il focus) e la Card non porta né ref né role, quindi resta scritto a mano.",
+      "modifiche": [
+        {
+          "file": "app/rider/page.tsx",
+          "modifica": "righe 510, 632, 638, 681, 700 (div) e 579 (Link): da contenitore con bg-surface-0, bordo e raggio a mano a <Card variant=\"surface\"> (il Link con <Card href=…>), radius e padding uguali a quelli di oggi, le altre classi nel className"
+        },
+        {
+          "file": "app/rider/profile/page.tsx",
+          "modifica": "righe 226, 232, 242, 254, 288 (div): <Card variant=\"surface\"> con radius e padding di oggi"
+        },
+        {
+          "file": "app/rider/help/page.tsx",
+          "modifica": "riga 121 (details): <Card as=\"details\" variant=\"surface\" padding=\"none\">; righe 150, 163 (a) e 178 (Link): <Card href=… variant=\"surface\"> (per i link esterni la Card non porta target/rel: restano a mano o la Card va allargata)"
+        },
+        {
+          "file": "app/rider/history/page.tsx",
+          "modifica": "righe 142, 181 (div): <Card variant=\"surface\">; riga 173 (Link): <Card href=… variant=\"surface\">"
+        },
+        {
+          "file": "app/rider/reviews/page.tsx",
+          "modifica": "riga 102 (div): <Card variant=\"surface\">; riga 160 (article): <Card as=\"article\" variant=\"surface\">"
+        },
+        {
+          "file": "app/near/page.tsx",
+          "modifica": "riga 295 (div): <Card variant=\"surface\"> con radius e padding di oggi"
+        },
+        {
+          "file": "app/product/[id]/page.tsx",
+          "modifica": "riga 1271 (div): <Card variant=\"surface\"> con radius e padding di oggi"
+        },
+        {
+          "file": "components/seller/SellerHealthScore.tsx",
+          "modifica": "riga 142 (div): <Card variant=\"surface\"> con radius e padding di oggi"
+        },
+        {
+          "file": "components/seller/SellerOnboardingChecklist.tsx",
+          "modifica": "riga 118 (div): <Card variant=\"surface\"> con radius e padding di oggi"
+        }
+      ],
+      "file_che_servono": [
+        "app/rider/page.tsx",
+        "app/rider/profile/page.tsx",
+        "app/rider/help/page.tsx",
+        "app/rider/history/page.tsx",
+        "app/rider/reviews/page.tsx",
+        "app/near/page.tsx",
+        "app/product/[id]/page.tsx",
+        "components/seller/SellerHealthScore.tsx",
+        "components/seller/SellerOnboardingChecklist.tsx"
+      ]
+    },
+    "coerenza-brand|la scala tipografica è aggirata 330 volte con misure a mano": {
+      "id": "R07-002",
+      "elenco": "C",
+      "esito": "parziale",
+      "cosa_resta": "219 misure a mano in 80 file che non sono di R07 (i più pesanti: app/rider/page.tsx 17, app/rider/profile/page.tsx 11, app/seller/analytics/page.tsx 10, app/seller/earnings/page.tsx, app/rider/reviews/page.tsx e app/rider/availability/page.tsx 9 ciascuno, app/about/page.tsx 8); per misura soprattutto 13px, 11px e 10px. Restano di proposito due text-[22px], in app/rider/onboarding/page.tsx:269 e app/rider/orders/[id]/page.tsx:706: nessun passo entro 1px (text-xl 20, text-2xl 24); per toglierli serve un passo da 22px in tailwind.config.ts, che non è di R07.",
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "flussi-conversione|nel pannello del negozio non c'è un posto dove vedere e approvare le anteprime": {
+      "id": "R07-005",
+      "elenco": "D",
+      "esito": "scelta_di_nicola",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "dati-analytics|in analisi il voto medio guarda solo le recensioni ai prodotti: un negozio con tre recensioni legge «nessuna recensione», e le etichette sono in inglese": {
+      "id": "R08-001",
+      "elenco": "D",
+      "esito": "parziale",
+      "cosa_resta": "Il voto medio e il conteggio delle recensioni in andamento_del_negozio (ultima definizione migrations/260:93-94): contano ancora solo public.reviews sui prodotti.",
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "dati-analytics|le visite al prodotto si contano con due regole diverse: posthog conta ogni nuova scheda, il database una per persona all'ora": {
+      "id": "R08-003",
+      "elenco": "D",
+      "esito": "parziale",
+      "cosa_resta": "Due pezzi, dal collaudo K03. (1) La voce nel GLOSSARIO-KPI, che sta in ad-mycity (MyCity-Vault/07-Agenti/GLOSSARIO-KPI.md), fuori dal deposito del sito: la scrive la regia, testo proposto: «Visita al prodotto (tabella product_views; evento product_viewed per PostHog, view_item per GA4): una per persona (utente collegato, o impronta del visitatore) e per prodotto, al massimo una all ora. Il database scarta le doppie (trigger product_views_dedup, migrazione 119) e la pagina annuncia la visita a PostHog e GA4 solo quando il database ha contato la riga.» (2) Il caso del conto nullo: sullo stesso dispositivo il freno locale per prodotto e ora già dà 1 annuncio (provato: una prova lì non torna rossa); fra due dispositivi, col conto nullo, la pagina non può sapere della visita dell altro e annuncia come prima. Cura esatta, da scegliere: o con conto nullo non si annuncia affatto (rischio: niente annunci se il conto non arriva mai), o si legge l esito con insert(...).select() (vuoto se il trigger scarta), che però vuole una regola di lettura su product_views.",
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "qa-flussi|il finto di react-query non ha setqueriesdata": {
+      "id": "R08-008",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "tests/unit/aiuti/finti/react-query.mjs",
+          "modifica": "Dentro l'oggetto restituito da useQueryClient, subito dopo setQueryData, aggiungere: `setQueriesData: (filtro, valore) => { if (Array.isArray(globalThis.__CACHE_SCRITTA__)) globalThis.__CACHE_SCRITTA__.push([filtro?.queryKey ?? filtro, valore]); },` (il filtro può arrivare come {queryKey} o come chiave nuda; la forma registrata è quella di setQueryData)."
+        }
+      ],
+      "file_che_servono": [
+        "tests/unit/aiuti/finti/react-query.mjs"
+      ]
+    },
+    "qa-flussi|una prova col nome del collaudo": {
+      "id": "R08-009",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "tests/unit/zz-collaudo-termini-chi.test.tsx",
+          "modifica": "git mv tests/unit/zz-collaudo-termini-chi.test.tsx tests/unit/i-termini-nominano-chi-gestisce-senza-dati-inventati.test.tsx, senza cambiare il contenuto"
+        }
+      ],
+      "file_che_servono": [
+        "tests/unit/zz-collaudo-termini-chi.test.tsx"
+      ]
+    },
+    "deploy-sre|se il sito nuovo non risponde si torna indietro col codice ma il database resta avanti": {
+      "id": "R09-001",
+      "elenco": "D",
+      "esito": "parziale",
+      "cosa_resta": "Il vero ritorno del database: servono migrazioni reversibili («espandi e poi contrai») oppure un ordine diverso dei passi (niente ritorno automatico se una migrazione del giro toglie qualcosa).",
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "deploy-sre|l'avviso «registratore degli errori acceso solo sul server» resta finché non si rifà il deploy": {
+      "id": "R09-002",
+      "elenco": "D",
+      "esito": "non_codice",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "deploy-sre|il pulsante delle migrazioni si ferma a metà se nel database c'è anche un solo ordine chiuso con la posizione del fattorino rimasta e senza fattorino": {
+      "id": "R09-007",
+      "elenco": "D",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "migrations/191_la_posizione_non_si_scrive_su_un_ordine_chiuso.sql",
+          "modifica": "Sostituire l'UPDATE di riempimento (righe 45-48) con un blocco DO, come nelle 094/096/124: DO $$ BEGIN PERFORM set_config('mycity.allow_order_write', '1', true); UPDATE public.orders SET rider_lat = NULL, rider_lng = NULL, rider_position_updated_at = NULL WHERE delivery_status IN ('DELIVERED','CANCELED') AND (rider_lat IS NOT NULL OR rider_lng IS NOT NULL OR rider_position_updated_at IS NOT NULL); END $$;  Regge con e senza --single-transaction (provato sul Postgres locale)."
+        },
+        {
+          "file": "tests/sql/harness/migrazione-su-database-pieno.sh",
+          "modifica": "(a) nuova variabile DA_NUMERO=\"${DA_MIGRAZIONE:-${NOME_ULTIMA%%[!0-9]*}}\"; (b) la ricostruzione si ferma al primo file con numero >= DA_NUMERO (confronto numerico, 052b compreso); (c) dopo seed-ordine-vero.sql inserire una copia dell'ordine come CANCELED con rider_id NULL e posizione piena (jsonb_populate_record, DISABLE/ENABLE TRIGGER USER, stripe_session_id/stripe_payment_intent a NULL); (d) applicare sul database pieno tutte le migrazioni >= DA_NUMERO, una per transazione (-1), fermandosi alla prima che cade. Senza DA_MIGRAZIONE guarda solo l'ultima, come oggi."
+        },
+        {
+          "file": ".github/workflows/ci.yml",
+          "modifica": "Al passo della riga 291 (bash tests/sql/harness/migrazione-su-database-pieno.sh mycity_pieno_ci) aggiungere env DA_MIGRAZIONE: '164' (la prima che la produzione non ha). Solo insieme alla correzione della 191, altrimenti la CI diventa rossa."
+        }
+      ],
+      "file_che_servono": [
+        "migrations/191_la_posizione_non_si_scrive_su_un_ordine_chiuso.sql",
+        "tests/sql/harness/migrazione-su-database-pieno.sh",
+        ".github/workflows/ci.yml"
+      ]
+    },
+    "deploy-sre|il ritorno indietro può ancora scegliere il rilascio sbagliato in due casi rari: un solo altro commit negli ultimi 20 rilasci, o un dominio che non dice il suo commit": {
+      "id": "R09-009",
+      "elenco": "D",
+      "esito": "scelta_di_nicola",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "frontend-ux|nel profilo del fattorino il documento risulta «verificato» appena caricato, e l'attestato haccp resta «mancante» anche dopo il caricamento": {
+      "id": "R10-002",
+      "elenco": "D",
+      "esito": "non_fatto",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "frontend-ux|lo scheletro del negozio impedisce il 404 vero sulle pagine dei negozi anche senza lo scheletro della radice": {
+      "id": "R10-005",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "tests/unit/aprendo-un-negozio-si-vede-una-cosa-sola-mentre-arriva.test.ts",
+          "modifica": "nello stesso commit in cui si toglie app/store/loading.tsx (file di R10, che va tolto insieme): la richiesta che app/store/loading.tsx esista («il sipario copre anche il guscio») diventa «sopra il guscio del negozio non c'è nessuna attesa, e il guscio chiama notFound()». La versione pronta è nel commit c2d7cbeb di questo ramo (git show c2d7cbeb -- tests/unit/aprendo-un-negozio-si-vede-una-cosa-sola-mentre-arriva.test.ts)"
+        }
+      ],
+      "file_che_servono": [
+        "tests/unit/aprendo-un-negozio-si-vede-una-cosa-sola-mentre-arriva.test.ts"
+      ]
+    },
+    "frontend-ux|il controllo sul taglio dei campi di testo del costruttore della home tronca ancora titoli e sottotitoli in silenzio": {
+      "id": "R10-006",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "components/seller/site/BannerFields.tsx",
+          "modifica": "riga 60 (<Input label=\"Titolo\">): togliere `maxLength={120}` e aggiungere `error={sopraIlTetto(c.heading, 120)}`. Riga 67 (<Textarea label=\"Sottotitolo\">): togliere `maxLength={200}` e aggiungere `error={sopraIlTetto(c.subheading, 200)}`. Riga 75 (<Input label=\"Testo alternativo della foto\">): togliere `maxLength={160}` e aggiungere `error={sopraIlTetto(c.alt, 160)}`. Riga 98 (<Input label=\"Testo del pulsante\">): togliere `maxLength={40}` e aggiungere `error={sopraIlTetto(c.cta.label, 40)}`. In cima al file aggiungere la funzione sopraIlTetto copiata da components/seller/site/SectionConfigForm.tsx:19-24 (Input e Textarea di components/ui/Field accettano `error`, come in SectionConfigForm)"
+        }
+      ],
+      "file_che_servono": [
+        "components/seller/site/BannerFields.tsx"
+      ]
+    },
+    "frontend-ux|mancano «finito per oggi» e «chiuso fino al…», promessi ai negozi della prima ondata": {
+      "id": "R10-011",
+      "elenco": "D",
+      "esito": "scelta_di_nicola",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "frontend-ux|il modulo del prodotto non dice che il nome ha al massimo 120 caratteri: il negozio legge solo «il valore inserito non è valido»": {
+      "id": "R10-013",
+      "elenco": "D",
+      "esito": "parziale",
+      "cosa_resta": "Sulla modifica del prodotto il server dà ancora la frase generica, e l'import da file e la rotta admin hanno altri tetti (200 e 8000): sono file non miei, i diff sono in serve_file_altrui.",
+      "modifiche": [
+        {
+          "file": "lib/products/prontoPerLaVendita.ts",
+          "modifica": "dentro `if (err?.code === '23514') {`, prima di `const tecnico = …`, aggiungere: `if (/products_name_lunghezza/.test(testo)) return { tipo: 'regola', messaggio: 'Il nome del prodotto è troppo lungo: al massimo 120 caratteri. Accorcialo e riprova.' };` e `if (/products_description_lunghezza/.test(testo)) return { tipo: 'regola', messaggio: 'La descrizione del prodotto è troppo lunga: al massimo 4000 caratteri. Accorciala e riprova.' };`. app/api/seller/products/[id]/route.ts:80 restituisce già esito.messaggio così com'è"
+        },
+        {
+          "file": "lib/products/righe-dal-file.ts",
+          "modifica": "`if (nome.length > 200) errori.push('Nome troppo lungo (max 200)');` → `if ([...nome].length > NOME_PRODOTTO_MAX) errori.push(`Nome troppo lungo (max ${NOME_PRODOTTO_MAX} caratteri)`);`, con `import { NOME_PRODOTTO_MAX } from '@/lib/products/schema'`"
+        },
+        {
+          "file": "app/api/admin/products/route.ts",
+          "modifica": "`name: z.string().trim().min(1).max(200),` → `name: z.string().trim().min(1).refine((v) => [...v].length <= 120, 'Il nome può avere al massimo 120 caratteri'),`. `description: z.string().max(8000).optional(),` → `description: z.string().refine((v) => [...v.trim()].length <= 4000, 'La descrizione può avere al massimo 4000 caratteri').optional(),`"
+        }
+      ],
+      "file_che_servono": [
+        "lib/products/prontoPerLaVendita.ts",
+        "lib/products/righe-dal-file.ts",
+        "app/api/admin/products/route.ts"
+      ]
+    },
+    "performance|le pagine di prodotto, negozio e categoria non usano la cache che dichiarano, e rileggono due volte la stessa riga a ogni visita": {
+      "id": "R10-016",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": "La doppia lettura vera è nel precarico. Con il precarico vero, in una richiesta la scheda prodotto legge products 2 volte e seller_public_profiles 2 volte, la vetrina seller_public_profiles 3 volte (lib/queries/precarico.ts:108-139, non mio). E force-dynamic in app/layout.tsx annulla ancora le revalidate dichiarate: rimandato per decisione della regia.",
+      "modifiche": [
+        {
+          "file": "lib/queries/precarico.ts",
+          "modifica": "Ricetta, non diff riga per riga: per un diff serve prima progettare la domanda comune. Primo, avvolgere la lettura per id del precarico in una memoria per richiesta: `const leggiSchedaDellaRichiesta = cache((id: string) => leggiSchedaPerIlGuscio(clientAnonimo(), id))`, e lo stesso per la riga del negozio di domandaNegozio e domandaVendutoDa. Poi esportarle e usarle in precaricaProdotto e precaricaNegozio. Infine far leggere a generateMetadata e al guscio (app/product/[id]/layout.tsx e app/store/[id]/layout.tsx, di R10, da fare dopo) i campi dei metadati da quella stessa risposta invece che da leggiPerMetadati. Le colonne del precarico devono comprendere quelle dei metadati: nome, descrizione, immagine, store_name, role, is_approved."
+        }
+      ],
+      "file_che_servono": [
+        "lib/queries/precarico.ts"
+      ]
+    },
+    "immagini-media|quattro foto sotto la piega vengono chieste come «urgenti» su ogni home": {
+      "id": "R11-001",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "components/StoreProductExplorer.tsx",
+          "modifica": "riga 223: aggiungere prioritaPrimeFoto={false} al <ProductGrid> della vetrina; la sezione productGrid è l ultima della home del negozio (lib/store-site.ts:340-348), sotto la piega, e oggi le sue prime 4 foto escono priority (components/ProductGrid.tsx:692, prioritaPrimeFoto predefinito true)"
+        }
+      ],
+      "file_che_servono": [
+        "components/StoreProductExplorer.tsx"
+      ]
+    },
+    "immagini-media|next.config.js ammette ancora le immagini di placehold.co, che il sito non usa più": {
+      "id": "R11-002",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "lib/indirizzo-immagine-ammesso.ts",
+          "modifica": "togliere 'placehold.co' da HOST_IMMAGINI_AMMESSI (riga 34)"
+        },
+        {
+          "file": "middleware.ts",
+          "modifica": "togliere ' https://placehold.co' dalla direttiva img-src (riga 313)"
+        },
+        {
+          "file": "lib/immagine-categoria.ts",
+          "modifica": "togliere 'placehold.co' da HOST_FOTO_AMMESSI (riga 47)"
+        },
+        {
+          "file": "lib/ai/productContext.ts",
+          "modifica": "togliere /^placehold\\.co$/i da HOST_ESTERNI_DICHIARATI (riga 50)"
+        },
+        {
+          "file": "tests/unit/le-foto-che-arrivano-al-modello-sono-le-nostre.test.ts",
+          "modifica": "riga 151: l'aspettativa su placehold.co passa da true a false"
+        },
+        {
+          "file": "next.config.js",
+          "modifica": "togliere la riga 51 { protocol: 'https', hostname: 'placehold.co' }, nello stesso commit delle modifiche sopra"
+        }
+      ],
+      "file_che_servono": [
+        "lib/indirizzo-immagine-ammesso.ts",
+        "middleware.ts",
+        "lib/immagine-categoria.ts",
+        "lib/ai/productContext.ts",
+        "tests/unit/le-foto-che-arrivano-al-modello-sono-le-nostre.test.ts",
+        "next.config.js"
+      ]
+    },
+    "layout-responsive|col testo ingrandito al massimo sul telefono, le pagine pubbliche scorrono di lato per colpa del piè di pagina": {
+      "id": "R12-005",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": "Il widget Turnstile di app/contact (iframe largo 300 px) non si stringe sotto i 300 px: non misurato a pagina viva perché serve una chiave pubblica vera. Il pezzo «app/te…» della voce è troncato nel registro: non si sa quale file sia (se è app/terms, nel sorgente non c'è un difetto visibile).",
+      "modifiche": [
+        {
+          "file": "components/Turnstile.tsx",
+          "modifica": "nella chiamata window.turnstile.render (circa riga 76) aggiungere l'opzione size: (typeof window !== 'undefined' && window.innerWidth < 340) ? 'compact' : 'normal' (il widget compatto è largo 150 px)"
+        },
+        {
+          "file": "app/contact/page.tsx",
+          "modifica": "riga 191: il wrapper <div className=\"flex justify-center\"> diventa <div className=\"flex justify-center max-w-full overflow-hidden\">, così un widget da 300 px non allarga la pagina"
+        }
+      ],
+      "file_che_servono": [
+        "components/Turnstile.tsx",
+        "app/contact/page.tsx"
+      ]
+    },
+    "qa-flussi|altre due ancore sommano il loro scroll-mt allo scroll-padding da md in su": {
+      "id": "R12-011",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": "l ancora #bonifici di components/seller/DatiPerIBonifici.tsx:64 (file non mio): modifica esatta qui sopra",
+      "modifiche": [
+        {
+          "file": "components/seller/DatiPerIBonifici.tsx",
+          "modifica": "riga 64: <form id=\"bonifici\" onSubmit={salva} className=\"bg-white border border-cream-300 rounded-2xl shadow-warm p-6 scroll-mt-24\"> diventa <form id=\"bonifici\" onSubmit={salva} className=\"bg-white border border-cream-300 rounded-2xl shadow-warm p-6 scroll-mt-24 md:scroll-mt-0\">: da md in su app/globals.css:204 dà già scroll-padding-top a html, e scroll-mt-24 si somma (ci atterra /seller/profile#bonifici da app/seller/earnings/page.tsx:246). Prova suggerita: render del form e controllo che la classe abbia md:scroll-mt-0, come tests/unit/riparazione-r02-ancore-faq.test.ts."
+        }
+      ],
+      "file_che_servono": [
+        "components/seller/DatiPerIBonifici.tsx"
+      ]
+    },
+    "qa-flussi|nella pagina dei negozi le categorie per negozio si leggono senza finestre: sopra i mille negozi con prodotti alcuni perderebbero le loro categorie nel filtro": {
+      "id": "R12-012",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "tests/unit/riparazione-r02-negozi-categorie-a-pagine.test.tsx",
+          "modifica": "nel vi.mock di '@/lib/supabase/client' sostituire `rpc: async (nome: string) => { …tre return… }` con `rpc: (nome: string) => { const risposta = async () => { …gli stessi tre return… }; const q: Record<string, unknown> = { order: () => q, range: () => q, then: (ok: (v: unknown) => unknown, ko?: (e: unknown) => unknown) => risposta().then(ok, ko) }; return q; }`, come nel commit 8f8973f3 del ramo. Dati e controlli restano uguali."
+        },
+        {
+          "file": "app/stores/page.tsx",
+          "modifica": "nel Promise.all di fetchStoresData sostituire `supabase.rpc('categorie_per_negozio'),` con `leggiTutteLeRighe<{ seller_id: string; categorie: string[] | null }>((da, a) => supabase.rpc('categorie_per_negozio').order('seller_id').range(da, a)),`, come nel commit 7f539404 del ramo (import già presente), e rimettere in tests/unit/riparazione-r12-negozi-categorie.test.tsx il caso «più di 1000 righe» com'era a 7f539404 (la sua prova rimessa reggeva, uscita 0). File di R12: va fatto insieme alla modifica della prova comune."
+        }
+      ],
+      "file_che_servono": [
+        "tests/unit/riparazione-r02-negozi-categorie-a-pagine.test.tsx",
+        "app/stores/page.tsx"
+      ]
+    }
+  }
+}

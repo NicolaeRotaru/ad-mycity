@@ -1,0 +1,27 @@
+# elenco D di pronte (2026-11-22 17:26): 26 voci uniche, una chiave per riga
+rls-database|chi apre un reclamo può indirizzarlo a un negozio qualunque, e il negozio giusto non lo vede
+api-backend|le notifiche push partono due volte se due giri del cron si sovrappongono: la presa in carico non è atomica
+api-backend|la ricerca degli indirizzi chiama il servizio pubblico delle mappe più volte al secondo, senza un freno per tutto il sito
+api-backend|un fattorino puo' legare il suo sos a un ordine che non e' suo
+qa-flussi|due ordini dello stesso carrello possono finire a due fattorini diversi, e il secondo fa un viaggio intero per 1 euro
+rls-database|il carosello delle storie legge 200 storie e poi taglia a 30: un solo negozio approvato con 200 storie in 24 ore spingerebbe fuori gli altri
+architettura|da controllare sui dati: un negozio che oggi ha salvato 7 giorni vuoti diventa chiuso sempre appena esce la modifica
+architettura|ferie salvate con l'editor di prima su 3 giorni o meno: il negozio resta aperto a qualunque ora
+architettura|due migrazioni citano una migrazione 426 sui profili che nel deposito non c'è
+architettura|gli strumenti degli sviluppatori portano altre 19 falle note, 10 alte, ma nessuna arriva al sito
+architettura|zod, resend, @sentry/nextjs, minimatch e glob, librerie che vanno nel sito, hanno 10 avvisi pubblici di npm audit (zod alto) che si chiudono solo con aggiornamenti che rompono
+qa-flussi|un cliente che esiste già non ha una strada da solo per diventare fattorino
+qa-flussi|indirizzo, cap e città del profilo non si correggono più
+qa-flussi|la risalita dei genitori delle categorie non ha un tetto
+qa-flussi|il ritiro in negozio è ancora spento, mentre nicola ha deciso che al lancio è acceso e gratis per il cliente
+rls-database|manca la colonna della scadenza del documento d'identità: si può controllare solo patente e polizza
+flussi-conversione|nel pannello del negozio non c'è un posto dove vedere e approvare le anteprime
+dati-analytics|in analisi il voto medio guarda solo le recensioni ai prodotti: un negozio con tre recensioni legge «nessuna recensione», e le etichette sono in inglese
+dati-analytics|le visite al prodotto si contano con due regole diverse: posthog conta ogni nuova scheda, il database una per persona all'ora
+deploy-sre|se il sito nuovo non risponde si torna indietro col codice ma il database resta avanti
+deploy-sre|l'avviso «registratore degli errori acceso solo sul server» resta finché non si rifà il deploy
+deploy-sre|il pulsante delle migrazioni si ferma a metà se nel database c'è anche un solo ordine chiuso con la posizione del fattorino rimasta e senza fattorino
+deploy-sre|il ritorno indietro può ancora scegliere il rilascio sbagliato in due casi rari: un solo altro commit negli ultimi 20 rilasci, o un dominio che non dice il suo commit
+frontend-ux|nel profilo del fattorino il documento risulta «verificato» appena caricato, e l'attestato haccp resta «mancante» anche dopo il caricamento
+frontend-ux|mancano «finito per oggi» e «chiuso fino al…», promessi ai negozi della prima ondata
+frontend-ux|il modulo del prodotto non dice che il nome ha al massimo 120 caratteri: il negozio legge solo «il valore inserito non è valido»

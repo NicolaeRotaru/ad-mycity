@@ -1,0 +1,22 @@
+# elenco B di pronte (2026-11-22 17:26): 21 voci uniche, una chiave per riga
+microcopy|il cliente e l'email leggono ancora «un rider passa a prenderlo», mentre il pulsante del negozio ora dice «fattorino»
+qa-flussi|la rotta del lotto sul catalogo, se non riceve l'elenco dei prodotti, applica ancora tutti i risultati
+qa-flussi|la campanella del sito mostra le promozioni anche a chi le ha spente
+qa-flussi|l'aiutante di prova accendi non regge due montaggi di una pagina con use(params) dopo un invio
+ai-endpoints|l'allarme del tetto di spesa ai scatta solo se la stessa copia del sito resta accesa per un'ora, e su vercel può non arrivare mai
+api-backend|il freno sulla rotta regge per 3 interruttori su 9: ai, newsletter, classifica e caricamento da file stanno solo nelle pagine
+api-backend|se il servizio di posta conserva anche le risposte d'errore, una promozione mai partita risulta spedita
+architettura|il finto clienteavvisi è riscritto in quattro posti e la prova da 1033 righe mescola rotte, notte e una scansione del sorgente
+architettura|tre librerie usate dalle prove non sono dichiarate in package.json
+architettura|la prova sull'export elenca ancora cod_reconciliations fra le tabelle escluse
+qa-flussi|le prove che fanno girare tutto lo script del backup non hanno un psql finto
+qa-flussi|il finto di react-query non ha setqueriesdata
+qa-flussi|una prova col nome del collaudo
+frontend-ux|lo scheletro del negozio impedisce il 404 vero sulle pagine dei negozi anche senza lo scheletro della radice
+frontend-ux|il controllo sul taglio dei campi di testo del costruttore della home tronca ancora titoli e sottotitoli in silenzio
+performance|le pagine di prodotto, negozio e categoria non usano la cache che dichiarano, e rileggono due volte la stessa riga a ogni visita
+immagini-media|quattro foto sotto la piega vengono chieste come «urgenti» su ogni home
+immagini-media|next.config.js ammette ancora le immagini di placehold.co, che il sito non usa più
+layout-responsive|col testo ingrandito al massimo sul telefono, le pagine pubbliche scorrono di lato per colpa del piè di pagina
+qa-flussi|altre due ancore sommano il loro scroll-mt allo scroll-padding da md in su
+qa-flussi|nella pagina dei negozi le categorie per negozio si leggono senza finestre: sopra i mille negozi con prodotti alcuni perderebbero le loro categorie nel filtro

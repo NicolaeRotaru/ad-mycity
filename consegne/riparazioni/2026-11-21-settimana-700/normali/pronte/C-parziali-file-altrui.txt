@@ -1,0 +1,12 @@
+# elenco C di pronte (2026-11-22 17:26): 11 voci uniche, una chiave per riga
+stati-ui|un lavoro sul catalogo «in invio» incerto promette «tra poco lo vedi partire» per 24 ore, e a riga chiusa dice «puoi avviarne un altro» mentre il motivo dice di chiedere all'assistenza
+ai-endpoints|due avvii insieme di un lavoro sul catalogo superano entrambi il controllo dei lavori aperti
+ai-endpoints|la conformità dei prodotti (classifyproductpolicy) non ha un tempo suo e i lavori sul catalogo la chiamano in 40 giri di fila
+qa-flussi|la rotta del lavoro ai sul catalogo non rifiuta un secondo lavoro
+api-backend|un rifiuto per troppe richieste della ricerca indirizzi fa salvare l'indirizzo senza coordinate per sempre
+architettura|commenti delle rotte della veloce dicono ancora «un fattorino approvato e online»
+architettura|le email dopo la risposta partono tutte insieme: nel giro degli ordini scaduti un limite d'invio della posta può farne cadere alcune
+architettura|email partita ma non segnata: la notte dopo riparte, e se fallisce l'allarme dice «non partita» per un'email già arrivata
+tipografia|otto spaziature diverse per la stessa etichetta maiuscola
+coerenza-brand|card a mano con bg-surface-0 restano fuori dal conteggio delle card ridisegnate
+coerenza-brand|la scala tipografica è aggirata 330 volte con misure a mano
