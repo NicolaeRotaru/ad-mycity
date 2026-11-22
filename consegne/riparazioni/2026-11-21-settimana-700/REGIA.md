@@ -93,3 +93,4 @@ Quante voci risulteranno sparite: lo dicono i referti delle 4 sessioni.
 - 2026-11-22 02:17 R07 giro chiuso (punta c9a78a95, 26,30 $): K03 lo ricollauda, R07-007 regge, campione R07 accettato (5 su 5). R05 giro chiuso (punta 00ea2092, 22,11 $), verificato dalla regia, a K02.
 - 2026-11-22 02:18 R02 giro chiuso (001 riparato; 004/013 e 009 parziali, 26,13 $). Scelta della regia: togliere il blocco di 120 s dell'avvio (toccava ogni negozio a ogni applicazione; la gara rara c'era già alla base). Cura intera con colonna nuova in fascia 641-649 → migrazione da portare a Nicola.
 - 2026-11-22 02:20 regia quarta a 360 mila token (10,61 $): passaggio in PASSAGGIO-5.md.
+- 2026-11-22 02:21 aperta la regia quinta (session_015BmpnXD1kFQo49GpQXkHw9); dettagli riservati mandati in chat; R01-R12 e K01-K04 avvisati di scrivere a lei.
