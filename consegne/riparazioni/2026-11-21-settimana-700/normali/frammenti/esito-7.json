@@ -1,0 +1,41 @@
+{
+  "corsia": 7,
+  "territorio": "R07",
+  "difetti": [
+    {
+      "chiave": "coerenza-brand|la primitiva card non può fare da link: le card cliccabili restano scritte a mano",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r07-card-link.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 6ca972ee335e1a21ff9e7d3ad1f48f0f5c801b89^ --file components/ui/Card.tsx --prove tests/unit/riparazione-r07-card-link.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base 6ca972ee335e1a21ff9e7d3ad1f48f0f5c801b89^ --file components/ui/Card.tsx --prove tests/unit/riparazione-r07-card-link.test.tsx  --json → uscita 0 (K03)",
+      "nota_fix": "La Card accetta href (e aria-label) e in quel caso rende un Link di Next con le stesse classi; senza href resta il div di prima, con le stesse classi."
+    },
+    {
+      "chiave": "microcopy|parole inglesi e da programmatore nell'interfaccia: «rating minimo» nei filtri, «id_front caricato» al fattorino, errori del gps in inglese",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r07-parole-italiane.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base ef89fda9b4ef2a71cd9cd259d0982e9767b00011^ --file app/rider/onboarding/page.tsx,messages/it.json --prove tests/unit/riparazione-r07-parole-italiane.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base ef89fda9b4ef2a71cd9cd259d0982e9767b00011^ --file app/rider/onboarding/page.tsx,messages/it.json --prove tests/unit/riparazione-r07-parole-italiane.test.ts  --json → uscita 0 (K03)",
+      "nota_fix": "Due commit (6e275ab6 e ef89fda9). I filtri dicono «Voto minimo» e «Voto {rating}+», come chiede la cura scritta nella voce (in it.json cambiano solo i valori). L'errore del GPS del negozio è in italiano, scelto dal codice d'errore; dopo il caricamento di un documento il fattorino legge il nome italiano invece di «id_front»; «Catalog Copilot» diventa «Copilot del catalogo». Nella pagina dei documenti del fattorino spariscono anche «Upload fallito», «Errore upload», «KYC approvato!», «KYC inviato…», «KYC fallito», «Onboarding rider» (ora «Documenti e verifica», l'etichetta del menu che porta lì), «account rider», «per face match», «HACCP (se food)». La prova monta i componenti veri."
+    },
+    {
+      "chiave": "navigazione-gerarchia|col pannello dei filtri aperto, il tasto indietro fa uscire dalla ricerca invece di chiudere il pannello",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r07-indietro-chiude-filtri.test.ts tests/unit/riparazione-r07-filtri-restano-nell-indirizzo.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 085cc686f74c85c4b858cf51c20202d126a68cd8^ --file components/hooks/useBottomSheetA11y.ts,app/search/page.tsx --prove tests/unit/riparazione-r07-indietro-chiude-filtri.test.ts,tests/unit/riparazione-r07-filtri-restano-nell-indirizzo.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base 1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46 --file components/hooks/useBottomSheetA11y.ts,app/search/page.tsx,app/category/[slug]/page.tsx --prove tests/unit/riparazione-r07-indietro-chiude-filtri.test.ts,tests/unit/riparazione-r07-filtri-restano-nell-indirizzo.test.tsx --json → uscita 0 (K03)",
+      "nota_fix": "Tre commit (085cc686, 4681b479 e fa43cb33, quest ultimo solo sulle prove). Con l'opzione indietroChiude il hook mette una voce di cronologia all'apertura: Indietro la toglie e chiude il pannello, la chiusura normale (X, Esc, «Mostra risultati») la toglie con history.back(). Accesa sui filtri di ricerca e categoria e su «Ordina» della ricerca; gli altri 11 usi del hook non cambiano. Il hook dice se la sua voce c'è ancora: la ricerca non riscrive l'indirizzo finché c'è e lo riscrive una volta sola dopo il popstate, così nessun replace in volo viene scartato dal ritorno indietro e l'indirizzo tiene i filtri. Tornando su una voce lasciata da un pannello aperto, la pagina la toglie da sé (guardia per Strict Mode e per i due pannelli della stessa pagina). La prova nuova usa un router finto che tiene il replace in volo e lo scarta al popstate, come Next. Le due prove non aspettano più 20-30 ms fissi dopo history.back(): un aiutante (tests/unit/riparazione-r07-cronologia.ts) conta ogni back() e ogni popstate e fa girare i compiti finché la cronologia è ferma. Sotto carico (8 giri in parallelo con la CPU occupata): le prove vecchie 5 verdi su 16, le nuove 24 su 24. La prova rimessa è rifatta dalla base di prima della voce: cade togliendo il hook o la ricerca."
+    },
+    {
+      "chiave": "qa-flussi|nella pagina guadagni del fattorino la data nell'elenco delle consegne segue il fuso del telefono",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r07-data-consegne-fattorino.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 4271aca6c6eb14994065cd13c4ec5542d0b98033^ --file app/rider/earnings/page.tsx --prove tests/unit/riparazione-r07-data-consegne-fattorino.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base 4271aca6c6eb14994065cd13c4ec5542d0b98033^ --file app/rider/earnings/page.tsx --prove tests/unit/riparazione-r07-data-consegne-fattorino.test.ts  --json → uscita 0 (K03)",
+      "nota_fix": "La data nell'elenco delle consegne ora si scrive con toLocaleDateString('it-IT', { timeZone: FUSO_PIACENZA }), costante già esistente in lib/tempo-piacenza; il formato gg/mm/aaaa non cambia. La prova monta la pagina vera con orologio finto e il telefono su UTC o New York: una consegna alle 00:30 di Piacenza, d'inverno e d'estate, mostra il giorno giusto."
+    },
+    {
+      "chiave": "qa-flussi|il campanello del pannello negozio conta anche le promozioni di chi le ha spente",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r07-campanello-negozio-promo.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base c65396cd2da9248afd2cce045b83d6c9e69e8b10^ --file components/seller/SellerShell.tsx --prove tests/unit/riparazione-r07-campanello-negozio-promo.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base c65396cd2da9248afd2cce045b83d6c9e69e8b10^ --file components/seller/SellerShell.tsx --prove tests/unit/riparazione-r07-campanello-negozio-promo.test.ts  --json → uscita 0 (K03)",
+      "nota_fix": "Due commit (91757a70 e c65396cd). Il campanello del negozio legge profiles.notif_promos e, se non è accesa, conta senza le notifiche «promo». Se la lettura della preferenza cade, il conto si fa lo stesso senza le promozioni, invece di dare 0 e spegnere il pallino anche per gli ordini. La prova monta il pannello vero su un database finto che filtra le righe: 2 con le promozioni spente, 3 con quelle accese, 2 con la lettura della preferenza in errore."
+    }
+  ]
+}

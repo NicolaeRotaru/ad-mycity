@@ -1,0 +1,55 @@
+{
+  "corsia": 3,
+  "territorio": "R03",
+  "difetti": [
+    {
+      "chiave": "api-backend|con taglie alla stessa posizione la traccia può segnare un riordino che non c'è",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-taglie-stessa-posizione.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 9dbcc052^ --file app/api/admin/products/route.ts --prove tests/unit/riparazione-r03-taglie-stessa-posizione.test.ts --comando \"npx vitest run {prove} --reporter=dot\" --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 9dbcc052^ --file app/api/admin/products/route.ts --prove tests/unit/riparazione-r03-taglie-stessa-posizione.test.ts --json (worktree a 9dbcc052) → uscita 0 (K04)",
+      "nota_fix": "La traccia non confronta più le due liste ordinate (lo spareggio per contenuto inventava un ordine a parità di posizione): segna le taglie se cambia l'insieme (nome, opzioni, scorta) o se due taglie con posizioni di prima strettamente diverse arrivano invertite. La prova finge il salvataggio vero (posizioni 0..n-1, id tenuti) con M e L a posizione 0 nei due ordini d'arrivo, tre taglie, un riordino vero a posizioni distinte e una scorta cambiata."
+    },
+    {
+      "chiave": "api-backend|se un promemoria del carrello viene saltato, il rilascio del segno può cancellare anche il segno di un carrello cambiato nel frattempo",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-rilascio-segno-carrello.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base a6ecae54^ --file app/api/cron/abandoned-carts/route.ts --prove tests/unit/riparazione-r03-rilascio-segno-carrello.test.ts --comando \"npx vitest run {prove} --reporter=dot\" --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base a6ecae54^ --file app/api/cron/abandoned-carts/route.ts --prove tests/unit/riparazione-r03-rilascio-segno-carrello.test.ts --json → uscita 0 (K04)",
+      "nota_fix": "Il rilascio del segno dopo un invio saltato aggiunge il filtro sull'ultima attività letta: se il carrello è cambiato il suo segno non si cancella."
+    },
+    {
+      "chiave": "api-backend|allarme 'persone non avvisate' riscritto ogni notte, senza dire chi: la stessa classe chiusa per le email resta aperta qui",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-persone-non-avvisate.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base bfc33235^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r03-persone-non-avvisate.test.ts --comando \"npx vitest run {prove} --reporter=dot\" --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base bfc33235^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r03-persone-non-avvisate.test.ts --json (worktree a bfc33235) → uscita 0 (K04)",
+      "nota_fix": "Completata la parte «come la classe delle email»: (a) la chiusura degli allarmi aperti (quella dello «scrivile tu», ora con titolo e segno come parametri, ognuna legge solo il suo titolo) chiude anche «Persone non avvisate» (id <idAvviso>:non-avvisata:<admin>) quando la persona non aspetta più o la spiegazione è nel suo pannello, in tutti e due i percorsi della notte; (b) avvisaAmministratori dice se l'allarme è nuovo o non scritto, e la notte è 500 solo quando un «Persone non avvisate» nasce o non si scrive (prima: avvisi.falliti > 0 ogni notte); nella risposta c'è allarmiNonAvvisateNuovi, avvisiFalliti resta."
+    },
+    {
+      "chiave": "api-backend|due allarmi del giro notturno delle cancellazioni si ripetono ogni notte a ogni amministratore",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-allarmi-della-notte.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 489543c2^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r03-allarmi-della-notte.test.ts --comando \"npx vitest run {prove} --reporter=dot\" --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 489543c2^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r03-allarmi-della-notte.test.ts --json → uscita 0 (K04)",
+      "nota_fix": "«Dati vecchi non cancellati» ha ora un identificativo ricavato da quali pulizie falliscono: stesso guasto nessuna riga nuova, guasto diverso un allarme nuovo; il 500 resta. L'altro dei due allarmi (persone non avvisate) è chiuso dal commit di R03-003, e la prova li guarda insieme."
+    },
+    {
+      "chiave": "api-backend|l'allarme «scrivile tu» resta aperto per sempre se la persona esce dall'elenco della notte",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-scrivile-tu-si-chiude.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 3cc4248b^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r03-scrivile-tu-si-chiude.test.ts --comando \"npx vitest run {prove} --reporter=dot\" --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 3cc4248b^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r03-scrivile-tu-si-chiude.test.ts --json (worktree a bfc33235) → uscita 0 (K04)",
+      "nota_fix": "Commit di sola prova: nuovo caso con una persona oltre il mese (due spiegazioni ferme, due «scrivile tu»): quello del termine scaduto resta aperto la notte in cui nasce e la notte dopo in cui la lista non la porta. ilMondo prende la data della richiesta come parametro facoltativo."
+    },
+    {
+      "chiave": "api-backend|la chiusura dell allarme «scrivile tu» legge al massimo 200 avvisi senza ordine né filtro: oltre 200, quelli aperti possono restare fuori",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-scrivile-tu-si-chiude.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 3cc4248b^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r03-scrivile-tu-si-chiude.test.ts --comando \"npx vitest run {prove} --reporter=dot\" --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 3cc4248b^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r03-scrivile-tu-si-chiude.test.ts --json (worktree a bfc33235) → uscita 0 (K04)",
+      "nota_fix": "Commit di sola prova: nuovo caso in cui il pannello della persona rifiuta la spiegazione, la rotta vera scrive «Persone non avvisate» (testo con «Chi aspetta: l'utente X.»), la persona aspetta ancora e non è avvisata: per due notti, dopo la chiusura dello «scrivile tu», l'allarme resta aperto."
+    },
+    {
+      "chiave": "api-backend|quando la notte finisce il tempo delle email, l'allarme agli amministratori conta come «non partite» anche le spiegazioni gia' arrivate per email nelle notti prima",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-email-gia-partite.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base f9a54ab5^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r03-email-gia-partite.test.ts --comando \"npx vitest run {prove} --reporter=dot\" --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base f9a54ab5^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r03-email-gia-partite.test.ts --json → uscita 0 (K04)",
+      "nota_fix": "A tempo delle email finito, prima di contare e di scrivere l'allarme si tolgono le spiegazioni con «email_partita» nel registro degli invii; conto (avvisiEmailSenzaTempo), testo e chiave dicono solo le altre; se non ne resta nessuna, niente allarme. Il pannello si scrive per tutte come prima."
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "corsia": 12,
+  "territorio": "R12",
+  "difetti": [
+    {
+      "chiave": "layout-responsive|in chi siamo a 280 px col testo al 200% il titolo «come siamo arrivati qui» entra nel margine destro",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r12-pagine-200.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 50f5b47e^ --file app/about/page.tsx --prove tests/unit/riparazione-r12-pagine-200.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 50f5b47e^ --file app/about/page.tsx --prove tests/unit/riparazione-r12-pagine-200.test.ts --json → uscita 0 (K04)",
+      "nota_fix": "Nel blocco «Come siamo arrivati qui» la colonna ha min-w-0 e il titolo break-words hyphens-auto, come il blocco sopra. Misurato in Chrome a 280 px al 200%: prima la colonna usciva dalla sezione, dopo no."
+    },
+    {
+      "chiave": "layout-responsive|col testo al 200% sul telefono la barra a schede è più alta del margine in fondo: l ultima parte della pagina finisce sotto la barra",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r12-barre.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base c62fdea6^ --file app/globals.css --prove tests/unit/riparazione-r12-barre.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base c62fdea6^ --file app/globals.css --prove tests/unit/riparazione-r12-barre.test.ts --json → uscita 0 (K04)",
+      "nota_fix": "Misurato in Chromium: col testo al 200% la barra è alta 75,5 px e il margine restava 58. --tabbar-altezza-vera ora somma le stesse unità della barra (calc(1px + 2 * 0.5rem + 22px + 0.125rem + 11px * 1.5)): 57,5 col testo normale, 75,5 al 200%. In MobileTabBar.tsx solo un commento che rimanda alla somma."
+    },
+    {
+      "chiave": "layout-responsive|in lavora con noi, a 280 px col testo grande, le righe delle posizioni restano strettissime: il titolo e «candidati» vanno quasi una lettera per riga",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r12-pagine-200.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base d6b03f13^ --file app/lavora-con-noi/page.tsx --prove tests/unit/riparazione-r12-pagine-200.test.ts --json (e per 16fc7e09 con --base 16fc7e09^: uscita 0) → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 6a87c607^ --file app/lavora-con-noi/page.tsx --prove tests/unit/riparazione-r12-pagine-200.test.ts --comando \"npx vitest run {prove} --reporter=dot -t R12-004\" --json (worktree a 16fc7e09) → uscita 0 (K04)",
+      "nota_fix": "K04: il primo giro (6a87c607) era un gradino fisso a 300 px, e da 301 a 320 px al 200% «Candidati» si spezzava di nuovo. Correzione continua (d6b03f13 + 16fc7e09): margini px-[min(1.5rem,7.5vw)] per la cornice, px-[min(1.25rem,6.25vw)] per la riga, px-[min(1rem,5vw)] per «Candidati» con flex-wrap; la pillola con max-w-full e senza nowrap; il titolo con break-words hyphens-auto. Misure a 280, 300, 301, 320, 360, 375 e 414 px al 200%: «Candidati» sempre su una riga (prima 7 righe a 301 e 4 a 320), titolo largo 201-298 px, nessuna pillola fuori dalla riga. Al 100% da 320 px in su nulla cambia; sotto i 320 px i margini calano di poco."
+    },
+    {
+      "chiave": "layout-responsive|barra mobile a 280 px col testo al 200%: la pillola del luogo si stringe a zero e sparisce",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r12-testo-grande.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base ce3441c5^ --file components/Navbar.tsx --prove tests/unit/riparazione-r12-testo-grande.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base ce3441c5^ --file components/Navbar.tsx --prove tests/unit/riparazione-r12-testo-grande.test.ts --json → uscita 0 (K04)",
+      "nota_fix": "Misurato in Chromium a 280 e 320 px al 200%: il contenitore della pillola era largo 0 e la pillola finiva sopra il logo. La riga mobile ora ha flex-wrap e il contenitore flex-1 basis-auto: la pillola va a capo intera. Col testo normale da 280 a 767 px resta su una riga come prima."
+    },
+    {
+      "chiave": "navigazione-gerarchia|il piè di pagina passa dall h1 all h3 su ogni pagina pubblica senza un h2 nel contenuto",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r12-footer.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 0bb8e7ef^ --file components/Footer.tsx --prove tests/unit/riparazione-r12-footer.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 0bb8e7ef^ --file components/Footer.tsx --prove tests/unit/riparazione-r12-footer.test.ts --json → uscita 0 (K04)",
+      "nota_fix": "Aggiunto un h2 sr-only «Informazioni sul sito» nel blocco del marchio, prima dei titoli h3 del piede: la gerarchia non salta più, l'aspetto non cambia."
+    },
+    {
+      "chiave": "qa-flussi|nella pagina dei negozi, se la lettura delle categorie cade, i filtri spariscono senza avviso",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r12-negozi-categorie.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base c3162108^ --file app/stores/page.tsx --prove tests/unit/riparazione-r12-negozi-categorie.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base c3162108^ --file app/stores/page.tsx --prove tests/unit/riparazione-r12-negozi-categorie.test.tsx --json → uscita 0 (K04)",
+      "nota_fix": "Quando cade la lettura delle categorie o quella delle categorie per negozio, nel riquadro dei filtri compare un avviso breve (role=status): «Non siamo riusciti a leggere i settori dei negozi: i filtri per settore possono mancare.» Prove: errore categorie → avviso e niente filtri; errore categorie per negozio → avviso; tutto letto → nessun avviso."
+    }
+  ]
+}

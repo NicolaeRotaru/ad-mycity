@@ -222,10 +222,10 @@
       "configurazione": "2+2 riparatori da 9-10 voci (delicate con ultracode, non delicate senza), 1 riservata, collaudi separati"
     },
     {
-      "fase": "in corso: settimana dei 700, voci normali, giro 1 con correzione (21-22/11)",
+      "fase": "settimana dei 700, voci normali, giro 1 con correzione (21-22/11)",
       "voci_lavorate": 150,
       "voci_che_reggono": 53,
-      "voci_chiuse": null,
+      "voci_chiuse": 53,
       "usd": null,
       "usd_riparatori": 260.78,
       "usd_collaudo_e_controllo": null,
@@ -234,7 +234,7 @@
       "usd_per_voce_che_regge": null,
       "usd_per_voce_chiusa": null,
       "nati": 50,
-      "nota": "Cifre dai messaggi delle figlie (get_session qui non porta usage): R01 16,10 · R02 27,67 · R03 29,67 · R04 22,51 · R05 22,11 · R06 9,96 · R07 26,30 · R08 27,16 · R09 18,71 · R10 22,96 (prima del giro di correzione) · R11 12,79 · R12 24,82 $; K01 28,89 $, C01 circa 18 $; K02, K03, K04 e le regie da leggere. 53 si chiudono dopo l unione + 6 già riparate; R01-011 tolta all unione (incrocio con R02-005). Non ancora unito da Nicola.",
+      "nota": "Cifre dai messaggi delle figlie (get_session qui non porta usage): R01 16,10 · R02 27,67 · R03 29,67 · R04 22,51 · R05 22,11 · R06 9,96 · R07 26,30 · R08 27,16 · R09 18,71 · R10 22,96 (prima del giro di correzione) · R11 12,79 · R12 24,82 $; K01 28,89 $, C01 circa 18 $; K02, K03, K04 e le regie da leggere. 53 si chiudono dopo l unione + 6 già riparate; R01-011 tolta all unione (incrocio con R02-005). Non ancora unito da Nicola. Unito da Nicola il 22/11 alle 17:42 (mycity#301, 3d95d6a): 53 chiusure scritte nel registro, 47 nati scritti (3 riservati fuori).",
       "configurazione": "12 riparatori da 10-16 voci, senza ultracode, xhigh, regia corta (6 regie), 4 collaudi in catena, 1 controllore"
     }
   ],
