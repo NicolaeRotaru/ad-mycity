@@ -108,3 +108,10 @@
 2026-11-22 16:40 · R09 · finita · guardia 🔴 (prova comune, attende firma) · referto ✅ · unione ✅ · nessuna
 2026-11-22 16:40 · R11 · finita · guardia 🔴 (prova comune, attende firma) · referto ✅ · unione ✅ · nessuna
 2026-11-22 16:40 · K01-K04 · collaudi finiti · valida-collaudo ✅ ×4 · catena della sorveglianza non ripartita: onda ferma alla fermata delle firme
+2026-11-22 18:34 · R13 · in lavoro · guardia ✅ · referto – · unione (sotto) · nessuna
+2026-11-22 18:34 · R14 · in lavoro FINITA · guardia ✅ · referto 🔴 13 voci · unione (sotto) · nessuna
+2026-11-22 18:34 · R15 · in lavoro · guardia ✅ · referto – · unione (sotto) · nessuna
+2026-11-22 18:34 · R16 · in lavoro · guardia ✅ · referto – · unione (sotto) · nessuna
+2026-11-22 18:34 · R17 · in lavoro · guardia 🔴 · referto – · unione (sotto) · nessuna
+2026-11-22 18:34 · R18 · in lavoro · guardia 🔴 · referto – · unione (sotto) · nessuna
+2026-11-22 18:34 · onda 2 · prova-unione ✅

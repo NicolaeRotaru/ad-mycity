@@ -1,2 +1,3 @@
 # R18 guardia prove_comuni: 6 prove adattate per R18-001 (maybeSingle nel finto), in attesa della firma di Nicola (2026-11-22 18:06)
 # R16 verify rosso su 2 prove comuni (r02-negozi-categorie-a-pagine, r02-banner-alt) per R16-011/R16-004, in attesa della firma (18:29)
+# R17 guardia: prova comune aprendo-un-negozio-si-vede-una-cosa-sola-mentre-arriva (R17-003), in attesa della firma (18:34)
