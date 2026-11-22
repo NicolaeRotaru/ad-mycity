@@ -180,6 +180,13 @@
       "onda": 1,
       "integrazione": "f5e0abcec5f2d8b44ccc27caccd7798a09402345",
       "sha_regista": "c247417d2542180afadbc87e5fdbff93b02be803"
+    },
+    "C02": {
+      "id": "session_015BmpnVvVo2jA9sRBbQX5ZL",
+      "ramo": "claude/settimana-700-regia-c02",
+      "partenza": "3de8737",
+      "integrazione": "77652b102914709ce07d10f66b7a442a5a069875",
+      "onda": 2
     }
   },
   "regie_precedenti": [
