@@ -4,7 +4,7 @@
     "R18",
     "R16"
   ],
-  "aggiornato": "2026-11-22 20:05",
+  "aggiornato": "2026-11-22 20:15",
   "finita": false,
   "voci": [
     {
@@ -40,7 +40,7 @@
     {
       "id": "R18-005",
       "chiave": "immagini-media|quattro foto sotto la piega vengono chieste come «urgenti» su ogni home",
-      "verdetto": "non_regge",
+      "verdetto": "parziale",
       "giudizio": "pieno",
       "lenti": [
         "chiude_tutta",
@@ -50,7 +50,8 @@
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R18-005 --base 3eb7213f^ --file components/StoreProductExplorer.tsx --prove tests/unit/riparazione-r18-foto-vetrina-non-urgenti.test.ts --json (worktree a 59a4632c)"
       },
-      "nota": "Il pezzo fatto regge (prioritaPrimeFoto={!onCount} nelle schede della home del negozio), e alla base le sedi del registro erano davvero già a posto (ProductGrid.tsx:710, PromoDeals.tsx:71, CollectionSection.tsx:98/:156; /promozioni page.tsx:138 è la prima riga in cima). Ma resta aperto più di quanto dice cosa_resta: il ramo senza schede di SectionRenderer.tsx (~:252) non passa onProductCount, e lì la griglia può stare in qualunque posizione, non solo in cima come scrive il referto. Eseguito dal revisore: testo, due collezioni e poi la griglia → [false,false,true], la griglia in fondo chiede ancora 4 foto urgenti sotto la piega. La cura proposta in serve_file_altrui (calcolare inCima anche a ~252) lo coprirebbe, ma il resto non è dichiarato. Minore: il commento StoreProductExplorer.tsx:233-234 («lì è l'ultima sezione») è falso se In evidenza e Promozioni sono vuote o il negozio cambia l'ordine."
+      "nota": "Rigiudicata sul referto corretto (punta 88e5b5b7, testa de01e1ac invariata). Il pezzo fatto regge (prioritaPrimeFoto={!onCount} nelle schede della home del negozio); alla base le sedi del registro erano già a posto (ProductGrid.tsx:710, PromoDeals.tsx:71, CollectionSection.tsx:98/:156; /promozioni page.tsx:138 è la prima riga in cima). Il cosa_resta nuovo ora dice tutto: (1) ramo senza schede (SectionRenderer.tsx:248-256) con la griglia in qualunque posizione e priorità sempre accesa, il caso [false,false,true] trovato dal primo giro di K06; (2) scheda unica senza barra (:137-145) con priorità spenta anche in cima. La ricetta inCima combacia con il codice alla testa (RenderSection :40-49 e :64, SectionTabs :122, ramo !tabs :248-256, ProductGridSection :7-21) e copre i due casi; dove una sezione prima della griglia rende null sbaglia dalla parte prudente (niente priorità). Resti minori: cosa_ho_fatto dice ancora «le pagine [slug] la montano in cima», smentito dal suo stesso cosa_resta; il commento StoreProductExplorer.tsx:233-234 («lì è l'ultima sezione») resta impreciso, e la ricetta riscrive comunque quella riga.",
+      "nota_primo_giro": "Primo giro (referto alla punta 7777c463): non_regge, perché il cosa_resta non diceva il ramo senza schede (~:252)."
     },
     {
       "id": "R18-012",
