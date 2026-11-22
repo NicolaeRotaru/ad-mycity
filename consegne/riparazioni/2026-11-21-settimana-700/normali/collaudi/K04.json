@@ -5,7 +5,7 @@
     "R10",
     "R12"
   ],
-  "aggiornato": "2026-11-22 05:30",
+  "aggiornato": "2026-11-22 05:40",
   "finita": false,
   "voci": [
     {
@@ -281,7 +281,7 @@
         "chiude_tutta",
         "nata_rotta"
       ],
-      "nota": "Il pezzo nominato dalla voce è chiuso: alla base i titoli dei tre passi uscivano fino a 367 px (320 px, testo 200%), alla testa più niente da HowItWorks e col testo normale resta come prima. Ma il titolo della voce («la home scorre ancora di lato») non è vero: la pagina misura ancora 378 px su 320 (anche a 280 e 375), colpa di components/LiveActivityFeed.tsx:55-60 e :154-160 (titolo «Cosa sta succedendo a Piacenza» + «LIVE» su una riga che non va a capo; misurato nello stato di caricamento). Minore: break-words spezza «Ordina» a metà a 280 px.",
+      "nota": "Giro 2 (cf39448a): la scheda dei passi regge, a 280 e 320 px al 200% «Ordina» intero e nessuna parola spezzata; al 100% margine 24 px da 343 px in su, sotto si stringe come dichiarato. Ma il titolo della voce resta vero: la home è ancora larga 378 px a 280, 320 e 375 al 200%, per components/LiveActivityFeed.tsx (dichiarato, non di R12) e a 280 anche per la fascia «Hai un negozio a Piacenza?» (components/home-sections/HomeSectionRenderer.tsx:381-384, già alla base, non dichiarata). Minore: a 768 px al 200% le parole dei passi si spezzano ancora a metà.",
       "nota_rimessa": "Giro 2: dalla base prima del primo commit della voce alla testa 16fc7e09, con le prove filtrate sul nome della voce (-t R12-007), perché più voci condividono file e prove (pagine-200 porta 001, 002, 004, 007)."
     },
     {
@@ -312,7 +312,7 @@
         "chiude_tutta",
         "nata_rotta"
       ],
-      "nota": "La parte dichiarata regge: StorePreviewCard, StoreListRow e ProductCard senza misure a mano, rimessa la base la prova va rossa. Resta quasi tutta la voce: text-[Npx|rem] in app e components 245 alla base, 237 alla testa (8 in meno), più 21 fontSize scritti nei componenti.",
+      "nota": "Giro 2 (6a0558bb): la parte dichiarata regge, chi siamo senza misure a mano e lavora con noi col solo titolo da 54 px (:113); nessuno scorrimento di lato. Conteggio text-[N px|rem] in app e components: 245 alla base, 237 dopo il primo giro, 224 in 81 file adesso (il riparatore dichiarava circa 217 in 76: un po' sotto il conto vero). Effetto visibile ragionevole: chi siamo a 375 px più lunga di 190 px su 3652 (paragrafi da 17 a 18 px), lavora con noi +45 px.",
       "nota_rimessa": "Giro 2: dalla base prima del primo commit della voce alla testa 16fc7e09, con le prove filtrate sul nome della voce (-t R12-014), perché più voci condividono file e prove (pagine-200 porta 001, 002, 004, 007)."
     },
     {
