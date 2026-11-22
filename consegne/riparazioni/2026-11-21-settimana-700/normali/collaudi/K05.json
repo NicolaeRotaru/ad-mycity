@@ -5,7 +5,7 @@
     "R15",
     "R13"
   ],
-  "aggiornato": "2026-11-22 19:20",
+  "aggiornato": "2026-11-22 19:59",
   "finita": true,
   "voci": [
     {
@@ -19,14 +19,15 @@
       ],
       "rimessa": {
         "uscita": 0,
-        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14e --base HEAD^ --file app/api/ai/answer-qa/route.ts,app/api/ai/barcode-lookup/route.ts,app/api/ai/catalog-batch/cancel/route.ts,app/api/ai/catalog-batch/status/route.ts,app/api/ai/description/route.ts,app/api/ai/diagnose/route.ts,app/api/ai/improve-product/route.ts,app/api/ai/product-chat/route.ts,app/api/ai/reviews-summary/route.ts,app/api/ai/seo/route.ts,app/api/ai/variants/route.ts,app/api/ai/voice-product/route.ts --prove tests/unit/riparazione-r14-ai-spenta-sulla-rotta.test.ts --json (wt-R14e = base b57195e2 + patch_pronta «rotte» e «prove_comuni» applicate con git apply, in un commit locale mai spinto)"
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14b --base f663d547^ --file app/api/ai/answer-qa/route.ts,app/api/ai/barcode-lookup/route.ts,app/api/ai/catalog-batch/cancel/route.ts,app/api/ai/catalog-batch/status/route.ts,app/api/ai/description/route.ts,app/api/ai/diagnose/route.ts,app/api/ai/improve-product/route.ts,app/api/ai/product-chat/route.ts,app/api/ai/reviews-summary/route.ts,app/api/ai/seo/route.ts,app/api/ai/variants/route.ts,app/api/ai/voice-product/route.ts --prove tests/unit/riparazione-r14-ai-spenta-sulla-rotta.test.ts --json (wt-R14b a f663d547, ramo claude/settimana-700-regia-m14 punta 74e75fbf)"
       },
-      "nota": "Non riparata: patch in attesa della firma prove_comuni. Giudicata solo la patch: COMPLETA. Si applica pulita sulla base (rotte + prove comuni); 40 file che chiamano le 12 rotte (235 casi) e altri 159 file su api/ai o funzioni-al-lancio (891 casi) verdi; la prova nuova morde su ognuna delle 12 rotte tolta da sola; ogni gestore delle 12 rotte ha il controllo. Dopo la patch in app/api/ai restano senza interruttore solo copilot e catalog-chat (di R13, modifica scritta in serve_file_altrui). Newsletter e caricamento da file erano già frenati sulla rotta; la classifica inviti vuole una migrazione (domanda per Nicola)."
+      "nota": "Il pezzo fatto regge; la voce resta parziale, come dice il referto (esito parziale, copre_tutta_la_voce false). Rimessa sul ramo dopo la firma delle prove comuni (Nicola in chat 2026-11-22 19:45, onda 2 (piano.json, eccezioni_firmate; ad-mycity claude/settimana-700-regia @ ec176140)). Il commit f663d547 è identico byte per byte alle patch «rotte» e «prove_comuni» che K05 aveva giudicato complete (applicate su 3ecde09e, git diff verso f663d547 escluso .riparazione: 0 righe). Prova rimessa sul commit vero: verde (24 casi), rossa sul comportamento togliendo da sola ognuna delle 12 rotte, di nuovo verde. Verify verde sulla testa f663d547 (referto). Restano aperti: copilot e catalog-chat in app/api/ai senza interruttore (file di R13, modifica scritta in serve_file_altrui) e la classifica inviti, che vuole una migrazione (decisione di Nicola). Newsletter e caricamento da file erano già frenati sulla rotta. Giudizio di K05 sulla patch: COMPLETA. Si applica pulita sulla base (rotte + prove comuni); 40 file che chiamano le 12 rotte (235 casi) e altri 159 file su api/ai o funzioni-al-lancio (891 casi) verdi; la prova nuova morde su ognuna delle 12 rotte tolta da sola; ogni gestore delle 12 rotte ha il controllo. Dopo la patch in app/api/ai restano senza interruttore solo copilot e catalog-chat (di R13, modifica scritta in serve_file_altrui). Newsletter e caricamento da file erano già frenati sulla rotta; la classifica inviti vuole una migrazione (domanda per Nicola).",
+      "nota_rimessa": "Prima della firma: la patch applicata in un commit locale, uscita 0. Dopo la firma (K05 secondo), sul commit f663d547: uscita 0."
     },
     {
       "id": "R14-008",
       "chiave": "qa-flussi|la rotta del lotto sul catalogo, se non riceve l'elenco dei prodotti, applica ancora tutti i risultati",
-      "verdetto": "parziale",
+      "verdetto": "regge",
       "giudizio": "pieno",
       "lenti": [
         "chiude_tutta",
@@ -34,10 +35,10 @@
       ],
       "rimessa": {
         "uscita": 0,
-        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14g --base HEAD^ --file app/api/ai/catalog-batch/apply/route.ts --prove tests/unit/riparazione-r14-lotto-senza-elenco.test.ts --json (wt-R14g = base b57195e2 + patch_pronta «diff» del giro 2, commit locale mai spinto)"
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 3ecde09e^ --file app/api/ai/catalog-batch/apply/route.ts --prove tests/unit/riparazione-r14-lotto-senza-elenco.test.ts --json (wt-R14 a 3ecde09e, ramo claude/settimana-700-regia-m14 punta 74e75fbf)"
       },
-      "nota": "Non riparata: patch in attesa della firma prove_comuni. Giudicata solo la patch, giro 2: COMPLETA. Ora dentro c'è la prova nuova tests/unit/riparazione-r14-lotto-senza-elenco.test.ts (solo jobId → 400, nessuna scrittura, lavoro «ready»; productIds ['p1'] → scrive solo p1); si applica pulita sulla base; tolta la correzione della rotta la prova nuova diventa rossa sul comportamento (rimessa 0); 11 file che chiamano la rotta o usano aiuti/finto-catalogo verdi (111 casi). L'unico chiamante (app/seller/products/ai-batch/page.tsx:445-447) manda già productIds.",
-      "nota_rimessa": "Giro 1, patch senza la prova nuova: uscita 1 (non_morde) con le 8 prove della rotta."
+      "nota": "Regge. Rimessa sul ramo dopo la firma delle prove comuni (Nicola in chat 2026-11-22 19:45, onda 2 (piano.json, eccezioni_firmate; ad-mycity claude/settimana-700-regia @ ec176140)). Il commit 3ecde09e è identico byte per byte alla patch «diff» del giro 2 che K05 aveva giudicato completa (git apply della patch su 3ecde09e^, poi git diff verso 3ecde09e escluso .riparazione: 0 righe). Prova rimessa sul commit vero: verde (2 casi), rossa sul comportamento togliendo la correzione della rotta, di nuovo verde. Verify verde sulla testa f663d547 (referto). Giudizio di K05 sulla patch: COMPLETA. Ora dentro c'è la prova nuova tests/unit/riparazione-r14-lotto-senza-elenco.test.ts (solo jobId → 400, nessuna scrittura, lavoro «ready»; productIds ['p1'] → scrive solo p1); si applica pulita sulla base; tolta la correzione della rotta la prova nuova diventa rossa sul comportamento (rimessa 0); 11 file che chiamano la rotta o usano aiuti/finto-catalogo verdi (111 casi). L'unico chiamante (app/seller/products/ai-batch/page.tsx:445-447) manda già productIds.",
+      "nota_rimessa": "Giro 1, patch senza la prova nuova: uscita 1 (non_morde) con le 8 prove della rotta. Giro 2, patch con la prova nuova: uscita 0. Giro 3 (K05 secondo), sul commit 3ecde09e: uscita 0."
     },
     {
       "id": "R14-013",
@@ -185,22 +186,23 @@
     {
       "id": "R13-010",
       "chiave": "qa-flussi|le prove delle frasi pubbliche cercano parole nel codice: sette mutanti che rimettono i difetti restano verdi",
-      "verdetto": "parziale",
+      "verdetto": "regge",
       "giudizio": "pieno",
       "lenti": [
         "chiude_tutta",
         "nata_rotta"
       ],
       "rimessa": {
-        "uscita": 2,
-        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R13f --base d8c691ff^ --file tests/unit/riparazione-r13-frasi-pubbliche.test.tsx --prove tests/unit/riparazione-r13-frasi-pubbliche.test.tsx --json → «un file non può essere insieme correzione e prova» (commit di sola prova)",
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R13f --base 7efafdfd5d5eca4ac85f6c0fd5c0c12e8632aadb --file components/home-sections/HomeSectionRenderer.tsx,app/rider/help/page.tsx,components/seller/AttributesFields.tsx,app/cart/page.tsx --prove tests/unit/riparazione-r13-frasi-pubbliche.test.tsx --json (wt-R13f a 4482a69f, albero identico a d8c691ff; 7efafdfd = d8c691ff più 4 mutanti che rimettono i difetti della voce: HomeSectionRenderer senzaNegozio={false}, app/rider/help tel:112 → tel:+390523000000, AttributesFields checked={!!values[f.key]}, carrello con la frase del pagamento scritta a mano «Paghi in contanti alla consegna» al posto di {frasePagamento()}; 4482a69f = il revert di 7efafdfd; commit locali mai spinti; ramo claude/settimana-700-regia-m13 punta 4cc975d1)",
         "a_mano": {
           "comando": "in ../wt-R13f a d8c691ff, un mutante alla volta poi git checkout: HomeSectionRenderer senzaNegozio={false}; app/rider/help tel:112 → tel:+390523000000; AttributesFields checked={!!values[f.key]}; npx vitest run --reporter=dot tests/unit/riparazione-r13-frasi-pubbliche.test.tsx",
           "uscita_senza_correzione": 1,
           "uscita_con_correzione": 0
         }
       },
-      "nota": "Sul merito regge: la prova nuova disegna i componenti veri (nessun readFileSync) e cade su 3 mutanti su 3 rifatti da me (1 caso rosso ciascuno, 10/10 verdi senza mutanti); il revisore di R13 ne aveva rifatti 7 su 7. Resta aperta solo per la regola: il commit tocca solo la prova, prova-rimessa non decide (uscita 2) e una rimessa a mano chiude solo con la deroga firmata «rimessa_a_mano», che per R13 non c'è. Con la deroga diventa «regge»."
+      "nota": "Regge. Firma: la deroga «rimessa_a_mano» per R13-010 l'ha firmata Nicola in chat 2026-11-22 19:45, onda 2 (piano.json, eccezioni_firmate; ad-mycity claude/settimana-700-regia @ ec176140); copre la rimessa a mano del riparatore (7 mutanti su 7 rossi) e quella di K05 (3 su 3). In più, perché il programma accetta la rimessa a mano solo con prova-rimessa a uscita 3 e qui era 2 (commit di sola prova), K05 secondo l'ha fatta girare alla macchina: base = d8c691ff con i difetti rimessi, un file alla volta. Esito 0: verde con 10 casi, rossa sul comportamento togliendo da sola ognuna delle 4 correzioni (casa, aiuto fattorini, caratteristiche, carrello), di nuovo verde e file identici. Il giudizio di K05 resta: la prova nuova disegna i componenti veri (nessun readFileSync); tra d8c691ff e la punta 4cc975d1 c'è solo f042b55a (R13-013, scheda prodotto), che non tocca la prova né i 4 file.",
+      "nota_rimessa": "Giro 1 (K05): prova-rimessa con la prova stessa come --file → uscita 2 («un file non può essere insieme correzione e prova»); rimessa a mano 3 mutanti su 3 rossi. Giro 2 (K05 secondo, dopo la firma): prova-rimessa con base mutante → uscita 0."
     },
     {
       "id": "R13-012",
