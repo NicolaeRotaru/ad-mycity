@@ -1,0 +1,71 @@
+{
+  "collaudatore": "K06",
+  "riparatori": [
+    "R18"
+  ],
+  "aggiornato": "2026-11-22 19:20",
+  "finita": false,
+  "voci": [
+    {
+      "id": "R18-001",
+      "chiave": "deploy-sre|due giri partiti insieme possono ancora mandare due volte il promemoria del carrello alla stessa persona",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R18-001 --base 57f2e330^ --file app/api/cron/abandoned-carts/route.ts --prove tests/unit/riparazione-r18-promemoria-carrello-una-volta.test.ts --json (worktree a 57f2e330)"
+      },
+      "nota": "in corso"
+    },
+    {
+      "id": "R18-002",
+      "chiave": "deploy-sre|il commento del cron delle notifiche dice che il nuovo ordine manda la push subito, ma oggi nessun file lo fa",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R18-002 --base 9f8ac9af^ --file app/api/cron/send-push/route.ts --prove tests/unit/riparazione-r18-commento-push-nuovo-ordine.test.ts --json (worktree a de01e1ac)"
+      },
+      "nota": "in corso"
+    },
+    {
+      "id": "R18-005",
+      "chiave": "immagini-media|quattro foto sotto la piega vengono chieste come «urgenti» su ogni home",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R18-005 --base 3eb7213f^ --file components/StoreProductExplorer.tsx --prove tests/unit/riparazione-r18-foto-vetrina-non-urgenti.test.ts --json (worktree a 59a4632c)"
+      },
+      "nota": "in corso"
+    },
+    {
+      "id": "R18-012",
+      "chiave": "stati-ui|un lavoro sul catalogo «in invio» incerto promette «tra poco lo vedi partire» per 24 ore, e a riga chiusa dice «puoi avviarne un altro» mentre il motivo dice di chiedere all'assistenza",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R18-012 --base adafa0fa^ --file lib/ai/statoLavoroCatalogo.ts --prove tests/unit/riparazione-r18-testo-lavoro-incerto.test.ts --json (worktree a 83686b8f)"
+      },
+      "nota": "in corso"
+    }
+  ],
+  "campione": {}
+}
