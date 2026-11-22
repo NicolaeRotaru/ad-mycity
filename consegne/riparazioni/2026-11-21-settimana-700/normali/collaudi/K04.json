@@ -5,8 +5,8 @@
     "R10",
     "R12"
   ],
-  "aggiornato": "2026-11-22 03:15",
-  "finita": true,
+  "aggiornato": "2026-11-22 04:35",
+  "finita": false,
   "voci": [
     {
       "id": "R03-004",
@@ -311,13 +311,13 @@
       "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
-        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base c2d7cbeb^ --file 'app/product/[id]/layout.tsx,app/store/[id]/layout.tsx,app/category/[slug]/layout.tsx,app/store/[id]/[slug]/layout.tsx' --prove tests/unit/riparazione-r10-pagine-inesistenti.test.ts --json (worktree a 5af84074)"
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base c2d7cbeb^ --file 'app/product/[id]/layout.tsx,app/store/[id]/layout.tsx,app/category/[slug]/layout.tsx,app/store/[id]/[slug]/layout.tsx' --prove tests/unit/riparazione-r10-pagine-inesistenti.test.ts --json (worktree a 502ba692)"
       },
       "lenti": [
         "chiude_tutta",
         "nata_rotta"
       ],
-      "nota": "La parte fatta regge (i layout usano le regole delle pagine; guasto e prodotto non in vendita non danno 404; mutante rosso). Ma nel percorso vero di Next 15.5 la 404 non arriva in rete: app/loading.tsx, rimesso da 5af84074, avvolge i layout, la risposta parte 200 e notFound() arriva in streaming (PPR spento, node_modules/next/dist/build/templates/app-page.js:248; ricavato dal codice di Next, non da una build con richieste HTTP). cosa_resta non è esatto: davanti al layout del negozio c'è anche app/store/loading.tsx, non nominato. I commenti alla testa dicono che sopra non c'è attesa, falso: app/product/[id]/layout.tsx:118-119, app/store/[id]/layout.tsx:114-117, app/category/[slug]/layout.tsx:97-99."
+      "nota": "Giro 2 (08b93709, solo commenti): ora i commenti dei gusci dicono il vero (la 404 arriva in rete solo togliendo le attese sopra) e cosa_resta nomina anche app/store/loading.tsx oltre a app/loading.tsx e app/store/[id]/loading.tsx: il parziale dichiarato è esatto. La parte fatta regge (rimessa 0 da c2d7cbeb^ alla testa 502ba692). Resta la 404 vera in rete, che dipende dal togliere le attese."
     },
     {
       "id": "R10-003",
@@ -379,13 +379,14 @@
       "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
-        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 266a5540^ --file 'components/seller/site/SectionConfigForm.tsx,components/seller/site/CollectionFields.tsx' --prove tests/unit/riparazione-r10-vetrina-campi-brevi.test.tsx --json (worktree a 266a5540)"
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 876a6196^ --file 'components/VendorForm.tsx' --prove tests/unit/riparazione-r10-slogan-e-social.test.ts --json (worktree a 876a6196)"
       },
       "lenti": [
         "chiude_tutta",
         "nata_rotta"
       ],
-      "nota": "La parte fatta regge: SectionConfigForm e CollectionFields mostrano l'errore e contano come lo schema. In components/seller/site restano i 10 maxLength dichiarati (BannerFields 60/67/75/98, GalleryFields 99/119, PageEditor 89/110/111, MenuEditor 61) e altri 2 fuori lista: components/VendorForm.tsx:432 (slogan, 80) e components/seller/AnnouncementEditor.tsx:35 (testo del banner annuncio, senza contatore): 12 in tutto."
+      "nota": "La parte fatta regge: SectionConfigForm e CollectionFields mostrano l'errore e contano come lo schema. In components/seller/site restano i 10 maxLength dichiarati (BannerFields 60/67/75/98, GalleryFields 99/119, PageEditor 89/110/111, MenuEditor 61) e altri 2 fuori lista: components/VendorForm.tsx:432 (slogan, 80) e components/seller/AnnouncementEditor.tsx:35 (testo del banner annuncio, senza contatore): 12 in tutto.",
+      "nota_rimessa": "Giro 2, dalla base prima del primo commit della voce alla testa 502ba692: uscita 0 — timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 266a5540^ --file 'components/VendorForm.tsx,components/seller/site/CollectionFields.tsx,components/seller/site/SectionConfigForm.tsx' --prove tests/unit/riparazione-r10-vetrina-campi-brevi.test.tsx,tests/unit/riparazione-r10-slogan-e-social.test.ts --json (worktree a 502ba692)"
     },
     {
       "id": "R10-009",
@@ -394,13 +395,14 @@
       "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
-        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 266a5540^ --file 'components/seller/site/SectionConfigForm.tsx,components/seller/site/CollectionFields.tsx' --prove tests/unit/riparazione-r10-vetrina-campi-brevi.test.tsx --json (worktree a 266a5540)"
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 876a6196^ --file 'components/VendorForm.tsx' --prove tests/unit/riparazione-r10-slogan-e-social.test.ts --json (worktree a 876a6196)"
       },
       "lenti": [
         "chiude_tutta",
         "nata_rotta"
       ],
-      "nota": "Stesso commit e stessa misura di R10-008: la parte fatta regge, restano 12 campi brevi che tagliano in silenzio (10 dichiarati + VendorForm.tsx:432 e AnnouncementEditor.tsx:35)."
+      "nota": "Stesso commit e stessa misura di R10-008: la parte fatta regge, restano 12 campi brevi che tagliano in silenzio (10 dichiarati + VendorForm.tsx:432 e AnnouncementEditor.tsx:35).",
+      "nota_rimessa": "Giro 2, dalla base prima del primo commit della voce alla testa 502ba692: uscita 0 — timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 266a5540^ --file 'components/VendorForm.tsx,components/seller/site/CollectionFields.tsx,components/seller/site/SectionConfigForm.tsx' --prove tests/unit/riparazione-r10-vetrina-campi-brevi.test.tsx,tests/unit/riparazione-r10-slogan-e-social.test.ts --json (worktree a 502ba692)"
     },
     {
       "id": "R10-010",
@@ -409,9 +411,9 @@
       "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
-        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base c084252d^ --file 'lib/store-customization.ts' --prove tests/unit/riparazione-r10-instagram-incollato-intero.test.ts --json (worktree a c084252d)"
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 718f6698^ --file 'components/VendorForm.tsx' --prove tests/unit/riparazione-r10-instagram-incollato-intero.test.ts,tests/unit/riparazione-r10-slogan-e-social.test.ts --json (worktree a 718f6698)"
       },
-      "nota_rimessa": "Anche con la base prima del PRIMO commit della voce, alla testa: uscita 0 — timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 56a0bbff^ --file 'lib/store-customization.ts' --prove tests/unit/riparazione-r10-instagram-incollato-intero.test.ts --json (worktree a 38a1e1ac)",
+      "nota_rimessa": "Giro 2, dalla base prima del primo commit della voce alla testa 502ba692: uscita 0 — timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 56a0bbff^ --file 'lib/store-customization.ts,components/VendorForm.tsx' --prove tests/unit/riparazione-r10-instagram-incollato-intero.test.ts,tests/unit/riparazione-r10-slogan-e-social.test.ts --json (worktree a 502ba692)",
       "lenti": [
         "chiude_tutta",
         "nata_rotta"
@@ -425,13 +427,13 @@
       "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
-        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 87b53c61^ --file 'components/VendorForm.tsx,app/seller/profile/page.tsx' --prove tests/unit/riparazione-r10-etichette-legate-al-campo.test.tsx --json (worktree a 38a1e1ac)"
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 87b53c61^ --file 'components/VendorForm.tsx,app/seller/profile/page.tsx' --prove tests/unit/riparazione-r10-etichette-legate-al-campo.test.tsx --json (worktree a 502ba692)"
       },
       "lenti": [
         "chiude_tutta",
         "nata_rotta"
       ],
-      "nota": "Logo, prodotti in evidenza e casella Express del profilo legati bene, id da useId (unici anche con due moduli). Ma il campo vero del «Banner annuncio», la textarea in components/seller/AnnouncementEditor.tsx:33-40, resta senza etichetta (solo segnaposto): è stato solo avvolto in un gruppo con titolo. Minori: id fisso «announcement-until» (:45); sul profilo la zona cliccabile della casella Express si è ristretta al solo titolo più casella."
+      "nota": "Logo, prodotti in evidenza e casella Express del profilo legati bene, id da useId (unici anche con due moduli). Ma il campo vero del «Banner annuncio», la textarea in components/seller/AnnouncementEditor.tsx:33-40, resta senza etichetta (solo segnaposto): è stato solo avvolto in un gruppo con titolo. Minori: id fisso «announcement-until» (:45); sul profilo la zona cliccabile della casella Express si è ristretta al solo titolo più casella. Giro 2: nessun commit nuovo su questa voce; cosa_resta ora nomina la textarea di AnnouncementEditor.tsx:32-39, esatto. Rimessa rifatta alla testa 502ba692: regge."
     },
     {
       "id": "R10-013",
@@ -440,13 +442,14 @@
       "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
-        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 403a6681^ --file 'lib/products/schema.ts,components/seller/ProductForm.tsx,lib/errors.ts' --prove tests/unit/riparazione-r10-nome-prodotto-120.test.ts --json (worktree a 403a6681)"
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 502ba692^ --file 'lib/products/schema.ts,lib/errors.ts' --prove tests/unit/riparazione-r10-descrizione-prodotto-4000.test.ts --json (worktree a 502ba692)"
       },
       "lenti": [
         "chiude_tutta",
         "nata_rotta"
       ],
-      "nota": "Per il nome il messaggio dei 120 caratteri arriva dal modulo e dalla creazione (lib/errors.ts:231-237); sulla modifica il server dà ancora la frase generica (app/api/seller/products/[id]/route.ts:80, lib/products/prontoPerLaVendita.ts:222-229), basso impatto perché lo schema blocca prima. Restano scoperte parti che la voce nomina: descrizione oltre 4000 senza limite in lib/products/schema.ts:163-170 (vincolo products_description_lunghezza → messaggio generico), import da file ancora a 200 (lib/products/righe-dal-file.ts:58), rotta admin a 200/8000 (app/api/admin/products/route.ts:42-43)."
+      "nota": "Per il nome il messaggio dei 120 caratteri arriva dal modulo e dalla creazione (lib/errors.ts:231-237); sulla modifica il server dà ancora la frase generica (app/api/seller/products/[id]/route.ts:80, lib/products/prontoPerLaVendita.ts:222-229), basso impatto perché lo schema blocca prima. Restano scoperte parti che la voce nomina: descrizione oltre 4000 senza limite in lib/products/schema.ts:163-170 (vincolo products_description_lunghezza → messaggio generico), import da file ancora a 200 (lib/products/righe-dal-file.ts:58), rotta admin a 200/8000 (app/api/admin/products/route.ts:42-43).",
+      "nota_rimessa": "Giro 2, dalla base prima del primo commit della voce alla testa 502ba692: uscita 0 — timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 403a6681^ --file 'lib/products/schema.ts,lib/errors.ts,components/seller/ProductForm.tsx' --prove tests/unit/riparazione-r10-nome-prodotto-120.test.ts,tests/unit/riparazione-r10-descrizione-prodotto-4000.test.ts --json (worktree a 502ba692)"
     },
     {
       "id": "R10-014",
@@ -455,9 +458,9 @@
       "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
-        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 549c56cc^ --file 'lib/store-customization.ts' --prove tests/unit/riparazione-r10-facebook-percorsi-non-profilo.test.ts --json (worktree a 549c56cc)"
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 233037ea^ --file 'lib/store-customization.ts' --prove tests/unit/riparazione-r10-facebook-percorsi-non-profilo.test.ts --json (worktree a 233037ea)"
       },
-      "nota_rimessa": "Anche con la base prima del PRIMO commit della voce, alla testa: uscita 0 — timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 6d83434d^ --file 'lib/store-customization.ts' --prove tests/unit/riparazione-r10-facebook-percorsi-non-profilo.test.ts --json (worktree a 38a1e1ac)",
+      "nota_rimessa": "Giro 2, dalla base prima del primo commit della voce alla testa 502ba692: uscita 0 — timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 6d83434d^ --file 'lib/store-customization.ts' --prove tests/unit/riparazione-r10-facebook-percorsi-non-profilo.test.ts --json (worktree a 502ba692)",
       "lenti": [
         "chiude_tutta",
         "nata_rotta"
