@@ -64,5 +64,16 @@
       "onda": 1
     }
   },
-  "collaudatori": {}
+  "collaudatori": {
+    "K01": {
+      "id": "session_015BmpnZJMmhSXcaKQETZNYW",
+      "ramo": "claude/settimana-700-regia-k01",
+      "partenza": "12fa1ddef5cb9d8c5d6ccd7391b08d830a72ed21",
+      "riparatori": [
+        "R01",
+        "R06",
+        "R11"
+      ]
+    }
+  }
 }
