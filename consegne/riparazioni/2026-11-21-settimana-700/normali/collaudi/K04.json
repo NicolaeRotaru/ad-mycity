@@ -5,7 +5,7 @@
     "R10",
     "R12"
   ],
-  "aggiornato": "2026-11-22 02:58",
+  "aggiornato": "2026-11-22 03:05",
   "finita": false,
   "voci": [
     {
@@ -380,13 +380,18 @@
     {
       "id": "R10-010",
       "chiave": "frontend-ux|incollare il link di instagram o scrivere il sito senza https blocca il salvataggio di tutta la vetrina con un messaggio che non dice dove",
-      "verdetto": "regge",
-      "giudizio": "nessuno",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base c084252d^ --file 'lib/store-customization.ts' --prove tests/unit/riparazione-r10-instagram-incollato-intero.test.ts --json (worktree a c084252d)"
       },
-      "nota_rimessa": "Anche con la base prima del PRIMO commit della voce, alla testa: uscita 0 — timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 56a0bbff^ --file 'lib/store-customization.ts' --prove tests/unit/riparazione-r10-instagram-incollato-intero.test.ts --json (worktree a 38a1e1ac)"
+      "nota_rimessa": "Anche con la base prima del PRIMO commit della voce, alla testa: uscita 0 — timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 56a0bbff^ --file 'lib/store-customization.ts' --prove tests/unit/riparazione-r10-instagram-incollato-intero.test.ts --json (worktree a 38a1e1ac)",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Regge su Instagram e sito senza https: si salvano link interi con ?igsh=, ?utm, #, maiuscole, www., m., /@nome, /nome/reels/; vengono rifiutati con «Instagram: …» sotto il campo «nome<script>» (anche dentro un link), %3C, &, instagram.com.evil.com, instagram.com@evil.com, javascript:; «www.panequotidiano.it» diventa https://… (circa 90 input avversari in una prova temporanea). Resta la parte «blocca il salvataggio di tutta la vetrina»: un social sbagliato ferma ancora nome, logo, descrizione e colore (components/VendorForm.tsx:269-286, return), ora almeno dice quale campo. Rifiutati link con il nome dentro: instagr.am/nome, web./it-it./business.facebook.com, fb.me, facebook.com/pg/nome; una pagina Facebook con solo l'id (profile.php?id=, /people/Nome/ID/) non si può salvare."
     },
     {
       "id": "R10-012",
@@ -421,13 +426,18 @@
     {
       "id": "R10-014",
       "chiave": "frontend-ux|altri percorsi di facebook non elencati possono essere salvati come nome del profilo",
-      "verdetto": "regge",
-      "giudizio": "nessuno",
+      "verdetto": "non_regge",
+      "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 549c56cc^ --file 'lib/store-customization.ts' --prove tests/unit/riparazione-r10-facebook-percorsi-non-profilo.test.ts --json (worktree a 549c56cc)"
       },
-      "nota_rimessa": "Anche con la base prima del PRIMO commit della voce, alla testa: uscita 0 — timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 6d83434d^ --file 'lib/store-customization.ts' --prove tests/unit/riparazione-r10-facebook-percorsi-non-profilo.test.ts --json (worktree a 38a1e1ac)"
+      "nota_rimessa": "Anche con la base prima del PRIMO commit della voce, alla testa: uscita 0 — timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 6d83434d^ --file 'lib/store-customization.ts' --prove tests/unit/riparazione-r10-facebook-percorsi-non-profilo.test.ts --json (worktree a 38a1e1ac)",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "La voce («altri percorsi di Facebook non elencati si salvano come nome») è ancora vera: facebook.com/home.php si salva come «home.php», /notes/x come «notes», /recover/initiate come «recover», /places/x come «places». I percorsi in lista sono rifiutati bene, ma la lista di percorsi vietati (lib/store-customization.ts:318-321) non chiude la classe. Effetto accanto: la stessa lista vale per Instagram e TikTok, un profilo vero chiamato live, help, business, media, search o public verrebbe rifiutato (:318). Valori sbagliati salvati prima (es. «events») restano e mostrano facebook.com/events."
     },
     {
       "id": "R10-015",
