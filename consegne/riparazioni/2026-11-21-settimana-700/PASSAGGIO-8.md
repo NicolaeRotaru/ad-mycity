@@ -17,14 +17,7 @@ Per Nicola: aprire la regia nuova con la riga qui sotto, poi niente fino alla ri
 Per la regia ottava: sorveglianza, poi collaudo, unione, controllore e PR, poi la fermata a Nicola.
 
 ## Cosa devi fare
-1. Leggi la skill `riparazione` (regole del 21/11, F2, F3), `REGIA.md` e questo foglio. Non rileggere i PASSAGGI vecchi.
-2. Scrivi subito alla regia settima (session_015BmpnXrV1Q7uJoKhhGbeQG) il tuo id: ti manda in chat i dettagli riservati e avvisa R13-R18 di scrivere a te.
-3. Aggiungi il sito con `add_repo` (accesso push) e clonalo in `/home/user/mycity`.
-4. Sorveglianza ogni 30 minuti con `send_later`: `MARKETPLACE_REPO=/home/user/mycity bash cervello/riparazione/sorveglia.sh consegne/riparazioni/2026-11-21-settimana-700/normali 2`, più `list_sessions` (children non funziona per te: usa gli id qui sotto con `get_session`).
-5. La spesa delle figlie la leggi tu (`usage.cost_usd` di `get_session` col loro id): a loro non si vede. Avvisale verso i 25 $; tetto 35 $.
-6. F2: K05 su R13-R15, K06 su R16-R18, con `source_revision` = la punta di `claude/settimana-700-regia` in ad-mycity quando li apri (deve contenere 06530adf: il piano di R14 corretto). Controllo dopo dei collaudatori: cerca anche gli strumenti a nome UUID (sotto).
-7. F3 sull'integrazione nuova da 3d95d6a (ramo `claude/settimana-700-regia` del sito, oggi a b57195e), C02, PR, fermata a Nicola. Le migrazioni nuove (750 di R13, 760 o 801 se arrivano) vanno con «ok migrazioni».
-8. Passa la mano a 250 mila token, controllando `get_session` senza id a ogni risveglio.
+La regia ottava segue gli otto passi in fondo, sotto «I passi della regia ottava». Nicola apre la sessione con la riga scritta lì sotto.
 
 ## Cosa non ho verificato
 - Che i riparatori leggano bene le istruzioni dal ramo del sito: i sei piani dicono di sì, i referti non ci sono ancora.
@@ -33,6 +26,16 @@ Per la regia ottava: sorveglianza, poi collaudo, unione, controllore e PR, poi l
 ---
 
 ## Dettagli tecnici
+
+### I passi della regia ottava
+1. Leggi la skill `riparazione` (regole del 21/11, F2, F3), `REGIA.md` e questo foglio. Non rileggere i PASSAGGI vecchi.
+2. Scrivi subito alla regia settima (session_015BmpnXrV1Q7uJoKhhGbeQG) il tuo id: ti manda in chat i dettagli riservati e avvisa R13-R18 di scrivere a te.
+3. Aggiungi il sito con `add_repo` (accesso push) e clonalo in `/home/user/mycity`.
+4. Sorveglianza ogni 30 minuti con `send_later`: `MARKETPLACE_REPO=/home/user/mycity bash cervello/riparazione/sorveglia.sh consegne/riparazioni/2026-11-21-settimana-700/normali 2`, più `list_sessions` (children non funziona per te: usa gli id qui sotto con `get_session`).
+5. La spesa delle figlie la leggi tu (`usage.cost_usd` di `get_session` col loro id): a loro non si vede. Avvisale verso i 25 $; tetto 35 $.
+6. F2: K05 su R13-R15, K06 su R16-R18, con `source_revision` = la punta di `claude/settimana-700-regia` in ad-mycity quando li apri (deve contenere 06530adf: il piano di R14 corretto). Controllo dopo dei collaudatori: cerca anche gli strumenti a nome UUID (sotto).
+7. F3 sull'integrazione nuova da 3d95d6a (ramo `claude/settimana-700-regia` del sito, oggi a b57195e), C02, PR, fermata a Nicola. Le migrazioni nuove (750 di R13, 760 o 801 se arrivano) vanno con «ok migrazioni».
+8. Passa la mano a 250 mila token, controllando `get_session` senza id a ogni risveglio.
 
 ### La riga per aprire la regia ottava (la usa Nicola)
 Sessione nuova su `NicolaeRotaru/ad-mycity`, ramo `claude/settimana-700-regia`, modalità Auto, prompt:
