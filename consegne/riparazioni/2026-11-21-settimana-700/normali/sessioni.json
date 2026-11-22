@@ -99,6 +99,12 @@
       "ramo": "claude/settimana-700-regia-m18",
       "onda": 2,
       "base": "b57195e2f913ee3056414bfcc3594de18265d4d5"
+    },
+    "S02": {
+      "id": "session_015BmpnWHcYCcD5EzVZ6DezR",
+      "ramo": "claude/settimana-700-regia-s02",
+      "onda": "riservata",
+      "base": "3d95d6a357e01906c501e38d3c719349e0d5a302"
     }
   },
   "collaudatori": {
@@ -151,7 +157,8 @@
         "R15",
         "R13"
       ],
-      "onda": 2
+      "onda": 2,
+      "secondo": "session_015BmpnZM2WbetSknti2DZyE"
     },
     "K06": {
       "id": "session_015BmpnWEBueCuRDtLhJzj5z",
@@ -162,7 +169,8 @@
         "R16",
         "R17"
       ],
-      "onda": 2
+      "onda": 2,
+      "secondo": "session_015BmpnYfhP7VAro77d4143z"
     }
   },
   "controllori": {
