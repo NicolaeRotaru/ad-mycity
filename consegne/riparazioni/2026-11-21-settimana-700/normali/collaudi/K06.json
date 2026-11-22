@@ -5,8 +5,8 @@
     "R16",
     "R17"
   ],
-  "aggiornato": "2026-11-22 21:00",
-  "finita": false,
+  "aggiornato": "2026-11-22 21:35",
+  "finita": true,
   "voci": [
     {
       "id": "R18-001",
@@ -238,12 +238,71 @@
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16-3 --base 3fcec934^ --file components/seller/ProductForm.tsx --prove tests/unit/riparazione-r17-proposta-ai.test.tsx --json (worktree a 3fcec934)"
       },
       "nota": "Parziale onesto. Provato con una prova temporanea: dopo il «no» la proposta resta aperta e il campo tiene la modifica a mano. I due bordi del cosa_resta sono veri (svuoto e rigenero: confronto con un testo superato, ma nessuna perdita in silenzio; confirm soppresso: «Usa questa» non fa niente, senza avviso). Nessun terzo bordo: la proposta tocca solo la descrizione, la foto scrive solo nei campi vuoti, l'assistente (ProductForm.tsx:648) che cambia la descrizione con la proposta aperta fa scattare la conferma."
+    },
+    {
+      "id": "R17-002",
+      "chiave": "frontend-ux|le pagine di prodotti, negozi e categorie che non esistono rispondono «tutto ok» invece di «non trovato»",
+      "verdetto": "non_regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "serve_file_altrui, giudicata la ricetta: Ricetta di R17-002 e R17-003 (da applicare insieme) NON completa e rompe altro. (1) r17-002-radice-e-prova.patch non si applica alla testa 4c619346: falliscono i pezzi di commento di app/product/[id]/layout.tsx:115 e app/store/[id]/layout.tsx:113, perché R17-007 ne ha cambiato il contesto, e git apply è tutto o niente. (2) Applicata a mano: suite unitaria 2001 file su 2001 verde. Morde: con app/loading.tsx rimesso si accendono minori-s09 e la prova nuova, con app/store/loading.tsx si accende aprendo-un-negozio. 404 vera misurata con next build e start, variabili finte e PostgREST finto locale: alla testa 5 pagine inesistenti rispondono 200; con la ricetta, compresa la cancellazione di app/store/[id]/loading.tsx, tutte 404, anche con lo user-agent di Googlebot. (3) Regressione misurata con il server rallentato a 2,5 s: alla testa il clic su «Chi siamo» mostra «Stiamo caricando…» entro 200 ms; con la ricetta la home resta ferma 4-5 s senza nessun segnale, e verso /store/<id> lo scheletro non compare per oltre 1,5 s. Restano senza nessuna attesa /, /about, /status, /category/<slug>, /u/<handle> e i gusci di /product/<id> e /store/<id>. (4) Le due prove comuni toccate perdono un controllo, non lo adeguano: minori-s09 caso 1550 passa da «la scritta d'attesa si vede» a «il file non esiste»; aprendo-un-negozio passa da «sopra il guscio c'è lo scheletro» a «sopra non c'è niente», e nessuna prova controlla più il segnale d'attesa. Minori: app/store/[id]/layout.tsx:143 dice «app/store/loading.tsx è tolto», falso da 4c619346; il commento nuovo di aprendo dice che lo scheletro resta in app/store/[id]/loading.tsx, che la seconda voce della ricetta cancella. Avere la 404 vera o tenere il segnale d'attesa è una scelta da far decidere a Nicola."
+    },
+    {
+      "id": "R17-003",
+      "chiave": "frontend-ux|lo scheletro del negozio impedisce il 404 vero sulle pagine dei negozi anche senza lo scheletro della radice",
+      "verdetto": "non_regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "serve_file_altrui, giudicata la ricetta: Ricetta di R17-002 e R17-003 (da applicare insieme) NON completa e rompe altro. (1) r17-002-radice-e-prova.patch non si applica alla testa 4c619346: falliscono i pezzi di commento di app/product/[id]/layout.tsx:115 e app/store/[id]/layout.tsx:113, perché R17-007 ne ha cambiato il contesto, e git apply è tutto o niente. (2) Applicata a mano: suite unitaria 2001 file su 2001 verde. Morde: con app/loading.tsx rimesso si accendono minori-s09 e la prova nuova, con app/store/loading.tsx si accende aprendo-un-negozio. 404 vera misurata con next build e start, variabili finte e PostgREST finto locale: alla testa 5 pagine inesistenti rispondono 200; con la ricetta, compresa la cancellazione di app/store/[id]/loading.tsx, tutte 404, anche con lo user-agent di Googlebot. (3) Regressione misurata con il server rallentato a 2,5 s: alla testa il clic su «Chi siamo» mostra «Stiamo caricando…» entro 200 ms; con la ricetta la home resta ferma 4-5 s senza nessun segnale, e verso /store/<id> lo scheletro non compare per oltre 1,5 s. Restano senza nessuna attesa /, /about, /status, /category/<slug>, /u/<handle> e i gusci di /product/<id> e /store/<id>. (4) Le due prove comuni toccate perdono un controllo, non lo adeguano: minori-s09 caso 1550 passa da «la scritta d'attesa si vede» a «il file non esiste»; aprendo-un-negozio passa da «sopra il guscio c'è lo scheletro» a «sopra non c'è niente», e nessuna prova controlla più il segnale d'attesa. Minori: app/store/[id]/layout.tsx:143 dice «app/store/loading.tsx è tolto», falso da 4c619346; il commento nuovo di aprendo dice che lo scheletro resta in app/store/[id]/loading.tsx, che la seconda voce della ricetta cancella. Avere la 404 vera o tenere il segnale d'attesa è una scelta da far decidere a Nicola."
+    },
+    {
+      "id": "R17-004",
+      "chiave": "frontend-ux|altri campi brevi del sito del negozio tagliano ancora in silenzio con maxlength",
+      "verdetto": "non_regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "serve_file_altrui, giudicata la ricetta: Ricetta di R17-004 e R17-005 (la stessa lista) NON completa. Le righe del registro ci sono tutte, o erano già a posto alla base (SectionConfigForm, CollectionFields). I tetti coincidono con lib/store-site.ts e MAX_ANNOUNCEMENT=160, e non ci sono altri maxLength in components/seller/site/. Typecheck pulito. Ma applicata rende rossa tests/unit/riparazione-r02-banner-alt.test.tsx:38 (maxLength===160), che la ricetta non nomina. Non porta nessuna prova: servirebbe estendere riparazione-r10-vetrina-campi-brevi.test.tsx a Gallery, Menu, Page, Banner e Annuncio. Si sovrappone a R16-004: tutte e due le ricette riscrivono components/seller/site/BannerFields.tsx, e va applicata una sola delle due, insieme alla modifica della riga 38 di r02-banner-alt scritta in R16-004."
+    },
+    {
+      "id": "R17-005",
+      "chiave": "frontend-ux|il costruttore della vetrina ha ancora campi brevi che tagliano in silenzio",
+      "verdetto": "non_regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "serve_file_altrui, giudicata la ricetta: Ricetta di R17-004 e R17-005 (la stessa lista) NON completa. Le righe del registro ci sono tutte, o erano già a posto alla base (SectionConfigForm, CollectionFields). I tetti coincidono con lib/store-site.ts e MAX_ANNOUNCEMENT=160, e non ci sono altri maxLength in components/seller/site/. Typecheck pulito. Ma applicata rende rossa tests/unit/riparazione-r02-banner-alt.test.tsx:38 (maxLength===160), che la ricetta non nomina. Non porta nessuna prova: servirebbe estendere riparazione-r10-vetrina-campi-brevi.test.tsx a Gallery, Menu, Page, Banner e Annuncio. Si sovrappone a R16-004: tutte e due le ricette riscrivono components/seller/site/BannerFields.tsx, e va applicata una sola delle due, insieme alla modifica della riga 38 di r02-banner-alt scritta in R16-004."
+    },
+    {
+      "id": "R17-006",
+      "chiave": "layout-responsive|la home a 320 px col testo al 200% scorre ancora di lato di 18 px",
+      "verdetto": "non_regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "serve_file_altrui, giudicata la ricetta: Ricetta NON completa. HowItWorks è davvero già a posto: file identico fra base e testa, a 320 px col testo al 200% i tre h3 stanno a 265 px. La causa indicata è giusta: alla testa la pagina è larga 378 px su 320 per l'intestazione di LiveActivityFeed, e a 280 px sfora anche la fascia «Hai un negozio» (298). Dopo la ricetta 320 su 320 e 280 su 280 (misurato solo sullo scheletro senza dati). Ma applicata rende rossa tests/unit/riparazione-r01-home-col-testo-grande.test.tsx:80 (pretende break-words sulla frase della fascia), che la ricetta non nomina. Le righe del riquadro vero sono 150/151/158, non 154-160/155/160 come scrive. Nessuna prova. Minore: il titolo va su 6 righe, spezzato a metà parola."
     }
   ],
   "campione": {},
   "note_ricette": {
-    "R16-004": "Ricetta completa: revert --no-commit 40da5b80 più la modifica della riga 38 di riparazione-r02-banner-alt: 7 file e 36 prove verdi (r16 nuova, r02-banner-alt, s06-costruttore-letture, r07-banner-bozza, r10-vetrina-campi-brevi, s06-vetrina-non-salvata, r10-conferma), tsc ed eslint puliti. Senza la modifica la prova comune è rossa. Prova comune non indebolita: maxLength===160 diventa niente maxLength, errore a 161 e nessun errore a 160. Rimessa su e4a75059: uscita 0. HomeSectionConfigForm già a posto alla base.",
+    "R16-004": "Ricetta completa: revert --no-commit 40da5b80 più la modifica della riga 38 di riparazione-r02-banner-alt: 7 file e 36 prove verdi (r16 nuova, r02-banner-alt, s06-costruttore-letture, r07-banner-bozza, r10-vetrina-campi-brevi, s06-vetrina-non-salvata, r10-conferma), tsc ed eslint puliti. Senza la modifica la prova comune è rossa. Prova comune non indebolita: maxLength===160 diventa niente maxLength, errore a 161 e nessun errore a 160. Rimessa su e4a75059: uscita 0. HomeSectionConfigForm già a posto alla base. Si sovrappone alla ricetta di R17-004/R17-005, che riscrive anch'essa BannerFields.tsx: va applicata una sola delle due.",
     "R16-011": "Ricetta completa: revert --no-commit 5a804dbe più il finto rpc concatenabile in riparazione-r02-negozi-categorie-a-pagine: 15 file e 91 prove verdi, tsc ed eslint puliti. Prova comune non indebolita (cambia solo la forma del finto: order, range, then). categorie_per_negozio (127:775-788) RETURNS TABLE(seller_id, categorie) con GROUP BY seller_id: order+range validi. Rimessa su b94d11b5: uscita 0. Imprecisione minore: senza la modifica cade il caso «la madre dopo la millesima categoria», non quello nominato nel referto. La stessa modifica c'era già in 8f8973f3 (R12-012) ed era andata persa.",
-    "R17-008": "Ricetta completa, morde, prova comune non indebolita. Le due patch si applicano pulite: prova nuova (5) e prova comune il-corsivo-del-sito-e-un-corsivo-vero (8) verdi, 9 file di prove sui caratteri verdi, typecheck pulito. Mutanti presi (corsivo senza famiglia, corsivo precaricato, dritto senza precarico, famiglia scritta male). La prova comune passa da regole per istanza a regole per famiglia senza togliere controlli (resta il divieto di preload:false sulle istanze col dritto, si aggiunge che esista un dritto). Catena vera di Next (caricatore, postcss-next-font): dritto e corsivo con la stessa famiglia senza hash, quindi corsivo vero. Rimessa su afcd9d50: uscita 0. Compromesso minore non dichiarato: il corsivo di Fraunces non si precarica più neanche in home, il «veri» del titolone (app/page.tsx:29) si disegna prima col carattere di riserva inclinato e poi cambia."
+    "R17-008": "Ricetta completa, morde, prova comune non indebolita. Le due patch si applicano pulite: prova nuova (5) e prova comune il-corsivo-del-sito-e-un-corsivo-vero (8) verdi, 9 file di prove sui caratteri verdi, typecheck pulito. Mutanti presi (corsivo senza famiglia, corsivo precaricato, dritto senza precarico, famiglia scritta male). La prova comune passa da regole per istanza a regole per famiglia senza togliere controlli (resta il divieto di preload:false sulle istanze col dritto, si aggiunge che esista un dritto). Catena vera di Next (caricatore, postcss-next-font): dritto e corsivo con la stessa famiglia senza hash, quindi corsivo vero. Rimessa su afcd9d50: uscita 0. Compromesso minore non dichiarato: il corsivo di Fraunces non si precarica più neanche in home, il «veri» del titolone (app/page.tsx:29) si disegna prima col carattere di riserva inclinato e poi cambia.",
+    "R17-002+R17-003": "Ricetta di R17-002 e R17-003 (da applicare insieme) NON completa e rompe altro. (1) r17-002-radice-e-prova.patch non si applica alla testa 4c619346: falliscono i pezzi di commento di app/product/[id]/layout.tsx:115 e app/store/[id]/layout.tsx:113, perché R17-007 ne ha cambiato il contesto, e git apply è tutto o niente. (2) Applicata a mano: suite unitaria 2001 file su 2001 verde. Morde: con app/loading.tsx rimesso si accendono minori-s09 e la prova nuova, con app/store/loading.tsx si accende aprendo-un-negozio. 404 vera misurata con next build e start, variabili finte e PostgREST finto locale: alla testa 5 pagine inesistenti rispondono 200; con la ricetta, compresa la cancellazione di app/store/[id]/loading.tsx, tutte 404, anche con lo user-agent di Googlebot. (3) Regressione misurata con il server rallentato a 2,5 s: alla testa il clic su «Chi siamo» mostra «Stiamo caricando…» entro 200 ms; con la ricetta la home resta ferma 4-5 s senza nessun segnale, e verso /store/<id> lo scheletro non compare per oltre 1,5 s. Restano senza nessuna attesa /, /about, /status, /category/<slug>, /u/<handle> e i gusci di /product/<id> e /store/<id>. (4) Le due prove comuni toccate perdono un controllo, non lo adeguano: minori-s09 caso 1550 passa da «la scritta d'attesa si vede» a «il file non esiste»; aprendo-un-negozio passa da «sopra il guscio c'è lo scheletro» a «sopra non c'è niente», e nessuna prova controlla più il segnale d'attesa. Minori: app/store/[id]/layout.tsx:143 dice «app/store/loading.tsx è tolto», falso da 4c619346; il commento nuovo di aprendo dice che lo scheletro resta in app/store/[id]/loading.tsx, che la seconda voce della ricetta cancella. Avere la 404 vera o tenere il segnale d'attesa è una scelta da far decidere a Nicola.",
+    "R17-004+R17-005": "Ricetta di R17-004 e R17-005 (la stessa lista) NON completa. Le righe del registro ci sono tutte, o erano già a posto alla base (SectionConfigForm, CollectionFields). I tetti coincidono con lib/store-site.ts e MAX_ANNOUNCEMENT=160, e non ci sono altri maxLength in components/seller/site/. Typecheck pulito. Ma applicata rende rossa tests/unit/riparazione-r02-banner-alt.test.tsx:38 (maxLength===160), che la ricetta non nomina. Non porta nessuna prova: servirebbe estendere riparazione-r10-vetrina-campi-brevi.test.tsx a Gallery, Menu, Page, Banner e Annuncio. Si sovrappone a R16-004: tutte e due le ricette riscrivono components/seller/site/BannerFields.tsx, e va applicata una sola delle due, insieme alla modifica della riga 38 di r02-banner-alt scritta in R16-004.",
+    "R17-006": "Ricetta NON completa. HowItWorks è davvero già a posto: file identico fra base e testa, a 320 px col testo al 200% i tre h3 stanno a 265 px. La causa indicata è giusta: alla testa la pagina è larga 378 px su 320 per l'intestazione di LiveActivityFeed, e a 280 px sfora anche la fascia «Hai un negozio» (298). Dopo la ricetta 320 su 320 e 280 su 280 (misurato solo sullo scheletro senza dati). Ma applicata rende rossa tests/unit/riparazione-r01-home-col-testo-grande.test.tsx:80 (pretende break-words sulla frase della fascia), che la ricetta non nomina. Le righe del riquadro vero sono 150/151/158, non 154-160/155/160 come scrive. Nessuna prova. Minore: il titolo va su 6 righe, spezzato a metà parola.",
+    "R17-011": "Ricetta completa, e togliere le due guardie non indebolisce la copertura di oggi: 42 casi su 42 verdi. Ma la motivazione è falsa. Su 5 mutanti, riparazione-r04-veloce ne coglie 3 (server ignorato, riga fissa, domanda senza i negozi). Il mutante «Adesso offerto prima che il server risponda» (=== true → !== false nel selettore, oppure veloceDisponibile ?? true nella cassa) lo coglie solo riparazione-r22-veloce-cassa-chiede-al-server.test.ts, oltre alla guardia stessa. La copertura regge su r22, che la ricetta non nomina."
   }
 }
