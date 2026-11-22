@@ -5,7 +5,7 @@
     "R16",
     "R17"
   ],
-  "aggiornato": "2026-11-22 20:40",
+  "aggiornato": "2026-11-22 20:50",
   "finita": false,
   "voci": [
     {
@@ -146,14 +146,15 @@
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16-4 --base 4a3a295c^ --file 'app/search/page.tsx,app/category/[slug]/page.tsx' --prove tests/unit/riparazione-r16-letture-condivise.test.tsx --json (worktree a 4a3a295c)"
       },
-      "verdetto": "non_regge",
+      "verdetto": "parziale",
       "giudizio": "pieno",
       "lenti": [
         "chiude_tutta",
         "nata_rotta"
       ],
-      "nota": "Il pezzo fatto regge: tutti i consumatori della chiave ['categories','tree'] (CategoryBar:55, Footer:174, search:127-135, category:62, precarico.ts:78, ChipDelleCategorie:17) leggono le stesse 5 colonne con order('name') e senza trasformazioni, quindi oggi niente forma sbagliata in memoria (rischio latente per le copie a mano di search:128 e Chip:17); il .limit(500) tolto è innocuo; la pagina di categoria gestisce errore (ErrorState col riprova) e caricamento come prima (minore: a database giù aspetta i tentativi di CategoryBar). Ma resta aperto più di quanto dice cosa_resta: app/categorie/page.tsx:21 legge lo stesso albero dal browser con una chiave sua ['all-categories-tree'] (colonne in altro ordine), quindi su /categorie le categorie si leggono ancora due volte e senza precarico. Il cosa_resta nomina solo branding e promo.",
-      "nota_rimessa": "Con --file anche components/CategoryBar.tsx,components/Footer.tsx l'uscita è 1: Footer alla base resta verde (stessa chiave ['categories','tree'] e stessa lettura: è un riordino, non la correzione), CategoryBar alla base è rossa solo per la struttura (le pagine importano domandaAlberoCategorie). La correzione sta nelle due pagine: rimessa sulle due, uscita 0."
+      "nota": "Rigiudicata sul referto corretto (punta f7cff0b6, testa 5a804dbe invariata). Il pezzo fatto regge: tutti i consumatori della chiave ['categories','tree'] (CategoryBar:55, Footer:174, search:127-135, category:62, precarico.ts:78, ChipDelleCategorie:17) leggono le stesse 5 colonne con order('name'), quindi niente forma sbagliata in memoria; il .limit(500) tolto è innocuo; la pagina di categoria gestisce errore e caricamento come prima. Il cosa_resta ora dice tutto: branding e promo dal browser (ricetta per lib/queries/precarico.ts e revalidateTag nella rotta del branding) e /categorie (app/categorie/page.tsx:20-30, chiave sua). La ricetta per /categorie combacia con il codice alla testa (righe 20-30 identiche, tipo Cat con gli stessi cinque campi di domandaAlberoCategorie). Resti minori: rischio latente per le copie della lettura scritte a mano in search:128 e ChipDelleCategorie:17 sulla stessa chiave; a database giù la pagina di categoria aspetta i tentativi di CategoryBar.",
+      "nota_rimessa": "Con --file anche components/CategoryBar.tsx,components/Footer.tsx l'uscita è 1: Footer alla base resta verde (stessa chiave ['categories','tree'] e stessa lettura: è un riordino, non la correzione), CategoryBar alla base è rossa solo per la struttura (le pagine importano domandaAlberoCategorie). La correzione sta nelle due pagine: rimessa sulle due, uscita 0.",
+      "nota_primo_giro": "Primo giro (referto alla punta 772764e2): non_regge, perché il cosa_resta non diceva /categorie (app/categorie/page.tsx:21, chiave ['all-categories-tree'])."
     },
     {
       "id": "R16-010",
