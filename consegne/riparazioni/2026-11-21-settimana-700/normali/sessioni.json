@@ -157,7 +157,8 @@
       "ramo": "claude/settimana-700-regia-k06",
       "partenza": "59b7d5ff098cf66e3ae14aa60be805d098312ec1",
       "riparatori": [
-        "R18"
+        "R18",
+        "R16"
       ],
       "onda": 2
     }

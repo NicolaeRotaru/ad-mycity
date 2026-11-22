@@ -148,3 +148,4 @@ Quante voci risulteranno sparite: lo dicono i referti delle 4 sessioni.
 - 2026-11-22 18:50 R16 consegna (a9e96fac, 17,05 $): 2 riparati (008, 010), 7 parziali, 3 serve_file_altrui, 1 già; verify rosso solo sulle 2 prove comuni → chiesto di togliere b94d11b5/e4a75059 con due revert (R16-004 e R16-011 serve_file_altrui complete) prima del collaudo K06.
 - 2026-11-22 18:52 R15 finita (punta a1b619a2, testa 923bcb31, 18,67 $): 2 riparati (013, 009), 3 parziali, 5 serve_file_altrui, 2 già (001, 016), 4 tolte. guardia e valida verdi rilanciati dalla regia. Passata a K05.
 - 2026-11-22 18:58 K05 su R14 (6154058): reggono 003, 004, 011; parziali 002 (patch completa), 009, 012 (3 casi rossi), 013; 008 patch incompleta (manca la prova nuova). Giro di correzione a R14: 012 e prova di 008.
+- 2026-11-22 18:59 R16 punta 772764e2 (testa 5a804dbe, ritorni 40da5b80 e 5a804dbe, 17,85 $): verify, guardia e valida verdi. Passata a K06.
