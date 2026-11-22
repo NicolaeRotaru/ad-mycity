@@ -5,7 +5,7 @@
     "R10",
     "R12"
   ],
-  "aggiornato": "2026-11-22 02:50",
+  "aggiornato": "2026-11-22 02:58",
   "finita": false,
   "voci": [
     {
@@ -282,28 +282,43 @@
     {
       "id": "R10-001",
       "chiave": "frontend-ux|le pagine di prodotti, negozi e categorie che non esistono rispondono «tutto ok» invece di «non trovato»",
-      "verdetto": "regge",
-      "giudizio": "nessuno",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base c2d7cbeb^ --file 'app/product/[id]/layout.tsx,app/store/[id]/layout.tsx,app/category/[slug]/layout.tsx,app/store/[id]/[slug]/layout.tsx' --prove tests/unit/riparazione-r10-pagine-inesistenti.test.ts --json (worktree a 5af84074)"
-      }
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "La parte fatta regge (i layout usano le regole delle pagine; guasto e prodotto non in vendita non danno 404; mutante rosso). Ma nel percorso vero di Next 15.5 la 404 non arriva in rete: app/loading.tsx, rimesso da 5af84074, avvolge i layout, la risposta parte 200 e notFound() arriva in streaming (PPR spento, node_modules/next/dist/build/templates/app-page.js:248; ricavato dal codice di Next, non da una build con richieste HTTP). cosa_resta non è esatto: davanti al layout del negozio c'è anche app/store/loading.tsx, non nominato. I commenti alla testa dicono che sopra non c'è attesa, falso: app/product/[id]/layout.tsx:118-119, app/store/[id]/layout.tsx:114-117, app/category/[slug]/layout.tsx:97-99."
     },
     {
       "id": "R10-003",
       "chiave": "frontend-ux|il link delle storie rifiuta l'indirizzo intero del sito stesso (https://<dominio>/promozioni), che è quello che il negoziante copia dalla barra",
       "verdetto": "regge",
-      "giudizio": "nessuno"
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Sulla base 1ad51b4c c'erano già togliOrigineDelSito (:45) e la chiamata (:126); le 3 prove passano 20/20 e gli altri domini restano rifiutati. Residuo minore: migrations/403_il_link_delle_storie_porta_solo_dentro_mycity.sql:22-25 mette NULL invece di convertire il link in percorso; storie di 24 ore e migrazione una tantum, impatto trascurabile."
     },
     {
       "id": "R10-004",
       "chiave": "frontend-ux|la pagina del negozio in cache può mostrare un annuncio già scaduto dopo la mezzanotte",
       "verdetto": "regge",
-      "giudizio": "nessuno",
+      "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 66e3b924^ --file 'app/store/[id]/layout.tsx' --prove tests/unit/riparazione-r10-annuncio-scaduto.test.ts --json (worktree a 66e3b924)"
-      }
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Nel layout del negozio revalidate 0, vale anche per le pagine su misura; oggi non cambia nulla perché force-dynamic c'è già (app/layout.tsx:124), copre il giorno in cui verrà tolto. Mutante rosso, prove vicine verdi."
     },
     {
       "id": "R10-006",
@@ -418,21 +433,31 @@
       "id": "R10-015",
       "chiave": "microcopy|se il caricamento di una storia fallisce, il negoziante legge «applica la migration 035»",
       "verdetto": "regge",
-      "giudizio": "nessuno",
+      "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base c95e210e^ --file 'app/seller/stories/page.tsx' --prove tests/unit/riparazione-r10-storia-non-caricata.test.ts --json (worktree a c95e210e)"
-      }
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Il messaggio nuovo arriva nel toast passando da friendlyError (provato col render della pagina), il dettaglio tecnico va in logger.error; mutante rosso. Minore: il ramo scatta ancora per qualunque «not found» o «bucket» (app/seller/stories/page.tsx:165), ma il testo ora è innocuo."
     },
     {
       "id": "R10-016",
       "chiave": "performance|le pagine di prodotto, negozio e categoria non usano la cache che dichiarano, e rileggono due volte la stessa riga a ogni visita",
-      "verdetto": "regge",
-      "giudizio": "nessuno",
+      "verdetto": "non_regge",
+      "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 719d4380^ --file 'lib/supabase/lettura-per-metadati.ts,app/u/[handle]/page.tsx' --prove tests/unit/riparazione-r10-lettura-unica.test.ts --json (worktree a 719d4380)"
-      }
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Si dichiara parziale ma resta più di quanto dice cosa_resta. Le due letture in fila della voce (metadati e precarico) ci sono ancora: con il precarico vero in una richiesta la scheda prodotto legge products 2 volte e seller_public_profiles 2 volte, la vetrina seller_public_profiles 3 volte. cache() unisce solo metadati e layout, che la memoria di 2 s univa già. La prova sostituisce il precarico con un finto (tests/unit/riparazione-r10-lettura-unica.test.ts:72-75). Manca in cosa_resta lib/queries/precarico.ts:108-139; il commento in lib/supabase/lettura-per-metadati.ts:29 cita una cache di 5 minuti che non esiste."
     }
   ],
   "campione": {}
