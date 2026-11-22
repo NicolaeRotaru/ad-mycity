@@ -84,3 +84,4 @@ Quante voci risulteranno sparite: lo dicono i referti delle 4 sessioni.
 - Da fare in F3 dalla regia: R08-009 (`git mv` della prova zz-collaudo, guardia la legge come cancellazione); le modifiche ai file altrui scritte nei referti vanno al giro di correzione.
 - Riservati nuovi arrivati in chat (R03, R08): solo in chat, per la sessione riservata.
 - 2026-11-22 01:55 Nicola: «sì a R10» (spinta forzata del ramo -m10, solo quella). Girato a R10.
+- 2026-11-22 01:56 R12 finita (9 riparati, 2 parziali, 2 file altrui, 1 già, 18,69 $, punta bfe3ab52). Aperto K04 (R03, R12; R10 glielo mando quando finisce).

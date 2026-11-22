@@ -94,6 +94,16 @@
         "R08",
         "R09"
       ]
+    },
+    "K04": {
+      "id": "session_015BmpnYNfhenQ3yW7EJHG96",
+      "ramo": "claude/settimana-700-regia-k04",
+      "partenza": "12fa1ddef5cb9d8c5d6ccd7391b08d830a72ed21",
+      "riparatori": [
+        "R03",
+        "R12",
+        "R10"
+      ]
     }
   }
 }
