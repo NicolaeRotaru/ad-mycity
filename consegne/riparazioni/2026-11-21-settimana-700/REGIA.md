@@ -74,3 +74,8 @@ Quante voci risulteranno sparite: lo dicono i referti delle 4 sessioni.
 - 2026-11-22 01:00 R09: deroga della regia sulla prova comune minori-s02-freno-della-veloce.test.ts (R09-006, nascita 22:45 invece di 20:45: la prova fissava il difetto). R09-005 senza toccare prove comuni.
 - 2026-11-22 01:02 R01 finita (4 riparati, 4 file altrui, 1 già, 1 parziale, 1 non_fatto, 12,00 $), testa ad49df0d, punta bed546a4. Segnala una falla riservata nuova: dettagli solo in chat, alla sessione riservata.
 - 2026-11-22 01:12 K01 aperto (R01, R06, R11). Rossi a R03 (referto) e R12 (prove comuni) mandati. Regia terza a 303 mila token: passaggio in PASSAGGIO-4.md.
+
+## Regia quarta (session_015BmpnZUFb1f4oPiVC94n2Z, presa la mano 2026-11-22 01:40)
+- Sito clonato a `main` 1ad51b4c. Iscritta alla PR #990. Dettagli riservati ricevuti in chat dalla regia terza: solo in chat.
+- 2026-11-22 01:45 sorveglianza: 7 riparatori finiti e verdi (R01 R02 R04 R05 R06 R07 R08). Aperti K02 (R02 R04 R05) e K03 (R07 R08 R09). Rossi mandati: R10 (unione nel ramo, titolo della falla riservata), R12 (terza prova comune), R03 (fermo: R03-007 al giro di correzione o firma).
+- Firme da chiedere a Nicola prima di F3: `prove_comuni` onda 1 (R09, R11, ed eventuale R12); `rimessa_a_mano` (R04-005, R04-009); `id_nel_commit` su 3cc4248 se 006/007 reggono.

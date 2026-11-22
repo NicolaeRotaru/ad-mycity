@@ -1,5 +1,5 @@
 {
-  "regista": "session_015BmpnZUjbtZs5V56c5GPWN",
+  "regista": "session_015BmpnZUFb1f4oPiVC94n2Z",
   "sha_regista": "12fa1ddef5cb9d8c5d6ccd7391b08d830a72ed21",
   "base": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
   "sessioni": {
@@ -73,6 +73,26 @@
         "R01",
         "R06",
         "R11"
+      ]
+    },
+    "K02": {
+      "id": "session_015BmpnYUXgLn9X8WCXzQuCh",
+      "ramo": "claude/settimana-700-regia-k02",
+      "partenza": "12fa1ddef5cb9d8c5d6ccd7391b08d830a72ed21",
+      "riparatori": [
+        "R02",
+        "R04",
+        "R05"
+      ]
+    },
+    "K03": {
+      "id": "session_015BmpnWZt6PfWs9rdjLvNP4",
+      "ramo": "claude/settimana-700-regia-k03",
+      "partenza": "12fa1ddef5cb9d8c5d6ccd7391b08d830a72ed21",
+      "riparatori": [
+        "R07",
+        "R08",
+        "R09"
       ]
     }
   }

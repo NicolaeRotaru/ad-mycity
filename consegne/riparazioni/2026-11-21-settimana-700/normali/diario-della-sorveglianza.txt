@@ -11,3 +11,18 @@
 2026-11-22 01:09 · R11 · in lavoro FINITA · guardia 🔴 · referto ✅ 12 voci · unione (sotto) · nessuna
 2026-11-22 01:09 · R12 · in lavoro · guardia 🔴 · referto – · unione (sotto) · nessuna
 2026-11-22 01:09 · onda 1 · prova-unione ⏳
+2026-11-22 01:44 · R01 · in lavoro FINITA · guardia ✅ · referto ✅ 11 voci · unione (sotto) · nessuna
+2026-11-22 01:44 · R02 · in lavoro FINITA · guardia ✅ · referto ✅ 13 voci · unione (sotto) · nessuna
+2026-11-22 01:44 · R03 · in lavoro FINITA · guardia ✅ · referto 🔴 16 voci · unione (sotto) · nessuna
+2026-11-22 01:44 · R04 · in lavoro FINITA · guardia ✅ · referto ✅ 11 voci · unione (sotto) · nessuna
+2026-11-22 01:44 · R05 · in lavoro FINITA · guardia ✅ · referto ✅ 16 voci · unione (sotto) · nessuna
+2026-11-22 01:44 · R06 · in lavoro FINITA · guardia ✅ · referto ✅ 11 voci · unione (sotto) · nessuna
+2026-11-22 01:44 · R07 · in lavoro FINITA · guardia ✅ · referto ✅ 10 voci · unione (sotto) · nessuna
+2026-11-22 01:44 · R08 · in lavoro FINITA · guardia ✅ · referto ✅ 10 voci · unione (sotto) · nessuna
+2026-11-22 01:44 · R09 · in lavoro FINITA · guardia 🔴 · referto ✅ 10 voci · unione (sotto) · nessuna
+2026-11-22 01:44 · R10 · in lavoro · guardia 🔴 · referto 🔴 8 voci · unione (sotto) · nessuna
+2026-11-22 01:44 · R11 · in lavoro FINITA · guardia 🔴 · referto ✅ 12 voci · unione (sotto) · nessuna
+2026-11-22 01:44 · R12 · in lavoro · guardia 🔴 · referto – · unione (sotto) · nessuna
+2026-11-22 01:44 · K01 · ramo non ancora spinto · guardia – · collaudo – · nessuna
+2026-11-22 01:44 · onda 1 · prova-unione 🔴
+2026-11-22 01:45 · regia quarta · finite R01 R02 R04 R05 R06 R07 R08 (verdi) · R03 referto 🔴 (R03-007 senza id nel commit, si chiude al giro di correzione o con firma) · R09 R11 R12 guardia 🔴 prove comuni · R10 🔴 unione nel ramo + titolo riservato · K01 ⏳ · azione: aperti K02 (R02 R04 R05) e K03 (R07 R08 R09), mandati R10 R12 R03 R04
