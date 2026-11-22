@@ -186,7 +186,9 @@
       "ramo": "claude/settimana-700-regia-c02",
       "partenza": "3de8737",
       "integrazione": "77652b102914709ce07d10f66b7a442a5a069875",
-      "onda": 2
+      "onda": 2,
+      "secondo": "session_015BmpnXowiBzgxVMphBdqrd",
+      "nota": "prima apertura ferma per ref_not_found (SHA corto 3de8737), vista solo alle 21:08"
     }
   },
   "regie_precedenti": [
