@@ -127,3 +127,7 @@ Quante voci risulteranno sparite: lo dicono i referti delle 4 sessioni.
 - Schede R13-R18 e sessioni.json col mio id (copertura-prima e segnaposti verdi).
 - Regole e schede ai riparatori dal deposito del sito, ramo `claude/settimana-700-regia-istruzioni` in sola lettura (come il giro 5 dell'onda 9): il prompt resta corto, la mia storia leggera.
 - 2026-11-22 17:50 aperte R13-R18 (base b57195e, rami -m13…-m18, xhigh, auto, senza ultracode, tetto 35 $ e 6 subagenti a testa). SHA_REGISTA ab2adc10. Istruzioni sul sito @ 2a43b2a4. Tetto del giro 260 $ (stima 200).
+- 2026-11-22 17:46 dettagli riservati ricevuti in chat dalla regia sesta: solo in chat.
+- 2026-11-22 17:53 piano R16 approvato (13 voci, nessuna tolta; note su prova r12, file altrui compatti, testo intero di R16-007).
+- 2026-11-22 17:55 piano R15 approvato; tolte R15-004 (totale lordo), R15-005/006 (ciclo cancellazioni account), R15-012 (interruttore sulla rotta degli ordini in contanti): ai delicati. Lock di R15-009 al minimo.
+- 2026-11-22 17:55 piano R18 approvato; tolte R18-007 (preferenze promozioni, tocca la 115), R18-008 (merce rimessa in vendita, annullo), R18-009 (dati personali nei log), R18-010 (giorni del reso): ai delicati. R18-011 senza deroga: serve_file_altrui.
