@@ -1,0 +1,73 @@
+{
+  "controllore": "C01",
+  "onda": 1,
+  "finita": true,
+  "aggiornato": "2026-11-22 17:35",
+  "testa": "f5e0abcec5f2d8b44ccc27caccd7798a09402345",
+  "base": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
+  "verify": {
+    "comando": "npm run verify && tests/sql/harness/apply.sh && tests/sql/harness/run.sh",
+    "esito": "verde",
+    "nota": "typecheck pulito; lint 0 errori e 122 avvisi; 1998 file di prove passati su 1998 (12286 casi); harness SQL su Postgres 16 locale: 216 migrazioni applicate, 0 fallite, 83 file di prove verdi. Database vero mai toccato."
+  },
+  "voci_rosse": [],
+  "nuovi_difetti_visti": [
+    {
+      "titolo": "La pulizia degli allarmi cancella la riga del tetto di spesa AI proprio mentre la funzione la controlla, e il primo errore dopo un giorno di quiete non viene detto",
+      "dimensione": "deploy-sre",
+      "severita": "minore",
+      "file": "lib/ai/tettoSpesa.ts:131",
+      "descrizione": "Incrocio fra R02-010 e R04-001. nessunoHaParlatoNellOra fa un inserimento ON CONFLICT DO NOTHING sulla chiave 'ai-tetto-condiviso:errore-ripiego' e poi un aggiornamento se la riga ha più di un'ora. Il trigger della migrazione 660 (AFTER INSERT OR UPDATE, per istruzione) scatta anche sull'inserimento che non inserisce niente e cancella le righe più vecchie di 24 ore; esclude solo 'ai-tetto-condiviso:ripiego-da' (660:44), non la chiave nuova. Rifatto sul Postgres locale dell'harness: riga di 25 ore, dopo l'inserimento le righe sono 0 e l'aggiornamento tocca 0 righe, quindi la funzione risponde «qualcuno ha già parlato» e l'errore del ripiego tace fino a un'ora. Cura: aggiungere la chiave all'esclusione della 660, oppure trattare «nessuna riga» come «parla»."
+    },
+    {
+      "titolo": "Lo stesso invio del lotto AI rimasto senza risposta dice «scartalo e avviane un altro» a 3 minuti e «chiedi all'assistenza prima di avviarne un altro» a 24 ore",
+      "dimensione": "microcopy",
+      "severita": "minore",
+      "file": "app/seller/products/ai-batch/page.tsx:541",
+      "descrizione": "Incrocio fra R02-005 e il revert di R01-011. Dopo 3 minuti il riquadro nuovo di R02-005 (page.tsx:541-543) dice di scartare il lavoro e avviarne un altro. Se il negozio torna il giorno dopo, la rotta dello stato (app/api/ai/catalog-batch/status/route.ts:125) ha chiuso la riga col motivo delle 24 ore e la pagina mostra testoStatoLavoro('failed') di lib/ai/statoLavoroCatalogo.ts:47: «chiedi all'assistenza prima di avviarne un altro. Puoi avviarne un altro.», col pulsante «Avvia sul catalogo» visibile. Il rischio è lo stesso nei due casi (un lotto pagato due volte), il consiglio è opposto. La parte «Puoi avviarne un altro» è la voce R01-011, tolta dall'integrazione: quando si rifà, va allineata al testo di R02-005."
+    },
+    {
+      "titolo": "Il copilot del catalogo in blocco dice «rimandalo» per le voci rimaste fuori, ma la scheda non ha un modo per rimandare solo quelle",
+      "dimensione": "flussi-conversione",
+      "severita": "minore",
+      "file": "components/seller/CatalogCopilot.tsx:297",
+      "descrizione": "Nasce da R02-001. La rotta app/api/ai/catalog-apply-bulk/route.ts lascia fuori le voci non controllate entro 70 s o non scritte entro 105 s, col motivo «… in tempo: rimandalo» e il campo `rimaste` (route.ts:327). Il client legge solo applied/results (attraverso lib/ai/esitoCopilot.ts) e non legge mai `rimaste`: appena c'è un esito toglie «Applica tutte». L'unica strada è richiedere al copilot, che ripropone tutto l'insieme; con una regola relativa (per esempio -10% sul prezzo) le voci già scritte si riscontano una seconda volta. Succede solo con fornitore AI o database lenti e un blocco grande. Lo aveva annotato anche il collaudo K02, senza registrarlo."
+    },
+    {
+      "titolo": "Se lo stesso guasto della pulizia dei dati vecchi torna dopo essere stato letto, gli amministratori non ricevono più l'allarme",
+      "dimensione": "api-backend",
+      "severita": "minore",
+      "file": "app/api/cron/process-deletions/route.ts:598",
+      "descrizione": "Nasce da R03-004. La chiave dell'allarme «Dati vecchi non cancellati» è `ritenzione-non-riuscita:<pulizie fallite>`, senza periodo, e nessuno chiude la riga. Esempio: a novembre fallisce consent_log, l'allarme si scrive, l'amministratore lo legge, il guasto si sistema; a gennaio fallisce di nuovo consent_log e avvisaAmministratori (:930-931) trova la riga con lo stesso id e non ne scrive un'altra. Restano la notte in 500 e il logger.error verso Sentry (:585). Cura: chiudere la riga quando le pulizie tornano a riuscire, o mettere nella chiave il giorno d'inizio del guasto. Lo aveva annotato anche il collaudo K04 come residuo fuori voce, senza registrarlo."
+    },
+    {
+      "titolo": "Le email mandate dopo la risposta aspettano in una fila sola per tutto il server: in una raffica l'ultima può non partire",
+      "dimensione": "architettura",
+      "severita": "minore",
+      "file": "lib/api/dopo-la-risposta.ts:38",
+      "descrizione": "Nasce da R05-003. La fila dei lavori di after() è una variabile del modulo (ultimoTurno), quindi condivisa da tutte le richieste servite dallo stesso processo, con turni fino a 10 s. Se il progetto Vercel usa Fluid compute (non scritto in vercel.json: va visto nelle impostazioni), una raffica di ordini o di webhook mette in coda le email di più richieste; la richiesta che ha registrato le ultime può arrivare al suo tetto di durata (60 s il webhook di Stripe) prima del suo turno, e quelle email non partono, senza nessuna riga di log. Senza Fluid la fila vale per una richiesta sola e il difetto non c'è."
+    },
+    {
+      "titolo": "Nella pagina del negozio il filtro dice ancora «Rating minimo», mentre ricerca e categoria ora dicono «Voto minimo»",
+      "dimensione": "microcopy",
+      "severita": "minore",
+      "file": "components/StoreProductExplorer.tsx:191",
+      "descrizione": "Resto della voce R07-006, che chiude «rating minimo» nei filtri di ricerca e categoria (messages/it.json:83, «Voto minimo»). Il filtro della pagina del negozio è scritto a mano e dice ancora «Rating minimo»: lo stesso cliente legge due parole per lo stesso filtro. File non toccato in quest'onda."
+    }
+  ],
+  "file_toccati": 198,
+  "file_guardati": 89,
+  "file_non_guardati": "I 198 toccati sono 89 file di codice, 97 file di prove e 12 copie dei referti in .riparazione/. Gli 89 di codice li hanno letti tutti nel diff i 10 subagenti. Le 97 prove le ho fatte girare tutte (verify e harness SQL) ma non le ho rilette riga per riga. I 12 referti non sono codice.",
+  "note": [
+    "R01-011 non è sull'albero unito: la regia l'ha tolta con i revert 7dcd91da e f5e0abce. lib/ai/statoLavoroCatalogo.ts è identico alla base, la sua prova non c'è più e nessuna prova cita i testi revertiti. Nel referto R01 la voce resta «parziale», quindi resta aperta. Non la metto fra le rosse.",
+    "Scartati perché doppioni. Il «rider» accanto a «Fattorino in arrivo» nella pagina dell'ordine è la voce R01-002, che resta aperta. La griglia che legge da sola tutte le pagine filtrate è il difetto nato già scritto da R11. Il doppio tocco sulla zona del fattorino l'ha già trovato K01 (rompe_altro su R11-005), e quella voce resta aperta per questo.",
+    "Scartato perché c'era già alla base, fuori dalle righe cambiate: la rotta admin dei prodotti accetta nome fino a 200 caratteri e descrizione fino a 8000, il database ne ammette 120 e 4000 (app/api/admin/products/route.ts:42).",
+    "Da sapere per chi gestisce le copie (R09-008, scripts/backup-db.sh): se la destinazione ha una cartella dentro il secchio, lo storico ora va nel secchio «<secchio>-storico». Se la chiave non può creare quel secchio, la notte esce rossa con uscita 5, ed è voluto.",
+    "Nessun file è stato toccato da due sessioni, e le 12 unioni non hanno risoluzioni a mano (git show --cc vuoto)."
+  ],
+  "conto": {
+    "subagenti": 10,
+    "token_stimati": 1017406,
+    "nota": "token dei 10 subagenti misurati dall'harness; la sessione del controllore a parte"
+  }
+}
