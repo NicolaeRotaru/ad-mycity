@@ -4,7 +4,7 @@
     "R14",
     "R15"
   ],
-  "aggiornato": "2026-11-22 19:05",
+  "aggiornato": "2026-11-22 19:20",
   "finita": false,
   "voci": [
     {
@@ -88,6 +88,77 @@
         "nata_rotta"
       ],
       "nota": "Alla base nessuna prova in tests/unit apre il browser: git grep di chromium, playwright, pw-browsers, executablePath, headless trova solo commenti («misurato in Chromium») e testi della config e2e; vitest.config.ts include solo tests/unit. Il passo Chromium aggiunto in 153e1ab9 è stato tolto in 923bcb31: alla testa ci.yml è identico alla base. Il difetto è assente alla base."
+    },
+    {
+      "id": "R14-003",
+      "chiave": "api-backend|comunicare due volte l'esito di una segnalazione rimanda la mail e le notifiche, e dopo un errore il nuovo tentativo rimanda anche i canali già riusciti",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14a --base b97d6aa4^ --file app/api/segnalazioni/esito/comunica.ts --prove tests/unit/riparazione-r14-esito-una-volta.test.ts --json"
+      },
+      "nota": "Le colonne scritte in audit_logs esistono (migrations/027_growth_engagement_foundations.sql:154-164), nessun check su action, actor_id può restare vuoto; RLS solo SELECT admin (027:172): scrive solo la chiave di servizio, che è quella usata (getAdminSupabase, app/api/segnalazioni/route.ts:220-227). «Ultima riga» calcolata nel codice (comunica.ts:121). Flusso vero = quello della prova (app/admin/segnalazioni/page.tsx:117-140; dopo un 502 accogli risponde 200 e poi PATCH). 26 prove sulle segnalazioni verdi, 146 casi. Residuo fuori voce, dichiarato dal riparatore: due comunicazioni nello stesso istante mandano due mail (controlla-poi-agisce senza blocco); probabilità bassa, il pulsante è spento mentre lavora (page.tsx:219). Audit_logs letto dalle migrazioni, non provato su Postgres."
+    },
+    {
+      "id": "R14-004",
+      "chiave": "api-backend|l'esito di una segnalazione si rimanda due volte: dopo un errore parziale la pagina chiede di registrare di nuovo e tutti i canali ripartono, anche quelli già arrivati",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14a --base b97d6aa4^ --file app/api/segnalazioni/esito/comunica.ts --prove tests/unit/riparazione-r14-esito-una-volta.test.ts --json"
+      },
+      "nota": "Stesso commit e stesse righe di R14-003: dopo un errore parziale la pagina registra di nuovo e il nuovo tentativo rimanda solo il canale fallito (la memoria guarda destinatario+decisione+motivazione, non deciso_at). Stesso residuo sulla concorrenza, fuori voce."
+    },
+    {
+      "id": "R14-009",
+      "chiave": "qa-flussi|le domande dei clienti sotto i prodotti non arrivano a nessuno, ma al cliente diciamo che riceverà una notifica",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Alla base b57195e2 la promessa non c'è più (components/ProductQA.tsx:96 «la risposta del negozio comparirà qui sotto», :78 nessun avviso promesso; ProductQA è l'unico punto dove il cliente fa una domanda, nessun altro testo promette notifiche). Ma la metà «non arrivano a nessuno» è ancora vera: nessun avviso al negozio, nessun trigger su product_questions. Chiusa solo la metà della promessa; diventa «regge» se il difetto nuovo che il riparatore ha visto (nuovi_difetti_visti[0], il negozio non riceve avviso) entra nel registro."
+    },
+    {
+      "id": "R14-011",
+      "chiave": "qa-flussi|l'aiutante di prova accendi non regge due montaggi di una pagina con use(params) dopo un invio",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14b --base c319550b^ --file tests/unit/aiuti/schermo.ts --prove tests/unit/riparazione-r14-accendi-due-volte.test.ts --json"
+      },
+      "nota": "Cercata la prova a vuoto temuta dal riparatore: fallback con un segno (data-k05-sospeso) controllato dopo il montaggio, a fine caso e allo smontaggio, su tutte le 281 prove che usano aiuti/schermo (1.713 casi, 1.978 montaggi; il controllo positivo segnala un componente sospeso per sempre). 0 casi finiscono col segno presente; 13 si sospendono solo un attimo (pagine con use(params)) e si risolvono prima delle asserzioni. Senza Suspense (base) un componente sospeso per sempre rendeva già vuoto in silenzio: il rischio non nasce da questa correzione. 281 file verdi."
+    },
+    {
+      "id": "R14-012",
+      "chiave": "stati-ui|«duplica» con la sorgente in memoria da meno di 30 secondi si apre con le taglie e la spunta di prima",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14c --base 173a21ad^ --file app/seller/products/new/page.tsx --prove tests/unit/riparazione-r14-duplica-con-sorgente-in-cache.test.tsx --json"
+      },
+      "nota": "Il caso della prova regge (rilettura riuscita: taglie e spunta vere), il modulo non resta bloccato (offline fetchStatus in pausa, dopo errore isFetching falso, fromId nuovo riparte) e una rilettura dopo non cancella il lavoro (refetchOnWindowFocus spento in QueryProvider.tsx). Ma resta aperta una strada allo stesso sintomo: se la rilettura cade o all'apertura non c'è rete, con la sorgente in memoria caricamento e sorgenteNonArrivata sono falsi (page.tsx:166, 231, 233) e il modulo si apre con la spunta del recesso di prima; dopo «Riprova» riuscito o al ritorno della rete il salvataggio si sblocca senza rimettere la spunta vera: solo le taglie hanno il «cambiate → riapri» (page.tsx:248), la spunta resta quella del montaggio (components/ProductForm.tsx:319). Riprodotto con una prova temporanea (memoria con nonRecedibile vecchio + rilettura che fallisce o rete assente): 3 casi rossi, la copia si salva recedibile."
     }
   ],
   "campione": {}
