@@ -147,7 +147,8 @@
       "ramo": "claude/settimana-700-regia-k05",
       "partenza": "4b15fc990cb335a1378942e6491368ff894c0bab",
       "riparatori": [
-        "R14"
+        "R14",
+        "R15"
       ],
       "onda": 2
     },
