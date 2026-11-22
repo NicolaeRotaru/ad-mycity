@@ -5,7 +5,7 @@
   "R08",
   "R09"
  ],
- "aggiornato": "2026-11-22 01:58",
+ "aggiornato": "2026-11-22 04:07",
  "finita": true,
  "voci": [
   {
@@ -19,9 +19,9 @@
    ],
    "rimessa": {
     "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base 1b974d8c3350350a357701130efce44dd51437dc^ --file app/rider/earnings/page.tsx --prove tests/unit/riparazione-r07-guadagni-fattorino-card.test.ts  --json"
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base fc48cfd4^ --file app/rider/orders/[id]/page.tsx,app/rider/onboarding/page.tsx,components/ui/Card.tsx --prove tests/unit/riparazione-r07-guadagni-fattorino-card.test.ts --json"
    },
-   "nota": "il punto citato (earnings:214) è una Card con le stesse classi; ma il titolo parla delle card a mano con bg-surface-0 e ne restano 41 righe in 13 file (es. app/rider/onboarding/page.tsx:350, che il ramo tocca), mentre il referto dice «copre tutta la voce». Prova statica sul sorgente."
+   "nota": "giro 2 (fc48cfd4): le 7 card a mano nei file di R07 (4 in rider/onboarding, 3 in rider/orders/[id], una come details) passano a <Card variant=\"surface\"> con resa identica (surface = bg-surface-0 border border-cream-300, raggio xl e p-4 di base; dove serviva radius lg / padding none con le classi di prima); nei tre file resta solo un select (onboarding:321), che non è una card. Il referto ora dice onestamente «parziale» ed elenca le 24 card in 9 file altrui in serve_file_altrui. Prova rimessa uscita 0; 198 prove vicine verdi (Card, onboarding, consegna). La voce resta parziale finché le card altrui non passano."
   },
   {
    "id": "R07-002",
@@ -86,7 +86,7 @@
   {
    "id": "R07-007",
    "chiave": "navigazione-gerarchia|col pannello dei filtri aperto, il tasto indietro fa uscire dalla ricerca invece di chiudere il pannello",
-   "verdetto": "rompe_altro",
+   "verdetto": "regge",
    "giudizio": "pieno",
    "lenti": [
     "chiude_tutta",
@@ -94,9 +94,9 @@
    ],
    "rimessa": {
     "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base 4681b479fb1f97687438cee48e33b12e5b86cb5e^ --file app/search/page.tsx,components/hooks/useBottomSheetA11y.ts --prove tests/unit/riparazione-r07-indietro-chiude-filtri.test.ts,tests/unit/riparazione-r07-filtri-restano-nell-indirizzo.test.tsx  --json"
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base 1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46 --file components/hooks/useBottomSheetA11y.ts,app/search/page.tsx,app/category/[slug]/page.tsx --prove tests/unit/riparazione-r07-indietro-chiude-filtri.test.ts,tests/unit/riparazione-r07-filtri-restano-nell-indirizzo.test.tsx --json"
    },
-   "nota": "il comportamento è chiuso (Indietro chiude filtri di ricerca, categoria e «Ordina»; gli altri 11 usi del hook non passano indietroChiude). Ma le due prove nuove sono instabili sotto carico: attesa fissa di 20 ms del popstate (tests/unit/riparazione-r07-indietro-chiude-filtri.test.ts:25-29); con la macchina carica sono cadute 3 volte su ~16 giri (qa2) e 2 su 3 (qa1), su asserzioni diverse (indietro-chiude-filtri:119 e :266, filtri-restano-nell-indirizzo:222 «expected null to be 'price_asc'»). Da sole 5+5+5 giri verdi. Una prova che cade a caso rompe il verify/CI. Caso limite minore: dopo Indietro, Avanti riporta la voce pannelloAperto col pannello chiuso e l'Indietro successivo va a vuoto (useBottomSheetA11y.ts:136-149). · altre rimesse della voce: 085cc686: uscita 0"
+   "nota": "giro 2 (testa fc48cfd4): fa43cb33 tocca solo le prove, che ora aspettano la cronologia ferma (tests/unit/riparazione-r07-cronologia.ts) invece di 20 ms fissi. Sotto carico (6 processi che occupano la CPU + 8 vitest in parallelo, load da 9 a 17 su 4 core) 24 giri su 24 verdi; prima cadevano 3 su ~16. Prova rimessa sulla voce intera (testa contro base, i tre file del codice): uscita 0, cade togliendo ognuno dei tre file. Il comportamento era già giudicato chiuso al giro 1. Resta, minore e non della voce: dopo Indietro, il tasto Avanti riporta la voce pannelloAperto col pannello chiuso (useBottomSheetA11y.ts:136-149)."
   },
   {
    "id": "R07-009",
@@ -131,7 +131,7 @@
   {
    "id": "R08-001",
    "chiave": "dati-analytics|in analisi il voto medio guarda solo le recensioni ai prodotti: un negozio con tre recensioni legge «nessuna recensione», e le etichette sono in inglese",
-   "verdetto": "rompe_altro",
+   "verdetto": "parziale",
    "giudizio": "pieno",
    "lenti": [
     "chiude_tutta",
@@ -139,9 +139,9 @@
    ],
    "rimessa": {
     "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R08 --base 9dffbe1a48bfb77bf0db5f04a8711c1bb337572b^ --file app/seller/analytics/page.tsx --prove tests/unit/riparazione-r08-analisi-in-italiano.test.tsx  --json"
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R08 --base 7e25e7e1^ --file app/seller/analytics/page.tsx --prove tests/unit/riparazione-r08-analisi-in-italiano.test.tsx  --json"
    },
-   "nota": "le etichette sono in italiano e il voto medio solo-prodotti resta aperto (dichiarato, domanda a Nicola). Ma la nuova scritta di riserva in app/seller/analytics/page.tsx:278 dice «il tuo prodotto più venduto» mentre `best` è il prodotto più VISTO (ordinato per visite, :180-181; la frase sotto dice «È il prodotto più visto»): un'affermazione falsa nuova, blindata dalla prova (:114). · altre rimesse della voce: 9febd830: uscita 0"
+   "nota": "giro 2 (testa 509ada50): il difetto del giro 1 è chiuso: app/seller/analytics/page.tsx:278 dice «il tuo prodotto più visto», come il dato (ordinato per visite, :180-182); nella pagina non resta «venduto» né «best-seller»; la prova rifiuta «più vendut». Resta parziale, dichiarato: voto medio e conteggio contano solo le recensioni ai prodotti (domanda a Nicola)."
   },
   {
    "id": "R08-003",
@@ -156,7 +156,7 @@
     "uscita": 0,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R08 --base dcbceab2293d0385efc66a946af9c3fecffd03e3^ --file components/ProductViewTracker.tsx,lib/analytics/visita-prodotto.ts --prove tests/unit/riparazione-r08-visita-come-il-database.test.tsx  --json"
    },
-   "nota": "nel codice PostHog annuncia la visita solo se il database la conta (ProductViewTracker.tsx:107-123, count exact). Ma se count torna null la visita si annuncia come prima (le due regole tornano a divergere), il caso «riga scartata dal trigger → count 0» non è provato contro un PostgREST vero, e la definizione nel glossario KPI chiesta dalla voce non c'è."
+   "nota": "giro 2: codice non cambiato (rimessa del giro 1 su dcbceab2, uscita 0). Il residuo ora è dichiarato onestamente in tre pezzi: con count null la visita si annuncia ancora (ProductViewTracker.tsx:122, return count !== 0) e la scelta della cura è lasciata a Nicola; la voce del glossario KPI (in ad-mycity, MyCity-Vault/07-Agenti/GLOSSARIO-KPI.md, oggi assente) con testo proposto; il conto 0 non provato contro un PostgREST vero."
   },
   {
    "id": "R08-004",
@@ -191,7 +191,7 @@
   {
    "id": "R08-006",
    "chiave": "qa-flussi|tornando indietro dopo l eliminazione la lista eliminata ricompare per 30 secondi",
-   "verdetto": "parziale",
+   "verdetto": "regge",
    "giudizio": "pieno",
    "lenti": [
     "chiude_tutta",
@@ -199,9 +199,9 @@
    ],
    "rimessa": {
     "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R08 --base b0d1e34fb0d7f804068cefd6645845aa61ebbc39^ --file app/lists/[id]/page.tsx --prove tests/unit/riparazione-r08-liste-eliminata-tornando-indietro.test.tsx  --json"
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R08 --base 48f962fa^ --file app/lists/[id]/page.tsx --prove tests/unit/riparazione-r08-liste-eliminata-tornando-indietro.test.tsx  --json"
    },
-   "nota": "il caso normale è chiuso; ma se una rilettura del dettaglio è in volo quando si elimina (partita da rinomina :145 o da Rendi privata/pubblica :162), rimette in cache la lista eliminata per 30 secondi: in onSuccess di deleteList (app/lists/[id]/page.tsx:233-234) manca cancelQueries prima dei setQueryData. Riprodotto con letture ritardate di 400 ms: in cache resta la lista invece di null (/tmp/claude-0/k03/qa3-attacco-r08-race.test.tsx)."
+   "nota": "giro 2 (48f962fa): prima di scrivere null e [] app/lists/[id]/page.tsx:233-239 aspetta cancelQueries di dettaglio e righe. L attacco del giro 1 (rinomina poi eliminazione con letture ritardate di 400 ms) ora è verde, e la prova nuova lo copre. Le altre mutazioni (rinomina, visibilità, rimozione, note) dopo l eliminazione si limitano a invalidare una query inattiva. 14 prove su 14 verdi."
   },
   {
    "id": "R08-007",
@@ -221,7 +221,7 @@
   {
    "id": "R08-010",
    "chiave": "stati-ui|il doppio tocco su «partecipa» mostra un messaggio d'errore, e un evento appena finito resta premibile per quasi un minuto",
-   "verdetto": "parziale",
+   "verdetto": "regge",
    "giudizio": "pieno",
    "lenti": [
     "chiude_tutta",
@@ -229,9 +229,9 @@
    ],
    "rimessa": {
     "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R08 --base afed864c52966fd9745a0e89a9aeaf241ef77569^ --file app/events/page.tsx --prove tests/unit/riparazione-r08-partecipa-doppio-tocco.test.tsx  --json"
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R08 --base 1b6643ce^ --file migrations/701_non_ci_si_iscrive_a_un_evento_finito.sql --prove tests/sql/rls/riparazione-r08-evento-finito.test.sql --sql k03_r08_rimessa --json"
    },
-   "nota": "la pagina è chiusa (doppio tocco: 23505 = già iscritto; evento finito non premibile). Ma la regola del database aggiunta ha un buco: migrations/701 è RESTRICTIVE solo su INSERT, mentre la policy 034 event_rsvps_own_rw è FOR ALL e authenticated ha UPDATE: un cliente sposta la sua iscrizione da un evento aperto a uno finito con un UPDATE (provato in locale: 1 riga cambiata). Serve anche il controllo FOR UPDATE WITH CHECK. · altre rimesse della voce: 0d645382: uscita 0; 0d645382 (sql): uscita 0"
+   "nota": "giro 2 (1b6643ce): la 701 ha anche una regola RESTRICTIVE per l UPDATE (WITH CHECK). Database locale ricostruito, 212 migrazioni; prova SQL 7/7. A mano: spostare un iscrizione su evento finito o annullato rifiutato; INSERT … ON CONFLICT DO UPDATE verso evento finito rifiutato; aperto→aperto passa; finito→aperto passa; cancellazione da evento finito passa; service_role passa; 701 rilanciata su database con dati ok. Un UPDATE nullo su iscrizione vecchia a evento finito viene rifiutato, ma il sito su event_rsvps fa solo insert e delete."
   },
   {
    "id": "R09-001",
@@ -296,7 +296,7 @@
   {
    "id": "R09-006",
    "chiave": "deploy-sre|il giorno che si riaccendono i lavori, il cliente di un ordine veloce vecchio riceve una scadenza già passata",
-   "verdetto": "rompe_altro",
+   "verdetto": "regge",
    "giudizio": "pieno",
    "lenti": [
     "chiude_tutta",
@@ -304,14 +304,14 @@
    ],
    "rimessa": {
     "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R09 --base 9de228fbb43816dd7a2fbc8fe1fad1f2d9bd15c9^ --file lib/ordini/veloce-non-confermata.ts --prove tests/unit/riparazione-r09-freno-ordine-di-ieri.test.ts  --json"
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R09 --base a652438a^ --file lib/ordini/veloce-non-confermata.ts --prove tests/unit/riparazione-r09-freno-ordine-di-ieri.test.ts  --json"
    },
-   "nota": "l'ordine veloce nato ieri e già scaduto non si sposta più a «Domani»; la modifica alla prova comune minori-s02 sposta solo la nascita (20:45→22:45) e lascia identica l'asserzione «Domani · …»: non indebolisce altri controlli. Ma il nuovo ritorno anticipato 'scaduto' (lib/ordini/veloce-non-confermata.ts:490-496) in un carrello misto rende l'esito dipendente dall'ordine delle righe: negozio senza orari (non scaduto) + negozio che chiude alle 21 (scaduto), nato alle 20:30, giro alle 22:00 → se si tratta per primo lo scaduto, il fratello valido resta «Adesso» senza avviso fino a 30 minuti; nell'ordine inverso tutti e due vanno a «Domani». Riprodotto con una prova temporanea."
+   "nota": "giro 2 (a652438a): a carrello intatto si guarda la scadenza di ogni ordine; carrello misto (venerdì 20:30, negozio senza orari + forno che chiude alle 21, giro alle 22:00) nei due ordini di lettura: spostati 0, giaScaduti 1, nessun avviso: esito uguale. Percorso dopo verificato in 4 combinazioni (base sul valido o sullo scaduto × ordine di lettura): consegnaDopoLAnnullo passa base ed euro al valido, il giro dopo lo sposta a «Domani · 7:30–9:00», avvisa il cliente, alla porta 18,00 €, rimborso carta 100 sull ordine giusto. L argomento dell euro è vero (consegnaSenzaLaVeloce, lib/ordini/annulla.ts:1041). Giudizio sulla scelta: regge. Ma «fino a 30 minuti» non è un tetto: expire gira a :00 e :30 e il freno 5 minuti dopo (circa 35 minuti nel caso normale); se expire trattiene lo scaduto (divisione del rimborso in attesa, rimborso Stripe che fallisce, claim fallito, freno lanciato prima di expire) il valido resta «Adesso» fino alla sua scadenza e viene annullato senza che gli sia mai proposta una fascia (veloce-non-confermata.ts:500-508). Danno: una vendita persa, non soldi sbagliati; probabilità bassa."
   },
   {
    "id": "R09-008",
    "chiave": "deploy-sre|con una destinazione che ha una cartella dentro il secchio, lo storico predefinito finisce nello stesso secchio della copia senza avviso e la notte resta verde",
-   "verdetto": "rompe_altro",
+   "verdetto": "parziale",
    "giudizio": "pieno",
    "lenti": [
     "chiude_tutta",
@@ -319,17 +319,17 @@
    ],
    "rimessa": {
     "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R09 --base 975745193d58d963b1d11047bd058456d6976b90^ --file scripts/backup-db.sh --prove tests/unit/riparazione-r09-backup-storico-secchio.test.ts  --json"
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R09 --base 3e36a739^ --file scripts/backup-db.sh --prove tests/unit/riparazione-r09-backup-storico-secchio.test.ts  --json"
    },
-   "nota": "per i secchi B2/S3 lo storico è giusto su 15 destinazioni. Ma su un remote senza secchi con percorso assoluto la correzione peggiora: «nas:/mnt/backup/foto» diventa «nas:mnt-storico/backup/foto» (perde la barra, percorso relativo), prima dava «nas:/mnt/backup/foto-storico» (scripts/backup-db.sh:320-327). Inoltre il commento a :316 elenca «cifrata:/x» fra i casi senza secchio ma il codice dà «cifrata:/x-storico» con exit 0, e l'intestazione a :30 descrive ancora il vecchio predefinito. Probabilità bassa (la destinazione documentata è b2)."
+   "nota": "giro 2 (3e36a739): «nas:/mnt/backup/foto» torna a «nas:/mnt/backup/foto-storico»; commenti a :30 e :316 corretti; «cifrata:», «cifrata:/» e «nas:/» danno exit 5; 20 destinazioni con rclone finto coerenti. Ma «b2:/mycity-foto/copie» (e «b2://…») dà «b2:/mycity-foto/copie-storico»: rclone per B2 e S3 toglie le barre (parsePath, strings.Trim) e lo storico finisce nello STESSO secchio, exit 0, nessun avviso: è il difetto della voce scritto con la barra (scripts/backup-db.sh:333-334). Il referto lo chiama limite ma segna copre_tutta_la_voce true. Il tipo di remote si può leggere (rclone listremotes --long, rclone config show, rclone backend features → BucketBased): il caso si può chiudere o almeno avvisare. Probabilità bassa (destinazione documentata senza barra)."
   }
  ],
  "campione": {
   "R07": {
-   "accettato": false
+   "accettato": true
   },
   "R08": {
-   "accettato": false
+   "accettato": true
   },
   "R09": {
    "accettato": false
