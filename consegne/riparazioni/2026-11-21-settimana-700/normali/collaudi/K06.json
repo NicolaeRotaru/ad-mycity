@@ -5,7 +5,7 @@
     "R16",
     "R17"
   ],
-  "aggiornato": "2026-11-22 21:35",
+  "aggiornato": "2026-11-22 22:30",
   "finita": true,
   "voci": [
     {
@@ -19,9 +19,9 @@
       ],
       "rimessa": {
         "uscita": 0,
-        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R18-001 --base 57f2e330^ --file app/api/cron/abandoned-carts/route.ts --prove tests/unit/riparazione-r18-promemoria-carrello-una-volta.test.ts --json (worktree a 57f2e330)"
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R18-001 --base 07871ff3^ --file app/api/cron/abandoned-carts/route.ts --prove tests/unit/riparazione-r18-promemoria-carrello-una-volta.test.ts --json (worktree a 07871ff3, punta 2763712d)"
       },
-      "nota": "Due giri insieme, una email: la rivendicazione è una UPDATE condizionata (recovery_email_sent_at is null) che rende la riga solo a chi la prende. Libreria vera (@supabase/postgrest-js 2.106.1, dist/index.cjs:359-371): maybeSingle su 0 righe dà data null ed error null, PGRST116 solo con più righe (user_id è chiave primaria, 027:185). service_role ha UPDATE (425:338), nessun trigger su abandoned_carts. Su Postgres 16 locale due UPDATE condizionate insieme: la seconda aspetta e prende 0 righe. Mutanti rossi sulla prova: rotta della base, .is(null) tolto, preso === false. Resta una chiamata a mark_abandoned_cart_email_sent in chiudiSenzaEmail (route.ts:92), che non spedisce. Le 6 prove comuni ritoccate non sono indebolite (giudizio a parte nel messaggio alla regia); r30:84 ora è un controllo morto (cerca la rpc che il giro non chiama più), ma il mutante vero, consenso tolto, resta rosso a r30:82. Fragile, già segnalata da R18: le-email-d-ordine-escono-senza-il-tasto-per-smettere risponde [] alla rivendicazione."
+      "nota": "Ricollaudo dopo la firma (eccezione firmata prove_comuni onda 2 (Nicola, piano.json, 2026-11-22 19:45)): il ritorno ffbda6c2 è annullato da 07871ff3, che ha le stesse righe cambiate di 57f2e330, giudicata «regge» con le 6 prove comuni non indebolite. Prova rimessa rifatta su 07871ff3: uscita 0 (rossa togliendo route.ts). Nessuna rompe_altro: alla testa 1a5b9806 verdi i 361 file di prove vicine, comprese le 6 prove comuni ritoccate; verify del referto verde sulla testa. Giudizio di prima, che resta: Due giri insieme, una email: la rivendicazione è una UPDATE condizionata (recovery_email_sent_at is null) che rende la riga solo a chi la prende. Libreria vera (@supabase/postgrest-js 2.106.1, dist/index.cjs:359-371): maybeSingle su 0 righe dà data null ed error null, PGRST116 solo con più righe (user_id è chiave primaria, 027:185). service_role ha UPDATE (425:338), nessun trigger su abandoned_carts. Su Postgres 16 locale due UPDATE condizionate insieme: la seconda aspetta e prende 0 righe. Mutanti rossi sulla prova: rotta della base, .is(null) tolto, preso === false. Resta una chiamata a mark_abandoned_cart_email_sent in chiudiSenzaEmail (route.ts:92), che non spedisce. Le 6 prove comuni ritoccate non sono indebolite (giudizio a parte nel messaggio alla regia); r30:84 ora è un controllo morto (cerca la rpc che il giro non chiama più), ma il mutante vero, consenso tolto, resta rosso a r30:82. Fragile, già segnalata da R18: le-email-d-ordine-escono-senza-il-tasto-per-smettere risponde [] alla rivendicazione."
     },
     {
       "id": "R18-002",
@@ -293,6 +293,66 @@
         "nata_rotta"
       ],
       "nota": "serve_file_altrui, giudicata la ricetta: Ricetta NON completa. HowItWorks è davvero già a posto: file identico fra base e testa, a 320 px col testo al 200% i tre h3 stanno a 265 px. La causa indicata è giusta: alla testa la pagina è larga 378 px su 320 per l'intestazione di LiveActivityFeed, e a 280 px sfora anche la fascia «Hai un negozio» (298). Dopo la ricetta 320 su 320 e 280 su 280 (misurato solo sullo scheletro senza dati). Ma applicata rende rossa tests/unit/riparazione-r01-home-col-testo-grande.test.tsx:80 (pretende break-words sulla frase della fascia), che la ricetta non nomina. Le righe del riquadro vero sono 150/151/158, non 154-160/155/160 come scrive. Nessuna prova. Minore: il titolo va su 6 righe, spezzato a metà parola."
+    },
+    {
+      "id": "R16-004",
+      "chiave": "frontend-ux|il controllo sul taglio dei campi di testo del costruttore della home tronca ancora titoli e sottotitoli in silenzio",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16-004 --base 1a91d22a^ --file components/seller/site/BannerFields.tsx --prove tests/unit/riparazione-r16-banner-campi-brevi.test.tsx,tests/unit/riparazione-r02-banner-alt.test.tsx --json (worktree a 1a91d22a, punta 069956cb)"
+      },
+      "nota": "Ricollaudo dopo la firma (eccezione firmata prove_comuni onda 2 (Nicola, piano.json, 2026-11-22 19:45)). Rimessa con 1a91d22a: BannerFields.tsx e la prova nuova identici a e4a75059, la ricetta che K06 aveva giudicato completa; l'unica differenza è la riga 38 di riparazione-r02-banner-alt, come scritto nella ricetta. Prova comune non indebolita: maxLength===160 diventa niente maxLength più errore «161 caratteri su 160» a 161 e nessun errore a 160. Prova rimessa uscita 0 (rossa togliendo BannerFields.tsx). Nessuna rompe_altro: 26 file di prove su banner, vetrina, costruttore e pagina dei negozi verdi alla testa 8c8e6853 (198 prove); verify del referto verde sulla testa. Resta l'avvertenza della ricetta: R17-004/R17-005 riscrive anch'essa BannerFields.tsx, va applicata una sola delle due."
+    },
+    {
+      "id": "R16-011",
+      "chiave": "qa-flussi|nella pagina dei negozi le categorie per negozio si leggono senza finestre: sopra i mille negozi con prodotti alcuni perderebbero le loro categorie nel filtro",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16-011 --base 8c8e6853^ --file app/stores/page.tsx --prove tests/unit/riparazione-r16-negozi-categorie.test.tsx --json (worktree a 8c8e6853, punta 069956cb)"
+      },
+      "nota": "Ricollaudo dopo la firma (eccezione firmata prove_comuni onda 2 (Nicola, piano.json, 2026-11-22 19:45)). Rimessa con 8c8e6853: la modifica di app/stores/page.tsx è riga per riga quella di b94d11b5, la prova nuova è identica, e la prova comune riparazione-r02-negozi-categorie-a-pagine cambia solo la forma del finto rpc (order, range, then), come in 8f8973f3 (R12-012): dati e controlli uguali, quindi non indebolita. Prova rimessa uscita 0 (rossa togliendo page.tsx). Nessuna rompe_altro: 26 file di prove vicine verdi alla testa (198 prove); verify del referto verde sulla testa 8c8e6853."
+    },
+    {
+      "id": "R17-008",
+      "chiave": "performance|ogni pagina scarica due caratteri in corsivo che quasi nessuna pagina usa",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R17-008 --base aa1292c5^ --file app/layout.tsx --prove tests/unit/riparazione-r17-corsivo-senza-precarico.test.ts,tests/unit/il-corsivo-del-sito-e-un-corsivo-vero.test.ts --json (worktree a aa1292c5, punta 8b7f3338)"
+      },
+      "nota": "Ricollaudo dopo la firma (eccezione firmata prove_comuni onda 2 (Nicola, piano.json, 2026-11-22 19:45)). Rimessa con aa1292c5: le righe cambiate sono esattamente quelle delle due patch della ricetta che K06 aveva giudicato completa (afcd9d50 più il-corsivo.patch). Prova comune il-corsivo-del-sito-e-un-corsivo-vero non indebolita: conta per famiglia invece che per istanza, tiene il divieto di preload:false sulle istanze col dritto e aggiunge che un'istanza col dritto esista. Prova rimessa uscita 0 (rossa togliendo app/layout.tsx). Nessuna rompe_altro: 28 file di prove sui caratteri e sul layout verdi alla testa (226 prove); verify del referto verde sulla testa aa1292c5. Compromesso dichiarato: il corsivo di Fraunces non si precarica più neanche in home (il «veri» di app/page.tsx:29 si disegna prima col carattere di riserva)."
+    },
+    {
+      "id": "R18-006",
+      "chiave": "microcopy|il cliente e l'email leggono ancora «un rider passa a prenderlo», mentre il pulsante del negozio ora dice «fattorino»",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R18 --base 1a5b9806^ --file app/orders/[id]/page.tsx,lib/email/templates.ts --prove tests/unit/riparazione-r18-parola-fattorino.test.ts --json (worktree a 1a5b9806, punta 2763712d)"
+      },
+      "nota": "Ricollaudo dopo la firma (eccezione firmata prove_comuni onda 2 (Nicola, piano.json, 2026-11-22 19:45)). 1a5b9806 è la modifica scritta in scheda (R18.md:51-57) tale e quale: READY, ASSIGNED, PICKED_UP, OUT_FOR_DELIVERY e la riga del codice dicono «fattorino»; orderReadyTemplate html, testo e commento pure. Prova rimessa uscita 0: rossa togliendo page.tsx e rossa togliendo templates.ts, ognuno da solo. Le 2 prove comuni non sono indebolite: minori-s04 cambia la frase attesa da «rider» a «fattorino» e tiene il divieto di «ritir»; in la-guida-del-secondo-giorno la regex PAROLE_DEL_RITIRO esclude «fattorino passa a prender» come già escludeva «rider passa a prender» (stessa ragione: è il fattorino che passa, non il cliente), e si aggiunge il controllo che quella frase non conti come ritiro; le altre parole del ritiro restano tutte. Nessuna rompe_altro: 361 file di prove che citano la rotta del carrello, la pagina dell'ordine, i modelli email o «fattorino» verdi alla testa (2696 prove); verify del referto verde sulla testa 1a5b9806. Fuori dalla voce, già fra i nuovi_difetti_visti di R18: la campanella «ordine pronto» (migrations/321:59-77) dice ancora «rider»."
     }
   ],
   "campione": {},
