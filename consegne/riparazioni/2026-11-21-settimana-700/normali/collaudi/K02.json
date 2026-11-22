@@ -1,0 +1,426 @@
+{
+ "collaudatore": "K02",
+ "riparatori": [
+  "R02",
+  "R04",
+  "R05"
+ ],
+ "aggiornato": "2026-11-22 03:10",
+ "finita": true,
+ "voci": [
+  {
+   "id": "R02-001",
+   "chiave": "ai-endpoints|i controlli di conformità del copilot in blocco partono tutti insieme, fino a 200, senza un tetto",
+   "verdetto": "rompe_altro",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 3b084b5c094ca07219211e1a70e640c25535d317^ --file app/api/ai/catalog-apply-bulk/route.ts --prove tests/unit/riparazione-r02-conformita-con-tetto.test.ts  --json"
+   },
+   "nota": "tetto 5 in volo regge su ordine ed errori, ma con 200 voci (MAX_CHANGES) sono 40 giri: a 1-10 s per controllo (TEMPO_FILTRO_MS) si va oltre i 120 s di app/api/ai/** (vercel.json:14); le scritture vengono dopo i controlli, quindi 504 con nulla scritto e controlli pagati. Prima partivano in un giro. Visto da due revisori diversi"
+  },
+  {
+   "id": "R02-002",
+   "chiave": "ai-endpoints|un lavoro sul catalogo «forse partito» non si può scartare",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 25ac5e9d8a31708f31bbfa00f4d05d99e5691610^ --file app/api/ai/catalog-batch/cancel/route.ts,app/api/ai/catalog-batch/start/route.ts --prove tests/unit/riparazione-r02-scarta-invio-incerto.test.ts  --json"
+   },
+   "nota": "scarto di un lavoro altrui rifiutato (mutante senza seller_id cade), scarto condizionato su stato e motivo (409), lotto agganciato non si scarta"
+  },
+  {
+   "id": "R02-003",
+   "chiave": "ai-endpoints|dopo ogni 500/502/504 del fornitore all'invio di un lotto il negozio resta bloccato fino a 24 ore, senza modo di scartare il lavoro",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 25ac5e9d8a31708f31bbfa00f4d05d99e5691610^ --file app/api/ai/catalog-batch/cancel/route.ts,app/api/ai/catalog-batch/start/route.ts --prove tests/unit/riparazione-r02-scarta-invio-incerto.test.ts  --json"
+   },
+   "nota": "500/502/504/520/524 passano da invioIncerto; dopo 3 minuti lo scarto e' possibile e l'avvio non puo' piu' agganciare; mutante senza il controllo dei 3 minuti cade"
+  },
+  {
+   "id": "R02-004",
+   "chiave": "ai-endpoints|due avvii insieme di un lavoro sul catalogo superano entrambi il controllo dei lavori aperti",
+   "verdetto": "rompe_altro",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 4897836a930117b09a94cb44bcf6daca77d83188^ --file migrations/640_un_solo_lavoro_ai_aperto_per_negozio.sql --prove tests/sql/rls/riparazione-r02-un-solo-lavoro-aperto.test.sql --sql k02_r02_rimessa --json && timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 4897836a930117b09a94cb44bcf6daca77d83188^ --file app/api/ai/catalog-batch/start/route.ts --prove tests/unit/riparazione-r02-due-avvii-insieme.test.ts  --json"
+   },
+   "nota": "l'indice tiene, ma start/route.ts:122-140 rifiuta l'avvio per 120 s dopo ogni 'applied' leggendo updated_at della prenotazione (apply/route.ts:108): un'applicazione finita in 5 s blocca «Avvia» per ~2 minuti con «applicazione in corso». In piu' la 640 (57-62) puo' chiudere un 'submitting' con lotto partito ma non agganciato accanto a un 'processing'"
+  },
+  {
+   "id": "R02-005",
+   "chiave": "ai-endpoints|la pagina del lotto mostra la rotella «tra poco lo vedi partire» per 24 ore su un invio senza risposta",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base b35230c6808fe17b31c3c1727c90a61ca4aa82a2^ --file app/api/ai/catalog-batch/status/route.ts,app/seller/products/ai-batch/page.tsx --prove tests/unit/riparazione-r02-invio-incerto-senza-rotella.test.tsx  --json"
+   },
+   "nota": "tre mutanti (rotella senza !job.incerto, soglia 0, daVerificare senza motivo) rossi; polling continua, chiusura a 24 h invariata"
+  },
+  {
+   "id": "R02-006",
+   "chiave": "ai-endpoints|il copilot su un sottoinsieme grande del catalogo (es. «tutti i disponibili», 150 su 200) scrive ancora gli id uno per uno e risponde «riprova»",
+   "verdetto": "parziale",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 372a436a9636b7902f492cdb44c1f2189869a490^ --file app/api/ai/copilot/route.ts --prove tests/unit/riparazione-r02-copilot-sottoinsieme.test.ts  --json"
+   },
+   "nota": "parziale dichiarato dal riparatore: rimessa uscita 0"
+  },
+  {
+   "id": "R02-007",
+   "chiave": "ai-endpoints|un lavoro «in invio» incerto non si può scartare: il negozio resta bloccato fino a 24 ore",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 07680a024710b83b21ff8b50cade45c3b68f21c4^ --file app/seller/products/ai-batch/page.tsx --prove tests/unit/riparazione-r02-scarta-dalla-pagina.test.tsx  --json"
+   },
+   "nota": "prima dei 3 minuti il pulsante non c'e', il 409 si mostra; appunto: «Scarta» senza conferma"
+  },
+  {
+   "id": "R02-008",
+   "chiave": "ai-endpoints|il messaggio di «genera con ai» dice «modifica come preferisci» anche quando il testo è solo una proposta",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 1c61a93eb2274d7b38a743e4b9ae48901eff09cc^ --file components/AIDescriptionButton.tsx --prove tests/unit/riparazione-r02-genera-con-ai-messaggio-a-video.test.tsx  --json"
+   },
+   "nota": "rimessa con la sola prova a video (con entrambe esce 3: la prova del modulo usa il nome nuovo messaggioDelRisultato); mutante «testo del clic invece del ref» fa cadere 2 prove su 6"
+  },
+  {
+   "id": "R02-009",
+   "chiave": "ai-endpoints|la conformità dei prodotti (classifyproductpolicy) non ha un tempo suo e i lavori sul catalogo la chiamano in 40 giri di fila",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base a4d97723844008a1d628920717072963939263a3^ --file lib/ai/moderation.ts --prove tests/unit/riparazione-r02-conformita-prodotti-tempo.test.ts  --json"
+   },
+   "nota": "il tempo suo c'e' (10 s, maxRetries 0, il prodotto e' negato allo scadere), ma i «40 giri di fila» restano: catalog-batch/apply/route.ts:41,51 e catalog-apply-bulk/route.ts:54 a 5 in volo, 200 righe x 10 s = 400 s oltre i 120 s della rotta"
+  },
+  {
+   "id": "R02-010",
+   "chiave": "ai-endpoints|il freno «un errore all'ora» del tetto di spesa ai vive nella memoria della copia: con il tetto impostato e la migrazione del conto assente l'errore può arrivare a ogni giro del cron",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 9c3cf4e7f4a75d4d4535f2f3afee15079ec35ca2^ --file lib/ai/tettoSpesa.ts --prove tests/unit/riparazione-r02-errore-tetto-fra-copie.test.ts  --json"
+   },
+   "nota": "alla testa il diff e' identico a 9c3cf4e7, c3379674 e 04991f1e si annullano; prova debole: sopravvivono i mutanti che rendono muta la tabella guasta (lib/ai/tettoSpesa.ts:132,145) e che tolgono il freno dal ramo «oltre un'ora» (:255)"
+  },
+  {
+   "id": "R02-012",
+   "chiave": "ai-endpoints|la scheda della chat non mostra la rimozione di un attributo rimasto da una categoria di prima, che il server invece toglie",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 5c60e8ab33f54c3aea6af74034041c92274edba8^ --file lib/products/prontoPerLaVendita.ts --prove tests/unit/riparazione-r02-scheda-chat-rimozione-rimasta.test.ts  --json"
+   },
+   "nota": "due mutanti rossi; sopravvive la chiave grezza al posto di chiaveCampo (prontoPerLaVendita.ts:774)"
+  },
+  {
+   "id": "R02-013",
+   "chiave": "qa-flussi|la rotta del lavoro ai sul catalogo non rifiuta un secondo lavoro",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 4897836a930117b09a94cb44bcf6daca77d83188^ --file migrations/640_un_solo_lavoro_ai_aperto_per_negozio.sql --prove tests/sql/rls/riparazione-r02-un-solo-lavoro-aperto.test.sql --sql k02_r02_rimessa --json && timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 4897836a930117b09a94cb44bcf6daca77d83188^ --file app/api/ai/catalog-batch/start/route.ts --prove tests/unit/riparazione-r02-due-avvii-insieme.test.ts  --json"
+   },
+   "nota": "stessa cura di R02-004 con gli stessi due difetti; la gara si chiude solo con la 640 applicata, e il 23505 di rimettiPronto in apply/route.ts:124-131 non e' gestito (serve_file_altrui dichiarato)"
+  },
+  {
+   "id": "R04-001",
+   "chiave": "api-backend|la memoria degli allarmi (operational_alert_log) non si pulisce mai",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 98e4568f^ --file migrations/660_la_memoria_degli_allarmi_si_pulisce_da_sola.sql --prove tests/sql/rls/riparazione-r04-allarmi.test.sql --sql k02_r04_rimessa --json"
+   },
+   "nota": "prova SQL 7 verdi, 660 riapplicabile, finestra 24 h compatibile con tutti gli usi di operational_alert_log, ripiego-da escluso, niente SECURITY DEFINER"
+  },
+  {
+   "id": "R04-007",
+   "chiave": "qa-flussi|sulla bacheca del fattorino un «accetta» perso lascia l'ordine in elenco fino a un minuto, e fa girare tutti i pulsanti insieme",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 0dd2c82a^ --file app/rider/page.tsx --prove tests/unit/riparazione-r04-presa-ordine.test.tsx  --json && timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 0dd2c82a^ --file migrations/661_la_presa_persa_dice_se_l_ha_preso_un_altro.sql --prove tests/sql/rls/riparazione-r04-presa-persa.test.sql --sql k02_r04_rimessa --json"
+   },
+   "nota": "prendi_ordine con stessi permessi della 270; il fattorino sa solo se c'e' un altro fattorino; due mutanti rossi; convive con R04-011"
+  },
+  {
+   "id": "R04-011",
+   "chiave": "stati-ui|sulla bacheca del fattorino, se la lettura dello stato online cade, la pagina scrive «sei offline» invece di dire che non lo sa; anche il voto ignora l’errore",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base f6dc1586^ --file app/rider/page.tsx --prove tests/unit/riparazione-r04-stato-online.test.tsx  --json"
+   },
+   "nota": "mutante letturaCaduta ridotto a isError: 3 prove rosse; 14 file su app/rider/page.tsx verdi"
+  },
+  {
+   "id": "R04-010",
+   "chiave": "rls-database|il carosello delle storie legge 200 storie e poi taglia a 30: un solo negozio approvato con 200 storie in 24 ore spingerebbe fuori gli altri",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base c63d879a^ --file components/home/StoriesCarousel.tsx --prove tests/unit/riparazione-r04-carosello-a-turno.test.tsx  --json"
+   },
+   "nota": "il caso di un negozio solo e' chiuso, ma StoriesCarousel.tsx:89 (rilette < 2) fa al massimo tre letture: tre negozi con 30+ storie nascondono tutti gli altri, e la prova accetta 3 negozi su 40"
+  },
+  {
+   "id": "R04-002",
+   "chiave": "microcopy|nella pagina dei punti restano «streak», «referral» e «checkout»",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 0e025881^ --file app/profile/loyalty/page.tsx --prove tests/unit/riparazione-r04-punti-in-italiano.test.tsx  --json"
+   },
+   "nota": "nessuna parola inglese visibile; residuo fuori voce: REASON_LABEL[tx.reason] ?? tx.reason a :330"
+  },
+  {
+   "id": "R04-003",
+   "chiave": "microcopy|alcuni errori di zod arrivano ancora in inglese: «invalid input» di un'unione, chiavi non riconosciute, literal sbagliato, refine senza messaggio",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 8ef975e4d27ea8695fe58ee7ae746ee02376dc38^ --file lib/zod-i18n.ts --prove tests/unit/riparazione-r04-zod-in-italiano.test.ts  --json"
+   },
+   "nota": "unione, literal, chiavi in piu' e refine senza messaggio in italiano; nessun codice contava sui testi inglesi"
+  },
+  {
+   "id": "R04-004",
+   "chiave": "qa-flussi|una voce della chat sul campanello può restare accesa anche se la chat è stata letta mentre era aperta",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 46b8f43f^ --file app/api/chat/messages/route.ts --prove tests/unit/riparazione-r04-campanella-letta-nel-mezzo.test.ts  --json"
+   },
+   "nota": "tre mutanti (lato del contatore, niente spegnimento, filtro allargato) rossi; 8 file vicini verdi"
+  },
+  {
+   "id": "R04-005",
+   "chiave": "qa-flussi|le prove delle frasi pubbliche cercano parole nel codice: sette mutanti che rimettono i difetti restano verdi",
+   "verdetto": "parziale",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base e414ab3f^ --file app/product/[id]/page.tsx,app/rider/help/page.tsx,components/home-sections/HomeSectionRenderer.tsx,components/seller/AttributesFields.tsx --prove tests/unit/riparazione-r04-frasi-pubbliche.test.tsx  --json && timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base e414ab3f^ --file components/ConfirmDialog.tsx --prove tests/unit/riparazione-r04-dialogo-di-conferma.test.tsx  --json"
+   },
+   "nota": "parziale dichiarato: il carrello (2b) resta senza rimessa vera"
+  },
+  {
+   "id": "R04-009",
+   "chiave": "qa-flussi|due guardie sulla veloce controllano il testo del sorgente e non il comportamento",
+   "verdetto": "parziale",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 3,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 5be50559^ --file components/checkout/DeliverySlotPicker.tsx,app/checkout/page.tsx --prove tests/unit/riparazione-r04-veloce.test.ts  --json && timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base c614b26b^ --file app/checkout/page.tsx --prove tests/unit/riparazione-r04-veloce.test.ts  --json"
+   },
+   "nota": "guardia 1 uscita 0; guardia 2 uscita 3, mutante a mano B1 (riga fissa a app/checkout/page.tsx:1562) rosso: 2 prove cadono"
+  },
+  {
+   "id": "R05-003",
+   "chiave": "architettura|le email dopo la risposta partono tutte insieme: nel giro degli ordini scaduti un limite d'invio della posta può farne cadere alcune",
+   "verdetto": "parziale",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R05 --base 7722074757ca67b94b885f15483b9383f4c53122^ --file lib/api/dopo-la-risposta.ts --prove tests/unit/riparazione-r05-email-dopo-la-risposta-in-fila.test.ts  --json"
+   },
+   "nota": "parziale dichiarato: rimessa uscita 0"
+  },
+  {
+   "id": "R05-005",
+   "chiave": "architettura|avvisi-a-chi-aspetta.ts tiene insieme pannello, lucchetto email, indirizzo, html e invio; l'email parte solo se il pannello riesce",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "alla base la prova -t «pannello della prima persona» e' verde e rimettendo continue diventa rossa: il comportamento era gia' riparato; la parte di struttura della voce (un modulo di 625 righe) resta aperta"
+  },
+  {
+   "id": "R05-006",
+   "chiave": "architettura|email partita ma non segnata: la notte dopo riparte, e se fallisce l'allarme dice «non partita» per un'email già arrivata",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R05 --base dbc067a8056726493e73ab9c6326232be7082ac8^ --file lib/privacy/avvisi-a-chi-aspetta.ts --prove tests/unit/riparazione-r05-email-partita-e-segnata.test.ts  --json"
+   },
+   "nota": "il pezzo regge (pause vuote: 2 prove su 3 rosse, 318 prove vicine verdi); resta il testo dell'allarme in app/api/cron/process-deletions/route.ts:699-703"
+  },
+  {
+   "id": "R05-007",
+   "chiave": "architettura|l'email trova il collegamento cercando la stringa '/contact' dentro una frase scritta in un altro modulo",
+   "verdetto": "rompe_altro",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R05 --base 81425a384da024f017372b98d56169caeb192d29^ --file lib/privacy/avvisi-a-chi-aspetta.ts --prove tests/unit/riparazione-r05-collegamento-dal-recapito.test.ts  --json"
+   },
+   "nota": "il testo salvato porta «(pagina /contact)»; configurata poi la casella privacy, rigaDelModulo (:462-464) torna null e l'email esce senza collegamento cliccabile; alla base c'era. Prova usa e getta rossa alla testa, verde alla base"
+  },
+  {
+   "id": "R05-011",
+   "chiave": "architettura|una fascia «domani» inviata alle 23:59 e arrivata alla rotta dopo mezzanotte si giudica sul giorno dopo",
+   "verdetto": "parziale",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R05 --base a1073aff7b43f21fbea94513d9e019c182fc803f^ --file app/api/orders/cod/route.ts --prove tests/unit/riparazione-r05-fascia-domani-dopo-mezzanotte.test.ts  --json"
+   },
+   "nota": "parziale dichiarato: rimessa uscita 0"
+  },
+  {
+   "id": "R05-001",
+   "chiave": "architettura|la variabile che rende obbligatorie le prove col database in ci non la legge nessuno",
+   "verdetto": "parziale",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 3,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R05 --base c599f9d6a169bff30a1ebd205a836caa3fcde977^ --file .github/workflows/ci.yml --prove tests/unit/riparazione-r05-ci-variabili.test.ts  --json"
+   },
+   "nota": "uscita 3 (ci.yml); mutante a mano: rimesso ci.yml di c599f9d6^, la prova cade su PROVE_POSTGRES_OBBLIGATORIE"
+  },
+  {
+   "id": "R05-002",
+   "chiave": "architettura|commenti delle rotte della veloce dicono ancora «un fattorino approvato e online»",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 3,
+    "comando": "solo commento, prova-rimessa.mjs non decide; letto a mano"
+   },
+   "nota": "il commento della rotta COD e' vero, ma la gemella app/api/stripe/checkout/route.ts:530 dice ancora «fattorino approvato e online»; lo stesso senso in app/checkout/page.tsx:661, app/cart/page.tsx:95,196, DeliverySlotPicker.tsx:50"
+  },
+  {
+   "id": "R05-015",
+   "chiave": "architettura|i dati demo del sito non si caricano più sul database di oggi: tutte e quattro le semine si fermano",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "riparazione-r12-le-semine-girano.sh sulla base su k02_qad_test: uscita 0; semine di prima di 865b2f12: uscita 1. Il referto cita 609b8a02, i commit giusti sono 865b2f12 e f33fe35f"
+  }
+ ],
+ "campione": {
+  "R02": {
+   "accettato": false
+  },
+  "R04": {
+   "accettato": true
+  },
+  "R05": {
+   "accettato": false
+  }
+ }
+}
