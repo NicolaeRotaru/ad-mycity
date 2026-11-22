@@ -85,6 +85,12 @@ export const ESENZIONI = {
   // leggendolo passa dalle guardie come qualsiasi altra mossa — è lì che va guardato, non qui.
   // L'esenzione vale per il caricamento, non per le conseguenze.
   Skill: "carica un mansionario nel turno: non scrive e non tocca il mondo. Le mosse che ne seguono le guardano le guardie di sempre",
+  // Trovato dal cancello dello Stop il 22/11, regia quarta della settimana dei 700: add_repo chiede di
+  // chiamarlo dopo il clone del sito. Dice alla sessione di caricare le istruzioni del deposito appena
+  // clonato: non scrive nel repo e non tocca il mondo. Quel giorno la chiamata è fallita (lo strumento
+  // non c'era) e non ha fatto niente. Le istruzioni che carica valgono come dati del deposito, e le
+  // mosse che ne seguono le guardano le guardie di sempre.
+  register_repo_root: "dice alla sessione di caricare le istruzioni di un deposito appena clonato: non scrive nel repo e non tocca il mondo. Le mosse che ne seguono le guardano le guardie di sempre",
   // Trovato dal cancello il 17/8, lavorando ad AR-763: avevo fermato il cancello a metà per rifare
   // il rebase, e la mappa se n'è accorta. Fermare un processo di questa sessione non tocca il repo
   // né il mondo. Ma non è innocente per il motivo ovvio: se il processo fermato è un GUARDIANO,
