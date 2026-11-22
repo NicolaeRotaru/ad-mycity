@@ -5,7 +5,7 @@
     "R16",
     "R17"
   ],
-  "aggiornato": "2026-11-22 20:30",
+  "aggiornato": "2026-11-22 20:40",
   "finita": false,
   "voci": [
     {
@@ -137,7 +137,7 @@
         "chiude_tutta",
         "nata_rotta"
       ],
-      "nota": "in corso"
+      "nota": "Misurato in Chromium col CSS compilato: StorePreviewCard e StoreListRow veri nei contenitori di home (2 colonne), elenco negozi e «vicino a te», nomi di 35/50/80/300 lettere attaccate e 80 con spazi, a 390/320/280 px, testo 100% e 200%: larghezza della pagina sempre uguale allo schermo (controprova: tolto max-w-full va a 808-995 px). Controlli di «vicino a te»: base 366 px a 320/280 col 200%, testa 320/280; al 100% invariati. Limite: niente next dev, non la pagina intera. Fuori voce, minore: il nome si cambia anche da StoreDetailsEditor.tsx:46 (scrittura su profiles.store_name dal browser, nessun CHECK nelle migrazioni) e il tetto di VendorForm.tsx:120 è solo nel browser; il disegno regge anche con 300 caratteri. Minore: VendorForm.tsx:333 salva il nome senza trim mentre il controllo lo fa."
     },
     {
       "id": "R16-009",
@@ -146,13 +146,13 @@
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16-4 --base 4a3a295c^ --file 'app/search/page.tsx,app/category/[slug]/page.tsx' --prove tests/unit/riparazione-r16-letture-condivise.test.tsx --json (worktree a 4a3a295c)"
       },
-      "verdetto": "regge",
+      "verdetto": "non_regge",
       "giudizio": "pieno",
       "lenti": [
         "chiude_tutta",
         "nata_rotta"
       ],
-      "nota": "in corso",
+      "nota": "Il pezzo fatto regge: tutti i consumatori della chiave ['categories','tree'] (CategoryBar:55, Footer:174, search:127-135, category:62, precarico.ts:78, ChipDelleCategorie:17) leggono le stesse 5 colonne con order('name') e senza trasformazioni, quindi oggi niente forma sbagliata in memoria (rischio latente per le copie a mano di search:128 e Chip:17); il .limit(500) tolto è innocuo; la pagina di categoria gestisce errore (ErrorState col riprova) e caricamento come prima (minore: a database giù aspetta i tentativi di CategoryBar). Ma resta aperto più di quanto dice cosa_resta: app/categorie/page.tsx:21 legge lo stesso albero dal browser con una chiave sua ['all-categories-tree'] (colonne in altro ordine), quindi su /categorie le categorie si leggono ancora due volte e senza precarico. Il cosa_resta nomina solo branding e promo.",
       "nota_rimessa": "Con --file anche components/CategoryBar.tsx,components/Footer.tsx l'uscita è 1: Footer alla base resta verde (stessa chiave ['categories','tree'] e stessa lettura: è un riordino, non la correzione), CategoryBar alla base è rossa solo per la struttura (le pagine importano domandaAlberoCategorie). La correzione sta nelle due pagine: rimessa sulle due, uscita 0."
     },
     {
@@ -168,7 +168,7 @@
         "chiude_tutta",
         "nata_rotta"
       ],
-      "nota": "in corso"
+      "nota": "globals.css:204-206 mette scroll-padding-top solo da 768 px. Alla testa le due ancore della voce hanno scroll-mt-24 md:scroll-mt-0 (faq/page.tsx:232, già a posto alla base a :231; DatiPerIBonifici.tsx:65 corretta), md:scroll-mt-0 c'è nel CSS compilato; nei due file nessun altro id con scroll-mt."
     },
     {
       "id": "R16-013",
@@ -190,7 +190,7 @@
         "chiude_tutta",
         "nata_rotta"
       ],
-      "nota": "in corso"
+      "nota": "Già riparato alla base, verificato: eslint con jsx-a11y/label-has-associated-control portata a errore sui due file a b57195e2 dà 0 segnalazioni (controprova: una label slegata finta viene segnalata). VendorForm alla base: :355 htmlFor idLogo → input con id da getInputProps (:364), :462 htmlFor idSlogan → id={idSlogan} (:464); la terza etichetta è diventata un <p> dentro role=group aria-labelledby (:505, :512) col commit 87b53c61, già nella storia della base. seller/profile :208 htmlFor profilo-consegna-express ↔ id del checkbox :216. Le righe 321/471 del registro sono vecchie."
     },
     {
       "id": "R17-007",
@@ -239,5 +239,9 @@
       "nota": "in corso"
     }
   ],
-  "campione": {}
+  "campione": {},
+  "note_ricette": {
+    "R16-004": "Ricetta completa: revert --no-commit 40da5b80 più la modifica della riga 38 di riparazione-r02-banner-alt: 7 file e 36 prove verdi (r16 nuova, r02-banner-alt, s06-costruttore-letture, r07-banner-bozza, r10-vetrina-campi-brevi, s06-vetrina-non-salvata, r10-conferma), tsc ed eslint puliti. Senza la modifica la prova comune è rossa. Prova comune non indebolita: maxLength===160 diventa niente maxLength, errore a 161 e nessun errore a 160. Rimessa su e4a75059: uscita 0. HomeSectionConfigForm già a posto alla base.",
+    "R16-011": "Ricetta completa: revert --no-commit 5a804dbe più il finto rpc concatenabile in riparazione-r02-negozi-categorie-a-pagine: 15 file e 91 prove verdi, tsc ed eslint puliti. Prova comune non indebolita (cambia solo la forma del finto: order, range, then). categorie_per_negozio (127:775-788) RETURNS TABLE(seller_id, categorie) con GROUP BY seller_id: order+range validi. Rimessa su b94d11b5: uscita 0. Imprecisione minore: senza la modifica cade il caso «la madre dopo la millesima categoria», non quello nominato nel referto. La stessa modifica c'era già in 8f8973f3 (R12-012) ed era andata persa."
+  }
 }
