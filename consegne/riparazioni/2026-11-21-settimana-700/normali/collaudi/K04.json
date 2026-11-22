@@ -5,8 +5,8 @@
     "R10",
     "R12"
   ],
-  "aggiornato": "2026-11-22 05:40",
-  "finita": false,
+  "aggiornato": "2026-11-22 05:50",
+  "finita": true,
   "voci": [
     {
       "id": "R03-004",
@@ -136,7 +136,7 @@
     {
       "id": "R12-006",
       "chiave": "layout-responsive|sul tablet col testo al 200% «dichiarazione accessibilità» esce dal piede e la pagina scorre di lato",
-      "verdetto": "parziale",
+      "verdetto": "rompe_altro",
       "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
@@ -146,7 +146,7 @@
         "chiude_tutta",
         "nata_rotta"
       ],
-      "nota": "Misurato col sito in locale: lo scorrimento di lato è chiuso (/about a 768 col testo al 200% da 817 a 768 px; 820, 900, 1280, 375, 280 esatti) e «Dichiarazione accessibilità» va a capo. Ma a 768-1024 al 200% «Alimentari», «Elettronica», «Bellezza», «Casa & Cucina» escono dalla colonna e si sovrappongono alla colonna accanto (es. 342-505 su colonna 342-426): il link è inline-flex e break-words non ne riduce la larghezza minima (components/Footer.tsx:272, :279, :305); anche «marketplace» nel paragrafo del marchio sborda. Minore: titoli e logo spezzati a metà parola («ESPL/ORA», «My/Cit/y»).",
+      "nota": "Giro 2 (e9a96af4): nessun testo esce più dalla colonna e nessuna sovrapposizione (/about a 768, 900, 1280 al 200% e 768, 1024, 1280 al 100%; a 1024 al 200% la barra in alto, dichiarata). Ma la correzione schiaccia le icone delle categorie del piede: a 768 al 200% passano da 14 a 4-8 px (a 63e85883 erano 14), manca shrink-0 sull'icona (components/Footer.tsx:273, :280). Inoltre al 100% «Pia-cenza» ora si spezza nel paragrafo del marchio (hyphens-auto anche sui paragrafi), e al 200% si spezzano a metà anche le voci di categoria («Bel-lezz-a», «Cas-a &»), non solo titoli e logo come dichiarato.",
       "nota_rimessa": "Giro 2: dalla base prima del primo commit della voce alla testa 16fc7e09, con le prove filtrate sul nome della voce (-t R12-006), perché più voci condividono file e prove (pagine-200 porta 001, 002, 004, 007)."
     },
     {
@@ -192,13 +192,13 @@
         "chiude_tutta",
         "nata_rotta"
       ],
-      "nota": "Conferma la parte dichiarata: faq, resi e lavora con noi erano già a 280 px alla base; nei negozi i filtri sono riparati («Aperti ora» da 57-267 a 57-223, menu da 57-287 a 57-223). Ma /stores scorre ancora (381 px su 280, anche a 320 al 200%) per l'h1 di CollectionHeader, e già alla base testi escono dal loro riquadro in faq («risposta?» 80-263 su riquadro 80-200), resi (titoli e paragrafi del recesso) e lavora con noi (titoli dei vantaggi).",
+      "nota": "Giro 2 (47bde5b2 + parte resi in 16fc7e09): faq, resi e riquadri di lavora con noi tengono il testo dentro a 280 e 320 al 200%, nessuno sbordo a 375/768/1280 al 100%. cosa_resta è esatto: /stores a 381 px per l'h1 di components/CollectionHeader.tsx:80 e il testo che esce dai bottoni del banner dei cookie. Minore: il paragrafo «Scrivici comunque» di lavora con noi esce dal suo paragrafo (resta nel riquadro scuro), nato dal cambio di dimensione di R12-014.",
       "nota_rimessa": "Giro 2: dalla base prima del primo commit della voce alla testa 16fc7e09, con le prove filtrate sul nome della voce (-t R12-002), perché più voci condividono file e prove (pagine-200 porta 001, 002, 004, 007). 16fc7e09 porta 004 e la parte resi di 002: col filtro si separano (ognuna rossa sui propri file)."
     },
     {
       "id": "R12-004",
       "chiave": "layout-responsive|in lavora con noi, a 280 px col testo grande, le righe delle posizioni restano strettissime: il titolo e «candidati» vanno quasi una lettera per riga",
-      "verdetto": "parziale",
+      "verdetto": "regge",
       "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
@@ -208,7 +208,7 @@
         "chiude_tutta",
         "nata_rotta"
       ],
-      "nota": "A 280 e 300 px al 200% riparato (titolo in 2 righe, «Candidati» in una, 182×110 contro 134×202). Ma la correzione è un gradino fisso a 300 px: a 301 al 200% «Candidati» misura 123×322 come alla base, a 320 al 200% torna «Ca/ndi/…» e la pillola «Commerciale» esce dal riquadro; 320 px è il telefono reale più piccolo.",
+      "nota": "Giro 2 (d6b03f13 + 16fc7e09): larghezza pagina uguale allo schermo a 280, 300, 301, 320, 340, 375 al 200% e a 280, 320, 375, 768 al 100%; «Candidati» sempre in una riga; il titolo si allarga in modo continuo (201, 216, 230, 245, 270 px), niente più gradino a 300 px; nessun testo esce dal riquadro.",
       "nota_rimessa": "Giro 2: dalla base prima del primo commit della voce alla testa 16fc7e09, con le prove filtrate sul nome della voce (-t R12-004), perché più voci condividono file e prove (pagine-200 porta 001, 002, 004, 007). 16fc7e09 porta 004 e la parte resi di 002: col filtro si separano (ognuna rossa sui propri file)."
     },
     {
@@ -240,7 +240,7 @@
     {
       "id": "R12-009",
       "chiave": "layout-responsive|basta un negozio col nome lungo e sul telefono la home, l'elenco negozi e «vicino a te» diventano più larghe dello schermo",
-      "verdetto": "rompe_altro",
+      "verdetto": "parziale",
       "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
@@ -250,7 +250,7 @@
         "chiude_tutta",
         "nata_rotta"
       ],
-      "nota": "Lo scopo della voce regge: con un nome di 70 lettere senza spazi alla base la home arrivava a 827 px e «vicino a te» a 927; ora home, elenco negozi e «vicino a te» stanno a 320/320 e 390/390 (anche 78 caratteri con spazi), home a 768 e 1280 a posto; StoreShowcase e app/near passano dai due componenti. Ma «vicino a te» a 280 px al 200% (che scorre a 444 px già alla base, per «Nuovo · Chiuso» che non va a capo in components/StoreListRow.tsx:65) ora porta la colonna del nome a larghezza 0: il nome del negozio prima sbordava visibile, con la correzione è invisibile.",
+      "nota": "Giro 2 (d90b94db): il rompe_altro è chiuso, il nome non sparisce più (colonna del nome 142/182/197 px a 280/320/375 al 200%; al 100% logo, nome e freccia sulla stessa riga; niente esce dalla riga a 375/768/1280), home ed elenco col nome di 70 caratteri restano a 320 e 390. Resta: «vicino a te» scorre ancora fino a 360 px a 280 e 320 al 200%, per il selettore «Lista/Mappa» (app/near/page.tsx:328), e la voce nomina «vicino a te» più largo dello schermo. Minore: un nome normale di 20 caratteri è troncato coi puntini già a 320 al 100%, a 280 al 200% ne resta una parola.",
       "nota_rimessa": "Giro 2: dalla base prima del primo commit della voce alla testa 16fc7e09, con le prove filtrate sul nome della voce (-t R12-009), perché più voci condividono file e prove (pagine-200 porta 001, 002, 004, 007). Anche solo d90b94db (base d90b94db^, StoreListRow): uscita 0."
     },
     {
