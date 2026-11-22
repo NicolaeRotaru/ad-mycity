@@ -5,7 +5,7 @@
   "R04",
   "R05"
  ],
- "aggiornato": "2026-11-22 03:10",
+ "aggiornato": "2026-11-22 02:25",
  "finita": true,
  "voci": [
   {
@@ -331,7 +331,7 @@
     "chiude_tutta",
     "nata_rotta"
    ],
-   "nota": "alla base la prova -t «pannello della prima persona» e' verde e rimettendo continue diventa rossa: il comportamento era gia' riparato; la parte di struttura della voce (un modulo di 625 righe) resta aperta"
+   "nota": "alla base la prova -t «pannello della prima persona» e' verde e rimettendo continue diventa rossa: il comportamento era gia' riparato; la parte di struttura della voce (un modulo di 625 righe) resta aperta (ricollaudo: il referto ora dice che resta aperta la parte di struttura; il verdetto non cambia)"
   },
   {
    "id": "R05-006",
@@ -351,7 +351,7 @@
   {
    "id": "R05-007",
    "chiave": "architettura|l'email trova il collegamento cercando la stringa '/contact' dentro una frase scritta in un altro modulo",
-   "verdetto": "rompe_altro",
+   "verdetto": "regge",
    "giudizio": "pieno",
    "lenti": [
     "chiude_tutta",
@@ -359,9 +359,9 @@
    ],
    "rimessa": {
     "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R05 --base 81425a384da024f017372b98d56169caeb192d29^ --file lib/privacy/avvisi-a-chi-aspetta.ts --prove tests/unit/riparazione-r05-collegamento-dal-recapito.test.ts  --json"
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R05 --base 81425a384da024f017372b98d56169caeb192d29^ --file lib/privacy/avvisi-a-chi-aspetta.ts --prove tests/unit/riparazione-r05-collegamento-dal-recapito.test.ts,tests/unit/riparazione-r05-collegamento-salvato.test.ts  --json && timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R05 --base 89ef220ecede75291da3c8e2d020cd989617c8e7^ --file lib/privacy/avvisi-a-chi-aspetta.ts --prove tests/unit/riparazione-r05-collegamento-salvato.test.ts  --json"
    },
-   "nota": "il testo salvato porta «(pagina /contact)»; configurata poi la casella privacy, rigaDelModulo (:462-464) torna null e l'email esce senza collegamento cliccabile; alla base c'era. Prova usa e getta rossa alla testa, verde alla base"
+   "nota": "ricollaudo alla testa 89ef220e: testo salvato con la pagina e casella configurata dopo ora esce con l'indirizzo intero e cliccabile, senza parola nuda ne' recapito doppio; matrice 6 testi x casella si/no x barra finale x html/testo senza casi rotti; 4 mutanti su 4 rossi; 11 file vicini verdi (114 prove). Note minori: nessuna prova fissa «con casella non si aggiunge niente» (:476); testo con URL intero e senza casella ripete il recapito (:474), oggi non succede"
   },
   {
    "id": "R05-011",
@@ -398,7 +398,7 @@
     "uscita": 3,
     "comando": "solo commento, prova-rimessa.mjs non decide; letto a mano"
    },
-   "nota": "il commento della rotta COD e' vero, ma la gemella app/api/stripe/checkout/route.ts:530 dice ancora «fattorino approvato e online»; lo stesso senso in app/checkout/page.tsx:661, app/cart/page.tsx:95,196, DeliverySlotPicker.tsx:50"
+   "nota": "il commento della rotta COD e' vero, ma la gemella app/api/stripe/checkout/route.ts:530 dice ancora «fattorino approvato e online»; lo stesso senso in app/checkout/page.tsx:661, app/cart/page.tsx:95,196, DeliverySlotPicker.tsx:50 (ricollaudo: il riparatore l'ha resa parziale con le modifiche altrui in serve_file_altrui; il verdetto non cambia)"
   },
   {
    "id": "R05-015",
@@ -420,7 +420,7 @@
    "accettato": false
   },
   "R05": {
-   "accettato": false
+   "accettato": true
   }
  }
 }
