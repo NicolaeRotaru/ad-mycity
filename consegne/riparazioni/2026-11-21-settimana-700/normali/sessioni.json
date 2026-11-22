@@ -150,6 +150,15 @@
         "R14"
       ],
       "onda": 2
+    },
+    "K06": {
+      "id": "session_015BmpnWEBueCuRDtLhJzj5z",
+      "ramo": "claude/settimana-700-regia-k06",
+      "partenza": "59b7d5ff098cf66e3ae14aa60be805d098312ec1",
+      "riparatori": [
+        "R18"
+      ],
+      "onda": 2
     }
   },
   "controllori": {
