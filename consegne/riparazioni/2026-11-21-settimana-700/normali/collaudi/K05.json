@@ -5,7 +5,7 @@
     "R15",
     "R13"
   ],
-  "aggiornato": "2026-11-22 19:45",
+  "aggiornato": "2026-11-22 19:17",
   "finita": false,
   "voci": [
     {
@@ -26,17 +26,18 @@
     {
       "id": "R14-008",
       "chiave": "qa-flussi|la rotta del lotto sul catalogo, se non riceve l'elenco dei prodotti, applica ancora tutti i risultati",
-      "verdetto": "non_regge",
+      "verdetto": "parziale",
       "giudizio": "pieno",
       "lenti": [
         "chiude_tutta",
         "nata_rotta"
       ],
       "rimessa": {
-        "uscita": 1,
-        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14f --base HEAD^ --file app/api/ai/catalog-batch/apply/route.ts --prove tests/unit/il-lotto-non-scrive-quello-che-il-filtro-nega.test.ts,tests/unit/le-dichiarazioni-di-un-alimento-le-scrive-il-negoziante.test.ts,tests/unit/le-funzioni-spente-al-lancio-le-rifiuta-il-server.test.ts,tests/unit/le-funzioni-spente-le-ferma-la-rotta-anche-a-mano.test.ts,tests/unit/minori-s10-lotto-applica.test.ts,tests/unit/riparazione-r02-traccia-porte-ai-catalogo.test.ts,tests/unit/riparazione-r18-lotto-applica-quello-che-si-vede.test.tsx,tests/unit/una-voce-scritta-male-non-ferma-le-modifiche-in-massa.test.ts --json (wt-R14f = base b57195e2 + patch_pronta «diff», commit locale mai spinto) → non_morde"
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14g --base HEAD^ --file app/api/ai/catalog-batch/apply/route.ts --prove tests/unit/riparazione-r14-lotto-senza-elenco.test.ts --json (wt-R14g = base b57195e2 + patch_pronta «diff» del giro 2, commit locale mai spinto)"
       },
-      "nota": "Non riparata: patch in attesa della firma prove_comuni. Giudicata solo la patch: INCOMPLETA. La parte che c'è regge (si applica pulita, le 8 prove che chiamano la rotta 89/89 verdi, le 2 che usano aiuti/finto-catalogo 20/20, l'unico chiamante app/seller/products/ai-batch/page.tsx:445-447 manda già productIds), ma nella patch manca la prova nuova tests/unit/riparazione-r14-lotto-senza-elenco.test.ts che il riparatore stesso dice di dover scrivere: con la patch così, tolta la correzione della rotta tutte le prove restano verdi (prova rimessa: non_morde). Da aggiungere alla patch_pronta prima della firma."
+      "nota": "Non riparata: patch in attesa della firma prove_comuni. Giudicata solo la patch, giro 2: COMPLETA. Ora dentro c'è la prova nuova tests/unit/riparazione-r14-lotto-senza-elenco.test.ts (solo jobId → 400, nessuna scrittura, lavoro «ready»; productIds ['p1'] → scrive solo p1); si applica pulita sulla base; tolta la correzione della rotta la prova nuova diventa rossa sul comportamento (rimessa 0); 11 file che chiamano la rotta o usano aiuti/finto-catalogo verdi (111 casi). L'unico chiamante (app/seller/products/ai-batch/page.tsx:445-447) manda già productIds.",
+      "nota_rimessa": "Giro 1, patch senza la prova nuova: uscita 1 (non_morde) con le 8 prove della rotta."
     },
     {
       "id": "R14-013",
@@ -129,7 +130,11 @@
         "chiude_tutta",
         "nata_rotta"
       ],
-      "nota": "Alla base b57195e2 la promessa non c'è più (components/ProductQA.tsx:96 «la risposta del negozio comparirà qui sotto», :78 nessun avviso promesso; ProductQA è l'unico punto dove il cliente fa una domanda, nessun altro testo promette notifiche). Ma la metà «non arrivano a nessuno» è ancora vera: nessun avviso al negozio, nessun trigger su product_questions. Chiusa solo la metà della promessa; diventa «regge» se il difetto nuovo che il riparatore ha visto (nuovi_difetti_visti[0], il negozio non riceve avviso) entra nel registro."
+      "nota": "Alla base b57195e2 la promessa non c'è più (components/ProductQA.tsx:96 «la risposta del negozio comparirà qui sotto», :78 nessun avviso promesso; ProductQA è l'unico punto dove il cliente fa una domanda, nessun altro testo promette notifiche). Ma la metà «non arrivano a nessuno» è ancora vera: nessun avviso al negozio, nessun trigger su product_questions. Chiusa solo la metà della promessa; diventa «regge» se il difetto nuovo che il riparatore ha visto (nuovi_difetti_visti[0], il negozio non riceve avviso) entra nel registro.",
+      "rimessa": {
+        "uscita": 2,
+        "comando": "nessuna: la voce non ha commit (parziale senza codice, il referto l'ha portata da gia_riparato_prima a parziale), non c'è una correzione da togliere"
+      }
     },
     {
       "id": "R14-011",
@@ -149,7 +154,7 @@
     {
       "id": "R14-012",
       "chiave": "stati-ui|«duplica» con la sorgente in memoria da meno di 30 secondi si apre con le taglie e la spunta di prima",
-      "verdetto": "parziale",
+      "verdetto": "regge",
       "giudizio": "pieno",
       "lenti": [
         "chiude_tutta",
@@ -157,9 +162,10 @@
       ],
       "rimessa": {
         "uscita": 0,
-        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14c --base 173a21ad^ --file app/seller/products/new/page.tsx --prove tests/unit/riparazione-r14-duplica-con-sorgente-in-cache.test.tsx --json"
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14c --base 173a21ad^ --file app/seller/products/new/page.tsx --prove tests/unit/riparazione-r14-duplica-con-sorgente-in-cache.test.tsx --json (worktree a 826984cd)"
       },
-      "nota": "Il caso della prova regge (rilettura riuscita: taglie e spunta vere), il modulo non resta bloccato (offline fetchStatus in pausa, dopo errore isFetching falso, fromId nuovo riparte) e una rilettura dopo non cancella il lavoro (refetchOnWindowFocus spento in QueryProvider.tsx). Ma resta aperta una strada allo stesso sintomo: se la rilettura cade o all'apertura non c'è rete, con la sorgente in memoria caricamento e sorgenteNonArrivata sono falsi (page.tsx:166, 231, 233) e il modulo si apre con la spunta del recesso di prima; dopo «Riprova» riuscito o al ritorno della rete il salvataggio si sblocca senza rimettere la spunta vera: solo le taglie hanno il «cambiate → riapri» (page.tsx:248), la spunta resta quella del montaggio (components/ProductForm.tsx:319). Riprodotto con una prova temporanea (memoria con nonRecedibile vecchio + rilettura che fallisce o rete assente): 3 casi rossi, la copia si salva recedibile."
+      "nota": "Giro 2 (826984cd): oltre alle taglie, ora anche la spunta del recesso e gli altri valori letti solo all'apertura si confrontano con quelli riletti (firmaDellaSorgente = initialValues senza le taglie, page.tsx:237, derivata solo da source); se cambiati la copia non si salva e si offre «Riapri la copia con i dati aggiornati» (page.tsx:252, 261-263, 385-392). Rifatti i 3 casi K05 sulla versione nuova: offline o con la rilettura caduta il modulo si apre ancora sui valori della memoria (non può fare altro), ma dopo il ritorno della rete il salvataggio resta bloccato e non parte nessun inserimento (inseriti 0, salvataggioBloccato true): la copia recedibile non nasce più. Il caso con la rilettura riuscita regge come al giro 1. 18 file della pagina verdi (72 casi).",
+      "nota_rimessa": "Giro 2, sul solo commit nuovo: uscita 0 — timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14c --base 826984cd^ --file app/seller/products/new/page.tsx --prove tests/unit/riparazione-r14-duplica-con-sorgente-in-cache.test.tsx --json"
     },
     {
       "id": "R13-007",
