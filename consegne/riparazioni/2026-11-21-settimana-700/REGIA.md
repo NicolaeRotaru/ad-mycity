@@ -121,3 +121,8 @@ Quante voci risulteranno sparite: lo dicono i referti delle 4 sessioni.
 - 2026-11-22 17:40 CI di mycity#301 verde su b57195e (17 riusciti, 2 saltati «La cassa vera»), mergeable clean. Su richiesta di Nicola («se è pronta toglila dalla bozza») la PR esce di bozza. Unione: di Nicola.
 - 2026-11-22 17:45 Nicola unisce mycity#301 (3d95d6a). applica --scrivi (11 frammenti, 47 nati, 3 riservati fuori), chiudi-sito --pr 301 --applica: 53 chiusure scritte. conti verde: nel registro 53 riparato, 6 già riparate, 123 aperte del perimetro. Aperti totali nel registro da 632 a 620. misure.json chiusa (53 chiuse). Memoria aggiornata (LAVORO-APERTO, DECISIONI, ESITO tech).
 - 2026-11-22 17:50 Nicola: «via la correzione» (tetto 260 $). Regia sesta a 340 mila token: passaggio in PASSAGGIO-7.md, la regia settima apre R13-R18.
+
+## Regia settima (session_015BmpnXrV1Q7uJoKhhGbeQG, presa la mano 2026-11-22 17:55)
+- Sito clonato in /home/user/mycity: `main` = 3d95d6a, stesso albero di b57195e, nessun commit dopo. Quota `allowed_warning`, niente extra.
+- Schede R13-R18 e sessioni.json col mio id (copertura-prima e segnaposti verdi).
+- Regole e schede ai riparatori dal deposito del sito, ramo `claude/settimana-700-regia-istruzioni` in sola lettura (come il giro 5 dell'onda 9): il prompt resta corto, la mia storia leggera.
