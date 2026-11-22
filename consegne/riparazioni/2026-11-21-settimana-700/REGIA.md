@@ -83,3 +83,4 @@ Quante voci risulteranno sparite: lo dicono i referti delle 4 sessioni.
 - R10: unione nel ramo per un push rifiutato; togliere l'unione è una spinta forzata → chiesto il permesso a Nicola. R12: R12-012 ora serve_file_altrui (prova comune rimessa), prova_tipo onesto voce per voce.
 - Da fare in F3 dalla regia: R08-009 (`git mv` della prova zz-collaudo, guardia la legge come cancellazione); le modifiche ai file altrui scritte nei referti vanno al giro di correzione.
 - Riservati nuovi arrivati in chat (R03, R08): solo in chat, per la sessione riservata.
+- 2026-11-22 01:55 Nicola: «sì a R10» (spinta forzata del ramo -m10, solo quella). Girato a R10.
