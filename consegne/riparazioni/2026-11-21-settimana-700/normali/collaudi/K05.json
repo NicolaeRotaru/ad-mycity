@@ -1,0 +1,56 @@
+{
+  "collaudatore": "K05",
+  "riparatori": [
+    "R14"
+  ],
+  "aggiornato": "2026-11-22 18:48",
+  "finita": false,
+  "voci": [
+    {
+      "id": "R14-002",
+      "chiave": "api-backend|il freno sulla rotta regge per 3 interruttori su 9: ai, newsletter, classifica e caricamento da file stanno solo nelle pagine",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14e --base HEAD^ --file app/api/ai/answer-qa/route.ts,app/api/ai/barcode-lookup/route.ts,app/api/ai/catalog-batch/cancel/route.ts,app/api/ai/catalog-batch/status/route.ts,app/api/ai/description/route.ts,app/api/ai/diagnose/route.ts,app/api/ai/improve-product/route.ts,app/api/ai/product-chat/route.ts,app/api/ai/reviews-summary/route.ts,app/api/ai/seo/route.ts,app/api/ai/variants/route.ts,app/api/ai/voice-product/route.ts --prove tests/unit/riparazione-r14-ai-spenta-sulla-rotta.test.ts --json (wt-R14e = base b57195e2 + patch_pronta «rotte» e «prove_comuni» applicate con git apply, in un commit locale mai spinto)"
+      },
+      "nota": "Non riparata: patch in attesa della firma prove_comuni. Giudicata solo la patch: COMPLETA. Si applica pulita sulla base (rotte + prove comuni); 40 file che chiamano le 12 rotte (235 casi) e altri 159 file su api/ai o funzioni-al-lancio (891 casi) verdi; la prova nuova morde su ognuna delle 12 rotte tolta da sola; ogni gestore delle 12 rotte ha il controllo. Dopo la patch in app/api/ai restano senza interruttore solo copilot e catalog-chat (di R13, modifica scritta in serve_file_altrui). Newsletter e caricamento da file erano già frenati sulla rotta; la classifica inviti vuole una migrazione (domanda per Nicola)."
+    },
+    {
+      "id": "R14-008",
+      "chiave": "qa-flussi|la rotta del lotto sul catalogo, se non riceve l'elenco dei prodotti, applica ancora tutti i risultati",
+      "verdetto": "non_regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 1,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14f --base HEAD^ --file app/api/ai/catalog-batch/apply/route.ts --prove tests/unit/il-lotto-non-scrive-quello-che-il-filtro-nega.test.ts,tests/unit/le-dichiarazioni-di-un-alimento-le-scrive-il-negoziante.test.ts,tests/unit/le-funzioni-spente-al-lancio-le-rifiuta-il-server.test.ts,tests/unit/le-funzioni-spente-le-ferma-la-rotta-anche-a-mano.test.ts,tests/unit/minori-s10-lotto-applica.test.ts,tests/unit/riparazione-r02-traccia-porte-ai-catalogo.test.ts,tests/unit/riparazione-r18-lotto-applica-quello-che-si-vede.test.tsx,tests/unit/una-voce-scritta-male-non-ferma-le-modifiche-in-massa.test.ts --json (wt-R14f = base b57195e2 + patch_pronta «diff», commit locale mai spinto) → non_morde"
+      },
+      "nota": "Non riparata: patch in attesa della firma prove_comuni. Giudicata solo la patch: INCOMPLETA. La parte che c'è regge (si applica pulita, le 8 prove che chiamano la rotta 89/89 verdi, le 2 che usano aiuti/finto-catalogo 20/20, l'unico chiamante app/seller/products/ai-batch/page.tsx:445-447 manda già productIds), ma nella patch manca la prova nuova tests/unit/riparazione-r14-lotto-senza-elenco.test.ts che il riparatore stesso dice di dover scrivere: con la patch così, tolta la correzione della rotta tutte le prove restano verdi (prova rimessa: non_morde). Da aggiungere alla patch_pronta prima della firma."
+    },
+    {
+      "id": "R14-013",
+      "chiave": "tipografia|otto spaziature diverse per la stessa etichetta maiuscola",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14d --base c1e4d046^ --file app/profile/addresses/page.tsx,components/ProductQA.tsx --prove tests/unit/riparazione-r14-etichette-maiuscole.test.ts --json"
+      },
+      "nota": "Le 3 righe fatte reggono (nessuna spaziatura vecchia resta nei 2 file; tracking-label = 0.04em in tailwind.config.ts). Ricontato sulla base b57195e2 con git grep su app, components, lib: 92 righe maiuscole con una delle otto spaziature in 54 file, come dice il riparatore; tolti i 2 file fatti, i 52 file di serve_file_altrui sono esattamente quelli rimasti e le righe elencate sono 89. Parziale onesto: la voce resta aperta per i file altrui."
+    }
+  ],
+  "campione": {}
+}
