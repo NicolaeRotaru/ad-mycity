@@ -2248,7 +2248,6 @@
                 "app/api/ai/barcode-lookup/route.ts",
                 "app/api/ai/catalog-batch/cancel/route.ts",
                 "app/api/ai/catalog-batch/status/route.ts",
-                "app/api/ai/catalog-chat/route.ts",
                 "app/api/ai/description/route.ts",
                 "app/api/ai/diagnose/route.ts",
                 "app/api/ai/improve-product/route.ts",
@@ -2262,7 +2261,8 @@
                 "lib/funzioni-al-lancio.ts"
               ],
               "file_altrui": [
-                "app/api/ai/copilot/route.ts"
+                "app/api/ai/copilot/route.ts",
+                "app/api/ai/catalog-chat/route.ts"
               ]
             },
             {
@@ -2382,7 +2382,6 @@
             "app/api/ai/catalog-batch/apply/route.ts",
             "app/api/ai/catalog-batch/cancel/route.ts",
             "app/api/ai/catalog-batch/status/route.ts",
-            "app/api/ai/catalog-chat/route.ts",
             "app/api/ai/description/route.ts",
             "app/api/ai/diagnose/route.ts",
             "app/api/ai/improve-product/route.ts",
@@ -2411,7 +2410,7 @@
             760,
             769
           ],
-          "nota_regia": "2026-11-22 17:58 regia settima: le tre stringhe unite da virgola/«+» divise in percorsi veri; copilot/route.ts resta di R13; aggiunto tests/unit/aiuti/schermo.ts (R14-011, di nessuno)."
+          "nota_regia": "2026-11-22 17:58 regia settima: le tre stringhe unite da virgola/«+» divise in percorsi veri; copilot/route.ts resta di R13; aggiunto tests/unit/aiuti/schermo.ts (R14-011, di nessuno). 18:02: catalog-chat/route.ts tolto da R14 (la prova delle foto al modello lo importa insieme a un file di R13)."
         },
         "R15": {
           "tema": "architettura",
