@@ -2,90 +2,131 @@
   "collaudatore": "K04",
   "riparatori": [
     "R03",
+    "R10",
     "R12"
   ],
-  "aggiornato": "2026-11-22 02:10",
+  "aggiornato": "2026-11-22 02:30",
   "finita": false,
   "voci": [
     {
       "id": "R03-004",
       "chiave": "api-backend|due allarmi del giro notturno delle cancellazioni si ripetono ogni notte a ogni amministratore",
       "verdetto": "regge",
-      "giudizio": "nessuno",
+      "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 489543c2^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r03-allarmi-della-notte.test.ts --json"
-      }
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Allarme «dati vecchi non cancellati» con chiave stabile (route.ts:585), notte resta 500; tolta la chiave la prova va rossa (3 su 3). Residuo fuori voce: l'allarme non si chiude mai, se il guasto torna dopo la lettura non compare una riga nuova."
     },
     {
       "id": "R03-003",
       "chiave": "api-backend|allarme 'persone non avvisate' riscritto ogni notte, senza dire chi: la stessa classe chiusa per le email resta aperta qui",
-      "verdetto": "regge",
-      "giudizio": "nessuno",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 665234dd^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r03-persone-non-avvisate.test.ts --json"
-      }
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Conferma il parziale dichiarato: un allarme per avviso con id <idAvviso>:non-avvisata (route.ts:314) e nel testo chi aspetta; mutanti senza chiave e senza nome rossi. Resta quanto scritto in cosa_resta: nessuna chiusura per «Persone non avvisate» (la chiusura a :821 filtra solo «scrivile tu») e notte 500 finché qualcuno resta non avvisato (:394)."
     },
     {
       "id": "R03-006",
       "chiave": "api-backend|l'allarme «scrivile tu» resta aperto per sempre se la persona esce dall'elenco della notte",
-      "verdetto": "regge",
-      "giudizio": "nessuno",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 3cc4248b^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r03-scrivile-tu-si-chiude.test.ts --json"
-      }
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Il codice alla testa è giusto: la chiusura gira nei due percorsi (:212, :338), tolta l'una o l'altra la prova va rossa. Ma la prova non sorveglia chi aspetta ancora: il mutante «confronta solo la tappa rinviata» resta VERDE e chiuderebbe l'allarme di chi è oltre i 30 giorni con l'email del termine scaduto ferma (non torna più). Manca un caso in tests/unit/riparazione-r03-scrivile-tu-si-chiude.test.ts: «scrivile tu» del termine scaduto di una persona che aspetta ancora, che deve restare aperto (revisore K04 l'ha scritto: rosso col mutante, verde alla testa)."
     },
     {
       "id": "R03-007",
       "chiave": "api-backend|la chiusura dell allarme «scrivile tu» legge al massimo 200 avvisi senza ordine né filtro: oltre 200, quelli aperti possono restare fuori",
-      "verdetto": "regge",
-      "giudizio": "nessuno",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 3cc4248b^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r03-scrivile-tu-si-chiude.test.ts --json"
-      }
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Il codice alla testa è giusto: filtro titolo+is_read, ordine per id, cursore gt (mutanti pagina sola e senza gt rossi). Ma la metà «filtro» della voce non ha una prova che morde: il mutante senza filtro sul titolo resta VERDE, e chiuderebbe anche l'allarme R03-003 «Persone non avvisate» (il testo contiene «Chi aspetta: l'utente X.», route.ts:313) la notte stessa in cui nasce. Manca un caso: un «Persone non avvisate» con «Chi aspetta» che deve restare aperto. Minore: la chiusura non ha tetto di tempo e gira dopo il tetto delle email."
     },
     {
       "id": "R03-008",
       "chiave": "api-backend|quando la notte finisce il tempo delle email, l'allarme agli amministratori conta come «non partite» anche le spiegazioni gia' arrivate per email nelle notti prima",
       "verdetto": "regge",
-      "giudizio": "nessuno",
+      "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base f9a54ab5^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r03-email-gia-partite.test.ts --json"
-      }
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "emailGiaPartita legge il registro invii con la stessa azione e target della libreria (lib/privacy/avvisi-a-chi-aspetta.ts:384-391); mutanti «conta tutte», «nessun filtro», «allarme sempre» rossi. Minore: N letture in fila a tempo email già scaduto."
     },
     {
       "id": "R03-001",
       "chiave": "api-backend|con taglie alla stessa posizione la traccia può segnare un riordino che non c'è",
-      "verdetto": "regge",
-      "giudizio": "nessuno",
+      "verdetto": "non_regge",
+      "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 41992655^ --file app/api/admin/products/route.ts --prove tests/unit/riparazione-r03-taglie-stessa-posizione.test.ts --json"
-      }
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "La prova finge un salvataggio che scrive tutte le taglie a posizione 0 con id nuovi; il salvataggio vero scrive 0..n-1 e tiene gli id (lib/products/persistVariantsServer.ts:90, :137-138). Con lo scenario realistico (vecchie M e L entrambe a posizione 0, modulo rimanda M,L) alla testa la prova è ROSSA: lo spareggio per contenuto (app/api/admin/products/route.ts:140-141) mette L prima di M e segna un riordino che non c'è. Scambia un falso positivo con un altro: la classe resta aperta."
     },
     {
       "id": "R03-002",
       "chiave": "api-backend|se un promemoria del carrello viene saltato, il rilascio del segno può cancellare anche il segno di un carrello cambiato nel frattempo",
       "verdetto": "regge",
-      "giudizio": "nessuno",
+      "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base a6ecae54^ --file app/api/cron/abandoned-carts/route.ts --prove tests/unit/riparazione-r03-rilascio-segno-carrello.test.ts --json"
-      }
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Il rilascio del segno filtra anche su last_activity (app/api/cron/abandoned-carts/route.ts:241-247), come gli altri due punti che scrivono il segno; prove vicine verdi."
     },
     {
       "id": "R03-014",
       "chiave": "api-backend|un rifiuto per troppe richieste della ricerca indirizzi fa salvare l'indirizzo senza coordinate per sempre",
-      "verdetto": "regge",
-      "giudizio": "nessuno",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base b1f99d1d^ --file app/profile/addresses/page.tsx --prove tests/unit/riparazione-r03-indirizzo-429.test.tsx --json"
-      }
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Il profilo sul 429 non salva e avvisa (app/profile/addresses/page.tsx:83). Ma la voce cita anche components/StoreLocationPicker.tsx:169-172, non toccato: sul 429 il negoziante legge ancora «Indirizzo non trovato». Possibile regressione (letta, non provata): il return a :83 arriva prima di stessoIndirizzo (:69-73), quindi un 429 blocca anche il salvataggio di un indirizzo identico con coordinate già buone (es. cambio solo telefono)."
     },
     {
       "id": "R12-006",
@@ -101,11 +142,16 @@
       "id": "R12-010",
       "chiave": "navigazione-gerarchia|il piè di pagina passa dall h1 all h3 su ogni pagina pubblica senza un h2 nel contenuto",
       "verdetto": "regge",
-      "giudizio": "nessuno",
+      "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 0bb8e7ef^ --file components/Footer.tsx --prove tests/unit/riparazione-r12-footer.test.ts --json"
-      }
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "h2 sr-only prima degli h3 del piede (components/Footer.tsx:217); il piede è unico, reso da app/layout.tsx:286 (assente solo nell'area pro); la regola h2 di globals.css non lo rende visibile."
     },
     {
       "id": "R12-001",
@@ -140,18 +186,28 @@
     {
       "id": "R12-011",
       "chiave": "qa-flussi|altre due ancore sommano il loro scroll-mt allo scroll-padding da md in su",
-      "verdetto": "regge",
-      "giudizio": "nessuno"
+      "verdetto": "non_regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Già riparato solo a metà: il registro nomina app/faq/page.tsx:229 (a posto già alla base, :231) e components/seller/DatiPerIBonifici.tsx:65, che alla base 1ad51b4c e alla testa ha ancora scroll-mt-24 senza md:scroll-mt-0 e si somma allo scroll-padding di globals.css:200 (ci atterra /seller/profile#bonifici da app/seller/earnings/page.tsx:246). Il riparatore ha citato app/lavora-con-noi/page.tsx:181, che non è nella voce."
     },
     {
       "id": "R12-013",
       "chiave": "qa-flussi|nella pagina dei negozi, se la lettura delle categorie cade, i filtri spariscono senza avviso",
       "verdetto": "regge",
-      "giudizio": "nessuno",
+      "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base c3162108^ --file app/stores/page.tsx --prove tests/unit/riparazione-r12-negozi-categorie.test.tsx --json"
-      }
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "L'avviso esce per errore delle categorie, delle categorie per negozio e per una finestra caduta dopo la prima (lib/supabase/blocchi.ts:84). Residuo fuori voce: se cadono sia store_cards sia il ripiego prodotti nessun avviso (app/stores/page.tsx, productsRes.error)."
     },
     {
       "id": "R12-009",
@@ -201,6 +257,131 @@
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base b5f62937^ --file components/StorePreviewCard.tsx,components/StoreListRow.tsx --prove tests/unit/riparazione-r12-scala-testo.test.ts --json"
+      }
+    },
+    {
+      "id": "R10-001",
+      "chiave": "frontend-ux|le pagine di prodotti, negozi e categorie che non esistono rispondono «tutto ok» invece di «non trovato»",
+      "verdetto": "regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base c2d7cbeb^ --file 'app/product/[id]/layout.tsx,app/store/[id]/layout.tsx,app/category/[slug]/layout.tsx,app/store/[id]/[slug]/layout.tsx' --prove tests/unit/riparazione-r10-pagine-inesistenti.test.ts --json (worktree a 5af84074)"
+      }
+    },
+    {
+      "id": "R10-003",
+      "chiave": "frontend-ux|il link delle storie rifiuta l'indirizzo intero del sito stesso (https://<dominio>/promozioni), che è quello che il negoziante copia dalla barra",
+      "verdetto": "regge",
+      "giudizio": "nessuno"
+    },
+    {
+      "id": "R10-004",
+      "chiave": "frontend-ux|la pagina del negozio in cache può mostrare un annuncio già scaduto dopo la mezzanotte",
+      "verdetto": "regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 66e3b924^ --file 'app/store/[id]/layout.tsx' --prove tests/unit/riparazione-r10-annuncio-scaduto.test.ts --json (worktree a 66e3b924)"
+      }
+    },
+    {
+      "id": "R10-006",
+      "chiave": "frontend-ux|il controllo sul taglio dei campi di testo del costruttore della home tronca ancora titoli e sottotitoli in silenzio",
+      "verdetto": "regge",
+      "giudizio": "nessuno"
+    },
+    {
+      "id": "R10-007",
+      "chiave": "frontend-ux|il conferma per le modifiche non salvate dice «la vetrina» anche sul profilo",
+      "verdetto": "regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base b09b7f26^ --file 'components/VendorForm.tsx' --prove tests/unit/riparazione-r10-conferma-profilo-o-vetrina.test.ts --json (worktree a b09b7f26)"
+      },
+      "nota_rimessa": "Anche con la base prima del PRIMO commit della voce, alla testa: uscita 0 — timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base cce7770a^ --file 'components/seller/site/dove-e-l-errore.ts,components/VendorForm.tsx' --prove tests/unit/riparazione-r10-conferma-profilo-o-vetrina.test.ts --json (worktree a 38a1e1ac)"
+    },
+    {
+      "id": "R10-008",
+      "chiave": "frontend-ux|altri campi brevi del sito del negozio tagliano ancora in silenzio con maxlength",
+      "verdetto": "regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 266a5540^ --file 'components/seller/site/SectionConfigForm.tsx,components/seller/site/CollectionFields.tsx' --prove tests/unit/riparazione-r10-vetrina-campi-brevi.test.tsx --json (worktree a 266a5540)"
+      }
+    },
+    {
+      "id": "R10-009",
+      "chiave": "frontend-ux|il costruttore della vetrina ha ancora campi brevi che tagliano in silenzio",
+      "verdetto": "regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 266a5540^ --file 'components/seller/site/SectionConfigForm.tsx,components/seller/site/CollectionFields.tsx' --prove tests/unit/riparazione-r10-vetrina-campi-brevi.test.tsx --json (worktree a 266a5540)"
+      }
+    },
+    {
+      "id": "R10-010",
+      "chiave": "frontend-ux|incollare il link di instagram o scrivere il sito senza https blocca il salvataggio di tutta la vetrina con un messaggio che non dice dove",
+      "verdetto": "regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base c084252d^ --file 'lib/store-customization.ts' --prove tests/unit/riparazione-r10-instagram-incollato-intero.test.ts --json (worktree a c084252d)"
+      },
+      "nota_rimessa": "Anche con la base prima del PRIMO commit della voce, alla testa: uscita 0 — timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 56a0bbff^ --file 'lib/store-customization.ts' --prove tests/unit/riparazione-r10-instagram-incollato-intero.test.ts --json (worktree a 38a1e1ac)"
+    },
+    {
+      "id": "R10-012",
+      "chiave": "frontend-ux|tre etichette del modulo negozio e una del profilo non sono legate al loro campo",
+      "verdetto": "regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 87b53c61^ --file 'components/VendorForm.tsx,app/seller/profile/page.tsx' --prove tests/unit/riparazione-r10-etichette-legate-al-campo.test.tsx --json (worktree a 38a1e1ac)"
+      }
+    },
+    {
+      "id": "R10-013",
+      "chiave": "frontend-ux|il modulo del prodotto non dice che il nome ha al massimo 120 caratteri: il negozio legge solo «il valore inserito non è valido»",
+      "verdetto": "regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 403a6681^ --file 'lib/products/schema.ts,components/seller/ProductForm.tsx,lib/errors.ts' --prove tests/unit/riparazione-r10-nome-prodotto-120.test.ts --json (worktree a 403a6681)"
+      }
+    },
+    {
+      "id": "R10-014",
+      "chiave": "frontend-ux|altri percorsi di facebook non elencati possono essere salvati come nome del profilo",
+      "verdetto": "regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 549c56cc^ --file 'lib/store-customization.ts' --prove tests/unit/riparazione-r10-facebook-percorsi-non-profilo.test.ts --json (worktree a 549c56cc)"
+      },
+      "nota_rimessa": "Anche con la base prima del PRIMO commit della voce, alla testa: uscita 0 — timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 6d83434d^ --file 'lib/store-customization.ts' --prove tests/unit/riparazione-r10-facebook-percorsi-non-profilo.test.ts --json (worktree a 38a1e1ac)"
+    },
+    {
+      "id": "R10-015",
+      "chiave": "microcopy|se il caricamento di una storia fallisce, il negoziante legge «applica la migration 035»",
+      "verdetto": "regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base c95e210e^ --file 'app/seller/stories/page.tsx' --prove tests/unit/riparazione-r10-storia-non-caricata.test.ts --json (worktree a c95e210e)"
+      }
+    },
+    {
+      "id": "R10-016",
+      "chiave": "performance|le pagine di prodotto, negozio e categoria non usano la cache che dichiarano, e rileggono due volte la stessa riga a ogni visita",
+      "verdetto": "regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 719d4380^ --file 'lib/supabase/lettura-per-metadati.ts,app/u/[handle]/page.tsx' --prove tests/unit/riparazione-r10-lettura-unica.test.ts --json (worktree a 719d4380)"
       }
     }
   ],
