@@ -2,9 +2,10 @@
   "collaudatore": "K05",
   "riparatori": [
     "R14",
-    "R15"
+    "R15",
+    "R13"
   ],
-  "aggiornato": "2026-11-22 19:20",
+  "aggiornato": "2026-11-22 19:35",
   "finita": false,
   "voci": [
     {
@@ -159,6 +160,67 @@
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14c --base 173a21ad^ --file app/seller/products/new/page.tsx --prove tests/unit/riparazione-r14-duplica-con-sorgente-in-cache.test.tsx --json"
       },
       "nota": "Il caso della prova regge (rilettura riuscita: taglie e spunta vere), il modulo non resta bloccato (offline fetchStatus in pausa, dopo errore isFetching falso, fromId nuovo riparte) e una rilettura dopo non cancella il lavoro (refetchOnWindowFocus spento in QueryProvider.tsx). Ma resta aperta una strada allo stesso sintomo: se la rilettura cade o all'apertura non c'è rete, con la sorgente in memoria caricamento e sorgenteNonArrivata sono falsi (page.tsx:166, 231, 233) e il modulo si apre con la spunta del recesso di prima; dopo «Riprova» riuscito o al ritorno della rete il salvataggio si sblocca senza rimettere la spunta vera: solo le taglie hanno il «cambiate → riapri» (page.tsx:248), la spunta resta quella del montaggio (components/ProductForm.tsx:319). Riprodotto con una prova temporanea (memoria con nonRecedibile vecchio + rilettura che fallisce o rete assente): 3 casi rossi, la copia si salva recedibile."
+    },
+    {
+      "id": "R13-007",
+      "chiave": "mobile-pwa|il manifest blocca l'app in verticale e non ha le schermate per la finestra d'installazione",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 2,
+        "comando": "nessuna: la voce non ha commit (parziale senza codice), non c'è una correzione da togliere"
+      },
+      "nota": "Alla base b57195e2 public/manifest.json non ha orientation (il blocco in verticale non c'è), ha id «/» (:5) e display_override (:8); mancano solo gli screenshots (0 occorrenze). Nessun app/manifest.* che lo sovrascriva; il manifest si collega solo con APP_INSTALLABILE_ACCESA (app/layout.tsx:126-127). Parziale onesto: restano le schermate, che vogliono immagini vere del sito."
+    },
+    {
+      "id": "R13-010",
+      "chiave": "qa-flussi|le prove delle frasi pubbliche cercano parole nel codice: sette mutanti che rimettono i difetti restano verdi",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 2,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R13f --base d8c691ff^ --file tests/unit/riparazione-r13-frasi-pubbliche.test.tsx --prove tests/unit/riparazione-r13-frasi-pubbliche.test.tsx --json → «un file non può essere insieme correzione e prova» (commit di sola prova)",
+        "a_mano": {
+          "comando": "in ../wt-R13f a d8c691ff, un mutante alla volta poi git checkout: HomeSectionRenderer senzaNegozio={false}; app/rider/help tel:112 → tel:+390523000000; AttributesFields checked={!!values[f.key]}; npx vitest run --reporter=dot tests/unit/riparazione-r13-frasi-pubbliche.test.tsx",
+          "uscita_senza_correzione": 1,
+          "uscita_con_correzione": 0
+        }
+      },
+      "nota": "Sul merito regge: la prova nuova disegna i componenti veri (nessun readFileSync) e cade su 3 mutanti su 3 rifatti da me (1 caso rosso ciascuno, 10/10 verdi senza mutanti); il revisore di R13 ne aveva rifatti 7 su 7. Resta aperta solo per la regola: il commit tocca solo la prova, prova-rimessa non decide (uscita 2) e una rimessa a mano chiude solo con la deroga firmata «rimessa_a_mano», che per R13 non c'è. Con la deroga diventa «regge»."
+    },
+    {
+      "id": "R13-012",
+      "chiave": "qa-flussi|una prova col nome del collaudo",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Alla base b57195e2 tests/unit/ ha i-termini-nominano-chi-gestisce-senza-dati-inventati.test.tsx e non zz-collaudo-termini-chi.test.tsx; git grep «zz-collaudo-termini» alla base non trova niente. Il difetto è assente alla base."
+    },
+    {
+      "id": "R13-013",
+      "chiave": "tipografia|la scala delle dimensioni del testo viene scavalcata circa trecentotrenta volte",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 2,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R13g --base f042b55a^ --file tests/unit/riparazione-r13-scheda-prodotto-sulla-scala-del-testo.test.ts --prove tests/unit/riparazione-r13-scheda-prodotto-sulla-scala-del-testo.test.ts --json → «un file non può essere insieme correzione e prova» (nessun file di codice corretto)"
+      },
+      "nota": "Nessun codice cambiato: alla base components/ProductCard.tsx non ha dimensioni a mano (l'unico text-[11px] è nel commento di :239); la prova nuova la tiene ferma. Ricontato alla base con git grep su app e components: 201 dimensioni a mano in 79 file, come dice il riparatore (che scrive «dopo il mio commit», ma è il conto della base). Parziale onesto: le 201 stanno in file non suoi e vogliono una scelta di design (gradini 11 e 13 px). Buco dichiarato della prova: text-[length:…] e text-[clamp(…)] non li vede (alla base 0 occorrenze)."
     }
   ],
   "campione": {}
