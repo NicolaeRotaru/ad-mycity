@@ -5,7 +5,7 @@
     "R16",
     "R17"
   ],
-  "aggiornato": "2026-11-22 20:50",
+  "aggiornato": "2026-11-22 21:00",
   "finita": false,
   "voci": [
     {
@@ -206,7 +206,7 @@
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16-1 --base 32d7582c^ --file 'lib/queries/precarico.ts,app/product/[id]/layout.tsx,app/store/[id]/layout.tsx' --prove tests/unit/riparazione-r17-una-lettura-per-richiesta.test.ts --json (worktree a 32d7582c)"
       },
-      "nota": "in corso",
+      "nota": "Parziale onesto. cache() di React: in Next 15.5.29 i metadati si disegnano dentro l'albero del server (app-render.js:184-210), quindi generateMetadata e il guscio condividono la stessa lettura per richiesta (letto nel codice di Next, non provato in next dev). 404 e visibilità identiche (stessa condizione role/is_approved/store_name, stesso lettore anonimo, 22P02 → null); una domanda in errore non entra nello stato precaricato, quindi un guasto non diventa 404. Il campo role nell'HTML può valere solo «seller» (ogni altro valore fa notFound() prima della HydrationBoundary), è una colonna già leggibile da chi non è loggato e nessun consumatore lo usa. 19 file di prove vicine verdi (299). Il cosa_resta copre la voce (force-dynamic, revalidate 300/300/600/300, vetrina che legge 2 volte, pagine [slug]). Minore non dichiarato: per un prodotto che il lettore anonimo non vede le letture ora sono tre in fila (precarico, fetchProduct, prodottoInesistente, app/product/[id]/layout.tsx:162-167) invece di due in parallelo più una: un viaggio in più sulla 404, mentre il referto dice «rilegge come prima».",
       "nota_rimessa": "Con --file anche lib/supabase/lettura-per-metadati.ts l'uscita è 1: in quel file il commit cambia solo un commento (4 righe), non porta la correzione. Rimessa sui tre file con la correzione: uscita 0."
     },
     {
@@ -222,7 +222,7 @@
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16-2 --base ab9ecb0f^ --file components/providers/QueryProvider.tsx --prove tests/unit/riparazione-r17-traduttore-zod-dopo.test.tsx --json (worktree a ab9ecb0f)"
       },
-      "nota": "in corso"
+      "nota": "Parziale onesto. Il pezzo fatto (import() di lib/zod-i18n in un useEffect di QueryProvider) da solo oggi non cambia la produzione, perché il traduttore arriva ancora dal piede (Footer → NewsletterForm → lib/errors.ts → zod-i18n), e il referto lo dice. L'inglese prima del caricamento non succede su una pagina vera: i moduli con zodResolver (SellerApplicationForm, VendorForm, ProductForm) validano all'invio, le safeParse stanno nei gestori. Ricetta zod-frasi-errors.patch applicata così com'è: 96 file di prove verdi (709), typecheck pulito; grafo degli import statici misurato con esbuild da app/layout.tsx: con la ricetta nessuna strada statica porta a zod-i18n (senza, c'è Footer→NewsletterForm→errors→zod-i18n). Ricetta completa ma senza una prova che morda se la strada torna. Minore: lascia falsi i commenti lib/errors.ts:15-16 e lib/zod-i18n.ts:17."
     },
     {
       "id": "R17-012",
@@ -237,12 +237,13 @@
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16-3 --base 3fcec934^ --file components/seller/ProductForm.tsx --prove tests/unit/riparazione-r17-proposta-ai.test.tsx --json (worktree a 3fcec934)"
       },
-      "nota": "in corso"
+      "nota": "Parziale onesto. Provato con una prova temporanea: dopo il «no» la proposta resta aperta e il campo tiene la modifica a mano. I due bordi del cosa_resta sono veri (svuoto e rigenero: confronto con un testo superato, ma nessuna perdita in silenzio; confirm soppresso: «Usa questa» non fa niente, senza avviso). Nessun terzo bordo: la proposta tocca solo la descrizione, la foto scrive solo nei campi vuoti, l'assistente (ProductForm.tsx:648) che cambia la descrizione con la proposta aperta fa scattare la conferma."
     }
   ],
   "campione": {},
   "note_ricette": {
     "R16-004": "Ricetta completa: revert --no-commit 40da5b80 più la modifica della riga 38 di riparazione-r02-banner-alt: 7 file e 36 prove verdi (r16 nuova, r02-banner-alt, s06-costruttore-letture, r07-banner-bozza, r10-vetrina-campi-brevi, s06-vetrina-non-salvata, r10-conferma), tsc ed eslint puliti. Senza la modifica la prova comune è rossa. Prova comune non indebolita: maxLength===160 diventa niente maxLength, errore a 161 e nessun errore a 160. Rimessa su e4a75059: uscita 0. HomeSectionConfigForm già a posto alla base.",
-    "R16-011": "Ricetta completa: revert --no-commit 5a804dbe più il finto rpc concatenabile in riparazione-r02-negozi-categorie-a-pagine: 15 file e 91 prove verdi, tsc ed eslint puliti. Prova comune non indebolita (cambia solo la forma del finto: order, range, then). categorie_per_negozio (127:775-788) RETURNS TABLE(seller_id, categorie) con GROUP BY seller_id: order+range validi. Rimessa su b94d11b5: uscita 0. Imprecisione minore: senza la modifica cade il caso «la madre dopo la millesima categoria», non quello nominato nel referto. La stessa modifica c'era già in 8f8973f3 (R12-012) ed era andata persa."
+    "R16-011": "Ricetta completa: revert --no-commit 5a804dbe più il finto rpc concatenabile in riparazione-r02-negozi-categorie-a-pagine: 15 file e 91 prove verdi, tsc ed eslint puliti. Prova comune non indebolita (cambia solo la forma del finto: order, range, then). categorie_per_negozio (127:775-788) RETURNS TABLE(seller_id, categorie) con GROUP BY seller_id: order+range validi. Rimessa su b94d11b5: uscita 0. Imprecisione minore: senza la modifica cade il caso «la madre dopo la millesima categoria», non quello nominato nel referto. La stessa modifica c'era già in 8f8973f3 (R12-012) ed era andata persa.",
+    "R17-008": "Ricetta completa, morde, prova comune non indebolita. Le due patch si applicano pulite: prova nuova (5) e prova comune il-corsivo-del-sito-e-un-corsivo-vero (8) verdi, 9 file di prove sui caratteri verdi, typecheck pulito. Mutanti presi (corsivo senza famiglia, corsivo precaricato, dritto senza precarico, famiglia scritta male). La prova comune passa da regole per istanza a regole per famiglia senza togliere controlli (resta il divieto di preload:false sulle istanze col dritto, si aggiunge che esista un dritto). Catena vera di Next (caricatore, postcss-next-font): dritto e corsivo con la stessa famiglia senza hash, quindi corsivo vero. Rimessa su afcd9d50: uscita 0. Compromesso minore non dichiarato: il corsivo di Fraunces non si precarica più neanche in home, il «veri» del titolone (app/page.tsx:29) si disegna prima col carattere di riserva inclinato e poi cambia."
   }
 }
