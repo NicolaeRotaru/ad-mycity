@@ -4,7 +4,7 @@
     "R18",
     "R16"
   ],
-  "aggiornato": "2026-11-22 19:45",
+  "aggiornato": "2026-11-22 20:05",
   "finita": false,
   "voci": [
     {
@@ -20,7 +20,7 @@
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R18-001 --base 57f2e330^ --file app/api/cron/abandoned-carts/route.ts --prove tests/unit/riparazione-r18-promemoria-carrello-una-volta.test.ts --json (worktree a 57f2e330)"
       },
-      "nota": "in corso"
+      "nota": "Due giri insieme, una email: la rivendicazione è una UPDATE condizionata (recovery_email_sent_at is null) che rende la riga solo a chi la prende. Libreria vera (@supabase/postgrest-js 2.106.1, dist/index.cjs:359-371): maybeSingle su 0 righe dà data null ed error null, PGRST116 solo con più righe (user_id è chiave primaria, 027:185). service_role ha UPDATE (425:338), nessun trigger su abandoned_carts. Su Postgres 16 locale due UPDATE condizionate insieme: la seconda aspetta e prende 0 righe. Mutanti rossi sulla prova: rotta della base, .is(null) tolto, preso === false. Resta una chiamata a mark_abandoned_cart_email_sent in chiudiSenzaEmail (route.ts:92), che non spedisce. Le 6 prove comuni ritoccate non sono indebolite (giudizio a parte nel messaggio alla regia); r30:84 ora è un controllo morto (cerca la rpc che il giro non chiama più), ma il mutante vero, consenso tolto, resta rosso a r30:82. Fragile, già segnalata da R18: le-email-d-ordine-escono-senza-il-tasto-per-smettere risponde [] alla rivendicazione."
     },
     {
       "id": "R18-002",
@@ -35,12 +35,12 @@
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R18-002 --base 9f8ac9af^ --file app/api/cron/send-push/route.ts --prove tests/unit/riparazione-r18-commento-push-nuovo-ordine.test.ts --json (worktree a de01e1ac)"
       },
-      "nota": "in corso"
+      "nota": "Il commento del cron (send-push/route.ts:10-13 e :25-29) ora è vero: nessuno chiama mandaSubitoLaPushDelNuovoOrdine (cercato in app, lib, components, scripts: solo la definizione, lib/push/subito.ts:109). La voce è il commento del cron e quello è chiuso. Il revisore la bocciava per la regola del dubbio, perché lib/push/subito.ts:8 e :13-14 (file non di R18, non nella scheda) dicono ancora al presente «la push del nuovo ordine parte subito, alla creazione dell'ordine»: è un difetto gemello in un altro file, lo segnalo come nuovo minore e non come resto di questa voce."
     },
     {
       "id": "R18-005",
       "chiave": "immagini-media|quattro foto sotto la piega vengono chieste come «urgenti» su ogni home",
-      "verdetto": "regge",
+      "verdetto": "non_regge",
       "giudizio": "pieno",
       "lenti": [
         "chiude_tutta",
@@ -50,7 +50,7 @@
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R18-005 --base 3eb7213f^ --file components/StoreProductExplorer.tsx --prove tests/unit/riparazione-r18-foto-vetrina-non-urgenti.test.ts --json (worktree a 59a4632c)"
       },
-      "nota": "in corso"
+      "nota": "Il pezzo fatto regge (prioritaPrimeFoto={!onCount} nelle schede della home del negozio), e alla base le sedi del registro erano davvero già a posto (ProductGrid.tsx:710, PromoDeals.tsx:71, CollectionSection.tsx:98/:156; /promozioni page.tsx:138 è la prima riga in cima). Ma resta aperto più di quanto dice cosa_resta: il ramo senza schede di SectionRenderer.tsx (~:252) non passa onProductCount, e lì la griglia può stare in qualunque posizione, non solo in cima come scrive il referto. Eseguito dal revisore: testo, due collezioni e poi la griglia → [false,false,true], la griglia in fondo chiede ancora 4 foto urgenti sotto la piega. La cura proposta in serve_file_altrui (calcolare inCima anche a ~252) lo coprirebbe, ma il resto non è dichiarato. Minore: il commento StoreProductExplorer.tsx:233-234 («lì è l'ultima sezione») è falso se In evidenza e Promozioni sono vuote o il negozio cambia l'ordine."
     },
     {
       "id": "R18-012",
@@ -65,7 +65,7 @@
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R18-012 --base adafa0fa^ --file lib/ai/statoLavoroCatalogo.ts --prove tests/unit/riparazione-r18-testo-lavoro-incerto.test.ts --json (worktree a 83686b8f)"
       },
-      "nota": "in corso"
+      "nota": "«Tra poco lo vedi partire» esce solo da page.tsx:523 con !job.incerto; page.tsx:555 serve solo ai lavori chiusi. I motivi che nominano l'assistenza sono solo status/route.ts:125, :240 e cancel/route.ts:43 (nessun «supporto» o «contatta»); mutante «chiedi»→«contatta» a :125: prova rossa. Resti fuori dalla lettera della voce, minori: il pulsante «Avvia sul catalogo» (page.tsx:516, puoAvviareLavoro vero per un lavoro fallito) resta accanto a «chiedi all'assistenza prima di avviarne un altro»; il riquadro incerto (page.tsx:540-542) dice «scartalo e avviane un altro» tra 3 minuti e 24 ore mentre il motivo delle 24 ore dice di chiedere all'assistenza."
     },
     {
       "id": "R16-001",
