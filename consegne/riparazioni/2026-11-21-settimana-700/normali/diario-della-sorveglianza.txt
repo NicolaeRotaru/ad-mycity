@@ -115,3 +115,12 @@
 2026-11-22 18:34 · R17 · in lavoro · guardia 🔴 · referto – · unione (sotto) · nessuna
 2026-11-22 18:34 · R18 · in lavoro · guardia 🔴 · referto – · unione (sotto) · nessuna
 2026-11-22 18:34 · onda 2 · prova-unione ✅
+2026-11-22 19:05 · R13 · in lavoro FINITA · guardia ✅ · referto ✅ 13 voci · unione (sotto) · nessuna
+2026-11-22 19:05 · R14 · in lavoro FINITA · guardia ✅ · referto ✅ 13 voci · unione (sotto) · nessuna
+2026-11-22 19:05 · R15 · in lavoro FINITA · guardia ✅ · referto ✅ 16 voci · unione (sotto) · nessuna
+2026-11-22 19:05 · R16 · in lavoro FINITA · guardia ✅ · referto ✅ 13 voci · unione (sotto) · nessuna
+2026-11-22 19:05 · R17 · in lavoro FINITA · guardia 🔴 · referto ✅ 12 voci · unione (sotto) · nessuna
+2026-11-22 19:05 · R18 · in lavoro FINITA · guardia 🔴 · referto ✅ 12 voci · unione (sotto) · nessuna
+2026-11-22 19:05 · K05 · collaudo · guardia ✅ · collaudo ⏳ · nessuna
+2026-11-22 19:05 · K06 · collaudo · guardia ✅ · collaudo ⏳ · nessuna
+2026-11-22 19:05 · onda 2 · prova-unione ✅
