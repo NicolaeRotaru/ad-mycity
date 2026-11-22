@@ -5,7 +5,7 @@
   "R08",
   "R09"
  ],
- "aggiornato": "2026-11-22 01:58",
+ "aggiornato": "2026-11-22 02:16",
  "finita": true,
  "voci": [
   {
@@ -19,9 +19,9 @@
    ],
    "rimessa": {
     "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base 1b974d8c3350350a357701130efce44dd51437dc^ --file app/rider/earnings/page.tsx --prove tests/unit/riparazione-r07-guadagni-fattorino-card.test.ts  --json"
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base fc48cfd4^ --file app/rider/orders/[id]/page.tsx,app/rider/onboarding/page.tsx,components/ui/Card.tsx --prove tests/unit/riparazione-r07-guadagni-fattorino-card.test.ts --json"
    },
-   "nota": "il punto citato (earnings:214) è una Card con le stesse classi; ma il titolo parla delle card a mano con bg-surface-0 e ne restano 41 righe in 13 file (es. app/rider/onboarding/page.tsx:350, che il ramo tocca), mentre il referto dice «copre tutta la voce». Prova statica sul sorgente."
+   "nota": "giro 2 (fc48cfd4): le 7 card a mano nei file di R07 (4 in rider/onboarding, 3 in rider/orders/[id], una come details) passano a <Card variant=\"surface\"> con resa identica (surface = bg-surface-0 border border-cream-300, raggio xl e p-4 di base; dove serviva radius lg / padding none con le classi di prima); nei tre file resta solo un select (onboarding:321), che non è una card. Il referto ora dice onestamente «parziale» ed elenca le 24 card in 9 file altrui in serve_file_altrui. Prova rimessa uscita 0; 198 prove vicine verdi (Card, onboarding, consegna). La voce resta parziale finché le card altrui non passano."
   },
   {
    "id": "R07-002",
@@ -86,7 +86,7 @@
   {
    "id": "R07-007",
    "chiave": "navigazione-gerarchia|col pannello dei filtri aperto, il tasto indietro fa uscire dalla ricerca invece di chiudere il pannello",
-   "verdetto": "rompe_altro",
+   "verdetto": "regge",
    "giudizio": "pieno",
    "lenti": [
     "chiude_tutta",
@@ -94,9 +94,9 @@
    ],
    "rimessa": {
     "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base 4681b479fb1f97687438cee48e33b12e5b86cb5e^ --file app/search/page.tsx,components/hooks/useBottomSheetA11y.ts --prove tests/unit/riparazione-r07-indietro-chiude-filtri.test.ts,tests/unit/riparazione-r07-filtri-restano-nell-indirizzo.test.tsx  --json"
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base 1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46 --file components/hooks/useBottomSheetA11y.ts,app/search/page.tsx,app/category/[slug]/page.tsx --prove tests/unit/riparazione-r07-indietro-chiude-filtri.test.ts,tests/unit/riparazione-r07-filtri-restano-nell-indirizzo.test.tsx --json"
    },
-   "nota": "il comportamento è chiuso (Indietro chiude filtri di ricerca, categoria e «Ordina»; gli altri 11 usi del hook non passano indietroChiude). Ma le due prove nuove sono instabili sotto carico: attesa fissa di 20 ms del popstate (tests/unit/riparazione-r07-indietro-chiude-filtri.test.ts:25-29); con la macchina carica sono cadute 3 volte su ~16 giri (qa2) e 2 su 3 (qa1), su asserzioni diverse (indietro-chiude-filtri:119 e :266, filtri-restano-nell-indirizzo:222 «expected null to be 'price_asc'»). Da sole 5+5+5 giri verdi. Una prova che cade a caso rompe il verify/CI. Caso limite minore: dopo Indietro, Avanti riporta la voce pannelloAperto col pannello chiuso e l'Indietro successivo va a vuoto (useBottomSheetA11y.ts:136-149). · altre rimesse della voce: 085cc686: uscita 0"
+   "nota": "giro 2 (testa fc48cfd4): fa43cb33 tocca solo le prove, che ora aspettano la cronologia ferma (tests/unit/riparazione-r07-cronologia.ts) invece di 20 ms fissi. Sotto carico (6 processi che occupano la CPU + 8 vitest in parallelo, load da 9 a 17 su 4 core) 24 giri su 24 verdi; prima cadevano 3 su ~16. Prova rimessa sulla voce intera (testa contro base, i tre file del codice): uscita 0, cade togliendo ognuno dei tre file. Il comportamento era già giudicato chiuso al giro 1. Resta, minore e non della voce: dopo Indietro, il tasto Avanti riporta la voce pannelloAperto col pannello chiuso (useBottomSheetA11y.ts:136-149)."
   },
   {
    "id": "R07-009",
@@ -326,7 +326,7 @@
  ],
  "campione": {
   "R07": {
-   "accettato": false
+   "accettato": true
   },
   "R08": {
    "accettato": false
