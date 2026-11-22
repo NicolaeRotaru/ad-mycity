@@ -86,3 +86,4 @@ Quante voci risulteranno sparite: lo dicono i referti delle 4 sessioni.
 - 2026-11-22 01:55 Nicola: «sì a R10» (spinta forzata del ramo -m10, solo quella). Girato a R10.
 - 2026-11-22 01:56 R12 finita (9 riparati, 2 parziali, 2 file altrui, 1 già, 18,69 $, punta bfe3ab52). Aperto K04 (R03, R12; R10 glielo mando quando finisce).
 - 2026-11-22 01:59 K03 finito (valida-collaudo verde): R07 4 reggono, R08 3, R09 3; bocciate 8 (R07-001, R07-007, R08-001, R08-003, R08-006, R08-010, R09-006, R09-008) tornate ai riparatori per un giro di correzione, poi di nuovo K03.
+- 2026-11-22 02:02 R10 finita (7 riparati, 4 parziali, 22,96 $). La spinta forzata permessa da Nicola è rifiutata dalla guardia automatica della sessione R10: strada senza forzare, ramo nuovo -m10b con la storia in fila, scritto in sessioni.json. R07 fa il giro di correzione in sessione (6 subagenti finiti).

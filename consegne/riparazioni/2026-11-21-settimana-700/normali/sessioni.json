@@ -50,8 +50,9 @@
     },
     "R10": {
       "id": "session_015BmpnWLNjqqj3uDd3yzzKv",
-      "ramo": "claude/settimana-700-regia-m10",
-      "onda": 1
+      "ramo": "claude/settimana-700-regia-m10b",
+      "onda": 1,
+      "nota": "2026-11-22 02:02: ramo -m10 con un nodo di unione; la spinta forzata è rifiutata dalla guardia della sessione R10. La storia in fila sta su -m10b (stesso albero)."
     },
     "R11": {
       "id": "session_015BmpnYQnTHU6W85TtVpymo",
