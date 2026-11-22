@@ -1950,5 +1950,15 @@
     }
   ],
   "cucitura": [],
-  "eccedenza": []
+  "eccedenza": [],
+  "eccezioni_firmate": [
+    {
+      "onda": 1,
+      "regole": [
+        "prove_comuni",
+        "rimessa_a_mano"
+      ],
+      "firma": "Nicola in chat 2026-11-22: «firmo le due prove e la rimessa a mano per R04» (prove comuni di R09 e R11; rimessa a mano di R04-005, R04-009, R04-010)"
+    }
+  ]
 }
