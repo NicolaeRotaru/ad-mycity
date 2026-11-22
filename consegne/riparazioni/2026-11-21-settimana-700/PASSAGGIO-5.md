@@ -1,16 +1,22 @@
 ---
 data: 2026-11-22 02:20
 tipo: passaggio di regia
-da: «Settimana dei 700 · regia quarta», session_015BmpnZUFb1f4oPiVC94n2Z (360 mila token, 10,61 $)
+da: «Settimana dei 700 · regia quarta», session_015BmpnZUFb1f4oPiVC94n2Z (360 mila token di storia su 1 milione, 10,61 $)
 a: la regia quinta della settimana dei 700
 ---
 
 # Settimana dei 700: il passaggio alla regia quinta
 
 ## In parole semplici
+Questo foglio serve alla regia che riprende la riparazione delle voci semplici del sito: dice a che punto sono riparatori e collaudatori, e cosa resta da fare prima dell'unione.
 Tutti e 12 i riparatori hanno finito, e i 4 collaudatori sono aperti.
 Tre collaudi sono finiti: K01, K02 e K03. Le voci bocciate sono tornate ai riparatori per un solo giro di correzione.
 Mancano i secondi collaudi, il collaudo K04 e poi l'unione del giro.
+Un esempio di come va: R07 aveva due prove che cadevano a caso sotto carico. Le ha corrette, K03 le ha ricollaudate 24 volte di fila, e ora tutte e 5 le sue riparazioni reggono.
+
+## Cosa cambia per te
+Per Nicola: niente sul sito vero, finché non unisce lui. Restano da dare il via alla sessione riservata e tre firme, elencate in fondo.
+Per la regia quinta: si riparte dai giri di correzione in corso; nessun riparatore è da aprire.
 
 ## Cosa non ho verificato
 - La spesa vera di tutte le figlie: i costi qui sotto vengono dai loro messaggi.
@@ -22,7 +28,7 @@ Mancano i secondi collaudi, il collaudo K04 e poi l'unione del giro.
 3. Sorveglianza: `send_later` ogni 30 minuti con `bash cervello/riparazione/sorveglia.sh consegne/riparazioni/2026-11-21-settimana-700/normali 1` (con `MARKETPLACE_REPO=/home/user/mycity`). L'ultima l'ho fatta io alle 02:19, la prossima la metti tu.
 4. Quando un riparatore chiude il giro: guardia-ramo e valida-referto rilanciati da te, poi le nuove punte al suo collaudatore (che è rimasto acceso).
 5. Quando tutti i collaudi sono chiusi: le firme di Nicola in `piano.json`, poi l'unione F3, il controllore C01, la fermata 2 a Nicola. Nicola parla direttamente con la regia.
-6. Passa la mano a 250 mila token (il `get_session` parte già da circa 155 mila).
+6. Passa la mano a 250 mila token di storia su 1 milione (il `get_session` parte già da circa 155 mila token, solo per le istruzioni).
 
 ---
 
