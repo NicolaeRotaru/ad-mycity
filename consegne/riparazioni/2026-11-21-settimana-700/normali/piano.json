@@ -3103,6 +3103,14 @@
         "rimessa_a_mano"
       ],
       "firma": "Nicola in chat 2026-11-22: «firmo le due prove e la rimessa a mano per R04» (prove comuni di R09 e R11; rimessa a mano di R04-005, R04-009, R04-010)"
+    },
+    {
+      "onda": 2,
+      "regole": [
+        "prove_comuni",
+        "rimessa_a_mano"
+      ],
+      "firma": "Nicola in chat 2026-11-22 19:45: «firmo le prove comuni del giro e la rimessa a mano di R13-010» (prove comuni di R14-002, R14-008, R16-004, R16-011, R17-002, R17-003, R17-008, R18-001, R18-006; rimessa a mano di R13-010)"
     }
   ]
 }
