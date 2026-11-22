@@ -5,7 +5,7 @@
     "R10",
     "R12"
   ],
-  "aggiornato": "2026-11-22 04:35",
+  "aggiornato": "2026-11-22 04:50",
   "finita": false,
   "voci": [
     {
@@ -30,13 +30,14 @@
       "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
-        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 665234dd^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r03-persone-non-avvisate.test.ts --json"
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base bfc33235^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r03-persone-non-avvisate.test.ts --json (worktree a bfc33235)"
       },
       "lenti": [
         "chiude_tutta",
         "nata_rotta"
       ],
-      "nota": "Conferma il parziale dichiarato: un allarme per avviso con id <idAvviso>:non-avvisata (route.ts:314) e nel testo chi aspetta; mutanti senza chiave e senza nome rossi. Resta quanto scritto in cosa_resta: nessuna chiusura per «Persone non avvisate» (la chiusura a :821 filtra solo «scrivile tu») e notte 500 finché qualcuno resta non avvisato (:394)."
+      "nota": "Conferma il parziale dichiarato: un allarme per avviso con id <idAvviso>:non-avvisata (route.ts:314) e nel testo chi aspetta; mutanti senza chiave e senza nome rossi. Resta quanto scritto in cosa_resta: nessuna chiusura per «Persone non avvisate» (la chiusura a :821 filtra solo «scrivile tu») e notte 500 finché qualcuno resta non avvisato (:394).",
+      "nota_rimessa": "Giro 2, dalla base prima del primo commit della voce alla testa bfc33235: uscita 0 — timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 665234dd^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r03-persone-non-avvisate.test.ts --json (worktree a bfc33235)"
     },
     {
       "id": "R03-006",
@@ -45,13 +46,14 @@
       "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
-        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 3cc4248b^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r03-scrivile-tu-si-chiude.test.ts --json"
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 3cc4248b^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r03-scrivile-tu-si-chiude.test.ts --json (worktree a bfc33235)"
       },
       "lenti": [
         "chiude_tutta",
         "nata_rotta"
       ],
-      "nota": "Il codice alla testa è giusto: la chiusura gira nei due percorsi (:212, :338), tolta l'una o l'altra la prova va rossa. Ma la prova non sorveglia chi aspetta ancora: il mutante «confronta solo la tappa rinviata» resta VERDE e chiuderebbe l'allarme di chi è oltre i 30 giorni con l'email del termine scaduto ferma (non torna più). Manca un caso in tests/unit/riparazione-r03-scrivile-tu-si-chiude.test.ts: «scrivile tu» del termine scaduto di una persona che aspetta ancora, che deve restare aperto (revisore K04 l'ha scritto: rosso col mutante, verde alla testa)."
+      "nota": "Il codice alla testa è giusto: la chiusura gira nei due percorsi (:212, :338), tolta l'una o l'altra la prova va rossa. Ma la prova non sorveglia chi aspetta ancora: il mutante «confronta solo la tappa rinviata» resta VERDE e chiuderebbe l'allarme di chi è oltre i 30 giorni con l'email del termine scaduto ferma (non torna più). Manca un caso in tests/unit/riparazione-r03-scrivile-tu-si-chiude.test.ts: «scrivile tu» del termine scaduto di una persona che aspetta ancora, che deve restare aperto (revisore K04 l'ha scritto: rosso col mutante, verde alla testa).",
+      "nota_rimessa": "Giro 2: rimessa del codice di 3cc4248b alla testa bfc33235 con la prova nuova; mutanti di K04 rifatti alla testa sulla sola prova riparazione-r03-scrivile-tu-si-chiude.test.ts: senza filtro titolo 7 rosse su 8, solo «rinviata» 1 rossa su 8, senza filtro is_read verde (innocuo: rimette letto su allarmi già letti)."
     },
     {
       "id": "R03-007",
@@ -60,13 +62,14 @@
       "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
-        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 3cc4248b^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r03-scrivile-tu-si-chiude.test.ts --json"
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 3cc4248b^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r03-scrivile-tu-si-chiude.test.ts --json (worktree a bfc33235)"
       },
       "lenti": [
         "chiude_tutta",
         "nata_rotta"
       ],
-      "nota": "Il codice alla testa è giusto: filtro titolo+is_read, ordine per id, cursore gt (mutanti pagina sola e senza gt rossi). Ma la metà «filtro» della voce non ha una prova che morde: il mutante senza filtro sul titolo resta VERDE, e chiuderebbe anche l'allarme R03-003 «Persone non avvisate» (il testo contiene «Chi aspetta: l'utente X.», route.ts:313) la notte stessa in cui nasce. Manca un caso: un «Persone non avvisate» con «Chi aspetta» che deve restare aperto. Minore: la chiusura non ha tetto di tempo e gira dopo il tetto delle email."
+      "nota": "Il codice alla testa è giusto: filtro titolo+is_read, ordine per id, cursore gt (mutanti pagina sola e senza gt rossi). Ma la metà «filtro» della voce non ha una prova che morde: il mutante senza filtro sul titolo resta VERDE, e chiuderebbe anche l'allarme R03-003 «Persone non avvisate» (il testo contiene «Chi aspetta: l'utente X.», route.ts:313) la notte stessa in cui nasce. Manca un caso: un «Persone non avvisate» con «Chi aspetta» che deve restare aperto. Minore: la chiusura non ha tetto di tempo e gira dopo il tetto delle email.",
+      "nota_rimessa": "Giro 2: rimessa del codice di 3cc4248b alla testa bfc33235 con la prova nuova; mutanti di K04 rifatti alla testa sulla sola prova riparazione-r03-scrivile-tu-si-chiude.test.ts: senza filtro titolo 7 rosse su 8, solo «rinviata» 1 rossa su 8, senza filtro is_read verde (innocuo: rimette letto su allarmi già letti)."
     },
     {
       "id": "R03-008",
@@ -90,13 +93,14 @@
       "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
-        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 41992655^ --file app/api/admin/products/route.ts --prove tests/unit/riparazione-r03-taglie-stessa-posizione.test.ts --json"
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 9dbcc052^ --file app/api/admin/products/route.ts --prove tests/unit/riparazione-r03-taglie-stessa-posizione.test.ts --json (worktree a 9dbcc052)"
       },
       "lenti": [
         "chiude_tutta",
         "nata_rotta"
       ],
-      "nota": "La prova finge un salvataggio che scrive tutte le taglie a posizione 0 con id nuovi; il salvataggio vero scrive 0..n-1 e tiene gli id (lib/products/persistVariantsServer.ts:90, :137-138). Con lo scenario realistico (vecchie M e L entrambe a posizione 0, modulo rimanda M,L) alla testa la prova è ROSSA: lo spareggio per contenuto (app/api/admin/products/route.ts:140-141) mette L prima di M e segna un riordino che non c'è. Scambia un falso positivo con un altro: la classe resta aperta."
+      "nota": "La prova finge un salvataggio che scrive tutte le taglie a posizione 0 con id nuovi; il salvataggio vero scrive 0..n-1 e tiene gli id (lib/products/persistVariantsServer.ts:90, :137-138). Con lo scenario realistico (vecchie M e L entrambe a posizione 0, modulo rimanda M,L) alla testa la prova è ROSSA: lo spareggio per contenuto (app/api/admin/products/route.ts:140-141) mette L prima di M e segna un riordino che non c'è. Scambia un falso positivo con un altro: la classe resta aperta.",
+      "nota_rimessa": "Giro 2, dalla base prima del primo commit della voce alla testa bfc33235: uscita 0 — timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 41992655^ --file app/api/admin/products/route.ts --prove tests/unit/riparazione-r03-taglie-stessa-posizione.test.ts --json (worktree a bfc33235)"
     },
     {
       "id": "R03-002",
@@ -120,13 +124,14 @@
       "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
-        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base b1f99d1d^ --file app/profile/addresses/page.tsx --prove tests/unit/riparazione-r03-indirizzo-429.test.tsx --json"
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 81ba580d^ --file app/profile/addresses/page.tsx --prove tests/unit/riparazione-r03-indirizzo-429.test.tsx --json (worktree a 81ba580d)"
       },
       "lenti": [
         "chiude_tutta",
         "nata_rotta"
       ],
-      "nota": "Il profilo sul 429 non salva e avvisa (app/profile/addresses/page.tsx:83). Ma la voce cita anche components/StoreLocationPicker.tsx:169-172, non toccato: sul 429 il negoziante legge ancora «Indirizzo non trovato». Possibile regressione (letta, non provata): il return a :83 arriva prima di stessoIndirizzo (:69-73), quindi un 429 blocca anche il salvataggio di un indirizzo identico con coordinate già buone (es. cambio solo telefono)."
+      "nota": "Il profilo sul 429 non salva e avvisa (app/profile/addresses/page.tsx:83). Ma la voce cita anche components/StoreLocationPicker.tsx:169-172, non toccato: sul 429 il negoziante legge ancora «Indirizzo non trovato». Possibile regressione (letta, non provata): il return a :83 arriva prima di stessoIndirizzo (:69-73), quindi un 429 blocca anche il salvataggio di un indirizzo identico con coordinate già buone (es. cambio solo telefono).",
+      "nota_rimessa": "Giro 2, dalla base prima del primo commit della voce alla testa bfc33235: uscita 0 — timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base b1f99d1d^ --file app/profile/addresses/page.tsx --prove tests/unit/riparazione-r03-indirizzo-429.test.tsx --json (worktree a bfc33235)"
     },
     {
       "id": "R12-006",
