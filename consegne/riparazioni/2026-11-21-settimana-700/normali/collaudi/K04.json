@@ -5,7 +5,7 @@
     "R10",
     "R12"
   ],
-  "aggiornato": "2026-11-22 02:30",
+  "aggiornato": "2026-11-22 02:40",
   "finita": false,
   "voci": [
     {
@@ -223,41 +223,61 @@
       "id": "R12-003",
       "chiave": "layout-responsive|col testo al 200% sul telefono la barra a schede è più alta del margine in fondo: l ultima parte della pagina finisce sotto la barra",
       "verdetto": "regge",
-      "giudizio": "nessuno",
+      "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base c62fdea6^ --file app/globals.css --prove tests/unit/riparazione-r12-barre.test.ts --json"
-      }
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Misurato col sito acceso in locale a 280/320/375/414/767 px: barra e margine in fondo 57,5 px col testo normale e 75,5 px al 200%. Safe-area per costruzione (.pb-safe e lo stesso env() nel body, globals.css:341/:350), non emulata. senza-tabbar e ≥768 px restano a 0. La prova vecchia r04 cambiata nel commit resta equivalente (calc col testo normale, 1 px di tolleranza). MobileTabBar.tsx nel commit porta solo un commento: rimessa fatta col solo globals.css."
     },
     {
       "id": "R12-007",
       "chiave": "layout-responsive|la home a 320 px col testo al 200% scorre ancora di lato di 18 px",
-      "verdetto": "regge",
-      "giudizio": "nessuno",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 83fe9903^ --file components/home/HowItWorks.tsx --prove tests/unit/riparazione-r12-testo-grande.test.ts --json"
-      }
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Il pezzo nominato dalla voce è chiuso: alla base i titoli dei tre passi uscivano fino a 367 px (320 px, testo 200%), alla testa più niente da HowItWorks e col testo normale resta come prima. Ma il titolo della voce («la home scorre ancora di lato») non è vero: la pagina misura ancora 378 px su 320 (anche a 280 e 375), colpa di components/LiveActivityFeed.tsx:55-60 e :154-160 (titolo «Cosa sta succedendo a Piacenza» + «LIVE» su una riga che non va a capo; misurato nello stato di caricamento). Minore: break-words spezza «Ordina» a metà a 280 px."
     },
     {
       "id": "R12-008",
       "chiave": "layout-responsive|barra mobile a 280 px col testo al 200%: la pillola del luogo si stringe a zero e sparisce",
       "verdetto": "regge",
-      "giudizio": "nessuno",
+      "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base ce3441c5^ --file components/Navbar.tsx --prove tests/unit/riparazione-r12-testo-grande.test.ts --json"
-      }
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Misurato: alla base a 280 px col testo al 200% lo spazio della pillola era 0 px e finiva sopra il logo; alla testa la riga va a capo e la pillola è larga 155 px con il CAP visibile. Col testo normale a 280/320/375 identico alla base. Non provato da utente loggato."
     },
     {
       "id": "R12-014",
       "chiave": "tipografia|la scala delle dimensioni del testo viene scavalcata circa trecentotrenta volte",
-      "verdetto": "regge",
-      "giudizio": "nessuno",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base b5f62937^ --file components/StorePreviewCard.tsx,components/StoreListRow.tsx --prove tests/unit/riparazione-r12-scala-testo.test.ts --json"
-      }
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "La parte dichiarata regge: StorePreviewCard, StoreListRow e ProductCard senza misure a mano, rimessa la base la prova va rossa. Resta quasi tutta la voce: text-[Npx|rem] in app e components 245 alla base, 237 alla testa (8 in meno), più 21 fontSize scritti nei componenti."
     },
     {
       "id": "R10-001",
