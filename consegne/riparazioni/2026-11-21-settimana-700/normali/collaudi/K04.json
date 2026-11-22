@@ -5,7 +5,7 @@
     "R10",
     "R12"
   ],
-  "aggiornato": "2026-11-22 02:40",
+  "aggiornato": "2026-11-22 02:50",
   "finita": false,
   "voci": [
     {
@@ -308,39 +308,59 @@
     {
       "id": "R10-006",
       "chiave": "frontend-ux|il controllo sul taglio dei campi di testo del costruttore della home tronca ancora titoli e sottotitoli in silenzio",
-      "verdetto": "regge",
-      "giudizio": "nessuno"
+      "verdetto": "non_regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Già riparato solo a metà: il costruttore della home (components/admin/home/HomeSectionConfigForm.tsx) alla base 1ad51b4c è davvero pulito, ma la voce cita anche BannerFields.tsx:57,64 e il riparatore dice che il file non esiste: esiste, components/seller/site/BannerFields.tsx, e alla base ha maxLength silenzioso alle righe 60 (titolo), 67 (sottotitolo), 75 e 98; alla testa ci sono ancora tutti e quattro (verificato da K04 con git show alla base)."
     },
     {
       "id": "R10-007",
       "chiave": "frontend-ux|il conferma per le modifiche non salvate dice «la vetrina» anche sul profilo",
       "verdetto": "regge",
-      "giudizio": "nessuno",
+      "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base b09b7f26^ --file 'components/VendorForm.tsx' --prove tests/unit/riparazione-r10-conferma-profilo-o-vetrina.test.ts --json (worktree a b09b7f26)"
       },
-      "nota_rimessa": "Anche con la base prima del PRIMO commit della voce, alla testa: uscita 0 — timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base cce7770a^ --file 'components/seller/site/dove-e-l-errore.ts,components/VendorForm.tsx' --prove tests/unit/riparazione-r10-conferma-profilo-o-vetrina.test.ts --json (worktree a 38a1e1ac)"
+      "nota_rimessa": "Anche con la base prima del PRIMO commit della voce, alla testa: uscita 0 — timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base cce7770a^ --file 'components/seller/site/dove-e-l-errore.ts,components/VendorForm.tsx' --prove tests/unit/riparazione-r10-conferma-profilo-o-vetrina.test.ts --json (worktree a 38a1e1ac)",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "VendorForm è montato in due punti e il testo segue il modo del modulo: «al profilo» in app/seller/profile/page.tsx:145, «alla vetrina» in StoreDetailsEditor.tsx:82; SiteEditor.tsx:87 usa il predefinito «alla vetrina», giusto. Rimessa anche dalla base prima del primo commit della voce: regge."
     },
     {
       "id": "R10-008",
       "chiave": "frontend-ux|altri campi brevi del sito del negozio tagliano ancora in silenzio con maxlength",
-      "verdetto": "regge",
-      "giudizio": "nessuno",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 266a5540^ --file 'components/seller/site/SectionConfigForm.tsx,components/seller/site/CollectionFields.tsx' --prove tests/unit/riparazione-r10-vetrina-campi-brevi.test.tsx --json (worktree a 266a5540)"
-      }
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "La parte fatta regge: SectionConfigForm e CollectionFields mostrano l'errore e contano come lo schema. In components/seller/site restano i 10 maxLength dichiarati (BannerFields 60/67/75/98, GalleryFields 99/119, PageEditor 89/110/111, MenuEditor 61) e altri 2 fuori lista: components/VendorForm.tsx:432 (slogan, 80) e components/seller/AnnouncementEditor.tsx:35 (testo del banner annuncio, senza contatore): 12 in tutto."
     },
     {
       "id": "R10-009",
       "chiave": "frontend-ux|il costruttore della vetrina ha ancora campi brevi che tagliano in silenzio",
-      "verdetto": "regge",
-      "giudizio": "nessuno",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 266a5540^ --file 'components/seller/site/SectionConfigForm.tsx,components/seller/site/CollectionFields.tsx' --prove tests/unit/riparazione-r10-vetrina-campi-brevi.test.tsx --json (worktree a 266a5540)"
-      }
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Stesso commit e stessa misura di R10-008: la parte fatta regge, restano 12 campi brevi che tagliano in silenzio (10 dichiarati + VendorForm.tsx:432 e AnnouncementEditor.tsx:35)."
     },
     {
       "id": "R10-010",
@@ -356,22 +376,32 @@
     {
       "id": "R10-012",
       "chiave": "frontend-ux|tre etichette del modulo negozio e una del profilo non sono legate al loro campo",
-      "verdetto": "regge",
-      "giudizio": "nessuno",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 87b53c61^ --file 'components/VendorForm.tsx,app/seller/profile/page.tsx' --prove tests/unit/riparazione-r10-etichette-legate-al-campo.test.tsx --json (worktree a 38a1e1ac)"
-      }
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Logo, prodotti in evidenza e casella Express del profilo legati bene, id da useId (unici anche con due moduli). Ma il campo vero del «Banner annuncio», la textarea in components/seller/AnnouncementEditor.tsx:33-40, resta senza etichetta (solo segnaposto): è stato solo avvolto in un gruppo con titolo. Minori: id fisso «announcement-until» (:45); sul profilo la zona cliccabile della casella Express si è ristretta al solo titolo più casella."
     },
     {
       "id": "R10-013",
       "chiave": "frontend-ux|il modulo del prodotto non dice che il nome ha al massimo 120 caratteri: il negozio legge solo «il valore inserito non è valido»",
-      "verdetto": "regge",
-      "giudizio": "nessuno",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 403a6681^ --file 'lib/products/schema.ts,components/seller/ProductForm.tsx,lib/errors.ts' --prove tests/unit/riparazione-r10-nome-prodotto-120.test.ts --json (worktree a 403a6681)"
-      }
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Per il nome il messaggio dei 120 caratteri arriva dal modulo e dalla creazione (lib/errors.ts:231-237); sulla modifica il server dà ancora la frase generica (app/api/seller/products/[id]/route.ts:80, lib/products/prontoPerLaVendita.ts:222-229), basso impatto perché lo schema blocca prima. Restano scoperte parti che la voce nomina: descrizione oltre 4000 senza limite in lib/products/schema.ts:163-170 (vincolo products_description_lunghezza → messaggio generico), import da file ancora a 200 (lib/products/righe-dal-file.ts:58), rotta admin a 200/8000 (app/api/admin/products/route.ts:42-43)."
     },
     {
       "id": "R10-014",
