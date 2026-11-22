@@ -94,3 +94,9 @@ Quante voci risulteranno sparite: lo dicono i referti delle 4 sessioni.
 - 2026-11-22 02:18 R02 giro chiuso (001 riparato; 004/013 e 009 parziali, 26,13 $). Scelta della regia: togliere il blocco di 120 s dell'avvio (toccava ogni negozio a ogni applicazione; la gara rara c'era già alla base). Cura intera con colonna nuova in fascia 641-649 → migrazione da portare a Nicola.
 - 2026-11-22 02:20 regia quarta a 360 mila token (10,61 $): passaggio in PASSAGGIO-5.md.
 - 2026-11-22 02:21 aperta la regia quinta (session_015BmpnXD1kFQo49GpQXkHw9); dettagli riservati mandati in chat; R01-R12 e K01-K04 avvisati di scrivere a lei.
+
+## Regia quinta (session_015BmpnXD1kFQo49GpQXkHw9, presa la mano 2026-11-22 04:00)
+- Sito clonato a `main` 1ad51b4c. Sessione riavviata una volta all'inizio: i messaggi delle figlie arrivati prima del riavvio letti dalle loro trascrizioni.
+- 2026-11-22 04:00 sorveglianza: rossi noti R03 (referto, R03-007), R09 e R11 (prove comuni, firme di Nicola), K01 (valida-collaudo su R11-005, manca la prova rimessa), K02 (guardia: file del sorvegliante nella storia del ramo). prova-unione verde.
+- K04 finito (valida-collaudo verde, 33 voci): R03 reggono 3, R10 4, R12 5; non reggono R03-001, R10-006/014/016, R12-011; rompe altro R12-009; il resto parziale.
+- 2026-11-22 04:05 mandati: giro di correzione a R03, R10, R12 (bocciate + parziali, tetto 35 $); secondo collaudo a K01 (R01, R11), K02 (R02, R04, R05, su ramo nuovo -k02b), K03 (R08, R09). R11 autorizzata ad applicare la cura di due righe su R11-005. Prossima sorveglianza 04:30.

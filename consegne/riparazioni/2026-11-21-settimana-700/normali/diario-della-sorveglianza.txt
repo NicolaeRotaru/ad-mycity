@@ -44,3 +44,20 @@
 2026-11-22 02:19 · K04 · collaudo · guardia ✅ · collaudo ⏳ · nessuna
 2026-11-22 02:19 · onda 1 · prova-unione ✅
 2026-11-22 02:19 · regia quarta · sorveglianza: R02 e R04 referto 🔴 (giro di correzione in corso, referto da aggiornare) · R03 referto 🔴 (R03-007) · R09 R11 guardia 🔴 (prove comuni, firma chiesta) · gli altri ✅ · azione: passaggio alla regia quinta (360 mila token)
+2026-11-22 04:00 · R01 · in lavoro FINITA · guardia ✅ · referto ✅ 11 voci · unione (sotto) · nessuna
+2026-11-22 04:00 · R02 · in lavoro FINITA · guardia ✅ · referto ✅ 13 voci · unione (sotto) · nessuna
+2026-11-22 04:00 · R03 · in lavoro FINITA · guardia ✅ · referto 🔴 16 voci · unione (sotto) · nessuna
+2026-11-22 04:00 · R04 · in lavoro FINITA · guardia ✅ · referto ✅ 11 voci · unione (sotto) · nessuna
+2026-11-22 04:00 · R05 · in lavoro FINITA · guardia ✅ · referto ✅ 16 voci · unione (sotto) · nessuna
+2026-11-22 04:00 · R06 · in lavoro FINITA · guardia ✅ · referto ✅ 11 voci · unione (sotto) · nessuna
+2026-11-22 04:00 · R07 · in lavoro FINITA · guardia ✅ · referto ✅ 10 voci · unione (sotto) · nessuna
+2026-11-22 04:00 · R08 · in lavoro FINITA · guardia ✅ · referto ✅ 10 voci · unione (sotto) · nessuna
+2026-11-22 04:00 · R09 · in lavoro FINITA · guardia 🔴 · referto ✅ 10 voci · unione (sotto) · nessuna
+2026-11-22 04:00 · R10 · in lavoro FINITA · guardia ✅ · referto ✅ 16 voci · unione (sotto) · nessuna
+2026-11-22 04:00 · R11 · in lavoro FINITA · guardia 🔴 · referto ✅ 12 voci · unione (sotto) · nessuna
+2026-11-22 04:00 · R12 · in lavoro FINITA · guardia ✅ · referto ✅ 14 voci · unione (sotto) · nessuna
+2026-11-22 04:00 · K01 · collaudo · guardia ✅ · collaudo 🔴 · nessuna
+2026-11-22 04:00 · K02 · collaudo · guardia 🔴 · collaudo ✅ · nessuna
+2026-11-22 04:00 · K03 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-22 04:00 · K04 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-22 04:00 · onda 1 · prova-unione ✅
