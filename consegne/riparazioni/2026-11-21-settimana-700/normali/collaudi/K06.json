@@ -5,7 +5,7 @@
     "R16",
     "R17"
   ],
-  "aggiornato": "2026-11-22 22:30",
+  "aggiornato": "2026-11-22 22:45",
   "finita": true,
   "voci": [
     {
@@ -323,21 +323,6 @@
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16-011 --base 8c8e6853^ --file app/stores/page.tsx --prove tests/unit/riparazione-r16-negozi-categorie.test.tsx --json (worktree a 8c8e6853, punta 069956cb)"
       },
       "nota": "Ricollaudo dopo la firma (eccezione firmata prove_comuni onda 2 (Nicola, piano.json, 2026-11-22 19:45)). Rimessa con 8c8e6853: la modifica di app/stores/page.tsx è riga per riga quella di b94d11b5, la prova nuova è identica, e la prova comune riparazione-r02-negozi-categorie-a-pagine cambia solo la forma del finto rpc (order, range, then), come in 8f8973f3 (R12-012): dati e controlli uguali, quindi non indebolita. Prova rimessa uscita 0 (rossa togliendo page.tsx). Nessuna rompe_altro: 26 file di prove vicine verdi alla testa (198 prove); verify del referto verde sulla testa 8c8e6853."
-    },
-    {
-      "id": "R17-008",
-      "chiave": "performance|ogni pagina scarica due caratteri in corsivo che quasi nessuna pagina usa",
-      "verdetto": "regge",
-      "giudizio": "pieno",
-      "lenti": [
-        "chiude_tutta",
-        "nata_rotta"
-      ],
-      "rimessa": {
-        "uscita": 0,
-        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R17-008 --base aa1292c5^ --file app/layout.tsx --prove tests/unit/riparazione-r17-corsivo-senza-precarico.test.ts,tests/unit/il-corsivo-del-sito-e-un-corsivo-vero.test.ts --json (worktree a aa1292c5, punta 8b7f3338)"
-      },
-      "nota": "Ricollaudo dopo la firma (eccezione firmata prove_comuni onda 2 (Nicola, piano.json, 2026-11-22 19:45)). Rimessa con aa1292c5: le righe cambiate sono esattamente quelle delle due patch della ricetta che K06 aveva giudicato completa (afcd9d50 più il-corsivo.patch). Prova comune il-corsivo-del-sito-e-un-corsivo-vero non indebolita: conta per famiglia invece che per istanza, tiene il divieto di preload:false sulle istanze col dritto e aggiunge che un'istanza col dritto esista. Prova rimessa uscita 0 (rossa togliendo app/layout.tsx). Nessuna rompe_altro: 28 file di prove sui caratteri e sul layout verdi alla testa (226 prove); verify del referto verde sulla testa aa1292c5. Compromesso dichiarato: il corsivo di Fraunces non si precarica più neanche in home (il «veri» di app/page.tsx:29 si disegna prima col carattere di riserva)."
     },
     {
       "id": "R18-006",
