@@ -5,23 +5,23 @@
   "R04",
   "R05"
  ],
- "aggiornato": "2026-11-22 02:25",
+ "aggiornato": "2026-11-22 04:20",
  "finita": true,
  "voci": [
   {
    "id": "R02-001",
    "chiave": "ai-endpoints|i controlli di conformità del copilot in blocco partono tutti insieme, fino a 200, senza un tetto",
-   "verdetto": "rompe_altro",
+   "verdetto": "regge",
    "giudizio": "pieno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 3b084b5c094ca07219211e1a70e640c25535d317^ --file app/api/ai/catalog-apply-bulk/route.ts --prove tests/unit/riparazione-r02-conformita-con-tetto.test.ts,tests/unit/riparazione-r02-conformita-entro-i-120-secondi.test.ts  --json && timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 7cf637354bb9ae3def21299025703502d3c5c095^ --file app/api/ai/catalog-apply-bulk/route.ts --prove tests/unit/riparazione-r02-conformita-entro-i-120-secondi.test.ts  --json"
+   },
+   "nota": "secondo collaudo, testa 23e86543: oltre al tetto di 5 in volo (3b084b5c) c'e' il tetto di tempo (7cf63735): controlli nuovi fermi dopo 70 s, scritture dopo 105 s, voci rimaste fuori intatte con motivo «rimandalo» e lista `rimaste`; rimessa della sola correzione di tempo uscita 0. Letto: niente scritto a meta' di una voce, filtro caduto per tutti risponde come prima. Nota: CatalogCopilot non legge `rimaste`, mostra solo i motivi per voce",
    "lenti": [
     "chiude_tutta",
     "nata_rotta"
-   ],
-   "rimessa": {
-    "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 3b084b5c094ca07219211e1a70e640c25535d317^ --file app/api/ai/catalog-apply-bulk/route.ts --prove tests/unit/riparazione-r02-conformita-con-tetto.test.ts  --json"
-   },
-   "nota": "tetto 5 in volo regge su ordine ed errori, ma con 200 voci (MAX_CHANGES) sono 40 giri: a 1-10 s per controllo (TEMPO_FILTRO_MS) si va oltre i 120 s di app/api/ai/** (vercel.json:14); le scritture vengono dopo i controlli, quindi 504 con nulla scritto e controlli pagati. Prima partivano in un giro. Visto da due revisori diversi"
+   ]
   },
   {
    "id": "R02-002",
@@ -56,17 +56,17 @@
   {
    "id": "R02-004",
    "chiave": "ai-endpoints|due avvii insieme di un lavoro sul catalogo superano entrambi il controllo dei lavori aperti",
-   "verdetto": "rompe_altro",
+   "verdetto": "parziale",
    "giudizio": "pieno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 4897836a930117b09a94cb44bcf6daca77d83188^ --file app/api/ai/catalog-batch/start/route.ts --prove tests/unit/riparazione-r02-due-avvii-insieme.test.ts  --json && timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 4897836a930117b09a94cb44bcf6daca77d83188^ --file migrations/640_un_solo_lavoro_ai_aperto_per_negozio.sql --prove tests/sql/rls/riparazione-r02-un-solo-lavoro-aperto.test.sql --sql k02_r02_rimessa --json"
+   },
+   "nota": "secondo collaudo, testa 23e86543: il blocco di 120 s dell'avvio dopo ogni applicazione e' tolto per intero (costante, lettura degli 'applied' e 409, git diff 04991f1e..23e86543); la gara fra due avvii resta chiusa da 640 + 409 sul 23505 (rimesse uscita 0). Resta aperta, come dice il referto, la gara rara col «rimetti pronto» di apply/route.ts (23505)",
    "lenti": [
     "chiude_tutta",
     "nata_rotta"
-   ],
-   "rimessa": {
-    "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 4897836a930117b09a94cb44bcf6daca77d83188^ --file migrations/640_un_solo_lavoro_ai_aperto_per_negozio.sql --prove tests/sql/rls/riparazione-r02-un-solo-lavoro-aperto.test.sql --sql k02_r02_rimessa --json && timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 4897836a930117b09a94cb44bcf6daca77d83188^ --file app/api/ai/catalog-batch/start/route.ts --prove tests/unit/riparazione-r02-due-avvii-insieme.test.ts  --json"
-   },
-   "nota": "l'indice tiene, ma start/route.ts:122-140 rifiuta l'avvio per 120 s dopo ogni 'applied' leggendo updated_at della prenotazione (apply/route.ts:108): un'applicazione finita in 5 s blocca «Avvia» per ~2 minuti con «applicazione in corso». In piu' la 640 (57-62) puo' chiudere un 'submitting' con lotto partito ma non agganciato accanto a un 'processing'"
+   ]
   },
   {
    "id": "R02-005",
@@ -129,15 +129,15 @@
    "chiave": "ai-endpoints|la conformità dei prodotti (classifyproductpolicy) non ha un tempo suo e i lavori sul catalogo la chiamano in 40 giri di fila",
    "verdetto": "parziale",
    "giudizio": "pieno",
-   "lenti": [
-    "chiude_tutta",
-    "nata_rotta"
-   ],
    "rimessa": {
     "uscita": 0,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base a4d97723844008a1d628920717072963939263a3^ --file lib/ai/moderation.ts --prove tests/unit/riparazione-r02-conformita-prodotti-tempo.test.ts  --json"
    },
-   "nota": "il tempo suo c'e' (10 s, maxRetries 0, il prodotto e' negato allo scadere), ma i «40 giri di fila» restano: catalog-batch/apply/route.ts:41,51 e catalog-apply-bulk/route.ts:54 a 5 in volo, 200 righe x 10 s = 400 s oltre i 120 s della rotta"
+   "nota": "secondo collaudo: il tempo suo regge (rimessa uscita 0) e catalog-apply-bulk ora ha il tetto di tempo (R02-001), ma catalog-batch/apply/route.ts (41-53, 222) chiama ancora il filtro a gruppi da 5 su 200 righe senza tetto di tempo, come dice il referto",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ]
   },
   {
    "id": "R02-010",
@@ -174,15 +174,15 @@
    "chiave": "qa-flussi|la rotta del lavoro ai sul catalogo non rifiuta un secondo lavoro",
    "verdetto": "parziale",
    "giudizio": "pieno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 4897836a930117b09a94cb44bcf6daca77d83188^ --file app/api/ai/catalog-batch/start/route.ts --prove tests/unit/riparazione-r02-due-avvii-insieme.test.ts  --json && timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 4897836a930117b09a94cb44bcf6daca77d83188^ --file migrations/640_un_solo_lavoro_ai_aperto_per_negozio.sql --prove tests/sql/rls/riparazione-r02-un-solo-lavoro-aperto.test.sql --sql k02_r02_rimessa --json"
+   },
+   "nota": "come R02-004 al secondo collaudo: blocco di 120 s tolto, seconda richiesta rifiutata da 640 + 409; resta la gara del «rimetti pronto» e la 640 non applicata al database vero",
    "lenti": [
     "chiude_tutta",
     "nata_rotta"
-   ],
-   "rimessa": {
-    "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 4897836a930117b09a94cb44bcf6daca77d83188^ --file migrations/640_un_solo_lavoro_ai_aperto_per_negozio.sql --prove tests/sql/rls/riparazione-r02-un-solo-lavoro-aperto.test.sql --sql k02_r02_rimessa --json && timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 4897836a930117b09a94cb44bcf6daca77d83188^ --file app/api/ai/catalog-batch/start/route.ts --prove tests/unit/riparazione-r02-due-avvii-insieme.test.ts  --json"
-   },
-   "nota": "stessa cura di R02-004 con gli stessi due difetti; la gara si chiude solo con la 640 applicata, e il 23505 di rimettiPronto in apply/route.ts:124-131 non e' gestito (serve_file_altrui dichiarato)"
+   ]
   },
   {
    "id": "R04-001",
@@ -233,16 +233,12 @@
    "id": "R04-010",
    "chiave": "rls-database|il carosello delle storie legge 200 storie e poi taglia a 30: un solo negozio approvato con 200 storie in 24 ore spingerebbe fuori gli altri",
    "verdetto": "parziale",
-   "giudizio": "pieno",
-   "lenti": [
-    "chiude_tutta",
-    "nata_rotta"
-   ],
+   "giudizio": "nessuno",
    "rimessa": {
-    "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base c63d879a^ --file components/home/StoriesCarousel.tsx --prove tests/unit/riparazione-r04-carosello-a-turno.test.tsx  --json"
+    "uscita": 3,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base c63d879a^ --file components/home/StoriesCarousel.tsx --prove tests/unit/riparazione-r04-carosello-a-turno.test.tsx  --json && timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base c63d879a^ --file migrations/662_il_carosello_delle_storie_legge_poche_storie_per_negozio.sql --prove tests/sql/rls/riparazione-r04-carosello.test.sql --sql k02_r04_rimessa --json"
    },
-   "nota": "il caso di un negozio solo e' chiuso, ma StoriesCarousel.tsx:89 (rilette < 2) fa al massimo tre letture: tre negozi con 30+ storie nascondono tutti gli altri, e la prova accetta 3 negozi su 40"
+   "nota": "secondo collaudo, testa 38baad8c: codice del carosello a turno fra negozi, rimessa uscita 0; la 662 esce 3 (la prova nomina la funzione nuova) e non e' applicata: in produzione resta il ripiego, come dice il referto"
   },
   {
    "id": "R04-002",
@@ -414,10 +410,10 @@
  ],
  "campione": {
   "R02": {
-   "accettato": false
+   "accettato": true
   },
   "R04": {
-   "accettato": false
+   "accettato": true
   },
   "R05": {
    "accettato": true
