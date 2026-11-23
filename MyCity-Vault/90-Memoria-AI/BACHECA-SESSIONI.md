@@ -28,6 +28,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 23/11 02:50 | all'AD, nella chat dell'iscrizione aperta | «È un partner e offre solo quel servizio»: scattiDG fa solo foto e video. Fatto `agenzia.nome` e ad-mycity#991 precisati. |
 | 23/11 02:20 | all'AD, nella chat dell'iscrizione aperta | «La voce preventivo, chiamala servizi». Il gruppo del menu del venditore si chiama «Servizi», con dentro «Il tuo preventivo» e «Logo e grafica» insieme agli altri servizi (mycity#306). |
 | 23/11 02:05 | all'AD, nella chat dell'iscrizione aperta | Il nome di scattiDG «si vedrà solo dentro i servizi offerti ai venditori». I servizi «sono dentro preventivo, ma ogni servizio ha la sua voce dentro il menu». Fatto nella mycity#305: gruppo «Preventivo» nel menu, con una pagina per ogni servizio. |
 | 23/11 01:45 | all'AD, stessa chat (`session_015BmpnWcNAdw7KxB2DGLiUw`) | «ScattiDG è l'azienda partner a cui mycity si affida per foto/video making/editing». Il preventivo lo firma MyCity; la voce foto e video porta il partner scattiDG. Fatto `agenzia.nome` corretto. |

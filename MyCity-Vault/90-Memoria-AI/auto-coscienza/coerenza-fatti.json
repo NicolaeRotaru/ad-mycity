@@ -1,11 +1,11 @@
 {
-  "data": "2026-11-23 01:42",
+  "data": "2026-11-23 02:47",
   "esito": "ok",
   "copertura": 1985,
   "origine": "cloud",
   "scritto_da": "coerenza-fatti.mjs",
   "fatti_totali": 76,
-  "cacce_aperte": 37,
+  "cacce_aperte": 38,
   "file_scansionati": 1985,
   "incoerenze": [],
   "cacce": [
@@ -25,6 +25,12 @@
       "fatto": "agenzia.nome",
       "pattern": "L'agenzia foto e video di Nicola si chiama scattiDG. Sul sito: NOME_AGENZIA_DI_RISERVA in lib/agenzia/preventivo.ts; site_settings.agenzia.nome lo sovrascrive senza rifare il sito.",
       "dal": "2026-11-23 01:42",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "agenzia.nome",
+      "pattern": "scattiDG è l'azienda partner a cui MyCity si affida per foto e video (riprese, scatti, montaggio, ritocco). Il preventivo in dashboard lo firma MyCity; social, sito web e logo sono servizi di MyCity. Sul sito: LISTINO.foto_video.partner e NOME_AGENZIA_DI_RISERVA = MyCity in lib/agenzia/preventivo.ts.",
+      "dal": "2026-11-23 02:47",
       "copie_trovate": 0
     },
     {

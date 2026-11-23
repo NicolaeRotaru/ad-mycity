@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-11-23 01:42",
+  "aggiornato": "2026-11-23 02:47",
   "fatti": [
     {
       "id": "ad.uso-e-crediti",
@@ -36,13 +36,17 @@
     {
       "id": "agenzia.nome",
       "nome": "agenzia.nome",
-      "valore": "scattiDG è l'azienda partner a cui MyCity si affida per foto e video (riprese, scatti, montaggio, ritocco). Il preventivo in dashboard lo firma MyCity; social, sito web e logo sono servizi di MyCity. Sul sito: LISTINO.foto_video.partner e NOME_AGENZIA_DI_RISERVA = MyCity in lib/agenzia/preventivo.ts.",
-      "fonte": "Nicola, chat 2026-11-23 («ScattiDG è l'azienda partner a cui mycity si affida per foto/video making/editing»)",
-      "aggiornato": "2026-11-23 01:42",
+      "valore": "scattiDG è un'azienda partner di MyCity e offre SOLO foto e video (riprese, scatti, montaggio, ritocco). Non offre social, sito web né logo: quelli sono servizi di MyCity. Il preventivo in dashboard lo firma MyCity, e il nome di scattiDG compare solo dentro il servizio Foto e video. Sul sito: LISTINO.foto_video.partner e NOME_AGENZIA_DI_RISERVA = MyCity in lib/agenzia/preventivo.ts.",
+      "fonte": "Nicola, chat 2026-11-23 («ScattiDG è l'azienda partner a cui mycity si affida per foto/video making/editing»; «è un partner e offre solo quel servizio»)",
+      "aggiornato": "2026-11-23 02:47",
       "storia": [
         {
           "valore": "L'agenzia foto e video di Nicola si chiama scattiDG. Sul sito: NOME_AGENZIA_DI_RISERVA in lib/agenzia/preventivo.ts; site_settings.agenzia.nome lo sovrascrive senza rifare il sito.",
           "fino_a": "2026-11-23 01:42"
+        },
+        {
+          "valore": "scattiDG è l'azienda partner a cui MyCity si affida per foto e video (riprese, scatti, montaggio, ritocco). Il preventivo in dashboard lo firma MyCity; social, sito web e logo sono servizi di MyCity. Sul sito: LISTINO.foto_video.partner e NOME_AGENZIA_DI_RISERVA = MyCity in lib/agenzia/preventivo.ts.",
+          "fino_a": "2026-11-23 02:47"
         }
       ],
       "caccia": [
@@ -53,6 +57,10 @@
         {
           "pattern": "L'agenzia foto e video di Nicola si chiama scattiDG. Sul sito: NOME_AGENZIA_DI_RISERVA in lib/agenzia/preventivo.ts; site_settings.agenzia.nome lo sovrascrive senza rifare il sito.",
           "dal": "2026-11-23 01:42"
+        },
+        {
+          "pattern": "scattiDG è l'azienda partner a cui MyCity si affida per foto e video (riprese, scatti, montaggio, ritocco). Il preventivo in dashboard lo firma MyCity; social, sito web e logo sono servizi di MyCity. Sul sito: LISTINO.foto_video.partner e NOME_AGENZIA_DI_RISERVA = MyCity in lib/agenzia/preventivo.ts.",
+          "dal": "2026-11-23 02:47"
         }
       ],
       "esenzioni": []
