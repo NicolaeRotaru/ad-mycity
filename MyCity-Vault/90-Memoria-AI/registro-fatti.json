@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-11-23 01:08",
+  "aggiornato": "2026-11-23 01:12",
   "fatti": [
     {
       "id": "ad.uso-e-crediti",
@@ -29,6 +29,16 @@
       "valore": "Agenzia foto e video di Nicola (22/11/2026): sito web professionale 500 € una volta; gestione automatica dei social (flusso n8n) 300 € al mese; foto e video (riprese, scatti, montaggio, ritocco) da 50 a 300 € al mese; logo e grafica su richiesta; vetrina sul marketplace 50 € al mese (= pricing.abbonamento). Sul sito: lib/agenzia/preventivo.ts (LISTINO), modificabile da site_settings.agenzia senza rifare il sito.",
       "fonte": "Nicola, chat della notte fra il 22 e il 23/11/2026 (messaggio con i prezzi)",
       "aggiornato": "2026-11-23 01:08",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
+      "id": "agenzia.nome",
+      "nome": "agenzia.nome",
+      "valore": "L'agenzia foto e video di Nicola si chiama scattiDG. Sul sito: NOME_AGENZIA_DI_RISERVA in lib/agenzia/preventivo.ts; site_settings.agenzia.nome lo sovrascrive senza rifare il sito.",
+      "fonte": "Nicola, chat della notte fra il 22 e il 23/11/2026 («Si chiama scattiDG»)",
+      "aggiornato": "2026-11-23 01:12",
       "storia": [],
       "caccia": [],
       "esenzioni": []
