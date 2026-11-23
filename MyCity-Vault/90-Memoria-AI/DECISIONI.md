@@ -7324,3 +7324,11 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Colore:** 🔴 spesa firmata da Nicola; ramo `claude/settimana-700-regia`.
 
 - 2026-11-21 23:15 · Settimana dei 700 · Nicola dà il via alle 182 voci semplici del sito (12 sessioni, stima circa 370 $, tetto del giro 480 $), con la strategia preparata dalla regia seconda; le 281 delicate restano ferme. Sulla riservatezza dei rami lascia scegliere alla regia: cancellare i rami laterali e unire la #990 compressa.
+
+## 2026-11-23 01:10 — Ogni attività può iscriversi, e trova il preventivo dell'agenzia già pronto (🔴 decisione di Nicola, 🟡 codice in un ramo)
+- **Chi e quando:** Nicola, all'AD, nella notte fra il 22 e il 23/11, in tre messaggi e quattro risposte alle domande.
+- **Cosa:** all'iscrizione non serve più essere una bottega. Entrano bar, ristoranti, artigiani, servizi e qualunque attività che vende qualcosa («dentro tutti»). La regola del 16/7 «non lavoro con i ristoranti» va in archivio. Nicola ha aperto un'agenzia con videomaker e fotografo. La dashboard di ogni attività mostra il preventivo, già pronto, di quello che le manca. Il listino: sito web 500 € una volta, social automatici con n8n 300 € al mese, foto e video da 50 a 300 € al mese, logo su richiesta, vetrina 50 € al mese.
+- **Perché:** una fonte di ricavo nuova e ricorrente per l'agenzia, e più attività sul marketplace. Il preventivo nasce dai dati veri della vetrina, per esempio «12 prodotti senza foto». Così il negoziante vede cose concrete, non un «pacchetto digitale»: è la paura delle agenzie web descritta in CONTESTO_BUSINESS, paragrafo 2.1.
+- **Fatto dall'AD:** codice sul sito nel ramo `claude/mycity-entrepreneur-signup-flexible-d66bey`, migrazione 703 da applicare (decide Nicola). Fatti del registro aggiornati.
+- **Colore:** 🔴 scelta di Nicola; il codice è 🟡 (ramo e PR, l'unione è sua).
+

@@ -1,12 +1,12 @@
 {
-  "data": "2026-11-21 16:27",
+  "data": "2026-11-23 01:08",
   "esito": "ok",
-  "copertura": 1977,
+  "copertura": 1985,
   "origine": "cloud",
   "scritto_da": "coerenza-fatti.mjs",
-  "fatti_totali": 74,
-  "cacce_aperte": 30,
-  "file_scansionati": 1977,
+  "fatti_totali": 75,
+  "cacce_aperte": 35,
+  "file_scansionati": 1985,
   "incoerenze": [],
   "cacce": [
     {
@@ -154,6 +154,12 @@
       "copie_trovate": 0
     },
     {
+      "fatto": "onboarding.6-ristoranti-tattici",
+      "pattern": "ESCLUSI — Nicola 16/7: «non lavoro con i ristoranti». I 6 del dossier 6/7 (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori) non sono prospect validi. MyCity lavora solo con botteghe, non ristoranti/trattorie.",
+      "dal": "2026-11-23 01:08",
+      "copie_trovate": 0
+    },
+    {
       "fatto": "pagamenti.al-lancio",
       "pattern": "Al lancio si paga solo in contanti alla consegna",
       "dal": "2026-10-31 08:24",
@@ -178,6 +184,18 @@
       "copie_trovate": 0
     },
     {
+      "fatto": "strategia.cliente-core",
+      "pattern": "MyCity lavora solo con botteghe",
+      "dal": "2026-11-23 01:08",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "strategia.cliente-core",
+      "pattern": "I clienti MyCity sono le botteghe (carrello multi-negozio settimanale) — né ristoranti né trattorie",
+      "dal": "2026-11-23 01:08",
+      "copie_trovate": 0
+    },
+    {
       "fatto": "strategia.segmenti-onboarding",
       "pattern": "DICEMBRE — stop all'onboarding",
       "dal": "2026-11-01 12:18",
@@ -187,6 +205,18 @@
       "fatto": "strategia.segmenti-onboarding",
       "pattern": "SETTEMBRE 2026 — fresco (frutta e verdura, panetterie, gastronomie, macellerie): primo valore = anti-spreco + richiami su WhatsApp, pre-ordini per le macellerie; prova richiesta = box vendute e clienti richiamati. OTTOBRE — ottiche, estetiste, mercato coperto: primo valore = prenotazioni + promemoria + recupero dei clienti persi; prova = meno buchi in agenda. NOVEMBRE — regali (enoteche, fiorai, cartolerie) e PMI strutturate: primo valore = gift card cittadina, regali aziendali, welfare territoriale; prova = primo ordine welfare o gift card incassato. DICEMBRE — stop all'onboarding: si consolida e si rinnova. Esclusi per decisione di Nicola: ristoranti, catene e franchising; pescherie in fase 2.",
       "dal": "2026-11-01 12:18",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "strategia.segmenti-onboarding",
+      "pattern": "Esclusi per decisione di Nicola: ristoranti, catene e franchising",
+      "dal": "2026-11-23 01:08",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "strategia.segmenti-onboarding",
+      "pattern": "SETTEMBRE 2026 — fresco (frutta e verdura, panetterie, gastronomie, macellerie): primo valore = anti-spreco + richiami, pre-ordini per le macellerie. OTTOBRE — ottiche, estetiste, mercato coperto: prenotazioni, promemoria, recupero dei clienti persi. NOVEMBRE — regali e PMI (saltato: calendario.novembre-regali). DICEMBRE — si continua a far entrare negozi: Nicola il 1/11/2026 ha tolto lo «stop all'onboarding» di dicembre, che non aveva fonte nelle due ricerche (la ricerca sui negozianti ha solo tre finestre: settembre, ottobre, novembre) — «toglila». Esclusi per decisione di Nicola: ristoranti, catene e franchising; pescherie in fase 2. Il ritmo vero dopo l'apertura sta in negozi.ingresso.",
+      "dal": "2026-11-23 01:08",
       "copie_trovate": 0
     }
   ],
