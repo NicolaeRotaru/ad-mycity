@@ -410,12 +410,12 @@
   "fonti_non_lette": [],
   "sintesi": "Il problema più grave trovato oggi era una chiave del database leggibile da chiunque, e Nicola l'ha già spenta. Dei difetti nuovi nessuno è bloccante, ma il rimborso di un ordine in contanti va ancora fatto a mano, fuori dal sito.",
   "meta": {
-    "findings": 3389,
+    "findings": 3395,
     "bloccanti": 37,
-    "gravi": 678,
-    "minori": 2674,
+    "gravi": 679,
+    "minori": 2679,
     "agenti": null,
-    "aggiornato": "2026-11-21 13:27"
+    "aggiornato": "2026-11-23 01:35"
   },
   "confronto_precedente": {
     "data": "2026-11-05",
