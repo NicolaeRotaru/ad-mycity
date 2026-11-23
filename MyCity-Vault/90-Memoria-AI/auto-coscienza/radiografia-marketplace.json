@@ -92649,6 +92649,86 @@
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": null
       }
+    },
+    {
+      "dimensione": "rls-database",
+      "reparto": "Database",
+      "severita": "grave",
+      "stato": "riparato",
+      "titolo": "Il commento della colonna dei prezzi dell'agenzia insegnava prezzi a zero",
+      "file": "migrations/703_ogni_attivita_puo_iscriversi_e_ha_il_suo_preventivo.sql",
+      "descrizione": "L'esempio nel commento di site_settings.agenzia metteva 0 a ogni prezzo e usava chiavi che il codice non conosce (foto_locale, foto_prodotti, video). Chi lo copiava faceva leggere al cliente «Sito web professionale: 0,00 €».",
+      "impatto": "Un prezzo sbagliato davanti al cliente, su un preventivo che si accetta.",
+      "fix": "Esempio col listino vero e le chiavi vere; lo 0 non vale come prezzo e si legge «su richiesta».",
+      "fonte": "collaudo indipendente del preventivo dell'agenzia, 2026-11-23 01:40 (ramo claude/mycity-entrepreneur-signup-flexible-d66bey)",
+      "prova": "tests/unit/il-preventivo-dell-agenzia-e-gia-pronto.test.ts: «lo 0 non è un prezzo» e «l esempio scritto nel commento della migrazione usa solo chiavi vere»",
+      "codice": "5d16d9bf24ef0d4a17670ffac0265a154150dbfb"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "Backend",
+      "severita": "minore",
+      "stato": "riparato",
+      "titolo": "Due negozi con le stesse prime sei cifre si scambiavano l'avviso del preventivo",
+      "file": "app/api/seller/preventivo/route.ts",
+      "descrizione": "La chiave anti-doppione dell'avviso usava solo il numero breve del preventivo: il secondo negozio non avvisava.",
+      "impatto": "",
+      "fix": "La chiave contiene l'id intero dell'attività.",
+      "fonte": "collaudo indipendente del preventivo dell'agenzia, 2026-11-23 01:40 (ramo claude/mycity-entrepreneur-signup-flexible-d66bey)",
+      "prova": "tests/unit/il-preventivo-accettato-arriva-a-nicola.test.ts: unaVoltaPer contiene a1b2c3d4-0000",
+      "codice": "5d16d9bf24ef0d4a17670ffac0265a154150dbfb"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "Backend",
+      "severita": "minore",
+      "stato": "riparato",
+      "titolo": "Un guasto nel leggere le impostazioni dell'agenzia rimetteva un prezzo tolto",
+      "file": "app/api/seller/preventivo/route.ts",
+      "descrizione": "Con un errore di lettura di site_settings il preventivo tornava al listino del codice, anche se Nicola aveva tolto un prezzo con null.",
+      "impatto": "",
+      "fix": "Colonna ancora assente = listino; ogni altro guasto = tutto «su richiesta».",
+      "fonte": "collaudo indipendente del preventivo dell'agenzia, 2026-11-23 01:40 (ramo claude/mycity-entrepreneur-signup-flexible-d66bey)",
+      "prova": "tests/unit/il-preventivo-accettato-arriva-a-nicola.test.ts: «prima della migrazione 703 vale il listino; con un altro guasto…»",
+      "codice": "5d16d9bf24ef0d4a17670ffac0265a154150dbfb"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "Interfaccia",
+      "severita": "minore",
+      "stato": "riparato",
+      "titolo": "La nota su foto e video compariva anche senza la voce foto e video",
+      "file": "app/seller/preventivo/page.tsx",
+      "descrizione": "La riga sotto i totali parlava del prezzo di foto e video anche quando il cliente l'aveva tolta.",
+      "impatto": "",
+      "fix": "La nota segue le voci scelte.",
+      "fonte": "collaudo indipendente del preventivo dell'agenzia, 2026-11-23 01:40 (ramo claude/mycity-entrepreneur-signup-flexible-d66bey)",
+      "prova": "letto app/seller/preventivo/page.tsx dopo la correzione",
+      "codice": "5d16d9bf24ef0d4a17670ffac0265a154150dbfb"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "Backend",
+      "severita": "minore",
+      "stato": "aperto",
+      "titolo": "Il preventivo accettato due volte nello stesso giorno con scelte diverse lascia avvisi che si contraddicono",
+      "file": "app/api/seller/preventivo/route.ts",
+      "descrizione": "Scelta A, poi B, poi di nuovo A: il terzo invio non manda avvisi (già mandato), l'ultimo avviso letto dice B. Se n8n fallisce al primo clic, per quella scelta e quel giorno non si ritenta.",
+      "impatto": "Nicola può richiamare il cliente con le voci sbagliate.",
+      "fix": "Nell'avviso dire che sostituisce i precedenti, oppure una chiave per accettazione; ritentare n8n se l'invio precedente era fallito.",
+      "fonte": "collaudo indipendente del preventivo dell'agenzia, 2026-11-23 01:40 (ramo claude/mycity-entrepreneur-signup-flexible-d66bey)"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "Prodotto",
+      "severita": "minore",
+      "stato": "aperto",
+      "titolo": "Il riquadro del preventivo in dashboard non sparisce mai, nemmeno dopo l'accettazione",
+      "file": "components/seller/PreventivoAgenziaCard.tsx",
+      "descrizione": "La gestione dei social si propone sempre, quindi il preventivo non è mai vuoto e il riquadro resta in cima alla dashboard anche a chi ha già accettato.",
+      "impatto": "Un'offerta fissa che il negoziante impara a ignorare.",
+      "fix": "Scelta di prodotto: nasconderlo dopo l accettazione o dopo N giorni, oppure lasciarlo.",
+      "fonte": "collaudo indipendente del preventivo dell'agenzia, 2026-11-23 01:40 (ramo claude/mycity-entrepreneur-signup-flexible-d66bey)"
     }
   ],
   "sync_scan": {
