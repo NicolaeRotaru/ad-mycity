@@ -7332,3 +7332,4 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Fatto dall'AD:** codice sul sito nel ramo `claude/mycity-entrepreneur-signup-flexible-d66bey`, migrazione 703 da applicare (decide Nicola). Fatti del registro aggiornati.
 - **Colore:** 🔴 scelta di Nicola; il codice è 🟡 (ramo e PR, l'unione è sua).
 
+- 2026-11-23 01:45 · Preventivo dell'iscrizione aperta · Nicola precisa che scattiDG è l'azienda partner a cui MyCity si affida per foto e video, non il nome dell'intera agenzia. Il preventivo lo firma MyCity, e la voce foto e video dice «con scattiDG». Codice corretto su mycity#304, fatto `agenzia.nome` aggiornato. 🟡

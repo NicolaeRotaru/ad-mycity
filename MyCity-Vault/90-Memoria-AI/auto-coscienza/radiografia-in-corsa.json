@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-11-23 01:27",
+  "aggiornato": "2026-11-23 01:42",
   "scansioni": [
     {
       "quando": "2026-08-25 20:35",
@@ -7605,6 +7605,49 @@
         "components/seller/PreventivoAgenziaCard.tsx": "c450e8996559",
         "components/seller/SellerShell.tsx": "78c986003d0f",
         "components/seller/preventivo-agenzia.ts": "1843ad6b6d25"
+      }
+    },
+    {
+      "quando": "2026-11-23 01:42",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "lib/agenzia/flusso-n8n.ts": "75e185165cf4",
+        "lib/agenzia/preventivo.ts": "331181112fd0"
+      }
+    },
+    {
+      "quando": "2026-11-23 01:42",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "app/seller/preventivo/page.tsx": "4b240efe553c"
+      }
+    },
+    {
+      "quando": "2026-11-23 01:42",
+      "casa": "marketplace",
+      "dimensione": "rls-database",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "migrations/703_ogni_attivita_puo_iscriversi_e_ha_il_suo_preventivo.sql": "7118a4a28568"
       }
     }
   ]

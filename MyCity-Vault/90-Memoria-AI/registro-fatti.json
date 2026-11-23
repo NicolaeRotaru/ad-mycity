@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-11-23 01:12",
+  "aggiornato": "2026-11-23 01:42",
   "fatti": [
     {
       "id": "ad.uso-e-crediti",
@@ -26,7 +26,7 @@
     {
       "id": "agenzia.listino",
       "nome": "agenzia.listino",
-      "valore": "Agenzia foto e video di Nicola (22/11/2026): sito web professionale 500 € una volta; gestione automatica dei social (flusso n8n) 300 € al mese; foto e video (riprese, scatti, montaggio, ritocco) da 50 a 300 € al mese; logo e grafica su richiesta; vetrina sul marketplace 50 € al mese (= pricing.abbonamento). Sul sito: lib/agenzia/preventivo.ts (LISTINO), modificabile da site_settings.agenzia senza rifare il sito.",
+      "valore": "Listino del preventivo di MyCity (22/11/2026; foto e video col partner scattiDG): sito web professionale 500 € una volta; gestione automatica dei social (flusso n8n) 300 € al mese; foto e video (riprese, scatti, montaggio, ritocco) da 50 a 300 € al mese; logo e grafica su richiesta; vetrina sul marketplace 50 € al mese (= pricing.abbonamento). Sul sito: lib/agenzia/preventivo.ts (LISTINO), modificabile da site_settings.agenzia senza rifare il sito.",
       "fonte": "Nicola, chat della notte fra il 22 e il 23/11/2026 (messaggio con i prezzi)",
       "aggiornato": "2026-11-23 01:08",
       "storia": [],
@@ -36,11 +36,25 @@
     {
       "id": "agenzia.nome",
       "nome": "agenzia.nome",
-      "valore": "L'agenzia foto e video di Nicola si chiama scattiDG. Sul sito: NOME_AGENZIA_DI_RISERVA in lib/agenzia/preventivo.ts; site_settings.agenzia.nome lo sovrascrive senza rifare il sito.",
-      "fonte": "Nicola, chat della notte fra il 22 e il 23/11/2026 («Si chiama scattiDG»)",
-      "aggiornato": "2026-11-23 01:12",
-      "storia": [],
-      "caccia": [],
+      "valore": "scattiDG è l'azienda partner a cui MyCity si affida per foto e video (riprese, scatti, montaggio, ritocco). Il preventivo in dashboard lo firma MyCity; social, sito web e logo sono servizi di MyCity. Sul sito: LISTINO.foto_video.partner e NOME_AGENZIA_DI_RISERVA = MyCity in lib/agenzia/preventivo.ts.",
+      "fonte": "Nicola, chat 2026-11-23 («ScattiDG è l'azienda partner a cui mycity si affida per foto/video making/editing»)",
+      "aggiornato": "2026-11-23 01:42",
+      "storia": [
+        {
+          "valore": "L'agenzia foto e video di Nicola si chiama scattiDG. Sul sito: NOME_AGENZIA_DI_RISERVA in lib/agenzia/preventivo.ts; site_settings.agenzia.nome lo sovrascrive senza rifare il sito.",
+          "fino_a": "2026-11-23 01:42"
+        }
+      ],
+      "caccia": [
+        {
+          "pattern": "L'agenzia foto e video di Nicola si chiama scattiDG",
+          "dal": "2026-11-23 01:42"
+        },
+        {
+          "pattern": "L'agenzia foto e video di Nicola si chiama scattiDG. Sul sito: NOME_AGENZIA_DI_RISERVA in lib/agenzia/preventivo.ts; site_settings.agenzia.nome lo sovrascrive senza rifare il sito.",
+          "dal": "2026-11-23 01:42"
+        }
+      ],
       "esenzioni": []
     },
     {

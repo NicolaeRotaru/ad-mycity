@@ -1,11 +1,11 @@
 {
-  "data": "2026-11-23 01:12",
+  "data": "2026-11-23 01:42",
   "esito": "ok",
   "copertura": 1985,
   "origine": "cloud",
   "scritto_da": "coerenza-fatti.mjs",
   "fatti_totali": 76,
-  "cacce_aperte": 35,
+  "cacce_aperte": 37,
   "file_scansionati": 1985,
   "incoerenze": [],
   "cacce": [
@@ -13,6 +13,18 @@
       "fatto": "ad.uso-e-crediti",
       "pattern": "Il server dell'AD si riaccende quando il sito non ha più difetti, perché anche Pannello, AD e senior hanno molti errori da sistemare; poi resta sempre acceso. Fino ad allora guardia e conto della sera girano nel Pannello. Si resta sul piano Max attuale e non si paga MAI un'API di IA: le 18 funzioni IA del sito restano spente e quel lavoro lo fa l'AD. Regole del consumo: prima il programma, poi l'IA; tutti i negozi in un giro solo; modello piccolo per i lavori semplici, grande per diagnosi, strategia e collaudi; si rifà un lavoro solo se qualcosa è cambiato; ogni negozio ha un tetto di consumo al mese, misurato dal primo e letto nel Pannello. Da solo l'AD fa: diagnosi dei guasti, analisi dei negozi, piano del mattino e report della sera, ricerca settimanale su concorrenti ed eventi. Quando deve scegliere: prima il sito che vende, poi la macchina.",
       "dal": "2026-11-21 03:27",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "agenzia.nome",
+      "pattern": "L'agenzia foto e video di Nicola si chiama scattiDG",
+      "dal": "2026-11-23 01:42",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "agenzia.nome",
+      "pattern": "L'agenzia foto e video di Nicola si chiama scattiDG. Sul sito: NOME_AGENZIA_DI_RISERVA in lib/agenzia/preventivo.ts; site_settings.agenzia.nome lo sovrascrive senza rifare il sito.",
+      "dal": "2026-11-23 01:42",
       "copie_trovate": 0
     },
     {
