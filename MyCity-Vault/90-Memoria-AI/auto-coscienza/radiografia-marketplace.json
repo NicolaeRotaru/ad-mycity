@@ -415,7 +415,7 @@
     "gravi": 678,
     "minori": 2746,
     "agenti": null,
-    "aggiornato": "2026-11-22 17:43"
+    "aggiornato": "2026-11-23 01:37"
   },
   "confronto_precedente": {
     "data": "2026-11-05",
@@ -8834,7 +8834,7 @@
       "impatto": "Con il servizio esterno fermo, il negoziante riscrive tre volte un indirizzo giusto credendo di averlo scritto male.",
       "fix": "La rotta restituisca un errore «non disponibile» distinto da «nessun risultato», e il selettore dica «Ricerca momentaneamente non disponibile: riprova o sposta il punto sulla mappa».",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "lettura di app/api/geocode/route.ts:23-57 e components/StoreLocationPicker.tsx:165-174",
       "prova_tipo": "lettura-codice",
       "prova_eseguita": true,
@@ -8866,7 +8866,10 @@
         "sessione": "R13",
         "collaudo": "K05 · collaudo pieno",
         "nota": "si chiude dopo l'unione della PR"
-      }
+      },
+      "chiuso_il": "2026-11-23 01:37",
+      "chiuso_da": "PR #302 · d747c3ce1c25015b9bd9563ec9ca0f3649e2b8a4",
+      "nota_riparazione": "La rotta risponde 503 con error servizio_non_disponibile quando Nominatim risponde con errore (429, 5xx, ecc.), non è raggiungibile o scade; «nessun risultato» resta 200 con coordinate nulle. Il picker con 429 o 5xx dice che il servizio non risponde e di riprovare fra poco, e «Indirizzo non trovato» solo quando davvero non c'è. Gli altri due chiamanti (indirizzi del profilo, cassa) leggono solo lat/lng e si comportano come prima. — prova: npx vitest run tests/unit/riparazione-r13-indirizzi-servizio-giu-rotta.test.ts tests/unit/riparazione-r13-indirizzi-servizio-giu-messaggio.test.tsx --reporter=dot — mutazione: node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base ccc6e936^ --file app/api/geocode/route.ts,components/StoreLocationPicker.tsx --prove <le due prove> --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R13d --base ccc6e936^ --file app/api/geocode/route.ts,components/StoreLocationPicker.tsx --prove tests/unit/riparazione-r13-indirizzi-servizio-giu-rotta.test.ts,tests/unit/riparazione-r13-indirizzi-servizio-giu-messaggio.test.tsx --json → uscita 0 (K05)"
     },
     {
       "dimensione": "frontend-ux",
@@ -10863,7 +10866,7 @@
       "impatto": "Un negozio si iscrive come «Macelleria Salumeria Fratelli Bianchi» (37 caratteri): da quel giorno chiunque apra «vicino a te» sul telefono vede la pagina rimpicciolita o che scorre di lato, con tutti i testi più piccoli. Con un nome da 50 caratteri succede anche sulla home, a tutti i visitatori. Oggi è latente: l'unico negozio vero si chiama «Pane Quotidiano».",
       "fix": "Nei due componenti: h3 `flex min-w-0 max-w-full items-center gap-1.5` e span `min-w-0 truncate`. Provata iniettando il CSS: con 80 caratteri le tre pagine tornano a 390px e compaiono i puntini.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "scratchpad/prova-nome-lungo.mjs: con il database finto che restituisce un negozio di nome lungo (variabile NOME), apre la pagina a 390x844 come telefono e misura document.documentElement.scrollWidth; esce 1 (ROSSO) se supera lo schermo. `NOME=\"<58 caratteri>\" node finto-supabase.mjs & ; node prova-nome-lungo.mjs / ; node prova-nome-lungo.mjs /stores ; node prova-nome-lungo.mjs /near`",
       "prova_tipo": "comando",
       "prova_eseguita": true,
@@ -10902,7 +10905,10 @@
         "sessione": "R16",
         "collaudo": "K06 · collaudo pieno",
         "nota": "si chiude dopo l'unione della PR"
-      }
+      },
+      "chiuso_il": "2026-11-23 01:37",
+      "chiuso_da": "PR #302 · d747c3ce1c25015b9bd9563ec9ca0f3649e2b8a4",
+      "nota_riparazione": "Sulla base le schede (StorePreviewCard, StoreListRow: max-w-full, truncate, min-w-0, flex-wrap) e il tetto di 80 caratteri nella rotta e nel modulo d'iscrizione c'erano già, con le loro prove (riparazione-r12-nome-lungo, riparazione-r28-nome-negozio-troppo-lungo); StoreShowcase usa grid-cols-2 (minmax(0,1fr)). Restavano: (1) «vicino a te» a 280/320 px col testo al 200% larga 359 px (misurato in Chromium col CSS compilato: selettore Lista/Mappa in linea senza tetto e cursore del raggio w-40) → selettore max-w-full flex-wrap, riga del raggio flex-wrap, cursore max-w-full: 280/320/375 px a 100% e 200% senza scorrimento, al 100% posizioni identiche a prima; (2) il nome si cambiava senza limite dal modulo del negozio (VendorForm, modo branding) → stesso tetto di 80 e stessa frase della domanda. Prova: render di VendorForm con 81 lettere attaccate (avviso, niente salvataggio, valore intero) e controprova con 80; classi del selettore e del cursore lette dal sorgente di app/near/page.tsx. — prova: npx vitest run tests/unit/riparazione-r16-nome-lungo.test.tsx --reporter=dot — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base efe92beb^ --file app/near/page.tsx,components/VendorForm.tsx --prove tests/unit/riparazione-r16-nome-lungo.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16-3 --base efe92beb^ --file app/near/page.tsx,components/VendorForm.tsx --prove tests/unit/riparazione-r16-nome-lungo.test.tsx --json (worktree a efe92beb) → uscita 0 (K06)"
     },
     {
       "dimensione": "layout-responsive",
@@ -17050,7 +17056,7 @@
       "impatto": "Al cliente arrivano due email uguali, e il dominio di posta rischia di finire nello spam.",
       "fix": "Applicare la 166.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Eseguito in sola lettura (MCP Supabase, 5/11/2026): pg_get_function_result(mark_abandoned_cart_email_sent) → 'void' (atteso 'boolean').",
       "prova_tipo": "comando",
       "prova_eseguita": true,
@@ -17094,7 +17100,10 @@
         "sessione": "R18",
         "collaudo": "K06 · collaudo pieno",
         "nota": "si chiude dopo l'unione della PR"
-      }
+      },
+      "chiuso_il": "2026-11-23 01:37",
+      "chiuso_da": "PR #302 · d747c3ce1c25015b9bd9563ec9ca0f3649e2b8a4",
+      "nota_riparazione": "Il giro rivendica il carrello da solo con una scrittura condizionata (update recovery_email_sent_at where user_id=… and recovery_email_sent_at is null → select → maybeSingle) e spedisce solo se ha preso la riga lui. Così due giri insieme mandano un solo promemoria, con o senza la migrazione 166 applicata; prima la risposta vuota della funzione vecchia valeva «preso». Storia sul ramo: 57f2e330 (riparazione), ffbda6c2 (ritorno in attesa della firma), 07871ff3 (ritorno annullato dopo la firma). — prova: npx vitest run tests/unit/riparazione-r18-promemoria-carrello-una-volta.test.ts --reporter=dot — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 07871ff31cfefea5d39ab50bf7a1b9df88d162f8^ --file app/api/cron/abandoned-carts/route.ts --prove tests/unit/riparazione-r18-promemoria-carrello-una-volta.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R18-001 --base 07871ff3^ --file app/api/cron/abandoned-carts/route.ts --prove tests/unit/riparazione-r18-promemoria-carrello-una-volta.test.ts --json (worktree a 07871ff3, punta 2763712d) → uscita 0 (K06)"
     },
     {
       "dimensione": "deploy-sre",
@@ -70677,7 +70686,7 @@
       "dimensione": "qa-flussi",
       "reparto": "Flussi critici",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": true,
       "titolo": "Le prove delle frasi pubbliche cercano parole nel codice: sette mutanti che rimettono i difetti restano verdi",
       "file": "tests/unit/le-frasi-pubbliche-seguono-la-cassa-e-la-realta.test.tsx · app/product/[id]/page.tsx:813 · app/cart/page.tsx:685 · components/home-sections/HomeSectionRenderer.tsx:170 · components/ConfirmDialog.tsx · app/rider/help/page.tsx · components/seller/AttributesFields.tsx:218",
@@ -70712,7 +70721,10 @@
         "sessione": "R13",
         "collaudo": "K05 · collaudo pieno",
         "nota": "si chiude dopo l'unione della PR"
-      }
+      },
+      "chiuso_il": "2026-11-23 01:37",
+      "chiuso_da": "PR #302 · d747c3ce1c25015b9bd9563ec9ca0f3649e2b8a4",
+      "nota_riparazione": "Prova nuova che disegna le pagine e i componenti veri (scheda, carrello, home con orologio finto, dialogo, aiuto fattorini, caratteristiche) e legge il testo a video. Rispetto alla prova del lotto R04 aggiunge il carrello con la carta accesa (finto di funzioni-al-lancio) e la riga esatta del riepilogo: un mutante con la frase del carrello scritta a mano sopravviveva a quella. Nessun file di codice toccato. — prova: npx vitest run tests/unit/riparazione-r13-frasi-pubbliche.test.tsx --reporter=dot — mutazione: mutanti a mano (ognuno rimesso nel sorgente, prova nuova rossa, poi git checkout): scheda prodotto frase del pagamento scritta a mano; carrello frase scritta a mano; HomeSectionRenderer senzaNegozio={false}; ConfirmDialog Maiusc+Tab rotto; rider/help tel:+390523000000; AttributesFields checked={!!values[f.key]}; scheda prodotto filtro griglia CHIAVI_FUORI_DALLA_GRIGLIA tolto. Sette su sette rossi (vitest uscita 1) → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R13f --base 7efafdfd5d5eca4ac85f6c0fd5c0c12e8632aadb --file components/home-sections/HomeSectionRenderer.tsx,app/rider/help/page.tsx,components/seller/AttributesFields.tsx,app/cart/page.tsx --prove tests/unit/riparazione-r13-frasi-pubbliche.test.tsx --json (wt-R13f a 4482a69f, albero identico a d8c691ff; 7efafdfd = d8c691ff più 4 mutanti che rimettono i difetti della voce: HomeSectionRenderer senzaNegozio={false}, app/rider/help tel:112 → tel:+390523000000, AttributesFields checked={!!values[f.key]}, carrello con la frase del pagamento scritta a mano «Paghi in contanti alla consegna» al posto di {frasePagamento()}; 4482a69f = il revert di 7efafdfd; commit locali mai spinti; ramo claude/settimana-700-regia-m13 punta 4cc975d1) → uscita 0 (K05)"
     },
     {
       "dimensione": "qa-flussi",
@@ -82801,7 +82813,7 @@
       "dimensione": "api-backend",
       "reparto": "API",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "titolo": "Comunicare due volte l'esito di una segnalazione rimanda la mail e le notifiche, e dopo un errore il nuovo tentativo rimanda anche i canali già riusciti",
       "file": "app/api/segnalazioni/esito/comunica.ts comunicaEsito",
       "descrizione": "Nessuna colonna o guardia «esito già comunicato»: ogni PATCH richiama sendEmail e fa l'insert in notifications senza controllare un invio precedente.",
@@ -82860,7 +82872,10 @@
         "sessione": "R14",
         "collaudo": "K05 · collaudo pieno",
         "nota": "si chiude dopo l'unione della PR"
-      }
+      },
+      "chiuso_il": "2026-11-23 01:37",
+      "chiuso_da": "PR #302 · d747c3ce1c25015b9bd9563ec9ca0f3649e2b8a4",
+      "nota_riparazione": "comunicaEsito ricorda canale per canale cosa è arrivato: ogni canale riuscito (mail a chi segnala, notifica a chi segnala, notifica al venditore) scrive una riga in audit_logs (tabella esistente, nessuna colonna nuova) con target_id = id della segnalazione e l'impronta sha256 di destinatario+decisione+motivazione; un canale riparte solo se la sua ULTIMA riga per quella segnalazione ha un'impronta diversa. Così comunicare due volte non rimanda niente, il nuovo tentativo dopo un errore parziale rimanda solo il canale fallito, accolta→respinta→accolta riparte ogni volta e due segnalazioni con la stessa motivazione restano separate (i due casi che avevano fatto bocciare il tentativo precedente). Se audit_logs non si legge si manda come prima (meglio un esito doppio che uno perso). — prova: npx vitest run tests/unit/riparazione-r14-esito-una-volta.test.ts --reporter=dot — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base b97d6aa4^ --file app/api/segnalazioni/esito/comunica.ts --prove tests/unit/riparazione-r14-esito-una-volta.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14a --base b97d6aa4^ --file app/api/segnalazioni/esito/comunica.ts --prove tests/unit/riparazione-r14-esito-una-volta.test.ts --json → uscita 0 (K05)"
     },
     {
       "dimensione": "api-backend",
@@ -83171,7 +83186,7 @@
       "dimensione": "ai-endpoints",
       "reparto": "Endpoint AI",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "titolo": "L'allarme del tetto di spesa AI scatta solo se la stessa copia del sito resta accesa per un'ora, e su Vercel può non arrivare mai",
       "file": "lib/ai/tettoSpesa.ts segnalaRipiego",
       "descrizione": "L'ora di tolleranza si conta dal primo ripiego visto dalla singola copia (_stato.ripiegoDa vive nella sua memoria). Su Vercel le copie nascono e muoiono spesso, quindi se il conto condiviso tace a lungo l'errore può non partire mai. Il caso di oggi in produzione, cioè la funzione assente perché manca la migrazione 131, ha il suo allarme a parte ed è coperto.",
@@ -83235,7 +83250,10 @@
         "sessione": "R13",
         "collaudo": "K05 · collaudo pieno",
         "nota": "si chiude dopo l'unione della PR"
-      }
+      },
+      "chiuso_il": "2026-11-23 01:37",
+      "chiuso_da": "PR #302 · d747c3ce1c25015b9bd9563ec9ca0f3649e2b8a4",
+      "nota_riparazione": "Il cron degli avvisi chiama allarmiTettoSpesaAiPerIlCron() (firma vera: opzioni facoltative, torna AllarmeTetto[], compatibile con AlertRow) a ogni giro, dopo gli altri controlli e prima del dedup e dell'uscita «nessuna anomalia»; se lancia, il giro lo dice fra i controlli saltati. In lib/ai/tettoSpesa.ts la funzione esce subito senza tetto configurato (allarmiDelTetto tornerebbe vuoto): niente sonda ogni 5 minuti, niente righe in operational_alert_log, niente errori nel registro (senza questo, la riga del tetto finiva fra le «attese» di l-allarme-che-non-parte-non-si-spaccia-per-spedito). Prova col sorvegliante vero: primo giro ricorda l'inizio nel database, due ore dopo su una copia nuova suona (120 min), al ritorno del conto la riga si toglie, senza tetto niente sonda. — prova: npx vitest run tests/unit/riparazione-r13-allarme-tetto-dal-cron.test.ts --reporter=dot — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 3ed83b72^ --file app/api/cron/operational-alerts/route.ts,lib/ai/tettoSpesa.ts --prove tests/unit/riparazione-r13-allarme-tetto-dal-cron.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R13c --base 3ed83b72^ --file app/api/cron/operational-alerts/route.ts,lib/ai/tettoSpesa.ts --prove tests/unit/riparazione-r13-allarme-tetto-dal-cron.test.ts --json → uscita 0 (K05)"
     },
     {
       "dimensione": "dati-analytics",
@@ -86810,7 +86828,7 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R10",
-      "stato": "aperto",
+      "stato": "riparato",
       "riparazione_20_11": {
         "esito": "parziale",
         "sessione": "R09",
@@ -86835,7 +86853,10 @@
         "sessione": "R16",
         "collaudo": "K06 · collaudo pieno",
         "nota": "si chiude dopo l'unione della PR"
-      }
+      },
+      "chiuso_il": "2026-11-23 01:37",
+      "chiuso_da": "PR #302 · d747c3ce1c25015b9bd9563ec9ca0f3649e2b8a4",
+      "nota_riparazione": "Nel banner della vetrina (BannerFields) i quattro maxLength (titolo 120, sottotitolo 200, testo alternativo 160, pulsante 40) sono diventati un errore sotto il campo, col testo che resta intero; HomeSectionConfigForm era già a posto. La prova comune r02-banner-alt ora controlla niente maxLength ed errore oltre 160 (eccezione firmata prove_comuni, onda 2). Rimesso col commit 1a91d22a dopo il ritorno 40da5b80. — prova: npx vitest run tests/unit/riparazione-r16-banner-campi-brevi.test.tsx tests/unit/riparazione-r02-banner-alt.test.tsx — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 1a91d22a^ --file components/seller/site/BannerFields.tsx --prove tests/unit/riparazione-r16-banner-campi-brevi.test.tsx,tests/unit/riparazione-r02-banner-alt.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16-004 --base 1a91d22a^ --file components/seller/site/BannerFields.tsx --prove tests/unit/riparazione-r16-banner-campi-brevi.test.tsx,tests/unit/riparazione-r02-banner-alt.test.tsx --json (worktree a 1a91d22a, punta 069956cb) → uscita 0 (K06)"
     },
     {
       "dimensione": "privacy-legale",
@@ -88089,7 +88110,7 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R18",
-      "stato": "aperto",
+      "stato": "riparato",
       "riparazione_17_11": {
         "esito": "serve_file_altrui",
         "sessione": "R03",
@@ -88101,7 +88122,10 @@
         "sessione": "R14",
         "collaudo": "K05 · collaudo pieno",
         "nota": "si chiude dopo l'unione della PR"
-      }
+      },
+      "chiuso_il": "2026-11-23 01:37",
+      "chiuso_da": "PR #302 · d747c3ce1c25015b9bd9563ec9ca0f3649e2b8a4",
+      "nota_riparazione": "Applicata la patch pronta dopo la firma: senza productIds la rotta risponde 400, non scrive niente e il lavoro resta «ready»; con l'elenco applica solo i prodotti scelti. Le 5 prove comuni che mandavano solo jobId mandano ora l'elenco; prova nuova riparazione-r14-lotto-senza-elenco. L'unico chiamante (app/seller/products/ai-batch/page.tsx:445-448) manda già productIds. 9 prove della rotta 91/91 verdi; rimessa 0. — prova: npx vitest run tests/unit/riparazione-r14-lotto-senza-elenco.test.ts tests/unit/il-lotto-non-scrive-quello-che-il-filtro-nega.test.ts tests/unit/le-dichiarazioni-di-un-alimento-le-scrive-il-negoziante.test.ts tests/unit/le-funzioni-spente-al-lancio-le-rifiuta-il-server.test.ts tests/unit/le-funzioni-spente-le-ferma-la-rotta-anche-a-mano.test.ts tests/unit/minori-s10-lotto-applica.test.ts tests/unit/riparazione-r02-traccia-porte-ai-catalogo.test.ts tests/unit/riparazione-r18-lotto-applica-quello-che-si-vede.test.tsx tests/unit/una-voce-scritta-male-non-ferma-le-modifiche-in-massa.test.ts --reporter=dot — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 3ecde09e^ --file app/api/ai/catalog-batch/apply/route.ts --prove tests/unit/riparazione-r14-lotto-senza-elenco.test.ts,tests/unit/il-lotto-non-scrive-quello-che-il-filtro-nega.test.ts,tests/unit/le-dichiarazioni-di-un-alimento-le-scrive-il-negoziante.test.ts,tests/unit/le-funzioni-spente-al-lancio-le-rifiuta-il-server.test.ts,tests/unit/le-funzioni-spente-le-ferma-la-rotta-anche-a-mano.test.ts,tests/unit/minori-s10-lotto-applica.test.ts,tests/unit/riparazione-r02-traccia-porte-ai-catalogo.test.ts,tests/unit/riparazione-r18-lotto-applica-quello-che-si-vede.test.tsx,tests/unit/una-voce-scritta-male-non-ferma-le-modifiche-in-massa.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 3ecde09e^ --file app/api/ai/catalog-batch/apply/route.ts --prove tests/unit/riparazione-r14-lotto-senza-elenco.test.ts --json (wt-R14 a 3ecde09e, ramo claude/settimana-700-regia-m14 punta 74e75fbf) → uscita 0 (K05)"
     },
     {
       "dimensione": "accessibilita",
@@ -90281,7 +90305,7 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione onda7 · R03",
-      "stato": "aperto",
+      "stato": "riparato",
       "riparazione_17_11": {
         "esito": "parziale",
         "sessione": "R02",
@@ -90300,7 +90324,10 @@
         "sessione": "R16",
         "collaudo": "K06 · collaudo pieno",
         "nota": "si chiude dopo l'unione della PR"
-      }
+      },
+      "chiuso_il": "2026-11-23 01:37",
+      "chiuso_da": "PR #302 · d747c3ce1c25015b9bd9563ec9ca0f3649e2b8a4",
+      "nota_riparazione": "Il form #bonifici ora porta scroll-mt-24 md:scroll-mt-0. L'ancora di app/faq/page.tsx:229 (ora :231) era già a posto alla base (prova comune riparazione-r02-ancore-faq). — prova: npx vitest run tests/unit/riparazione-r16-ancora-bonifici.test.ts — mutazione: node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base bad84235^ --file components/seller/DatiPerIBonifici.tsx --prove tests/unit/riparazione-r16-ancora-bonifici.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16-1 --base bad84235^ --file components/seller/DatiPerIBonifici.tsx --prove tests/unit/riparazione-r16-ancora-bonifici.test.ts --json (worktree a bad84235) → uscita 0 (K06)"
     },
     {
       "dimensione": "frontend-ux",
@@ -90968,7 +90995,7 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione onda9 · R02",
-      "stato": "aperto",
+      "stato": "riparato",
       "riverifica_21_11": {
         "data": "2026-11-21 16:27",
         "esito": "ancora_vero",
@@ -90981,7 +91008,10 @@
         "sessione": "R16",
         "collaudo": "K06 · collaudo pieno",
         "nota": "si chiude dopo l'unione della PR"
-      }
+      },
+      "chiuso_il": "2026-11-23 01:37",
+      "chiuso_da": "PR #302 · d747c3ce1c25015b9bd9563ec9ca0f3649e2b8a4",
+      "nota_riparazione": "Le categorie per negozio si leggono a finestre di mille ordinate per negozio (leggiTutteLeRighe + order + range); prova nuova con 1.102 righe. La prova comune r02-negozi-categorie-a-pagine ha il finto rpc con order/range/then, come nel commit 8f8973f3 (eccezione firmata prove_comuni, onda 2); la prova r12 era già verde. Rimesso col commit 8c8e6853 dopo il ritorno 5a804dbe. — prova: npx vitest run tests/unit/riparazione-r16-negozi-categorie.test.tsx tests/unit/riparazione-r02-negozi-categorie-a-pagine.test.tsx tests/unit/riparazione-r12-negozi-categorie.test.tsx — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 8c8e6853^ --file app/stores/page.tsx --prove tests/unit/riparazione-r16-negozi-categorie.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16-011 --base 8c8e6853^ --file app/stores/page.tsx --prove tests/unit/riparazione-r16-negozi-categorie.test.tsx --json (worktree a 8c8e6853, punta 069956cb) → uscita 0 (K06)"
     },
     {
       "dimensione": "layout-responsive",
@@ -91074,7 +91104,7 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione onda9 · R03",
-      "stato": "aperto",
+      "stato": "riparato",
       "riverifica_21_11": {
         "data": "2026-11-21 16:27",
         "esito": "ancora_vero",
@@ -91087,7 +91117,10 @@
         "sessione": "R18",
         "collaudo": "K06 · collaudo pieno",
         "nota": "si chiude dopo l'unione della PR"
-      }
+      },
+      "chiuso_il": "2026-11-23 01:37",
+      "chiuso_da": "PR #302 · d747c3ce1c25015b9bd9563ec9ca0f3649e2b8a4",
+      "nota_riparazione": "Due commit: adafa0fa, poi corretto da 83686b8f dopo il primo revisore (adafa0fa rompeva riparazione-r02-invio-incerto-senza-rotella). La riga «in invio» resta quella della base, senza createdAt né soglia. A riga chiusa «Puoi avviarne un altro» sparisce solo se il motivo dice «chiedi all'assistenza» (status/route.ts:125), non con i motivi di status/route.ts:240 o di cancel/route.ts:43. La prova controlla anche che i testi veri dei motivi ci siano ancora nelle rotte. — prova: npx vitest run tests/unit/riparazione-r18-testo-lavoro-incerto.test.ts --reporter=dot — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base adafa0fa^ --file lib/ai/statoLavoroCatalogo.ts --prove tests/unit/riparazione-r18-testo-lavoro-incerto.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R18-012 --base adafa0fa^ --file lib/ai/statoLavoroCatalogo.ts --prove tests/unit/riparazione-r18-testo-lavoro-incerto.test.ts --json (worktree a 83686b8f) → uscita 0 (K06)"
     },
     {
       "dimensione": "ai-endpoints",
@@ -91400,7 +91433,7 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione onda9 · R04",
-      "stato": "aperto",
+      "stato": "riparato",
       "riverifica_21_11": {
         "data": "2026-11-21 16:27",
         "esito": "ancora_vero",
@@ -91413,7 +91446,10 @@
         "sessione": "R14",
         "collaudo": "K05 · collaudo pieno",
         "nota": "si chiude dopo l'unione della PR"
-      }
+      },
+      "chiuso_il": "2026-11-23 01:37",
+      "chiuso_da": "PR #302 · d747c3ce1c25015b9bd9563ec9ca0f3649e2b8a4",
+      "nota_riparazione": "Stesso commit di R14-003, stesse righe di comunicaEsito (111-142). La pagina admin, dopo un errore parziale, fa registrare di nuovo la decisione (nuovo deciso_at): la memoria non guarda deciso_at ma destinatario+stato+motivazione, quindi la stessa decisione registrata di nuovo rimanda solo i canali falliti (prova: 'dopo un errore parziale il nuovo tentativo rimanda solo il canale che era fallito'). — prova: npx vitest run tests/unit/riparazione-r14-esito-una-volta.test.ts --reporter=dot — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base b97d6aa4^ --file app/api/segnalazioni/esito/comunica.ts --prove tests/unit/riparazione-r14-esito-una-volta.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14a --base b97d6aa4^ --file app/api/segnalazioni/esito/comunica.ts --prove tests/unit/riparazione-r14-esito-una-volta.test.ts --json → uscita 0 (K05)"
     },
     {
       "dimensione": "api-backend",
@@ -91543,7 +91579,7 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione onda9 · R05",
-      "stato": "aperto",
+      "stato": "riparato",
       "riverifica_21_11": {
         "data": "2026-11-21 16:27",
         "esito": "ancora_vero",
@@ -91556,7 +91592,10 @@
         "sessione": "R15",
         "collaudo": "K05 · collaudo pieno",
         "nota": "si chiude dopo l'unione della PR"
-      }
+      },
+      "chiuso_il": "2026-11-23 01:37",
+      "chiuso_da": "PR #302 · d747c3ce1c25015b9bd9563ec9ca0f3649e2b8a4",
+      "nota_riparazione": "Le tre librerie dichiarate in devDependencies, in ordine alfabetico, alle versioni già nel lock (@testing-library/dom 10.4.2, attr-accept 2.2.5, esbuild 0.28.1). `npm install --package-lock-only --ignore-scripts`: il diff di package-lock.json sono solo 3 righe aggiunte nell'elenco devDependencies della radice. npm ls e npm ci --dry-run ok. — prova: npm ls @testing-library/dom attr-accept esbuild && npx vitest run tests/unit/riparazione-r15-ci.test.ts --reporter=dot — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 3af74b30cbb94ade8c8897dc5243a25064bbd81c^ --file package.json,package-lock.json --prove tests/unit/riparazione-r15-ci.test.ts --comando \"npx vitest run {prove} --reporter=dot\" --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15d --base 3af74b30^ --file package.json,package-lock.json --prove tests/unit/riparazione-r15-ci.test.ts --json → uscita 0 (K05)"
     },
     {
       "dimensione": "stati-ui",
@@ -92184,7 +92223,7 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione giro2 · R01",
-      "stato": "aperto",
+      "stato": "riparato",
       "riverifica_21_11": {
         "data": "2026-11-21 16:27",
         "esito": "ancora_vero",
@@ -92197,7 +92236,10 @@
         "sessione": "R14",
         "collaudo": "K05 · collaudo pieno",
         "nota": "si chiude dopo l'unione della PR"
-      }
+      },
+      "chiuso_il": "2026-11-23 01:37",
+      "chiuso_da": "PR #302 · d747c3ce1c25015b9bd9563ec9ca0f3649e2b8a4",
+      "nota_riparazione": "accendi() monta il componente dentro un Suspense (fallback null), come da diff della scheda. Prova: pagina finta con use(params), montata due volte con un invio in mezzo. Tutte le 281 prove che importano aiuti/schermo restano verdi (1713 casi). — prova: npx vitest run tests/unit/riparazione-r14-accendi-due-volte.test.ts — mutazione: node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base c319550b^ --file tests/unit/aiuti/schermo.ts --prove tests/unit/riparazione-r14-accendi-due-volte.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14b --base c319550b^ --file tests/unit/aiuti/schermo.ts --prove tests/unit/riparazione-r14-accendi-due-volte.test.ts --json → uscita 0 (K05)"
     },
     {
       "dimensione": "qa-flussi",
@@ -92980,7 +93022,7 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione giro4 · R01",
-      "stato": "aperto",
+      "stato": "riparato",
       "riverifica_21_11": {
         "data": "2026-11-21 16:27",
         "esito": "ancora_vero",
@@ -92993,7 +93035,10 @@
         "sessione": "R14",
         "collaudo": "K05 · collaudo pieno",
         "nota": "si chiude dopo l'unione della PR"
-      }
+      },
+      "chiuso_il": "2026-11-23 01:37",
+      "chiuso_da": "PR #302 · d747c3ce1c25015b9bd9563ec9ca0f3649e2b8a4",
+      "nota_riparazione": "173a21ad: la sorgente e le taglie di «Duplica» hanno staleTime 0 (si rileggono a ogni apertura anche con la memoria fresca del sito) e il modulo non si apre finché le due letture non sono arrivate. 826984cd (giro di correzione dopo il collaudo): se la rilettura cade o all'apertura non c'è rete il modulo si apre ancora sulla sorgente della memoria; ora, come per le taglie, anche la spunta del recesso e gli altri valori che il modulo legge solo all'apertura (la firma di initialValues senza le taglie) si confrontano con quelli riletti: se sono cambiati la copia non si salva e si offre «Riapri la copia con i dati aggiornati». Prova: i 3 casi del collaudo (rilettura della sorgente caduta poi «Riprova»; riletture di sorgente e taglie cadute poi «Riprova»; aperta senza rete poi la rete torna) rossi sul codice di prima e verdi ora, più una controprova (riaperta, la copia ha la spunta vera e si salva esclusa dal recesso). Rimessa regge anche sul solo commit nuovo (--base 826984cd^, uscita 0). — prova: npx vitest run tests/unit/riparazione-r14-duplica-con-sorgente-in-cache.test.tsx — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 173a21ad^ --file app/seller/products/new/page.tsx --prove tests/unit/riparazione-r14-duplica-con-sorgente-in-cache.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14c --base 173a21ad^ --file app/seller/products/new/page.tsx --prove tests/unit/riparazione-r14-duplica-con-sorgente-in-cache.test.tsx --json (worktree a 826984cd) → uscita 0 (K05)"
     },
     {
       "dimensione": "frontend-ux",
@@ -93128,7 +93173,7 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione giro4 · R02",
-      "stato": "aperto",
+      "stato": "riparato",
       "riverifica_21_11": {
         "data": "2026-11-21 16:27",
         "esito": "ancora_vero",
@@ -93141,7 +93186,10 @@
         "sessione": "R18",
         "collaudo": "K06 · collaudo pieno",
         "nota": "si chiude dopo l'unione della PR"
-      }
+      },
+      "chiuso_il": "2026-11-23 01:37",
+      "chiuso_da": "PR #302 · d747c3ce1c25015b9bd9563ec9ca0f3649e2b8a4",
+      "nota_riparazione": "Due commit: 9f8ac9af corregge il commento sul nuovo ordine; de01e1ac sistema anche la nota alle righe 10-13. Oggi la push del nuovo ordine parte solo col giro del cron, entro 5 minuti, e l'aiutante mandaSubitoLaPushDelNuovoOrdine non lo chiama nessuna rotta. La prova legge tutti i commenti in cima e li confronta con i chiamanti veri in app/ e lib/. — prova: npx vitest run tests/unit/riparazione-r18-commento-push-nuovo-ordine.test.ts --reporter=dot — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 9f8ac9af^ --file app/api/cron/send-push/route.ts --prove tests/unit/riparazione-r18-commento-push-nuovo-ordine.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R18-002 --base 9f8ac9af^ --file app/api/cron/send-push/route.ts --prove tests/unit/riparazione-r18-commento-push-nuovo-ordine.test.ts --json (worktree a de01e1ac) → uscita 0 (K06)"
     },
     {
       "dimensione": "api-backend",
@@ -93475,7 +93523,7 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione giro4 · C04",
-      "stato": "aperto",
+      "stato": "riparato",
       "riverifica_21_11": {
         "data": "2026-11-21 16:27",
         "esito": "ancora_vero",
@@ -93488,7 +93536,10 @@
         "sessione": "R15",
         "collaudo": "K05 · collaudo pieno",
         "nota": "si chiude dopo l'unione della PR"
-      }
+      },
+      "chiuso_il": "2026-11-23 01:37",
+      "chiuso_da": "PR #302 · d747c3ce1c25015b9bd9563ec9ca0f3649e2b8a4",
+      "nota_riparazione": "Nell'invio a fine giro la condizione `!x.isCardPaid || carrello` diventa `!x.isCardPaid || (avviso && avviso.rimasti.length > 0)`: con la carta l'email di annullo parte solo se nomina ordini del carrello che restano; se il carrello è scaduto tutto arriva solo «Rimborso emesso», uno per ordine. Contanti, rimborsi e annulli come prima. Prova sulla rotta vera con ordini finti e orologio finto. — prova: npx vitest run tests/unit/riparazione-r15-carrello-carta-scaduto-una-email.test.ts --reporter=dot — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 3391e94815857f321bad207e5202de2319bfc15c^ --file app/api/cron/expire-stale-orders/route.ts --prove tests/unit/riparazione-r15-carrello-carta-scaduto-una-email.test.ts --comando \"npx vitest run {prove} --reporter=dot\" --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15c --base 3391e948^ --file app/api/cron/expire-stale-orders/route.ts --prove tests/unit/riparazione-r15-carrello-carta-scaduto-una-email.test.ts --json → uscita 0 (K05)"
     },
     {
       "dimensione": "architettura",

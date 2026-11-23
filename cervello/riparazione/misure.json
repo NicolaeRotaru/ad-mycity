@@ -1,6 +1,6 @@
 {
   "_cosa_e": "I tassi misurati delle campagne di riparazione. Il preventivo di un'onda si fa SOLO da qui (lezione 3 del 15/11), mai da un rimedio sperato. Si aggiunge una riga a ogni fase misurata; le righe vecchie non si riscrivono.",
-  "_aggiornato": "2026-11-22 21:35",
+  "_aggiornato": "2026-11-23 01:40",
   "calibrazione_limite": {
     "usd_per_punto": 30.5,
     "fonte": "Nicola 12/11 sera: onda 1 (610 $) = 20% del limite settimanale",
@@ -238,20 +238,20 @@
       "configurazione": "12 riparatori da 10-16 voci, senza ultracode, xhigh, regia corta (6 regie), 4 collaudi in catena, 1 controllore"
     },
     {
-      "fase": "in corso: settimana dei 700, voci normali, giro di correzione (onda 2, 22/11)",
+      "fase": "settimana dei 700, voci normali, giro di correzione (onda 2, 22/11)",
       "voci_lavorate": 66,
       "voci_date": 79,
       "voci_che_reggono": 17,
-      "voci_chiuse": null,
+      "voci_chiuse": 17,
       "usd": 224,
       "usd_riparatori": 126.1,
       "usd_collaudo_e_controllo": 60,
       "usd_regia": 38.02,
       "usd_per_voce_lavorata": 3.4,
       "usd_per_voce_che_regge": 13.2,
-      "usd_per_voce_chiusa": null,
+      "usd_per_voce_chiusa": 13.2,
       "nati": 25,
-      "nota": "Riparatori (get_session): R13 22,73 · R14 21,90 · R15 18,67 · R16 20,27 · R17 circa 23,5 · R18 circa 19. Collaudo: K05 19,71 · K06 25,76 · K05 secondo e K06 secondo circa 8 in due · C02 6,41 (la prima apertura di C02 non è partita: 52 minuti persi, costo zero). Regia settima 38,02 $ a 692 mila token: sopra la soglia dei 250 mila per tutto il giro, perché la catena era a 7 livelli su 8 e la regia nuova non è stata aperta. 13 voci tolte ai delicati in fase di piano. 17 reggono (C02 ha tenuto aperta R18-006), 4 già riparate. Le chiusure si scrivono dopo l'unione di mycity#302. Sessione riservata a parte: S02 10,40 + KS02 13,71 = 24,11 $ (tetto 25), 2 riparazioni in mycity#303. Il costo per voce che regge, circa 13 $, è sopra la soglia dei 12 $: pesano le firme arrivate a metà giro (tre giri di rimessa e due ricollaudi) e la regia lunga.",
+      "nota": "Riparatori (get_session): R13 22,73 · R14 21,90 · R15 18,67 · R16 20,27 · R17 circa 23,5 · R18 circa 19. Collaudo: K05 19,71 · K06 25,76 · K05 secondo e K06 secondo circa 8 in due · C02 6,41 (la prima apertura di C02 non è partita: 52 minuti persi, costo zero). Regia settima 38,02 $ a 692 mila token: sopra la soglia dei 250 mila per tutto il giro, perché la catena era a 7 livelli su 8 e la regia nuova non è stata aperta. 13 voci tolte ai delicati in fase di piano. 17 reggono (C02 ha tenuto aperta R18-006), 4 già riparate. Le chiusure si scrivono dopo l'unione di mycity#302. Sessione riservata a parte: S02 10,40 + KS02 13,71 = 24,11 $ (tetto 25), 2 riparazioni in mycity#303. Il costo per voce che regge, circa 13 $, è sopra la soglia dei 12 $: pesano le firme arrivate a metà giro (tre giri di rimessa e due ricollaudi) e la regia lunga. Unito da Nicola il 23/11 alle 01:36 (mycity#302, d747c3ce): 17 chiusure scritte nel registro. mycity#303 unita (4db40d16).",
       "configurazione": "6 riparatori da 12-16 voci, senza ultracode, xhigh, regia unica e lunga, 2 collaudi in catena più 2 ricollaudi, 1 controllore"
     }
   ],
