@@ -28,6 +28,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 23/11 02:20 | regia settima della settimana dei 700 | «Fai tu le 7 migrazioni del database»: 640, 660, 661, 662, 701, 702 e 810 applicate sul database vero entro le 02:20, ognuna registrata con la sua impronta come fa il pulsante «Migrazioni a mano». La 703 (iscrizione flessibile, #304-#305) non era fra le sette: aspetta il suo ok. Chiede anche la regia nuova dei delicati e di guardare la sua ultima PR (#306) |
 | 22/11 16:50 | regia sesta della settimana dei 700 | «firmo le due prove e la rimessa a mano per R04»: le prove comuni di R09 e R11 entrano nell'unione; rimessa a mano valida per l'onda 1. Scritto in normali/piano.json |
 | 22/11 01:55 | regia quarta della settimana dei 700 | «sì a R10»: R10 può sovrascrivere il suo ramo `-m10` con `--force-with-lease` per togliere il nodo di unione (stesso contenuto). Girato a R10 |
 | 21/11 15:20 | alla regia della settimana dei 700 (`session_015BmpnV6hh4YTsgDkt8stTW`) | Tetto di spesa: **1.200 $**. Firma **a**: in una prova comune si possono aggiungere casi. Togliere o indebolire un controllo resta vietato. Firma **b**: nel commit va solo il codice della propria voce. Un codice di altri citato come riferimento lo giudica il collaudatore. Infine **sì al ricontrollo** prima delle riparazioni: circa 450 voci, circa 150 $. |

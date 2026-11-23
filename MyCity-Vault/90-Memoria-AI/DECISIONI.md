@@ -7335,3 +7335,5 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - 2026-11-22 21:35 · Settimana dei 700 · giro di correzione chiuso: 17 riparazioni reggono (collaudi K05, K06, controllore C02), 4 già riparate, richiesta di unione mycity#302 pronta. Riservata: 2 riparazioni in mycity#303 (migrazione 810 da applicare), 3 voci ritirate dalla regia perché non reggevano del tutto. Spesa del giro circa 224 $ sul tetto di 260; riservata 24,11 $ su 25. **Colore:** 🟡 unione di Nicola
 
 - 2026-11-23 01:40 · Settimana dei 700 · Nicola unisce mycity#302 e mycity#303: 17 chiusure scritte nel registro. Migrazioni 640, 660, 661, 662, 701, 702 e 810 ancora da applicare sul database vero. **Colore:** 🟡
+
+- 2026-11-23 02:20 · Settimana dei 700 · Con la firma di Nicola («Fai tu le 7 migrazioni del database») applicate sul database vero le migrazioni 640, 660, 661, 662, 701, 702 e 810, registrate con l'impronta del file. Controllate prima in sola lettura (nessun dato toccato) e dopo, oggetto per oggetto. La 703 resta fuori: non era nella firma. **Colore:** 🔴 firmato
