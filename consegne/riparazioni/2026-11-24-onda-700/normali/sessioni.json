@@ -10,7 +10,7 @@
  },
  "collaudatori": {
   "K01": {"id": "session_01R8112NmLAfy9H8nhAdAsru", "ramo": "ccr-d7a54140-hak4ez-k01", "partenza": "33f51c26faf22ee0cf5d68aa2812a2960f6a54cc", "riparatori": ["R03", "R02"]},
-  "K02": {"id": "session_01R8112Njtre8g4wLRA1wx4o", "ramo": "ccr-d7a54140-hak4ez-k02", "partenza": "33f51c26faf22ee0cf5d68aa2812a2960f6a54cc", "riparatori": ["R05", "R04", "R06"]},
+  "K02": {"id": "session_01R8112Njtre8g4wLRA1wx4o", "ramo": "ccr-d7a54140-hak4ez-k02", "partenza": "33f51c26faf22ee0cf5d68aa2812a2960f6a54cc", "riparatori": ["R05", "R04", "R06"], "finita": true},
   "K03": {"id": "session_01R8112KrhYF5zq8hGHNomMK", "ramo": "ccr-d7a54140-hak4ez-k03", "partenza": "33f51c26faf22ee0cf5d68aa2812a2960f6a54cc", "riparatori": ["R07"]}
  }
 }
