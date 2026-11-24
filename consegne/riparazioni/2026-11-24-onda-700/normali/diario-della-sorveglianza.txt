@@ -55,3 +55,14 @@
 2026-11-24 13:33 · R06 · guardia ✅ (prova comune tolta dal ramo) · referto – · in chiusura
 2026-11-24 13:33 · R07 · guardia ✅ · referto 🔴 segnaposti · in chiusura
 2026-11-24 13:34 · R01 · consegnata (22,94 $) a fd478324 · guardia 🔴 prove comuni (0689079c sul ramo) · referto ✅ · unione (sotto) · chiesto: revert di 0689079c e del codice di R01-004, voce → serve_file_altrui
+2026-11-24 13:35 · R01 · in lavoro FINITA · guardia 🔴 · referto ✅ 16 voci · unione (sotto) · nessuna
+2026-11-24 13:35 · R02 · in lavoro FINITA · guardia ✅ · referto ✅ 15 voci · unione (sotto) · nessuna
+2026-11-24 13:35 · R03 · in lavoro FINITA · guardia ✅ · referto ✅ 14 voci · unione (sotto) · nessuna
+2026-11-24 13:35 · R04 · in lavoro FINITA · guardia ✅ · referto ✅ 15 voci · unione (sotto) · nessuna
+2026-11-24 13:35 · R05 · in lavoro FINITA · guardia ✅ · referto ✅ 14 voci · unione (sotto) · nessuna
+2026-11-24 13:35 · R06 · in lavoro · guardia ✅ · referto – · unione (sotto) · nessuna
+2026-11-24 13:35 · R07 · in lavoro · guardia ✅ · referto 🔴 15 voci · unione (sotto) · nessuna
+2026-11-24 13:35 · K01 · ramo non ancora spinto · guardia – · collaudo – · nessuna
+2026-11-24 13:35 · K02 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-24 13:35 · onda 1 · prova-unione ✅
+2026-11-24 13:36 · R02 · finita (24,64 $ dichiarati) · guardia ✅ · referto ✅ 15 voci · unione (sotto) · data a K01 in catena
