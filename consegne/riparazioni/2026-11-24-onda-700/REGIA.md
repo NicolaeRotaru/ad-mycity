@@ -53,6 +53,8 @@ Regole da tenere (lezioni del 22/11): SHA interi; controllo a 10 minuti anche pe
 
 - 2026-11-24 19:01 Nicola, all'AD: «A» alla fermata delle 18:42 → **tetto totale 390 $**. Ordine: C02 sulle modifiche nuove (circa 4 $), poi l'onda 3 delle 11 voci firmate (circa 20 $), poi il ricollaudo K06 delle 8 voci lasciate da K04 (circa 5 $). Le 13 voci di `onda3-se-440.txt` restano fuori senza il suo sì scritto. Spesa misurata alle 19:05: 361,27 $ (350,51 fino all'ottava + K05 6,19 + regia nona 4,57): restano 28,73 $, regia decima compresa. Con 1 $ di margine i tre pezzi stanno stretti: se la proiezione passa 389 $, il ricollaudo K06 si ferma e lo si dice all'AD.
 
+- 2026-11-24 19:34 Nicola all'AD, in risposta alla fermata delle 19:33 (l'AD scrive «19:40», ma il suo messaggio è partito alle 19:34): «Sì, alza il tetto» → **tetto totale 400 $**. Si chiude l'onda 3 intera: collaudo, controllo, unione sul ramo ccr-d7a54140-hak4ez del sito (la bozza mycity#315 si aggiorna da sola), chiusura delle voci che reggono. Il ricollaudo delle 8 voci di K04 va alla prossima ondata. Regola nuova, stesso messaggio: «l'importante è che tu risolvi tutti quelli che puoi risolvere senza la mia firma o cose che devo fare io; alza il tetto per la prossima ondata e cerca di risolverne 100 o 200». La prossima ondata la prepara l'AD: nel passaggio va l'elenco delle voci aperte che non chiedono niente a Nicola.
+
 ## Ancora aperto per Nicola dal giro prima
 Cancellare i rami `claude/settimana-700-regia-cf`, `-s01`, `-s01b`, `-s01c`, `-s01d` (ad-mycity) e `-m10` (mycity); migrazione 703; scelte R17-002/003, R17-010, R18-004, R14-002, R15-015, S02-04; giro riservato (S02-02, -05, -06, 4 nati di KS02, S02-04, S02-08).
 
