@@ -60,3 +60,8 @@ Cancellare i rami `claude/settimana-700-regia-cf`, `-s01`, `-s01b`, `-s01c`, `-s
 ## Fermo su
 - 2026-11-24 11:45 preparazione fatta, FERMATA 1 mandata a Nicola. Nessuna sessione aperta.
 - 2026-11-24 11:58 «Via» di Nicola sui passi 1 e 2, tetto 360 $. L'AD apre la regia.
+- 2026-11-24 12:26 regia (session_01R8112LxmCk5Y1BXWKNWKCY) al lavoro. Sito clonato col git normale in /home/user/mycity (niente add_repo: avvisare l'AD PRIMA di chiamarlo con push, in F3). Firme `prove_comuni` e `rimessa_a_mano` chieste all'AD alle 12:13, non ancora arrivate.
+  - main del sito è andato avanti: e67ed29d86a207d58c0faf9afb55f8315bbf9d4a (9 commit, pagamento dei servizi). I riparatori restano sulla base 5b8c786 (un solo file in comune coi normali: lib/database.types.ts, R02).
+  - Passo 1, cambiato: il ricontrollo guarda il sito a e67ed29 e prende 141 voci (207 lavorabili con un file cambiato da 1ad51b4c a e67ed29, meno le 66 normali che vanno ai riparatori, che controllano da soli se la voce c'è ancora). Cartella `ricontrollo/`, registro filtrato solo per `prepara` (in scratchpad: ad `applica` si passa il registro vero). S01 (120 voci, 8 lotti) e S01b (21 voci), senza ultracode, rami `-s01`/`-s01b`, partenza SHA_REGISTA 33f51c26faf22ee0cf5d68aa2812a2960f6a54cc.
+  - Passo 2: R01-R07 aperti sul sito @ 5b8c786, rami `-m01`…`-m07`, senza ultracode, xhigh, auto, regole e scheda per intero nel primo messaggio; tetto 35 $ a riparatore, consegna a 24 $. `campione_fino_a_40_dall_onda: 1` nel piano dei normali. Id in `normali/sessioni.json` e `ricontrollo/sessioni.json`.
+  - stima_usd: 360 (tetto rigido dei passi 1 e 2). Prossimo: controllo a 10 minuti, piani da approvare, poi sorveglianza ogni 30 minuti.

@@ -1,0 +1,12 @@
+{"regista": "session_01R8112LxmCk5Y1BXWKNWKCY",
+ "sessioni": {
+  "R01": {"id": "session_01R8112Lp2bBcajUDGtjG7Qz", "ramo": "ccr-d7a54140-hak4ez-m01", "onda": 1},
+  "R02": {"id": "session_01R8112PK4PfyGTkr6aYGLXf", "ramo": "ccr-d7a54140-hak4ez-m02", "onda": 1},
+  "R03": {"id": "session_01R8112Np1tzDBAtjMNpBPka", "ramo": "ccr-d7a54140-hak4ez-m03", "onda": 1},
+  "R04": {"id": "session_01R8112M9VcVXS9YRyzaNGuB", "ramo": "ccr-d7a54140-hak4ez-m04", "onda": 1},
+  "R05": {"id": "session_01R8112KCokQvSt7SYJVbB21", "ramo": "ccr-d7a54140-hak4ez-m05", "onda": 1},
+  "R06": {"id": "session_01R8112NDYENCnDnyKGWQaSG", "ramo": "ccr-d7a54140-hak4ez-m06", "onda": 1},
+  "R07": {"id": "session_01R8112LC6Mqv34xPCFCCtoC", "ramo": "ccr-d7a54140-hak4ez-m07", "onda": 1}
+ },
+ "collaudatori": {}
+}
