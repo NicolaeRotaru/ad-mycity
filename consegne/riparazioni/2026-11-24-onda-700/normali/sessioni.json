@@ -205,7 +205,11 @@
    "base": "5b8c786c96ec789918b3e85361ca435cef726b92",
    "onda": "finale",
    "limite_usd": 6,
-   "partita": "2026-11-24 20:33"
+   "partita": "2026-11-24 20:33",
+   "finita": true,
+   "punta": "13d494ae0989af7b183946412b6e278c9da9288b",
+   "costo_usd": 2.15,
+   "finita_alle": "2026-11-24 20:44"
   }
  }
 }
