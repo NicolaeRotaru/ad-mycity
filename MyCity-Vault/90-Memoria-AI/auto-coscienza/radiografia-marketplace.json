@@ -415,7 +415,7 @@
     "gravi": 679,
     "minori": 2791,
     "agenti": null,
-    "aggiornato": "2026-11-24 21:35"
+    "aggiornato": "2026-11-24 22:41"
   },
   "confronto_precedente": {
     "data": "2026-11-05",
@@ -93908,7 +93908,7 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione giro3 · R04",
-      "stato": "aperto",
+      "stato": "riparato",
       "riparazione_21_11": {
         "esito": "parziale",
         "sessione": "R03",
@@ -93926,8 +93926,11 @@
         "esito": "riparato",
         "sessione": "R03",
         "collaudo": "K01 · collaudo pieno",
-        "nota": "riparata nel codice, aspetta la migrazione 840 sul database vero. La PR #315 è unita (479b82e9), ma il rilascio automatico ha saltato le 7 migrazioni (chiavi di Vercel mancanti) mentre Vercel ha pubblicato il codice. La voce si chiude quando la 840 è sul database vero (2026-11-24 21:40)."
-      }
+        "nota": "chiusa dopo l'unione della PR #315 e la migrazione 840 in produzione il 2026-11-24 alle 22:39 (esecuzione 45491156043 di «Migrazioni a mano»)."
+      },
+      "chiuso_il": "2026-11-24 22:41",
+      "chiuso_da": "PR #315 · 479b82e9b6c0a8296325ad00794ddba572df606d",
+      "nota_riparazione": "Migrazione 840: un trigger BEFORE INSERT su orders, solo per la veloce in contanti a domicilio, prende un lucchetto (pg_advisory_xact_lock) e ferma con 23514 + segno veloce_senza_fattorino_libero la veloce che supera i fattorini accesi (stessa regola di contaFattoriniOnline/contaVelociInCorso: una per fattorino, per cliente, ultime 3 ore); la rotta dei contanti trasforma quel rifiuto nel 409 «non c'è un fattorino libero» con la merce rimessa, invece di un 500. Ordini non veloci, ritiro e veloci con la carta escono subito dal controllo: le prove (SQL e rotta) hanno il caso esplicito «un ordine non veloce passa come prima». — prova: bash tests/sql/harness/apply.sh r03_prova_tutto && psql -d r03_prova_tutto -v ON_ERROR_STOP=1 -f tests/sql/rls/riparazione-r03-veloce.test.sql ; npx vitest run tests/unit/riparazione-r03-veloce.test.ts --reporter=dot — mutazione: timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo . --base 3ded946e720350f0c113c11663ffade486af2f64^ --file migrations/840_due_veloci_insieme_non_passano_con_un_fattorino_solo.sql --prove tests/sql/rls/riparazione-r03-veloce.test.sql --sql r03_rimessa_veloce --json → uscita 0 (riparatore); PGHOST=/var/run/postgresql PGUSER=root timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 3ded946e720350f0c113c11663ffade486af2f64^ --file migrations/840_due_veloci_insieme_non_passano_con_un_fattorino_solo.sql --prove tests/sql/rls/riparazione-r03-veloce.test.sql --sql k01_r03_rimessa --json → uscita 0 (K01)"
     },
     {
       "dimensione": "qa-flussi",
@@ -95518,13 +95521,16 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione normali · R06",
-      "stato": "aperto",
+      "stato": "riparato",
       "riparazione_24_11": {
         "esito": "riparato",
         "sessione": "R02",
         "collaudo": "K04 · collaudo pieno",
-        "nota": "riparata nel codice, aspetta la migrazione 832 sul database vero. La PR #315 è unita (479b82e9), ma il rilascio automatico ha saltato le 7 migrazioni (chiavi di Vercel mancanti) mentre Vercel ha pubblicato il codice. La voce si chiude quando la 832 è sul database vero (2026-11-24 21:40)."
-      }
+        "nota": "chiusa dopo l'unione della PR #315 e la migrazione 832 in produzione il 2026-11-24 alle 22:39 (esecuzione 45491156043 di «Migrazioni a mano»)."
+      },
+      "chiuso_il": "2026-11-24 22:41",
+      "chiuso_da": "PR #315 · 479b82e9b6c0a8296325ad00794ddba572df606d",
+      "nota_riparazione": "Commit 3cf71891: la migrazione 832 ridefinisce notify_buyer_on_order_status partendo dalla 321: nella campanella «Ordine pronto» a domicilio il giorno della fascia (oggi/domani a Piacenza; senza giorno se la fascia è passata o l etichetta è ignota) e «fattorino» al posto di «rider». Commit 7ff5361d: anche il ramo ASSIGNED dice fattorino (al cliente «Un fattorino ha preso il tuo ordine», «Il fattorino passa a prendere l ordine #… e te lo porta.»; al negozio «Fattorino assegnato», «Un fattorino passa a prendere l ordine #…»). Prova SQL con date fisse: 11 controlli verdi. — prova: bash tests/sql/harness/apply.sh mycity_test && psql -X -d mycity_test -v ON_ERROR_STOP=1 -f tests/sql/rls/riparazione-r02-ordine-pronto-col-giorno.test.sql — mutazione: timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo . --base 3cf71891^ --file migrations/832_l_ordine_pronto_dice_anche_il_giorno.sql --prove tests/sql/rls/riparazione-r02-ordine-pronto-col-giorno.test.sql --sql r02_rimessa_ordine_pronto --json (uscita 0) ; timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo . --base 7ff5361d^ --file migrations/832_l_ordine_pronto_dice_anche_il_giorno.sql --prove tests/sql/rls/riparazione-r02-ordine-pronto-col-giorno.test.sql --sql r02_rimessa_assegnato --json (uscita 0) → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R02 --base 3cf718916f12689010815764d8cae8af5b40eebf^ --file migrations/832_l_ordine_pronto_dice_anche_il_giorno.sql --prove tests/sql/rls/riparazione-r02-ordine-pronto-col-giorno.test.sql --sql k04_r02_rimessa --json ; timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R02 --base 7ff5361d91bd4baf024da081bd806b2c0f8a1486^ --file migrations/832_l_ordine_pronto_dice_anche_il_giorno.sql --prove tests/sql/rls/riparazione-r02-ordine-pronto-col-giorno.test.sql --sql k04_r02_rimessa2 --json → uscita 0 (K04)"
     },
     {
       "dimensione": "qa-flussi",
@@ -95581,13 +95587,16 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione normali · R08",
-      "stato": "aperto",
+      "stato": "riparato",
       "riparazione_24_11": {
         "esito": "riparato",
         "sessione": "R05",
         "collaudo": "K02 · collaudo pieno",
-        "nota": "riparata nel codice, aspetta la migrazione 860 sul database vero. La PR #315 è unita (479b82e9), ma il rilascio automatico ha saltato le 7 migrazioni (chiavi di Vercel mancanti) mentre Vercel ha pubblicato il codice. La voce si chiude quando la 860 è sul database vero (2026-11-24 21:40)."
-      }
+        "nota": "chiusa dopo l'unione della PR #315 e la migrazione 860 in produzione il 2026-11-24 alle 22:39 (esecuzione 45491156043 di «Migrazioni a mano»)."
+      },
+      "chiuso_il": "2026-11-24 22:41",
+      "chiuso_da": "PR #315 · 479b82e9b6c0a8296325ad00794ddba572df606d",
+      "nota_riparazione": "La definizione in uso era ancora quella della 032. La 860 la ridefinisce: conteggio e media del venditore contano le recensioni ai prodotti più quelle in store_reviews, e la stessa funzione gira anche AFTER INSERT su store_reviews. Nessuna funzione nuova, permessi invariati. Prova SQL a 4 casi, 3 rossi sulla base; suite tests/sql verde. Migrazione da applicare: decide Nicola. — prova: bash tests/sql/harness/apply.sh r05_prova && psql -q -X -d r05_prova -v ON_ERROR_STOP=1 -f tests/sql/rls/riparazione-r05-traguardo-votato.test.sql — mutazione: node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo . --base a3415aa0b9b467c1c9700f104396c25c893c41ab^ --file migrations/860_il_traguardo_top_rated_conta_anche_le_recensioni_al_negozio.sql --prove tests/sql/rls/riparazione-r05-traguardo-votato.test.sql --sql r05_rimessa --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-c --base a3415aa0b9b467c1c9700f104396c25c893c41ab^ --file migrations/860_il_traguardo_top_rated_conta_anche_le_recensioni_al_negozio.sql --prove tests/sql/rls/riparazione-r05-traguardo-votato.test.sql --sql k02_r05_rimessa --json → uscita 0 (K02)"
     },
     {
       "dimensione": "qa-flussi",
@@ -96349,13 +96358,16 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione normali · R16",
-      "stato": "aperto",
+      "stato": "riparato",
       "riparazione_24_11": {
         "esito": "riparato",
         "sessione": "R02",
         "collaudo": "K04 · collaudo pieno",
-        "nota": "riparata nel codice, aspetta la migrazione 830 sul database vero. La PR #315 è unita (479b82e9), ma il rilascio automatico ha saltato le 7 migrazioni (chiavi di Vercel mancanti) mentre Vercel ha pubblicato il codice. La voce si chiude quando la 830 è sul database vero (2026-11-24 21:40)."
-      }
+        "nota": "chiusa dopo l'unione della PR #315 e la migrazione 830 in produzione il 2026-11-24 alle 22:39 (esecuzione 45491156043 di «Migrazioni a mano»)."
+      },
+      "chiuso_il": "2026-11-24 22:41",
+      "chiuso_da": "PR #315 · 479b82e9b6c0a8296325ad00794ddba572df606d",
+      "nota_riparazione": "Migrazione 830: trigger BEFORE INSERT OR UPDATE OF store_name su profiles che rifiuta (23514) un nome oltre 80 caratteri quando nasce o cambia, come il tetto del modulo e della domanda d'iscrizione. Il modulo «Dettagli negozio» salva il nome con trim(), cioe' quello su cui VendorForm conta gli 80 caratteri. — prova: bash tests/sql/harness/apply.sh mycity_test && psql -X -d mycity_test -v ON_ERROR_STOP=1 -f tests/sql/rls/riparazione-r02-nome-negozio-con-tetto.test.sql ; npx vitest run tests/unit/riparazione-r02-nome-negozio-con-tetto.test.ts --reporter=dot — mutazione: timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo . --base af9d3bb0^ --file migrations/830_il_nome_del_negozio_ha_un_tetto_anche_nel_database.sql --prove tests/sql/rls/riparazione-r02-nome-negozio-con-tetto.test.sql --sql r02_rimessa_nome_negozio --json (uscita 0) ; timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo . --base af9d3bb0^ --file components/seller/site/StoreDetailsEditor.tsx --prove tests/unit/riparazione-r02-nome-negozio-con-tetto.test.ts --json (uscita 0) → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R02 --base af9d3bb05ccf9a58407508b5bffa9bad3fafbdfc^ --file components/seller/site/StoreDetailsEditor.tsx --prove tests/unit/riparazione-r02-nome-negozio-con-tetto.test.ts --json ; timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R02 --base af9d3bb05ccf9a58407508b5bffa9bad3fafbdfc^ --file migrations/830_il_nome_del_negozio_ha_un_tetto_anche_nel_database.sql --prove tests/sql/rls/riparazione-r02-nome-negozio-con-tetto.test.sql --sql k04_r02_rimessa --json → uscita 0 (K04)"
     },
     {
       "dimensione": "layout-responsive",
