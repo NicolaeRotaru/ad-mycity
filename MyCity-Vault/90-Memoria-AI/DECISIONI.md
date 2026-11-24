@@ -7345,3 +7345,6 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Colore:** 🟡 codice in rami; 🔴 unire, applicare 706-708 e mandare il link al titolare restano di Nicola.
 
 - 2026-11-24 11:15 · Le PR in pila non arrivano in main da sole · #310 e #311 erano aperte sui rami della #309 e della #310: unite dopo la #309, sono finite in quei rami e non in main. Rimedio: mycity#312 (base main) della sessione dei servizi. Lezione: una PR in pila va riportata su main (cambiando la base) appena la PR sotto viene unita, oppure si apre direttamente su main; e nel messaggio a Nicola si dice esplicitamente «dopo aver unito la prima, la seconda va ribasata».
+
+- 2026-11-24 20:49 · Migrazioni 703→710 applicate in produzione dall'AD · Nicola: «Fai tu le migrazioni». L'AD ha contato in sola lettura le mancanti (8, dalla 703 alla 710, nient'altro) e ha avviato il lavoro «Migrazioni a mano» con APPLICA/8/710 (esecuzione 45471204952): conta, riconta, applica, seconda passata e controlli finali tutti verdi. Verificato dopo: Ora del Gusto creata in modalità preventivo, SDG Agenzia con 3 prodotti, Pane Quotidiano visibile.
+- **Colore:** 🔴 scrittura sul database di produzione, firmata da Nicola in chat; eseguita con lo strumento ufficiale del repo, non a mano.
