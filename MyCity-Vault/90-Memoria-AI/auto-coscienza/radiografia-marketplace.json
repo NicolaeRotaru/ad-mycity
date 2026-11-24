@@ -799,6 +799,13 @@
         "prova": "app/checkout/page.tsx:473-480: il saldo si legge una volta sola, senza rilettura al ritorno sulla scheda (components/providers/QueryProvider.tsx:66-71 ha staleTime 30s e refetchOnWindowFocus false). Prima dell'invio non lo rilegge nessuno, e :1035 manda useCredit true. lib/ordini/riepilogo-cassa.ts:72-74 calcola lo sconto dal saldo vecchio. app/api/orders/cod/route.ts:1403-1454: wallet_debit toglie quello che c'è (0) e l'ordine nasce al lordo. Il server confronta solo i prezzi visti (subtotaliVistiCents, :1030), mai il credito visto.",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Il server non addebita due volte, perché wallet_debit è atomico. La seconda scheda però conferma l'ordine mostrando un totale più basso di quello vero, senza nessun avviso."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "app/checkout/page.tsx:473-480, :1035 · components/providers/QueryProvider.tsx:70 · lib/ordini/riepilogo-cassa.ts:73-75 · app/api/orders/cod/route.ts:111, :1441-1446, :1492",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": null
       }
     },
     {
@@ -818,7 +825,14 @@
       "causa_radice": "Si somma una durata fissa di 24 ore a un istante invece di passare per il calendario: lo stesso errore gia' corretto in ultimiGiorniPiacenza (lib/tempo-piacenza.ts:77-83, difetto 254) ma non qui.",
       "giro": 1,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-11-06 · S02"
+      "fonte_radiografia": "radiografia 2026-11-06 · S02",
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "cd marketplace && npx vitest run tests/unit/_s01/L08-11.test.ts ; lib/cassa/quadratura.ts:58-59",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": null
+      }
     },
     {
       "dimensione": "qa-flussi",
@@ -920,6 +934,13 @@
         "prova": "[tolto per riservatezza dal CF del 21/11: il dettaglio resta nella chat della sessione]",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Piccolo cambio di forma: il reclamo ora lo scrive il server (/api/disputes) e non più il browser. Ma resta riservato al cliente dell'ordine. Nessuna apertura automatica su CONTANTI_INCASSATI e nessuno strumento per l'amministratore: il titolo è ancora vero per intero."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "copia scratchpad di S01b, prove/tmp-s01b-L01-1.test.ts in marketplace/tests/unit/ e lancia npx vitest run tests/unit/tmp-s01b-L01-1.test.ts",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "lib/ordini/annulla.ts:282-284 si ferma su CONTANTI_INCASSATI senza scrivere; rotta admin cancel 51-53 e 73-80 dice «apri un reclamo»; l'unico insert lato server (app/api/disputes/route.ts:62-66) è solo per il cliente. Fatto pagamenti.rimborso-contanti ancora vivo. Controprova verde: minori-s01-annullo e riparazione-r03 (8 passed)."
       }
     },
     {
@@ -2303,6 +2324,13 @@
         "sessione": "R18",
         "collaudo": null,
         "perche": "non_fatto: tolta dalla regia: delicata (merce rimessa in vendita, tocca l'annullo); va ai delicati con ultracode"
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "app/api/rider/orders/[id]/cliente-assente/route.ts:69-77 · lib/ordini/annulla.ts:126-130, :401-409 · app/rider/orders/[id]/page.tsx:723-737",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "La regola firmata consegna.cliente-assente dice «la merce torna al negozio», non che torni in vendita al momento dell'annullo: non supera il difetto."
       }
     },
     {
@@ -2335,6 +2363,13 @@
         "sessione": "R14",
         "collaudo": null,
         "perche": "non_fatto: tolta dalla regia: delicata (va ai delicati, che girano a parte con ultracode)"
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "migrations/156_niente_fattorini_minorenni.sql:81-86 · lib/maggiore-eta.ts:100-102 · lib/errors.ts:23,232-241 · app/rider/onboarding/page.tsx:158-186",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Nessuna migrazione dopo la 156 tocca profiles_maggiore_eta; errors.ts non ha una frase per quel vincolo («Il valore inserito non è valido.»)."
       }
     },
     {
@@ -2477,6 +2512,13 @@
         "prova": "lib/geocodifica.ts:28-46 cerca ancora a testo libero (q=…, limit=1, countrycodes=it), senza viewbox, bounded o controllo del comune. app/api/orders/cod/route.ts:1068-1105 rifiuta con motivoFuoriZona. Una prova vitest temporanea con un Nominatim finto (copia in scratchpad/log/_s01d_l02/geocodifica.test.ts) dà fuori zona = true e mostra un URL con limit=1 e senza bounded, viewbox o street.",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": null
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "cd marketplace && npx vitest run tests/unit/_s01/L08-14.test.ts ; lib/geocodifica.ts:28-32 ; app/api/geocode/route.ts:41 ; app/api/orders/cod/route.ts:1136-1145 ; app/api/stripe/checkout/route.ts:611-619",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Il bloccante è ancora vero: la ricerca dell'indirizzo non è cambiata, e il controllo dei 5 km blocca l'ordine sia coi contanti sia con la carta."
       }
     },
     {
@@ -2632,6 +2674,13 @@
         "prova": "app/orders/[id]/dispute/page.tsx:193-197; migrations/027:329-342; app/admin/disputes/page.tsx",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Il reso invece ha uploadPhoto (return/page.tsx:146-159). Nessuna migrazione aggiunge le foto ai reclami."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "psql -X -d mycity_s01_l03 -f scratchpad/prove/L03-db.sql (count di information_schema.columns per disputes.photo_urls)",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": null
       }
     },
     {
@@ -5507,6 +5556,13 @@
         "sessione": "R01",
         "collaudo": null,
         "perche": "non_fatto: permessi: va all'onda dei delicati, con ultracode (decisione della regista, 21/11 23:24)"
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "migrations/215_minori_s04_database.sql:276-290 · migrations/027_growth_engagement_foundations.sql:350-355 · app/api/disputes/route.ts:55-72",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Cambiato solo il percorso del sito: la pagina del reclamo passa da /api/disputes, che scrive against_id lato server. Chi scrive direttamente nel database può ancora mettere un negozio qualunque."
       }
     },
     {
@@ -6266,6 +6322,13 @@
         "sessione": "R27",
         "collaudo": null,
         "perche": "il riparatore non l'ha scritta nel referto"
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "tests/unit/webhook-diviso-per-mestiere.test.ts:51-60 · app/api/stripe/webhook/route.ts:113,148,237",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "File identico alla descrizione della voce."
       }
     },
     {
@@ -6800,6 +6863,13 @@
         "prova": "lib/api/middleware.ts:687-691: con status >= 400 scrive solo logger.error e poi scrive comunque il battito. Il commento alle righe 682-686 ammette ancora il buco. In migrations, lib e app non c'è nessuna colonna o lettura last_success_at.",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": null
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "cambiato",
+        "prova": "lib/api/middleware.ts:684-713 ; app/api/cron/operational-alerts/route.ts:729-748 ; lib/logger.ts:220-223 e :300-303",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "La prima parte resta: un lavoro che fallisce sembra vivo. La seconda è cambiata: un 500 di un lavoro ora fa partire un allarme generico. L'allarme però non dice quale lavoro, e scatta solo con Sentry spento e Upstash configurato."
       }
     },
     {
@@ -7890,6 +7960,13 @@
         "prova": "migrations/501_la_rimessa_conferma_solo_gli_ordini_visti.sql:66-69 ; grep -ln remitted_at migrations/*.sql (solo 097, 126, 127, 501) ; lib/account/cancellazione.ts:681-728 (contantiAncoraDaVersare) e :912-934 ; lib/cassa/quadratura.ts e app/api/admin/cod-remittance/route.ts:56-70 senza remitted_at",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "[tolto per riservatezza dal CF del 21/11: il dettaglio resta nella chat della sessione]"
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "migrations/501_la_rimessa_conferma_solo_gli_ordini_visti.sql:66-69 e migrations/127_minori_22_agosto.sql:676-679 (remitted_at = now() senza condizioni, in tutte e due le forme di confirm_cod_remittance); lib/cassa/quadratura.ts:86-96 (upsert senza remitted_at, conta solo i DELIVERED); app/api/admin/cod-remittance/route.ts:55-103 (nessun ricalcolo dopo la rpc); lib/account/cancellazione.ts:711-713 (la guardia si fida solo di remitted_at)",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "La forma nuova della rimessa (501, solo gli ordini visti) ha ripreso la stessa scrittura di remitted_at senza condizioni, quindi la giornata risulta versata anche con un ordine incassato dopo."
       }
     },
     {
@@ -9652,6 +9729,13 @@
         "sessione": "R08",
         "collaudo": "parziale",
         "perche": "parziale: Il voto medio e il conteggio delle recensioni in andamento_del_negozio (ultima definizione migrations/260:93-94): contano ancora solo public.reviews sui prodotti."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "cambiato",
+        "prova": "migrations/260_le_visite_del_negoziante_non_sono_clienti.sql:93-94 (ultima definizione di andamento_del_negozio: voto e conteggio ancora da public.reviews unita ai prodotti); app/seller/analytics/page.tsx:307 «Consigli», :337 e :346 «30 giorni», :349 «Visite che diventano ordini», :374 «Voto medio»",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "La parte delle etichette è riparata. Resta quella che conta: un negozio con sole recensioni al negozio legge ancora «Nessuna recensione»."
       }
     },
     {
@@ -9970,6 +10054,13 @@
         "sessione": "R13",
         "collaudo": "rompe_altro",
         "perche": "il riparatore non l'ha scritta nel referto"
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "psql -X -d mycity_s01_l07 -v ON_ERROR_STOP=1 -At -f scratchpad/prove/L07-2.sql · npx vitest run tests/unit/_s01/L07-2.test.ts · components/seller/ProductForm.tsx:1194-1200 · lib/products/salvataggio-tracciato.ts:128-129 · lib/ordini/recesso.ts:22-24, 35-42 · app/api/returns/create/route.ts:156-157 · lib/promesse-pubbliche.ts:359-363",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "La regola firmata (registro dei fatti, legale.recesso-esclusi) esclude solo i prodotti deperibili e quelli su ordinazione: la voce non è superata da una decisione, anzi la decisione la conferma."
       }
     },
     {
@@ -10001,6 +10092,13 @@
         "sessione": "R32",
         "collaudo": null,
         "perche": "non_fatto: tetto: la sessione ha superato la soglia di 38 $ (40,17 $ alle 12:17) e la regista ha fermato i lotti 3 e 4; la voce non è stata aperta."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "app/seller/earnings/commissione.ts:97-102 · :113 · :175 · app/terms/page.tsx:321 · components/SellerApplicationForm.tsx:308 · registro-fatti pricing.commissione (agg. 2026-11-01 12:18)",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": null
       }
     },
     {
@@ -10389,6 +10487,13 @@
         "sessione": "R32",
         "collaudo": null,
         "perche": "non_fatto: tetto: la sessione ha superato la soglia di 38 $ (40,17 $ alle 12:17) e la regista ha fermato i lotti 3 e 4; la voce non è stata aperta."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "app/privacy/page.tsx:84-89 · app/rider/onboarding/page.tsx:68-71 · app/api/seller/apply/route.ts:86",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Ho controllato anche i testi che la pagina importa (lib/legal/titolare, lib/privacy/*): nessuno contiene quelle parole."
       }
     },
     {
@@ -10458,7 +10563,14 @@
       "causa_radice": "La regola «scaduto o versione diversa vale come no» è scritta due volte nel browser e mai nella lettura del registro lato server.",
       "giro": 1,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-11-06 · S09"
+      "fonte_radiografia": "radiografia 2026-11-06 · S09",
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "cd marketplace && npx vitest run tests/unit/_s01/L08-8.test.ts ; lib/analytics/server.ts:194-216",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "La strada verso PostHog è spenta dall'interruttore (server.ts:231). Quella verso Google no."
+      }
     },
     {
       "dimensione": "privacy-legale",
@@ -10497,6 +10609,13 @@
         "prova": "lib/account/cancellazione.ts:92 SECCHI_CON_FILE_PERSONALI = ['kyc-docs','cod-proof','reviews']. Le righe 105-107 aggiungono solo products/<userId>/returns. Il secchio stories e il resto della cartella <userId>/ in products non vengono svuotati da cancellaFilePersonali (righe 323-345).",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": null
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "cd marketplace && npx vitest run tests/unit/_s01/L08-4.test.ts ; lib/account/cancellazione.ts:92 e :105-107 e :323-329",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Dal 15/11 (R26-001) si toglie la cartella dei resi. Il resto del secchio products e tutto il secchio stories restano fuori."
       }
     },
     {
@@ -10971,7 +11090,7 @@
       "impatto": "Lo subisce chi usa i caratteri grandi sul telefono, spesso persone anziane, cioè proprio il pubblico dei negozi di quartiere. Per leggere il fondo di ogni pagina deve spostare la pagina di lato. Il contenuto principale resta quasi tutto leggibile, quindi il danno è piccolo.",
       "fix": "In Footer.tsx:188 usare una griglia che si adatta al testo, per esempio grid-cols-[repeat(auto-fit,minmax(min(100%,10rem),1fr))] oppure grid-cols-1 min-[420px]:grid-cols-2. Mettere min-w-0 e break-words sulle colonne. Sulle singole pagine: [overflow-wrap:anywhere] sull'email di /help e sulle parole lunghe, min-w-0 sui figli dei riquadri di /lavora-con-noi e /returns, contenitore del Turnstile con max-w-full.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "gia_riparato_prima",
       "prova": "Prova Playwright proposta tests/e2e/il-testo-grande-non-allarga-la-pagina.spec.ts. Viewport 360x740 e page.addStyleTag({content:'html{font-size:200%}'}); per /lavora-con-noi, /returns, /shipping, /help, /faq, /terms e /contact controlla che document.documentElement.scrollWidth sia al massimo 360. Comando: npx playwright test tests/e2e/il-testo-grande-non-allarga-la-pagina.spec.ts --project=chromium contro il sito locale (npm run dev). Oggi diventa rosso, con larghezze da 432 a 473px.",
       "prova_tipo": "comando",
       "prova_eseguita": true,
@@ -11027,7 +11146,15 @@
         "sessione": "R16",
         "collaudo": "parziale",
         "perche": "parziale: app/help (riquadro Email) e app/terms («sponsorizzati»): misurati a 280 px/200% su next dev, scrollWidth 280, nessun overflow visibile; non sono miei. La modifica difensiva è scritta in serve_file_altrui. Widget Turnstile non misurato dal vivo (serve chiave vera)."
-      }
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "non_piu_vero",
+        "prova": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r15-col-testo-grande-la-pagina-non-scorre-di-lato.test.tsx tests/unit/riparazione-r02-pagine-testo-grande.test.tsx tests/unit/riparazione-r02-piede-280.test.ts ; components/Footer.tsx:143,150,203",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Le prove controllano le classi CSS, non misurano la pagina in un browser."
+      },
+      "nota_riparazione": "Già riparato nel codice unito (ricontrollo della radiografia del 24/11, S01). cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r15-col-testo-grande-la-pagina-non-scorre-di-lato.test.tsx tests/unit/riparazione-r02-pagine-testo-grande.test.tsx tests/unit/riparazione-r02-piede-280.test.ts ; components/Footer.tsx:143,150,203"
     },
     {
       "dimensione": "layout-responsive",
@@ -13356,7 +13483,14 @@
       "causa_radice": "Il campo è un input file nudo, mentre il resto del pannello usa componenti con anteprima.",
       "giro": 1,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-11-06 · S10"
+      "fonte_radiografia": "radiografia 2026-11-06 · S10",
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "app/seller/stories/page.tsx:328-344 · components/seller/SellerShell.tsx:43",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": null
+      }
     },
     {
       "dimensione": "stati-ui",
@@ -14110,6 +14244,13 @@
         "sessione": "R15",
         "collaudo": "parziale",
         "perche": "parziale: Se GA4 resta senza ID e PostHog spento, nessun posto riceve ancora le misure. Strada propria: far accettare 'web_vital' a /api/track (file non mio)."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "cambiato",
+        "prova": "lib/analytics/posthog.tsx:443-458 e :615-650 ; components/GoogleAnalytics.tsx:10 ; package.json:49 e :61 ; app/api/track/route.ts:43-45",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Il codice è riparato a metà. Da qui non si può vedere se in produzione c'è l'ID di GA4 (Vercel è vietato). Senza quell'ID, la misura continua a non arrivare a nessuno."
       }
     },
     {
@@ -14316,6 +14457,13 @@
         "sessione": "R07",
         "collaudo": null,
         "perche": "scelta_di_nicola: le anteprime che l agente prepara per il negozio da approvare prima che escano: nel pannello del sito non c è una sezione «Da approvare» (né rotta, né tabella, né componente), e nel registro dei fatti non c è una decisione «si approvano solo su WhatsApp». Vuoi la sezione nel pannello (funzione nuova: dato, rotta e voce di menu) oppure decidi che si approvano solo su WhatsApp e lo scriviamo nel registro dei fatti? (L anteprima delle modifiche AI al catalogo in AI Studio, app/seller/products/ai-batch, esiste già ma è un altra cosa.)"
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "components/seller/SellerShell.tsx:32-63 (menu) ; app/seller/ (nessuna rotta da-approvare/approvals/anteprime) ; components/seller/AnteprimaServizio.tsx:15-29",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Nel registro-fatti, la regola 3 riscritta da Nicola il 1/11 dice che il negozio «approva le anteprime sul sito». Quella decisione conferma che il pezzo serve, quindi non chiude la voce."
       }
     },
     {
@@ -14623,6 +14771,13 @@
         "prova": "Lette components/Navbar.tsx:72-150 (la memoria di chi aveva la sessione, segnaNotificheSpente, diciSeLeNotificheSonoSpente) e :220-245 (onAuthStateChange).",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Lo spegnimento non è più silenzioso: al rientro la persona viene avvisata. Le notifiche però non si riaccendono da sole e lo spegnimento avviene ancora anche senza aver premuto «Esci»."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "cambiato",
+        "prova": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r19-notifiche-spente-dette-al-rientro.test.ts tests/unit/riparazione-r01-notifiche-sessione-scaduta-al-caricamento.test.ts ; components/Navbar.tsx:225-233, :133-149, :241-243",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Riparato «in silenzio». Resta vero che ogni uscita, anche automatica, spegne le notifiche e che non si riaccendono da sole: è una scelta scritta a Navbar.tsx:42-43."
       }
     },
     {
@@ -15375,6 +15530,13 @@
         "prova": "Rilanciato il grep originale (grep -rnE \"€\\s?\\$\\{|€\\s?[0-9]|€\\{\" su app components lib messages, senza test e commenti). Lette app/search/page.tsx:288, app/category/[slug]/page.tsx:311, app/api/seller/orders/[id]/reject/route.ts:118-120 e lib/coupons.ts:84.",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Sono riparati l'anteprima del prodotto, il carrello condiviso, i punti fedeltà, i testi in it.json e la pagina /shipping. Il difetto però resta in tanti altri punti."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "cambiato",
+        "prova": "app/search/page.tsx:295 ; app/category/[slug]/page.tsx:310 ; components/StoreProductExplorer.tsx:163 ; lib/coupons.ts:84 ; app/api/seller/orders/[id]/reject/route.ts:118,120",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "I casi più visibili sono riparati. «€0 – €500+», toFixed col punto e «€5» compaiono ancora in vari punti."
       }
     },
     {
@@ -16462,6 +16624,13 @@
         "sessione": "R03",
         "collaudo": null,
         "perche": "non_codice: Le chiavi della posta mancano su Vercel (Production): Nicola deve creare RESEND_API_KEY (Sensitive) e RESEND_FROM con un mittente del dominio verificato su Resend, più SUPPORT_EMAIL con una casella letta davvero, ripubblicare e fare un ordine di prova controllando che arrivino l'email al negozio e la conferma al cliente. Nel codice non c'è niente da cambiare: sendEmail risponde «skipped» senza chiave (lib/email/client.ts:70-75 e 93-98) e il semaforo /api/health le elenca già fra le importanti (ENV_IMPORTANTI). Con R03-003 un rifiuto di Resend al momento dell'invio ora arriva agli amministratori."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "non_verificabile",
+        "prova": "lib/email/client.ts:78-83 e :99-105 ; app/api/orders/cod/route.ts:1858 e :1880",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Il difetto sta nelle variabili di Production su Vercel. Da qui non posso leggerle: Vercel è vietato. Serve che qualcuno guardi su Vercel o faccia un ordine di prova."
       }
     },
     {
@@ -16587,6 +16756,13 @@
         "sessione": "R15",
         "collaudo": null,
         "perche": "non_fatto: tolta dalla regia: delicata"
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "grep -rniE 'ordini_aperti|ferma ?gli ?ordini|kill.?switch|manutenzione|maintenance' app lib middleware.ts (nessun interruttore) · lib/funzioni-al-lancio.ts:17-21 · app/api/admin/users/[id]/moderate/route.ts:55, :112",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": null
       }
     },
     {
@@ -16969,6 +17145,13 @@
         "sessione": "R18",
         "collaudo": null,
         "perche": "serve_file_altrui: Causa verificata: il cron non ha filtri né attese per la categoria 'order' (CATEGORIE_CHE_ASPETTANO è solo promo/group/newsletter). Il ritardo viene solo dalla cadenza */5 di vercel.json. L'aiutante pronto è lib/push/subito.ts, già provato da tests/unit/riparazione-r02-push-nuovo-ordine-subito.test.ts, ma non collegato. Un cron al minuto invece dipende dal piano Vercel. vercel.json non è stato toccato."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "lib/push/subito.ts:109 · app/api/cron/send-push/route.ts:24-30 · vercel.json:26",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "La cura è a metà strada: l'aiutante c'è, il collegamento alle rotte d'ordine no."
       }
     },
     {
@@ -17190,6 +17373,13 @@
         "prova": "La metà «nessuno se ne accorge» è chiusa: npx vitest run tests/unit/riparazione-r03-email-rifiutata-si-vede.test.ts passa 4 su 4 (ok:false manda un avviso agli admin con l'ordine). La metà «nessuno la rimanda» resta: lib/email/client.ts:~170-222 fa al massimo 2 tentativi immediati e poi rinuncia, e l'avviso al negozio non entra in email_queue (cod/route.ts:1820-1821, webhook/ordini.ts:551-579).",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Cambiato rispetto alla nascita: lib/stripe/webhook/posta-non-partita.ts ora legge ok:false, scrive un errore con orderId e avvisa gli amministratori una volta per invio. Vale per contanti, carta, rimborsi e buoni regalo. Manca ancora un nuovo tentativo, cioè una coda con ritenti: un'email rifiutata non viene rimandata da nessuno, la deve rimandare a mano l'amministratore."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "cambiato",
+        "prova": "cd marketplace && npx vitest run tests/unit/_s01/L08-12.test.ts ; lib/stripe/webhook/posta-non-partita.ts:15-37 ; lib/stripe/webhook/comune.ts:260-273 ; app/api/orders/cod/route.ts:1858-1859 ; lib/email/client.ts:109-113",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "La parte «nessuno se ne accorge» è riparata (R03-003). Resta «nessuno la rimanda»: non c'è una coda né un nuovo tentativo, e l'avviso dice all'amministratore «Avvisa tu il destinatario». Finché manca la seconda parte del titolo, la voce non si può chiudere."
       }
     },
     {
@@ -18997,6 +19187,13 @@
         "sessione": "R26",
         "collaudo": "parziale",
         "perche": "parziale: Il modulo del reso carica ancora in products, che è pubblico: finché l'account vive la foto si vede da chi ha il link. Il passaggio al secchio privato chiede prima la riga in lib/storage/regole-secchi.ts (serve_file_altrui), poi, tutte insieme e con la 500 applicata: 1) app/orders/[id]/return/page.tsx: secchio 'returns', cartella params.id, accept={attributoAccept('returns')}; photo_urls salva ${NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/authenticated/returns/<percorso>, anteprima con createSignedUrl; 2) components/seller/ReturnRequestCard.tsx: createSignedUrl per quei riferimenti; 3) lib/account/cancellazione.ts: 'returns' in SECCHI_CON_FILE_PERSONALI. Non codice per Nicola: applicare la 500; le foto già caricate in products/<cliente>/returns/ vanno spostate o cancellate. Due note del revisore: (a) il commento in migrations/500_le_foto_dei_resi_in_un_secchio_privato.sql:26-27 dice che la cancellazione svuota già la cartella nel secchio 'returns', ma 'returns' entra in SECCHI_CON_FILE_PERSONALI solo col passo 3: va corretto insieme; (b) non verificabile: prima della migrazione 114 il caricamento in products accettava qualunque percorso, quindi foto di resi più vecchie salvate fuori da <cliente>/returns/ restano pubbliche, e photo_urls viene azzerato prima della pulizia dei file, così il riferimento per ritrovarle si perde."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "cambiato",
+        "prova": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/_s01/L06-4.test.ts ; ciò che resta: app/orders/[id]/return/page.tsx:153-158 · lib/storage/carica-immagine.ts:131 · lib/storage/percorso-caricamento.ts:33",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Riparata la parte dopo la cancellazione (art. 17): lib/account/cancellazione.ts:105-107, :366-377 e :196. Resta che la foto si carica ancora nel secchio pubblico products, e nessuna potatura toglie le foto dei resi mai inviati. Quindi, finché l'account vive, chi ha il link le raggiunge senza scadenza: è una forma più leggera del difetto, per questo non la chiudo."
       }
     },
     {
@@ -19897,6 +20094,13 @@
         "sessione": "R12",
         "collaudo": "regge",
         "perche": "parziale: Le domande nascono ancora visibili (is_public DEFAULT true, 027): moderarle prima è una scelta di Nicola (domanda scritta). Il pulsante Segnala, l'API e il comando admin sono in file altrui."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "components/ProductQA.tsx:65 e :85-96 · app/api/segnalazioni/route.ts:30 · components/Segnala.tsx:51 · nessun riferimento a product_questions in app/admin e app/api/admin · migrations/364_una_domanda_si_segnala_e_si_nasconde.sql",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "La migrazione 364 prepara solo il database: aggiunge il tipo «domanda» al CHECK e la policy con cui l'admin nasconde. Dice da sé che pulsante, API e pagina admin restano da fare: per chi usa il sito nessuna delle tre parti è chiusa."
       }
     },
     {
@@ -20065,6 +20269,13 @@
         "sessione": "R31",
         "collaudo": null,
         "perche": "non_fatto: tetto: la regista ha fermato il lotto 4 (privacy e dati) a 26,61 $ di spesa, per consegnare entro 38 $. Voce non aperta: resta per l'onda dopo."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "app/api/gift-cards/checkout/route.ts:85-92 (metadati), :80 (descrizione), :117-122 (chiave) · lib/funzioni-al-lancio.ts:46",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Due pezzi della descrizione sono riparati: la descrizione sulla ricevuta è generica e la chiave usa un'impronta al posto dell'email. Il titolo resta tutto vero. La vendita è spenta: il difetto parte alla riaccensione."
       }
     },
     {
@@ -20454,6 +20665,13 @@
         "prova": "app/api/cron/process-deletions/route.ts:236 rilegge deletion_requested_at (haAnnullatoNelFrattempo, :649-657) solo PRIMA di cancellaAccount; lib/account/cancellazione.ts:912-1012 non ricontrolla prima di `admin.auth.admin.deleteUser` (:1012); app/api/account/delete/route.ts:200-212 (annulla) azzera il campo senza condizioni e risponde «Richiesta annullata.»",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Stessa forma già registrata il 6/11 come 'cambiato': la finestra si è ristretta da tutta la notte ai secondi di un account (anonimizzazione, storage, Stripe), ma non è chiusa."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "cambiato",
+        "prova": "app/api/cron/process-deletions/route.ts:238-245 e :705-713 (riparato); lib/account/cancellazione.ts:932 e seguenti, app/api/account/delete/route.ts:200-210 (resta)",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "La finestra si è ristretta da tutto il giro a pochi secondi per account, ma c'è ancora e il danno resta irreversibile."
       }
     },
     {
@@ -20669,6 +20887,13 @@
         "sessione": "R31",
         "collaudo": null,
         "perche": "non_fatto: tetto: la regista ha fermato il lotto 4 (privacy e dati) a 26,61 $ di spesa, per consegnare entro 38 $. Voce non aperta: resta per l'onda dopo."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "cambiato",
+        "prova": "lib/account/cancellazione.ts:770-778 e :842-871 (annotaIlContoCollegato scrive in audit_logs prima di deleteUser); :847-850 (il conto non si chiude da qui); npx vitest run tests/unit/minori-s08-cancellazione-account.test.ts",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Riparata la parte «perdiamo il codice»: il codice resta in audit_logs.target_id, una colonna di testo senza legame col profilo. Resta la parte «lascia aperto il conto»: per scelta scritta nel codice, la chiusura si fa a mano."
       }
     },
     {
@@ -20717,6 +20942,13 @@
         "prova": "Le mappe caricano le tessere da tile.openstreetmap.org: components/DeliveryMap.tsx:115, components/NearbyStoresMap.tsx:73, components/StoreLocationPicker.tsx:105. La pagina del rider apre Google Maps con le coordinate o l'indirizzo del cliente: app/rider/orders/[id]/page.tsx:448-450. L'informativa, app/privacy/page.tsx:272, dice solo «OpenStreetMap Foundation (Regno Unito) — geocoding indirizzi». Nessuna riga parla di mappe/tessere o della navigazione con Google (cercati «mappa», «tessere», «Maps», «navigat»).",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Le righe della voce si sono spostate: DeliveryMap da :91 a :115, NearbyStoresMap da :69 a :73, rider da :519 a :448, privacy da :207/:217 a :272."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "components/DeliveryMap.tsx:115 · components/NearbyStoresMap.tsx:73 · components/StoreLocationPicker.tsx:105 · app/rider/orders/[id]/page.tsx:449 · app/privacy/page.tsx:272 e :282",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": null
       }
     },
     {
@@ -20879,7 +21111,7 @@
       "impatto": "Lo subiscono il primo cliente che scrive «Non l'ho ricevuto» o «Arrivato danneggiato», e il negozio. Il cliente aspetta una risposta in 48 ore che nessuno sa di dover dare. Nicola se ne accorge solo se apre il pannello amministratore e guarda il contatore «Reclami». Il negozio, per esempio Pane Quotidiano, non sa che c'è un reclamo e non può dire la sua. Se il reclamo arriva prima del bonifico, non riceve i soldi di quell'ordine senza sapere perché. Il blocco dura finché qualcuno non chiude il reclamo a mano.",
       "fix": "Aprire il reclamo da una rotta server, per esempio POST /api/disputes. La rotta deve controllare che l'ordine sia del cliente, mettere against_id = orders.seller_id e scrivere la riga. Poi deve chiamare notifyAdmins, mettere un avviso in notifications per il negozio e mandare al cliente un'email di ricevuta. Poi togliere il permesso di INSERT diretto su disputes. Mostrare il reclamo aperto, col suo stato, nella pagina dell'ordine del cliente e in quella del negozio. Aggiungere a operational-alerts un avviso «reclamo aperto da più di N ore». Finché nessuno può mantenere i tempi promessi, togliere «entro pochi minuti» ed «entro 48h» dalla pagina.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "gia_riparato_prima",
       "prova": "Scenario (dato → atteso → reale). Dato: un cliente con un ordine DELIVERED apre /orders/<id>/dispute, sceglie «Non l'ho ricevuto», scrive 20 caratteri e invia. Atteso: l'amministratore e il negozio ricevono un avviso, e il cliente ritrova il reclamo nella pagina dell'ordine. Reale: la riga entra in disputes (dispute/page.tsx:72-78) e basta. Controlli eseguiti da me in sola lettura: `grep -rn \"from('disputes')\" app lib components` trova solo questo insert più letture di admin, cron, export e cruscotto. `grep -rni \"disput|reclam\" app/seller components/seller` non trova niente. `grep -n \"type: '\" app/api/cron/operational-alerts/route.ts` non contiene nessun tipo per i reclami. La funzione del trigger in migrations/184:52-58 è solo RETURN NEW. Il giro dei bonifici esclude l'ordine (release-payouts/route.ts:226-231, :464-469). Lo scenario completo scrive dati, quindi va rifatto su staging con un ordine di prova.",
       "prova_tipo": "lettura-codice",
       "prova_eseguita": false,
@@ -20927,7 +21159,15 @@
         "prova": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r03-il-reclamo-arriva-a-qualcuno.test.ts tests/unit/riparazione-r03-pagina-del-reclamo.test.tsx && mkdir -p tests/unit/_s01c && cp /tmp/claude-0/-home-user-ad-mycity/3a6dd9f1-c577-50de-a79b-fcb1dfee42de/scratchpad/prove/L04-reclamo.test.ts tests/unit/_s01c/L04-reclamo.test.ts && npx vitest run tests/unit/_s01c/L04-reclamo.test.ts; rm -f tests/unit/_s01c/L04-reclamo.test.ts; tests/sql/harness/apply.sh mycity_s01c_l04 && psql -X -q -v ON_ERROR_STOP=1 -d mycity_s01c_l04 -f /tmp/claude-0/-home-user-ad-mycity/3a6dd9f1-c577-50de-a79b-fcb1dfee42de/scratchpad/prove/L04-reclamo-diretto.sql; psql -q -X -d postgres -c \"DROP DATABASE IF EXISTS mycity_s01c_l04 WITH (FORCE);\"",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "[tolto per riservatezza dal CF del 21/11: il dettaglio resta nella chat della sessione]"
-      }
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "non_piu_vero",
+        "prova": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/_s01/L06-2.test.ts tests/unit/riparazione-r03-pagina-del-reclamo.test.tsx",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Sul percorso del cliente le due parti del titolo sono chiuse: la rotta del reclamo avvisa gli amministratori (app/api/disputes/route.ts:87-97) e dice al negozio che il bonifico resta fermo (:99-115); la pagina passa dalla rotta (app/orders/[id]/dispute/page.tsx:217-224). Resta, minore e fuori dal titolo: il database accetta ancora il reclamo scritto direttamente, senza la rotta (migrations/215_minori_s04_database.sql:276-290), e chi lo fa apposta salta gli avvisi."
+      },
+      "nota_riparazione": "Già riparato nel codice unito (ricontrollo della radiografia del 24/11, S01, confermato dal verificatore). cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/_s01/L06-2.test.ts tests/unit/riparazione-r03-pagina-del-reclamo.test.tsx"
     },
     {
       "dimensione": "qa-flussi",
@@ -21153,6 +21393,13 @@
         "sessione": "R13",
         "collaudo": "parziale",
         "perche": "il riparatore non l'ha scritta nel referto"
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "cd marketplace && npx vitest run tests/unit/_s01/L03-2.test.ts",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Lato server non è cambiato niente. app/api/geocode/route.ts:41 non nomina Piacenza e restituisce solo lat e lng. app/api/seller/apply/route.ts:103-104 accetta qualunque numero finito. app/seller/profile/page.tsx:63-64 scrive le coordinate come arrivano."
       }
     },
     {
@@ -21299,6 +21546,13 @@
         "prova": "cd marketplace && npx vitest run tests/unit/riparazione-r29-allarme-ordine.test.ts; grep notifyAdmins/allarmeAgliAmministratori in app/api/orders/cod/route.ts e lib/stripe/webhook/ordini.ts",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Riparata la parte «un'ora»: il blocco R14-003 (operational-alerts:148-181) avvisa a 5-10 minuti. Resta il resto: all'arrivo non parte niente, e un ordine accettato entro 5 minuti non arriva mai a Nicola, contro la regola avvisi.negozio (telefona a ogni ordine)."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "cambiato",
+        "prova": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/_s01/L04-11.test.ts ; app/api/cron/operational-alerts/route.ts:150-182 ; vercel.json:29 ; app/api/orders/cod/route.ts:179-185 ; lib/stripe/webhook/ordini.ts:151,173,200,432,499",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Riparata la parte «dopo un'ora»: ora il primo segnale arriva fra 5 e 10 minuti. Resta l'altra parte del titolo: alla nascita dell'ordine nessuna delle due strade (contanti e carta) avvisa gli amministratori. Se il negozio accetta entro 5 minuti, Nicola non riceve niente, mentre la regola firmata dice che lui telefona a ogni ordine."
       }
     },
     {
@@ -21602,6 +21856,13 @@
         "prova": "grep -c \"ACCEPTED\\|PICKED_UP\" app/api/cron/operational-alerts/route.ts app/api/cron/expire-stale-orders/route.ts; grep cron.schedule migrations",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "cruscotto-oggi mostra a schermo gli ordini NEW/ACCEPTED fermi da 4 ore, ma non fa suonare nessun allarme e niente li fa scadere. PICKED_UP non compare in nessun controllo."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/_s01/L04-3.test.ts ; app/api/cron/operational-alerts/route.ts:123,163,189,217,342,364 ; app/api/cron/expire-stale-orders/route.ts:137,219",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Il cruscotto admin conta gli ordini NEW e ACCEPTED fermi (lib/queries/cruscotto-oggi.ts:156), ma è un numero su una pagina, non un allarme; PICKED_UP lì non c'è. La prova L04-3 resta rossa finché il difetto c'è: è voluto."
       }
     },
     {
@@ -22627,6 +22888,13 @@
         "sessione": "R04",
         "collaudo": null,
         "perche": "scelta_di_nicola: La regola nel codice non c'è: la vista ordini_disponibili_rider (161) non ha la chiave del carrello, prendi_ordine (270) assegna un ordine alla volta, la pagina non raggruppa. C'è solo il compenso «il giro è uno» (lib/shipping.ts:68, lib/ordini/prezzi.ts:136 e 310-316: 3 euro al primo negozio, 1 agli altri), che dà per scontato un fattorino solo. Nessun codice toccato (regola della regista al piano)."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "app/rider/page.tsx:345 · app/rider/page.tsx:366 · migrations/661_la_presa_persa_dice_se_l_ha_preso_un_altro.sql (UPDATE … WHERE id = p_order_id) · lib/ordini/prezzi.ts:312-315",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Il riquadro «Giro intelligente» citato nella descrizione è stato tolto (:645-646). Il difetto del titolo resta."
       }
     },
     {
@@ -23175,6 +23443,13 @@
         "prova": "psql -d mycity_s01b_l04 -f prove/L04/v04_cancellazione_con_ordine.sql (DELETE FROM auth.users del cliente con 1 ordine consegnato)",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "cancellazione.ts non stacca orders.user_id prima di deleteUser. Non ho potuto usare il ruolo esatto supabase_auth_admin (lo shim locale non lo permette). Il meccanismo è lo stesso: la cascata gira come proprietario della tabella, senza claims. Produzione non vista."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "psql -X -d mycity_s01_l04 -f /tmp/claude-0/-home-user-ad-mycity/5b2a0aa6-2f57-526e-8855-ef9714b18333/scratchpad/prove/L04-4-cancella-account-con-ordine.sql",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Il guardiano enforce_order_update_rules è lo stesso. lib/account/cancellazione.ts:294 non stacca user_id prima di deleteUser (:1032). Resta l'ipotesi della voce, non verificabile da qui: che Supabase Auth cancelli senza token nella sessione."
       }
     },
     {
@@ -25364,7 +25639,7 @@
       "impatto": "Lo subisce il cliente in cassa, sia coi contanti sia con la carta: app/checkout/page.tsx:990 e :1094 mostrano toast.error(friendlyError(err)). Al posto di «il negozio è chiuso in quella fascia, scegline un'altra» legge un invito generico a riprovare. Così ripete lo stesso ordine, che viene rifiutato ogni volta, e abbandona. Oggi Pane Quotidiano non è colpito. Il danno arriva col primo negozio dal nome fuori forma, e solo nel caso limite in cui lo stato cambia fra la scelta e l'invio.",
       "fix": "Marcare alla fonte i messaggi scritti per l'utente invece di indovinarli dalla forma. apiErrorMessage restituisce un errore di una classe dedicata (per esempio MessaggioPerLUtente) e friendlyError lo lascia passare senza filtri. I filtri restano per gli errori grezzi del database. Ripiego minimo: accettare come primo carattere anche cifre, « e apostrofo, e non togliere le parentesi dai messaggi che vengono dalle nostre rotte.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "gia_riparato_prima",
       "prova": "S=/tmp/claude-0/-home-user/d986906a-4c5d-52c8-b691-e857422e00f9/scratchpad/tmp-verifica-lib-radice-1; mkdir -p $S; cd /home/user/mycity; printf '%s\\n' \"import { friendlyError } from '/home/user/mycity/lib/errors';\" \"for (const n of ['3 Archi','«Da Mario»','Bistrot La Table','Pane Quotidiano']) console.log(n, '=>', friendlyError(new Error(n + ' adesso è chiuso: la consegna veloce non si può. Scegli una fascia oraria.')));\" > $S/p1.ts && node_modules/.bin/esbuild $S/p1.ts --bundle --platform=node --alias:@=/home/user/mycity --outfile=$S/p1.cjs --log-level=error && node $S/p1.cjs → atteso: il motivo per tutti e quattro. Reale, rieseguito: «Qualcosa non ha funzionato. Riprova fra un momento.» per 3 Archi, «Da Mario», 'L Furnè e Bistrot La Table; passa solo Pane Quotidiano.",
       "prova_tipo": "comando",
       "prova_eseguita": true,
@@ -25406,7 +25681,15 @@
         "sessione": "R33",
         "collaudo": null,
         "perche": "serve_file_altrui"
-      }
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "non_piu_vero",
+        "prova": "cd marketplace && npx vitest run tests/unit/_s01/L08-13.test.ts ; lib/errors.ts:142-166, :386-396, :428-441 ; app/api/orders/cod/route.ts:1001 e :1013 ; app/api/stripe/checkout/route.ts:526 e :540",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Riparato da R24-004 (le frasi delle rotte con codice CONFLICT passano intere) e dalla regex allargata. Col codice vecchio almeno 3 Archi e Bistrot La Table sarebbero rosse."
+      },
+      "nota_riparazione": "Già riparato nel codice unito (ricontrollo della radiografia del 24/11, S01). cd marketplace && npx vitest run tests/unit/_s01/L08-13.test.ts ; lib/errors.ts:142-166, :386-396, :428-441 ; app/api/orders/cod/route.ts:1001 e :1013 ; app/api/stripe/checkout/route.ts:526 e :540"
     },
     {
       "dimensione": "frontend-ux",
@@ -28962,6 +29245,13 @@
         "prova": "Oggi le tre prove in tests/e2e/12-la-cassa-dal-carrello-al-pagamento.spec.ts:486-581 hanno un corpo vero: seminano i dati, chiamano le rotte vere e rileggono l'ordine (payout_status TRANSFERRED a :581). Lo prova `npx vitest run tests/unit/le-prove-della-cassa-non-passano-senza-aver-guardato.test.ts`, che lancia Playwright sullo spec vero e pretende che le prove cadano (un guscio vuoto passerebbe e il test diventerebbe rosso). Però il lavoro CI e2e-cassa-vera (.github/workflows/ci.yml:520-522) parte solo con vars.E2E_DATI_DI_PROVA=='1' e il riepilogo (ci.yml:485-488) dice che senza quella variabile nessun ordine nasce.",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Il verde finto è spento: i corpi vuoti non esistono più. Resta il motivo per cui la voce era stata riaperta il 31/10: in CI nessun ordine in contrassegno arriva davvero al database finché la variabile del repository E2E_DATI_DI_PROVA non vale 1. Da qui non si vede se è accesa, perché è un'impostazione di GitHub (scelta 11 di Nicola sull'ambiente delle prove d'acquisto). La nota di riparazione propone già di abbassarla a minore."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "cambiato",
+        "prova": "cd marketplace && npx vitest run tests/unit/le-prove-della-cassa-non-passano-senza-aver-guardato.test.ts (4 verdi); mutanti coi corpi vuoti o rimessi come nel difetto (scratchpad di S01b, prove/L02-2-mutante-cassa.spec.ts + L02-3-guardia-sul-mutante.test.ts copiati in tests/e2e e tests/unit): la guardia va rossa",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Il difetto del titolo (gusci vuoti che passano) non c'è più ed è sorvegliato dalla guardia. Resta il pezzo della riapertura del 31/10: nessuna prova porta davvero un ordine fino al database finché la variabile del repository e le chiavi di prova non ci sono. Il verificatore propone di abbassare la gravità a minore; per chiuderla serve un giro di CI con «La cassa vera» e il contrassegno «passata»."
       }
     },
     {
@@ -29109,6 +29399,13 @@
         "prova": "migrations/215_minori_s04_database.sql:80-122 (avvisi solo a rider_is_online=true, ultima ridefinizione); app/rider/page.tsx:298-329 (le zone ordinano solo la bacheca)",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "La parte online è riparata. Gli avvisi arrivano ancora a tutti i fattorini accesi, qualunque sia la zona. Nessun test sui trigger. Non ho potuto vedere se la 215 è applicata in produzione."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "cambiato",
+        "prova": "psql -X -d mycity_s01_l03 -f scratchpad/prove/L03-db.sql; migrations/215_minori_s04_database.sql:77-123; lib/ordini/consegna-veloce.ts:150-171 (usata in app/api/orders/cod/route.ts:1011 e app/api/stripe/checkout/route.ts:341,:538)",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Riparato l'interruttore: gli avvisi vanno solo a chi è online, e le casse non vendono la consegna veloce senza un fattorino libero. Restano le zone preferite, che non cambiano niente: la 215:77-78 lo dice apertamente."
       }
     },
     {
@@ -29402,6 +29699,13 @@
         "sessione": "R33",
         "collaudo": null,
         "perche": "non_codice: Perché non è codice: le prove SQL della CI girano su un Postgres 16 ricostruito applicando tutte le migrazioni del deposito (ci.yml, lavoro rls-locale; tests/sql/harness/apply.sh), quindi certificano i file, non la produzione; il controllo notturno deriva-migrazioni-produzione.yml confronta solo i nomi delle migrazioni applicate. Confrontarsi col database vero richiede l accesso alla p"
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": ".github/workflows/ci.yml:250 (postgres:16), :277 (apply.sh) e :282 (run.sh sullo schema ricostruito); .github/workflows/backup-db.yml:735-739",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Le righe sono spostate (da 217-250 a 239-282) ma il difetto è lo stesso."
       }
     },
     {
@@ -29454,6 +29758,13 @@
         "run": "radiografia 2026-11-06 · S01 (session_015BmpnXbX6VZwivvy7fbRF2) · verifica wf_cb60977a-9e3",
         "codice": "db5164c52e856c0e3eab1c02197ae755fca76eb3",
         "nota": "Nessuna prova nel browser gira a misura di telefono."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "playwright.config.ts:39-40 (progetto mobile-safari); .github/workflows/ci.yml:459, :590, :707, :861 (tutti --project=chromium); tests/e2e/03-cart-and-search.spec.ts:24-25",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "La parte «su telefono una è già rossa» non l'ho rilanciata: servono un server locale e Playwright. Il selettore però non è cambiato."
       }
     },
     {
@@ -29701,6 +30012,13 @@
         "prova": "cd marketplace && npx vitest run tests/unit/il-sito-dice-chi-c-e-dietro.test.tsx; lib/legal/titolare.ts:131-150 e :203-212",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Nome sistemato: senza variabili d'ambiente compare la persona che gestisce, non più solo «MyCity». Sede, P.IVA e PEC restano vuote nel codice (la P.IVA arriva dopo i 5000 €, scelta di Nicola). Le variabili di produzione non le ho potute vedere."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "cambiato",
+        "prova": "cd marketplace && npx vitest run tests/unit/_s01/L03-1.test.ts (lib/legal/titolare.ts:129-164, :203-212; lib/health/titolare-check.ts:57-79)",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Il nome è riparato nel codice. Sede, partita IVA e PEC compaiono solo con le variabili di Vercel produzione, che da qui non si possono guardare. Nicola il 26/10 ha firmato «partita IVA adesso», ma non so se le variabili sono state messe: la voce resta aperta."
       }
     },
     {
@@ -30285,6 +30603,13 @@
         "prova": "app/checkout/page.tsx:1316-1328 (salvataggio) e :527-555 (ripresa e cancellazione); lib/bozza-checkout.ts (bozzaRiportataAOggi); components/Navbar.tsx:195-202; grep mc_checkout_draft fuori dalla cassa: zero risultati",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "[tolto per riservatezza dal CF del 21/11: il dettaglio resta nella chat della sessione]"
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "app/checkout/page.tsx:1318 (localStorage.setItem mc_checkout_draft) e :528-555 (lettura e cancellazione solo nella cassa); lib/bozza-checkout.ts:97-115 (bozzaLetta non scarta per età); components/providers/QueryProvider.tsx:18 (pulisce solo le bozze del reclamo); components/Navbar.tsx:195-200 (l'uscita non tocca la bozza)",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": null
       }
     },
     {
@@ -30387,6 +30712,13 @@
         "prova": "app/about/page.tsx:28-35, 209-213; app/lavora-con-noi/page.tsx:61-64 (Crescita rapida), 70-99 (JOBS) sotto «Posizioni aperte»",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Riparato a metà, resta «Lavora con noi». Secondo registro-fatti (riga ~877) le consegne si fanno in proprio fino a ~30 ordini al giorno e i rider servono solo per i picchi."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "cambiato",
+        "prova": "app/about/page.tsx:214-216 (riparato); app/lavora-con-noi/page.tsx:71-100 e :183-213 (resta)",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Nel registro dei fatti non c'è nessuna decisione di assumere che giustifichi le quattro posizioni."
       }
     },
     {
@@ -30698,6 +31030,13 @@
         "prova": "components/SearchBar.tsx:20-22; grep -i 'maggiorenn|18 anni|alcol' in app, components e lib (escono solo i controlli d'età dei rider in admin/users)",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Metà del titolo è sistemata (il suggerimento). Il controllo dei 18 anni manca ancora; restano «l'enoteca all'angolo» in about:116 e 'vino' fra gli indizi della pagina regali."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "cambiato",
+        "prova": "components/SearchBar.tsx:20-22 (suggerimento tolto); lib/ai/moderation.ts:67-71 (alcol non vietato né trattenuto); app/sign-up/page.tsx (nessun campo età o nascita); app/about/page.tsx:116 («l'enoteca all'angolo»)",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Riparata solo la spinta dalla barra di ricerca. I tre controlli dei 18 anni nel titolo mancano ancora tutti."
       }
     },
     {
@@ -30830,6 +31169,13 @@
         "sessione": "R31",
         "collaudo": null,
         "perche": "scelta_di_nicola: lib/category-attributes.ts ha «Peso / Quantità» come testo libero, lib/products/schema.ts non valida gli attributi di categoria e «confezionato» non si distingue da «sfuso»: renderlo obbligatorio vuol dire inventare il modello dei dati."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "lib/category-attributes.ts:50 (peso: testo libero non obbligatorio) e :57-64 (obbligatori solo allergeni e ingredienti); app/product/[id]/page.tsx:547-548 (solo il suffisso dell'unità)",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": null
       }
     },
     {
@@ -31066,6 +31412,13 @@
         "prova": "lib/auth/decisione-portiere.ts:265-281 lascia entrare il negozio non approvato su /seller/dashboard e rimanda il rider non approvato a '/'. Ho eseguito npx vitest run tests/unit/il-portiere-non-chiude-fuori-chi-aspetta-e-non-perde-il-rinnovo.test.ts sul middleware vero: verde. Il test verifica location null su /seller/dashboard per il negozio e un 307 verso '/' per il rider su /rider/onboarding.",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "La metà del negozio è riparata: niente più giro infinito, la prova lo esercita. La metà del fattorino è ancora vera nel codice. Il rider non approvato non arriva a /rider/onboarding, che esiste ancora col modulo patente e polizza. Il codice e il test citano la «decisione 1 del 26/10» di Nicola (reclutamento chiuso), ma non l'ho trovata in registro-fatti.json né in DECISIONI.md. Resta aperta finché la decisione non è registrata."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "cambiato",
+        "prova": "copia scratchpad di S01b, prove/L02-1-portiere.test.ts in marketplace/tests/unit/tmp-s01b-L02-1.test.ts e lancia npx vitest run tests/unit/tmp-s01b-L02-1.test.ts --reporter=verbose",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Metà negozio riparata (lib/auth/decisione-portiere.ts:279, middleware.ts:691-699,720). Metà fattorino ancora vera (decisione-portiere.ts:270-280), mentre il sito recluta ancora (app/lavora-con-noi/page.tsx:36-37 porta a sign-up?role=rider)."
       }
     },
     {
@@ -32095,6 +32448,13 @@
         "sessione": "R17",
         "collaudo": "non_regge",
         "perche": "serve_file_altrui: La 404 vera in rete (next build, next start e curl) non l'ho fatta, per decisione del capo squadra sulla spesa. Collaudo K06 (7fb1894a) sulla ricetta: non completa così com è: la patch r17-002-radice-e-prova non si applica più alla testa per due pezzi di commento (app/product/[id]/layout.tsx:115, app/store/[id]/layout.tsx:113, contesto cambiato da R17-007) e va applicata a mano; le due prove comuni perdono il controllo del segnale d attesa invece di adeguarlo. Decisione della regia (22/11 19:47): resta serve_file_altrui con la domanda a Nicola."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "app/loading.tsx (ancora alla radice) ; app/product/[id]/layout.tsx:164-167 ; app/store/[id]/layout.tsx:141-144 ; app/category/[slug]/layout.tsx:97-108",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Riparati il canonical nullo (product:95, store:80, category:71, store/[id]/[slug]:33) e il titolo di app/not-found.tsx:26-30. Su /u/[handle] il canonical nullo manca ancora (page.tsx:101). Il codice HTTP non l'ho misurato in rete: niente next dev, come da mandato."
       }
     },
     {
@@ -33004,6 +33364,13 @@
         "prova": "lettura .github/workflows/ci.yml:912 (lavoro «name: Main») e vercel.json:6-10; WebFetch anonimo https://api.github.com/repos/NicolaeRotaru/mycity/rules/branches/main",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Stato, bersaglio ed enforcement del ruleset «Main» sono impostazioni di GitHub che non si leggono da visitatore. Una parte del titolo («aspetta un controllo che non esiste») è riparata nel codice; «spenta» e «non guarda nessun ramo» non si possono verificare da qui."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "cambiato",
+        "prova": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/la-regola-main-aspetta-un-controllo-che-esiste.test.ts ; .github/workflows/ci.yml:910-960 (lavoro cancello-main, name «Main») ; .github/workflows/deploy-dopo-ci.yml:95-123 ; vercel.json:8",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Riparato solo il pezzo «aspetta un controllo che non esiste». Le parti «spenta» e «non guarda nessun ramo» sono impostazioni su GitHub, che da qui non posso leggere (gh e GitHub sono vietati). vercel.json:8 ha ancora \"main\": true. È un grave: resta aperto."
       }
     },
     {
@@ -33132,6 +33499,13 @@
         "prova": "Ora app/api/health/route.ts:376-395 segnala il registratore spento, e app/api/cron/operational-alerts/route.ts:742 conta gli errori del server (ERRORI_DEL_SITO). Restano: lib/logger.ts:81-82 esce se non c'è il DSN, e operational-alerts/route.ts:935-946 senza SUPPORT_EMAIL non recapita gli allarmi.",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Nel codice i punti ③ (il semaforo di salute ignora Sentry) e in parte ④ sono cambiati. Le chiavi di produzione su Vercel (SENTRY_DSN, SUPPORT_EMAIL, chiave di servizio) e i monitor esterni non si possono verificare da qui: è vietato."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "cambiato",
+        "prova": "app/api/health/route.ts:370-397 ; app/api/cron/operational-alerts/route.ts:715-748 e :951-963 ; lib/logger.ts:81 e :300-303",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Da qui non si può leggere se in produzione oggi ci sono la chiave di servizio, SUPPORT_EMAIL, Upstash o il DSN (Vercel è vietato). La parte che dipende da quelle chiavi resta da verificare."
       }
     },
     {
@@ -34030,6 +34404,13 @@
         "prova": "computeOrderSplit (lib/stripe/client.ts:500-510) calcola la base così: totale meno consegna meno spedizione. Il webhook (lib/stripe/webhook/ordini.ts:311-315) e i contanti (app/api/orders/cod/route.ts:1373, 1461-1465) gli passano il totale già scontato (lib/ordini/prezzi.ts:336-338). Prova vitest temporanea con prezziDelCarrello e computeOrderSplit veri: netto del negozio 1800 centesimi senza codice, 1350 con un codice da 500.",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Fatto firmato in registro-fatti.json: i codici sconto sono spenti al lancio (carta #209, 26/10). Oggi quindi non tocca nessuno, ma il conto nel codice è ancora sbagliato. Resta ferma sulla scelta di soldi di Nicola: chi paga i codici sconto."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "copia scratchpad di S01b, prove/tmp-s01b-L01-2.test.ts in marketplace/tests/unit/ e lancia npx vitest run tests/unit/tmp-s01b-L01-2.test.ts -t S01b-L01-13",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "lib/stripe/client.ts:500-510 calcola la base sul totale già scontato; carta (webhook/ordini.ts:311-315) e contanti (cod/route.ts:1411,1499-1503) passano il totale dopo lo sconto. Nel registro dei fatti nessuna decisione su chi paga; i codici sono spenti al lancio (funzioni-al-lancio.ts:112)."
       }
     },
     {
@@ -34585,6 +34966,13 @@
         "prova": "lib/stripe/webhook/sponsorizzati.ts:39-69, chiamata da rimborsi.ts:83 e dispute.ts:110: la sponsorizzazione rimborsata per intero si chiude, quella contestata va in pausa con avviso. Per l'abbonamento rimborsi.ts, dispute.ts e comune.ts non hanno nessun ramo (nessuna occorrenza di subscription o invoice). Eseguito npx vitest run tests/unit/riparazione-r28-sponsorizzazione-rimborsata.test.ts.",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "La sponsorizzazione è sistemata, salvo il rimborso parziale, che per scelta non la spegne. L'abbonamento rimborsato o contestato resta attivo: non c'è nessun gestore."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "cambiato",
+        "prova": "lib/stripe/webhook/rimborsi.ts:83-84 · lib/stripe/webhook/dispute.ts:110-111 · app/api/stripe/webhook/route.ts:165-176",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Rimborsi e contestazioni spengono o mettono in pausa la sponsorizzazione. In rimborsi.ts, dispute.ts e comune.ts l'abbonamento compare solo nei commenti: un abbonamento rimborsato o contestato resta attivo."
       }
     },
     {
@@ -34686,6 +35074,13 @@
         "prova": "lib/analytics/server.ts manda solo 'purchase' (:110, GA4 MP) e 'order_placed' (:238); lib/analytics/events.ts:273-274 trackOrderCanceled è solo client PostHog, chiamato soltanto da app/orders/[id]/page.tsx:288 (annullo del cliente dalla pagina); nessun evento 'refund' GA4 e nessun evento dal server in annulla.ts, reject, expire-stale-orders, webhook rimborsi",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": null
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "app/api/orders/cod/route.ts:1936 · lib/stripe/webhook/ordini.ts:509 · lib/analytics/events.ts:258, :274-275 · grep -ln analytics lib/ordini/annulla.ts app/api/seller/orders/[id]/reject/route.ts app/api/cron/expire-stale-orders/route.ts app/api/orders/[id]/cancel/route.ts lib/stripe/webhook/rimborsi.ts",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": null
       }
     },
     {
@@ -34745,6 +35140,13 @@
         "sessione": "R13",
         "collaudo": null,
         "perche": "il riparatore non l'ha scritta nel referto"
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/_s01/L05-2.test.ts · app/api/orders/cod/route.ts:1549 · lib/metriche-venditore.ts:74-77, :151 · app/seller/dashboard/page.tsx:155, :174, :258, :375 · app/seller/analytics/page.tsx:147-148, :176",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": null
       }
     },
     {
@@ -35735,6 +36137,13 @@
         "prova": "grep -rn \"useTotaliCarrello\\|calcolaTotali\" app components lib tests: components/checkout/useTotaliCarrello.ts:53/96 li definisce, ma li importano solo tre test (tests/unit/lo-schermo-e-il-server-fanno-lo-stesso-conto.test.ts:2, la-consegna-costa-3-o-4-euro-per-negozio.test.ts:4, la-consegna-e-una-sola-per-tutto-il-carrello.test.ts:50). Le pagine non li usano: la cassa usa riepilogoDaMostrare (app/checkout/page.tsx:23), il carrello usa prezziDelCarrello (app/cart/page.tsx:41, :526).",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": null
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "grep -rln \"useTotaliCarrello\" --include=*.ts --include=*.tsx app components lib tests · app/checkout/page.tsx:23 e :816 · tests/unit/lo-schermo-e-il-server-fanno-lo-stesso-conto.test.ts:2",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": null
       }
     },
     {
@@ -35747,7 +36156,7 @@
       "impatto": "Oggi, con 9 prodotti, il costo è trascurabile. Cresce però con ogni foto nuova di recensioni e storie, ed è doppio per unità: è il tipo di costo per ordine che sale insieme al volume. Più latenza sulla prima apertura di ogni foto.",
       "fix": "Aggiungere loader={caricatoreFotoRemote} alle 10 <Image> e dare loro il src originale, perché il caricatore applica da solo sizedImage alla larghezza giusta. Aggiungere una prova di struttura: «nessuna <Image> con src remoto senza loader né unoptimized».",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "gia_riparato_prima",
       "prova": "timeout 120 node scratchpad/performance-2/img.cjs: classifica ogni <Image> in base agli attributi loader= e unoptimized.",
       "prova_tipo": "comando",
       "prova_eseguita": "Risultato: { loader: 42, NEXT_OPTIMIZER: 10, unopt: 5 }, con l'elenco dei 10 file:riga riportato sopra. Lette a mano le righe 1300-1312 della scheda prodotto, StoriesCarousel 68-80 e ShopOfMonthHero 114-124: nessun loader, src già passato da sizedImage o logoNegozio. · Verifica tecnica: Rieseguito timeout 120 node scratchpad/performance-2/img.cjs → { loader: 42, NEXT_OPTIMIZER: 10, unopt: 5 } con i 10 file:riga. Letti app/product/[id]/page.tsx:1298-1312 (sizedImage(url,'card'), niente loader), ReviewsSection.tsx:128-142 (sizedImage(url,'thumb'), niente loader) e MobileAccountSheet.tsx:78-90 (src={storeLogo} crudo). grep dei chiamanti di storeLogo= → profile?.store_logo senza trasformazione.",
@@ -35796,7 +36205,15 @@
         "sessione": "R13",
         "collaudo": "parziale",
         "perche": "parziale: I dieci punti sono senza doppia ottimizzazione (verificato a mano), ma la prova tests/unit/riparazione-r13-foto-una-sola-riduzione.test.ts cerca loader=/unoptimized nel testo del tag: un commento /* loader= */ o loader={undefined} la lasciano verde, e il secondo caso (src già trasformata) guarda solo 4 file. Va resa strutturale (leggere l'attributo vero, non il testo)."
-      }
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "non_piu_vero",
+        "prova": "node /tmp/claude-0/-home-user-ad-mycity/5b2a0aa6-2f57-526e-8855-ef9714b18333/scratchpad/prove/L02-img.cjs /home/user/ad-mycity/marketplace",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": null
+      },
+      "nota_riparazione": "Già riparato nel codice unito (ricontrollo della radiografia del 24/11, S01). node /tmp/claude-0/-home-user-ad-mycity/5b2a0aa6-2f57-526e-8855-ef9714b18333/scratchpad/prove/L02-img.cjs /home/user/ad-mycity/marketplace"
     },
     {
       "dimensione": "performance",
@@ -35957,6 +36374,13 @@
         "sessione": "R17",
         "collaudo": "parziale",
         "perche": "parziale: Per decisione della regia restano il force-dynamic di app/layout.tsx e le revalidate dichiarate senza effetto (prodotto 300, pagina su misura 300, categoria 600, profilo /u 300; la vetrina dichiara 0). La vetrina legge ancora 2 volte la riga del negozio (vetrina e «Venduto da»): unirle vuol dire due ripieghi, 124 e 126, sulla stessa domanda. Le pagine su misura [slug] rileggono la riga. Un prodotto che il lettore anonimo non vede, o un guasto, rilegge come prima."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "cambiato",
+        "prova": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r10-lettura-unica.test.ts ; app/layout.tsx:124 ; app/product/[id]/layout.tsx:19 ; app/category/[slug]/layout.tsx:10 ; app/store/[id]/[slug]/layout.tsx:6 ; app/u/[handle]/page.tsx:11",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "La doppia lettura è riparata, e anche il commento di lettura-per-metadati.ts. Resta la cache dichiarata che non vale, compreso il commento «5 min ISR sui metadata» a product/[id]/layout.tsx:19."
       }
     },
     {
@@ -36011,6 +36435,13 @@
         "prova": "middleware.ts:426 (roleRule), :557 (supabase.auth.getUser), :627 (sulle aree protette il cookie del ruolo non si usa), :643-651 (lettura di profiles), :744-748 (il matcher non esclude i precarichi); nessun 'prefetch' o 'Next-Router-Prefetch' nel middleware (grep -i). components/seller/SellerShell.tsx: 14 voci href '/seller…', nessun prefetch nel file",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": null
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "middleware.ts:627 (aree con regola di ruolo: profilo mai dal cookie) → :557 (getUser) → :645-651 (lettura profiles); middleware.ts:745-747 (matcher che non esclude i precarichi); components/seller/SellerShell.tsx:392 (<Link> della barra senza prefetch={false}, voci :34-56)",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": null
       }
     },
     {
@@ -36064,6 +36495,13 @@
         "sessione": "R16",
         "collaudo": "parziale",
         "perche": "parziale: branding e promo attive si leggono ancora dal browser alla prima pagina di ogni visitatore (una lettura ciascuno, condivisa nella pagina): per servirli dalla cache del server uguale per tutti serve la modifica di lib/queries/precarico.ts qui sotto (file non mio). Resta anche app/categorie/page.tsx:20-30 (file non mio, visto dal collaudo K06): legge lo stesso albero dal browser con la sua chiave ['all-categories-tree'] e le stesse colonne, quindi su /categorie le categorie si leggono ancora due volte (menu e piede da una parte, pagina dall'altra) e senza il precarico."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "cambiato",
+        "prova": "riparato: components/CategoryBar.tsx:45-64, components/Footer.tsx:174, app/search/page.tsx:127-138, app/category/[slug]/page.tsx:53-62, app/layout.tsx:35-39 con lib/queries/precarico.ts:89-105 · resta: components/hooks/useBranding.ts:15-22, components/PromoTicker.tsx:50-56 con lib/queries/promo-attive.ts:14-21",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Mezza voce chiusa: resta la parte delle due letture uguali per tutti (marchio e promo) fatte dal browser."
       }
     },
     {
@@ -37730,6 +38168,13 @@
         "prova": "cd marketplace && echo \"server: $(grep -rL \"'use client'\" --include=page.tsx app | wc -l) su $(find app -name page.tsx | wc -l)\"; head -3 di app/orders/page.tsx, app/orders/[id]/page.tsx, app/seller/orders/page.tsx, app/seller/dashboard/page.tsx, app/admin/orders/page.tsx",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": null
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "cd marketplace && echo \"server: $(grep -rL \"'use client'\" --include=page.tsx app | wc -l) su $(find app -name page.tsx | wc -l)\"",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Le pagine sono cresciute da 113 a 121, ma la proporzione resta la stessa."
       }
     },
     {
@@ -38882,6 +39327,13 @@
         "sessione": "R03",
         "collaudo": null,
         "perche": "serve_file_altrui: Non è nel ramo perché senza i tipi diventano rosse le guardie nessuna-scrittura-inventa-una-colonna e nessuna-colonna-che-non-esiste. Senza colonna nuova: pushed_at come segno di presa perde le righe di un giro morto; un segno finto dentro pushed_at è un trucco con letture senza indice. Verificata con i tipi rigenerati solo in locale: 12 file send-push + guardie 121/121 verdi, tsc 0, prova SQL 5/5 verde sul Postgres 16 locale. vercel.json e send-emails non toccati."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "app/api/cron/send-push/route.ts:59-65 (SELECT con pushed_at NULL), :197-215 (invio), :223-227 (pushed_at scritto solo a fine giro); nessuna claim_pending_notifications né push_claimed_at nelle migrazioni",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": null
       }
     },
     {
@@ -39206,6 +39658,13 @@
         "sessione": "R04",
         "collaudo": null,
         "perche": "non_codice: Sulla base il codice fa gia' quello che puo': con il conto condiviso assente (PGRST202/42883) decidiSpesaAi stringe subito la quota di ogni copia a tetto/AI_COPIE_ATTESE (lib/ai/decisioneTettoSpesa.ts:92-98, prova tests/unit/il-tetto-di-spesa-ai-non-si-moltiplica-per-le-copie.test.ts verde). Il tetto torna condiviso solo con il database: Nicola deve applicare in produzione migrations/158_il_conto_della_spesa_ai_esiste_anche_in_produzione.sql (idempotente, stessa casa della 131) e impostare su Vercel AI_COPIE_ATTESE al numero vero di copie. L'allarme rosso nel cron degli avvisi non e' cablato: sondaContoCondiviso/allarmiTettoSpesaAi non sono chiamati da nessuna parte (grep su app/ e lib/). Limite in piu' (dal QA): il conto di ripiego vive nella memoria di ogni copia, e su Vercel le copie si spengono e si ricreano durante la giornata ripartendo da zero: AI_COPIE_ATTESE conta le copie accese insieme, non quelle create nel giorno, quindi senza la 158 la somma puo' superare il tetto anche con la quota divisa. Si chiude solo applicando la 158."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "non_verificabile",
+        "prova": "lib/ai/tettoSpesa.ts:346-358 e :373-383 (se spesa_ai_di_oggi/registra_spesa_ai tornano null si conta ancora nella memoria della copia); lib/ai/decisioneTettoSpesa.ts:92-99 e :152 (ripiego durevole: tetto diviso per AI_COPIE_ATTESE, 3 se non detto); :201-232 (allarme AI_TETTO_NON_CONDIVISO)",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Il difetto dipende dal database di produzione (funzioni e tabella delle migrazioni 131/158 presenti o no), che qui non si può guardare. Il codice nel frattempo è cambiato: con il conto condiviso assente ogni copia spende al massimo un terzo del tetto e parte un allarme, ma con più di tre copie o a ogni risveglio il tetto resta per copia."
       }
     },
     {
@@ -39813,6 +40272,13 @@
         "sessione": "R09",
         "collaudo": "parziale",
         "perche": "parziale: Il vero ritorno del database: servono migrazioni reversibili («espandi e poi contrai») oppure un ordine diverso dei passi (niente ritorno automatico se una migrazione del giro toglie qualcosa)."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "cambiato",
+        "prova": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/minori-s03-migrazioni-distruttive.test.ts tests/unit/riparazione-r07-ritorno-vede-ogni-drop.test.ts tests/unit/riparazione-r01-ritorno-con-database-avanti.test.ts ; .github/workflows/deploy-dopo-ci.yml:767-781, :783-824, :839",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Il ritorno indietro rimette ancora solo il codice, per scelta scritta alle righe 778-781 («il buco non si tappa: si smette di nasconderlo»). Il cancello e il riepilogo ci sono. Il manuale per la prova a mano (fix ③) non l'ho verificato."
       }
     },
     {
@@ -41228,6 +41694,13 @@
         "sessione": "R16",
         "collaudo": "parziale",
         "perche": "parziale: 76 file non miei con text-[Npx] (elenco in serve_file_altrui) e i due 22px senza passo."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "cambiato",
+        "prova": "grep -rhoE \"text-\\[[0-9.]+px\\]\" app components | wc -l → 206 (203 fuori dalle righe di commento, in 81 file); i 4 file citati sono a 0; mezzi pixel ancora in app/rider/page.tsx:562 e components/ui/AuthShell.tsx:222",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Da 330 a 206: i file citati sono stati sistemati, ma restano misure fuori scala e mezzi pixel in 81 file."
       }
     },
     {
@@ -41427,6 +41900,13 @@
         "prova": "cd /home/user/ad-mycity/marketplace && grep -rnoE 'shadow-sm-neutral' app components lib --include=*.tsx | wc -l  → 12. grep -rnoE \"(^|[\\\" '\\`])(hover:|focus:|group-hover:|md:|sm:|lg:)?shadow(-sm|-md|-lg|-xl|-2xl)?([\\\" '\\`]|$)\" app components lib --include=*.tsx --include=*.ts | grep -v '\\.test\\.' | wc -l  → 33. Esempi: app/category/[slug]/page.tsx:537 shadow-sm, app/seller/layout.tsx:130 shadow, app/admin/users/page.tsx:1122 shadow-md, app/seller/help/page.tsx:21 hover:shadow-lg.",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "La seconda metà del titolo non è più vera: il token sm-neutral oggi è usato 12 volte, tra cui ProductCard.tsx:196 e :295. I due punti citati sono sistemati: il riquadro del codice di consegna è shadow-warm-lg (app/orders/[id]/page.tsx:622) e ProductCard:146 usa hover:shadow-warm-lg. Restano però circa 33 ombre nere grezze, e tailwind.config.ts:180-190 non ridefinisce sm, DEFAULT, md e lg."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "cambiato",
+        "prova": "components/ProductCard.tsx:196 · components/ProductCard.tsx:295 · app/orders/[id]/page.tsx:689 · components/ui/Button.tsx:26 · components/ConfirmDialog.tsx:172 · components/CookieBanner.tsx:127 · app/category/[slug]/page.tsx:536 · tailwind.config.ts:180-190",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Metà del titolo è chiusa (il token ora si usa). L'altra metà resta: le ombre nere stanno ancora accanto a quelle calde."
       }
     },
     {
@@ -41879,6 +42359,13 @@
         "prova": "grep -rnE '\\{n\\} (ordini|giorni|clienti|recensioni|prodotti…)' app components fuori da admin → 40 righe; seller/dashboard/page.tsx:374; seller/customers/page.tsx:168,203",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Riparato a metà. Due dei quattro esempi del titolo sono sistemati e pluralize ora ha 4 usi. Il plurale fisso resta in circa 40 punti fuori dall'admin."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "cambiato",
+        "prova": "app/stores/page.tsx:291 e app/cart/page.tsx:590,786 (riparati); app/seller/dashboard/page.tsx:375-377, app/seller/customers/page.tsx:168,203, app/seller/reviews/page.tsx:127 (restano); il grep della voce rifatto dà 53 righe",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Due dei quattro esempi del titolo sono riparati, «1 ordini» e «1 giorni fa» no. Fra le 53 righe del grep ci sono alcuni falsi positivi (costanti sempre maggiori di 1)."
       }
     },
     {
@@ -42303,6 +42790,13 @@
         "sessione": "R13",
         "collaudo": "parziale",
         "perche": "parziale: Dopo il mio commit `grep -rEo \"text-\\[[0-9.]+(px|rem)\\]\" app components | wc -l` dà 201 (in 79 file, alcuni sono commenti), non più ~330. I file con più punti, tutti non miei: app/rider/page.tsx 18, app/rider/profile/page.tsx 11, app/seller/analytics/page.tsx 10, app/seller/earnings/page.tsx 9, app/rider/reviews/page.tsx 9, app/rider/availability/page.tsx 9, components/account/AccountSidebar.tsx 7, app/rider/history/page.tsx 7, app/admin/page.tsx 6, components/ui/AuthShell.tsx 5, components/home/HeroStoreCard.tsx 5. Servono gradini 13 e 11 px (o ricondurli a 12/14 e 10/12): scelta di design, da fare nelle pagine di chi le possiede. Inoltre la prova leggera non vede text-[length:13px] né text-[clamp(...)]: la regex accetta solo cifre fra le quadre."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "cambiato",
+        "prova": "cd /home/user/ad-mycity/marketplace && grep -rhoE --include=*.tsx --include=*.ts \"text-\\[[0-9.]+px\\]\" app components lib | wc -l ; components/ProductCard.tsx:239",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Il difetto c'è ancora, ridotto a circa due terzi; la scheda prodotto citata è a posto."
       }
     },
     {
@@ -45198,6 +45692,13 @@
         "sessione": "R18",
         "collaudo": null,
         "perche": "non_fatto: tolta dalla regia: delicata (preferenze delle promozioni, tocca la 115 della privacy); va ai delicati con ultracode"
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "psql -X -d mycity_s01_l06 -v ON_ERROR_STOP=1 -f /tmp/claude-0/-home-user-ad-mycity/5b2a0aa6-2f57-526e-8855-ef9714b18333/scratchpad/prove/L06-10.sql ; migrations/215_minori_s04_database.sql:670-718 · app/notifications/page.tsx:125-129 · components/hooks/useNotificationsCount.ts:31-35",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "L'esempio del registro (external-price-alerts) oggi scrive 'system'. Il trigger dei preferiti però scrive ancora 'promo' senza guardare la preferenza."
       }
     },
     {
@@ -45285,6 +45786,13 @@
         "prova": "Lette migrations/321_l_ordine_pronto_dice_la_fascia.sql:43-82, lib/stripe/webhook/abbonamenti.ts:193, lib/stripe/webhook/trasferimenti.ts:135, app/api/disputes/route.ts:103, app/api/orders/cod/route.ts:1726 e i subject in lib/email/templates.ts:263, :410, :592, :1004.",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Sono riparati i quattro esempi del titolo (✅📦🛵🚚, migrazione 086). Lo stile misto resta nella campanella del negozio, in un avviso al cliente e negli oggetti delle email."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "cambiato",
+        "prova": "psql -X -d mycity_s01_l02 -v ON_ERROR_STOP=1 -f /tmp/claude-0/-home-user-ad-mycity/5b2a0aa6-2f57-526e-8855-ef9714b18333/scratchpad/prove/L02-emoji-campanella.sql ; app/api/rider/orders/[id]/cliente-assente/route.ts:122 ; lib/stripe/webhook/abbonamenti.ts:194 ; lib/email/templates.ts:263,410",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "La parte nel database è riparata. Il miscuglio resta tra gli avvisi scritti dal codice del sito e negli oggetti delle email."
       }
     },
     {
@@ -46233,6 +46741,13 @@
         "run": "radiografia 2026-11-06 · S01 (session_015BmpnXbX6VZwivvy7fbRF2) · verifica wf_cb60977a-9e3",
         "codice": "db5164c52e856c0e3eab1c02197ae755fca76eb3",
         "nota": "Il margine laterale è stato uniformato (px-4 sm:px-6 dappertutto) e /categorie è passata a 1280px come /stores. Il contenuto però cambia ancora larghezza: negozio 1024px, cassa 1152px, home, prodotto e carrello a container pieno (1536px su un monitor largo)."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "cambiato",
+        "prova": "components/store-sections/misure-vetrina.ts:26 (negozio max-w-5xl) ; app/checkout/page.tsx:1432,1467 (max-w-6xl) ; app/product/[id]/page.tsx:773 e app/cart/page.tsx:582 (container senza tetto) ; app/categorie/page.tsx:57,73 (max-w-7xl)",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Il margine è riparato, il cambio di larghezza resta."
       }
     },
     {
@@ -46697,6 +47212,13 @@
         "sessione": "R17",
         "collaudo": "parziale",
         "perche": "parziale: Il traduttore resta lo stesso nel pacchetto della radice per un'altra strada: components/Footer.tsx → NewsletterForm.tsx → lib/errors.ts:17 (R14) → lib/zod-i18n.ts. Zod resta comunque nella radice per lib/site-branding.ts, importato da Navbar e Footer: il guadagno possibile è solo il traduttore."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "cambiato",
+        "prova": "node /tmp/claude-0/-home-user-ad-mycity/5b2a0aa6-2f57-526e-8855-ef9714b18333/scratchpad/prove/L02-zod-guscio.cjs /home/user/ad-mycity/marketplace app/layout.tsx ; components/providers/QueryProvider.tsx:84-95 ; components/Footer.tsx:17 ; components/NewsletterForm.tsx:10 ; lib/errors.ts:17",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "QueryProvider ora carica il traduttore a parte, quando serve. Il traduttore però arriva ancora in ogni pagina per un'altra strada: piè di pagina → modulo newsletter → lib/errors. Il pacchetto non l'ho misurato, perché la build è vietata: confidenza circa 85%."
       }
     },
     {
@@ -51531,6 +52053,13 @@
         "prova": "Tutte le pagine citate iniziano con 'use client'. Solo app/product/[id]/layout.tsx:6-7,88,170 precarica sul server (HydrationBoundary + precaricaProdotto, R068 del 30/8, cioè prima della riapertura del 7/11). I layout di app/search, app/category/[slug], app/store/[id]/[slug], app/stores e app/near non hanno nessun precarico. components/ProductGrid.tsx:677 dà priority alle prime 4 foto, ma la griglia si riempie solo dopo la query nel browser.",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "La scheda prodotto è precaricata già da prima che il difetto venisse registrato. Ricerca, categoria, vetrina negozio, elenco negozi e «vicino a te» restano disegnati solo nel browser."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "cambiato",
+        "prova": "app/product/[id]/layout.tsx:208-221 e :250 · app/search/page.tsx:1 · app/category/[slug]/page.tsx:1 · app/store/[id]/[slug]/page.tsx:1 · app/stores/page.tsx:1 · app/near/page.tsx:1 · components/ProductGrid.tsx:710",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Una pagina su sei è riparata, le altre cinque no. Non ho verificato che l'HTML della scheda esca davvero col prodotto, e non ho misurato l'LCP (il tempo prima che compaia l'immagine principale)."
       }
     },
     {
@@ -53281,6 +53810,13 @@
         "prova": "vercel.json:6-10 (git.deploymentEnabled.main = true); .github/workflows/deploy-dopo-ci.yml:244-268 (senza segreti VERCEL_* il cancello è spento) e :488-546 (passo migrazioni, solo se steps.chiavi.outputs.pronto); render.yaml non esiste più",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Il difetto c'è ancora ma in un'altra forma. render.yaml è sparito (Render dismesso): il percorso oggi è l'autopubblicazione di Vercel (vercel.json:6-10). Esiste un passo migrazioni in deploy-dopo-ci.yml, condizionato ai segreti (non leggibili da qui) e scavalcato da main:true."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "cambiato",
+        "prova": "cd /home/user/ad-mycity/marketplace && node -e \"const v=require('./vercel.json'); const auto=v.git?.deploymentEnabled?.main; console.log(auto); process.exit(auto===false?0:1)\" — e vercel.json:6-10; .github/workflows/deploy-dopo-ci.yml:34-44, :261-267, :488-606",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "render.yaml non c'è più e il rilascio dopo la CI ora applica le migrazioni prima di pubblicare. Ma la pubblicazione automatica di Vercel resta accesa e arriva prima, col codice nuovo sul database vecchio; il file stesso lo dice. Se i segreti del rilascio controllato ci siano non si vede da qui."
       }
     },
     {
@@ -57595,6 +58131,13 @@
         "sessione": "R07",
         "collaudo": null,
         "perche": "scelta_di_nicola: Foto HEIC dell iPhone: A) conversione vera nel browser con la libreria heic2any (dipendenza nuova in package.json) chiamata nei quattro campi, oppure B) togliere heic/heif dai tipi accettati (l iPhone converte da solo in JPEG; un .heic trascinato da computer si rifiuta con un messaggio chiaro), che rovescia in parte la decisione dell 8/9? Consiglio B."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "npx vitest run tests/unit/_s01/L07-1.test.ts · lib/storage/regole-secchi.ts:49-57 · lib/storage/carica-immagine.ts:162-166 e :197-201 · components/PhotoReviewUpload.tsx:42 · app/seller/stories/page.tsx:335 · components/seller/site/GalleryFields.tsx:33 · components/seller/site/ImageUpload.tsx:20",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Solo le foto prodotto escludono l'HEIC (lib/products/uploadImages.ts:23-24), non i quattro punti della voce. Non verificato da qui: se la trasformazione /render/image/ di Supabase sappia decodificare l'HEIC (i documenti ufficiali elencano solo PNG, JPEG e WebP). Con l'interruttore di emergenza delle foto acceso, che serve l'originale, il riquadro rotto su Chrome è certo."
       }
     },
     {
@@ -61789,6 +62332,13 @@
         "sessione": "R15",
         "collaudo": "parziale",
         "perche": "parziale: (1) Una memoria che resti dopo l'arrivo: la prova comune tests/unit/riparazione-r06-vetrina-una-volta-sola.test.ts:59-64 la vieta apposta («a volo atterrato la domanda successiva torna al database»); una memoria di N secondi lascerebbe in vetrina un negozio sospeso fino alla scadenza: è una scelta. (2) Il secondo giro di rete di ogni fascia (prima i prodotti, poi la vetrina) resta: si toglie precaricando i negozi sul server (lib/queries/precarico.ts, precaricaHome) o con la cache di React Query nei componenti, file non miei. (3) Colonne davvero diverse restano domande separate."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "cambiato",
+        "prova": "lib/queries/seller-public-profiles.ts:81-149 · components/home/DropOfDay.tsx:91 · components/home/StoriesCarousel.tsx:190",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Dal 22/11 la chiave usa le colonne normalizzate: Drop e fasce si uniscono se partono insieme; atterrato il volo si toglie (136-139). Le storie chiedono colonne diverse. Resta il secondo giro di rete per sezione."
       }
     },
     {
@@ -64509,6 +65059,13 @@
         "prova": "app/rider/onboarding/page.tsx:223 (toast «KYC inviato, verifica in corso»); app/api/kyc/ contiene solo documenti-rider, start-check, upload-document (nessun webhook); app/api/kyc/start-check/route.ts:25-30 (R29-019: nessuna parte chiude da sola il PENDING); app/api/admin/users/[id]/kyc/route.ts solo GET; app/api/cron/operational-alerts/route.ts:238-258",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": null
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "app/api/kyc/ contiene solo documenti-rider, start-check e upload-document (manca webhook); app/api/kyc/start-check/route.ts:25-30 (il commento ammette che nessuno chiude lo stato) e :164; app/api/kyc/upload-document/route.ts:284 (unica altra scrittura: azzera); app/api/cron/operational-alerts/route.ts:248",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "La parte citata a :142, cioè l'avviso solo per i negozi, è riparata. Lo stato «verifica in corso» però resta senza chiusura."
       }
     },
     {
@@ -65479,6 +66036,13 @@
         "prova": "app/api/cron/expire-stale-orders/route.ts:13 (import), :208-219 (claim NEW→CANCELED), :255-270 (refundOrder), :345 (restore_stock_for_order), :352-380 (wallet_credit)",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": null
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "app/api/cron/expire-stale-orders/route.ts:200-209 (presa in carico propria), :345 (restore_stock_for_order), :356-366 (wallet_credit senza il ritentativo di lib/ordini/annulla.ts:146-170), :392-411 (campanelle proprie); annullaERimborsa (lib/ordini/annulla.ts:118) non è chiamata",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Una parte è stata messa in comune (buono, email, ricalcolo del carrello), ma il giro continua a non usare annullaERimborsa e tiene tre delle quattro copie."
       }
     },
     {
@@ -66446,6 +67010,13 @@
         "run": "radiografia 2026-11-06 · S01 (session_015BmpnXbX6VZwivvy7fbRF2) · verifica wf_cb60977a-9e3",
         "codice": "db5164c52e856c0e3eab1c02197ae755fca76eb3",
         "nota": "Nel dubbio resta vero: la verifica richiede un collaudo delle prove, fuori da una lettura breve."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "cambiato",
+        "prova": "tests/unit/le-promesse-della-consegna-cambiano-solo-di-proposito.test.tsx:65-133, :136-152, :155, :178-183, :192-199 (testo tenuto fermo frase per frase) · ancora elenchi di parole: tests/unit/minori-s09-categoria-su-google.test.ts:50-57 e il controllo della pagina near nello stesso test golden :185-190",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Le cinque promesse citate ora sono tenute ferme col testo intero. La classe «lista di parole» resta in due punti: le descrizioni delle categorie (regex veloc|rapid|gratis|minut) e l'invito ad allargare nella pagina «Vicino a te» (regex aument|allarg|…). Lì un sinonimo nuovo passerebbe ancora."
       }
     },
     {
@@ -66486,7 +67057,7 @@
       "titolo": "Confine senza coordinate chiuso solo a parole: l'ordine non misurato passa senza nessun segno, e ora /shipping lo annuncia",
       "severita": "minore",
       "file": "app/shipping/page.tsx:122-124, app/admin/delivery/page.tsx:79; nessun segno in app/api/orders/cod/route.ts:519-532 e app/api/stripe/checkout/route.ts:516-524",
-      "stato": "aperto",
+      "stato": "gia_riparato_prima",
       "dimensione": "privacy-legale",
       "fonte": "nato dal lotto #262 (collaudo B del terzo giro della fase 2)",
       "descrizione": "cod/route.ts:519-532 blocca e scrive nel log solo se l'indirizzo è fuori; con coordinate null niente log e niente campo sull'ordine. Prova scrivibile: rotta carta, le due fonti di coordinate a null, indirizzo a 25 km: oggi 200 e createSession chiamata, nessun segno al negozio. Passa a tech.",
@@ -66518,7 +67089,15 @@
         "sessione": "R31",
         "collaudo": null,
         "perche": "serve_file_altrui"
-      }
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "non_piu_vero",
+        "prova": "npx vitest run tests/unit/riparazione-r04-carta-senza-coordinate.test.ts tests/unit/riparazione-r31-confine-non-misurato.test.ts · app/api/orders/cod/route.ts:1129-1148 e :1892-1904 · app/api/stripe/checkout/route.ts:603-622 e :1106-1123",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "L'ordine senza misura passa ancora, ma non più in silenzio: contanti e carta mandano agli amministratori l'avviso «distanza non misurata». La frase su /shipping (app/shipping/page.tsx:137-141) adesso dice una cosa vera."
+      },
+      "nota_riparazione": "Già riparato nel codice unito (ricontrollo della radiografia del 24/11, S01). npx vitest run tests/unit/riparazione-r04-carta-senza-coordinate.test.ts tests/unit/riparazione-r31-confine-non-misurato.test.ts · app/api/orders/cod/route.ts:1129-1148 e :1892-1904 · app/api/stripe/checkout/route.ts:603-622 e :1106-1123"
     },
     {
       "titolo": "La consegna da 3 € ha ancora altri nomi: «Costo di consegna» su Stripe, «Consegna a domicilio» in cassa, «Consegna a casa» in home",
@@ -67144,6 +67723,13 @@
         "prova": "lib/privacy/avvisi-a-chi-aspetta.ts:347-349 (REGISTRO_INVII='audit_logs', azioni email_tentata/email_partita), 352-422 (rigaDegliInvii/emailDovuta); grep 'avviso_cancellazione' in lib/audit-azioni.ts e lib/audit.ts: nessun risultato",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": null
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "lib/privacy/avvisi-a-chi-aspetta.ts:348-371 (REGISTRO_INVII = audit_logs, actor_id null, azioni privacy.avviso_cancellazione.email_*); lib/audit-azioni.ts:17-54 (quelle azioni non ci sono); app/admin/audit/page.tsx:17 e :50-57 (ultime 200 righe senza filtro)",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Il pattern si è allargato: anche app/api/cron/process-deletions/route.ts:530-548 ora legge audit_logs per sapere se un'email è partita."
       }
     },
     {
@@ -67222,6 +67808,13 @@
         "sessione": "R15",
         "collaudo": null,
         "perche": "non_fatto: tolta dalla regia: delicata"
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "cambiato",
+        "prova": "lib/privacy/avvisi-a-chi-aspetta.ts:193-205 e :213 (niente più continue: l'email si tenta anche se il pannello fallisce); :234 e :246 (pannello), :374 (lucchetto), :492 (corpo HTML), :519 (invio), :645 (posta vera) nello stesso file di 674 righe",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "L'email ora parte anche se il pannello non si scrive. Il file tiene ancora insieme pannello, lucchetto, indirizzo, HTML e invio."
       }
     },
     {
@@ -67374,7 +67967,7 @@
       "titolo": "L'allarme 'scrivile tu' si chiude solo se l'email parte: se la persona annulla o viene cancellata resta aperto per sempre col suo id",
       "severita": "minore",
       "file": "app/api/cron/process-deletions/route.ts: chiudiGliAllarmiDelleEmailPartite chiude solo avvisi.emailPartiteAvvisi",
-      "stato": "aperto",
+      "stato": "gia_riparato_prima",
       "dimensione": "api-backend",
       "fonte": "nato dal lotto #262 (riesame del quarto giro della fase 2)",
       "descrizione": "Lettura: l'avviso esce da verdetto.dovuti quando la cancellazione riesce o viene annullata; nessun ramo chiude l'allarme (body 'Chi aspetta: l'utente <id>'), che resta con l'id di una persona cancellata.",
@@ -67425,7 +68018,15 @@
         "prova": "app/api/cron/process-deletions/route.ts:323 e 730-751; lib/privacy/avvisi-a-chi-aspetta.ts:221; grep 'email-ferma' trova solo le righe 688 e 740",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": null
-      }
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "non_piu_vero",
+        "prova": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r03-scrivile-tu-si-chiude.test.ts — e app/api/cron/process-deletions/route.ts:831-893 (chiudiGliAllarmiDiChiNonAspettaPiu), chiamata a :212 e :344",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Ogni notte, anche senza nessuno in lista, si chiudono gli allarmi di chi non ha più una richiesta o non ha più il profilo."
+      },
+      "nota_riparazione": "Già riparato nel codice unito (ricontrollo della radiografia del 24/11, S01). cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r03-scrivile-tu-si-chiude.test.ts — e app/api/cron/process-deletions/route.ts:831-893 (chiudiGliAllarmiDiChiNonAspettaPiu), chiamata a :212 e :344"
     },
     {
       "titolo": "Avvisi ed email in un giro senza tetto di tempo: con posta appesa e ~15 in attesa, gli ultimi non hanno nemmeno l'avviso nel pannello",
@@ -69376,6 +69977,13 @@
         "prova": "La frase è ancora scritta a mano in sei punti, e da una costante viene solo il numero: components/checkout/ShippingAddressForm.tsx:310 (hint «Consegniamo a Piacenza, fino a ${RAGGIO_CONSEGNA_KM} km dal negozio») · app/shipping/page.tsx:137 (JSX «Consegniamo a Piacenza, fino a {confine} dal negozio») · lib/ordini/zona-di-consegna.ts:61-68 (motivoFuoriZona) · components/LocationPill.tsx:221 · lib/promesse-pubbliche.ts:192, :225, :632, :680 (FAQ) · app/near/page.tsx:265. A tenerle allineate c'è solo la prova tests/unit/le-frasi-della-zona-dicono-il-confine-della-cassa.test.tsx.",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Nel registro-fatti c'è consegna.raggio, che fissa il valore del raggio, non dove si scrive la frase: la duplicazione non è una regola firmata."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "components/checkout/ShippingAddressForm.tsx:310 · app/shipping/page.tsx:137-141 · lib/ordini/zona-di-consegna.ts:64 · components/LocationPill.tsx:221 · lib/promesse-pubbliche.ts:192, 225, 632, 680 · app/near/page.tsx:266",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": null
       }
     },
     {
@@ -69683,6 +70291,13 @@
         "run": "radiografia 2026-11-06 · S01 (session_015BmpnXbX6VZwivvy7fbRF2) · verifica wf_cb60977a-9e3",
         "codice": "db5164c52e856c0e3eab1c02197ae755fca76eb3",
         "nota": "Il sito recluta ancora rider che poi rimanda alla home."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "app/sign-up/page.tsx:33 e :81-82 · components/ui/AuthShell.tsx:227,234 · app/faq/page.tsx:200 · app/lavora-con-noi/page.tsx:34-37 · lib/auth/decisione-portiere.ts:262-264, 272-275, 281 · middleware.ts:720-724",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Nel registro dei fatti nessuna decisione nuova riapre il reclutamento: il contrasto con la scelta del 26/10 resta."
       }
     },
     {
@@ -70561,6 +71176,13 @@
         "sessione": "R13",
         "collaudo": null,
         "perche": "il riparatore non l'ha scritta nel referto"
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "cambiato",
+        "prova": "lib/ordini/chiave-dopo-l-errore.ts:10-13,24-33,37-40 · app/api/orders/cod/route.ts:146-152,228,259,280,304,325 · app/checkout/page.tsx:1054",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Le righe 24-33 elencano le 4 risposte con inCorso; le righe 10-13 e il commento della rotta 146-152 dicono ancora «una eccezione: invio gemello». Nessun segnale «fermati» distinto da «riprova»."
       }
     },
     {
@@ -71512,7 +72134,7 @@
       "dimensione": "qa-flussi",
       "reparto": "Flussi critici",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "gia_riparato_prima",
       "nato_oggi": false,
       "titolo": "Ordinando per «Prezzo crescente» alcuni prodotti spariscono dalla lista",
       "file": "lib/queries/griglia-prodotti.ts:132 (citato dall analisi della PR #900)",
@@ -71551,7 +72173,15 @@
         "sessione": "R15",
         "collaudo": null,
         "perche": "non_fatto: Non riprodotto. Ho provato con il finto database: 250 prodotti con prezzi ripetuti, ordinati per prezzo crescente e letti a pagine da 96. Sono usciti tutti e 250, senza doppioni e senza buchi, grazie al secondo criterio d'ordine sull'id. Non ho trovato nessun punto in cui il prezzo crescente faccia sparire prodotti. Non ho committato nulla. Resta da confermare il difetto sul sito vero. L'unico meccanismo che ho visto nel codice vale per ogni ordinamento: la pagina torna accorciata se il filtro finale sui negozi approvati scarta righe, e allora «Carica altri» si ferma. Nel database le regole di accesso nascondono già quei prodotti, quindi di norma non succede. DAL COLLAUDO, RIPRODOTTO: lib/queries/griglia-prodotti.ts:271 Come si riproduce. Il filtro finale `.filter((p) => p.profiles?.is_approved)` scarta i prodotti il cui negozio la vista non restituisce. La regola dei prodotti (migrations/129_il_catalogo_si_vede_senza_account.sql:41-46, negozio_approvato: approvato e role seller) li lascia passare, la vista no (migrations/126_radiografia_22_agosto.sql:395-397: chiede anche store_name IS NOT NULL). La pagina torna con 95 righe invece di 96. Succede anche a chi amministra, che vede tutti i prodotti (migrations/023: «Admin sees all products») e quindi anche quelli dei negozi non approvati. components/ProductGrid.tsx:278 getNextPageParam guarda quante righe restano dopo il filtro (pagineSuccessiva in lib/paginazione.ts:41-51, `righeTornate >= dimensione`). Una pagina accorciata spegne «Carica altri», e tutti i prodotti dopo spariscono. Dipende dall'ordinamento: con il prezzo crescente il prodotto scartato cade nella prima pagina, con le date in fondo. È il sintomo esatto della voce. La cura sta nei file di R15 (lib/queries/griglia-prodotti.ts e components/ProductGrid.tsx: la pagina successiva va decisa sulle righe lette prima del filtro dei negozi approvati); non fatta per il tetto di costo."
-      }
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "non_piu_vero",
+        "prova": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/_s01/L04-2.test.ts",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "L'unico modo trovato per far sparire prodotti era la pagina accorciata dal filtro sui negozi approvati. È riparato: lib/queries/griglia-prodotti.ts:418-419 (righeLette) e components/ProductGrid.tsx:32-35 e :304. La riga 132 citata oggi è un'altra cosa. Non riguarda l'ordine sul prezzo pieno invece che su quello scontato: lì è l'ordine che cambia, nessun prodotto sparisce."
+      },
+      "nota_riparazione": "Già riparato nel codice unito (ricontrollo della radiografia del 24/11, S01). cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/_s01/L04-2.test.ts"
     },
     {
       "dimensione": "pagamenti-stripe",
@@ -76040,7 +76670,7 @@
       "dimensione": "microcopy",
       "reparto": "Microcopy",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "gia_riparato_prima",
       "nato_oggi": true,
       "titolo": "L avviso «freno fermo a metà» elenca cosa ha fatto quel giro e non lo stato vero: un rimborso di un altra causa compare come «già reso sulla carta», e al secondo guasto può dire «niente» con l euro già reso",
       "file": "lib/ordini/veloce-non-confermata.ts:395-396 (ramo giaResi diverso dall'euro: fatto.push con la stessa frase) · lib/ordini/veloce-non-confermata.ts:395-396 (ramo rimborso diverso: fatto.push con giaResi) letto nel catch di frenoDellaVeloce · lib/ordini/veloce-non-confermata.ts catch di frenoDellaVeloce (~righe 600-617), chiave veloce-guasto-<id>:<fatto> · lib/ordini/veloce-non-confermata.ts, ramo giaResi diverso da -deltaCents (fatto.push dopo il logger.error, ~riga 396)",
@@ -76094,7 +76724,15 @@
         "prova": "Lette lib/ordini/veloce-non-confermata.ts:543-559 (i rami dei rimborsi già fatti) e :921-960 (il catch e l'avviso «fermo prima di cominciare»).",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Il difetto c'è ancora, ma più stretto. Un rimborso di un'altra causa da 1,00 € esatto viene ancora scritto come reso dal freno, che salta anche il rimborso dell'euro. Il caso «al secondo guasto dice niente» è riparato."
-      }
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "non_piu_vero",
+        "prova": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/_s01/L02-1.test.ts tests/unit/riparazione-r09-freno-fermo-stato-vero.test.ts ; lib/ordini/veloce-non-confermata.ts:570-584, :946-952, :975-990",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Resta un caso limite che il titolo non nomina. Un rimborso di altra causa di esattamente 1,00 €, con il suo identificativo Stripe, verrebbe letto come l'euro della veloce (riga 571)."
+      },
+      "nota_riparazione": "Già riparato nel codice unito (ricontrollo della radiografia del 24/11, S01). cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/_s01/L02-1.test.ts tests/unit/riparazione-r09-freno-fermo-stato-vero.test.ts ; lib/ordini/veloce-non-confermata.ts:570-584, :946-952, :975-990"
     },
     {
       "dimensione": "api-backend",
@@ -77862,6 +78500,13 @@
         "prova": "migrations/164:111-112 e 425:185; components/ProductQA.tsx:73; components/store-sections/useStorePageData.ts:61; lib/queries/seller-public-profiles.ts:257-270",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Succede quando la scheda o la vetrina ha domande o recensioni con un autore: con zero autori la funzione esce prima."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "lib/queries/seller-public-profiles.ts:262 e :273-275; components/ProductQA.tsx:73; components/store-sections/useStorePageData.ts:61; migrations/164_i_nomi_pubblici_dopo_la_161.sql:111-112; psql -d mycity_s01_l04 -c \"select has_table_privilege('anon','public.nomi_pubblici','SELECT')\"",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "La richiesta parte solo quando la scheda o la vetrina ha domande o recensioni (seller-public-profiles.ts:259 esce prima se non ci sono id), quindi non proprio «ogni» pagina."
       }
     },
     {
@@ -79695,6 +80340,13 @@
         "prova": "app/api/orders/cod/route.ts:1382 (reserve_stock), 1404 (wallet_debit), 1531 (orders.insert), 1661 (order_items.insert), 554-567 (solo un allarme); grep sulle migrazioni: nessuna riserva scritta",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": null
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "app/api/orders/cod/route.ts:1420 (reserve_stock), :1442 (wallet_debit), :1569 (orders.insert), :1699 (order_items.insert); migrations/122_radiografia_20_agosto.sql:394-399 (cod_checkout_attempts tiene solo order_ids, mai cambiata); route.ts:591-605 e :640-680 (la cassa si ferma e chiede una correzione a mano); migrations/160_la_merce_torna_a_scaffale_una_volta_sola.sql:122-134 (restore_stock_for_order rimette solo da order_items)",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "La cassa ora si ferma e avvisa gli amministratori, ma la merce torna solo a mano: la riserva scritta (migrazione) non c'è."
       }
     },
     {
@@ -80451,6 +81103,13 @@
         "prova": "app/api/cron/expire-stale-orders/route.ts:136-140 (query), :161-170 e :187-191 (continue sui rinviati e sui carrelli in attesa di divisione)",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Prima la scelta dei 100 ordini era casuale, ora è fissa: i 100 più vecchi. Se ci sono più di 100 ordini NEW più vecchi e rinviati, la veloce scaduta resta fuori a ogni giro, non più per caso. È il giudizio «non_chiude» del collaudo."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "cambiato",
+        "prova": "app/api/cron/expire-stale-orders/route.ts:137-140 (.eq NEW .lt created_at .order(created_at, ascending) .limit(100))",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "La parte «senza un ordine» è riparata. Resta il caso della descrizione: se i 100 ordini NEW più vecchi sono tutti rinviati su fasce future, il giro rilegge sempre quelli e una veloce scaduta più recente resta fuori."
       }
     },
     {
@@ -84225,6 +84884,13 @@
         "prova": "app/api/orders/cod/route.ts esporta solo `runtime` (:50) e `POST` (:345), nessun `maxDuration`; vercel.json:13-22 non ha una voce per app/api/orders/cod; le email in fila stanno in dopoLaRisposta a :1794-1850",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": null
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "app/api/orders/cod/route.ts:51 (unico export const è runtime), :1832-1887 (email in fila) · vercel.json:12-23",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": null
       }
     },
     {
@@ -85040,6 +85706,13 @@
         "prova": "grep user_carts su app/api/stripe, lib/stripe, app/api/orders, migrations; app/orders/page.tsx:96-108",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Il carrello salvato si svuota solo quando il cliente rientra con ?stripe=success. Lato server si marca abandoned_carts, non user_carts."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "grep user_carts su app, lib e components → solo components/CartCrossDeviceSync.tsx:65,:117 e app/api/account/export/route.ts:185; psql -X -d mycity_s01_l03 -f scratchpad/prove/L03-db.sql",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": null
       }
     },
     {
@@ -85068,6 +85741,13 @@
         "prova": "app/api/orders/cod/route.ts:470-496; app/checkout/page.tsx:1008-1012; lib/ordini/tentativo.ts chiaveTentativo",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Se la risposta del primo invio si perde, un ritocco entro 12 ore con un'altra fascia riceve ancora l'ordine vecchio."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "app/api/orders/cod/route.ts:510-532; app/checkout/page.tsx:1008-1012",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": null
       }
     },
     {
@@ -85385,6 +86065,13 @@
         "sessione": "R06",
         "collaudo": null,
         "perche": "scelta_di_nicola: La correzione «rimettili» è pronta e provata (app/profile/page.tsx + prova che monta la pagina, rimessa regge, più l adeguamento dichiarato di tests/unit/minori-s08-profilo.test.tsx:182): l ho tolta dal ramo per non anticipare la scelta. Se Nicola dice «rimettili» si rifà in pochi minuti."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "cambiato",
+        "prova": "app/sell/page.tsx:177-183 · app/profile/page.tsx:19-25 · app/api/account/export/route.ts:124",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "È chiusa la conseguenza: la residenza vecchia non viene più precompilata. Resta il dato fermo che nessuno può correggere."
       }
     },
     {
@@ -86484,6 +87171,13 @@
         "sessione": "R14",
         "collaudo": null,
         "perche": "non_fatto: tolta dalla regia: delicata (va ai delicati, che girano a parte con ultracode)"
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "app/api/admin/products/route.ts:279, :287/:290, :307, :309",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": null
       }
     },
     {
@@ -86753,13 +87447,21 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R10",
-      "stato": "aperto",
+      "stato": "gia_riparato_prima",
       "riparazione_20_11": {
         "esito": "non_fatto",
         "sessione": "R03",
         "collaudo": null,
         "perche": "non_fatto: delicata: fuori dall'onda 9 — la voce decide se la copia di un prodotto resta esclusa dal diritto di recesso, cioè se il cliente può restituirlo ed essere rimborsato: tocca i rimborsi dei clienti."
-      }
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "non_piu_vero",
+        "prova": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-s01-duplica-recesso.test.tsx ; app/seller/products/new/page.tsx:175 e :405 · components/seller/ProductForm.tsx:901-902",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "La prova è del repo, non mia. Per un minore la lettura del codice basterebbe già."
+      },
+      "nota_riparazione": "Già riparato nel codice unito (ricontrollo della radiografia del 24/11, S01). cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-s01-duplica-recesso.test.tsx ; app/seller/products/new/page.tsx:175 e :405 · components/seller/ProductForm.tsx:901-902"
     },
     {
       "dimensione": "frontend-ux",
@@ -87731,7 +88433,7 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R16",
-      "stato": "aperto",
+      "stato": "gia_riparato_prima",
       "riverifica_21_11": {
         "data": "2026-11-21 16:27",
         "esito": "cambiato",
@@ -87744,7 +88446,15 @@
         "sessione": "R04",
         "collaudo": "parziale",
         "perche": "parziale: La 662 si prova solo con la rimessa SQL, che esce 3 (rossa per struttura, perché la prova nomina la funzione nuova): per chiudere serve la deroga rimessa_a_mano. La 662 è scritta e NON applicata: finché Nicola non la applica, in produzione il carosello usa il ripiego, dove tre negozi da più di 30 storie possono ancora nascondere gli altri."
-      }
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "non_piu_vero",
+        "prova": "npx vitest run tests/unit/riparazione-r04-carosello-a-turno.test.tsx · components/home/StoriesCarousel.tsx:137-143, 83-106, 190-193",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Un tetto di storie per negozio al giorno non c'è ancora, ma l'effetto descritto nel titolo è sparito. La funzione 662 legge al massimo 30 storie per negozio. Il ripiego rilegge escludendo i negozi già visti. Le storie vanno a turno fra i negozi prima del taglio a 30."
+      },
+      "nota_riparazione": "Già riparato nel codice unito (ricontrollo della radiografia del 24/11, S01). npx vitest run tests/unit/riparazione-r04-carosello-a-turno.test.tsx · components/home/StoriesCarousel.tsx:137-143, 83-106, 190-193"
     },
     {
       "dimensione": "qa-flussi",
@@ -88403,7 +89113,14 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R21",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/_s01/L05-1.test.ts · app/api/cron/process-deletions/route.ts:119 · lib/privacy/potature-ritenzione.ts:762",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Stesso difetto della voce precedente, visto dal lato della cura proposta: la funzione resta esportata e non chiamata."
+      }
     },
     {
       "dimensione": "stati-ui",
@@ -88460,7 +89177,14 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R21",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "migrations/135_le_prove_scadono.sql:89-120 · lib/account/cancellazione.ts:439-475",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "foto_consegna_da_cancellare non è ridefinita dopo la 135. Il passo degli orfani (lib/privacy/potature-ritenzione.ts:607-610) guarda già delivery_signature_url. Difetto latente: oggi la colonna non la scrive nessuno."
+      }
     },
     {
       "dimensione": "qa-flussi",
@@ -88602,7 +89326,14 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R23",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "lib/analytics/posthog.tsx:388-430",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Oggi in produzione non scatta, perché PostHog è spento dall'interruttore (lib/funzioni-al-lancio.ts:133, POSTHOG_ACCESO=false). Il codice però è quello descritto."
+      }
     },
     {
       "dimensione": "sicurezza-auth",
@@ -88852,7 +89583,14 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · C02",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/_s01/L05-1.test.ts · app/api/cron/process-deletions/route.ts:118-119, :135-137 · lib/privacy/potature-ritenzione.ts:762, :785, :872",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "La rotta conta solo i documenti d'identità orfani (riga 119), e il testo della risposta lo dice ancora. contaPotature usa per difetto l'elenco senza gli orfani."
+      }
     },
     {
       "dimensione": "qa-flussi",
@@ -89415,7 +90153,14 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R14",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "cambiato",
+        "prova": "psql -X -d mycity_s01_l08 -v ON_ERROR_STOP=1 -f scratchpad/prove/L08-1.sql ; lib/account/cancellazione.ts:711-727",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Stessa situazione della voce gemella. Frase e somma sono invariate (righe 716-727), ma a questo commit la giornata non si riapre. Quindi l'esempio di 41,00 € invece di 20,50 € non si produce. Resta aperta per quando la riapertura entrerà."
+      }
     },
     {
       "dimensione": "rls-database",
@@ -89533,7 +90278,14 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R14",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "cambiato",
+        "prova": "psql -X -d mycity_s01_l08 -v ON_ERROR_STOP=1 -f scratchpad/prove/L08-1.sql ; lib/account/cancellazione.ts:711-727 ; migrations/501_la_rimessa_conferma_solo_gli_ordini_visti.sql:66-69",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "La guardia è identica: somma collected_cents delle giornate con remitted_at NULL. Però la riapertura di una giornata (migrazione 381 del lotto R14) non è in questo commit, quindi il testo gonfiato su una giornata riaperta oggi non si produce. Su una giornata con rimessa parziale il comportamento è un altro (è la voce aperta «confermata una rimessa, la giornata del fattorino risulta versata…», ricontrollata nel lotto L01: ancora vera). Resta aperta: torna vera il giorno che la 381 entra."
+      }
     },
     {
       "dimensione": "api-backend",
@@ -89669,6 +90421,13 @@
         "sessione": "R14",
         "collaudo": null,
         "perche": "non_fatto: tolta dalla regia: delicata (va ai delicati, che girano a parte con ultracode)"
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "cambiato",
+        "prova": "app/api/cron/process-deletions/route.ts:82 e :228-230 (il ciclo delle cancellazioni ha un tetto a 150 s); :508-516 e :556-571 (allarme e notte rossa quando le email finiscono il tempo); :94, :174, :298, :508 (il tetto delle email si conta ancora dall'inizio del giro). Prove esistenti verdi: npx vitest run tests/unit/riparazione-r03-giro-cancellazioni-tetto.test.ts tests/unit/riparazione-r01-email-della-notte-col-loro-tempo.test.ts",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Due parti su tre sono riparate: il ciclo ha un tetto e l'allarme c'è. Resta che il tetto delle email parte dall'inizio del giro: un account preso poco prima dei 150 s che dura a lungo lascia ancora zero email quella notte (ora con allarme)."
       }
     },
     {
@@ -89793,7 +90552,14 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R26",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "migrations/501_la_rimessa_conferma_solo_gli_ordini_visti.sql:31-69 (uguale alla definizione nel database locale) ; lib/account/cancellazione.ts:711-713 ; app/api/cron/operational-alerts/route.ts:635-640",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": null
+      }
     },
     {
       "dimensione": "microcopy",
@@ -90458,6 +91224,13 @@
         "prova": "leggiDallaVista (lib/queries/seller-public-profiles.ts:146-180) fa ancora un solo .in('id', unique) senza blocchi, sia nella domanda principale (162) sia nel ripiego (171).",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": null
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "lib/queries/seller-public-profiles.ts:151-187 · lib/queries/griglia-prodotti.ts:412-416",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "leggiDallaVista non usa inBlocchi/DIMENSIONE_BLOCCO; la griglia passa tutti i seller_id della pagina in una volta."
       }
     },
     {
@@ -90927,6 +91700,13 @@
         "sessione": "R16",
         "collaudo": "parziale",
         "perche": "parziale: La causa è in components/CollectionHeader.tsx:80 (h1 senza break-words), file non mio: lo stesso titolo può scorrere in app/category, promozioni, novita, piu-venduti, piccoli-prezzi, events, lists, regali."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "cambiato",
+        "prova": "app/faq/page.tsx:220, :233 · app/returns/page.tsx:123 · app/lavora-con-noi/page.tsx:137, :142 · app/stores/page.tsx:305-308 · components/CollectionHeader.tsx:80",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Tre pagine su quattro mostrano la riparazione nel codice; /stores no. La misura a 280 px non l'ho rifatta: serve il browser."
       }
     },
     {
@@ -91263,7 +92043,7 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione onda9 · R03",
-      "stato": "aperto",
+      "stato": "gia_riparato_prima",
       "riverifica_21_11": {
         "data": "2026-11-21 16:27",
         "esito": "ancora_vero",
@@ -91276,7 +92056,15 @@
         "sessione": "R13",
         "collaudo": "parziale",
         "perche": "parziale: In app/api/ai/copilot/route.ts:127 un campo del criterio vuoto ('' o di soli spazi, per categoria o stato) va trattato come null: oggi {stato:'available', categoria:''} dà ancora 0 modifiche con il riepilogo che ne promette N. C'erano già alla base: route.ts:325-328 con tutti:true più filtro vince «tutti» (200 invece di 150, bozze comprese); route.ts:327-328 con product_ids espliciti e un filtro vuoto gli id vengono buttati (0 modifiche)."
-      }
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "non_piu_vero",
+        "prova": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r02-copilot-sottoinsieme.test.ts ; app/api/ai/copilot/route.ts:46, :117-130, :312-317, :327-328",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Da qui non si prova che il modello vero scelga il criterio. Un sottoinsieme che non si descrive con stato o categoria (per esempio per prezzo) resta a voci singole, tagliate a 40 con avviso."
+      },
+      "nota_riparazione": "Già riparato nel codice unito (ricontrollo della radiografia del 24/11, S01). cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r02-copilot-sottoinsieme.test.ts ; app/api/ai/copilot/route.ts:46, :117-130, :312-317, :327-328"
     },
     {
       "dimensione": "stati-ui",
@@ -91481,7 +92269,7 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione onda9 · R04",
-      "stato": "aperto",
+      "stato": "gia_riparato_prima",
       "riverifica_21_11": {
         "data": "2026-11-21 16:27",
         "esito": "ancora_vero",
@@ -91494,7 +92282,15 @@
         "sessione": "R14",
         "collaudo": null,
         "perche": "serve_file_altrui"
-      }
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "non_piu_vero",
+        "prova": "app/profile/addresses/page.tsx:86 · app/profile/addresses/page.tsx:120-123 · components/StoreLocationPicker.tsx:170-176",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": null
+      },
+      "nota_riparazione": "Già riparato nel codice unito (ricontrollo della radiografia del 24/11, S01). app/profile/addresses/page.tsx:86 · app/profile/addresses/page.tsx:120-123 · components/StoreLocationPicker.tsx:170-176"
     },
     {
       "dimensione": "api-backend",
@@ -91761,6 +92557,13 @@
         "prova": "lib/email/templates.ts:146-152 — `nato = args.createdAt ? … : new Date()`; app/api/orders/cod/route.ts:1832-1840 e lib/stripe/webhook/ordini.ts:537-543 chiamano orderConfirmedBuyerTemplate senza createdAt (l'email al negozio invece lo passa, cod/route.ts:1816)",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Il template ora accetta createdAt, ma nessuna delle due strade glielo passa."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "app/api/orders/cod/route.ts:1870-1878 · lib/stripe/webhook/ordini.ts:537-543 · lib/email/templates.ts:146, :153 · app/api/orders/cod/route.ts:1854",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": null
       }
     },
     {
@@ -93010,6 +93813,13 @@
         "prova": "components/seller/ProductForm.tsx:316 — `const recedibileAllApertura = initialValues?.nonRecedibile === true;` è una costante semplice, ricalcolata a ogni disegno (non useRef né useState). Al salvataggio (riga 897) il confronto si fa con questo valore ricalcolato, non con quello dell'apertura.",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": null
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "components/seller/ProductForm.tsx:320-321 e :901",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "La riga si è spostata da 291 a 320, il codice è lo stesso. Il difetto resta latente, come dice la voce."
       }
     },
     {
@@ -93057,6 +93867,13 @@
         "prova": "lib/queries/griglia-prodotti.ts:307-309 ordina ancora su order('price') (prezzo pieno). Anche il riordino dopo la lettura a blocchi (nellOrdineDelDatabase, 230-238) confronta Number(a.price). Il prezzo scontato entra solo nel filtro (174-178), non nell'ordinamento.",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": null
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "lib/queries/griglia-prodotti.ts:230-238,310-311",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Stesso codice della voce precedente: vale per ricerca, categoria e piccoli prezzi, che passano da griglia-prodotti senza riordinare."
       }
     },
     {
@@ -93142,6 +93959,13 @@
         "prova": "app/seller/analytics/letture-dell-andamento.ts:47-56: il tasso diventa null solo se ordini >= visite. app/seller/analytics/page.tsx:364-368: colore olive (verde) per >= 2%. Esempio: 9 ordini su 10 visite misurate fanno 90% in verde.",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "R02-008 e R09-005 hanno tolto solo i casi da 100% in su."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "app/seller/analytics/letture-dell-andamento.ts:47-56 · app/seller/analytics/page.tsx:364-368",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Nel registro-fatti non c'è nessuna soglia decisa da Nicola."
       }
     },
     {
@@ -93295,6 +94119,13 @@
         "prova": "migrations/572 (process_expired_deletions senza ORDER BY); process-deletions/route.ts:203-225 (scadute non ordinate, taglio al tetto); :420-444",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Agli amministratori arriva ora un avviso generico «rimandate» (avvisaDelTettoDiTempo), ma non quello del termine scaduto. Alla persona non arriva niente."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "migrations/572_la_cancellazione_aspetta_gli_ordini_aperti_del_negozio.sql:23-32 (senza ORDER BY, confermato con pg_get_functiondef sul mio database); app/api/cron/process-deletions/route.ts:197-205, :228-230, :276-280, :449-471",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Chi è già oltre il mese e resta fuori non genera nessun avviso di termine scaduto, né per lui né per gli amministratori."
       }
     },
     {
@@ -93314,6 +94145,13 @@
         "prova": "process-deletions/route.ts:225 (tetto guardato solo prima di prendere l'account) e :241; lib/account/cancellazione.ts:912 (nessun timeout)",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Le email hanno ora un tetto loro (TETTO_EMAIL_MS 240 s, :93), ma la parte del titolo sulle cancellazioni non è cambiata."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "app/api/cron/process-deletions/route.ts:82, :230, :246, :508; lib/account/cancellazione.ts:932",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": null
       }
     },
     {
@@ -93352,6 +94190,13 @@
         "prova": "lib/ordini/annulla.ts:503-510 (after() per ogni email) e 496/544/693; app/api/cron/expire-stale-orders/route.ts:270, 427, 446; lib/email/client.ts:218-219",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": null
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/_s01/L01-1.test.ts",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Le email di annullo del giro (avvisaIlNegozioDellAnnullo :677-693, avvisaIlClienteDelRimborso :524-544, avvisaIlClienteDellAnnullo :478-496 in lib/ordini/annulla.ts) partono con after() senza fila: con Next 15.5.29 partono tutte insieme."
       }
     },
     {
@@ -93371,6 +94216,13 @@
         "prova": "lib/ordini/veloce-non-confermata.ts:203-212: per un ordine in contanti il carrello si cerca solo in cod_checkout_attempts, e senza la riga restituisce null. Alla riga 902 il chiamante ripiega su [o].",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": null
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "lib/ordini/veloce-non-confermata.ts:202-215,927,161",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Ramo contanti: carrello solo da cod_checkout_attempts.order_ids; senza riga null (210), con meno di 2 id null (215); il chiamante (927) ripiega su un ordine solo."
       }
     },
     {
@@ -93492,6 +94344,13 @@
         "prova": "lib/queries/griglia-prodotti.ts:308-309 ordina con order('price'), e nellOrdineDelDatabase (235) confronta a.price. Solo app/promozioni/page.tsx:67 riordina sul prezzo mostrato.",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": null
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "lib/queries/griglia-prodotti.ts:230-238,310-311 · app/promozioni/page.tsx:67",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Solo /promozioni riordina sul prezzo mostrato."
       }
     },
     {
@@ -93511,6 +94370,13 @@
         "prova": "lib/queries/griglia-prodotti.ts:180 `if (d.minPrice !== undefined) q = q.gte('price', d.minPrice);`. Solo il maxPrice ha il ramo per i prodotti scontati (173-178).",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": null
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "lib/queries/griglia-prodotti.ts:173-180",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Solo maxPrice ha il ramo per i prodotti scontati (173-178)."
       }
     },
     {
@@ -93558,6 +94424,13 @@
         "prova": "lib/ordini/veloce-non-confermata.ts:902 `const carrello = (await ordiniDelCarrello(admin, o)) ?? [o];`, senza registro né avviso. ordiniDelCarrello restituisce null alle righe 211-212.",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": null
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "lib/ordini/veloce-non-confermata.ts:210,215,927",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Al ripiego nessun logger né notifyAdmins: gli altri ordini dello stesso carrello passano uno per volta, ognuno con la sua campanella."
       }
     },
     {
@@ -93577,6 +94450,13 @@
         "prova": "lib/account/cancellazione.ts:564-575: togliDallaNewsletter prende solo data da getUserById. Se la lettura fallisce, emailUtente è null e la funzione esce con return senza log. Il catch scatta solo sulle eccezioni.",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": null
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "cd marketplace && npx vitest run tests/unit/_s01/L08-2.test.ts ; lib/account/cancellazione.ts:564-575",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "L'errore di getUserById è ancora scartato (riga 566). Con l'email a null si esce in silenzio alla riga 568."
       }
     },
     {
@@ -93700,6 +94580,13 @@
         "prova": "app/api/cron/process-deletions/route.ts:225 — il tetto (TETTO_CANCELLAZIONI_MS=150_000, riga 81) si guarda solo PRIMA di prendere l'account; :241 `await cancellaAccount(admin, userId)` parte senza scadenza propria; lib/account/cancellazione.ts:912 la firma non ha nessun limite di tempo; il commento :84-86 lo ammette («un account preso può durare a lungo»)",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Il tetto delle email (TETTO_EMAIL_MS, R01-002) protegge quello che viene dopo, ma l'account preso al limite non ha ancora un tempo suo."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "app/api/cron/process-deletions/route.ts:82 (150 s), :230, :246; vercel.json:13 (maxDuration 300)",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": null
       }
     },
     {
@@ -93763,6 +94650,13 @@
         "sessione": "R15",
         "collaudo": null,
         "perche": "serve_file_altrui"
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/_s01/L01-1.test.ts",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "lib/api/dopo-la-risposta.ts:28-62 ora mette in fila, ma il giro degli scaduti manda le email con lib/ordini/annulla.ts, che ha un suo dopoLaRisposta (:503-509) con after() senza fila. nellaFila non la usa nessuno in lib/ o app/."
       }
     },
     {
@@ -93837,6 +94731,13 @@
         "prova": "app/lists/[id]/page.tsx:387: <p>{formatPrice(Number(p.price))}</p>. Nella pagina non c'è nessuna lettura delle promozioni (grep di promo e sconto: vuoto), mentre components/ProductCard.tsx:11 usa discountedUnitCents.",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Niente è cambiato rispetto alla segnalazione."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "app/lists/[id]/page.tsx:101, :410",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": null
       }
     },
     {
@@ -93856,6 +94757,13 @@
         "prova": "app/product/[id]/opengraph-image.tsx:31 price = formatPrice(p.price); app/product/[id]/layout.tsx:99 offers.price = Number(product.price).toFixed(2); lib/queries/metadati-vetrina.ts:39 legge 'id, name, description, price, images, status, stock, seller_id', senza promozione.",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Resta aperta la parte segnata come «meno sicura» nel referto, cioè quale prezzo dichiarare a Google."
+      },
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "app/product/[id]/opengraph-image.tsx:31 · lib/queries/metadati-vetrina.ts:39 · app/product/[id]/layout.tsx:176-179 · app/product/[id]/page.tsx:341-345 e :541",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Quale prezzo dichiarare a Google resta una scelta, come diceva già la voce."
       }
     },
     {
@@ -94005,7 +94913,14 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione normali · R03",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "lib/privacy/avvisi-a-chi-aspetta.ts:350 · app/api/cron/process-deletions/route.ts:530-534",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Il commento della rotta lo dice apertamente: «lì è una costante non esportata: deve restare uguale»."
+      }
     },
     {
       "dimensione": "api-backend",
@@ -94017,7 +94932,15 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione normali · R03",
-      "stato": "aperto"
+      "stato": "gia_riparato_prima",
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "non_piu_vero",
+        "prova": "components/StoreLocationPicker.tsx:170-179",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": null
+      },
+      "nota_riparazione": "Già riparato nel codice unito (ricontrollo della radiografia del 24/11, S01). components/StoreLocationPicker.tsx:170-179"
     },
     {
       "dimensione": "api-backend",
@@ -94053,7 +94976,14 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione normali · R04",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "copia scratchpad di S01b, prove/L02-4-zod-inglese.test.ts in marketplace/tests/unit/tmp-s01b-L02-4.test.ts e lancia npx vitest run tests/unit/tmp-s01b-L02-4.test.ts",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "lib/zod-i18n.ts:60-112 non ha casi per invalid_union_discriminator, not_multiple_of, not_finite e invalid_string startsWith/datetime: cadono su ctx.defaultError. discriminatedUnion è ancora usato in lib/store-site.ts."
+      }
     },
     {
       "dimensione": "qa-flussi",
@@ -94210,7 +95140,14 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione normali · R08",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "app/lists/[id]/page.tsx:123-127, :220-246 · app/lists/page.tsx:95-110",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Ragionamento sul comportamento della libreria, non provato nel browser."
+      }
     },
     {
       "dimensione": "deploy-sre",
@@ -94270,7 +95207,14 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione normali · R10",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "lib/supabase/lettura-per-metadati.ts:73,76,89,114",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Con un client da fuori si salta solo React.cache: leggiConMemoria usa la stessa chiave e la stessa mappa (89 get, 114 set). Nessun chiamante in produzione passa un client."
+      }
     },
     {
       "dimensione": "frontend-ux",
@@ -94282,7 +95226,14 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione normali · R10",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "copia scratchpad di S01b, prove/tmp-s01b-L01-2.test.ts in marketplace/tests/unit/ e lancia S01B_OUT=<file> npx vitest run tests/unit/tmp-s01b-L01-2.test.ts -t S01b-L01-12, poi leggi <file>",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "lib/store-customization.ts:396-399 mette https:// davanti a ciò che non inizia con http(s):// e ha un punto; z.url() (168-174) lo accetta; socialLinks (440-441) crea il link."
+      }
     },
     {
       "dimensione": "qa-flussi",
@@ -94294,7 +95245,15 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione normali · R11",
-      "stato": "aperto"
+      "stato": "gia_riparato_prima",
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "non_piu_vero",
+        "prova": "app/lists/[id]/page.tsx:148 · app/lists/[id]/page.tsx:227-229 · components/AddToListButton.tsx:40 · lib/queries/keys.ts:262",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Anche la creazione di una lista invalida mineMin (app/lists/page.tsx:142). Nessun altro punto del sito rinomina o cancella liste."
+      },
+      "nota_riparazione": "Già riparato nel codice unito (ricontrollo della radiografia del 24/11, S01). app/lists/[id]/page.tsx:148 · app/lists/[id]/page.tsx:227-229 · components/AddToListButton.tsx:40 · lib/queries/keys.ts:262"
     },
     {
       "dimensione": "performance-percepita",
@@ -94438,7 +95397,14 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione normali · C01",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "app/api/ai/catalog-apply-bulk/route.ts:65-66, 234-281, 327 · lib/ai/esitoCopilot.ts:46-80 · components/seller/CatalogCopilot.tsx:127-139 e :293-309",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": null
+      }
     },
     {
       "dimensione": "api-backend",
@@ -94462,7 +95428,14 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione normali · C01",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "lib/api/dopo-la-risposta.ts:37-38 e :44-63 ; vercel.json",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Come dice la voce, pesa solo con Fluid compute acceso. In vercel.json non c'è, e le impostazioni del progetto non si possono leggere da qui."
+      }
     },
     {
       "dimensione": "microcopy",
@@ -94546,7 +95519,14 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione normali · R13",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "components/StoreLocationPicker.tsx:171-172 · app/api/geocode/route.ts:28, 52, 64",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "È proprio la forma nata dalla riparazione della voce precedente, quella su «indirizzo non trovato»."
+      }
     },
     {
       "dimensione": "qa-flussi",
@@ -94582,7 +95562,14 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione normali · R14",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "cambiato",
+        "prova": "npx vitest run tests/unit/riparazione-r13-indirizzi-servizio-giu-rotta.test.ts · app/api/geocode/route.ts:50-52 · app/profile/addresses/page.tsx:85-90, :95, :129-131",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": "Il pezzo della rotta è riparato, quello della pagina no. Per il cliente l'effetto resta lo stesso."
+      }
     },
     {
       "dimensione": "stati-ui",
@@ -94606,7 +95593,14 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione normali · R15",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "app/api/cron/expire-stale-orders/route.ts:447-449; lib/ordini/annulla.ts:570; lib/email/templates.ts:583-594",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": null
+      }
     },
     {
       "dimensione": "frontend-ux",
@@ -94654,7 +95648,14 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione normali · R15",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riverifica_24_11": {
+        "data": "2026-11-24 12:54",
+        "esito": "ancora_vero",
+        "prova": "lib/analytics/posthog.tsx:447-458 ; lib/analytics/events.ts:36 ; lib/analytics/posthog.tsx:632-648",
+        "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+        "nota": null
+      }
     },
     {
       "dimensione": "qa-flussi",
