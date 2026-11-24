@@ -8,6 +8,7 @@ reparto: tech
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-11-23 01:28 · Iscrizione aperta a ogni attività + preventivo agenzia scattiDG sul sito (ramo claude/mycity-entrepreneur-signup-flexible-d66bey) · V4 C5 A5 K5 I3 M4 E3 (media 4.14) · atteso consegna senza difetti gravi al collaudo → reale collaudo: 1 grave (esempio della migrazione con prezzi a zero) e 5 minori; grave e 3 minori riparati, 2 minori aperti nel registro; 1 scrittura del registro troncata e ripristinata da git · #preventivo #iscrizione #collaudo
 - 2026-11-22 21:31 · Settimana dei 700, giro di correzione: 79 voci minori, 6 riparatori, 17 reggono, circa 224 dollari · V4 C4 A4 K5 I3 M3 E2 (media 3.57) · atteso circa 24 chiuse, circa 200 dollari, circa 8 a chiusa → reale 17 reggono a circa 13 dollari l'una; firme a metà giro e regia lunga · #riparazione
 - 2026-11-22 17:44 · Settimana dei 700, voci normali giro 1: 12 riparatori, 4 collaudi, controllore C01, unione mycity#301 · V4 C5 A5 K5 I3 M4 E4 (media 4.29) · atteso circa 68 chiuse a 4,4-8 $ l'una → reale 53 chiuse a circa 6 $ l'una; un incrocio R01-011/R02-005 visto solo dalle prove sull'albero unito, tolto col revert · #riparazione #settimana-700
 - 2026-11-21 16:27 · Settimana dei 700: ricontrollo del registro del sito in 4 sessioni più controllore finale · V5 C4 A5 K4 I4 M4 E4 (media 4.29) · atteso circa 150 $ e voci chiuse da scoprire → reale circa 105 $ (più il CF), 117 chiusure su 459, 6+3 gravi confermati · #ricontrollo #settimana-700
