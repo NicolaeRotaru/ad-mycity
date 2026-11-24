@@ -7345,3 +7345,9 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Serve da Nicola:** decidere se il lavoro di n8n dell'agenzia è un'eccezione alla regola, oppure se la ricerca dei nuovi clienti deve farla l'AD sul piano Max.
 - **Lezione:** prima di costruire qualcosa che usa un'IA, si legge `registro-fatti.json` alla voce `ad.uso-e-crediti`.
 
+## 2026-11-24 04:58 — Modulo 12 e flusso 18 restano separati; i dati raccolti vanno nella dashboard e nella vetrina del venditore (🔴, decisione di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD («n8n workflow per MyCity»), 24/11 alle 04:58: «lasciali separati e tutti questi dati che si recuperano devono essere visibili nella dashboard o vetrina del venditore, avendo tanti dati dal venditore bisogna renderla un'esperienza entrare nella vetrina del negozio».
+- **Cosa:** ① il modulo 12 (la scheda presa dal web) e il flusso 18 (la pagella dell'attività su MyCity) restano due pezzi, collegati dal 16; ② la scheda e la pagella diventano visibili al venditore e trasformano la sua vetrina in un'esperienza.
+- **Proposta dell'AD, da confermare:** dalla scheda nasce una vetrina pronta, fatta con le sezioni che il sito ha già (`lib/store-site.ts`); il venditore la vede in anteprima nella dashboard e la pubblica con un clic; in pubblico vanno solo i dati confermati; la pagella la calcola il sito dai suoi dati. Passata a «Servizi SDG» (session_01R8112L8Qbu42abzNPKaAkQ), che sta progettando come conservare la scheda.
+- **Colore:** 🔴 scelta di prodotto di Nicola; la costruzione sarà 🟡, su un ramo con PR.
+
