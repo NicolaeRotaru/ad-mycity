@@ -5,7 +5,7 @@
     "R09",
     "R10"
   ],
-  "aggiornato": "2026-11-24 18:35",
+  "aggiornato": "2026-11-24 18:50",
   "finita": false,
   "voci": [
     {
@@ -109,41 +109,61 @@
       "id": "R09-001",
       "chiave": "architettura|email partita ma non segnata: la notte dopo riparte, e se fallisce l'allarme dice «non partita» per un'email già arrivata",
       "verdetto": "parziale",
-      "giudizio": "nessuno",
+      "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base b82b9190107702a1663f30ac24da04f776182b4c^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r09-allarme-forse-partita.test.ts --json"
-      }
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Il pezzo fatto regge: il segno forsePartita (lib/privacy/avvisi-a-chi-aspetta.ts:222, route.ts:537) cambia il testo dell'allarme (route.ts:805), la controprova con posta rifiutata dice ancora «non partita». Resta: il titolo dell'allarme dice ancora «Spiegazione dell'attesa non partita per email» (route.ts:859) anche quando il testo dice «può essere arrivata»; la seconda spedizione della notte dopo resta; il ramo senza tempo (route.ts:526-530) non tratta il caso."
     },
     {
       "id": "R09-002",
       "chiave": "deploy-sre|senza la 181 ogni apertura della chat o delle recensioni del negozio scrive un avviso nel registro",
       "verdetto": "regge",
-      "giudizio": "nessuno",
+      "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base 5381741c7e426fb6a4ccf047807a74cf0d99ca9f^ --file lib/queries/controparte-della-chat.ts,app/seller/reviews/page.tsx --prove tests/unit/riparazione-r09-avviso-chat-recensioni.test.ts,tests/unit/riparazione-r09-avviso-recensioni.test.tsx --json"
-      }
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Il silenzio scatta solo con PGRST202/42883 (funzioneNonAncoraCreata), una volta per pagina; un errore vero scrive ancora l'avviso a ogni chiamata; il ripiego «Cliente» resta. Nella pagina recensioni, che gira nel browser, «una volta» vale per scheda aperta."
     },
     {
       "id": "R09-003",
       "chiave": "frontend-ux|altri campi brevi del sito del negozio tagliano ancora in silenzio con maxlength",
       "verdetto": "regge",
-      "giudizio": "nessuno",
+      "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base a504c89cbd5cb8e3f20a022916638b5d3e5259e2^ --file components/seller/site/GalleryFields.tsx,components/seller/site/MenuEditor.tsx,components/seller/site/PageEditor.tsx --prove tests/unit/riparazione-r09-campi-brevi.test.tsx --json"
-      }
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "In components/seller/site/ nessun maxLength attivo, solo commenti; i tetti coincidono con lo schema in lib/store-site.ts (120/120/30/60/70/180) e si contano senza spazi come lo schema. Scarto trascurabile: bozza link del menu a menu spento (store-site.ts:277)."
     },
     {
       "id": "R09-004",
       "chiave": "frontend-ux|il costruttore della vetrina ha ancora campi brevi che tagliano in silenzio",
-      "verdetto": "regge",
-      "giudizio": "nessuno",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base a504c89cbd5cb8e3f20a022916638b5d3e5259e2^ --file components/seller/site/GalleryFields.tsx,components/seller/site/MenuEditor.tsx,components/seller/site/PageEditor.tsx --prove tests/unit/riparazione-r09-campi-brevi.test.tsx --json"
-      }
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Regge per i file di components/seller/site/, ma l'editor dell'annuncio della vetrina (components/seller/AnnouncementEditor.tsx:35, maxLength={MAX_ANNOUNCEMENT}, nessun contatore), aperto da «Personalizza la tua vetrina», taglia ancora in silenzio: nel dubbio fa parte del costruttore della vetrina."
     },
     {
       "id": "R09-005",
@@ -158,22 +178,32 @@
     {
       "id": "R09-006",
       "chiave": "stati-ui|a riga chiusa con il motivo «chiedi all'assistenza» il pulsante «avvia» resta",
-      "verdetto": "regge",
-      "giudizio": "nessuno",
+      "verdetto": "rompe_altro",
+      "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base d695062a533ca7913c42689d6ac1caa3bab38cbd^ --file app/api/ai/catalog-batch/status/route.ts,app/seller/products/ai-batch/page.tsx --prove tests/unit/riparazione-r09-pulsante-dopo-assistenza.test.tsx --json"
-      }
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "La voce come scritta è chiusa e /status filtra sempre per il negozio. Ma il blocco è ora permanente: status/route.ts:60-76 restituisce senza scadenza l'ultimo lavoro chiuso con «chiedi all'assistenza», la pagina lo ricorda (page.tsx:350,375) anche cambiando operazione (page.tsx:491); il negozio non vede più «Avvia» su nessuna operazione e nessuno strumento admin riapre il lavoro (nessun riferimento a catalog_ai_jobs in app/admin). Prima bastava ricaricare; start/route.ts:100-120 non applica il divieto. Serve una via d'uscita (sblocco admin o scadenza)."
     },
     {
       "id": "R09-007",
       "chiave": "stati-ui|sotto un lavoro sul catalogo chiuso che dice di chiedere all'assistenza prima di ripartire, il pulsante «avvia sul catalogo» resta lì",
-      "verdetto": "regge",
-      "giudizio": "nessuno",
+      "verdetto": "rompe_altro",
+      "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base d695062a533ca7913c42689d6ac1caa3bab38cbd^ --file app/api/ai/catalog-batch/status/route.ts,app/seller/products/ai-batch/page.tsx --prove tests/unit/riparazione-r09-pulsante-dopo-assistenza.test.tsx --json"
-      }
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Stesso commit e stesso difetto di R09-006: il divieto di ripartire non scade mai e nessuno lo può togliere dalla pagina o dall'admin (status/route.ts:60-76, page.tsx:350,375,491)."
     },
     {
       "id": "R10-001",
