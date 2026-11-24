@@ -135,6 +135,15 @@
    "integrazione": "a673164da05ab165480595967128d01795601ba9",
    "onda": 1,
    "finita": true
+  },
+  "C02": {
+   "id": "session_01R8112LFkd4RRfxLYhJMoFV",
+   "ramo": "ccr-d7a54140-hak4ez-c02",
+   "partenza": "27f5d973c048b74b68bfe3eda1950c8234266dd9",
+   "integrazione": "e173796f6a402d02c9c1ebe748db615ce5ba8dbd",
+   "base": "d000e3b04bc9d12ab160f5ebc55c0d665fc6e5a9",
+   "onda": 2,
+   "finita": false
   }
  }
 }
