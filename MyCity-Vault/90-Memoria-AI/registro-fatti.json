@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-11-21 03:27",
+  "aggiornato": "2026-11-24 02:15",
   "fatti": [
     {
       "id": "ad.uso-e-crediti",
@@ -1182,13 +1182,17 @@
     {
       "id": "pricing.abbonamento",
       "nome": "Abbonamento venditore MyCity",
-      "valore": "50€/mese di listino, SOSPESO finché il negozio non incassa: niente canone fino ai primi incassi portati da MyCity (scelta 13 della carta #209, firmata da Nicola il 2026-10-26 con «ok 209»).",
-      "fonte": "Nicola, chat 2026-10-26 ~08:55, «ok 209, parti» e risposte brevi",
-      "aggiornato": "2026-10-26 09:04",
+      "valore": "Listino a tre abbonamenti mensili per i negozi: Base 300 euro/mese, Business 500 euro/mese, Premium 999 euro/mese. Ognuno comprende tutti i servizi di MyCity, ma in misura diversa (quanti prodotti, quante uscite social, quanti richiami ai clienti, quanta visibilità, quanto spesso il report). Solo canone: nessuna percentuale sul venduto per chi ha uno di questi abbonamenti. Primo cliente col listino nuovo: Ora del Gusto (pasticceria/bar). Come si dividono i servizi fra le tre fasce: proposta dell'AD nel preventivo di Ora del Gusto, da confermare con Nicola. APERTO: se il listino vale anche per Pane Quotidiano e per i negozi di prova, che oggi stanno a 50 euro/mese più il 10% (domanda fatta il 24/11, non ancora risposta); se resta la sospensione del canone fino ai primi incassi (scelta 13 della carta #209); l'IVA la conferma il commercialista.",
+      "fonte": "Nicola, chat 2026-11-24 ~01:30 (sessione Ora del Gusto): «ci sono 3 abbonamenti: base 300€/mese, business 500€/mese e premium 999€/mese», «l'abbonamento comprende tutti i servizi ma in modi diversi»; alla domanda sul 10%: «Solo canone, niente 10%»",
+      "aggiornato": "2026-11-24 02:15",
       "storia": [
         {
           "valore": "50€/mese",
           "fino_a": "2026-10-26 09:04"
+        },
+        {
+          "valore": "50€/mese di listino, SOSPESO finché il negozio non incassa: niente canone fino ai primi incassi portati da MyCity (scelta 13 della carta #209, firmata da Nicola il 2026-10-26 con «ok 209»).",
+          "fino_a": "2026-11-24 02:15"
         }
       ],
       "caccia": [
@@ -1206,6 +1210,14 @@
           "pattern": "0€ fissi",
           "dal": "2026-07-20 12:39",
           "chiusa": "2026-07-20 20:21"
+        },
+        {
+          "pattern": "50€/mese di listino",
+          "dal": "2026-11-24 02:15"
+        },
+        {
+          "pattern": "50€/mese di listino, SOSPESO finché il negozio non incassa: niente canone fino ai primi incassi portati da MyCity (scelta 13 della carta #209, firmata da Nicola il 2026-10-26 con «ok 209»).",
+          "dal": "2026-11-24 02:15"
         }
       ],
       "esenzioni": [
@@ -1266,18 +1278,28 @@
       "esenzioni": [
         "consegne/legale/contratto-pane-quotidiano-bozza.md",
         "consegne/account-negozi/2026-07-04-anti-churn-standalone-pane-quotidiano.md"
+      ],
+      "note_successive": [
+        {
+          "data": "2026-11-24 01:40",
+          "testo": "Nicola, 24/11: con i tre abbonamenti (300/500/999 euro/mese) «Solo canone, niente 10%». Il 10% resta valido solo per chi è ancora sul vecchio listino da 50 euro/mese, finché Nicola non dice se il listino nuovo vale per tutti. Il codice del sito applica ancora il 10% a tutti gli ordini: da cambiare in un ramo del marketplace (lavoro aperto)."
+        }
       ]
     },
     {
       "id": "pricing.worker-negozi",
       "nome": "Prezzo del Worker per i negozi",
-      "valore": "Il Worker è INCLUSO nell'abbonamento marketplace da 50 euro/mese fino a circa 50-100 negozi; oltre quella soglia diventa un servizio in più da altri 50 euro/mese (totale 100 euro/mese per negozio). Supera il listino a tre fasce del 29/7 (Vetrina 99 · Autopilot 299 · Direttore Digitale 699-999, più setup): nessun negozio è mai stato venduto a quei prezzi e la linea non è costruita, quindi il cambio non tocca nessun cliente. Coerente con l'obiettivo dichiarato di 10.000 euro/mese = 100 negozi per 100 euro/mese (obiettivo.ricavi). APERTO: i 3 pilot founder a 149 euro/mese (pilot.worker-negozi) non sono nominati nel documento — restano come stavano finché non lo dice Nicola.",
-      "fonte": "Nicola — CONTESTO_BUSINESS.md paragrafo 5 (Pricing, «Decisione attuale») e paragrafo 11 (Obiettivo), consegnato in chat 2026-08-11 02:12",
-      "aggiornato": "2026-08-11 02:18",
+      "valore": "Il Worker (social, recensioni, richiami, report) è compreso in tutti e tre gli abbonamenti (Base 300, Business 500, Premium 999 euro/mese), in misura crescente: vedi pricing.abbonamento. Sostituisce «Worker incluso nell'abbonamento da 50 euro/mese fino a 50-100 negozi, poi altri 50 euro» dell'11/8.",
+      "fonte": "Nicola, chat 2026-11-24 ~01:30 (sessione Ora del Gusto): «ci sono 3 abbonamenti: base 300€/mese, business 500€/mese e premium 999€/mese», «l'abbonamento comprende tutti i servizi ma in modi diversi»; alla domanda sul 10%: «Solo canone, niente 10%»",
+      "aggiornato": "2026-11-24 02:15",
       "storia": [
         {
           "valore": "Vetrina 99€/mese · Autopilot 299€/mese · Direttore Digitale 699-999€/mese (+ setup una tantum). Prodotto DIVERSO dall'abbonamento venditore marketplace (pricing.abbonamento = 50€/mese)",
           "fino_a": "2026-08-11 02:18"
+        },
+        {
+          "valore": "Il Worker è INCLUSO nell'abbonamento marketplace da 50 euro/mese fino a circa 50-100 negozi; oltre quella soglia diventa un servizio in più da altri 50 euro/mese (totale 100 euro/mese per negozio). Supera il listino a tre fasce del 29/7 (Vetrina 99 · Autopilot 299 · Direttore Digitale 699-999, più setup): nessun negozio è mai stato venduto a quei prezzi e la linea non è costruita, quindi il cambio non tocca nessun cliente. Coerente con l'obiettivo dichiarato di 10.000 euro/mese = 100 negozi per 100 euro/mese (obiettivo.ricavi). APERTO: i 3 pilot founder a 149 euro/mese (pilot.worker-negozi) non sono nominati nel documento — restano come stavano finché non lo dice Nicola.",
+          "fino_a": "2026-11-24 02:15"
         }
       ],
       "caccia": [
@@ -1300,6 +1322,14 @@
           "pattern": "Vetrina 99€/mese · Autopilot 299€/mese · Direttore Digitale 699-999€/mese (+ setup una tantum). Prodotto DIVERSO dall'abbonamento venditore marketplace (pricing.abbonamento = 50€/mese)",
           "dal": "2026-08-11 02:18",
           "chiusa": "2026-08-12 23:11"
+        },
+        {
+          "pattern": "abbonamento marketplace da 50 euro",
+          "dal": "2026-11-24 02:15"
+        },
+        {
+          "pattern": "Il Worker è INCLUSO nell'abbonamento marketplace da 50 euro/mese fino a circa 50-100 negozi; oltre quella soglia diventa un servizio in più da altri 50 euro/mese (totale 100 euro/mese per negozio). Supera il listino a tre fasce del 29/7 (Vetrina 99 · Autopilot 299 · Direttore Digitale 699-999, più setup): nessun negozio è mai stato venduto a quei prezzi e la linea non è costruita, quindi il cambio non tocca nessun cliente. Coerente con l'obiettivo dichiarato di 10.000 euro/mese = 100 negozi per 100 euro/mese (obiettivo.ricavi). APERTO: i 3 pilot founder a 149 euro/mese (pilot.worker-negozi) non sono nominati nel documento — restano come stavano finché non lo dice Nicola.",
+          "dal": "2026-11-24 02:15"
         }
       ],
       "esenzioni": []

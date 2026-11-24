@@ -7324,3 +7324,7 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Colore:** 🔴 spesa firmata da Nicola; ramo `claude/settimana-700-regia`.
 
 - 2026-11-21 23:15 · Settimana dei 700 · Nicola dà il via alle 182 voci semplici del sito (12 sessioni, stima circa 370 $, tetto del giro 480 $), con la strategia preparata dalla regia seconda; le 281 delicate restano ferme. Sulla riservatezza dei rami lascia scegliere alla regia: cancellare i rami laterali e unire la #990 compressa.
+
+- 2026-11-24 02:20 · Listino nuovo a tre abbonamenti · Nicola: «ci sono 3 abbonamenti: base 300€/mese, business 500€/mese e premium 999€/mese», tutti i servizi in misura diversa, «solo canone, niente 10%». Primo cliente: Ora del Gusto (pasticceria-bar). L'AD ha diviso i servizi fra le fasce nel preventivo (proposta, da confermare) e consiglia il Business per il Natale.
+- **Perché:** decisione di prezzo del proprietario. Resta aperto se vale anche per Pane Quotidiano e i negozi di prova (oggi 50 €/mese + 10%) e se resta la sospensione del canone fino ai primi incassi.
+- **Colore:** 🔴 prezzi firmati da Nicola; iscrizione nel database e invio del preventivo in coda, aspettano la sua firma. Registro: `pricing.abbonamento`, `pricing.worker-negozi`.

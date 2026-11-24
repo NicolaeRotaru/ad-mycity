@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Preventivo Ora del Gusto</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#faf7f2; --paper:#ffffff; --ink:#1f1a17; --muted:#6b625b; --line:#e7e0d6;
+  --brand:#b4532a; --brand-soft:#f6e6dc; --accent:#2f6b4f; --accent-soft:#e3efe8;
+  --blank:#c9bfb3;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#151210; --paper:#1e1a17; --ink:#f2ece6; --muted:#a99f96; --line:#3a332d;
+    --brand:#e08a5f; --brand-soft:#3a2519; --accent:#7cc4a0; --accent-soft:#1d3329; --blank:#5a5049;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#151210; --paper:#1e1a17; --ink:#f2ece6; --muted:#a99f96; --line:#3a332d;
+  --brand:#e08a5f; --brand-soft:#3a2519; --accent:#7cc4a0; --accent-soft:#1d3329; --blank:#5a5049;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 Inter,system-ui,sans-serif}
+.page{max-width:980px;margin:0 auto;padding:32px 16px 64px}
+.sheet{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:36px clamp(16px,4vw,44px)}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;margin:0}
+h1{font-size:clamp(26px,4vw,36px);line-height:1.15}
+h2{font-size:21px;margin:36px 0 12px}
+.top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:20px;border-bottom:2px solid var(--brand);padding-bottom:20px}
+.logo{font-family:Fraunces,serif;font-weight:700;font-size:22px;color:var(--brand)}
+.meta{font-size:13px;color:var(--muted);text-align:right}
+.meta b{color:var(--ink)}
+.parti{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-top:22px}
+.box{border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.box h3{font-size:14px;font-family:Inter,sans-serif;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:8px}
+.campo{display:flex;gap:8px;font-size:14px;margin:4px 0}
+.campo span:first-child{color:var(--muted);min-width:110px}
+.vuoto{flex:1;border-bottom:1px dotted var(--blank);min-height:1.3em}
+.intro{margin-top:24px;font-size:16px}
+.piani{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
+.piano{border:1px solid var(--line);border-radius:12px;padding:20px;position:relative}
+.piano.consigliato{border:2px solid var(--accent);background:var(--accent-soft)}
+.badge{position:absolute;top:-11px;left:16px;background:var(--accent);color:var(--paper);font-size:12px;font-weight:600;padding:2px 10px;border-radius:99px}
+.piano h3{font-size:20px}
+.prezzo{font-family:Fraunces,serif;font-size:34px;font-weight:700;margin:6px 0 0}
+.prezzo small{font-family:Inter,sans-serif;font-size:14px;font-weight:500;color:var(--muted)}
+.anno{font-size:13px;color:var(--muted)}
+.per{font-size:14px;margin-top:10px}
+.tab-wrap{overflow-x:auto;margin:0 -4px}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:640px}
+th,td{padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top;text-align:left}
+thead th{font-family:Fraunces,serif;font-size:16px;border-bottom:2px solid var(--ink)}
+thead th.cons{color:var(--accent)}
+td:first-child{font-weight:600;width:24%}
+td.cons{background:var(--accent-soft)}
+.ok{color:var(--accent);font-weight:600}
+.natale{background:var(--brand-soft);border-radius:12px;padding:18px 20px;margin-top:8px}
+.natale h3{font-size:18px;margin-bottom:6px;color:var(--brand)}
+ul{padding-left:20px;margin:8px 0}
+li{margin:4px 0}
+.firme{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:28px;margin-top:20px}
+.firma{border-top:1px solid var(--ink);padding-top:6px;font-size:13px;color:var(--muted);margin-top:56px}
+.scelta{display:flex;flex-wrap:wrap;gap:18px;font-size:15px;margin-top:8px}
+.scelta span::before{content:"";display:inline-block;width:14px;height:14px;border:1.5px solid var(--ink);border-radius:3px;margin-right:8px;vertical-align:-2px}
+.nota{font-size:12.5px;color:var(--muted);margin-top:28px}
+@media print{
+  body{background:#fff}
+  .page{padding:0}
+  .sheet{border:none;padding:0}
+  h2{break-after:avoid}
+  .piani,.tab-wrap,.firme{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<div class="page"><div class="sheet">
+
+<div class="top">
+  <div>
+    <div class="logo">MyCity Piacenza</div>
+    <h1>Preventivo di abbonamento<br>per Ora del Gusto</h1>
+  </div>
+  <div class="meta">
+    Preventivo n. <b>PRV-2026-001</b><br>
+    Data: <b>24 novembre 2026</b><br>
+    Valido fino al: <b>24 dicembre 2026</b>
+  </div>
+</div>
+
+<div class="parti">
+  <div class="box">
+    <h3>Da</h3>
+    <div class="campo"><span>Azienda</span><b>MyCity — marketplace dei negozi di Piacenza</b></div>
+    <div class="campo"><span>Referente</span><b>Nicola</b></div>
+    <div class="campo"><span>Sito</span><b>mycity-marketplace.com</b></div>
+  </div>
+  <div class="box">
+    <h3>Per</h3>
+    <div class="campo"><span>Negozio</span><b>Ora del Gusto — pasticceria e bar</b></div>
+    <div class="campo"><span>Titolare</span><span class="vuoto"></span></div>
+    <div class="campo"><span>Indirizzo</span><span class="vuoto"></span></div>
+    <div class="campo"><span>Partita IVA</span><span class="vuoto"></span></div>
+    <div class="campo"><span>Telefono / email</span><span class="vuoto"></span></div>
+  </div>
+</div>
+
+<p class="intro">Con MyCity i clienti di Piacenza ordinano i vostri dolci online e li ricevono a casa in giornata, oppure li ritirano al banco. Noi mettiamo online il negozio, facciamo le foto e scriviamo le schede. Voi approvate tutto su WhatsApp, senza imparare app nuove.</p>
+<p><b>Tutti e tre gli abbonamenti comprendono tutti i servizi di MyCity.</b> Cambia quanto ne fate: quanti prodotti, quanti post, quanti messaggi ai clienti, quanta visibilità. <b>Nessuna percentuale su quello che vendete:</b> pagate solo il canone del mese, e i clienti che arrivano restano vostri.</p>
+
+<h2>I tre abbonamenti</h2>
+<div class="piani">
+  <div class="piano">
+    <h3>Base</h3>
+    <p class="prezzo">300 € <small>/ mese</small></p>
+    <p class="anno">3.600 € all'anno</p>
+    <p class="per">Per essere online e vendere da subito, con un aiuto costante ma leggero.</p>
+  </div>
+  <div class="piano consigliato">
+    <span class="badge">Consigliato per voi</span>
+    <h3>Business</h3>
+    <p class="prezzo">500 € <small>/ mese</small></p>
+    <p class="anno">6.000 € all'anno</p>
+    <p class="per">Per crescere ogni settimana: più clienti richiamati, più visibilità, regali alle aziende.</p>
+  </div>
+  <div class="piano">
+    <h3>Premium</h3>
+    <p class="prezzo">999 € <small>/ mese</small></p>
+    <p class="anno">11.988 € all'anno</p>
+    <p class="per">Il servizio completo: un referente vostro, foto ogni mese, in primo piano sul sito.</p>
+  </div>
+</div>
+
+<h2>Cosa comprende ogni abbonamento</h2>
+<div class="tab-wrap">
+<table>
+  <thead><tr><th>Servizio</th><th>Base</th><th class="cons">Business</th><th>Premium</th></tr></thead>
+  <tbody>
+    <tr><td>Vetrina sul marketplace</td><td>Fino a 40 prodotti</td><td class="cons">Fino a 150 prodotti</td><td>Prodotti senza limite</td></tr>
+    <tr><td>Schede prodotto scritte da noi</td><td>40 all'avvio</td><td class="cons">150 all'avvio, più gli aggiornamenti di ogni mese</td><td>Senza limite, più i cambi di stagione (Natale, Pasqua, estate)</td></tr>
+    <tr><td>Foto dei prodotti</td><td>Una sessione all'avvio</td><td class="cons">All'avvio e poi una ogni tre mesi</td><td>Una sessione ogni mese</td></tr>
+    <tr><td>Ordini, pagamento e consegna</td><td colspan="3" class="ok">Compresi in tutti e tre: pagamento con carta o in contanti, consegna in giornata, ritiro gratuito al banco. La consegna la paga il cliente.</td></tr>
+    <tr><td>Percentuale sul venduto</td><td colspan="3" class="ok">Zero in tutti e tre: pagate solo il canone</td></tr>
+    <tr><td>I vostri clienti</td><td colspan="3" class="ok">In tutti e tre: l'elenco dei clienti è vostro e lo scaricate quando volete</td></tr>
+    <tr><td>Report degli incassi</td><td>Ogni mese</td><td class="cons">Ogni lunedì, in euro</td><td>Ogni lunedì, più un incontro al mese con il piano del mese dopo</td></tr>
+    <tr><td>Messaggi ai clienti su WhatsApp (li approvate voi prima dell'invio)</td><td>1 al mese</td><td class="cons">4 al mese</td><td>Su misura, fino a 12 al mese</td></tr>
+    <tr><td>Recensioni</td><td>Richiesta automatica dopo ogni ordine</td><td class="cons">Richiesta automatica, più le risposte scritte da noi</td><td>Tutto il Business, più la cura della scheda Google del negozio</td></tr>
+    <tr><td>Post sui social (li approvate voi)</td><td>4 post al mese</td><td class="cons">8 post e 2 video brevi al mese</td><td>16 post, 4 video brevi e le storie</td></tr>
+    <tr><td>Visibilità sul sito</td><td>Normale</td><td class="cons">In evidenza nella categoria una settimana al mese</td><td>In home page due settimane al mese, in evidenza sempre</td></tr>
+    <tr><td>Regali, gift card e aziende</td><td>Siete nel circuito della gift card di Piacenza</td><td class="cons">Proponiamo le vostre scatole regalo alle aziende della zona</td><td>Campagna di regali aziendali dedicata e scatole col vostro marchio</td></tr>
+    <tr><td>Vetrofania e cartello con il QR «ordina da me»</td><td colspan="3" class="ok">Compresi in tutti e tre</td></tr>
+    <tr><td>Assistenza</td><td>Su WhatsApp, risposta entro 24 ore lavorative</td><td class="cons">Su WhatsApp, risposta entro 4 ore lavorative</td><td>Un referente vostro e una visita in negozio ogni mese</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="natale">
+  <h3>Perché vi consigliamo il Business, e perché adesso</h3>
+  <p>Per una pasticceria dicembre è il mese più importante: panettoni, vassoi per le feste, regali di Natale per clienti e aziende. Con il Business mandiamo 4 messaggi al mese ai vostri clienti. Mettiamo le vostre proposte di Natale in evidenza sul sito. E le portiamo agli uffici della zona che cercano regali per i dipendenti. Se partiamo entro la prima settimana di dicembre, le feste le vendete anche online.</p>
+</div>
+
+<h2>Condizioni</h2>
+<ul>
+  <li><b>Attivazione:</b> gratuita. Mettiamo online noi il negozio, di solito entro 48 ore dalla firma.</li>
+  <li><b>Pagamento:</b> canone mensile anticipato, a inizio mese.</li>
+  <li><b>Durata:</b> mese per mese. Si disdice con 30 giorni di preavviso, senza penali.</li>
+  <li><b>Cambio di abbonamento:</b> si passa a quello sopra o sotto dal mese successivo.</li>
+  <li><b>Prezzi e allergeni:</b> li confermate sempre voi prima che una scheda vada online.</li>
+  <li><b>Importi:</b> al netto dell'IVA, se dovuta.</li>
+</ul>
+
+<h2>Abbonamento scelto</h2>
+<div class="scelta"><span>Base — 300 €/mese</span><span>Business — 500 €/mese</span><span>Premium — 999 €/mese</span></div>
+<div class="campo" style="margin-top:14px"><span>Data di partenza</span><span class="vuoto"></span></div>
+
+<div class="firme">
+  <div class="firma">Per MyCity — Nicola</div>
+  <div class="firma">Per Ora del Gusto — firma del titolare</div>
+</div>
+
+<p class="nota">Preventivo valido 30 giorni dalla data di emissione. Il dettaglio dei servizi è descritto in questa pagina; il contratto venditore di MyCity ne regola le condizioni generali.</p>
+
+</div></div>
+</body>
+</html>

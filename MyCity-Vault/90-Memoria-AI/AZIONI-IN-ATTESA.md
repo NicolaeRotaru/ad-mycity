@@ -1911,6 +1911,13 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 > la conferma del dato dal negozio (restano «da procurare», non li scrive nessun autofill).
 <!-- SUPERVISIONE-NEGOZI:FINE -->
 
+## Iscrivi Ora del Gusto sul sito e mandagli il preventivo (aggiunta 2026-11-24 02:20)
+- **Reparto:** @onboarding-negozi · **Colore:** 🔴 (scrittura nel database del sito + preventivo a un cliente vero)
+- **Contenuto:** preventivo `consegne/preventivi/2026-11-24-ora-del-gusto/preventivo.html` (Base 300 · Business 500 consigliato · Premium 999 €/mese, niente 10%); dati da raccogliere in `consegne/preventivi/2026-11-24-ora-del-gusto/scheda-iscrizione.md`.
+- **Cosa cambia:** Ora del Gusto, pasticceria-bar, diventa il primo negozio col listino nuovo: con il Business sono 500 euro al mese di canone fisso, e le feste di Natale le vende anche online.
+- **Se va bene:** alla visita fai firmare il preventivo e compilare la scheda; poi crei l'account venditore e io preparo vetrina e prime schede entro 48 ore.
+
+
 ---
 
 | 179 | 2026-08-28 12:13 | @tech | Merge PR #853 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/853 | github | ✅ fatto: unita da Nicola il 2026-08-28 10:56 (letto su GitHub il 2026-10-10) | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
