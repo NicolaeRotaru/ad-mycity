@@ -1545,9 +1545,195 @@
       "rimandate": [],
       "regia": [],
       "nota_regia": "2026-11-24 17:55 regia settima: aggiunti a mano i file che le note di cosa_resta e le modifiche scritte nominano e che nessuna sessione dell'onda possedeva; tolto il ':115' attaccato a HomeSectionRenderer.tsx."
+    },
+    {
+      "onda": 3,
+      "base": "e173796f6a402d02c9c1ebe748db615ce5ba8dbd",
+      "creata": "2026-11-24 19:13",
+      "per_sessione": 25,
+      "candidate": [
+        "ai-endpoints|con l'ai dei negozi spenta al lancio, l'allarme sul conto condiviso della spesa ai può arrivare lo stesso ogni sei ore",
+        "qa-flussi|le prove che fanno girare tutto lo script del backup non hanno un psql finto",
+        "qa-flussi|l'aiutante di prova accendi, con la suspense, rende vuoto in silenzio un componente che resta sospeso per sempre: una prova che controlla un'assenza può passare senza aver provato niente",
+        "qa-flussi|una prova del promemoria del carrello resta verde solo per caso",
+        "architettura|il finto clienteavvisi è riscritto in quattro posti e la prova da 1033 righe mescola rotte, notte e una scansione del sorgente",
+        "architettura|la prova sull'export elenca ancora cod_reconciliations fra le tabelle escluse",
+        "microcopy|altri «rider» rivolti al cliente restano nella pagina dell'ordine e in quella del negozio",
+        "qa-flussi|due guardie sulla veloce controllano il testo del sorgente e non il comportamento",
+        "api-backend|l'invio subito delle notifiche push prende le righe guardando solo pushed_at, e può correre col giro del cron",
+        "deploy-sre|il ritorno indietro può ancora scegliere il rilascio sbagliato in due casi rari: un solo altro commit negli ultimi 20 rilasci, o un dominio che non dice il suo commit",
+        "frontend-ux|incollare il link di instagram o scrivere il sito senza https blocca il salvataggio di tutta la vetrina con un messaggio che non dice dove"
+      ],
+      "sessioni": {
+        "R11": {
+          "tema": "ai-endpoints",
+          "voci": [
+            {
+              "id": "R11-001",
+              "chiave": "ai-endpoints|con l'ai dei negozi spenta al lancio, l'allarme sul conto condiviso della spesa ai può arrivare lo stesso ogni sei ore",
+              "gravita": "minore",
+              "titolo": "Con l'AI dei negozi spenta al lancio, l'allarme sul conto condiviso della spesa AI può arrivare lo stesso ogni sei ore",
+              "file": [
+                "lib/ai/tettoSpesa.ts",
+                "tests/unit/riparazione-r04-allarme-ripiego.test.ts",
+                "tests/unit/riparazione-r13-allarme-tetto-dal-cron.test.ts",
+                "lib/ai/tettoSpesa.ts, tests/unit/riparazione-r01-allarme-tetto-ai-spenta.test.ts, tests/unit/riparazione-r01-allarme-tetto-riga-vecchia.test.ts"
+              ]
+            },
+            {
+              "id": "R11-002",
+              "chiave": "architettura|il finto clienteavvisi è riscritto in quattro posti e la prova da 1033 righe mescola rotte, notte e una scansione del sorgente",
+              "gravita": "minore",
+              "titolo": "Il finto ClienteAvvisi è riscritto in quattro posti e la prova da 1033 righe mescola rotte, notte e una scansione del sorgente",
+              "file": [
+                "tests/unit/aiuti/finto-giro-notturno.ts",
+                "tests/unit/chi-vuole-cancellarsi-trova-una-strada-che-funziona.test.ts"
+              ]
+            },
+            {
+              "id": "R11-003",
+              "chiave": "deploy-sre|il ritorno indietro può ancora scegliere il rilascio sbagliato in due casi rari: un solo altro commit negli ultimi 20 rilasci, o un dominio che non dice il suo commit",
+              "gravita": "minore",
+              "titolo": "Il ritorno indietro può ancora scegliere il rilascio sbagliato in due casi rari: un solo altro commit negli ultimi 20 rilasci, o un dominio che non dice il suo commit",
+              "file": [
+                "scripts/prova-di-fumo.mjs",
+                "tests/unit/il-ritorno-indietro-non-torna-sullo-stesso-commit.test.ts",
+                "tests/unit/riparazione-r02-ritorno-indietro-casi-rari.test.ts",
+                "tests/unit/riparazione-r02-ritorno-indietro-commit-ripetuto.test.ts",
+                "tests/unit/riparazione-r06-ritorno-indietro-casi-dubbi.test.ts"
+              ]
+            },
+            {
+              "id": "R11-004",
+              "chiave": "microcopy|altri «rider» rivolti al cliente restano nella pagina dell'ordine e in quella del negozio",
+              "gravita": "minore",
+              "titolo": "altri «rider» rivolti al cliente restano nella pagina dell'ordine e in quella del negozio",
+              "file": [
+                "app/orders/[id]/page.tsx",
+                "app/seller/orders/[id]/page.tsx",
+                "tests/unit/i-nomi-si-leggono-anche-coi-profili-chiusi.test.ts",
+                "tests/unit/la-pagina-dell-ordine-aspetta-il-bonifico.test.ts",
+                "components/OrderTimeline.tsx",
+                "app/orders/[id]/page.tsx, app/seller/orders/[id]/page.tsx"
+              ]
+            },
+            {
+              "id": "R11-005",
+              "chiave": "qa-flussi|due guardie sulla veloce controllano il testo del sorgente e non il comportamento",
+              "gravita": "minore",
+              "titolo": "Due guardie sulla veloce controllano il testo del sorgente e non il comportamento",
+              "file": [
+                "tests/unit/la-consegna-veloce-si-vende-solo-se-c-e-un-fattorino.test.ts",
+                "tests/unit/l-ordine-con-un-appuntamento-gia-passato.test.ts"
+              ]
+            },
+            {
+              "id": "R11-006",
+              "chiave": "qa-flussi|una prova del promemoria del carrello resta verde solo per caso",
+              "gravita": "minore",
+              "titolo": "una prova del promemoria del carrello resta verde solo per caso",
+              "file": [
+                "tests/unit/le-email-d-ordine-escono-senza-il-tasto-per-smettere.test.ts"
+              ]
+            }
+          ],
+          "file": [
+            "app/orders/[id]/page.tsx",
+            "app/orders/[id]/page.tsx, app/seller/orders/[id]/page.tsx",
+            "app/seller/orders/[id]/page.tsx",
+            "components/OrderTimeline.tsx",
+            "lib/ai/tettoSpesa.ts",
+            "scripts/prova-di-fumo.mjs"
+          ],
+          "migrazioni": [
+            920,
+            929
+          ]
+        },
+        "R12": {
+          "tema": "api-backend",
+          "voci": [
+            {
+              "id": "R12-001",
+              "chiave": "api-backend|l'invio subito delle notifiche push prende le righe guardando solo pushed_at, e può correre col giro del cron",
+              "gravita": "minore",
+              "titolo": "l'invio subito delle notifiche push prende le righe guardando solo pushed_at, e può correre col giro del cron",
+              "file": [
+                "lib/push/subito.ts"
+              ]
+            },
+            {
+              "id": "R12-002",
+              "chiave": "architettura|la prova sull'export elenca ancora cod_reconciliations fra le tabelle escluse",
+              "gravita": "minore",
+              "titolo": "La prova sull'export elenca ancora cod_reconciliations fra le tabelle escluse",
+              "file": [
+                "tests/unit/scarica-i-miei-dati-non-salta-nessuna-tabella.test.ts"
+              ]
+            },
+            {
+              "id": "R12-003",
+              "chiave": "frontend-ux|incollare il link di instagram o scrivere il sito senza https blocca il salvataggio di tutta la vetrina con un messaggio che non dice dove",
+              "gravita": "minore",
+              "titolo": "Incollare il link di Instagram o scrivere il sito senza https blocca il salvataggio di tutta la vetrina con un messaggio che non dice dove",
+              "file": [
+                "components/seller/SocialLinksFields.tsx",
+                "lib/store-customization.ts",
+                "components/VendorForm.tsx",
+                "components/seller/CustomizationSection.tsx",
+                "tests/unit/riparazione-r10-slogan-e-social.test.ts"
+              ]
+            },
+            {
+              "id": "R12-004",
+              "chiave": "qa-flussi|l'aiutante di prova accendi, con la suspense, rende vuoto in silenzio un componente che resta sospeso per sempre: una prova che controlla un'assenza può passare senza aver provato niente",
+              "gravita": "minore",
+              "titolo": "l'aiutante di prova accendi, con la Suspense, rende vuoto in silenzio un componente che resta sospeso per sempre: una prova che controlla un'assenza può passare senza aver provato niente",
+              "file": [
+                "tests/unit/aiuti/schermo.ts"
+              ]
+            },
+            {
+              "id": "R12-005",
+              "chiave": "qa-flussi|le prove che fanno girare tutto lo script del backup non hanno un psql finto",
+              "gravita": "minore",
+              "titolo": "Le prove che fanno girare tutto lo script del backup non hanno un psql finto",
+              "file": [
+                "tests/unit/la-copia-delle-foto-si-riapre-davvero.test.ts",
+                "tests/unit/aiuti/finto-rclone.ts",
+                "tests/unit/il-lavoro-notturno-accende-davvero-la-copia-delle-foto.test.ts",
+                "tests/unit/la-copia-delle-foto-non-ripete-la-cancellazione.test.ts"
+              ]
+            }
+          ],
+          "file": [
+            "components/VendorForm.tsx",
+            "components/seller/CustomizationSection.tsx",
+            "components/seller/SocialLinksFields.tsx",
+            "lib/push/subito.ts",
+            "lib/store-customization.ts"
+          ],
+          "migrazioni": [
+            930,
+            939
+          ]
+        }
+      },
+      "rimandate": [],
+      "regia": []
     }
   ],
   "cucitura": [],
   "eccedenza": [],
-  "campione_fino_a_40_dall_onda": 1
+  "campione_fino_a_40_dall_onda": 1,
+  "eccezioni_firmate": [
+    {
+      "onda": 3,
+      "regole": [
+        "prove_comuni",
+        "prova_esistente_altrui"
+      ],
+      "firma": "Nicola 2026-11-24 17:20: «Fai anche le 11 che aspettano la mia firma»"
+    }
+  ]
 }

@@ -1,0 +1,27 @@
+{
+  "controllore": "C02",
+  "onda": 2,
+  "finita": true,
+  "aggiornato": "2026-11-24 19:25",
+  "testa": "e173796f6a402d02c9c1ebe748db615ce5ba8dbd",
+  "base": "d000e3b04bc9d12ab160f5ebc55c0d665fc6e5a9",
+  "verify": {
+    "comando": "npm run verify && tests/sql/harness/apply.sh && tests/sql/harness/run.sh",
+    "esito": "non_eseguito",
+    "dettaglio": "Non lanciato per mandato della regista (tetto 4 $, «niente suite complete»): niente npm ci, typecheck, vitest né harness SQL su questo albero. Il giudizio sotto è solo a occhi sul diff base..testa. Nessuno strumento di Supabase, Vercel o Stripe usato."
+  },
+  "voci_rosse": [],
+  "nuovi_difetti_visti": [],
+  "note_di_controllo": [
+    "R08-001 (catalogo AI): il ricordo del blocco vale solo per un verdetto vero del filtro, è legato a un'impronta di testo+proposta (cambia la proposta o il testo in catalogo → si rifiltra) e può solo AGGIUNGERE blocchi, mai far passare: anche se qualcuno scrivesse a mano filtro_bloccato nei risultati non sbloccherebbe niente. cambiaQualcosaDiAltro confronta solo colonne presenti in PRODUCT_SNAPSHOT_COLS, che contiene tags, attributes, category_id, images: copre i campi della proposta.",
+    "R09-001: forsePartita non è morto: arriva da lib/privacy/avvisi-a-chi-aspetta.ts:222 (invariato, già sulla base) attraverso lo spread in process-deletions/route.ts:538.",
+    "R09-003/R09-004: i tetti messi sotto i campi (titolo galleria 120, alt 120, etichetta menu 30, titolo pagina 60, SEO 70/180) coincidono con lib/store-site.ts; nei tre file non resta nessun maxLength.",
+    "R10-003: lo scarto in lettura di un nome Facebook già salvato col trattino basso è conseguenza voluta e già dichiarata dal riparatore nel referto R10, non lo riapro.",
+    "R08-005: lib/zod-frasi.ts sulla testa ha le stesse frasi (comprese valoreNonValido e campiInPiu) tolte da lib/zod-i18n.ts: una copia sola.",
+    "Card.tsx: il resto delle prop HTML ora arriva all'elemento solo nel ramo senza href; nel ramo con href non serve per gli usi di questa onda (rider page, nessun href)."
+  ],
+  "file_toccati": 37,
+  "file_guardati": 17,
+  "buco_dichiarato": "Guardati tutti i 17 file di codice (app, components, lib) riga per riga sul diff. Non guardati i 17 file di prova nuovi in tests/unit e i 3 referti .riparazione/referto-R08..R10.json: sono prove e carte, già collaudate voce per voce, e senza verify non li ho fatti girare.",
+  "conto": { "subagenti": 0, "token_stimati": 90000, "costo_usd": "non letto: get_session non espone usage.cost_usd in questa sessione" }
+}
