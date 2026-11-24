@@ -34,7 +34,7 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 ### 🟡 #262 — Guarda la radiografia a onde e dimmi due scelte prima della prima radiografia · ⏳ accodata 2026-11-24 21:58 · @ad
 
 **In parole semplici.** La radiografia del sito ora lavora come le onde della riparazione. Prima ricontrolla i difetti aperti, che è il modo più economico di chiuderli, poi cerca quelli nuovi.
-Esempio vero: il 21/11 il ricontrollo ha chiuso 117 voci su 459 guardate, a circa 1,1 $ l'una.
+Per esempio: il 21/11 il ricontrollo ha guardato 459 voci aperte e ne ha chiuse 117, a circa 1,1 $ l'una.
 
 **Cosa cambia per te.** Nessuna radiografia parte da sola: la prima chiede il tuo «via» sul preventivo. Prima di quel via servono due tue scelte.
 
@@ -50,7 +50,9 @@ Esempio vero: il 21/11 il ricontrollo ha chiuso 117 voci su 459 guardate, a circ
 
 - **Colore:** 🟡
 - **Reparto:** ad
-- **Dettagli tecnici:** `consegne/audit/2026-11-24-radiografia-a-onde/lezioni.md`; ultracode si spegne con `prepara --ultracode no`; il freno è `cervello/riparazione/freno-subagenti.mjs` (ruolo `cercatore`), da agganciare in `.claude/settings.json` di ad-mycity come nel sito; ramo `ccr-aa319319-23ibpz`.
+- **Dettagli tecnici:** `consegne/audit/2026-11-24-radiografia-a-onde/lezioni.md`, ramo `ccr-aa319319-23ibpz`.
+- **Ultracode:** si spegne con `prepara --ultracode no`.
+- **Il freno:** `cervello/riparazione/freno-subagenti.mjs`, ruolo `cercatore`. Si aggancia in `.claude/settings.json` di ad-mycity, come nel sito.
 
 ### 🟡 #260 — Unisci l'onda 5 del sito e rispondi alle sue domande quando hai tempo · ⏳ accodata 2026-11-17 13:15
 
