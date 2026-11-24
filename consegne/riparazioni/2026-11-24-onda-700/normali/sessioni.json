@@ -75,7 +75,11 @@
    "ramo": "ccr-d7a54140-hak4ez-m12",
    "onda": 3,
    "limite_usd": 3.5,
-   "partita": "2026-11-24 19:17"
+   "partita": "2026-11-24 19:17",
+   "finita": true,
+   "punta": "f3504ff75e6eeae60821e98c9bad0c50f591c021",
+   "testa": "2549d2c876def9840b159926aadc78ea2a4b30b4",
+   "costo_usd": 3.07
   }
  },
  "collaudatori": {
