@@ -41,12 +41,22 @@ La resa del ricontrollo lampo: è stimata, non misurata su queste voci.
 Regole da tenere (lezioni del 22/11): SHA interi; controllo a 10 minuti anche per collaudatori e controllori; le firme sulle prove comuni si chiedono PRIMA del via; la «prova spenta» non si deroga; la regia passa la mano a 250 mila token; riga in `cervello/riparazione/misure.json` a fine giro.
 
 ## Scelte di Nicola
-- (in attesa) via sui passi, tetto, percentuale della quota vista in app.
-- (in attesa) mandato stretto: riparatori e controllori scrivono nel registro solo i difetti causati dal loro lavoro, più i gravi e i bloccanti visti.
-- (in attesa) le 65 domande.
+- 2026-11-24 11:58 Nicola: «Via», in risposta alla proposta dell'AD (passi 1 e 2 subito, circa 265 $; delicati dopo il rinnovo di giovedì 26/11 alle 10, se il costo per chiusa tiene).
+  - Via dato: **passo 1 (ricontrollo lampo) e passo 2 (103 normali)**. Il passo 3 NON parte senza un sì nuovo di Nicola, e non prima del rinnovo.
+  - Tetto dei passi 1 e 2: **360 $** (il massimo delle due forchette: 60 + 300). La percentuale della quota non l'ha data: il tetto è rigido, oltre ci si ferma e si dice all'AD (regola 2 del 15/11: non si alza a metà).
+  - Mandato stretto: non ha risposto → restano le regole di sempre (i nati vanno nel registro, R-B).
+  - Le 65 domande: non ancora risposte.
 
 ## Ancora aperto per Nicola dal giro prima
 Cancellare i rami `claude/settimana-700-regia-cf`, `-s01`, `-s01b`, `-s01c`, `-s01d` (ad-mycity) e `-m10` (mycity); migrazione 703; scelte R17-002/003, R17-010, R18-004, R14-002, R15-015, S02-04; giro riservato (S02-02, -05, -06, 4 nati di KS02, S02-04, S02-08).
 
+## I primi passi della regia
+1. `get_session` su di te (quota) e `git fetch` dei due depositi. Clona il sito in /home/user/mycity se manca.
+2. Chiedi subito all'AD, con `send_message`, le firme `prove_comuni` e `rimessa_a_mano` per il giro dei normali (lezione del 22/11: arrivate a metà hanno chiesto tre giri). Non aspettarle per partire col passo 1.
+3. Passo 1, ricontrollo lampo delle 198 voci con file cambiati: `prepasso.mjs` della cartella del 21/11 (dà i file cambiati e quelli spariti), poi il metodo del ricontrollo del 21/11 (`consegne/radiografia/2026-11-21-ricontrollo/`, `node cervello/radiografia-sessioni.mjs`), 2 sessioni + controllore, senza ultracode sulle voci normali. Le voci delicate del ricontrollo: lettura sola, niente ultracode serve (non si ripara).
+4. Passo 2: in `normali/`, `schede --ramo ccr-d7a54140-hak4ez --regista <il tuo id>`, `copertura-prima`, `segnaposti`; R01-R07 dal sito @ base, rami `ccr-d7a54140-hak4ez-m01`…`-m07`, senza ultracode, `effort: "xhigh"`, `permission_mode: "auto"`. Controllo a 10 minuti. Poi collaudatori, controllore, unione, come dice la skill.
+5. Fermate e costi all'AD (session_01R8112Lzth8WvHHrQ4H3whZ), nei quattro blocchi, coi due costi e la percentuale stimata.
+
 ## Fermo su
 - 2026-11-24 11:45 preparazione fatta, FERMATA 1 mandata a Nicola. Nessuna sessione aperta.
+- 2026-11-24 11:58 «Via» di Nicola sui passi 1 e 2, tetto 360 $. L'AD apre la regia.

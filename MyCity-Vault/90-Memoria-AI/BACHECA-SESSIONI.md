@@ -28,6 +28,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 24/11 11:58 | all'AD, chat «700 difetti risoluzione» (`session_01R8112Lzth8WvHHrQ4H3whZ`) | «Via» alla proposta dell'AD sulla nuova onda dei 700: partono il ricontrollo lampo di 198 voci e le 103 voci normali, tetto 360 $. I delicati non partono senza un sì nuovo e non prima del rinnovo di giovedì 26/11 alle 10. Non ha dato la percentuale della quota né risposto sul mandato stretto. Quaderno `consegne/riparazioni/2026-11-24-onda-700/REGIA.md`. |
 | 23/11 02:20 | regia settima della settimana dei 700 | «Fai tu le 7 migrazioni del database»: 640, 660, 661, 662, 701, 702 e 810 applicate sul database vero entro le 02:20, ognuna registrata con la sua impronta come fa il pulsante «Migrazioni a mano». La 703 (iscrizione flessibile, #304-#305) non era fra le sette: aspetta il suo ok. Chiede anche la regia nuova dei delicati e di guardare la sua ultima PR (#306) |
 | 22/11 16:50 | regia sesta della settimana dei 700 | «firmo le due prove e la rimessa a mano per R04»: le prove comuni di R09 e R11 entrano nell'unione; rimessa a mano valida per l'onda 1. Scritto in normali/piano.json |
 | 22/11 01:55 | regia quarta della settimana dei 700 | «sì a R10»: R10 può sovrascrivere il suo ramo `-m10` con `--force-with-lease` per togliere il nodo di unione (stesso contenuto). Girato a R10 |
