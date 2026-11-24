@@ -109,3 +109,4 @@
 2026-11-24 13:55 · K03 · ramo non ancora spinto · guardia – · collaudo – · nessuna
 2026-11-24 13:55 · onda 1 · prova-unione ✅
 2026-11-24 14:08 · K01 · finita, parziale · guardia ✅ · collaudo ✅ (13 reggono, 3 parziali, R01-005 rompe_altro, 12 senza giudizio) · verdetto copiato, R01-005 revertita sull'unione locale
+2026-11-24 14:15 · K03 · finita · guardia ✅ · collaudo ✅ (R07: 1 regge, 7 parziali, R07-001 rompe_altro) · verdetto copiato, R07-001 revertita sull'unione locale (albero 1bc16e41)
