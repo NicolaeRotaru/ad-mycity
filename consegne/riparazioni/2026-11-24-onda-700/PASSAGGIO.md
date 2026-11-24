@@ -1,57 +1,66 @@
 ---
-data: 2026-11-24 17:58
-tipo: passaggio della regia (ottava → nona)
+data: 2026-11-24 18:45
+tipo: passaggio della regia (nona → decima)
 campagna: onda dei 700
 ---
 
-# Passaggio · dalla regia ottava alla nona
+# Passaggio · dalla regia nona alla decima
 
 ## In parole semplici
-Questo foglio serve alla regia nona per partire senza rileggere la chat dell'ottava.
-I tre riparatori del giro di correzione hanno finito e i loro rami sono verdi: 13 voci riparate, 1 già sistemata prima.
-Il collaudatore K04 l'ho fermato per il tetto: ha giudicato 4 voci, le altre 8 restano da collaudare.
-Siamo a 350,51 $ sui 360 dei passi 1 e 2. Ho chiesto a Nicola, tramite l'AD, se alzare il tetto: la risposta non c'è ancora.
-Per esempio: con la sua «A» il tetto va a 390 $ e il collaudo prende tutte le 22 voci; senza risposta si fa «C», dentro i 360.
+Questo foglio serve alla regia decima per partire senza rileggere la chat della nona.
+Il giro di correzione è unito sul sito, collaudato e spinto.
+Su 18 voci collaudate ne reggono 8, 8 sono a metà, e 2 rompevano altro: tolte con un revert.
+Siamo fermi su una domanda a Nicola: il controllo C02 non ci sta più nel tetto di 360 $.
+Per esempio: con la sua «B» C02 parte subito e l'onda 3 fa circa 8 voci delle 11 firmate, invece di tutte e 11.
 
 ## Cosa cambia per te
-Ti apre l'AD. Nessun figlio è vivo: R08, R09, R10 e K04 sono archiviati, quindi non c'è nessuno a cui dare il tuo id.
-Il clic di Nicola su add_repo serve a te, per spingere l'unione sul sito: l'AD glielo annuncia quando sei nata.
+Ti apre l'AD, dopo la risposta di Nicola alla fermata delle 18:42. Nessun figlio è al lavoro: K05 ha finito ed è fermo.
+Il clic di Nicola su add_repo vale per la sessione che lo chiede. Nella tua lo chiedi di nuovo prima di spingere sul sito.
 
 ## Cosa devi fare
 Segui «I prossimi passi» qui sotto, dall'1.
 
 ## Cosa non ho verificato
-Le prove complete del sito sui tre rami non le ho rifatte io: riporto i conti dei riparatori, che vanno rifatti sull'albero unito.
-La correzione finale di R08-001 e R08-004 l'ha riletta solo R08, non un secondo revisore: il collaudo la guardi per prima.
+Le prove complete del sito le ho girate prima del revert: dopo, solo tipi, lint e 10 file di prova vicini.
+La mia spesa vera: get_session restava fermo a 2,48 $ (cifra delle 18:34). Rileggila sulla mia sessione.
 
 ## Dettagli tecnici
 
-**Ids.** AD session_01R8112Lzth8WvHHrQ4H3whZ. Regia ottava session_01R8112NR6WVqr3y8AwMjC44: da adesso non spinge più.
-Regia settima session_01R8112PFGvwN9iRDAdkSTz1: inoltrava i messaggi dei figli, ora non ne arrivano più.
+**Ids.** AD session_01R8112Lzth8WvHHrQ4H3whZ. Regia nona session_01R8112JxCuigmCaUkgBjJNs: da adesso non spinge più.
+K05 session_01R8112NFfioktgK2UyUJotU (finito, non archiviato).
 
-**I tre rami del giro di correzione** (sito, base d000e3b04bc9d12ab160f5ebc55c0d665fc6e5a9; referti in `normali/referti/`, `guardia-ramo` e `valida-referto --ramo` verdi, `prova-unione --onda 2` verde):
-- R08 -m08 punta ab803f50178b8b4f460534aa4cc167cbf5743630, testa 5470d9a12ff2536f9f86b307691fc0477668947e: 6 riparate (R08-001, -002, -003, -004, -005, -007), R08-006 già riparata prima. R08-004 cambia la prova esistente riparazione-r02-404-testo-grande.test.ts (legge la classe per nome). 10,66 $.
-- R09 -m09 punta 38d213fc34322a4c945a86bb4b26cb0b78a54d8e, testa 10f73a8c8cf527d0d0b63922194f53293a91906c: 6 riparate (R09-002, -003+004, -005, -006+007), R09-001 parziale. 5,66 $.
-- R10 -m10 punta fd69bb04288ed2558423c16681ddc417f49b0e01, testa 47f644ba5b097bd0e7454e2d9884cbe02a00bc8d: R10-002 riparata; R10-001, -003, -005 parziali; R10-004 serve_file_altrui (diff per ReorderRail.tsx:198 e :229 nel referto). 4,30 $.
-- Domande per Nicola nei referti (restano da parte, senza fermate, regola delle 17:23): R09-001 seconda spedizione, R09-006/007 rotta di avvio lato server, R10-003 avviso sui nomi Facebook col trattino basso.
-- Nati minori nei referti (vanno nel registro con `applica`): 2 di R08, 1 di R09, 2 di R10.
+**Il sito.** ccr-d7a54140-hak4ez @ **e173796f6a402d02c9c1ebe748db615ce5ba8dbd**. Su d000e3b0 ci sono l'unione di -m08, -m09 e -m10 (07b23714, nessun conflitto) e il revert di R09-006/007 (10f73a8c e d695062a).
+Su 07b23714: npm run verify verde (2103 file, 12.727 prove, lint 0 errori), harness SQL verde (226 migrazioni). Dopo il revert: tsc 0, eslint 0, 10 file di prova vicini (81 prove).
 
-**K04** (archiviato, 12,27 $, punta c69d997906944b9f40c1c47346e13933532f627a, `collaudi/K04.json` verde): reggono R02-009, R02-010, R02-012; R02-005 parziale. Senza verdetto: R01 (5 voci di `pronte/collaudo-parziale.txt`), R02-001, R02-002, R07-014.
+**K05** (6,19 $ sul limite di 5, punta 20569c3fec514422be31fca125b75297b2b31909, `collaudi/K05.json`, guardia-ramo e valida-collaudo verdi).
+- Reggono: R08-003, -004, -005, -007, R09-002, -003, -005, R10-002.
+- A metà: R08-001, -002, -006, R09-001, -004, R10-001, -003, -005. R08-006 il riparatore la dava già riparata. K05 dice di no: manca il tetto nella risalita SQL di migrations/363.
+- Rompe altro, revertite: R09-006 e R09-007. Il divieto di ripartire non scadeva mai e nessuno lo poteva togliere.
+- `applica --git /home/user/mycity` a vuoto: 32 si chiudono, 15 già riparate, 75 aperte, 36 nati (`decisioni.json`). `conti` verde: 103 aperte nel registro.
 
-**La fermata sul tetto** (mandata all'AD alle 17:46, nessuna risposta alle 17:58). A = tetto 390 $, collaudo delle 22 voci, onda 3 intera. B = resta 380, i 9 $ in più li prende dall'onda 3. C = resta 360, collaudo solo delle 14 di R08-R10, le 8 di K04 restano aperte, C02 a 4 $. Senza risposta: C.
+**La fermata delle 18:42** (all'AD, nessuna risposta al passaggio).
+- A = tetto 390: C02 (4 $), onda 3 intera (circa 20 $), ricollaudo delle 8 di K04 (circa 5 $).
+- B = resta 380: C02 prende i 4 $ dall'onda 3, che fa circa 8 delle 11.
+- C = resta 360 per i passi 1-2: niente C02, onda 3 coi suoi 20 $.
+- La raccomandazione è B. Senza risposta si resta fermi.
 
-**Il tetto.** Misurato con get_session alle 17:55: 278,01 + quinta 6,36 + C01 6,33 + sesta 5,51 + settima 16,00 + R08 10,66 + R09 5,66 + R10 4,30 + K04 12,27 + ottava 5,41 = **350,51 $**. Per i passi 1-2 restano 9,49 $. Con C: K05 a 5 $ e C02 a 4 $, la tua regia sta nel resto solo se resta snella.
+**Il tetto.** 350,51 (fino all'ottava) + K05 6,19 + regia nona ≥ 2,48 = **≥ 359,18 $**. Il tetto totale è 380 = 360 per i passi 1-2 + 20 per l'onda 3.
 
-**Le regole da tenere.** SHA interi. Controllo a 10 minuti su ogni figlia (get_session; la cifra di un figlio può restare ferma: rileggila a fine lavoro). Ai collaudatori un limite rigido e niente suite complete: K04 ne ha lanciate tre in parallelo e ha speso 12,27 $ su 8. Lo stop va dato a priority now e deve dire «TaskStop sui subagenti»: senza, i revisori in sottofondo continuano. `valida-referto` vuole `--ramo origin/<ramo>`, senza dà uscita 3. REGIA.md è a 72 righe: sotto le 80. La regia passa la mano a 250 mila token: l'ottava ci è arrivata dopo 15 minuti, gran parte è il prompt di partenza.
+**Le regole da tenere.** Quelle del passaggio dell'ottava valgono tutte (git, 9aa4e3fb: PASSAGGIO.md).
+- SHA interi.
+- Controllo a 10 minuti su ogni figlia.
+- Ai figli un limite rigido, 1 subagente, niente suite complete: K05 ha sforato lo stesso di 1,19 $. Tieni 1 $ di margine sotto il tetto.
+- `valida-referto` vuole `--ramo origin/<ramo>`.
+- `MyCity-Vault/90-Memoria-AI/auto-coscienza/sorvegliante-storico.json` risulta modificato nel disco da un hook, non da me: non l'ho messo nei commit.
+- Postgres per l'harness: `pg_ctlcluster 16 main start`, ruolo `root` superutente, `PGHOST=/var/run/postgresql PGUSER=root`.
 
 ## I prossimi passi
 1. `get_session` su di te; il tuo id nel campo `regista` di `normali/sessioni.json`; commit e push.
-2. Clone del sito col git normale in /home/user/mycity, `git fetch` di ccr-d7a54140-hak4ez e dei rami -m08, -m09, -m10.
-3. Leggi la risposta di Nicola (A, B o C) dall'AD. Senza risposta, C.
-4. K05 subito, prima dell'unione: `create_session` su ad-mycity, `source_revision` = il tuo SHA spinto, `outcome_branch` ccr-d7a54140-hak4ez-k05, tag onda-2-collaudatori, titolo «K05». Prompt: «Sei il collaudatore K05. Leggi cervello/riparazione/LEGGIMI-collaudo.md e collauda i riparatori R08 (ramo ccr-d7a54140-hak4ez-m08, punta ab803f50178b8b4f460534aa4cc167cbf5743630, testa 5470d9a12ff2536f9f86b307691fc0477668947e), R09 (…-m09, punta 38d213fc34322a4c945a86bb4b26cb0b78a54d8e, testa 10f73a8c8cf527d0d0b63922194f53293a91906c) e R10 (…-m10, punta fd69bb04288ed2558423c16681ddc417f49b0e01, testa 47f644ba5b097bd0e7454e2d9884cbe02a00bc8d) della cartella consegne/riparazioni/2026-11-24-onda-700/normali. BASE è d000e3b04bc9d12ab160f5ebc55c0d665fc6e5a9.» Con A o B aggiungi le 8 di K04 (rami -m01, -m02, -m07, già nell'integrazione). Più una riga: limite (5 $ con C), 1 subagente, solo prova rimessa e prove vicine, a limite chiude con le voci giudicate. In `sessioni.json` sotto `collaudatori`.
-5. Chiedi all'AD il clic di Nicola su add_repo (push su NicolaeRotaru/mycity). Unione di -m08, -m09, -m10 in ccr-d7a54140-hak4ez da d000e3b0, in ordine; npm run verify, harness SQL (`tests/sql/harness/apply.sh` e `run.sh`), spinta, SHA nuovo in REGIA.md.
-6. C02 (controllo sulle sole modifiche nuove, d000e3b0..SHA nuovo; 4 $ con C). K05 e C02 copiati e verdi, poi `applica --git` a vuoto e `conti`. La fermata va all'AD nei quattro blocchi.
-7. Onda 3: le 11 firmate (`normali/pronte/onda3-firmate.txt`) coi soldi che restano secondo A, B o C; `onda3-se-440.txt` solo col sì scritto di Nicola ai 440 $.
-8. A fine giro la riga in `cervello/riparazione/misure.json`.
+2. Clone del sito col git normale in /home/user/mycity, `git fetch` di ccr-d7a54140-hak4ez (deve dare e173796f6a402d02c9c1ebe748db615ce5ba8dbd).
+3. Leggi la risposta di Nicola (A, B o C) dall'AD. Senza risposta resti ferma.
+4. Con A o B, C02 subito. `create_session` su ad-mycity, `source_revision` = il tuo SHA spinto, `outcome_branch` ccr-d7a54140-hak4ez-c02, tag onda-2-controllori, titolo «C02». Prompt: «Sei il controllore C02. Leggi cervello/riparazione/LEGGIMI-controllore.md e controlla l'onda 2 della cartella consegne/riparazioni/2026-11-24-onda-700/normali: integrazione ccr-d7a54140-hak4ez @ e173796f6a402d02c9c1ebe748db615ce5ba8dbd, base d000e3b04bc9d12ab160f5ebc55c0d665fc6e5a9.» Più una riga: limite 4 $, 1 subagente, solo le modifiche nuove, a limite chiude con quello che ha. In `sessioni.json` sotto `controllori`. Copialo in `controlli/C02.json`, verifica che sul suo ramo ci sia solo quel file, poi `applica --git` a vuoto e `conti`.
+5. Con A, anche K06 sulle 8 voci di K04 (`pronte/collaudo-parziale.txt` + R02-001, R02-002, R07-014; rami -m01, -m02, -m07, già nell'integrazione), limite 5 $.
+6. Onda 3: le voci di `normali/pronte/onda3-firmate.txt` coi soldi che restano (11 con A o C, circa 8 con B). `eccezioni_firmate` nel piano: il testo esatto è in REGIA.md, alla scelta delle 17:20. Poi `dividi --base e173796f… --file-chiavi`, `schede`, `copertura-prima`, riparatori dall'integrazione, collaudo, controllo, unione. `onda3-se-440.txt` solo col sì scritto di Nicola ai 440 $.
+7. Esito all'AD nei quattro blocchi; riga in `cervello/riparazione/misure.json`; i 36 nati e le chiusure col `applica --scrivi` a fine campagna.
 
-**Riga di apertura per l'AD.** «Sei la regista della campagna consegne/riparazioni/2026-11-24-onda-700 (regia nona). Leggi consegne/riparazioni/2026-11-24-onda-700/REGIA.md e consegne/riparazioni/2026-11-24-onda-700/PASSAGGIO.md, poi di .claude/skills/riparazione/SKILL.md solo le sezioni F2, F3 e «Quando ti fermi e chiedi a Nicola», e continua da «I prossimi passi» del passaggio. Nicola parla con l'AD nella sessione session_01R8112Lzth8WvHHrQ4H3whZ: le fermate e l'esito vanno lì con send_message. Tetto: la risposta di Nicola alla fermata delle 17:46 (A 390 $, B 380 $, C 360 $ per i passi 1-2); senza risposta C. Le 13 voci di onda3-se-440.txt solo col sì scritto di Nicola. La spinta sul sito passa dal clic di Nicola su add_repo. Il sito si legge col git normale. Non cancellare sveglie. Al tuo passaggio di mano non aprire tu la regia decima: scrivi PASSAGGIO.md, spingi e manda all'AD lo SHA e la riga di apertura.»
+**Riga di apertura per l'AD.** «Sei la regista della campagna consegne/riparazioni/2026-11-24-onda-700 (regia decima). Leggi consegne/riparazioni/2026-11-24-onda-700/REGIA.md e consegne/riparazioni/2026-11-24-onda-700/PASSAGGIO.md, poi di .claude/skills/riparazione/SKILL.md solo le sezioni F2, F3 e «Quando ti fermi e chiedi a Nicola», e continua da «I prossimi passi» del passaggio. Nicola parla con l'AD nella sessione session_01R8112Lzth8WvHHrQ4H3whZ: le fermate e l'esito vanno lì con send_message. Tetto: la risposta di Nicola alla fermata delle 18:42 (A 390 $, B 380 $ con C02 preso dall'onda 3, C 360 $ senza C02), che è [A/B/C]; senza risposta resti ferma. Le 13 voci di onda3-se-440.txt solo col sì scritto di Nicola. La spinta sul sito passa dal clic di Nicola su add_repo nella tua sessione. Il sito si legge col git normale. Non cancellare sveglie. Al tuo passaggio di mano non aprire tu la regia undicesima: scrivi PASSAGGIO.md, spingi e manda all'AD lo SHA e la riga di apertura.»
