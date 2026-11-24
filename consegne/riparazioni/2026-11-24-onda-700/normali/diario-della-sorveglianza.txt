@@ -97,3 +97,14 @@
 2026-11-24 13:51 · K03 · ramo non ancora spinto · guardia – · collaudo – · nessuna
 2026-11-24 13:51 · onda 1 · prova-unione ✅
 2026-11-24 13:53 · regia terza · giro verde (9 sessioni guardate su 10, K03 non ancora spinto), passa la mano a 348 mila token: PASSAGGIO.md scritto, catena di sorveglianza chiusa qui
+2026-11-24 13:55 · R01 · in lavoro FINITA · guardia ✅ · referto ✅ 16 voci · unione (sotto) · nessuna
+2026-11-24 13:55 · R02 · in lavoro FINITA · guardia ✅ · referto ✅ 15 voci · unione (sotto) · nessuna
+2026-11-24 13:55 · R03 · in lavoro FINITA · guardia ✅ · referto ✅ 14 voci · unione (sotto) · nessuna
+2026-11-24 13:55 · R04 · in lavoro FINITA · guardia ✅ · referto ✅ 15 voci · unione (sotto) · nessuna
+2026-11-24 13:55 · R05 · in lavoro FINITA · guardia ✅ · referto ✅ 14 voci · unione (sotto) · nessuna
+2026-11-24 13:55 · R06 · in lavoro FINITA · guardia ✅ · referto ✅ 14 voci · unione (sotto) · nessuna
+2026-11-24 13:55 · R07 · in lavoro FINITA · guardia ✅ · referto ✅ 15 voci · unione (sotto) · nessuna
+2026-11-24 13:55 · K01 · collaudo · guardia ✅ · collaudo ⏳ · nessuna
+2026-11-24 13:55 · K02 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-24 13:55 · K03 · ramo non ancora spinto · guardia – · collaudo – · nessuna
+2026-11-24 13:55 · onda 1 · prova-unione ✅
