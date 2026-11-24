@@ -82,3 +82,4 @@
 2026-11-24 13:38 · K02 · R04 collaudato: 14 reggono, 1 parziale confermata (R04-002), 0 cadute · ramo 3b154fa3 · R06 in corso
 2026-11-24 13:41 · K02 · finita: R05 8/3, R04 14/1, R06 7/1 (reggono/parziali), 0 cadute · guardia ✅ · collaudo ✅ · ramo ce4313f1 · K02.json copiato in collaudi/
 2026-11-24 13:45 · controllo 10 minuti · K01 lavora (R02), K03 lavora (R07), K02 finito · nessuna BLOCKED · list_events grep mcp__: nessuna chiamata al database vero (in K03 solo il divieto scritto ai subagenti) · K02 archiviato, 6,93 $ misurati
+2026-11-24 13:46 · R01 · finita di nuovo (22,94 $) a d5fa79cf · guardia ✅ · referto ✅ 16 voci (5 riparate, 5 parziali, 3 serve_file_altrui, 3 già) · data a K01 in catena
