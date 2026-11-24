@@ -39,5 +39,5 @@ Su internet Ora del Gusto non compare: indirizzo, titolare e categoria esatta li
 4. Avvio del collegamento per i pagamenti con carta, quando la carta è accesa.
 
 ## Dettagli tecnici
-- Preventivo: è di SDG Agenzia, non di MyCity (Nicola, 24/11 03:30): `preventivo.html` e `preventivo-sdg-ora-del-gusto.pdf` qui accanto. Su MyCity il negozio si iscrive e basta.
+- Preventivo: i servizi sono di MyCity, realizzati tramite SDG Agenzia, il partner (Nicola, 24/11: «sono servizi che offre mycity, ma tramite SDG»). I file sono `preventivo.html` e `preventivo-sdg-ora-del-gusto.pdf`, qui accanto. Il negozio sceglie e paga l'abbonamento dentro il sito.
 - Prezzi: `registro-fatti.json` → `sdg.abbonamenti` (SDG); MyCity resta `pricing.abbonamento`.

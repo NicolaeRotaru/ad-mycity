@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-11-24 21:22",
+  "aggiornato": "2026-11-24 21:34",
   "fatti": [
     {
       "id": "ad.uso-e-crediti",
@@ -1265,9 +1265,9 @@
     {
       "id": "pricing.abbonamento",
       "nome": "Abbonamento venditore MyCity",
-      "valore": "50€/mese di listino, SOSPESO finché il negozio non incassa: niente canone fino ai primi incassi portati da MyCity (scelta 13 della carta #209, firmata da Nicola il 2026-10-26 con «ok 209»). APERTO dal 2026-11-24: Nicola ha detto che il prezzo di MyCity cambia, ma il valore nuovo non l'ha ancora detto. I tre abbonamenti da 300/500/999 euro NON sono di MyCity: sono di SDG (fatto sdg.abbonamenti).",
-      "fonte": "Nicola, chat 2026-11-24 ~03:30: «questa zona di servizi non c'entra niente con mycity, sono servizi offerti da SDG»; alla domanda «sono di SDG?»: «Sono di SDG, MyCity cambia» (il nuovo prezzo di MyCity non ancora detto)",
-      "aggiornato": "2026-11-24 03:38",
+      "valore": "50€/mese di listino, SOSPESO finché il negozio non incassa: niente canone fino ai primi incassi portati da MyCity (scelta 13 della carta #209, firmata da Nicola il 2026-10-26 con «ok 209»). APERTO dal 2026-11-24: Nicola ha detto che il prezzo di MyCity cambia, ma il valore nuovo non l'ha ancora detto. I tre abbonamenti da 300/500/999 euro sono un'altra cosa: sono servizi di MyCity realizzati tramite SDG Agenzia, il partner (Nicola, 24/11: «sono servizi che offre mycity, ma tramite SDG»; fatto sdg.abbonamenti).",
+      "fonte": "Nicola, 24/11 verso le 04:10: «Non togliere la sezione servizi, sono servizi che offre mycity, ma tramite SDG» (DECISIONI.md)",
+      "aggiornato": "2026-11-24 21:34",
       "storia": [
         {
           "valore": "50€/mese",
@@ -1284,6 +1284,10 @@
         {
           "valore": "Listino a tre abbonamenti mensili per i negozi: Base 300 euro/mese, Business 500 euro/mese, Premium 999 euro/mese. Ognuno comprende tutti i servizi (foto e video con scattiDG, social, sito web, scheda Google, vetrina MyCity), ma in misura diversa: il dettaglio vive nel codice del sito, lib/agenzia/preventivo.ts (FASCE), proposta dell'AD da confermare con Nicola. Solo canone: nessuna percentuale sul venduto per chi ha uno di questi abbonamenti. Condizioni (Nicola, 24/11): nessun vincolo di durata, disdetta quando si vuole con 30 giorni di preavviso, primo mese a metà prezzo (150 / 250 / 499,50 euro). Il preventivo è la pagina «Il tuo preventivo» della dashboard del negozio, calcolata dai suoi dati. Primo cliente col listino nuovo: Ora del Gusto (bar e pasticceria). APERTO: se il listino vale anche per Pane Quotidiano e per i negozi di prova (oggi 50 euro/mese più il 10%); l'IVA la conferma il commercialista.",
           "fino_a": "2026-11-24 03:38"
+        },
+        {
+          "valore": "50€/mese di listino, SOSPESO finché il negozio non incassa: niente canone fino ai primi incassi portati da MyCity (scelta 13 della carta #209, firmata da Nicola il 2026-10-26 con «ok 209»). APERTO dal 2026-11-24: Nicola ha detto che il prezzo di MyCity cambia, ma il valore nuovo non l'ha ancora detto. I tre abbonamenti da 300/500/999 euro NON sono di MyCity: sono di SDG (fatto sdg.abbonamenti).",
+          "fino_a": "2026-11-24 21:34"
         }
       ],
       "caccia": [
@@ -1321,6 +1325,14 @@
         {
           "pattern": "Listino a tre abbonamenti mensili per i negozi: Base 300 euro/mese, Business 500 euro/mese, Premium 999 euro/mese. Ognuno comprende tutti i servizi (foto e video con scattiDG, social, sito web, scheda Google, vetrina MyCity), ma in misura diversa: il dettaglio vive nel codice del sito, lib/agenzia/preventivo.ts (FASCE), proposta dell'AD da confermare con Nicola. Solo canone: nessuna percentuale sul venduto per chi ha uno di questi abbonamenti. Condizioni (Nicola, 24/11): nessun vincolo di durata, disdetta quando si vuole con 30 giorni di preavviso, primo mese a metà prezzo (150 / 250 / 499,50 euro). Il preventivo è la pagina «Il tuo preventivo» della dashboard del negozio, calcolata dai suoi dati. Primo cliente col listino nuovo: Ora del Gusto (bar e pasticceria). APERTO: se il listino vale anche per Pane Quotidiano e per i negozi di prova (oggi 50 euro/mese più il 10%); l'IVA la conferma il commercialista.",
           "dal": "2026-11-24 03:38"
+        },
+        {
+          "pattern": "I tre abbonamenti da 300/500/999 euro NON sono di MyCity",
+          "dal": "2026-11-24 21:34"
+        },
+        {
+          "pattern": "50€/mese di listino, SOSPESO finché il negozio non incassa: niente canone fino ai primi incassi portati da MyCity (scelta 13 della carta #209, firmata da Nicola il 2026-10-26 con «ok 209»). APERTO dal 2026-11-24: Nicola ha detto che il prezzo di MyCity cambia, ma il valore nuovo non l'ha ancora detto. I tre abbonamenti da 300/500/999 euro NON sono di MyCity: sono di SDG (fatto sdg.abbonamenti).",
+          "dal": "2026-11-24 21:34"
         }
       ],
       "esenzioni": [
