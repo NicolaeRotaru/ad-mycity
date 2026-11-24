@@ -39,7 +39,11 @@
   "R08": {
    "id": "session_01R8112NqLXrakyTZaUMMqrC",
    "ramo": "ccr-d7a54140-hak4ez-m08",
-   "onda": 2
+   "onda": 2,
+   "finita": true,
+   "punta": "ab803f50178b8b4f460534aa4cc167cbf5743630",
+   "testa": "5470d9a12ff2536f9f86b307691fc0477668947e",
+   "archiviata": "2026-11-24 17:57"
   },
   "R09": {
    "id": "session_01R8112KUKQJB8drAMNwk3KX",
@@ -47,7 +51,8 @@
    "onda": 2,
    "finita": true,
    "punta": "38d213fc34322a4c945a86bb4b26cb0b78a54d8e",
-   "testa": "10f73a8c8cf527d0d0b63922194f53293a91906c"
+   "testa": "10f73a8c8cf527d0d0b63922194f53293a91906c",
+   "archiviata": "2026-11-24 17:57"
   },
   "R10": {
    "id": "session_01R8112MESXTLhypH8keWXCN",
@@ -55,7 +60,8 @@
    "onda": 2,
    "finita": true,
    "punta": "fd69bb04288ed2558423c16681ddc417f49b0e01",
-   "testa": "47f644ba5b097bd0e7454e2d9884cbe02a00bc8d"
+   "testa": "47f644ba5b097bd0e7454e2d9884cbe02a00bc8d",
+   "archiviata": "2026-11-24 17:57"
   }
  },
  "collaudatori": {
