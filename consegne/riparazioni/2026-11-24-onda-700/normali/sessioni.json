@@ -147,6 +147,17 @@
    "finita": true,
    "punta": "20569c3fec514422be31fca125b75297b2b31909",
    "costo_usd": 6.19
+  },
+  "K06": {
+   "id": "session_01R8112PHSf3MRoHnBPCXrae",
+   "ramo": "ccr-d7a54140-hak4ez-k06",
+   "partenza": "086a6a468df4ea2ab0f6d0c9d564458bc0093abc",
+   "riparatori": [
+    "R11",
+    "R12"
+   ],
+   "limite_usd": 4,
+   "partita": "2026-11-24 19:53"
   }
  },
  "controllori": {
