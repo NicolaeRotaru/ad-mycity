@@ -1,0 +1,179 @@
+{
+  "collaudatore": "K02",
+  "riparatori": [
+    "R05"
+  ],
+  "aggiornato": "2026-11-24 13:55",
+  "finita": true,
+  "punte": {
+    "R05": {
+      "ramo": "ccr-d7a54140-hak4ez-m05",
+      "punta": "aea6ad1bb23e8f701e489f6eec225baf62e4ffb6",
+      "testa": "634548714b1b922c17e4c74c2a71619c9da0cae5"
+    }
+  },
+  "voci": [
+    {
+      "id": "R05-001",
+      "chiave": "dati-analytics|strutturasenzaindirizzi in caso di eccezione lascia passare il valore originale",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-a --base bc409062aa2b6b232c12e564f874ea2fee063f7f^ --file lib/analytics/filmato-senza-dati-personali.ts --prove tests/unit/riparazione-r05-struttura-in-eccezione.test.ts --json"
+      },
+      "nota": "In eccezione torna «***» come a fine budget. Cercato chi lo chiama: posthog.tsx:238 (valore di una proprieta') e server.ts:245 (proprieta' di order_placed). ripulisci lancia solo con getter che lanciano o Proxy revocati (profondita' e pezzi hanno un tetto, le Date danno {} come prima): nessun evento normale perde dati."
+    },
+    {
+      "id": "R05-002",
+      "chiave": "dati-analytics|le visite al prodotto si contano con due regole diverse: posthog conta ogni nuova scheda, il database una per persona all'ora",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "prova_alla_base": "cd ../wt-a && git checkout --detach 5b8c786c96ec789918b3e85361ca435cef726b92 && npx vitest run tests/unit/riparazione-r02-visita-una-all-ora.test.ts tests/unit/riparazione-r08-visita-come-il-database.test.tsx tests/unit/riparazione-r16-nome-lungo.test.tsx tests/unit/riparazione-r12-footer.test.ts (4 file, 14 prove verdi)",
+      "nota": "Alla base 5b8c786c: lib/analytics/visita-prodotto.ts ha frenoOrario (un'ora, in localStorage condiviso fra le schede) e ProductViewTracker.tsx lo usa (commento R02-015) e annuncia a PostHog solo se il database ha preso la riga (count !== 0). Rilanciate alla base riparazione-r02-visita-una-all-ora e riparazione-r08-visita-come-il-database: verdi."
+    },
+    {
+      "id": "R05-003",
+      "chiave": "dati-analytics|il traguardo «venditore più votato» guarda solo le recensioni ai prodotti, mai quelle al negozio",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-c --base a3415aa0b9b467c1c9700f104396c25c893c41ab^ --file migrations/860_il_traguardo_top_rated_conta_anche_le_recensioni_al_negozio.sql --prove tests/sql/rls/riparazione-r05-traguardo-votato.test.sql --sql k02_r05_rimessa --json"
+      },
+      "nota": "Letta la 860: store_reviews.store_id punta a profiles(id) come products.seller_id (014:58), quindi unlock_achievement riceve un profilo vero e il trigger non puo' far fallire l'inserimento della recensione per chiave esterna. Nessuna colonna di moderazione su reviews o store_reviews da filtrare. Nessun'altra migrazione ridefinisce la funzione dopo la 032 (063/064 tolgono solo i permessi, che CREATE OR REPLACE conserva). Rimessa --sql su database locale k02_r05_rimessa: uscita 0."
+    },
+    {
+      "id": "R05-005",
+      "chiave": "layout-responsive|in «vicino a te» col testo al 200% a 320 px il selettore elenco/mappa allarga la pagina a 360 px",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "prova_alla_base": "cd ../wt-a && git checkout --detach 5b8c786c96ec789918b3e85361ca435cef726b92 && npx vitest run tests/unit/riparazione-r02-visita-una-all-ora.test.ts tests/unit/riparazione-r08-visita-come-il-database.test.tsx tests/unit/riparazione-r16-nome-lungo.test.tsx tests/unit/riparazione-r12-footer.test.ts (4 file, 14 prove verdi)",
+      "nota": "Alla base 5b8c786c: app/near/page.tsx:333 ha gia' il selettore Lista/Mappa con 'inline-flex w-fit max-w-full flex-wrap', col commento R16-008 che nomina proprio questo difetto (a 280/320 px col testo al 200% la pagina larga 359 px). riparazione-r16-nome-lungo rilanciata alla base: verde."
+    },
+    {
+      "id": "R05-006",
+      "chiave": "layout-responsive|sul tablet col testo al 200% «dichiarazione accessibilità» esce dal piede e la pagina scorre di lato",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "prova_alla_base": "cd ../wt-a && git checkout --detach 5b8c786c96ec789918b3e85361ca435cef726b92 && npx vitest run tests/unit/riparazione-r02-visita-una-all-ora.test.ts tests/unit/riparazione-r08-visita-come-il-database.test.tsx tests/unit/riparazione-r16-nome-lungo.test.tsx tests/unit/riparazione-r12-footer.test.ts (4 file, 14 prove verdi)",
+      "nota": "Alla base 5b8c786c: components/Footer.tsx ha COLONNE_A_CAPO (min-w-0 sulle colonne e overflow-wrap:anywhere su titoli, link e paragrafi), applicata alla griglia md:grid-cols-5, col commento R12-006 che nomina «Dichiarazione accessibilita'». riparazione-r12-footer rilanciata alla base: verde."
+    },
+    {
+      "id": "R05-007",
+      "chiave": "layout-responsive|col testo al 200% le schede negozio tagliano «nuovo negozio» e «chiuso ora»",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-c --base c14a867d47845b59edeb7510e77450eab81c8a69^ --file components/StorePreviewCard.tsx,components/StoreListRow.tsx --prove tests/unit/riparazione-r05-schede-negozio-badge-a-capo.test.ts --json"
+      },
+      "nota": "Diff: max-w-full e [overflow-wrap:anywhere] su «Chiuso ora»/«Aperto ora» e su «Nuovo negozio»/«Nuovo» in tutte e due le schede, cioe' i due segnalini che la voce nomina. overflow-wrap:anywhere abbassa anche la larghezza minima, quindi il segnalino si stringe dentro la riga flex. La prova e' di forma (classi), ammessa sui minori; la misura in Chromium e' quella del revisore di R05, non l'ho rifatta. Fuori voce resta il voto ★ tagliato, gia' segnalato da R05 tra i nuovi difetti."
+    },
+    {
+      "id": "R05-009",
+      "chiave": "performance|zod intero nel pacchetto comune per la validazione del marchio",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-b --base 4ad1d73b4b35c8028687e94ef6990c10633cb590^ --file lib/site-branding.ts --prove tests/unit/riparazione-r05-marchio-senza-zod.test.ts --json"
+      },
+      "nota": "Parziale confermato. Il safeParse a mano rifa' le regole dello schema zod (trim, 60/20/220, massimo 5, valori di partenza, campi sconosciuti scartati, null e array rifiutati); i due chiamanti (app/admin/branding, app/api/admin/branding) usano solo safeParse, e il tipo Branding e' scritto a mano. site-branding non porta piu' zod, ma zod entra comunque nel pacchetto comune dal piede (Footer → NewsletterForm → lib/errors → zod-i18n): il guadagno della voce non c'e' ancora."
+    },
+    {
+      "id": "R05-010",
+      "chiave": "qa-flussi|un cliente che esiste già non ha una strada da solo per diventare fattorino",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-c --base ea05d1137cda1cecefc87b0a3ac734a25569e46e^ --file app/help/page.tsx --prove tests/unit/riparazione-r05-aiuto-cliente-rider.test.ts --json"
+      },
+      "nota": "Parziale confermato. La scheda «Diventa rider» porta a /lavora-con-noi (la pagina esiste alla testa) e c'e' una riga per chi ha gia' l'account cliente, che pero' lo manda al modulo contatti: una strada da solo, come chiede la voce, non c'e' ancora (serve una rotta che promuova il profilo esistente, fuori dai file di R05)."
+    },
+    {
+      "id": "R05-012",
+      "chiave": "qa-flussi|un negoziante senza orari che preme «+ orario» e poi la x salva sette giorni vuoti, cioè chiuso sempre",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-b --base 08b97c2a4d659cc9ebb24a070de461430bf35ec0^ --file components/seller/StoreHoursEditor.tsx --prove tests/unit/riparazione-r05-orari-piu-e-x.test.tsx --json"
+      },
+      "nota": "Parziale confermato. Letta la logica: il ricordo di «senza orari» nasce solo se orariImpostati(value) e' null, la X sull'ultima fascia lo restituisce, «Chiudi» lo azzera; un negozio con orari o con la settimana chiusa scritta non cambia. Resta aperto il caso dichiarato: dopo un salvataggio, senza ricaricare, la X sull'ultima fascia riporta a «senza orari» invece della settimana chiusa. Non e' silenzioso: l'editor mostra subito l'avviso «per ora il negozio riceve ordini a qualunque ora». Serve la modifica in VendorForm.tsx:443 (key dopo il salvataggio), file non di R05."
+    },
+    {
+      "id": "R05-013",
+      "chiave": "qa-flussi|il finto di react-query mette mutationfn e onsuccess nello stesso try: un errore in onsuccess finisce in onerror e nasconde difetti nelle prove",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-a --base 0b996fe50f27337bf85b7193bfbe1178429b4be3^ --file tests/unit/aiuti/finti/react-query.mjs --prove tests/unit/riparazione-r05-finto-mutazioni.test.ts --json"
+      },
+      "nota": "Letto il diff del finto: solo l'errore di mutationFn va in onError, un errore in onSuccess rompe la promessa in volo e non viene piu' coperto. E' la voce intera. Accanto: il finto e' piu' severo del vero (dichiarato nel commento di 63454871); il verify completo alla testa e' verde, quindi nessuna prova esistente si appoggiava al vecchio comportamento."
+    },
+    {
+      "id": "R05-014",
+      "chiave": "qa-flussi|il finto di react-query non ha setqueriesdata",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-a --base 214616a895828a48ce214f2499df39d885303732^ --file tests/unit/aiuti/finti/react-query.mjs --prove tests/unit/riparazione-r05-finto-setqueriesdata.test.ts --json"
+      },
+      "nota": "setQueriesData confrontato con l'API vera di v5: corrispondenza a prefisso con partialMatch sulle chiavi, exact, predicate, undefined lascia la domanda e torna [queryKey, undefined] come setQueryData vero. La memoria si accende solo con __CACHE_QUERY__: chi non la mette non vede cambiamenti."
+    }
+  ],
+  "campione": {
+    "R05": {
+      "accettato": true
+    }
+  },
+  "nota": "R05: tutte le 8 voci con commit hanno la prova rimessa rilanciata (uscita 0) e un giudizio pieno; le 3 gia_riparato_prima controllate alla base. Nessun subagente usato per R05 (tetto di 4 in tutta la vita, da tenere per R04 e R06): il giudizio l'ha dato K02 leggendo i diff e rilanciando le prove."
+}
