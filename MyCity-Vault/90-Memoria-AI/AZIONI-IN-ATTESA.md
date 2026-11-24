@@ -1932,6 +1932,12 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 > la conferma del dato dal negozio (restano «da procurare», non li scrive nessun autofill).
 <!-- SUPERVISIONE-NEGOZI:FINE -->
 
+## Manda a Ora del Gusto il preventivo di SDG e fallo iscrivere su MyCity (aggiunta 2026-11-24 02:20, corretta 03:50)
+- **Reparto:** @onboarding-negozi · **Colore:** 🔴 (preventivo a un cliente vero; iscrizione sul sito vero)
+- **Contenuto:** preventivo di SDG Agenzia `consegne/preventivi/2026-11-24-ora-del-gusto/preventivo-sdg-ora-del-gusto.pdf` (Base 300 · Business 500 consigliato · Premium 999 €/mese, primo mese a metà, nessun vincolo con 30 giorni di preavviso). Prima di mandarlo scrivi a mano email e WhatsApp di SDG e il nome del titolare. Iscrizione MyCity: il titolare da mycity-marketplace.com/sell, tipo «Bar o caffetteria».
+- **Cosa cambia:** Ora del Gusto diventa il primo cliente degli abbonamenti di SDG; col Business sono 500 euro al mese, il primo mese 250.
+- **Se va bene:** firmato il preventivo, fissi l'incontro nel locale per foto, scheda Google e primi post.
+
 ---
 
 | 179 | 2026-08-28 12:13 | @tech | Merge PR #853 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/853 | github | ✅ fatto: unita da Nicola il 2026-08-28 10:56 (letto su GitHub il 2026-10-10) | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |

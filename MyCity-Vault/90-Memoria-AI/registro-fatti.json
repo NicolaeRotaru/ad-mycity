@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-11-21 03:27",
+  "aggiornato": "2026-11-24 17:02",
   "fatti": [
     {
       "id": "ad.uso-e-crediti",
@@ -19,6 +19,48 @@
         {
           "pattern": "Il server dell'AD si riaccende quando il sito non ha più difetti, perché anche Pannello, AD e senior hanno molti errori da sistemare; poi resta sempre acceso. Fino ad allora guardia e conto della sera girano nel Pannello. Si resta sul piano Max attuale e non si paga MAI un'API di IA: le 18 funzioni IA del sito restano spente e quel lavoro lo fa l'AD. Regole del consumo: prima il programma, poi l'IA; tutti i negozi in un giro solo; modello piccolo per i lavori semplici, grande per diagnosi, strategia e collaudi; si rifà un lavoro solo se qualcosa è cambiato; ogni negozio ha un tetto di consumo al mese, misurato dal primo e letto nel Pannello. Da solo l'AD fa: diagnosi dei guasti, analisi dei negozi, piano del mattino e report della sera, ricerca settimanale su concorrenti ed eventi. Quando deve scegliere: prima il sito che vende, poi la macchina.",
           "dal": "2026-11-21 03:27"
+        }
+      ],
+      "esenzioni": []
+    },
+    {
+      "id": "agenzia.listino",
+      "nome": "agenzia.listino",
+      "valore": "Listino del preventivo di MyCity (22/11/2026; foto e video col partner scattiDG): sito web professionale 500 € una volta; gestione automatica dei social (flusso n8n) 300 € al mese; foto e video (riprese, scatti, montaggio, ritocco) da 50 a 300 € al mese; logo e grafica su richiesta; vetrina sul marketplace 50 € al mese (= pricing.abbonamento). Sul sito: lib/agenzia/preventivo.ts (LISTINO), modificabile da site_settings.agenzia senza rifare il sito.",
+      "fonte": "Nicola, chat della notte fra il 22 e il 23/11/2026 (messaggio con i prezzi)",
+      "aggiornato": "2026-11-23 01:08",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
+      "id": "agenzia.nome",
+      "nome": "agenzia.nome",
+      "valore": "scattiDG è un'azienda partner di MyCity e offre SOLO foto e video (riprese, scatti, montaggio, ritocco). Non offre social, sito web né logo: quelli sono servizi di MyCity. Il preventivo in dashboard lo firma MyCity, e il nome di scattiDG compare solo dentro il servizio Foto e video. Sul sito: LISTINO.foto_video.partner e NOME_AGENZIA_DI_RISERVA = MyCity in lib/agenzia/preventivo.ts.",
+      "fonte": "Nicola, chat 2026-11-23 («ScattiDG è l'azienda partner a cui mycity si affida per foto/video making/editing»; «è un partner e offre solo quel servizio»)",
+      "aggiornato": "2026-11-23 02:47",
+      "storia": [
+        {
+          "valore": "L'agenzia foto e video di Nicola si chiama scattiDG. Sul sito: NOME_AGENZIA_DI_RISERVA in lib/agenzia/preventivo.ts; site_settings.agenzia.nome lo sovrascrive senza rifare il sito.",
+          "fino_a": "2026-11-23 01:42"
+        },
+        {
+          "valore": "scattiDG è l'azienda partner a cui MyCity si affida per foto e video (riprese, scatti, montaggio, ritocco). Il preventivo in dashboard lo firma MyCity; social, sito web e logo sono servizi di MyCity. Sul sito: LISTINO.foto_video.partner e NOME_AGENZIA_DI_RISERVA = MyCity in lib/agenzia/preventivo.ts.",
+          "fino_a": "2026-11-23 02:47"
+        }
+      ],
+      "caccia": [
+        {
+          "pattern": "L'agenzia foto e video di Nicola si chiama scattiDG",
+          "dal": "2026-11-23 01:42"
+        },
+        {
+          "pattern": "L'agenzia foto e video di Nicola si chiama scattiDG. Sul sito: NOME_AGENZIA_DI_RISERVA in lib/agenzia/preventivo.ts; site_settings.agenzia.nome lo sovrascrive senza rifare il sito.",
+          "dal": "2026-11-23 01:42"
+        },
+        {
+          "pattern": "scattiDG è l'azienda partner a cui MyCity si affida per foto e video (riprese, scatti, montaggio, ritocco). Il preventivo in dashboard lo firma MyCity; social, sito web e logo sono servizi di MyCity. Sul sito: LISTINO.foto_video.partner e NOME_AGENZIA_DI_RISERVA = MyCity in lib/agenzia/preventivo.ts.",
+          "dal": "2026-11-23 02:47"
         }
       ],
       "esenzioni": []
@@ -1009,6 +1051,26 @@
       "esenzioni": []
     },
     {
+      "id": "negozi.modalita-demo",
+      "nome": "Modalità demo per i negozi che non hanno pagato",
+      "valore": "Le attività che si iscrivono e non hanno ancora pagato entrano in «modalità demo»: entrano nella dashboard, preparano vetrina e prodotti (anche prima dell'approvazione dell'admin: Nicola, 24/11 «Sì, li prepara subito») e vedono il preventivo, ma la loro vetrina e i loro prodotti non sono visibili sul marketplace. Escono dalla demo quando pagano un abbonamento ai servizi (Base, Business o Premium, MyCity tramite SDG) e l'admin li approva. Vale solo per i nuovi: Pane Quotidiano resta visibile com'è, e così i negozi di sistema (MyCity, SDG). Nel codice: mycity#313, migrazione 709 (public.negozio_in_vetrina); i prodotti prima dell'approvazione in arrivo dalla sessione «Servizi SDG».",
+      "fonte": "Nicola, chat 2026-11-24: regola ~13:00, «Solo per i nuovi», pagamento = «Un abbonamento ai servizi»; ~17:00 «Sì, li prepara subito»",
+      "aggiornato": "2026-11-24 17:02",
+      "storia": [
+        {
+          "valore": "Le attività che si iscrivono e non hanno ancora pagato entrano in «modalità demo»: entrano nella dashboard, preparano vetrina e prodotti e vedono il preventivo, ma la loro vetrina non è visibile sul marketplace. Escono dalla demo quando pagano un abbonamento ai servizi (Base, Business o Premium, MyCity tramite SDG); serve comunque l'approvazione dell'admin. Vale solo per i nuovi: Pane Quotidiano resta visibile com'è, e così i negozi di sistema (MyCity, SDG). Lavoro affidato il 24/11 alla sessione «Servizi SDG» (session_01R8112L8Qbu42abzNPKaAkQ), non ancora nel sito.",
+          "fino_a": "2026-11-24 17:02"
+        }
+      ],
+      "caccia": [
+        {
+          "pattern": "Le attività che si iscrivono e non hanno ancora pagato entrano in «modalità demo»: entrano nella dashboard, preparano vetrina e prodotti e vedono il preventivo, ma la loro vetrina non è visibile sul marketplace. Escono dalla demo quando pagano un abbonamento ai servizi (Base, Business o Premium, MyCity tramite SDG); serve comunque l'approvazione dell'admin. Vale solo per i nuovi: Pane Quotidiano resta visibile com'è, e così i negozi di sistema (MyCity, SDG). Lavoro affidato il 24/11 alla sessione «Servizi SDG» (session_01R8112L8Qbu42abzNPKaAkQ), non ancora nel sito.",
+          "dal": "2026-11-24 17:02"
+        }
+      ],
+      "esenzioni": []
+    },
+    {
       "id": "negozi.prima-ondata",
       "nome": "Gli strumenti del negozio nella prima ondata",
       "valore": "Nella prima ondata: «finito per oggi» con un tocco, che riparte da solo la mattina, e «chiuso fino al…» con un tocco; prodotti in un attimo — una foto e l'AD scrive la scheda completa e professionale, o il codice a barre con la banca dati gratuita Open Food Facts; le prime foto le fa Nicola alla visita, poi il negoziante; prezzo e allergeni li conferma sempre il negoziante; il report del lunedì in euro e la lista dei suoi clienti da scaricare. Fuori dalla prima ondata: busta di fine giornata, lista di produzione, caparra, previsione di quanto fare, cartello degli allergeni, ordini che si ripetono, prenotazioni. Contributi: oggi nessun bando è aperto, quindi non si promettono; l'AD li segue e prepara la domanda quando ne esce uno.",
@@ -1066,15 +1128,24 @@
     {
       "id": "onboarding.6-ristoranti-tattici",
       "nome": "onboarding.6-ristoranti-tattici",
-      "valore": "ESCLUSI — Nicola 16/7: «non lavoro con i ristoranti». I 6 del dossier 6/7 (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori) non sono prospect validi. MyCity lavora solo con botteghe, non ristoranti/trattorie.",
-      "fonte": "Nicola chat 2026-07-16 (casella Trattoria La Forchetta)",
-      "aggiornato": "2026-07-16 12:57",
-      "storia": [],
+      "valore": "NON PIÙ ESCLUSI — dal 22/11/2026 Nicola apre l'iscrizione a tutte le attività, ristoranti compresi («dentro tutti»). I 6 del dossier 6/7 (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori) tornano prospect possibili, da fondare prima di lavorarci (AR-006).",
+      "fonte": "Nicola, chat della notte fra il 22 e il 23/11/2026",
+      "aggiornato": "2026-11-23 01:08",
+      "storia": [
+        {
+          "valore": "ESCLUSI — Nicola 16/7: «non lavoro con i ristoranti». I 6 del dossier 6/7 (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori) non sono prospect validi. MyCity lavora solo con botteghe, non ristoranti/trattorie.",
+          "fino_a": "2026-11-23 01:08"
+        }
+      ],
       "caccia": [
         {
           "pattern": "6 botteghe food",
           "dal": "2026-07-13 11:40",
           "chiusa": "2026-07-13 20:21"
+        },
+        {
+          "pattern": "ESCLUSI — Nicola 16/7: «non lavoro con i ristoranti». I 6 del dossier 6/7 (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori) non sono prospect validi. MyCity lavora solo con botteghe, non ristoranti/trattorie.",
+          "dal": "2026-11-23 01:08"
         }
       ],
       "esenzioni": []
@@ -1182,13 +1253,25 @@
     {
       "id": "pricing.abbonamento",
       "nome": "Abbonamento venditore MyCity",
-      "valore": "50€/mese di listino, SOSPESO finché il negozio non incassa: niente canone fino ai primi incassi portati da MyCity (scelta 13 della carta #209, firmata da Nicola il 2026-10-26 con «ok 209»).",
-      "fonte": "Nicola, chat 2026-10-26 ~08:55, «ok 209, parti» e risposte brevi",
-      "aggiornato": "2026-10-26 09:04",
+      "valore": "50€/mese di listino, SOSPESO finché il negozio non incassa: niente canone fino ai primi incassi portati da MyCity (scelta 13 della carta #209, firmata da Nicola il 2026-10-26 con «ok 209»). APERTO dal 2026-11-24: Nicola ha detto che il prezzo di MyCity cambia, ma il valore nuovo non l'ha ancora detto. I tre abbonamenti da 300/500/999 euro NON sono di MyCity: sono di SDG (fatto sdg.abbonamenti).",
+      "fonte": "Nicola, chat 2026-11-24 ~03:30: «questa zona di servizi non c'entra niente con mycity, sono servizi offerti da SDG»; alla domanda «sono di SDG?»: «Sono di SDG, MyCity cambia» (il nuovo prezzo di MyCity non ancora detto)",
+      "aggiornato": "2026-11-24 03:38",
       "storia": [
         {
           "valore": "50€/mese",
           "fino_a": "2026-10-26 09:04"
+        },
+        {
+          "valore": "50€/mese di listino, SOSPESO finché il negozio non incassa: niente canone fino ai primi incassi portati da MyCity (scelta 13 della carta #209, firmata da Nicola il 2026-10-26 con «ok 209»).",
+          "fino_a": "2026-11-24 02:15"
+        },
+        {
+          "valore": "Listino a tre abbonamenti mensili per i negozi: Base 300 euro/mese, Business 500 euro/mese, Premium 999 euro/mese. Ognuno comprende tutti i servizi di MyCity, ma in misura diversa (quanti prodotti, quante uscite social, quanti richiami ai clienti, quanta visibilità, quanto spesso il report). Solo canone: nessuna percentuale sul venduto per chi ha uno di questi abbonamenti. Primo cliente col listino nuovo: Ora del Gusto (pasticceria/bar). Come si dividono i servizi fra le tre fasce: proposta dell'AD nel preventivo di Ora del Gusto, da confermare con Nicola. APERTO: se il listino vale anche per Pane Quotidiano e per i negozi di prova, che oggi stanno a 50 euro/mese più il 10% (domanda fatta il 24/11, non ancora risposta); se resta la sospensione del canone fino ai primi incassi (scelta 13 della carta #209); l'IVA la conferma il commercialista.",
+          "fino_a": "2026-11-24 03:14"
+        },
+        {
+          "valore": "Listino a tre abbonamenti mensili per i negozi: Base 300 euro/mese, Business 500 euro/mese, Premium 999 euro/mese. Ognuno comprende tutti i servizi (foto e video con scattiDG, social, sito web, scheda Google, vetrina MyCity), ma in misura diversa: il dettaglio vive nel codice del sito, lib/agenzia/preventivo.ts (FASCE), proposta dell'AD da confermare con Nicola. Solo canone: nessuna percentuale sul venduto per chi ha uno di questi abbonamenti. Condizioni (Nicola, 24/11): nessun vincolo di durata, disdetta quando si vuole con 30 giorni di preavviso, primo mese a metà prezzo (150 / 250 / 499,50 euro). Il preventivo è la pagina «Il tuo preventivo» della dashboard del negozio, calcolata dai suoi dati. Primo cliente col listino nuovo: Ora del Gusto (bar e pasticceria). APERTO: se il listino vale anche per Pane Quotidiano e per i negozi di prova (oggi 50 euro/mese più il 10%); l'IVA la conferma il commercialista.",
+          "fino_a": "2026-11-24 03:38"
         }
       ],
       "caccia": [
@@ -1206,6 +1289,26 @@
           "pattern": "0€ fissi",
           "dal": "2026-07-20 12:39",
           "chiusa": "2026-07-20 20:21"
+        },
+        {
+          "pattern": "50€/mese di listino",
+          "dal": "2026-11-24 02:15"
+        },
+        {
+          "pattern": "50€/mese di listino, SOSPESO finché il negozio non incassa: niente canone fino ai primi incassi portati da MyCity (scelta 13 della carta #209, firmata da Nicola il 2026-10-26 con «ok 209»).",
+          "dal": "2026-11-24 02:15"
+        },
+        {
+          "pattern": "Listino a tre abbonamenti mensili per i negozi: Base 300 euro/mese, Business 500 euro/mese, Premium 999 euro/mese. Ognuno comprende tutti i servizi di MyCity, ma in misura diversa (quanti prodotti, quante uscite social, quanti richiami ai clienti, quanta visibilità, quanto spesso il report). Solo canone: nessuna percentuale sul venduto per chi ha uno di questi abbonamenti. Primo cliente col listino nuovo: Ora del Gusto (pasticceria/bar). Come si dividono i servizi fra le tre fasce: proposta dell'AD nel preventivo di Ora del Gusto, da confermare con Nicola. APERTO: se il listino vale anche per Pane Quotidiano e per i negozi di prova, che oggi stanno a 50 euro/mese più il 10% (domanda fatta il 24/11, non ancora risposta); se resta la sospensione del canone fino ai primi incassi (scelta 13 della carta #209); l'IVA la conferma il commercialista.",
+          "dal": "2026-11-24 03:14"
+        },
+        {
+          "pattern": "Listino a tre abbonamenti mensili per i negozi",
+          "dal": "2026-11-24 03:38"
+        },
+        {
+          "pattern": "Listino a tre abbonamenti mensili per i negozi: Base 300 euro/mese, Business 500 euro/mese, Premium 999 euro/mese. Ognuno comprende tutti i servizi (foto e video con scattiDG, social, sito web, scheda Google, vetrina MyCity), ma in misura diversa: il dettaglio vive nel codice del sito, lib/agenzia/preventivo.ts (FASCE), proposta dell'AD da confermare con Nicola. Solo canone: nessuna percentuale sul venduto per chi ha uno di questi abbonamenti. Condizioni (Nicola, 24/11): nessun vincolo di durata, disdetta quando si vuole con 30 giorni di preavviso, primo mese a metà prezzo (150 / 250 / 499,50 euro). Il preventivo è la pagina «Il tuo preventivo» della dashboard del negozio, calcolata dai suoi dati. Primo cliente col listino nuovo: Ora del Gusto (bar e pasticceria). APERTO: se il listino vale anche per Pane Quotidiano e per i negozi di prova (oggi 50 euro/mese più il 10%); l'IVA la conferma il commercialista.",
+          "dal": "2026-11-24 03:38"
         }
       ],
       "esenzioni": [
@@ -1271,13 +1374,21 @@
     {
       "id": "pricing.worker-negozi",
       "nome": "Prezzo del Worker per i negozi",
-      "valore": "Il Worker è INCLUSO nell'abbonamento marketplace da 50 euro/mese fino a circa 50-100 negozi; oltre quella soglia diventa un servizio in più da altri 50 euro/mese (totale 100 euro/mese per negozio). Supera il listino a tre fasce del 29/7 (Vetrina 99 · Autopilot 299 · Direttore Digitale 699-999, più setup): nessun negozio è mai stato venduto a quei prezzi e la linea non è costruita, quindi il cambio non tocca nessun cliente. Coerente con l'obiettivo dichiarato di 10.000 euro/mese = 100 negozi per 100 euro/mese (obiettivo.ricavi). APERTO: i 3 pilot founder a 149 euro/mese (pilot.worker-negozi) non sono nominati nel documento — restano come stavano finché non lo dice Nicola.",
-      "fonte": "Nicola — CONTESTO_BUSINESS.md paragrafo 5 (Pricing, «Decisione attuale») e paragrafo 11 (Obiettivo), consegnato in chat 2026-08-11 02:12",
-      "aggiornato": "2026-08-11 02:18",
+      "valore": "Il Worker è INCLUSO nell'abbonamento marketplace da 50 euro/mese fino a circa 50-100 negozi; oltre quella soglia diventa un servizio in più da altri 50 euro/mese (totale 100 euro/mese per negozio). Valore ripristinato il 2026-11-24: la riscrittura delle 02:15 legava il Worker ai tre abbonamenti, che invece sono di SDG (sdg.abbonamenti). Il prezzo di MyCity cambierà (pricing.abbonamento, APERTO).",
+      "fonte": "Nicola, chat 2026-11-24 ~03:30: «questa zona di servizi non c'entra niente con mycity, sono servizi offerti da SDG»; alla domanda «sono di SDG?»: «Sono di SDG, MyCity cambia» (il nuovo prezzo di MyCity non ancora detto)",
+      "aggiornato": "2026-11-24 03:38",
       "storia": [
         {
           "valore": "Vetrina 99€/mese · Autopilot 299€/mese · Direttore Digitale 699-999€/mese (+ setup una tantum). Prodotto DIVERSO dall'abbonamento venditore marketplace (pricing.abbonamento = 50€/mese)",
           "fino_a": "2026-08-11 02:18"
+        },
+        {
+          "valore": "Il Worker è INCLUSO nell'abbonamento marketplace da 50 euro/mese fino a circa 50-100 negozi; oltre quella soglia diventa un servizio in più da altri 50 euro/mese (totale 100 euro/mese per negozio). Supera il listino a tre fasce del 29/7 (Vetrina 99 · Autopilot 299 · Direttore Digitale 699-999, più setup): nessun negozio è mai stato venduto a quei prezzi e la linea non è costruita, quindi il cambio non tocca nessun cliente. Coerente con l'obiettivo dichiarato di 10.000 euro/mese = 100 negozi per 100 euro/mese (obiettivo.ricavi). APERTO: i 3 pilot founder a 149 euro/mese (pilot.worker-negozi) non sono nominati nel documento — restano come stavano finché non lo dice Nicola.",
+          "fino_a": "2026-11-24 02:15"
+        },
+        {
+          "valore": "Il Worker (social, recensioni, richiami, report) è compreso in tutti e tre gli abbonamenti (Base 300, Business 500, Premium 999 euro/mese), in misura crescente: vedi pricing.abbonamento. Sostituisce «Worker incluso nell'abbonamento da 50 euro/mese fino a 50-100 negozi, poi altri 50 euro» dell'11/8.",
+          "fino_a": "2026-11-24 03:38"
         }
       ],
       "caccia": [
@@ -1300,6 +1411,22 @@
           "pattern": "Vetrina 99€/mese · Autopilot 299€/mese · Direttore Digitale 699-999€/mese (+ setup una tantum). Prodotto DIVERSO dall'abbonamento venditore marketplace (pricing.abbonamento = 50€/mese)",
           "dal": "2026-08-11 02:18",
           "chiusa": "2026-08-12 23:11"
+        },
+        {
+          "pattern": "abbonamento marketplace da 50 euro",
+          "dal": "2026-11-24 02:15"
+        },
+        {
+          "pattern": "Il Worker è INCLUSO nell'abbonamento marketplace da 50 euro/mese fino a circa 50-100 negozi; oltre quella soglia diventa un servizio in più da altri 50 euro/mese (totale 100 euro/mese per negozio). Supera il listino a tre fasce del 29/7 (Vetrina 99 · Autopilot 299 · Direttore Digitale 699-999, più setup): nessun negozio è mai stato venduto a quei prezzi e la linea non è costruita, quindi il cambio non tocca nessun cliente. Coerente con l'obiettivo dichiarato di 10.000 euro/mese = 100 negozi per 100 euro/mese (obiettivo.ricavi). APERTO: i 3 pilot founder a 149 euro/mese (pilot.worker-negozi) non sono nominati nel documento — restano come stavano finché non lo dice Nicola.",
+          "dal": "2026-11-24 02:15"
+        },
+        {
+          "pattern": "Il Worker (social, recensioni, richiami, report) è compreso in tutti e tre gli abbonamenti",
+          "dal": "2026-11-24 03:38"
+        },
+        {
+          "pattern": "Il Worker (social, recensioni, richiami, report) è compreso in tutti e tre gli abbonamenti (Base 300, Business 500, Premium 999 euro/mese), in misura crescente: vedi pricing.abbonamento. Sostituisce «Worker incluso nell'abbonamento da 50 euro/mese fino a 50-100 negozi, poi altri 50 euro» dell'11/8.",
+          "dal": "2026-11-24 03:38"
         }
       ],
       "esenzioni": []
@@ -1422,6 +1549,30 @@
       "esenzioni": []
     },
     {
+      "id": "sdg.abbonamenti",
+      "nome": "Abbonamenti di SDG Agenzia",
+      "valore": "Tre abbonamenti mensili ai servizi: Base 300 euro, Business 500 euro, Premium 999 euro. Sono servizi di MyCity realizzati da SDG Agenzia, il partner di MyCity per foto, video, social e web (Nicola, 24/11: «sono servizi che offre mycity, ma tramite SDG»). Ognuno comprende foto e video, social, sito web e scheda Google, in misura diversa (proposta dell'AD, da confermare). Solo canone, nessuna percentuale. Condizioni: nessun vincolo di durata, disdetta con 30 giorni di preavviso, primo mese a metà prezzo. Il negozio li sceglie e li paga dentro il sito, dalla pagina «Il tuo preventivo» (pagamento con carta via Stripe, abbonamento mensile), in un ramo che aspetta la firma di Nicola. Primo cliente: Ora del Gusto (bar e pasticceria, Piacenza).",
+      "fonte": "Nicola, chat 2026-11-24 ~04:10: «Non togliere la sezione servizi, sono servizi che offre mycity, ma tramite SDG» e «Ora del Gusto deve già poter selezionare il servizio e effettuare il pagamento»; ~04:40: «specifica che SDG agenzia è il partner di questi servizi»",
+      "aggiornato": "2026-11-24 04:17",
+      "storia": [
+        {
+          "valore": "SDG Agenzia (l'agenzia di Nicola: web, marketing, foto e video) vende tre abbonamenti mensili: Base 300 euro, Business 500 euro, Premium 999 euro. Ognuno comprende tutti i servizi — foto e video, gestione dei social, sito web, scheda Google — in misura diversa (proposta dell'AD nel preventivo di Ora del Gusto, da confermare). Solo canone, nessuna percentuale. Condizioni scelte da Nicola il 24/11: nessun vincolo di durata, disdetta quando si vuole con 30 giorni di preavviso, primo mese a metà prezzo. Sono servizi di SDG, non di MyCity: dal 24/11 il menu «Servizi» è uscito dal marketplace. Primo cliente: Ora del Gusto (bar e pasticceria, Piacenza).",
+          "fino_a": "2026-11-24 04:17"
+        }
+      ],
+      "caccia": [
+        {
+          "pattern": "Sono servizi di SDG, non di MyCity",
+          "dal": "2026-11-24 04:17"
+        },
+        {
+          "pattern": "SDG Agenzia (l'agenzia di Nicola: web, marketing, foto e video) vende tre abbonamenti mensili: Base 300 euro, Business 500 euro, Premium 999 euro. Ognuno comprende tutti i servizi — foto e video, gestione dei social, sito web, scheda Google — in misura diversa (proposta dell'AD nel preventivo di Ora del Gusto, da confermare). Solo canone, nessuna percentuale. Condizioni scelte da Nicola il 24/11: nessun vincolo di durata, disdetta quando si vuole con 30 giorni di preavviso, primo mese a metà prezzo. Sono servizi di SDG, non di MyCity: dal 24/11 il menu «Servizi» è uscito dal marketplace. Primo cliente: Ora del Gusto (bar e pasticceria, Piacenza).",
+          "dal": "2026-11-24 04:17"
+        }
+      ],
+      "esenzioni": []
+    },
+    {
       "id": "sensori.posthog.project_id",
       "nome": "sensori.posthog.project_id",
       "valore": "495230 — «Default project» account US (PostHog Impostazioni → Project); usato da Pannello Radiografia via POSTHOG_PROJECT_ID su Vercel",
@@ -1460,13 +1611,17 @@
     {
       "id": "strategia.cliente-core",
       "nome": "strategia.cliente-core",
-      "valore": "I clienti MyCity sono le botteghe (carrello multi-negozio settimanale) — né ristoranti né trattorie",
-      "fonte": "Nicola chat 2026-07-13 22:34",
-      "aggiornato": "2026-07-13 22:35",
+      "valore": "I clienti MyCity sono tutte le attività che vendono qualcosa: botteghe, bar, ristoranti, artigiani, servizi alla persona. All'iscrizione non serve più essere una bottega (Nicola 22/11/2026: «dentro tutti», anche i ristoranti)",
+      "fonte": "Nicola, chat della notte fra il 22 e il 23/11/2026 (risposta «Sì, dentro tutti» alle domande dell'AD)",
+      "aggiornato": "2026-11-23 01:08",
       "storia": [
         {
           "valore": "botteghe (carrello multi-negozio settimanale) — i 6 del 13/7 sono ristoranti/trattorie, mossa tattica non profilo core",
           "fino_a": "2026-07-13 22:35"
+        },
+        {
+          "valore": "I clienti MyCity sono le botteghe (carrello multi-negozio settimanale) — né ristoranti né trattorie",
+          "fino_a": "2026-11-23 01:08"
         }
       ],
       "caccia": [
@@ -1504,6 +1659,14 @@
           "pattern": "botteghe (carrello multi-negozio settimanale) — i 6 del 13/7 sono ristoranti/trattorie, mossa tattica non profilo core",
           "dal": "2026-07-13 22:35",
           "chiusa": "2026-07-13 22:35"
+        },
+        {
+          "pattern": "MyCity lavora solo con botteghe",
+          "dal": "2026-11-23 01:08"
+        },
+        {
+          "pattern": "I clienti MyCity sono le botteghe (carrello multi-negozio settimanale) — né ristoranti né trattorie",
+          "dal": "2026-11-23 01:08"
         }
       ],
       "esenzioni": []
@@ -1552,13 +1715,17 @@
     {
       "id": "strategia.segmenti-onboarding",
       "nome": "Calendario dei segmenti da aprire (set-dic 2026)",
-      "valore": "SETTEMBRE 2026 — fresco (frutta e verdura, panetterie, gastronomie, macellerie): primo valore = anti-spreco + richiami, pre-ordini per le macellerie. OTTOBRE — ottiche, estetiste, mercato coperto: prenotazioni, promemoria, recupero dei clienti persi. NOVEMBRE — regali e PMI (saltato: calendario.novembre-regali). DICEMBRE — si continua a far entrare negozi: Nicola il 1/11/2026 ha tolto lo «stop all'onboarding» di dicembre, che non aveva fonte nelle due ricerche (la ricerca sui negozianti ha solo tre finestre: settembre, ottobre, novembre) — «toglila». Esclusi per decisione di Nicola: ristoranti, catene e franchising; pescherie in fase 2. Il ritmo vero dopo l'apertura sta in negozi.ingresso.",
-      "fonte": "Nicola, conversazione del 2026-11-01 mattina (fino alle 12:18), sessione «cosa serve per essere pronti»",
-      "aggiornato": "2026-11-01 12:18",
+      "valore": "SETTEMBRE 2026 — fresco (frutta e verdura, panetterie, gastronomie, macellerie): primo valore = anti-spreco + richiami, pre-ordini per le macellerie. OTTOBRE — ottiche, estetiste, mercato coperto: prenotazioni, promemoria, recupero dei clienti persi. NOVEMBRE — regali e PMI (saltato: calendario.novembre-regali). DICEMBRE — si continua a far entrare negozi: Nicola il 1/11/2026 ha tolto lo «stop all'onboarding» di dicembre, che non aveva fonte nelle due ricerche (la ricerca sui negozianti ha solo tre finestre: settembre, ottobre, novembre) — «toglila». Esclusi per decisione di Nicola: catene e franchising; pescherie in fase 2. I ristoranti sono dentro dal 22/11/2026, insieme a bar, artigiani e servizi: «dentro tutti» (fatto strategia.cliente-core). Il ritmo vero dopo l'apertura sta in negozi.ingresso.",
+      "fonte": "Nicola, chat della notte fra il 22 e il 23/11/2026 («dentro tutti»)",
+      "aggiornato": "2026-11-23 01:08",
       "storia": [
         {
           "valore": "SETTEMBRE 2026 — fresco (frutta e verdura, panetterie, gastronomie, macellerie): primo valore = anti-spreco + richiami su WhatsApp, pre-ordini per le macellerie; prova richiesta = box vendute e clienti richiamati. OTTOBRE — ottiche, estetiste, mercato coperto: primo valore = prenotazioni + promemoria + recupero dei clienti persi; prova = meno buchi in agenda. NOVEMBRE — regali (enoteche, fiorai, cartolerie) e PMI strutturate: primo valore = gift card cittadina, regali aziendali, welfare territoriale; prova = primo ordine welfare o gift card incassato. DICEMBRE — stop all'onboarding: si consolida e si rinnova. Esclusi per decisione di Nicola: ristoranti, catene e franchising; pescherie in fase 2.",
           "fino_a": "2026-11-01 12:18"
+        },
+        {
+          "valore": "SETTEMBRE 2026 — fresco (frutta e verdura, panetterie, gastronomie, macellerie): primo valore = anti-spreco + richiami, pre-ordini per le macellerie. OTTOBRE — ottiche, estetiste, mercato coperto: prenotazioni, promemoria, recupero dei clienti persi. NOVEMBRE — regali e PMI (saltato: calendario.novembre-regali). DICEMBRE — si continua a far entrare negozi: Nicola il 1/11/2026 ha tolto lo «stop all'onboarding» di dicembre, che non aveva fonte nelle due ricerche (la ricerca sui negozianti ha solo tre finestre: settembre, ottobre, novembre) — «toglila». Esclusi per decisione di Nicola: ristoranti, catene e franchising; pescherie in fase 2. Il ritmo vero dopo l'apertura sta in negozi.ingresso.",
+          "fino_a": "2026-11-23 01:08"
         }
       ],
       "caccia": [
@@ -1569,6 +1736,14 @@
         {
           "pattern": "SETTEMBRE 2026 — fresco (frutta e verdura, panetterie, gastronomie, macellerie): primo valore = anti-spreco + richiami su WhatsApp, pre-ordini per le macellerie; prova richiesta = box vendute e clienti richiamati. OTTOBRE — ottiche, estetiste, mercato coperto: primo valore = prenotazioni + promemoria + recupero dei clienti persi; prova = meno buchi in agenda. NOVEMBRE — regali (enoteche, fiorai, cartolerie) e PMI strutturate: primo valore = gift card cittadina, regali aziendali, welfare territoriale; prova = primo ordine welfare o gift card incassato. DICEMBRE — stop all'onboarding: si consolida e si rinnova. Esclusi per decisione di Nicola: ristoranti, catene e franchising; pescherie in fase 2.",
           "dal": "2026-11-01 12:18"
+        },
+        {
+          "pattern": "Esclusi per decisione di Nicola: ristoranti, catene e franchising",
+          "dal": "2026-11-23 01:08"
+        },
+        {
+          "pattern": "SETTEMBRE 2026 — fresco (frutta e verdura, panetterie, gastronomie, macellerie): primo valore = anti-spreco + richiami, pre-ordini per le macellerie. OTTOBRE — ottiche, estetiste, mercato coperto: prenotazioni, promemoria, recupero dei clienti persi. NOVEMBRE — regali e PMI (saltato: calendario.novembre-regali). DICEMBRE — si continua a far entrare negozi: Nicola il 1/11/2026 ha tolto lo «stop all'onboarding» di dicembre, che non aveva fonte nelle due ricerche (la ricerca sui negozianti ha solo tre finestre: settembre, ottobre, novembre) — «toglila». Esclusi per decisione di Nicola: ristoranti, catene e franchising; pescherie in fase 2. Il ritmo vero dopo l'apertura sta in negozi.ingresso.",
+          "dal": "2026-11-23 01:08"
         }
       ],
       "esenzioni": []
