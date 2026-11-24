@@ -41,7 +41,7 @@ Esempio vero: stanotte ho provato il primo con Pane Quotidiano in modalità prov
 **Cosa devi fare tu.**
 - Unire la richiesta del sito (mycity), poi scrivere in Vercel le variabili `N8N_NUOVO_CLIENTE_WEBHOOK_URL` e `N8N_NUOVO_CLIENTE_SEGRETO`. Il valore del segreto è nel file che ti ho indicato in chat (n8n non lo rimostra). Se lo perdi, scegline uno nuovo e scrivilo in due posti: la credenziale «MyCity - Segreto nuovo cliente» in n8n e la variabile in Vercel.
 - In n8n aprire la credenziale «Supabase MyCity - Marketplace (lettura)», incollare la chiave del database di MyCity e accendere il flusso 17.
-- Ricaricare il credito dell'API di Claude. Alle 03:35 del 24/11 la chiamata del flusso 17 è stata respinta: «credit balance is too low». Senza credito il 16 non scrive schede (avvisa e basta), e si fermano anche gli altri flussi n8n che usano Claude.
+- Decidere sull'API di Claude a pagamento. La tua regola dell'1/11 dice «non si paga MAI un'API di IA» (registro dei fatti, ad.uso-e-crediti). La ricerca del modulo 12, e quindi del 16, usa proprio l'API a pagamento, e dal 24/11 alle 03:35 il credito è finito. Senza credito il 16 non scrive schede: avvisa e basta. Il commento di Claude nel 17 e nel 18 l'ho già spento di serie.
 
 **Cosa non ho verificato.** La chiamata vera dal sito a n8n non l'ho fatta: serve il rilascio. Il flusso 17 ha girato una volta dentro n8n alle 03:35, ma senza la chiave: non ha mai letto il database vero. Il saldo del credito di Claude non lo vedo: so solo che alle 03:23 una chiamata è passata e alle 03:35 no.
 

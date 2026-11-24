@@ -7339,3 +7339,9 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Prove:** 49 prove su 49 in N8N; corsa vera su n8n (iscrizione di collaudo in prova → analisi partita → Telegram).
 - **Colore:** 🟡, rami `claude/laughing-bardeen-6g0s4h`.
 
+## 2026-11-24 04:20 — Il commento di Claude nei flussi n8n 17 e 18 nasce spento (🟡, per la regola sull'API a pagamento)
+- **Cosa è successo:** la sessione di Ora del Gusto mi ha fatto notare la regola `ad.uso-e-crediti` («non si paga MAI un'API di IA», Nicola 1/11). Io non l'avevo letta prima di costruire i flussi 16, 17 e 18: è un errore mio contro AR-102.
+- **Cosa ho fatto:** nel 17 e nel 18 il commento di Claude (che avevo aggiunto io) ora è spento di serie, con `COMMENTO_CLAUDE = no`. Numeri e segnali restano. Il 16 invece usa la ricerca del modulo 12, che è a pagamento per come l'ha costruito Nicola, e Nicola ha chiesto esplicitamente di usare il modulo 12.
+- **Serve da Nicola:** decidere se il lavoro di n8n dell'agenzia è un'eccezione alla regola, oppure se la ricerca dei nuovi clienti deve farla l'AD sul piano Max.
+- **Lezione:** prima di costruire qualcosa che usa un'IA, si legge `registro-fatti.json` alla voce `ad.uso-e-crediti`.
+
