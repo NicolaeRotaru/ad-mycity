@@ -7433,3 +7433,10 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa:** ① il piano va bene, parole sue: «sì, va bene, facciamolo in questo modo qua». Le sette scelte della lista restano da spuntare una per una: lui non ha ancora finito di leggere. ② L'AD deve pensare a tutto quello che esiste: n8n, SDG, MyCity, ogni imprenditore che aderisce, il marketplace e quello che gira intorno ai siti. Parole sue: «è un'azienda a tutti gli effetti». ③ Le figure che per ora restano umane: fotografo, videomaker, fattorino e commercialista. L'AD le organizza ma non le sostituisce. ④ Il nome «AD MyCity» non basta più, perché MyCity è solo il marketplace. Nicola chiede come chiamare l'organizzazione intera.
 - **Fatto subito:** nel documento la fase M1 diventa «La mappa dell'azienda», cioè tutto quello che esiste in una pagina che l'AD legge per prima. Il fatto `ad.uso-e-crediti` del registro ora dice «server spento per sempre».
 - **Aperto:** la scelta del nome (proposte dell'AD in chat). Il cambio di nome si fa insieme alla fase M3, così ogni file si tocca una volta sola. Se il nome diventa pubblico o il nome della società, prima va verificato il marchio (🔴).
+
+## 2026-11-24 22:38 — L'offerta al negozio si fa su misura anche secondo l'abbonamento che ha scelto (🟡, richiesta di Nicola)
+- **Chi e quando:** Nicola, 24/11 alle 22:38. Le sue parole, riportate dalla sessione «Monitoraggio sessioni simultanee»: «il servizio deve essere anche in base all'abbonamento che hanno scelto… è già un preventivo sulla base dei dati che si ha sul cliente, però in più deve essere anche in base all'abbonamento».
+- **Cosa cambia:** finora l'offerta si basava sui dati che abbiamo del cliente. Adesso conta anche l'abbonamento che ha scelto: Base, Business o Premium.
+- **Chi la costruisce:** la sessione «Analisi del business», sul ramo claude/offerta-su-misura del sito (repo mycity).
+- **Fonte:** messaggio della sessione di monitoraggio delle 22:50 alla sessione «Ora del Gusto 2.0». Chi scrive questa riga non ha letto la chat originale di Nicola.
+- **Colore:** 🟡: è codice del sito in un ramo. Il passaggio in produzione resta di Nicola.
