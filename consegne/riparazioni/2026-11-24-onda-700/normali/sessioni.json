@@ -44,7 +44,10 @@
   "R09": {
    "id": "session_01R8112KUKQJB8drAMNwk3KX",
    "ramo": "ccr-d7a54140-hak4ez-m09",
-   "onda": 2
+   "onda": 2,
+   "finita": true,
+   "punta": "38d213fc34322a4c945a86bb4b26cb0b78a54d8e",
+   "testa": "10f73a8c8cf527d0d0b63922194f53293a91906c"
   },
   "R10": {
    "id": "session_01R8112MESXTLhypH8keWXCN",
