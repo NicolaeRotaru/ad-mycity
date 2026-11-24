@@ -28,3 +28,16 @@
 2026-11-24 13:25 · R06 · in lavoro · guardia 🔴 prove comuni · referto – · unione (sotto) · nessuna (si dice alla consegna)
 2026-11-24 13:25 · R07 · in lavoro · guardia 🔴 prove comuni · referto 🔴 segnaposti (a metà) · unione (sotto) · nessuna (si dice alla consegna)
 2026-11-24 13:25 · onda 1 · prova-unione ✅ · regia terza al posto della seconda
+2026-11-24 13:27 · R01 · in lavoro · guardia 🔴 · referto ⏳ 12 voci · unione (sotto) · nessuna
+2026-11-24 13:27 · R02 · in lavoro · guardia ✅ · referto – · unione (sotto) · nessuna
+2026-11-24 13:27 · R03 · in lavoro · guardia ✅ · referto 🔴 14 voci · unione (sotto) · nessuna
+2026-11-24 13:27 · R04 · in lavoro FINITA · guardia ✅ · referto ✅ 15 voci · unione (sotto) · nessuna
+2026-11-24 13:27 · R05 · in lavoro FINITA · guardia ✅ · referto ✅ 14 voci · unione (sotto) · nessuna
+2026-11-24 13:27 · R06 · in lavoro · guardia 🔴 · referto – · unione (sotto) · nessuna
+2026-11-24 13:27 · R07 · in lavoro · guardia 🔴 · referto 🔴 15 voci · unione (sotto) · nessuna
+2026-11-24 13:27 · K02 · ramo non ancora spinto · guardia – · collaudo – · nessuna
+2026-11-24 13:27 · onda 1 · prova-unione ✅
+2026-11-24 13:28 · R04 · finita (16,93 $ dichiarati) · guardia ✅ · referto ✅ 15 voci · unione (sotto) · data a K02 in catena
+2026-11-24 13:28 · R06 · consegna vicina · guardia 🔴 prove comuni · referto – · unione (sotto) · detto: revert di 1ab7ef98 e della correzione R06-008, voce serve_file_altrui
+2026-11-24 13:28 · R07 · consegna vicina (20,25 $) · guardia 🔴 prove comuni · referto 🔴 segnaposti · unione (sotto) · detto: revert della modifica alla prova comune, segnaposti da togliere
+2026-11-24 13:28 · R01 · consegna vicina · guardia 🔴 prove comuni · referto ⏳ · unione (sotto) · precisato: se la correzione dipende dalle prove, revert anche del codice
