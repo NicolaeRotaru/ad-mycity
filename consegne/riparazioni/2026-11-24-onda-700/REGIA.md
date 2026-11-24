@@ -48,6 +48,7 @@ Regole da tenere (lezioni del 22/11): SHA interi; controllo a 10 minuti anche pe
   - Le 65 domande: non ancora risposte.
 - 2026-11-24 17:03 Nicola, scritto nella chat della regia settima: «A» alla fermata delle 15:25 → giro di correzione nel tetto (circa 22 voci delle 44 più il collaudo delle 11), tetto sempre 360 $. Firme sulle prove comuni e domande: non date.
 - 2026-11-24 17:20 Nicola, chat della regia settima: «Fai anche le 11 che aspettano la mia firma» → FIRMA sulle prove comuni per le 11 voci R01-004, R01-014, R06-013, R02-014, R03-009, R03-010, R01-008, R07-013, R02-004, R06-008 (cherry-pick 99c4faf1), R07-007 (cherry-pick 602c64d7). Si fanno in un'onda 3 tutta loro, dopo l'unione di R08-R10 (R01-004 tocca lib/ai/tettoSpesa.ts di R08), con `eccezioni_firmate: [{onda: 3, regole: ["prove_comuni", "prova_esistente_altrui"], firma: "Nicola 2026-11-24 17:20: «Fai anche le 11 che aspettano la mia firma»"}]` nel piano. Costo stimato 15-20 $: supera il tetto di 360 $, chiesto a Nicola se alzarlo.
+- 2026-11-24 17:21 Nicola, chat della regia settima: «Sì, alza il tetto a 380» → **tetto totale 380 $**: 360 $ per i passi 1 e 2 (giro di correzione compreso) + 20 $ per l'onda 3 delle 11 voci firmate. Oltre 380 ci si ferma.
 
 ## Ancora aperto per Nicola dal giro prima
 Cancellare i rami `claude/settimana-700-regia-cf`, `-s01`, `-s01b`, `-s01c`, `-s01d` (ad-mycity) e `-m10` (mycity); migrazione 703; scelte R17-002/003, R17-010, R18-004, R14-002, R15-015, S02-04; giro riservato (S02-02, -05, -06, 4 nati di KS02, S02-04, S02-08).

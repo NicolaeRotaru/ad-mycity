@@ -28,6 +28,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 24/11 17:21 | regia settima dell'onda dei 700 (`session_01R8112PFGvwN9iRDAdkSTz1`) | «Sì, alza il tetto a 380»: tetto totale 380 $, cioè 360 $ per i passi 1 e 2 più 20 $ per l'onda 3 delle 11 voci firmate. L'onda 3 parte dopo l'unione di R08-R10. |
 | 24/11 17:20 | regia settima dell'onda dei 700 (`session_01R8112PFGvwN9iRDAdkSTz1`) | «Fai anche le 11 che aspettano la mia firma»: firma sulle prove comuni di R01-004, R01-014, R06-013, R02-014, R03-009, R03-010, R01-008, R07-013, R02-004, R06-008, R07-007. Si fanno in un'onda 3 a parte, dopo l'unione di R08-R10, con un tetto suo di 20 $ (regola 2 del 15/11: il tetto dei passi 1 e 2 non si alza a metà). Parte solo col suo sì scritto sul tetto dell'onda 3. |
 | 24/11 17:03 | regia settima dell'onda dei 700 (`session_01R8112PFGvwN9iRDAdkSTz1`) | «A» alla fermata delle 15:25: giro di correzione nel tetto dei 360 $. Partiti R08, R09, R10 (19 voci) e il collaudo parziale K04 (12 voci). |
 | 24/11 11:58 | all'AD, chat «700 difetti risoluzione» (`session_01R8112Lzth8WvHHrQ4H3whZ`) | «Via» alla proposta dell'AD sulla nuova onda dei 700: partono il ricontrollo lampo di 198 voci e le 103 voci normali, tetto 360 $. I delicati non partono senza un sì nuovo e non prima del rinnovo di giovedì 26/11 alle 10. Non ha dato la percentuale della quota né risposto sul mandato stretto. Quaderno `consegne/riparazioni/2026-11-24-onda-700/REGIA.md`. |
