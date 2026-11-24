@@ -1,0 +1,807 @@
+{
+  "creato": "2026-11-24 17:05",
+  "conti": {
+    "A": 6,
+    "B": 18,
+    "C": 6,
+    "D": 21
+  },
+  "righe_B": 18,
+  "precedenti": {
+    "ai-endpoints|con un solo lavoro aperto per negozio, il «rimetti pronto» dell applica può fallire senza che nessuno lo veda": {
+      "id": "R01-001",
+      "elenco": "A",
+      "esito": "riparato",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "ai-endpoints|con l'ai dei negozi spenta al lancio, l'allarme sul conto condiviso della spesa ai può arrivare lo stesso ogni sei ore": {
+      "id": "R01-004",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "tests/unit/riparazione-r04-allarme-ripiego.test.ts",
+          "modifica": "Prova comune (serve la firma di Nicola): aggiungere il vi.mock di @/lib/funzioni-al-lancio con AI_NEGOZI_ACCESA=true, 2 righe, come nel diff completo in nota."
+        },
+        {
+          "file": "tests/unit/riparazione-r13-allarme-tetto-dal-cron.test.ts",
+          "modifica": "Prova comune (serve la firma di Nicola): lo stesso vi.mock di @/lib/funzioni-al-lancio con AI_NEGOZI_ACCESA=true, 2 righe, come nel diff completo in nota."
+        },
+        {
+          "file": "lib/ai/tettoSpesa.ts, tests/unit/riparazione-r01-allarme-tetto-ai-spenta.test.ts, tests/unit/riparazione-r01-allarme-tetto-riga-vecchia.test.ts",
+          "modifica": "Insieme alle due prove comuni, rimettere la regola: allarmiTettoSpesaAiPerIlCron torna [] (e toglie l inizio del guasto ricordato) anche quando AI_NEGOZI_ACCESA è false, con la sua prova nuova e il caso dell AI spenta nella prova di R01-005. Tutto nel diff completo in nota, che si applica pulito sulla testa del ramo (git apply)."
+        }
+      ],
+      "file_che_servono": [
+        "tests/unit/riparazione-r04-allarme-ripiego.test.ts",
+        "tests/unit/riparazione-r13-allarme-tetto-dal-cron.test.ts",
+        "lib/ai/tettoSpesa.ts, tests/unit/riparazione-r01-allarme-tetto-ai-spenta.test.ts, tests/unit/riparazione-r01-allarme-tetto-riga-vecchia.test.ts"
+      ]
+    },
+    "deploy-sre|la pulizia degli allarmi cancella la riga del tetto di spesa ai proprio mentre la funzione la controlla, e il primo errore dopo un giorno di quiete non viene detto": {
+      "id": "R01-006",
+      "elenco": "A",
+      "esito": "riparato",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "microcopy|altri «rider» rivolti al cliente restano nella pagina dell'ordine e in quella del negozio": {
+      "id": "R01-008",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "tests/unit/i-nomi-si-leggono-anche-coi-profili-chiusi.test.ts",
+          "modifica": "Riga 242: aspettarsi /Fattorino\\s*Luca/ al posto di /Rider\\s*Luca/ nella pagina dell ordine del negozio."
+        },
+        {
+          "file": "tests/unit/la-pagina-dell-ordine-aspetta-il-bonifico.test.ts",
+          "modifica": "Righe 348 e 368: aspettarsi «in contanti al fattorino alla consegna» al posto di «in contanti al rider alla consegna» (e il titolo del describe che dice «Paghi al rider»)."
+        },
+        {
+          "file": "components/OrderTimeline.tsx",
+          "modifica": "Riga 45: «Ritirato dal rider» diventa «Ritirato dal fattorino»."
+        },
+        {
+          "file": "app/orders/[id]/page.tsx, app/seller/orders/[id]/page.tsx",
+          "modifica": "Dopo le due prove qui sopra, rimettere il commit 841befd4123e941c17780507fcca08bec5223397 (git cherry-pick 841befd4123e941c17780507fcca08bec5223397): «rider» diventa «fattorino» nelle stringhe mostrate (pagina dell ordine righe 706, 801, 891, 898; pagina del negozio righe 556, 571, 572, 619, 624, 631), con la sua prova tests/unit/riparazione-r01-parola-fattorino-pagine.test.ts (rimessa uscita 0)."
+        }
+      ],
+      "file_che_servono": [
+        "tests/unit/i-nomi-si-leggono-anche-coi-profili-chiusi.test.ts",
+        "tests/unit/la-pagina-dell-ordine-aspetta-il-bonifico.test.ts",
+        "components/OrderTimeline.tsx",
+        "app/orders/[id]/page.tsx, app/seller/orders/[id]/page.tsx"
+      ]
+    },
+    "microcopy|il cliente e l'email leggono ancora «un rider passa a prenderlo», mentre il pulsante del negozio ora dice «fattorino»": {
+      "id": "R01-009",
+      "elenco": "D",
+      "esito": "parziale",
+      "cosa_resta": "La campanella del cliente la scrive il database: l ultima definizione di notify_buyer_on_order_status (migrations/321_l_ordine_pronto_dice_la_fascia.sql:59,66,71-77) dice ancora «un rider passa a prenderlo» e «Un rider ha preso il tuo ordine». Serve una migrazione nuova nella fascia 823-829 con CREATE OR REPLACE della stessa funzione e il solo testo cambiato, con la sua prova SQL. Non fatta per il tetto di spesa del giro.",
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "qa-flussi|se la lettura dei reclami fallisce, la pagina del reclamo ripropone il modulo e un secondo reclamo su uno chiuso passa": {
+      "id": "R01-011",
+      "elenco": "A",
+      "esito": "riparato",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "qa-flussi|le domande dei clienti sotto i prodotti non arrivano a nessuno, ma al cliente diciamo che riceverà una notifica": {
+      "id": "R01-012",
+      "elenco": "D",
+      "esito": "riparato",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "qa-flussi|le domande dei clienti sotto i prodotti non avvisano il negozio": {
+      "id": "R01-013",
+      "elenco": "D",
+      "esito": "riparato",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "qa-flussi|le prove che fanno girare tutto lo script del backup non hanno un psql finto": {
+      "id": "R01-014",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "tests/unit/aiuti/finto-rclone.ts",
+          "modifica": "Dopo FINTO_PGDUMP (riga 74) aggiungere `export const FINTO_PSQL = ['#!/usr/bin/env bash', 'cat >/dev/null', 'exit 1'].join('\\n');`: lo stesso esito di oggi (database muto, `file_nel_database` in scripts/backup-db.sh:393-409 esce con 1) senza chiamare il psql vero della macchina, che lo script chiama a riga 404 dopo `command -v psql` a riga 398."
+        },
+        {
+          "file": "tests/unit/la-copia-delle-foto-si-riapre-davvero.test.ts",
+          "modifica": "Importare FINTO_PSQL (riga 34) e, dove scrive pg_dump e rclone in `finti` (righe 57-60), aggiungere `writeFileSync(join(finti, 'psql'), FINTO_PSQL); chmodSync(join(finti, 'psql'), 0o755);` (il PATH a riga 70 è già `${finti}:...`)."
+        },
+        {
+          "file": "tests/unit/il-lavoro-notturno-accende-davvero-la-copia-delle-foto.test.ts",
+          "modifica": "Importare FINTO_PSQL (riga 30) e accanto a pg_dump (righe 160-161) scrivere `finti/psql` con chmod 0o755 (PATH a riga 190 già `${finti}:...`)."
+        },
+        {
+          "file": "tests/unit/la-copia-delle-foto-non-ripete-la-cancellazione.test.ts",
+          "modifica": "Ha un FINTO_PGDUMP locale (riga 108) e non importa finto-rclone: dichiarare un FINTO_PSQL uguale (`cat >/dev/null; exit 1`) e scriverlo in `finti/psql` con chmod 0o755 accanto a pg_dump (righe 129-130); PATH a riga 143 già `${finti}:...`."
+        }
+      ],
+      "file_che_servono": [
+        "tests/unit/aiuti/finto-rclone.ts",
+        "tests/unit/la-copia-delle-foto-si-riapre-davvero.test.ts",
+        "tests/unit/il-lavoro-notturno-accende-davvero-la-copia-delle-foto.test.ts",
+        "tests/unit/la-copia-delle-foto-non-ripete-la-cancellazione.test.ts"
+      ]
+    },
+    "stati-ui|a riga chiusa con il motivo «chiedi all'assistenza» il pulsante «avvia» resta": {
+      "id": "R01-015",
+      "elenco": "C",
+      "esito": "parziale",
+      "cosa_resta": "Clic su una scheda operazione fa setJob(null) e il pulsante torna (app/seller/products/ai-batch/page.tsx:488); il lavoro fallito viene dimenticato con ricordaLavoro(null) e al ricaricamento la rotta di stato senza jobId dà solo i lavori aperti (page.tsx:350,381; app/api/ai/catalog-batch/status/route.ts:54); inoltre la rotta di avvio (app/api/ai/catalog-batch/start/route.ts:100-158, file di R01) non rifiuta un avvio dopo un lavoro chiuso con «chiedi all assistenza». Non corretto per il tetto di spesa del giro.",
+      "modifiche": [
+        {
+          "file": "app/seller/products/ai-batch/page.tsx",
+          "modifica": "Non azzerare il lavoro chiuso con «chiedi all assistenza»: al clic su una scheda operazione (riga 488) non chiamare setJob(null) se il lavoro corrente è fallito o in errore, e alle righe 350 e 381 non chiamare ricordaLavoro(null) per quel lavoro, così dopo un ricaricamento puoAvviareLavoro lo vede ancora."
+        }
+      ],
+      "file_che_servono": [
+        "app/seller/products/ai-batch/page.tsx"
+      ]
+    },
+    "stati-ui|sotto un lavoro sul catalogo chiuso che dice di chiedere all'assistenza prima di ripartire, il pulsante «avvia sul catalogo» resta lì": {
+      "id": "R01-016",
+      "elenco": "C",
+      "esito": "parziale",
+      "cosa_resta": "Clic su una scheda operazione fa setJob(null) e il pulsante torna (app/seller/products/ai-batch/page.tsx:488); il lavoro fallito viene dimenticato con ricordaLavoro(null) e al ricaricamento la rotta di stato senza jobId dà solo i lavori aperti (page.tsx:350,381; app/api/ai/catalog-batch/status/route.ts:54); inoltre la rotta di avvio (app/api/ai/catalog-batch/start/route.ts:100-158, file di R01) non rifiuta un avvio dopo un lavoro chiuso con «chiedi all assistenza». Non corretto per il tetto di spesa del giro.",
+      "modifiche": [
+        {
+          "file": "app/seller/products/ai-batch/page.tsx",
+          "modifica": "Non azzerare il lavoro chiuso con «chiedi all assistenza»: al clic su una scheda operazione (riga 488) non chiamare setJob(null) se il lavoro corrente è fallito o in errore, e alle righe 350 e 381 non chiamare ricordaLavoro(null) per quel lavoro, così dopo un ricaricamento puoAvviareLavoro lo vede ancora."
+        }
+      ],
+      "file_che_servono": [
+        "app/seller/products/ai-batch/page.tsx"
+      ]
+    },
+    "api-backend|la chiusura dello «scrivile tu» gira dopo il tetto delle email e non ha un suo tetto di tempo": {
+      "id": "R02-001",
+      "elenco": "A",
+      "esito": "riparato",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "api-backend|se lo stesso guasto della pulizia dei dati vecchi torna dopo essere stato letto, gli amministratori non ricevono più l'allarme": {
+      "id": "R02-002",
+      "elenco": "A",
+      "esito": "riparato",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "api-backend|l'invio subito delle notifiche push prende le righe guardando solo pushed_at, e può correre col giro del cron": {
+      "id": "R02-004",
+      "elenco": "C",
+      "esito": "parziale",
+      "cosa_resta": "La presa nel giro del cron: un giro che ha letto la campanella prima della presa dell invio subito la manda comunque (doppia push). La correzione è pronta nel commit a6bee2db di questo ramo, ma fa diventare rosse 19 prove esistenti in 5 file, i cui finti non reggono .is/.select dopo update().in(); due di quei file (le-notifiche-non-chiedono-al-database-una-volta-per-notifica, le-notifiche-push-non-restano-appese-ne-arrivano-in-ritardo) leggono anche lib/logger.ts, file di un altra sessione dell onda. Per l unione: i 5 diff dei finti qui sotto, poi git cherry-pick a6bee2db.",
+      "modifiche": [
+        {
+          "file": "app/api/cron/send-push/route.ts (file di R02)",
+          "modifica": "All unione, DOPO i finti qui sotto: riapplicare il commit a6bee2db di questo ramo (git cherry-pick a6bee2db: il giro prende in carico le righe con update({pushed_at: nowIso}).in(ids).is(\"pushed_at\", null).select(...), lavora solo le prese, ridà le non gestite con .eq(\"pushed_at\", nowIso); prova tests/unit/riparazione-r02-giro-prende-in-carico.test.ts, rimessa uscita 0)."
+        },
+        {
+          "file": "tests/unit/api-cron-send-push.test.ts",
+          "modifica": "Il finto di update().in() deve reggere la presa (is/select/eq senza segnare, then che segna). Diff esatto:\ndiff --git a/tests/unit/api-cron-send-push.test.ts b/tests/unit/api-cron-send-push.test.ts\nindex 01279396..bb538eb7 100644\n--- a/tests/unit/api-cron-send-push.test.ts\n+++ b/tests/unit/api-cron-send-push.test.ts\n@@ -51,4 +51,14 @@ vi.mock('@supabase/supabase-js', () => ({\n           if (b._update) {\n-            for (const v of valori) marked.push(v);\n-            return Promise.resolve({ error: null });\n+            // La presa del giro (`.is().select()`) ridà le righe prese e la restituzione (`.eq()`)\n+            // rimette pushed_at vuoto: nessuna delle due segna. Segna la scrittura finale, attesa da sola.\n+            const scrittura = {\n+              is: () => scrittura,\n+              select: () => Promise.resolve({ data: pending.filter((n) => valori.includes(n.id)), error: null }),\n+              eq: () => Promise.resolve({ error: null }),\n+              then: (ok: (v: unknown) => unknown, ko?: (e: unknown) => unknown) => {\n+                for (const v of valori) marked.push(v);\n+                return Promise.resolve({ error: null }).then(ok, ko);\n+              },\n+            };\n+            return scrittura;\n           }"
+        },
+        {
+          "file": "tests/unit/le-notifiche-non-chiedono-al-database-una-volta-per-notifica.test.ts",
+          "modifica": "Il finto di update().in() deve reggere la presa (is/select/eq senza segnare, then che segna). Diff esatto:\ndiff --git a/tests/unit/le-notifiche-non-chiedono-al-database-una-volta-per-notifica.test.ts b/tests/unit/le-notifiche-non-chiedono-al-database-una-volta-per-notifica.test.ts\nindex 6d22b39a..73c2cf73 100644\n--- a/tests/unit/le-notifiche-non-chiedono-al-database-una-volta-per-notifica.test.ts\n+++ b/tests/unit/le-notifiche-non-chiedono-al-database-una-volta-per-notifica.test.ts\n@@ -65,3 +65,12 @@ function tabella(nome: string) {\n     in: (_c: string, valori: string[]) => {\n-      if (inAggiornamento) return Promise.resolve({ error: null });\n+      if (inAggiornamento) {\n+        // La presa del giro continua con `.is().select()` e ridà le righe prese; la restituzione con `.eq()`.\n+        const scrittura = {\n+          is: () => scrittura,\n+          eq: () => Promise.resolve({ error: null }),\n+          select: () => Promise.resolve({ data: inSospeso.filter((n) => valori.includes(n.id)), error: null }),\n+          then: (ok: (v: unknown) => unknown) => Promise.resolve({ error: null }).then(ok),\n+        };\n+        return scrittura;\n+      }\n       filtroUtenti = valori;"
+        },
+        {
+          "file": "tests/unit/le-notifiche-push-non-restano-appese-ne-arrivano-in-ritardo.test.ts",
+          "modifica": "Il finto di update().in() deve reggere la presa (is/select/eq senza segnare, then che segna). Diff esatto:\ndiff --git a/tests/unit/le-notifiche-push-non-restano-appese-ne-arrivano-in-ritardo.test.ts b/tests/unit/le-notifiche-push-non-restano-appese-ne-arrivano-in-ritardo.test.ts\nindex b12a819c..9f1619af 100644\n--- a/tests/unit/le-notifiche-push-non-restano-appese-ne-arrivano-in-ritardo.test.ts\n+++ b/tests/unit/le-notifiche-push-non-restano-appese-ne-arrivano-in-ritardo.test.ts\n@@ -64,3 +64,12 @@ function tabella() {\n     in: (_c: string, valori: string[]) => {\n-      if (inAggiornamento) return Promise.resolve({ error: null });\n+      if (inAggiornamento) {\n+        // La presa del giro continua con `.is().select()` e ridà le righe prese; la restituzione con `.eq()`.\n+        const scrittura = {\n+          is: () => scrittura,\n+          eq: () => Promise.resolve({ error: null }),\n+          select: () => Promise.resolve({ data: inSospeso.filter((n) => valori.includes(n.id)), error: null }),\n+          then: (ok: (v: unknown) => unknown) => Promise.resolve({ error: null }).then(ok),\n+        };\n+        return scrittura;\n+      }\n       filtroUtenti = valori;"
+        },
+        {
+          "file": "tests/unit/minori-s03-push.test.ts",
+          "modifica": "Il finto di update().in() deve reggere la presa (is/select/eq senza segnare, then che segna). Diff esatto:\ndiff --git a/tests/unit/minori-s03-push.test.ts b/tests/unit/minori-s03-push.test.ts\nindex 9bc7c3cf..ccf88e31 100644\n--- a/tests/unit/minori-s03-push.test.ts\n+++ b/tests/unit/minori-s03-push.test.ts\n@@ -39,10 +39,23 @@ vi.mock('@/lib/supabase/server', () => ({\n         update: () => ((b._update = true), b),\n-        in: async (_c: string, valori: string[]) => {\n-          if (b._update) { segnate.push(...valori); return { error: null }; }\n+        in: (_c: string, valori: string[]) => {\n+          // La presa del giro (`.is().select()`) ridà le righe prese e la restituzione (`.eq()`) non segna:\n+          // segna solo la scrittura finale, attesa da sola.\n+          if (b._update) {\n+            const scrittura = {\n+              is: () => scrittura,\n+              select: async () => ({ data: pending.filter((n) => valori.includes(n.id as string)), error: null }),\n+              eq: async () => ({ error: null }),\n+              then: (ok: (v: unknown) => unknown, ko?: (e: unknown) => unknown) => {\n+                segnate.push(...valori);\n+                return Promise.resolve({ error: null }).then(ok, ko);\n+              },\n+            };\n+            return scrittura;\n+          }\n           if (tabella === 'push_subscriptions') {\n-            return erroreIscrizioni\n+            return Promise.resolve(erroreIscrizioni\n               ? { data: null, error: { message: 'canceling statement due to statement timeout' } }\n-              : { data: valori.map((u) => ({ id: `s-${u}`, user_id: u, endpoint: 'e', p256dh: 'p', auth: 'a' })), error: null };\n+              : { data: valori.map((u) => ({ id: `s-${u}`, user_id: u, endpoint: 'e', p256dh: 'p', auth: 'a' })), error: null });\n           }\n-          return { data: [], error: null };\n+          return Promise.resolve({ data: [], error: null });\n         },"
+        },
+        {
+          "file": "tests/unit/riparazione-r26-push-ordine-prima-delle-promozioni.test.ts",
+          "modifica": "Il finto di update().in() deve reggere la presa (is/select/eq senza segnare, then che segna). Diff esatto:\ndiff --git a/tests/unit/riparazione-r26-push-ordine-prima-delle-promozioni.test.ts b/tests/unit/riparazione-r26-push-ordine-prima-delle-promozioni.test.ts\nindex 03128336..8325c5ef 100644\n--- a/tests/unit/riparazione-r26-push-ordine-prima-delle-promozioni.test.ts\n+++ b/tests/unit/riparazione-r26-push-ordine-prima-delle-promozioni.test.ts\n@@ -34,6 +34,19 @@ vi.mock('@/lib/supabase/server', () => ({\n         update: () => ((b._update = true), b),\n-        in: async (_c: string, valori: string[]) => {\n-          if (b._update) { segnate.push(...valori); return { error: null }; }\n-          if (tabella === 'push_subscriptions') return { data: valori.map((u) => ({ id: `s-${u}`, user_id: u, endpoint: 'e', p256dh: 'p', auth: 'a' })), error: null };\n-          return { data: [], error: null };\n+        in: (_c: string, valori: string[]) => {\n+          // La presa del giro (`.is().select()`) ridà le righe prese e la restituzione (`.eq()`) non segna:\n+          // segna solo la scrittura finale, attesa da sola.\n+          if (b._update) {\n+            const scrittura = {\n+              is: () => scrittura,\n+              select: async () => ({ data: tutte.filter((r) => valori.includes(r.id as string)), error: null }),\n+              eq: async () => ({ error: null }),\n+              then: (ok: (v: unknown) => unknown, ko?: (e: unknown) => unknown) => {\n+                segnate.push(...valori);\n+                return Promise.resolve({ error: null }).then(ok, ko);\n+              },\n+            };\n+            return scrittura;\n+          }\n+          if (tabella === 'push_subscriptions') return Promise.resolve({ data: valori.map((u) => ({ id: `s-${u}`, user_id: u, endpoint: 'e', p256dh: 'p', auth: 'a' })), error: null });\n+          return Promise.resolve({ data: [], error: null });\n         },"
+        }
+      ],
+      "file_che_servono": [
+        "app/api/cron/send-push/route.ts (file di R02)",
+        "tests/unit/api-cron-send-push.test.ts",
+        "tests/unit/le-notifiche-non-chiedono-al-database-una-volta-per-notifica.test.ts",
+        "tests/unit/le-notifiche-push-non-restano-appese-ne-arrivano-in-ritardo.test.ts",
+        "tests/unit/minori-s03-push.test.ts",
+        "tests/unit/riparazione-r26-push-ordine-prima-delle-promozioni.test.ts"
+      ]
+    },
+    "api-backend|la pulizia degli allarmi tiene esattamente 24 ore, senza margine, e non ha un indice su last_sent_at": {
+      "id": "R02-005",
+      "elenco": "D",
+      "esito": "riparato",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "layout-responsive|la home a 320 px col testo al 200% scorre ancora di lato di 18 px": {
+      "id": "R02-007",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "components/home-sections/HomeSectionRenderer.tsx:115",
+          "modifica": "il contenitore dell hero col cerchio decorativo «absolute -top-20 -right-20 w-[500px] h-[500px]» deve tagliare quello che esce (overflow-hidden sul contenitore relativo), così il cerchio non allarga la pagina a 320 px"
+        },
+        {
+          "file": "components/store-sections/CollectionSection.tsx",
+          "modifica": "lo scheletro di caricamento del carosello («w-40 shrink-0 snap-start sm:w-44») deve stare in un contenitore «min-w-0 overflow-x-auto» come il carosello con i dati, così le schede finte scorrono dentro e non allargano la pagina"
+        }
+      ],
+      "file_che_servono": [
+        "components/home-sections/HomeSectionRenderer.tsx:115",
+        "components/store-sections/CollectionSection.tsx"
+      ]
+    },
+    "microcopy|lo stesso invio del lotto ai rimasto senza risposta dice «scartalo e avviane un altro» a 3 minuti e «chiedi all'assistenza prima di avviarne un altro» a 24 ore": {
+      "id": "R02-008",
+      "elenco": "D",
+      "esito": "scelta_di_nicola",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "microcopy|la campanella «ordine pronto» dice la fascia senza il giorno": {
+      "id": "R02-009",
+      "elenco": "D",
+      "esito": "riparato",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "tests/sql/rls/48-i-difetti-minori-del-database.test.sql",
+          "modifica": "Unico controllo rosso, righe 97-98 (provato su una copia: con questo diff il file è tutto verde).\n-97 SELECT 'ordine pronto da consegnare: «un rider passa a prenderlo», senza faccina (2090, 982)',\n+97 SELECT 'ordine pronto da consegnare: «un fattorino passa a prenderlo», senza faccina (2090, 982)',\n-98        bool_and(body LIKE '%un rider passa a prenderlo%' AND title = 'Ordine pronto'), string_agg(title || ' | ' || body, ' / ')\n+98        bool_and(body LIKE '%un fattorino passa a prenderlo%' AND title = 'Ordine pronto'), string_agg(title || ' | ' || body, ' / ')"
+        }
+      ],
+      "file_che_servono": [
+        "tests/sql/rls/48-i-difetti-minori-del-database.test.sql"
+      ]
+    },
+    "qa-flussi|in un commento del cron delle notifiche resta l'id di un'altra sessione": {
+      "id": "R02-010",
+      "elenco": "A",
+      "esito": "riparato",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "qa-flussi|il nome del negozio non ha un tetto nel database: dal modulo del negozio si salva direttamente nella tabella dei profili": {
+      "id": "R02-012",
+      "elenco": "D",
+      "esito": "riparato",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "qa-flussi|una migrazione che aggiunge una colonna non si può consegnare da sola: i tipi generati vanno rigenerati nello stesso commit": {
+      "id": "R02-013",
+      "elenco": "D",
+      "esito": "non_codice",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "qa-flussi|una prova del promemoria del carrello resta verde solo per caso": {
+      "id": "R02-014",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "tests/unit/le-email-d-ordine-escono-senza-il-tasto-per-smettere.test.ts",
+          "modifica": "aggiungere PRIMA della riga 87 (`  return { data: [], error: null };`, fine di risposta()) la riga: `  if (tabella === 'abandoned_carts' && operazione === 'update') return { data: { user_id: 'cliente-1' }, error: null };` Cosi la rivendicazione del carrello (route.ts:188-194, maybeSingle) rende una riga vera e non {data: []} (vettore vuoto = «vero» per caso). Provato: 3/3 verdi. Cambiare maybeSingle/single (righe 98-99) per rendere null sul vuoto lo manderebbe rosso per via di quella stessa rivendicazione, quindi serve questa riga."
+        }
+      ],
+      "file_che_servono": [
+        "tests/unit/le-email-d-ordine-escono-senza-il-tasto-per-smettere.test.ts"
+      ]
+    },
+    "architettura|commenti delle rotte della veloce dicono ancora «un fattorino approvato e online»": {
+      "id": "R03-001",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": "Il commento della rotta della carta e quello della cassa dicono ancora «un fattorino approvato e online».",
+      "modifiche": [
+        {
+          "file": "app/api/stripe/checkout/route.ts",
+          "modifica": "righe 529-530: «// 29/10/2026 — LA VELOCE SI VENDE SOLO SE SI PUÒ MANTENERE: 8-21, negozi aperti adesso, un / // fattorino approvato e online. La stessa decisione della cassa e dei contanti (`veloceSiPuo`).» → «// 29/10/2026 — LA VELOCE SI VENDE SOLO SE SI PUÒ MANTENERE: 8-21, negozi aperti adesso (e ancora per / // un quarto d'ora), almeno un fattorino approvato, con l'interruttore acceso e libero (non ha già in mano / // tutte le veloci che può portare). La stessa decisione della cassa e dei contanti (`veloceSiPuo`).» (solo commento)"
+        },
+        {
+          "file": "app/checkout/page.tsx",
+          "modifica": "righe 660-661: «negozi aperti, un fattorino approvato e online (`veloceSiPuo`, la stessa decisione delle due» → «negozi aperti, un fattorino approvato, acceso e libero, cioè senza una veloce già in mano (`veloceSiPuo`, la stessa decisione delle due» (solo commento; a capo come serve)"
+        }
+      ],
+      "file_che_servono": [
+        "app/api/stripe/checkout/route.ts",
+        "app/checkout/page.tsx"
+      ]
+    },
+    "architettura|email partita ma non segnata: la notte dopo riparte, e se fallisce l'allarme dice «non partita» per un'email già arrivata": {
+      "id": "R03-002",
+      "elenco": "C",
+      "esito": "parziale",
+      "cosa_resta": "1) Il testo dell'allarme lo scrive la rotta notturna (non mia): finché non legge forsePartita dice ancora «non è partita per email» (vedi serve_file_altrui). 2) La seconda spedizione la notte dopo resta voluta (scelta del 27/10, «meglio due volte che nessuna»): un giro caduto a metà o un no non segnato non si distinguono da una partita non segnata; toglierla vorrebbe dire rischiare zero email per un avviso dovuto per legge, ed è una scelta di Nicola.",
+      "modifiche": [
+        {
+          "file": "app/api/cron/process-deletions/route.ts",
+          "modifica": "riga 718: il tipo del parametro diventa `avvisiFermi: Array<{ id: string; userId: string; tappa?: TappaAvviso; forsePartita?: true }>`; riga 735: `for (const { id: idAvviso, userId, tappa, forsePartita } of avvisiFermi) {`; riga 758: la prima frase del corpo diventa `(forsePartita ? \"Una spiegazione dell'attesa per la cancellazione non risulta partita per email: una notte prima è stata spedita ma il registro non l'ha segnata, quindi può essere arrivata. \" : \"Una spiegazione dell'attesa per la cancellazione non è partita per email, e non è un intoppo di una notte sola. \") +` (il resto del corpo, il titolo e l'id dell'allarme restano uguali). La riga 520 (`uno.emailBloccateAvvisi.map((x) => ({ ...x, tappa: dovuti[i].tappa }))`) porta già il campo."
+        }
+      ],
+      "file_che_servono": [
+        "app/api/cron/process-deletions/route.ts"
+      ]
+    },
+    "architettura|da controllare sui dati: un negozio che oggi ha salvato 7 giorni vuoti diventa chiuso sempre appena esce la modifica": {
+      "id": "R03-004",
+      "elenco": "D",
+      "esito": "non_codice",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "architettura|ferie salvate con l'editor di prima su 3 giorni o meno: il negozio resta aperto a qualunque ora": {
+      "id": "R03-005",
+      "elenco": "D",
+      "esito": "scelta_di_nicola",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "architettura|gli strumenti degli sviluppatori portano altre 19 falle note, 10 alte, ma nessuna arriva al sito": {
+      "id": "R03-007",
+      "elenco": "D",
+      "esito": "scelta_di_nicola",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "architettura|zod, resend, @sentry/nextjs, minimatch e glob, librerie che vanno nel sito, hanno 10 avvisi pubblici di npm audit (zod alto) che si chiudono solo con aggiornamenti che rompono": {
+      "id": "R03-008",
+      "elenco": "D",
+      "esito": "scelta_di_nicola",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "architettura|il finto clienteavvisi è riscritto in quattro posti e la prova da 1033 righe mescola rotte, notte e una scansione del sorgente": {
+      "id": "R03-009",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": "Il riordino della prova lunga (adminDiProva, la divisione in tre file, la scansione che non guarda components/ e si aggira con una concatenazione): solo la regia può farlo, perché guardia-ramo segna rossa una prova esistente che perde asserzioni anche quando i casi si spostano in file nuovi (successo il 17/11: 165 → 49).",
+      "modifiche": [
+        {
+          "file": "tests/unit/chi-vuole-cancellarsi-trova-una-strada-che-funziona.test.ts",
+          "modifica": "1) adminDiProva (:70-129): nelle tre `fintoGiroNotturno({ … })` di :200, :806, :853 aggiungere `indirizzi: Object.fromEntries(PERSONE.map((p) => [p.id, p.email]))` (al posto del getUserById scritto in adminDiProva), passare `stato.mondo.admin` dove oggi si passa `adminDiProva()` e sostituire le quattro patch a mano con guasti del finto: stato.rifiutaAvvisiA → `{ tabella: 'notifications', azione: 'insert', messaggio: 'permission denied', seRiga: (r) => r.user_id === stato.rifiutaAvvisiA }`; stato.rifiutaLetturaDi → `{ tabella: 'notifications', azione: 'select', seFiltro: ['id', stato.rifiutaLetturaDi], messaggio: 'canceling statement due to statement timeout' }`; stato.registroInviiRotto → due guasti `{ tabella: 'audit_logs', azione: 'select' | 'insert', messaggio: 'permission denied for table audit_logs' }`; stato.registroInviiRifiutaLeRighe → `{ tabella: 'audit_logs', azione: 'insert', codice: '23514', messaggio: 'new row for relation \"audit_logs\" violates check constraint \"audit_logs_action_check\"' }`; `.single()` e getUserById ci sono già nel finto (le prove li impostano oggi con flag: al posto dei flag, push nei `guasti` a notte in corso). 2) Spezzare il file in tre senza perdere nessun caso né asserzione: chi-vuole-cancellarsi-le-rotte.test.ts (describe :323, :580, :609, :631, :653, :838, :897), chi-vuole-cancellarsi-la-notte.test.ts (:267, :429, :481, :672, :772, :878, :925, :966, :980), chi-vuole-cancellarsi-il-sorgente.test.ts (:562), con la preparazione comune (vi.mock e aiuti :1-266) in tests/unit/aiuti/. 3) La scansione (:562-578): visitare anche components/ e i .ts di app/ e lib/, e cercare anche la concatenazione: `/mailto:(?:\\$\\{[^}]*|['\"`]\\s*\\+\\s*[\\w.()]*)emailPrivacy/`. Va firmato dalla regia (perdita di asserzioni nel file vecchio)."
+        },
+        {
+          "file": "tests/unit/aiuti/finto-giro-notturno.ts",
+          "modifica": "nessuna modifica necessaria: guasti (select con seFiltro, insert con seRiga), indirizzi, chiaviUniche e single() bastano per il punto 1 qui sopra."
+        }
+      ],
+      "file_che_servono": [
+        "tests/unit/chi-vuole-cancellarsi-trova-una-strada-che-funziona.test.ts",
+        "tests/unit/aiuti/finto-giro-notturno.ts"
+      ]
+    },
+    "architettura|la prova sull'export elenca ancora cod_reconciliations fra le tabelle escluse": {
+      "id": "R03-010",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "tests/unit/scarica-i-miei-dati-non-salta-nessuna-tabella.test.ts",
+          "modifica": "riga 44: togliere `  cod_reconciliations: 'quadratura della cassa contanti: registro contabile',` da FUORI_DALL_EXPORT. Perché non si ripeta, in fondo al describe aggiungere: `it('una tabella esclusa non è anche nell export: l esclusione direbbe il falso', () => { const doppie = Object.keys(FUORI_DALL_EXPORT).filter((t) => t !== 'profiles' && rotta.includes(`from('${t}')`)); expect(doppie).toEqual([]); });` (oggi, senza la prima modifica, darebbe ['cod_reconciliations']; `profiles` resta fuori perché esce già come «profile»)."
+        }
+      ],
+      "file_che_servono": [
+        "tests/unit/scarica-i-miei-dati-non-salta-nessuna-tabella.test.ts"
+      ]
+    },
+    "qa-flussi|faccine nei titoli delle notifiche scritte dal codice del sito": {
+      "id": "R03-011",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": "Le faccine nei titoli scritti da lib/stripe/webhook/*.ts: 7 titoli di campanelle a negozi/clienti (abbonamenti.ts:156,193,257; fascia-al-pagamento.ts:149; sponsorizzati.ts:161; trasferimenti.ts:135,217) e circa 30 titoli degli avvisi agli amministratori (notifyAdmins). Gli oggetti delle email (fascia-al-pagamento.ts:133,194, «💶 Rimborso…») non sono titoli di notifiche: fuori da questa voce.",
+      "modifiche": [
+        {
+          "file": "lib/stripe/webhook/abbonamenti.ts",
+          "modifica": "togliere la faccina (e lo spazio dopo) in testa al titolo della notifica: riga 156: «⚠️ Hai due abbonamenti» → «Hai due abbonamenti»; riga 193: «✅ Abbonamento attivo» → «Abbonamento attivo»; riga 257: «⚠️ Pagamento abbonamento non riuscito» → «Pagamento abbonamento non riuscito»"
+        },
+        {
+          "file": "lib/stripe/webhook/carrello-scaduto.ts",
+          "modifica": "togliere la faccina (e lo spazio dopo) in testa al titolo della notifica: riga 63: «⚠️ Merce non rimessa in vendita» → «Merce non rimessa in vendita»"
+        },
+        {
+          "file": "lib/stripe/webhook/contestazione-buoni.ts",
+          "modifica": "togliere la faccina (e lo spazio dopo) in testa al titolo della notifica: riga 32: «ℹ️ La banca chiede informazioni su un pagamento» → «La banca chiede informazioni su un pagamento»; riga 56: «⚠️ Contestazione vinta: buono regalo da riattivare» → «Contestazione vinta: buono regalo da riattivare»"
+        },
+        {
+          "file": "lib/stripe/webhook/contestazione-parziale-vinta.ts",
+          "modifica": "togliere la faccina (e lo spazio dopo) in testa al titolo della notifica: riga 66: «⚠️ Contestazione vinta: quota del negozio da restituire a mano» → «Contestazione vinta: quota del negozio da restituire a mano»; riga 92: «⚠️ Contestazione vinta: quota del negozio da restituire a mano» → «Contestazione vinta: quota del negozio da restituire a mano»"
+        },
+        {
+          "file": "lib/stripe/webhook/dispute.ts",
+          "modifica": "togliere la faccina (e lo spazio dopo) in testa al titolo della notifica: riga 138: «ℹ️ La banca chiede informazioni su un pagamento» → «La banca chiede informazioni su un pagamento»; riga 280: «⚠️ Storno al negozio da controllare» → «Storno al negozio da controllare»; riga 289: «⚠️ Chargeback aperto» → «Chargeback aperto»; riga 449: «✓ Chargeback vinto» → «Chargeback vinto»; riga 459: «✕ Chargeback perso su una parte del carrello» → «Chargeback perso su una parte del carrello»; riga 540: «✕ Chargeback perso» → «Chargeback perso»; riga 560: «ℹ️ Richiesta di informazioni chiusa» → «Richiesta di informazioni chiusa»"
+        },
+        {
+          "file": "lib/stripe/webhook/fascia-al-pagamento.ts",
+          "modifica": "togliere la faccina (e lo spazio dopo) in testa al titolo della notifica: riga 105: «⚠️ Pagamento rimborsato: fascia non più possibile» → «Pagamento rimborsato: fascia non più possibile»; riga 149: «💶 Pagamento rimborsato: nessun ordine creato» → «Pagamento rimborsato: nessun ordine creato»"
+        },
+        {
+          "file": "lib/stripe/webhook/ordini.ts",
+          "modifica": "togliere la faccina (e lo spazio dopo) in testa al titolo della notifica: riga 152: «⚠️ Carrello scaduto con ordini gia creati» → «Carrello scaduto con ordini gia creati»; riga 174: «⚠️ Pagamento su carrello scaduto» → «Pagamento su carrello scaduto»; riga 201: «⚠️ Incasso diverso dal preventivo» → «Incasso diverso dal preventivo»; riga 433: «⚠️ Ordine fantasma da ripulire a mano» → «Ordine fantasma da ripulire a mano»"
+        },
+        {
+          "file": "lib/stripe/webhook/posta-non-partita.ts",
+          "modifica": "togliere la faccina (e lo spazio dopo) in testa al titolo della notifica: riga 27: «📭 Email non partita» → «Email non partita»"
+        },
+        {
+          "file": "lib/stripe/webhook/quadratura.ts",
+          "modifica": "togliere la faccina (e lo spazio dopo) in testa al titolo della notifica: riga 107: «⚠️ Merce non rimessa in vendita» → «Merce non rimessa in vendita»"
+        },
+        {
+          "file": "lib/stripe/webhook/rimborsi-da-fuori.ts",
+          "modifica": "togliere la faccina (e lo spazio dopo) in testa al titolo della notifica: riga 508: «⚠️ Quota del negozio da recuperare a mano» → «Quota del negozio da recuperare a mano»; riga 545: «⚠️ Storno al venditore non riuscito» → «Storno al venditore non riuscito»; riga 581: «⚠️ Rimborso dal cruscotto da dividere fra i negozi» → «Rimborso dal cruscotto da dividere fra i negozi»"
+        },
+        {
+          "file": "lib/stripe/webhook/rimborsi.ts",
+          "modifica": "togliere la faccina (e lo spazio dopo) in testa al titolo della notifica: riga 244: «⚠️ Rimborso registrato a metà» → «Rimborso registrato a metà»; riga 284: «⚠️ Quota del negozio da recuperare a mano» → «Quota del negozio da recuperare a mano»; riga 295: «⚠️ Storno al venditore non riuscito» → «Storno al venditore non riuscito»; riga 322: «⚠️ Merce non rimessa in vendita» → «Merce non rimessa in vendita»"
+        },
+        {
+          "file": "lib/stripe/webhook/rimborso-respinto-dalla-banca.ts",
+          "modifica": "togliere la faccina (e lo spazio dopo) in testa al titolo della notifica: riga 119: «⚠️ Rimborso senza ordine respinto dalla banca» → «Rimborso senza ordine respinto dalla banca»; riga 158: «⚠️ Rimborso rifiutato dalla banca» → «Rimborso rifiutato dalla banca»"
+        },
+        {
+          "file": "lib/stripe/webhook/sponsorizzati.ts",
+          "modifica": "togliere la faccina (e lo spazio dopo) in testa al titolo della notifica: riga 61: «⚠️ Sponsorizzazione in pausa per una contestazione» → «Sponsorizzazione in pausa per una contestazione»; riga 161: «✨ Sponsorizzazione attiva» → «Sponsorizzazione attiva»"
+        },
+        {
+          "file": "lib/stripe/webhook/trasferimenti.ts",
+          "modifica": "togliere la faccina (e lo spazio dopo) in testa al titolo della notifica: riga 135: «⚠️ Il tuo conto Stripe ha bisogno di te» → «Il tuo conto Stripe ha bisogno di te»; riga 144: «⚠️ Conto Stripe bloccato» → «Conto Stripe bloccato»; riga 217: «⚠️ Il bonifico non è arrivato in banca» → «Il bonifico non è arrivato in banca»; riga 238 (tutte e due le stringhe del ternario): «⚠️ Bonifico al fattorino rifiutato dalla banca» → «Bonifico al fattorino rifiutato dalla banca», «⚠️ Bonifico al negozio rifiutato dalla banca» → «Bonifico al negozio rifiutato dalla banca»"
+        },
+        {
+          "file": "tests/unit/riparazione-r31-titoli-senza-faccine.test.ts",
+          "modifica": "aggiungere a FILE i file qui sopra che scrivono `title:`/`titolo:` (lib/stripe/webhook/abbonamenti.ts, fascia-al-pagamento.ts, sponsorizzati.ts, trasferimenti.ts); per i titoli passati a notifyAdmins (primo argomento) aggiungere un caso che li legge (es. matchAll su /notifyAdmins\\(\\s*(['`])((?:\\\\.|(?!\\1)[^\\\\\\n])*)\\1/g e sulla forma su più righe) e pretende nessuna FACCINA. Le prove che oggi cercano quei titoli con la faccina (es. tests/unit/un-avviso-ripetuto-non-rifa-il-lavoro.test.ts, la-contestazione-vinta-ripaga-il-negozio-del-giusto.test.ts, il-rimborso-respinto-si-rimette-a-posto-una-volta-sola.test.ts: grep '⚠️\\|ℹ️\\|📭\\|✓ Chargeback\\|✕ Chargeback' tests/unit) vanno aggiornate nello stesso giro."
+        }
+      ],
+      "file_che_servono": [
+        "lib/stripe/webhook/abbonamenti.ts",
+        "lib/stripe/webhook/carrello-scaduto.ts",
+        "lib/stripe/webhook/contestazione-buoni.ts",
+        "lib/stripe/webhook/contestazione-parziale-vinta.ts",
+        "lib/stripe/webhook/dispute.ts",
+        "lib/stripe/webhook/fascia-al-pagamento.ts",
+        "lib/stripe/webhook/ordini.ts",
+        "lib/stripe/webhook/posta-non-partita.ts",
+        "lib/stripe/webhook/quadratura.ts",
+        "lib/stripe/webhook/rimborsi-da-fuori.ts",
+        "lib/stripe/webhook/rimborsi.ts",
+        "lib/stripe/webhook/rimborso-respinto-dalla-banca.ts",
+        "lib/stripe/webhook/sponsorizzati.ts",
+        "lib/stripe/webhook/trasferimenti.ts",
+        "tests/unit/riparazione-r31-titoli-senza-faccine.test.ts"
+      ]
+    },
+    "qa-flussi|le prove unitarie montano i componenti con react 18.3.1, ma il sito gira con il react 19.2 di next": {
+      "id": "R03-014",
+      "elenco": "D",
+      "esito": "scelta_di_nicola",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "immagini-media|next.config.js ammette ancora le immagini di placehold.co, che il sito non usa più": {
+      "id": "R05-004",
+      "elenco": "D",
+      "esito": "scelta_di_nicola",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "microcopy|la campanella «ordine pronto» dice ancora «un rider passa a prenderlo a breve», mentre pagina ed email ora dicono fattorino": {
+      "id": "R05-008",
+      "elenco": "D",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "migrations/832 (la migrazione dell'altro riparatore sulla campanella «ordine pronto»)",
+          "modifica": "nei due testi «un rider passa a prenderlo…» scrivere «un fattorino passa a prenderlo…»: chiesto dalla regia nella stessa migrazione"
+        }
+      ],
+      "file_che_servono": [
+        "migrations/832 (la migrazione dell'altro riparatore sulla campanella «ordine pronto»)"
+      ]
+    },
+    "performance|zod intero nel pacchetto comune per la validazione del marchio": {
+      "id": "R05-009",
+      "elenco": "C",
+      "esito": "parziale",
+      "cosa_resta": "zod arriva ancora nel pacchetto comune per un altra strada, montata in ogni pagina: components/Footer.tsx:17 → components/NewsletterForm.tsx:10 → lib/errors.ts:17 → lib/zod-i18n.ts:1. La validazione del marchio non lo porta più, ma il guadagno sul pacchetto resta zero finché lib/errors.ts (non di R05) importa zod-i18n.",
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "qa-flussi|il pannello della home suggerisce ancora «i più amati / prodotti che vanno forte»": {
+      "id": "R05-011",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "lib/home-site.ts",
+          "modifica": "riga 75, costante HOME_SECTION_CATALOG, voce popularProducts: description «Griglia dei prodotti più amati» → «Fila degli ultimi prodotti arrivati dai negozi» e label «Prodotti popolari» → «Appena arrivati» (entrambe mostrate dal pannello in components/admin/home/HomeSectionsEditor.tsx:69-70), così il pannello non suggerisce più «i più amati». Nessuna prova esistente dipende dal testo vecchio."
+        }
+      ],
+      "file_che_servono": [
+        "lib/home-site.ts"
+      ]
+    },
+    "qa-flussi|un negoziante senza orari che preme «+ orario» e poi la x salva sette giorni vuoti, cioè chiuso sempre": {
+      "id": "R05-012",
+      "elenco": "C",
+      "esito": "parziale",
+      "cosa_resta": "Il caso «salva e poi toglie l ultima fascia senza ricaricare» dà ancora {} (senza orari) invece della settimana chiusa: l editor riceve solo value e onChange e VendorForm non gli manda un segnale dopo il salvataggio. Modifica esatta in components/VendorForm.tsx:443 (file non di R05): da `<StoreHoursEditor value={hours} onChange={setHours} />` a `<StoreHoursEditor key={salvataggioRiuscito} value={hours} onChange={setHours} />`; il rimontaggio dopo un salvataggio riuscito azzera il ricordo. Cambiare un ora (setTime) non azzera il ricordo.",
+      "modifiche": [
+        {
+          "file": "components/VendorForm.tsx",
+          "modifica": "riga 443: `<StoreHoursEditor value={hours} onChange={setHours} />` → `<StoreHoursEditor key={salvataggioRiuscito} value={hours} onChange={setHours} />`"
+        }
+      ],
+      "file_che_servono": [
+        "components/VendorForm.tsx"
+      ]
+    },
+    "deploy-sre|l'avviso «registratore degli errori acceso solo sul server» resta finché non si rifà il deploy": {
+      "id": "R06-002",
+      "elenco": "D",
+      "esito": "non_codice",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "deploy-sre|il ritorno indietro può ancora scegliere il rilascio sbagliato in due casi rari: un solo altro commit negli ultimi 20 rilasci, o un dominio che non dice il suo commit": {
+      "id": "R06-008",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "scripts/prova-di-fumo.mjs",
+          "modifica": "Righe della base 5b8c786c toccate: 267-272, 300-354, 364-370. Diff unificato esatto contro la base (parte del commit 99c4faf1):\ndiff --git a/scripts/prova-di-fumo.mjs b/scripts/prova-di-fumo.mjs\nindex ecbf7618..972ce643 100644\n--- a/scripts/prova-di-fumo.mjs\n+++ b/scripts/prova-di-fumo.mjs\n@@ -267,6 +267,8 @@ export function commitDelRilascio(rilascio) {\n  *   · se il dominio non si sa, si sceglie solo quando c'e' un candidato solo\n  *     (un commit solo). Con due o piu' commit diversi e' tirare a indovinare,\n  *     e la risposta giusta e' nessun indirizzo: il ritorno si fa a mano.\n+ *     (24/11/2026: sapendo il commit che esce, anche con un candidato solo\n+ *     nessun indirizzo — vedi sotto.)\n  *\n  * 1/11/2026 (ondata 9) — IL SECONDO PUNTO TORNAVA AL RILASCIO GIA' SCARTATO.\n  * Prima diceva «prima c'era l'ultimo rilascio di un altro commit, si torna a\n@@ -300,55 +302,40 @@ function indirizzoDiProduzione(rilascio) {\n  * @returns {string | null}\n  */\n export function rilascioDaTornare(rispostaDeiRilasci, { commitCheEsce = '', sulDominio = null } = {}) {\n-  const elenco = Array.isArray(rispostaDeiRilasci?.deployments) ? rispostaDeiRilasci.deployments : [];\n   const daScartare = String(commitCheEsce ?? '').trim().toLowerCase();\n-  const candidati = [];\n-  // I commit di tutti i rilasci di produzione pronti, nell'ordine dell'elenco (dal piu' recente),\n-  // compresi quelli del commit che esce: servono alla regola del dominio non letto, sotto.\n-  const commitDeiPronti = [];\n-  for (const rilascio of elenco) {\n-    const indirizzo = indirizzoDiProduzione(rilascio);\n-    if (!indirizzo) continue;\n-    const commit = commitDelRilascio(rilascio);\n-    commitDeiPronti.push(commit);\n-    if (daScartare && commit === daScartare) continue;\n-    candidati.push({ indirizzo, commit });\n-  }\n-\n   const deiClienti = indirizzoDiProduzione(sulDominio);\n   // Sul dominio un altro commit: e' quello che usano i clienti, si torna li'.\n   // Sul dominio il commit che esce: chi c'era prima non si sa piu', e la\n-  // risposta e' nessun indirizzo (mai `candidati[0]`: puo' essere un\n+  // risposta e' nessun indirizzo (mai il primo dell'elenco: puo' essere un\n   // rilascio gia' tolto perche' rotto).\n   // 12/11/2026 (R07-011) — un dominio che non dice il suo commit non e' «un altro\n   // commit»: '' e' diverso da qualunque sha, e il dominio veniva preso per buono\n-  // anche quando era proprio il rilascio rotto che esce. Senza commit, nessun\n-  // indirizzo (R02-005, sotto).\n+  // anche quando era proprio il rilascio rotto che esce.\n   const commitDeiClienti = commitDelRilascio(sulDominio);\n-  if (deiClienti && (!daScartare || (commitDeiClienti && commitDeiClienti !== daScartare))) return deiClienti;\n-  // 21/11/2026 (R02-005, scelta di Nicola) — il dominio si legge ma dice il\n-  // commit che esce, oppure non dice il suo commit: dove fossero i clienti prima\n-  // non si sa piu'. Nell'elenco degli ultimi 20 rilasci anche un solo altro\n-  // commit puo' essere un rilascio gia' tolto perche' rotto, e quello dei\n-  // clienti puo' stare piu' indietro. Nessun indirizzo: il ritorno si fa a mano.\n-  // La regola dell'elenco qui sotto resta solo per quando il dominio non si\n-  // legge affatto (la scena di ogni giorno: in cima il commit che esce, sotto\n-  // quello di prima).\n-  if (deiClienti) return null;\n-\n-  // 21/11/2026 (R02-008) — il dominio non si legge: la regola dell'elenco vale solo se il commit\n-  // che esce compare AL PIU' UNA VOLTA fra i rilasci di produzione pronti, e se compare e' il\n-  // primo. Il commit che esce gia' rilasciato piu' volte (o non in cima) vuol dire che un ritorno\n-  // indietro puo' essere gia' passato di qui: Y uscito, riportato a X perche' rotto, Y di nuovo\n-  // fuori. In [Y, Y, X] X puo' essere proprio il rilascio tolto, e dove siano i clienti non si sa\n-  // piu'. Nessun indirizzo: il ritorno si fa a mano. La scena di ogni giorno [Y, X] non cambia.\n-  if (daScartare) {\n-    const volte = commitDeiPronti.filter((commit) => commit === daScartare).length;\n-    if (volte > 1 || (volte === 1 && commitDeiPronti[0] !== daScartare)) return null;\n+  if (deiClienti && commitDeiClienti && commitDeiClienti !== daScartare) return deiClienti;\n+  // 24/11/2026 — Decisione della regia: nei due casi dubbi nessun indirizzo, e il\n+  // ritorno indietro si fa a mano (la strada che c'e' gia').\n+  //  · Il dominio risponde ma non dice il suo commit: nessun indirizzo SEMPRE,\n+  //    anche quando il commit che esce non si sa. Prima, senza il commit che\n+  //    esce, quel dominio si prendeva per buono, e poteva essere proprio il\n+  //    rilascio che esce, messo li' dal rilascio automatico di Vercel.\n+  //  · Il dominio non si legge: l'elenco degli ultimi 20 rilasci non distingue un\n+  //    rilascio vivo da uno gia' tolto perche' rotto, e anche quando dice un solo\n+  //    altro commit quello puo' essere proprio il rilascio tolto (X rotto,\n+  //    riportato a W che e' fuori dai 20; esce Y: l'elenco dice [Y, X]). Prima,\n+  //    con un solo altro commit, si tornava li'. Adesso, sapendo il commit che\n+  //    esce (il lavoro di rilascio lo passa sempre), l'elenco non sceglie piu'.\n+  if (deiClienti || daScartare) return null;\n+\n+  // Senza il commit che esce (mai nel lavoro di rilascio) resta la regola di prima:\n+  // si sceglie solo quando l'elenco dice un commit solo. Un rilascio senza commit\n+  // conta come un commit a se': non si sa se e' lo stesso di un altro.\n+  const elenco = Array.isArray(rispostaDeiRilasci?.deployments) ? rispostaDeiRilasci.deployments : [];\n+  const candidati = [];\n+  for (const rilascio of elenco) {\n+    const indirizzo = indirizzoDiProduzione(rilascio);\n+    if (indirizzo) candidati.push({ indirizzo, commit: commitDelRilascio(rilascio) });\n   }\n-\n-  // Un rilascio senza commit conta come un commit a se': non si sa se e' lo\n-  // stesso di un altro.\n   const commitDiversi = new Set(candidati.map((c, i) => c.commit || `senza-commit-${i}`));\n   return commitDiversi.size === 1 ? candidati[0].indirizzo : null;\n }\n@@ -364,7 +351,7 @@ export function motivoSenzaRilascio(sulDominio) {\n   if (indirizzoDiProduzione(sulDominio)) {\n     return \"Non so quale rilascio usano i clienti adesso: il dominio ha risposto, ma dice il commit che sta uscendo o non dice il suo commit, e chi c'era prima non si sa piu'. Non scelgo a caso dove tornare indietro.\";\n   }\n-  return \"Non so quale rilascio usano i clienti adesso: il dominio non ha risposto con un rilascio di produzione pronto, e dall'elenco non si capisce (non c'e' un solo commit diverso da quello che sta uscendo, oppure quello che esce e' gia' stato rilasciato piu' volte o non e' il piu' recente). Non scelgo a caso dove tornare indietro.\";\n+  return \"Non so quale rilascio usano i clienti adesso: il dominio non ha risposto con un rilascio di produzione pronto, e l'elenco dei rilasci non dice quale e' vivo (anche un solo altro commit puo' essere un rilascio gia' tolto perche' rotto). Non scelgo a caso dove tornare indietro.\";\n }\n \n /**\n"
+        },
+        {
+          "file": "tests/unit/il-ritorno-indietro-non-torna-sullo-stesso-commit.test.ts",
+          "modifica": "Righe della base 5b8c786c toccate: 27-36, 39-44, 51-58. Diff unificato esatto contro la base (parte del commit 99c4faf1):\ndiff --git a/tests/unit/il-ritorno-indietro-non-torna-sullo-stesso-commit.test.ts b/tests/unit/il-ritorno-indietro-non-torna-sullo-stesso-commit.test.ts\nindex dc461dce..896bf737 100644\n--- a/tests/unit/il-ritorno-indietro-non-torna-sullo-stesso-commit.test.ts\n+++ b/tests/unit/il-ritorno-indietro-non-torna-sullo-stesso-commit.test.ts\n@@ -27,10 +27,14 @@ const ELENCO = {\n \n describe('il ritorno indietro non torna sullo stesso commit che sta uscendo', () => {\n   it('il passo di rilascio si segna come posto dove tornare il rilascio del commit di prima', () => {\n+    // 24/11/2026 — Il curl finto da' la stessa risposta all'elenco e al dominio: qui il dominio\n+    // dice il commit di prima (prima la prova lasciava il dominio non letto, e col dominio non\n+    // letto adesso la risposta e' nessun indirizzo: vedi la prova qui sotto).\n+    const elencoEDominio = { ...ELENCO, ...ELENCO.deployments[1], readyState: 'READY' };\n     const esito = esegui(passo('Rilascia in produzione'), {\n       env: { ...SEGRETI_FINTI, COMMIT: COMMIT_CHE_ESCE },\n       uscitaDeploy: USCITA_VERA_DEL_DEPLOY,\n-      rispostaApi: JSON.stringify(ELENCO),\n+      rispostaApi: JSON.stringify(elencoEDominio),\n     });\n \n     expect(\n@@ -39,6 +43,17 @@ describe('il ritorno indietro non torna sullo stesso commit che sta uscendo', ()\n     ).toBe('https://mycity-commit-di-prima.vercel.app');\n   });\n \n+  it('col dominio non letto il passo non si segna nessun posto: il commit di prima puo essere un rilascio gia tolto', () => {\n+    const esito = esegui(passo('Rilascia in produzione'), {\n+      env: { ...SEGRETI_FINTI, COMMIT: COMMIT_CHE_ESCE },\n+      uscitaDeploy: USCITA_VERA_DEL_DEPLOY,\n+      rispostaApi: JSON.stringify(ELENCO),\n+    });\n+\n+    expect(esito.output.precedente, 'mai il rilascio dello stesso commit, e senza il dominio nessun ritorno al buio').toBe('');\n+    expect(esito.stdout).toMatch(/::warning::/);\n+  });\n+\n   it('se in produzione c e solo il commit che esce, non inventa un posto dove tornare', () => {\n     const soloLui = { deployments: [ELENCO.deployments[0]] };\n     expect(rilascioDaTornare(soloLui, { commitCheEsce: COMMIT_CHE_ESCE })).toBeNull();\n@@ -51,8 +66,9 @@ describe('il ritorno indietro non torna sullo stesso commit che sta uscendo', ()\n     expect(esito.stdout.trim()).toBe('');\n   });\n \n-  it('un rilascio di cui l elenco non dice il commit resta un posto buono, come prima', () => {\n+  it('col dominio non letto neanche un rilascio di cui l elenco non dice il commit e un posto dove tornare; senza il commit che esce resta la regola di prima', () => {\n     const senzaCommit = { deployments: [{ url: 'mycity-senza-commit.vercel.app', target: 'production', readyState: 'READY' }] };\n-    expect(rilascioDaTornare(senzaCommit, { commitCheEsce: COMMIT_CHE_ESCE })).toBe('https://mycity-senza-commit.vercel.app');\n+    expect(rilascioDaTornare(senzaCommit, { commitCheEsce: COMMIT_CHE_ESCE })).toBeNull();\n+    expect(rilascioDaTornare(senzaCommit)).toBe('https://mycity-senza-commit.vercel.app');\n   });\n });\n"
+        },
+        {
+          "file": "tests/unit/riparazione-r02-ritorno-indietro-casi-rari.test.ts",
+          "modifica": "Righe della base 5b8c786c toccate: 8-13, 37-44. Diff unificato esatto contro la base (parte del commit 99c4faf1):\ndiff --git a/tests/unit/riparazione-r02-ritorno-indietro-casi-rari.test.ts b/tests/unit/riparazione-r02-ritorno-indietro-casi-rari.test.ts\nindex 1249f86e..c8cbfa0d 100644\n--- a/tests/unit/riparazione-r02-ritorno-indietro-casi-rari.test.ts\n+++ b/tests/unit/riparazione-r02-ritorno-indietro-casi-rari.test.ts\n@@ -8,6 +8,9 @@ import { rilascioDaTornare } from '@/scripts/prova-di-fumo.mjs';\n  * In tutti e due chi usavano i clienti prima non si sa: nessun indirizzo, il\n  * ritorno si fa a mano. Quando il dominio non si legge affatto resta la regola\n  * dell'elenco (la scena di ogni giorno).\n+ * 24/11/2026 — Non piu': col dominio non letto e il commit che esce noto anche un\n+ * solo altro commit puo' essere il rilascio gia' tolto, e la risposta e' nessun\n+ * indirizzo (decisione della regia, prova riparazione-r06-ritorno-indietro-casi-dubbi).\n  */\n const ESCE = '3333333333333333333333333333333333333333';\n const ROTTO = '1111111111111111111111111111111111111111';\n@@ -37,8 +40,8 @@ describe('R02-005 · il ritorno indietro non tira a indovinare nei due casi rari\n     expect(rilascioDaTornare(elenco, { commitCheEsce: ESCE, sulDominio: dominio(PRIMA) })).toBe('https://mycity-sul-dominio.vercel.app');\n   });\n \n-  it('il dominio non si legge: resta la regola dell elenco, un solo altro commit e quello', () => {\n+  it('il dominio non si legge: neanche un solo altro commit nell elenco e un posto dove tornare (puo essere il rilascio gia tolto)', () => {\n     const elenco = { deployments: [rilascio(ESCE, 'esce'), rilascio(PRIMA, 'prima')] };\n-    expect(rilascioDaTornare(elenco, { commitCheEsce: ESCE })).toBe('https://mycity-prima.vercel.app');\n+    expect(rilascioDaTornare(elenco, { commitCheEsce: ESCE })).toBeNull();\n   });\n });\n"
+        },
+        {
+          "file": "tests/unit/riparazione-r02-ritorno-indietro-commit-ripetuto.test.ts",
+          "modifica": "Righe della base 5b8c786c toccate: 11-16, 55-66, 68-74. Diff unificato esatto contro la base (parte del commit 99c4faf1):\ndiff --git a/tests/unit/riparazione-r02-ritorno-indietro-commit-ripetuto.test.ts b/tests/unit/riparazione-r02-ritorno-indietro-commit-ripetuto.test.ts\nindex b72aa9fb..24fdf7f2 100644\n--- a/tests/unit/riparazione-r02-ritorno-indietro-commit-ripetuto.test.ts\n+++ b/tests/unit/riparazione-r02-ritorno-indietro-commit-ripetuto.test.ts\n@@ -11,6 +11,9 @@ import { rilascioDaTornare } from '@/scripts/prova-di-fumo.mjs';\n  * dell'elenco vale solo se il commit che esce compare al piu' una volta fra i rilasci di\n  * produzione pronti, e se compare e' il primo; altrimenti nessun indirizzo (ritorno a mano).\n  * La scena di ogni giorno [Y, X] resta com'era: si torna a X.\n+ * 24/11/2026 — Non piu': anche in [Y, X] X puo' essere il rilascio gia' tolto (riportato a W,\n+ * fuori dai 20 dell'elenco), e col dominio non letto la risposta e' nessun indirizzo (decisione\n+ * della regia, prova riparazione-r06-ritorno-indietro-casi-dubbi).\n  *\n  * In piu' il messaggio di `--rilascio-di-adesso` diceva sempre «il dominio non ha risposto»,\n  * anche quando aveva risposto.\n@@ -55,12 +58,10 @@ describe('R02-008 · col dominio non letto, il commit che esce gia\\' rilasciato\n     expect(rilascioDaTornare(elenco, { commitCheEsce: Y })).toBeNull();\n   });\n \n-  it('[Y, X] col dominio non letto (la scena di ogni giorno): si torna a X, come prima', () => {\n+  it('[Y, X] col dominio non letto (la scena di ogni giorno): nessun indirizzo, X puo\\' essere il rilascio gia\\' tolto', () => {\n     const elenco = { deployments: [rilascio(Y, 'y-esce'), rilascio(X, 'x-prima')] };\n-    expect(rilascioDaTornare(elenco, { commitCheEsce: Y })).toBe('https://mycity-x-prima.vercel.app');\n-    expect(rilascioDaTornare(elenco, { commitCheEsce: Y, sulDominio: { error: { code: 'forbidden' } } })).toBe(\n-      'https://mycity-x-prima.vercel.app',\n-    );\n+    expect(rilascioDaTornare(elenco, { commitCheEsce: Y })).toBeNull();\n+    expect(rilascioDaTornare(elenco, { commitCheEsce: Y, sulDominio: { error: { code: 'forbidden' } } })).toBeNull();\n   });\n \n   it('da riga di comando, [Y, Y, X] senza dominio: nessun indirizzo e il messaggio dice che il dominio non ha detto chi serve', () => {\n@@ -68,7 +69,7 @@ describe('R02-008 · col dominio non letto, il commit che esce gia\\' rilasciato\n     expect(esito.status).not.toBe(0);\n     expect(esito.stdout.trim()).toBe('');\n     expect(esito.stderr).toMatch(/il dominio non ha risposto con un rilascio di produzione pronto/);\n-    expect(esito.stderr).toMatch(/gia' stato rilasciato piu' volte/);\n+    expect(esito.stderr).toMatch(/anche un solo altro commit puo' essere un rilascio gia' tolto/);\n   });\n \n   it('da riga di comando, il dominio ha risposto col commit che esce: il messaggio non dice «non ha risposto»', () => {\n"
+        },
+        {
+          "file": "tests/unit/riparazione-r06-ritorno-indietro-casi-dubbi.test.ts",
+          "modifica": "File nuovo (95 righe). Diff unificato esatto contro la base (parte del commit 99c4faf1):\ndiff --git a/tests/unit/riparazione-r06-ritorno-indietro-casi-dubbi.test.ts b/tests/unit/riparazione-r06-ritorno-indietro-casi-dubbi.test.ts\nnew file mode 100644\nindex 00000000..2cc6436c\n--- /dev/null\n+++ b/tests/unit/riparazione-r06-ritorno-indietro-casi-dubbi.test.ts\n@@ -0,0 +1,95 @@\n+import { afterEach, describe, expect, it, vi } from 'vitest';\n+import { spawnSync } from 'node:child_process';\n+import { join } from 'node:path';\n+import { rilascioDaTornare } from '@/scripts/prova-di-fumo.mjs';\n+\n+/**\n+ * R06-008 — Il ritorno indietro poteva ancora scegliere il rilascio sbagliato in due casi rari.\n+ *  · A: il dominio non si legge e fra i 20 rilasci letti c'e' un solo altro commit. Veniva scelto,\n+ *    anche quando era il rilascio rotto gia' tolto (X rotto, riportato a W che sta fuori dai 20;\n+ *    esce Y, e l'elenco dice [Y, X]).\n+ *  · E: il dominio risponde ma non porta lo sha. Senza il commit che esce veniva preso per buono,\n+ *    anche quando ci stava gia' il rilascio che esce.\n+ * Decisione della regia: in tutti e due la risposta e' «nessuno», e il ritorno indietro si fa a mano\n+ * (la strada che c'e' gia'). Elenchi di rilasci finti, nessuna rete: nessuna chiamata a Vercel.\n+ */\n+const Y = '3333333333333333333333333333333333333333'; // il commit che esce\n+const X = '1111111111111111111111111111111111111111'; // l'unico altro commit dell'elenco\n+const W = '2222222222222222222222222222222222222222';\n+\n+const rilascio = (commit: string | null, nome: string) => ({\n+  uid: `dpl_${nome}`,\n+  url: `mycity-${nome}.vercel.app`,\n+  target: 'production',\n+  readyState: 'READY',\n+  meta: commit ? { githubCommitSha: commit } : {},\n+});\n+const Y_X = { deployments: [rilascio(Y, 'y-esce'), rilascio(X, 'x-forse-tolto')] };\n+\n+function rilascioDiAdesso(elenco: unknown, env: Record<string, string>) {\n+  return spawnSync(process.execPath, [join(process.cwd(), 'scripts/prova-di-fumo.mjs'), '--rilascio-di-adesso'], {\n+    input: JSON.stringify(elenco),\n+    env: { ...process.env, COMMIT_CHE_ESCE: '', RILASCIO_SUL_DOMINIO: '', ...env },\n+    encoding: 'utf8',\n+  });\n+}\n+\n+afterEach(() => vi.restoreAllMocks());\n+\n+describe('R06-008 · A: il dominio non si legge e nell\\'elenco c\\'e\\' un solo altro commit', () => {\n+  const nonLetti: Array<[string, unknown]> = [\n+    ['nessuna risposta', null],\n+    ['un errore', { error: { code: 'forbidden', message: 'Not authorized' } }],\n+    ['ancora in costruzione', { ...rilascio(W, 'sul-dominio'), readyState: 'BUILDING' }],\n+  ];\n+  for (const [come, sulDominio] of nonLetti) {\n+    it(`[Y, X] col dominio che da' ${come}: nessun indirizzo, X puo' essere il rilascio gia' tolto`, () => {\n+      const fetchFinto = vi.spyOn(globalThis, 'fetch');\n+      expect(rilascioDaTornare(Y_X, { commitCheEsce: Y, sulDominio })).toBeNull();\n+      expect(fetchFinto).not.toHaveBeenCalled();\n+    });\n+  }\n+\n+  it('[X, X, X] senza il commit che esce nell\\'elenco: nessun indirizzo nemmeno qui', () => {\n+    const soloX = { deployments: [rilascio(X, 'x1'), rilascio(X, 'x2'), rilascio(X, 'x3')] };\n+    expect(rilascioDaTornare(soloX, { commitCheEsce: Y })).toBeNull();\n+  });\n+\n+  it('da riga di comando: nessun indirizzo, uscita non zero, e il messaggio dice perche\\'', () => {\n+    const esito = rilascioDiAdesso(Y_X, { COMMIT_CHE_ESCE: Y });\n+    expect(esito.stdout.trim(), 'il lavoro di rilascio si segnerebbe X come posto dove tornare').toBe('');\n+    expect(esito.status).not.toBe(0);\n+    expect(esito.stderr).toMatch(/il dominio non ha risposto/);\n+  });\n+});\n+\n+describe('R06-008 · E: il dominio risponde ma non dice il suo commit', () => {\n+  const senzaSha = { ...rilascio(null, 'sul-dominio') };\n+\n+  it('senza il commit che esce: nessun indirizzo (poteva essere proprio il rilascio che esce)', () => {\n+    expect(rilascioDaTornare(Y_X, { sulDominio: senzaSha })).toBeNull();\n+    expect(rilascioDaTornare({ deployments: [] }, { sulDominio: senzaSha })).toBeNull();\n+  });\n+\n+  it('col commit che esce: nessun indirizzo, come gia\\' prima', () => {\n+    expect(rilascioDaTornare(Y_X, { commitCheEsce: Y, sulDominio: senzaSha })).toBeNull();\n+  });\n+\n+  it('da riga di comando, senza COMMIT_CHE_ESCE: nessun indirizzo e il messaggio dice che il dominio ha risposto', () => {\n+    const esito = rilascioDiAdesso(Y_X, { RILASCIO_SUL_DOMINIO: JSON.stringify(senzaSha) });\n+    expect(esito.stdout.trim()).toBe('');\n+    expect(esito.status).not.toBe(0);\n+    expect(esito.stderr).toMatch(/il dominio ha risposto/);\n+  });\n+});\n+\n+describe('R06-008 · controprove: quello che il dominio dice chiaramente non cambia', () => {\n+  it('il dominio dice un altro commit: si torna li\\'', () => {\n+    expect(rilascioDaTornare(Y_X, { commitCheEsce: Y, sulDominio: rilascio(W, 'sul-dominio') })).toBe('https://mycity-sul-dominio.vercel.app');\n+    expect(rilascioDaTornare(Y_X, { sulDominio: rilascio(W, 'sul-dominio') })).toBe('https://mycity-sul-dominio.vercel.app');\n+  });\n+\n+  it('il dominio dice il commit che esce: nessun indirizzo', () => {\n+    expect(rilascioDaTornare(Y_X, { commitCheEsce: Y, sulDominio: rilascio(Y, 'sul-dominio') })).toBeNull();\n+  });\n+});\n"
+        }
+      ],
+      "file_che_servono": [
+        "scripts/prova-di-fumo.mjs",
+        "tests/unit/il-ritorno-indietro-non-torna-sullo-stesso-commit.test.ts",
+        "tests/unit/riparazione-r02-ritorno-indietro-casi-rari.test.ts",
+        "tests/unit/riparazione-r02-ritorno-indietro-commit-ripetuto.test.ts",
+        "tests/unit/riparazione-r06-ritorno-indietro-casi-dubbi.test.ts"
+      ]
+    },
+    "deploy-sre|con il rilascio automatico acceso il ritorno indietro automatico non scatta quasi mai": {
+      "id": "R06-009",
+      "elenco": "D",
+      "esito": "scelta_di_nicola",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "frontend-ux|il cliente legge «il tuo rider» e il negozio legge «cliente» al posto dei nomi, perché le due strade nuove per i nomi non esistono nel database vero": {
+      "id": "R06-010",
+      "elenco": "D",
+      "esito": "non_codice",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "app/seller/reviews/page.tsx",
+          "modifica": "righe 55-65: sostituire tutto il blocco (la const nomi della riga 55, la chiamata supabase.rpc('nomi_dei_clienti_del_negozio', { p_ids: autori }), il logger.warn della riga 61 e il ciclo su trovati fino alla } della riga 65) con `const nomi = await fetchNomiDeiClienti(supabase, autori);`; aggiungere `import { fetchNomiDeiClienti } from '@/lib/queries/seller-public-profiles';` e togliere `import { logger }` della riga 16 se resta inutile."
+        },
+        {
+          "file": "lib/queries/controparte-della-chat.ts",
+          "modifica": "righe 45-55: il corpo di nomiDeiClienti diventa `return fetchNomiDeiClienti(supa, ids);`; aggiungere fetchNomiDeiClienti all'import da '@/lib/queries/seller-public-profiles' della riga 2 (LettoreChat è compatibile: tsc verde)."
+        },
+        {
+          "file": "tests/unit/i-nomi-dei-clienti-che-il-negozio-vede.test.ts",
+          "modifica": "righe 210-219 e 237-242: con le due modifiche sopra, senza la 181 esce il nome del ripiego (es. «Maria Rossi») e non più «Cliente»: aggiornare quelle attese (4 prove), senza indebolirle."
+        }
+      ],
+      "file_che_servono": [
+        "app/seller/reviews/page.tsx",
+        "lib/queries/controparte-della-chat.ts",
+        "tests/unit/i-nomi-dei-clienti-che-il-negozio-vede.test.ts"
+      ]
+    },
+    "qa-flussi|la risalita dei genitori delle categorie non ha un tetto": {
+      "id": "R06-012",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "components/seller/ProductForm.tsx",
+          "modifica": "In resolveTop (righe 353-361) stesso modello di lib/category-attributes.ts: costante PROFONDITA_MASSIMA_CATEGORIE = 20, insieme dei visti, uscita se il padre è già visto. Diff esatto contro dc5f926d (tsc verde):\ndiff --git a/components/seller/ProductForm.tsx b/components/seller/ProductForm.tsx\nindex ca36933c..101b3d2d 100644\n--- a/components/seller/ProductForm.tsx\n+++ b/components/seller/ProductForm.tsx\n@@ -72,6 +72,9 @@ import {\n } from '@/lib/products/variants';\n import { leggiPrezzo } from '@/app/seller/products/import/csv';\n \n+/** R06-012 — Quanti padri si risalgono al massimo (come PROFONDITA_MASSIMA_CATEGORIE in lib/category-attributes.ts). */\n+const PROFONDITA_MASSIMA_CATEGORIE = 20;\n+\n /**\n  * R02-021 — Perché questi assi non entrano nei tetti di lib/products/variants.ts, o `null` se entrano.\n  * `reconcileVariants` (via buildCombinations) taglia in silenzio quello che sta sopra: assi oltre\n@@ -352,9 +355,15 @@ export default function ProductForm({\n   const topCategories = useMemo(() => categories.filter((c) => !c.parent_id), [categories]);\n   const resolveTop = (catId: string): string => {\n     let cur = categories.find((c) => c.id === catId);\n-    while (cur?.parent_id) {\n+    // R06-012 — stesso modello di getAttributesForCategory (R18-014): un tetto di passi e l'insieme\n+    // dei già visti, perché un cerchio nei dati (A→B→A, o una categoria genitore di sé stessa) non\n+    // faccia girare il modulo per sempre a ogni disegno.\n+    const visti = new Set<string>([cur?.id ?? '']);\n+    let passi = 0;\n+    while (cur?.parent_id && passi++ < PROFONDITA_MASSIMA_CATEGORIE) {\n       const parent = categories.find((c) => c.id === cur!.parent_id);\n-      if (!parent) break;\n+      if (!parent || visti.has(parent.id)) break;\n+      visti.add(parent.id);\n       cur = parent;\n     }\n     return cur?.id ?? '';\n"
+        }
+      ],
+      "file_che_servono": [
+        "components/seller/ProductForm.tsx"
+      ]
+    },
+    "qa-flussi|l'aiutante di prova accendi, con la suspense, rende vuoto in silenzio un componente che resta sospeso per sempre: una prova che controlla un'assenza può passare senza aver provato niente": {
+      "id": "R06-013",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "tests/unit/aiuti/schermo.ts",
+          "modifica": "Riga 24: Suspense con un segnaposto visibile al posto di fallback: null; attendi() fallisce con un messaggio chiaro se resta [data-aiuto-sospeso] dopo 20 giri; opzione accendi(c, p, { permettiSospeso: true }) per chi aspetta davvero un componente sospeso; sospeso() nel ritorno di accendi. Con la modifica le 282 prove che usano l'aiutante restano verdi (1723/1723). Diff esatto contro dc5f926d:\ndiff --git a/tests/unit/aiuti/schermo.ts b/tests/unit/aiuti/schermo.ts\nindex 9f30807e..93e61fef 100644\n--- a/tests/unit/aiuti/schermo.ts\n+++ b/tests/unit/aiuti/schermo.ts\n@@ -12,16 +12,36 @@ type Schermo = {\n   radice: HTMLElement;\n   agisci: (azione: () => void) => void;\n   smonta: () => void;\n+  /** Quanti segnaposto di «sospeso» ci sono ora sullo schermo (0 = il componente si è disegnato). */\n+  sospeso: () => number;\n };\n \n-export function accendi(componente: unknown, proprieta: Record<string, unknown> = {}): Schermo {\n+/** Il segno che il componente è ancora sospeso (un import pigro, una promessa che non torna). */\n+const SOSPESO = '[data-aiuto-sospeso]';\n+\n+type Opzioni = { permettiSospeso?: boolean };\n+let permettiSospesoDaAccendi = false;\n+\n+function controllaNonSospeso(doc: Document, dove: string) {\n+  const n = doc.querySelectorAll(SOSPESO).length;\n+  if (n > 0 && !permettiSospesoDaAccendi) {\n+    throw new Error(\n+      `Lo schermo e' ancora sospeso ${dove} (${n} segnaposto [data-aiuto-sospeso]): il componente non si e' mai disegnato, ` +\n+        `e una prova che controlla un'assenza passerebbe senza aver provato niente. ` +\n+        `Se la prova aspetta davvero un componente sospeso, usa accendi(componente, props, { permettiSospeso: true }).`,\n+    );\n+  }\n+}\n+\n+export function accendi(componente: unknown, proprieta: Record<string, unknown> = {}, opzioni: Opzioni = {}): Schermo {\n+  permettiSospesoDaAccendi = opzioni.permettiSospeso === true;\n   (globalThis as Record<string, unknown>).IS_REACT_ACT_ENVIRONMENT = true;\n   const radice = document.createElement('div');\n   document.body.appendChild(radice);\n   let root: Root;\n   void act(() => {\n     root = createRoot(radice);\n-    root.render(createElement(Suspense, { fallback: null }, createElement(componente as ComponentType<Record<string, unknown>>, proprieta)));\n+    root.render(createElement(Suspense, { fallback: createElement('span', { 'data-aiuto-sospeso': '' }) }, createElement(componente as ComponentType<Record<string, unknown>>, proprieta)));\n   });\n   return {\n     doc: document,\n@@ -31,6 +51,7 @@ export function accendi(componente: unknown, proprieta: Record<string, unknown>\n         azione();\n       });\n     },\n+    sospeso: () => document.querySelectorAll(SOSPESO).length,\n     smonta: () => {\n       void act(() => {\n         root.unmount();\n@@ -46,6 +67,13 @@ export async function attendi(): Promise<void> {\n     await Promise.resolve();\n     await Promise.resolve();\n   });\n+  // Un import pigro puo' chiedere qualche giro in piu': si da' un po' di tempo prima di dire che e' sospeso per sempre.\n+  for (let giro = 0; giro < 20 && document.querySelector(SOSPESO); giro++) {\n+    await act(async () => {\n+      await new Promise((ok) => setTimeout(ok, 0));\n+    });\n+  }\n+  controllaNonSospeso(document, 'dopo attendi()');\n }\n \n /** Un clic vero, quello che fa partire onClick di React. */\n"
+        }
+      ],
+      "file_che_servono": [
+        "tests/unit/aiuti/schermo.ts"
+      ]
+    },
+    "frontend-ux|nel profilo del fattorino il documento risulta «verificato» appena caricato, e l'attestato haccp resta «mancante» anche dopo il caricamento": {
+      "id": "R07-001",
+      "elenco": "D",
+      "esito": "riparato",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "frontend-ux|lo scheletro del negozio impedisce il 404 vero sulle pagine dei negozi anche senza lo scheletro della radice": {
+      "id": "R07-004",
+      "elenco": "D",
+      "esito": "scelta_di_nicola",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "frontend-ux|altri campi brevi del sito del negozio tagliano ancora in silenzio con maxlength": {
+      "id": "R07-005",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "components/seller/site/GalleryFields.tsx",
+          "modifica": "righe 99 e 119: togliere maxLength={120} da «Titolo (opzionale)» e dal testo alternativo e dire il tetto con un messaggio visibile sotto il campo (stesso metodo di BannerFields.tsx: «Troppo lungo: N caratteri su 120. Accorcialo, così si salva.»)"
+        },
+        {
+          "file": "components/seller/site/MenuEditor.tsx",
+          "modifica": "riga 61: togliere maxLength={30} dall'Etichetta e mostrare l'errore «Troppo lungo…» sotto il campo come in BannerFields.tsx"
+        },
+        {
+          "file": "components/seller/site/PageEditor.tsx",
+          "modifica": "righe 89, 110, 111: togliere maxLength 60 (Titolo), 70 (Titolo SEO), 180 (Descrizione SEO) e mostrare l'errore «Troppo lungo…» sotto ciascun campo come in BannerFields.tsx"
+        }
+      ],
+      "file_che_servono": [
+        "components/seller/site/GalleryFields.tsx",
+        "components/seller/site/MenuEditor.tsx",
+        "components/seller/site/PageEditor.tsx"
+      ]
+    },
+    "frontend-ux|il costruttore della vetrina ha ancora campi brevi che tagliano in silenzio": {
+      "id": "R07-006",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "components/seller/site/GalleryFields.tsx",
+          "modifica": "righe 99 e 119: togliere maxLength={120} da «Titolo (opzionale)» e dal testo alternativo e dire il tetto con un messaggio visibile sotto il campo (stesso metodo di BannerFields.tsx: «Troppo lungo: N caratteri su 120. Accorcialo, così si salva.»)"
+        },
+        {
+          "file": "components/seller/site/MenuEditor.tsx",
+          "modifica": "riga 61: togliere maxLength={30} dall'Etichetta e mostrare l'errore «Troppo lungo…» sotto il campo come in BannerFields.tsx"
+        },
+        {
+          "file": "components/seller/site/PageEditor.tsx",
+          "modifica": "righe 89, 110, 111: togliere maxLength 60 (Titolo), 70 (Titolo SEO), 180 (Descrizione SEO) e mostrare l'errore «Troppo lungo…» sotto ciascun campo come in BannerFields.tsx"
+        }
+      ],
+      "file_che_servono": [
+        "components/seller/site/GalleryFields.tsx",
+        "components/seller/site/MenuEditor.tsx",
+        "components/seller/site/PageEditor.tsx"
+      ]
+    },
+    "frontend-ux|incollare il link di instagram o scrivere il sito senza https blocca il salvataggio di tutta la vetrina con un messaggio che non dice dove": {
+      "id": "R07-007",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "tests/unit/riparazione-r10-slogan-e-social.test.ts",
+          "modifica": "Alle righe 106-111, nel caso «Instagram sbagliato: lo slogan si salva, Instagram resta quello di prima, il messaggio lo dice», prima di expect(radice.textContent).toContain('Il resto è salvato') va aggiunto un nuovo render di VendorForm con salvataggioRiuscito: 1 (stessi defaultValues) seguito da await aspetta(). Le asserzioni restano le stesse. È il diff unificato della nota, dal commit 602c64d75dfc896038d954a317377a07dc03aff4. Serve la firma «prove_comuni» di Nicola."
+        }
+      ],
+      "file_che_servono": [
+        "tests/unit/riparazione-r10-slogan-e-social.test.ts"
+      ]
+    },
+    "frontend-ux|il modulo del prodotto non dice che il nome ha al massimo 120 caratteri: il negozio legge solo «il valore inserito non è valido»": {
+      "id": "R07-008",
+      "elenco": "D",
+      "esito": "gia_riparato_prima",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "qa-flussi|le maschere di caricamento delle foto accettano solo jpg, png e webp, mentre la porta e lo storage ne accettano sette": {
+      "id": "R07-011",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "components/StoreMediaManager.tsx",
+          "modifica": "Aggiungere l'import `import { fileColTipoGiusto, mappaAccept, tipiScrittiPerUmani } from '@/lib/storage/casella-di-caricamento';`. Righe 54-58: sostituire `accept: { 'image/jpeg': ['.jpg', '.jpeg'], 'image/png': ['.png'], 'image/webp': ['.webp'] },` con `accept: mappaAccept(),`. Riga 66: `'Formato non accettato: servono foto in JPG, PNG o WEBP.'` diventa `` `Formato non accettato: servono foto in ${tipiScrittiPerUmani()}.` ``. Riga 78: `for (const file of files) {` diventa `for (const grezzo of files) { const file = fileColTipoGiusto(grezzo);` (un HEIC col tipo vuoto, come da Windows, passa `file.type.startsWith('image/')` e arriva al deposito come image/heic). Prova: la stessa di tests/unit/riparazione-r16-foto-sette-tipi.test.tsx estesa a StoreMediaManager (react-dropzone finto che cattura accept: sette tipi con .heic; avviso con HEIC e AVIF; HEIC col tipo vuoto caricato come image/heic)."
+        }
+      ],
+      "file_che_servono": [
+        "components/StoreMediaManager.tsx"
+      ]
+    },
+    "qa-flussi|due guardie sulla veloce controllano il testo del sorgente e non il comportamento": {
+      "id": "R07-013",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "tests/unit/la-consegna-veloce-si-vende-solo-se-c-e-un-fattorino.test.ts",
+          "modifica": "Righe 135-145, caso «la cassa offre «Adesso» solo con il sì del server»: le quattro expect(...).toContain(...) sul testo di components/checkout/DeliverySlotPicker.tsx e app/checkout/page.tsx diventano quattro expect sulla cassa montata, con lo stesso finto di tests/unit/riparazione-r22-veloce-cassa-chiede-al-server.test.ts:30-128 (funzione `cassa`, monta('app/checkout/page.tsx'), fetch finto, orologio fermo a 2026-10-29T09:00:00Z): ① una sola domanda a /api/consegna/veloce con negozi = il negozio del carrello; ② prima della risposta la tessera «Adesso» è disabilitata; ③ con {possibile:true} «Adesso» si sceglie (aria-pressed='true'); ④ con {possibile:false} no. Stesso numero di asserzioni (guardia-ramo vieta di toglierne). In alternativa togliere il caso, già coperto da riparazione-r22-veloce-cassa-chiede-al-server.test.ts:131-190 e riparazione-r04-veloce.test.ts:136-166, ma solo con la deroga firmata per le asserzioni tolte."
+        },
+        {
+          "file": "tests/unit/l-ordine-con-un-appuntamento-gia-passato.test.ts",
+          "modifica": "Righe 327-336 (la riga 330 del registro), caso «la fascia si ricontrolla anche AL MOMENTO di ordinare»: le tre toMatch sul testo di handleSubmit (/consegnaScelta\\(/, /ora: romeNow\\(\\)\\.getHours\\(\\)/, /if \\(!siPuoConfermare\\(/) diventano tre expect sulla cassa montata, con il finto di tests/unit/riparazione-r22-veloce-l-invio-rilegge-l-ora.test.ts:141-180: ① fascia di oggi scelta alle 19:55 e «Ordina» alle 20:05 senza ridisegno → nessuna chiamata alla rotta d'ordine; ② lo stesso caso mostra il messaggio che la fascia è passata; ③ telefono a Londra alle 20:05 (a Roma le 21:05) con «Adesso» → l'ordine non parte. Se invece la guardia intesa è il caso sopra, «la riga sotto le mattonelle non è più un testo fisso» (righe 314-325, regex /rigaQuandoArriva\\(consegna\\)/ sul testo), la sostituta è riparazione-r04-veloce.test.ts:168-190 (con «Adesso» la riga dice i minuti; scelto domani, la fascia di domani), con lo stesso numero di asserzioni."
+        }
+      ],
+      "file_che_servono": [
+        "tests/unit/la-consegna-veloce-si-vende-solo-se-c-e-un-fattorino.test.ts",
+        "tests/unit/l-ordine-con-un-appuntamento-gia-passato.test.ts"
+      ]
+    }
+  }
+}

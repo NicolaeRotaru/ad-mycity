@@ -1,0 +1,7 @@
+# elenco C di pronte (2026-11-24 17:05): 6 voci uniche, una chiave per riga
+stati-ui|a riga chiusa con il motivo «chiedi all'assistenza» il pulsante «avvia» resta
+stati-ui|sotto un lavoro sul catalogo chiuso che dice di chiedere all'assistenza prima di ripartire, il pulsante «avvia sul catalogo» resta lì
+api-backend|l'invio subito delle notifiche push prende le righe guardando solo pushed_at, e può correre col giro del cron
+architettura|email partita ma non segnata: la notte dopo riparte, e se fallisce l'allarme dice «non partita» per un'email già arrivata
+performance|zod intero nel pacchetto comune per la validazione del marchio
+qa-flussi|un negoziante senza orari che preme «+ orario» e poi la x salva sette giorni vuoti, cioè chiuso sempre

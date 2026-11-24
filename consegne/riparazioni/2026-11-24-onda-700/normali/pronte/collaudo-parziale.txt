@@ -1,0 +1,13 @@
+# collaudo parziale K04 (regia settima, 2026-11-24 17:05): 11 riparate senza verdetto + R07-014 (rimessa a mano), id e chiave
+R01-001	ai-endpoints|con un solo lavoro aperto per negozio, il «rimetti pronto» dell applica può fallire senza che nessuno lo veda
+R01-006	deploy-sre|la pulizia degli allarmi cancella la riga del tetto di spesa ai proprio mentre la funzione la controlla, e il primo errore dopo un giorno di quiete non viene detto
+R01-011	qa-flussi|se la lettura dei reclami fallisce, la pagina del reclamo ripropone il modulo e un secondo reclamo su uno chiuso passa
+R01-012	qa-flussi|le domande dei clienti sotto i prodotti non arrivano a nessuno, ma al cliente diciamo che riceverà una notifica
+R01-013	qa-flussi|le domande dei clienti sotto i prodotti non avvisano il negozio
+R02-001	api-backend|la chiusura dello «scrivile tu» gira dopo il tetto delle email e non ha un suo tetto di tempo
+R02-002	api-backend|se lo stesso guasto della pulizia dei dati vecchi torna dopo essere stato letto, gli amministratori non ricevono più l'allarme
+R02-005	api-backend|la pulizia degli allarmi tiene esattamente 24 ore, senza margine, e non ha un indice su last_sent_at
+R02-009	microcopy|la campanella «ordine pronto» dice la fascia senza il giorno
+R02-010	qa-flussi|in un commento del cron delle notifiche resta l'id di un'altra sessione
+R02-012	qa-flussi|il nome del negozio non ha un tetto nel database: dal modulo del negozio si salva direttamente nella tabella dei profili
+R07-014	stati-ui|senza database la categoria e la scheda prodotto mostrano «qualcosa è andato storto» invece del loro errore con «riprova»

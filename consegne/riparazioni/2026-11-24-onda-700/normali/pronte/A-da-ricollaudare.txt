@@ -1,0 +1,7 @@
+# elenco A di pronte (2026-11-24 17:05): 6 voci uniche, una chiave per riga
+ai-endpoints|con un solo lavoro aperto per negozio, il «rimetti pronto» dell applica può fallire senza che nessuno lo veda
+deploy-sre|la pulizia degli allarmi cancella la riga del tetto di spesa ai proprio mentre la funzione la controlla, e il primo errore dopo un giorno di quiete non viene detto
+qa-flussi|se la lettura dei reclami fallisce, la pagina del reclamo ripropone il modulo e un secondo reclamo su uno chiuso passa
+api-backend|la chiusura dello «scrivile tu» gira dopo il tetto delle email e non ha un suo tetto di tempo
+api-backend|se lo stesso guasto della pulizia dei dati vecchi torna dopo essere stato letto, gli amministratori non ricevono più l'allarme
+qa-flussi|in un commento del cron delle notifiche resta l'id di un'altra sessione
