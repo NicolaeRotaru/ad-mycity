@@ -5,28 +5,38 @@
     "R09",
     "R10"
   ],
-  "aggiornato": "2026-11-24 18:20",
+  "aggiornato": "2026-11-24 18:35",
   "finita": false,
   "voci": [
     {
       "id": "R08-002",
       "chiave": "ai-endpoints|l'allarme del tetto di spesa ai può dire «non risponde da tre giorni» al primo guasto di cinque minuti",
-      "verdetto": "regge",
-      "giudizio": "nessuno",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base 5725d5fb389b6a72236ce866c0c639fbbfb004c2^ --file lib/ai/tettoSpesa.ts --prove tests/unit/riparazione-r08-allarme-tetto-riga-vecchia.test.ts --json"
-      }
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Chiude solo il caso 'tetto non configurato' (tettoSpesa.ts:469-475). La riga vecchia si legge ancora senza limite d'età: i delete (:471 nuovo e :482 alla guarigione) non controllano {error} (Supabase non lancia, il catch non scatta) e se il cron non gira durante la guarigione la riga resta; il guasto dopo eredita la data vecchia. Senza tetto ora fa un DELETE ogni 5 minuti."
     },
     {
       "id": "R08-001",
       "chiave": "ai-endpoints|la conformità dei prodotti (classifyproductpolicy) non ha un tempo suo e i lavori sul catalogo la chiamano in 40 giri di fila",
-      "verdetto": "regge",
-      "giudizio": "nessuno",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base 5470d9a12ff2536f9f86b307691fc0477668947e^ --file app/api/ai/catalog-batch/apply/route.ts --prove tests/unit/riparazione-r08-catalogo-rimandati.test.ts --json"
-      }
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Correzione finale 5470d9a1 guardata per prima: il caso principale regge (bloccato vero non si ripaga, impronta cambia con proposta o catalogo, segni non persi). Due buchi: (a) la non risposta del modello (lib/ai/moderation.ts:150 allowed:false 'Classificazione non disponibile.') viene ricordata come blocco vero in route.ts:333-336, contro 'gli errori non lasciano segni', e resta bloccata per sempre a proposta invariata; (b) chi passa il filtro ma ha la scrittura fallita (route.ts:404-407) si rifiltra e si ripaga a ogni giro e il lavoro può restare pronto per sempre: il 5470d9a1 ha tolto l'ordine 'per ultimo' di 6159065f."
     },
     {
       "id": "R08-007",
@@ -41,39 +51,59 @@
     {
       "id": "R08-006",
       "chiave": "qa-flussi|la risalita dei genitori delle categorie non ha un tetto",
-      "verdetto": "regge",
-      "giudizio": "nessuno"
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Alla base il TypeScript è a posto (category-attributes.ts:285-310 tetto 20 + visti; ProductForm.tsx:356-367 viste). Ma la risalita dei genitori in SQL non ha tetto né controllo dei cerchi: migrations/363_*.sql:73-82 e :119-125 (WITH RECURSIVE ... UNION ALL); su A→B→A girano fino allo statement_timeout. Il cerchio lo impedisce solo genitoreNonAmmesso (app/api/admin/categories/route.ts:52-62), letto e scritto senza vincolo: due PATCH insieme passano. Non è 'già riparato' per intero."
     },
     {
       "id": "R08-003",
       "chiave": "frontend-ux|una vetrina lasciata aperta oltre mezzanotte continua a mostrare l'annuncio del giorno prima finché la pagina non si ridisegna",
       "verdetto": "regge",
-      "giudizio": "nessuno",
+      "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base 8b06537efc05d427c2a2f6af24f6bd55c979067e^ --file app/store/[id]/[slug]/page.tsx --prove tests/unit/riparazione-r08-annuncio-pagine-su-misura.test.tsx --json"
-      }
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "useState + setInterval sul giorno di Piacenza prima dei return anticipati; announcementActive ricalcolato a ogni render. Le altre pagine con l'annuncio: app/store/[id]/page.tsx aveva già la cura (R07-003), layout dinamico."
     },
     {
       "id": "R08-005",
       "chiave": "performance-percepita|il traduttore degli errori di zod entra in ogni pagina passando dal piede del sito",
       "verdetto": "regge",
-      "giudizio": "nessuno",
+      "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base 0332a24eada963e4cea3a547a302269f00269f30^ --file lib/zod-i18n.ts --prove tests/unit/riparazione-r08-frasi-zod-una-copia.test.ts --json"
-      }
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Frasi tolte identiche a lib/zod-frasi.ts; dalle import statiche di app/layout.tsx e Footer non si arriva né a zod né a zod-i18n, che resta solo nell'import dinamico di QueryProvider."
     },
     {
       "id": "R08-004",
       "chiave": "layout-responsive|la pagina 404 a 280 px col testo al 200% esce di 5 px",
       "verdetto": "regge",
-      "giudizio": "nessuno",
+      "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base 2d4d29301e79861e0dd9dc7ddefb18afc16e3a67^ --file app/not-found.tsx --prove tests/unit/riparazione-r08-404-dentro-il-riquadro.test.ts --json",
         "nota": "primo tentativo uscita 2 (il file di prova r02 non cambia in 2d4d2930); rifatta sul solo file di codice della correzione finale"
-      }
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Correzione finale 2d4d2930 guardata per prima: min(3.75rem,25vw), max-w-full e overflow-wrap su riquadro, voci e bottoni; Button.tsx:80 unisce className con cn(). La prova vecchia R02 cambia una sola asserzione con una classe equivalente, non indebolita. Rimessa sulla sola correzione finale: rossa senza, verde con. Non misurata in Chromium dal collaudo."
     },
     {
       "id": "R09-001",
