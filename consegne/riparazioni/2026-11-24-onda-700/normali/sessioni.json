@@ -157,7 +157,11 @@
     "R12"
    ],
    "limite_usd": 4,
-   "partita": "2026-11-24 19:53"
+   "partita": "2026-11-24 19:53",
+   "finita": true,
+   "punta": "3283b6b2225ec2e49b1e5565628dc3332bc44f2b",
+   "costo_usd": 3.23,
+   "finita_alle": "2026-11-24 20:02"
   }
  },
  "controllori": {
