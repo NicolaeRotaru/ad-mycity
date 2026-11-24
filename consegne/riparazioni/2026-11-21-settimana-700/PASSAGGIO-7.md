@@ -18,13 +18,13 @@ Per Nicola: niente finché non unisce la prossima PR.
 Per la regia settima: apri subito R13-R18, approvi i piani, sorvegli, poi collaudo, unione, controllore e PR.
 
 ## Cosa devi fare
-1. Leggi la skill `riparazione` (regole del 21/11, F1, sorveglianza, F2, F3), `REGIA.md` e questo foglio. I dettagli riservati te li mando in chat: mai nel deposito.
-2. Aggiungi il sito con `add_repo` (accesso push) e clonalo in `/home/user/mycity`. Rami col refspec esplicito.
-3. Apri R13-R18 (F1 della skill): `source_url` https://github.com/NicolaeRotaru/mycity, `source_revision` b57195e2f913ee3056414bfcc3594de18265d4d5 (la testa unita in main con 3d95d6a), `outcome_branch` `claude/settimana-700-regia-mNN`, `model` claude-opus-5-5, `effort` xhigh, `permission_mode` auto, senza ultracode (tutte minori), tag `riparazione:settimana-700` e `onda-2-riparatori`, titolo «RNN». Il prompt porta per intero `cervello/riparazione/LEGGIMI-riparatore.md` e `normali/schede/RNN.md`, e finisce con la frase della skill. SHA_REGISTA = la punta di `claude/settimana-700-regia` in ad-mycity quando parti (dopo il commit di questo foglio). Scrivi gli id in `normali/sessioni.json` (onda 2).
-4. Primo messaggio ai riparatori: niente id di altre voci nei commit; per un file altrui scrivere la modifica esatta; tetto di spesa 35 $ a testa; 6 subagenti.
-5. Sorveglianza ogni 30 minuti con `send_later`: `MARKETPLACE_REPO=/home/user/mycity bash cervello/riparazione/sorveglia.sh consegne/riparazioni/2026-11-21-settimana-700/normali 2`.
-6. Poi F2 (2 collaudatori: K05 su R13-R15, K06 su R16-R18), F3 sull'integrazione nuova da 3d95d6a, controllore C02, PR, fermata a Nicola.
-7. Passa la mano a 250 mila token. ⚠️ La catena delle regie è a profondità 7 su 8: la tua figlia regia ottava non potrebbe aprire sessioni. Quando passi la mano, chiedi a Nicola di aprire lui la regia nuova (profondità 0), o falla aprire dalla chat dell'AD.
+- Leggi la skill `riparazione` (regole del 21/11, F1, sorveglianza, F2, F3), `REGIA.md` e questo foglio. I dettagli riservati te li mando in chat: mai nel deposito.
+- Aggiungi il sito con `add_repo` (accesso push) e clonalo in `/home/user/mycity`. Rami col refspec esplicito.
+- Apri R13-R18 (F1 della skill): `source_url` https://github.com/NicolaeRotaru/mycity, `source_revision` b57195e2f913ee3056414bfcc3594de18265d4d5 (la testa unita in main con 3d95d6a), `outcome_branch` `claude/settimana-700-regia-mNN`, `model` claude-opus-5-5, `effort` xhigh, `permission_mode` auto, senza ultracode (tutte minori), tag `riparazione:settimana-700` e `onda-2-riparatori`, titolo «RNN». Il prompt porta per intero `cervello/riparazione/LEGGIMI-riparatore.md` e `normali/schede/RNN.md`, e finisce con la frase della skill. SHA_REGISTA = la punta di `claude/settimana-700-regia` in ad-mycity quando parti (dopo il commit di questo foglio). Scrivi gli id in `normali/sessioni.json` (onda 2).
+- Primo messaggio ai riparatori, con quattro regole. Niente id di altre voci nei commit. Per un file altrui si scrive la modifica esatta. Il tetto di spesa è 35 $ a testa. I subagenti sono al massimo 6.
+- Sorveglianza ogni 30 minuti con `send_later`: `MARKETPLACE_REPO=/home/user/mycity bash cervello/riparazione/sorveglia.sh consegne/riparazioni/2026-11-21-settimana-700/normali 2`.
+- Poi F2 (2 collaudatori: K05 su R13-R15, K06 su R16-R18), F3 sull'integrazione nuova da 3d95d6a, controllore C02, PR, fermata a Nicola.
+- Passa la mano a 250 mila token. ⚠️ La catena delle regie è a profondità 7 su 8: la tua figlia regia ottava non potrebbe aprire sessioni. Quando passi la mano, chiedi a Nicola di aprire lui la regia nuova (profondità 0), o falla aprire dalla chat dell'AD.
 
 ## Cosa non ho verificato
 - La spesa misurata delle sessioni del primo giro: sono cifre dai loro messaggi, e mancano K02, K03, K04.

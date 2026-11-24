@@ -18,11 +18,11 @@ Per Nicola: niente sul sito vero finché non unisce lui. Restano da dare tre fir
 Per la regia sesta: si aspetta K04, poi si fa l'unione. Nessun riparatore è da riaprire.
 
 ## Cosa devi fare
-1. Leggi la skill `riparazione` (regole del 21/11, sorveglianza, F2, F3), `REGIA.md` e questo foglio. I dettagli riservati te li mando in chat: mai nel deposito.
-2. Aggiungi il sito con `add_repo` (accesso push) e clonalo in `/home/user/mycity`. I rami del sito si prendono col refspec esplicito: `git fetch origin +refs/heads/<ramo>:refs/remotes/origin/<ramo>`.
-3. Sorveglianza: `send_later` ogni 30 minuti con `MARKETPLACE_REPO=/home/user/mycity bash cervello/riparazione/sorveglia.sh consegne/riparazioni/2026-11-21-settimana-700/normali 1`. L'ultima l'ho fatta io alle 04:34; la catena l'ho fermata, la riparti tu.
-4. Quando K04 finisce: valida-collaudo rilanciato da te. Poi le firme di Nicola in `piano.json`, l'unione F3, il controllore C01 e la fermata 2 a Nicola.
-5. Passa la mano quando la storia arriva a 250 mila token su 1 milione (il `get_session` parte già da circa 155 mila token su 1 milione, solo per le istruzioni).
+- Leggi la skill `riparazione` (regole del 21/11, sorveglianza, F2, F3), `REGIA.md` e questo foglio. I dettagli riservati te li mando in chat: mai nel deposito.
+- Aggiungi il sito con `add_repo` (accesso push) e clonalo in `/home/user/mycity`. I rami del sito si prendono col refspec esplicito: `git fetch origin +refs/heads/<ramo>:refs/remotes/origin/<ramo>`.
+- Sorveglianza: `send_later` ogni 30 minuti con `MARKETPLACE_REPO=/home/user/mycity bash cervello/riparazione/sorveglia.sh consegne/riparazioni/2026-11-21-settimana-700/normali 1`. L'ultima l'ho fatta io alle 04:34; la catena l'ho fermata, la riparti tu.
+- Quando K04 finisce: valida-collaudo rilanciato da te. Poi le firme di Nicola in `piano.json`, l'unione F3, il controllore C01 e la fermata 2 a Nicola.
+- Passa la mano quando la storia arriva a 250 mila token su 1 milione. Il `get_session` parte già da circa 155 mila token, solo per le istruzioni.
 
 ## Cosa non ho verificato
 - Le prove del codice dei riparatori: ho rilanciato guardia-ramo e valida-referto, non `npm run verify`.

@@ -1,7 +1,7 @@
 ---
 data: 2026-11-24 11:45
 tipo: quaderno di bordo della regia
-campagna: onda dei 700 (24/11), seguito della settimana dei 700 (21-23/11)
+campagna: onda dei 700 del 24/11, seguito della settimana dei 700 del 21-23/11
 ---
 
 # Regia · la nuova onda dei 700
@@ -10,6 +10,7 @@ campagna: onda dei 700 (24/11), seguito della settimana dei 700 (21-23/11)
 Questo quaderno serve alla regia per partire senza rileggere la chat.
 Il 24/11 Nicola ha chiesto di risolvere 700 difetti in una settimana.
 I conti dicono che in una settimana se ne chiudono 130-170: i 700 non ci sono nemmeno (gli aperti del sito sono 624).
+Per esempio: 150 chiusure in una settimana sono circa un quarto dei 624 aperti.
 Si parte solo col suo «via» sui passi e col tetto che dà lui.
 
 ## Cosa cambia per te
