@@ -1,0 +1,27 @@
+{
+  "corsia": 10,
+  "territorio": "R10",
+  "difetti": [
+    {
+      "chiave": "frontend-ux|la pagina del negozio in cache può mostrare un annuncio già scaduto dopo la mezzanotte",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r10-annuncio-scaduto.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 66e3b924^ --file app/store/[id]/layout.tsx --prove tests/unit/riparazione-r10-annuncio-scaduto.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 66e3b924^ --file 'app/store/[id]/layout.tsx' --prove tests/unit/riparazione-r10-annuncio-scaduto.test.ts --json (worktree a 66e3b924) → uscita 0 (K04)",
+      "nota_fix": "Nel layout del negozio revalidate passa da 300 a 0: vetrina e pagine su misura si costruiscono alla visita e non si servono mai da una copia fatta prima di mezzanotte; l'annuncio resta deciso col giorno di Piacenza (Europe/Rome)."
+    },
+    {
+      "chiave": "frontend-ux|il conferma per le modifiche non salvate dice «la vetrina» anche sul profilo",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r10-conferma-profilo-o-vetrina.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base b09b7f26de2e942e7926e59d34cd52d243aa2fb2^ --file components/VendorForm.tsx --prove tests/unit/riparazione-r10-conferma-profilo-o-vetrina.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base b09b7f26^ --file 'components/VendorForm.tsx' --prove tests/unit/riparazione-r10-conferma-profilo-o-vetrina.test.ts --json (worktree a b09b7f26) → uscita 0 (K04)",
+      "nota_fix": "clicDaFermare prende un parametro `cosa`. VendorForm sceglie il testo in base a mode: «alla vetrina» con mode=\"branding\" («Dettagli negozio», dentro l'editor della vetrina), «al profilo» negli altri casi (profilo, mode=\"contact\"). La prova monta i moduli veri, cambia un campo, clicca un link e legge il testo passato a window.confirm."
+    },
+    {
+      "chiave": "microcopy|se il caricamento di una storia fallisce, il negoziante legge «applica la migration 035»",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r10-storia-non-caricata.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base c95e210e^ --file app/seller/stories/page.tsx --prove tests/unit/riparazione-r10-storia-non-caricata.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base c95e210e^ --file 'app/seller/stories/page.tsx' --prove tests/unit/riparazione-r10-storia-non-caricata.test.ts --json (worktree a c95e210e) → uscita 0 (K04)",
+      "nota_fix": "Quando il magazzino delle foto non risponde il negoziante legge che il problema non è la sua foto e che può riprovare o scrivere all'assistenza; il dettaglio tecnico (storage, migrazione 035) va nei registri con logger.error."
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "corsia": 7,
+  "territorio": "R07",
+  "difetti": [
+    {
+      "chiave": "qa-flussi|il modulo prodotto del negozio si blocca se le categorie formano un cerchio",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r07-categorie-a-cerchio.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base f30bed1cf20e4f28e9bea76543e162958eeaf444^ --file components/seller/ProductForm.tsx --prove tests/unit/riparazione-r07-categorie-a-cerchio.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07-012 --base f30bed1cf20e4f28e9bea76543e162958eeaf444^ --file components/seller/ProductForm.tsx --prove tests/unit/riparazione-r07-categorie-a-cerchio.test.tsx --json → uscita 0 (K03)",
+      "nota_fix": "resolveTop tiene l'elenco dei nodi già visti e si ferma al primo ripetuto: con A dentro B dentro A il modulo si apre invece di girare per sempre."
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "controllore": "C02",
+  "onda": 2,
+  "finita": true,
+  "aggiornato": "2026-11-22 21:27",
+  "testa": "77652b102914709ce07d10f66b7a442a5a069875",
+  "base": "b57195e2f913ee3056414bfcc3594de18265d4d5",
+  "verify": {
+    "comando": "npm run verify && tests/sql/harness/apply.sh && tests/sql/harness/run.sh",
+    "esito": "verde",
+    "nota": "typecheck pulito; lint 0 errori e 122 avvisi; vitest 2035 file passati e 1 saltato su 2036, 12444 casi passati e 1 saltato su 12445; harness SQL su Postgres 16 locale: 216 migrazioni applicate, 0 fallite, 83 file di prove, tutti i controlli verdi. Il primo giro dell'harness è caduto sull'accesso al Postgres locale (peer authentication), non sulle prove: rilanciato con un utente locale, verde. Database vero mai toccato, né da me né dai subagenti."
+  },
+  "voci_rosse": [
+    {
+      "chiave": "microcopy|il cliente e l'email leggono ancora «un rider passa a prenderlo», mentre il pulsante del negozio ora dice «fattorino»",
+      "perche": "R18-006 dice copre_tutta_la_voce ma cambia solo le quattro frasi di stato e il riquadro d'errore: la campanella dell'ordine pronto (migrations/321_l_ordine_pronto_dice_la_fascia.sql:66, ultima versione di notify_buyer_on_order_status) dice ancora «un rider passa a prenderlo»; la stessa pagina del cliente dice ancora «Rider» sulla mappa (app/orders/[id]/page.tsx:380-381), «al rider» nella riga del codice (:706), «Il tuo rider» (:801) e «al rider» nel pagamento (:891, :898), accanto alle frasi nuove con «fattorino»; la pagina del negozio, citata nel registro (app/seller/orders/[id]/page.tsx:556, 571, 572, 631), non è toccata. La prova guarda solo le frasi di stato e l'email."
+    }
+  ],
+  "nuovi_difetti_visti": [
+    {
+      "titolo": "Con l'AI dei negozi spenta al lancio, l'allarme sul conto condiviso della spesa AI può arrivare lo stesso ogni sei ore",
+      "dimensione": "ai-endpoints",
+      "severita": "minore",
+      "file": "lib/ai/tettoSpesa.ts:456",
+      "descrizione": "Nasce da R13-004. Ora il cron degli avvisi chiama allarmiTettoSpesaAiPerIlCron a ogni giro (app/api/cron/operational-alerts/route.ts:759-764). La funzione esce solo se manca il tetto (tettoSpesa.ts:456), non se l'AI è spenta: se AI_GLOBAL_DAILY_BUDGET_EUR è impostata e il conto condiviso non risponde (la funzione della migrazione 131 assente, caso che il registro dà per attuale e che ha già un suo allarme), parte l'allarme del tetto non condiviso, ogni 6 ore per email e campanella (cooldown di operational-alerts/route.ts:89). Intanto AI_NEGOZI_ACCESA è false e lib/ai/client.ts:217 blocca ogni chiamata al modello: spendere è impossibile, quindi è rumore sull'unico canale degli allarmi. Non ho visto le variabili di produzione né se la 131 è applicata. Cura: tornare [] anche quando l'AI dei negozi è spenta."
+    },
+    {
+      "titolo": "Sotto un lavoro sul catalogo chiuso che dice di chiedere all'assistenza prima di ripartire, il pulsante «Avvia sul catalogo» resta lì",
+      "dimensione": "stati-ui",
+      "severita": "minore",
+      "file": "lib/ai/statoLavoroCatalogo.ts:34",
+      "descrizione": "Nasce accanto a R18-012. Esempio: un invio resta senza risposta per 24 ore e la rotta dello stato chiude il lavoro col motivo «chiedi all'assistenza prima di avviarne un altro». R18-012 toglie dalla riga «Puoi avviarne un altro» (statoLavoroCatalogo.ts:56-60), ma puoAvviareLavoro (:34) torna vero per ogni lavoro chiuso e la pagina del lotto AI mostra il pulsante di avvio subito sopra (app/seller/products/ai-batch/page.tsx:516); nemmeno la rotta di avvio lo ferma. La contraddizione resta, detta da un pulsante invece che da una frase, con lo stesso rischio di un lotto pagato due volte. Cura: una regola sola, cioè puoAvviareLavoro non riapre l'avvio quando il motivo è «chiedi all'assistenza», oppure il motivo smette di vietarlo."
+    }
+  ],
+  "file_toccati": 149,
+  "file_guardati": 60,
+  "file_non_guardati": "I 149 toccati sono 60 file di codice e configurazione (compresi .claude/settings.json, package.json e package-lock.json), 83 file di prove e 6 copie dei referti in .riparazione/. I 60 li hanno letti nel diff i 4 subagenti; di components/ProductQA.tsx (4 righe, solo una classe) è stato visto il diff, non il testo intorno. Le 83 prove le ho fatte girare tutte (verify e harness SQL) ma non le ho rilette riga per riga. I 6 referti non sono codice.",
+  "note": [
+    "Le voci con esito «parziale» reggono nella parte che dicono fatta; restano aperte per quello che scrivono in cosa_resta. Due cose da sapere: R13-001 e R13-009 non cambiano niente in produzione finché non arrivano la migrazione 750, i tipi rigenerati e il segno scritto da /apply; R15-014 aggiunge fetchNomiDeiClienti (lib/queries/seller-public-profiles.ts) ma nessun file la chiama ancora, quindi a video non cambia nulla.",
+    "R14-002 mette il controllo «AI accesa» in 12 rotte; translate non è nominata in cosa_resta, ma oggi è chiusa da TRADUCI_ACCESO=false (app/api/ai/translate/route.ts:68) e da lib/ai/client.ts:217: buco solo latente.",
+    "Dubbio fuori dal sito: il divieto aggiunto dalla regia in .claude/settings.json copre i server a id di Supabase e Vercel, non i server che in questo ambiente si chiamano supabase-marketplace e supabase-memoria. Il deposito del sito non ha .mcp.json, quindi vengono dalla configurazione di ad-mycity o dell'ambiente: va visto a cosa puntano.",
+    "npm ls segnala vitest@4.1.12 «invalid» rispetto a @vitest/ui 4.1.7: c'era già alla base, il lock è cambiato solo nelle 3 righe di R15-009."
+  ],
+  "conto": {
+    "subagenti": 4,
+    "token_stimati": 384961,
+    "nota": "token dei 4 subagenti misurati dall'harness (76.546 + 84.320 + 106.214 + 117.881); la sessione del controllore a parte"
+  }
+}

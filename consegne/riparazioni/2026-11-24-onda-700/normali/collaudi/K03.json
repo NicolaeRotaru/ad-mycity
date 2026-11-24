@@ -1,0 +1,152 @@
+{
+  "collaudatore": "K03",
+  "riparatori": [
+    "R07"
+  ],
+  "aggiornato": "2026-11-24 14:00",
+  "finita": true,
+  "voci": [
+    {
+      "id": "R07-001",
+      "chiave": "frontend-ux|nel profilo del fattorino il documento risulta «verificato» appena caricato, e l'attestato haccp resta «mancante» anche dopo il caricamento",
+      "verdetto": "rompe_altro",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07-001 --base 5aae5c8e0526ba0228cf7c6fdfbc2a4e6a4e2167^ --file app/rider/profile/page.tsx --prove tests/unit/riparazione-r07-documento-ricaricato-dopo-l-approvazione.test.tsx --json"
+      },
+      "nota": "Rimessa 0 anche sull'intera correzione (--base 55d79fba^ = base). Il caso della voce è chiuso: chi carica il documento d'identità dopo l'approvazione non lo vede più «Verificato». Ma nasce uno stato falso nuovo (app/rider/profile/page.tsx:183 e 188-190): un fattorino approvato che preme di nuovo «Salva e avvia verifica» in /rider/onboarding (l'unica strada per salvare la nuova scadenza di patente o polizza, app/rider/onboarding/page.tsx:218-228 e 385) fa ripartire start-check, che col fornitore manuale scrive sempre PENDING con l'ora di adesso (app/api/kyc/start-check/route.ts:96-101 e 160-166; lib/kyc/providers.ts:229 e 243). Il controllo dopo l'approvazione vince anche se il documento è quello già approvato: «Caricato · In attesa di verifica» per sempre, perché in produzione nessuno scrive APPROVED e l'admin non può riapprovare un profilo già approvato. Alla base leggeva «Verificato». Residuo minore: con approved_at presente l'azzeramento della rotta viene ignorato, quindi sostituire solo il retro o il selfie lascia «Verificato» (page.tsx:185-187). Riprodotto con prova usa-e-getta dal revisore e riletto sul codice dal collaudatore. Fattorino respinto o sospeso e HACCP «Caricato · OK»: fuori voce, come dice il riparatore (il fix scritto nella voce chiede proprio quello). Prove vicine: 25 file, 169 test verdi; tsc ed eslint puliti."
+    },
+    {
+      "id": "R07-002",
+      "chiave": "frontend-ux|un negozio senza nome ha metadati indicizzabili mentre la sua pagina risponde «non trovato»",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07-002 --base dd73ecf10f8f29adc7c11d15880257f79311c220^ --file app/store/[id]/layout.tsx --prove tests/unit/riparazione-r07-negozio-senza-nome-non-indicizzabile.test.ts --json"
+      },
+      "nota": "I metadati di app/store/[id]/layout.tsx ora seguono la stessa condizione del notFound() del guscio (null, '', solo spazi, non approvato, ruolo diverso da venditore: provati); un negozio normale resta indicizzabile col canonico. Resta aperta la stessa cosa sulle pagine su misura del negozio senza nome: app/store/[id]/[slug]/layout.tsx:34 non guarda il nome e a :49 manda robots: undefined, che in Next 15.5 cancella il noindex del genitore. Caso: store_name '' con una pagina «chi-siamo» → il guscio dà 404, i metadati sono «Chi siamo · » col canonico /store/n1/chi-siamo, indicizzabili. Provato a livello di funzione, non su un server vivo."
+    },
+    {
+      "id": "R07-003",
+      "chiave": "frontend-ux|una vetrina lasciata aperta oltre mezzanotte continua a mostrare l'annuncio del giorno prima finché la pagina non si ridisegna",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07-003 --base 11160caf49c79575bf25ae0d027a50eb6d54c64d^ --file app/store/[id]/page.tsx --prove tests/unit/riparazione-r07-annuncio-della-vetrina-a-mezzanotte.test.tsx --json"
+      },
+      "nota": "Sulla pagina principale della vetrina regge: un solo ridisegno a mezzanotte, nessuno nei 30 minuti senza cambio di giorno, timer spento allo smontaggio, fuso di Piacenza, hook prima dei ritorni anticipati, nessun errore di idratazione nuovo. Ma l'annuncio è del negozio intero e le pagine su misura lo mostrano ancora: app/store/[id]/[slug]/page.tsx:82 legge announcementActive senza il controllo di ogni minuto. Caso: «Chi siamo» aperta alle 23:58 del 24/11 con annuncio valido fino al 24, tre minuti dopo l'annuncio c'è ancora."
+    },
+    {
+      "id": "R07-008",
+      "chiave": "frontend-ux|il modulo del prodotto non dice che il nome ha al massimo 120 caratteri: il negozio legge solo «il valore inserito non è valido»",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Alla base il pezzo principale è chiuso, provato col modulo vero: nel modulo nuovo e in quello di modifica un nome di 121 o 124 caratteri è fermato prima dell'invio con «Il nome può avere al massimo 120 caratteri» e il contatore (124/120); la descrizione di 4001 caratteri è fermata col suo limite; in creazione il 23514 si traduce con il limite (lib/errors.ts:234-240). Resta aperta la frase della voce sull'import da file: lib/products/righe-dal-file.ts:58 e app/seller/products/import/page.tsx:145 e 248 ammettono ancora 200 caratteri (erroriDellaRiga con un nome di 130 dà nessun errore); il giorno che l'import si accende il negozio legge la frase generica «un valore è troppo lungo o non valido» (prontoPerLaVendita.ts:222-229). Oggi l'import è spento."
+    },
+    {
+      "id": "R07-009",
+      "chiave": "frontend-ux|altri percorsi di facebook non elencati possono essere salvati come nome del profilo",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07-009 --base 2ba05d79fe5caac829d7749108c4e9be9a85e0a3^ --file lib/store-customization.ts --prove tests/unit/riparazione-r07-facebook-percorsi-di-una-parola.test.ts --json"
+      },
+      "nota": "Il pezzo fatto regge: 57 link Facebook passati prima e dopo il commit, cambiano solo i 9 col trattino basso o nei nuovi riservati, nessun profilo vero peggiora (punti, trattini, Nome-123…, ?mibextid, /about restano un nome). Il trattino basso non ammesso nei nomi Facebook: tre fonti non ufficiali concordano, pagina ufficiale di Meta non trovata (fiducia circa 85%). Il resto è dichiarato onestamente in cosa_resta: composer, creatorstudio, messenger, unsupportedbrowser e ogni percorso sconosciuto di una parola si salvano ancora come nome, quindi la voce («altri percorsi non elencati») resta aperta. Incoerenza minore: «pane_quotidiano» scritto a mano passa (lib/store-customization.ts:153-158 ammette il trattino basso), lo stesso nome dentro un link viene rifiutato. Prove vicine verdi (11 file su store-customization)."
+    },
+    {
+      "id": "R07-010",
+      "chiave": "performance-percepita|il traduttore degli errori di zod entra in ogni pagina passando dal piede del sito",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 3,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07-010 --base a61f24dea93b7c2cf9aee2a4bd92afec447c6821^ --file lib/errors.ts,lib/zod-frasi.ts --prove tests/unit/riparazione-r07-errori-senza-traduttore-zod.test.ts --json",
+        "a_mano": {
+          "comando": "in ../wt-R07-010 (a61f24de): git show 5b8c786c:lib/errors.ts > lib/errors.ts (zod-frasi presente, poi anche tolto); npx vitest run tests/unit/riparazione-r07-errori-senza-traduttore-zod.test.ts → AssertionError expected «Campo obbligatorio» to be «String must contain at least 1 character(s)» in tutti e due i casi; git checkout HEAD -- lib/errors.ts lib/zod-frasi.ts → verde",
+          "uscita_senza_correzione": 1,
+          "uscita_con_correzione": 0
+        }
+      },
+      "nota": "Rimessa della macchina uscita 3 (file nuovo lib/zod-frasi.ts). Rimesso a mano il difetto com è scritto (lib/errors.ts della base): la prova cade sul comportamento, Zod torna tradotto all import. Parziale come dichiarato: la deroga «rimessa_a_mano» non è firmata. Il traduttore non entra più dal piede; le due copie delle frasi sono identiche; nessun modulo resta in inglese (le rotte che restituiscono messaggi di Zod importano lib/api/responses o zod-i18n; VendorForm e SellerApplicationForm prendono l italiano dall import dinamico di QueryProvider). Riserva sul referto: dice che il piede «non porta più Zod», ed è falso: Footer.tsx:16 e la Navbar portano components/hooks/useBranding.ts → lib/site-branding.ts:2 importa zod. Bundle esbuild del piede: alla base zod-i18n e Zod, alla testa resta Zod (guadagno circa 0,9 KB gzip su circa 14 KB). Non è scritto in cosa_resta."
+    },
+    {
+      "id": "R07-012",
+      "chiave": "qa-flussi|il modulo prodotto del negozio si blocca se le categorie formano un cerchio",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07-012 --base f30bed1cf20e4f28e9bea76543e162958eeaf444^ --file components/seller/ProductForm.tsx --prove tests/unit/riparazione-r07-categorie-a-cerchio.test.tsx --json"
+      },
+      "nota": "Alla testa il modulo con le categorie in cerchio si apre; la stessa prova copiata sulla base resta appesa (510 giri contro un tetto di 50). Nessun altro giro senza tetto sui genitori: getAttributesForCategory ha già un tetto e i nodi visti, aiSnapshot fa un passo solo. Categorie senza genitore, figlia normale, catena di 12 livelli e genitore mancante restano giuste. 47 file di prova che importano ProductForm, 248 test verdi. Osservazione minore, solo con dati in cerchio e non una regressione (prima il modulo restava appeso): resolveTop si ferma su A e getAttributesForCategory su B, quindi tendina «Categoria» vuota e «Caratteristiche · Casa»."
+    },
+    {
+      "id": "R07-014",
+      "chiave": "stati-ui|senza database la categoria e la scheda prodotto mostrano «qualcosa è andato storto» invece del loro errore con «riprova»",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 3,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07-014 --base 9d4b57b205747c160dbe5ee1a47b03c46be88e88^ --file app/category/error.tsx,app/product/error.tsx --prove tests/unit/riparazione-r07-categoria-e-scheda-senza-database.test.tsx --json",
+        "a_mano": {
+          "comando": "in ../wt-R07-014 (9d4b57b2): tolto da solo app/category/error.tsx, poi da solo app/product/error.tsx; npx vitest run tests/unit/riparazione-r07-categoria-e-scheda-senza-database.test.tsx → AssertionError «expected Qualcosa è andato storto … not to contain Qualcosa è andato storto» / «to contain Non riesco a caricare questa categoria»; file rimessi → 5 verdi",
+          "uscita_senza_correzione": 1,
+          "uscita_con_correzione": 0
+        }
+      },
+      "nota": "Rimessa della macchina uscita 3 (file di convenzione nuovi). Rimesso a mano il difetto (tolto ciascun file): la prova cade sul testo, non su moduli mancanti. Parziale come dichiarato: la deroga «rimessa_a_mano» non è firmata. La prova simula la regola dei confini di Next, quindi il revisore ha acceso il sito senza database (next dev, Supabase finto su porta chiusa): /category/alimentari dice «Non riesco a caricare questa categoria» con «Riprova» e «Vedi tutte le categorie»; /product/not-a-real-id e /product/<uuid> dicono «Impossibile caricare il prodotto» con «Riprova», categorie e codice errore; tolti i due file torna «Qualcosa è andato storto»; «Riprova» rilegge davvero dal server. Build di produzione non provata (fiducia circa 80%). Difetti minori visti: app/category/error.tsx:39 mostra error.digest, che per un errore dei metadati arriva vuoto (niente «Codice errore» sulla categoria); il nuovo confine della categoria prende anche gli errori di disegno della pagina e li chiama «problema di collegamento»; per lo stesso prodotto [id]/error.tsx e il file nuovo dicono due testi diversi (c era già). Prove vicine: 77 file su categoria, scheda ed ErrorState, verdi."
+    },
+    {
+      "id": "R07-015",
+      "chiave": "stati-ui|con la proposta di «genera con ai» aperta, le correzioni fatte a mano nel frattempo si perdono premendo «usa questa»",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Alla base il caso «correggo a mano con la proposta già aperta» è chiuso: «Usa questa» chiede conferma (ProductForm.tsx:1107-1111). Resta un modo di perdere le correzioni senza avviso con lo stesso pulsante: ProductForm.tsx:1083-1086 ricorda la descrizione quando la risposta dell'AI ARRIVA, non quando si preme «Genera». Caso: descrizione T0, premo «Genera», durante l'attesa aggiungo una correzione, arriva la proposta costruita su T0, premo «Usa questa»: nessuna conferma e la correzione sparisce. Provato in jsdom alla base. Il flusso «Genera con AI» è spento al lancio (AI_NEGOZI_ACCESA=false). I due bordi del 22/11 (proposta vecchia dopo uno svuota-e-rigenera, conferma soppressa dal browser) non perdono testo: fuori voce."
+    }
+  ],
+  "campione": {
+    "R07": {
+      "accettato": false
+    }
+  }
+}

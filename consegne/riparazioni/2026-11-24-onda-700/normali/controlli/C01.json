@@ -1,0 +1,45 @@
+{
+  "controllore": "C01",
+  "onda": 1,
+  "finita": true,
+  "aggiornato": "2026-11-24 15:12",
+  "testa": "a673164da05ab165480595967128d01795601ba9",
+  "base": "5b8c786c96ec789918b3e85361ca435cef726b92",
+  "verify": {
+    "comando": "npm run verify && tests/sql/harness/apply.sh && tests/sql/harness/run.sh",
+    "esito": "verde",
+    "dettaglio": "typecheck e lint uscita 0; vitest 2088 file di prova verdi su 2088 (12674 casi); apply.sh 226 migrazioni applicate, 0 fallite; run.sh 91 file SQL, tutti i controlli verdi. Postgres 16 locale, nessun database vero."
+  },
+  "voci_rosse": [],
+  "nuovi_difetti_visti": [
+    {
+      "titolo": "Nel cron delle notifiche restano altri codici di sessione nei commenti, come quello appena tolto",
+      "dimensione": "qa-flussi",
+      "severita": "minore",
+      "file": "app/api/cron/send-push/route.ts:41",
+      "descrizione": "R02-010 ha tolto l'id di sessione dal commento che la voce nominava; nello stesso file restano R28-006 (riga 41) e R26-003 (riga 75), lo stesso difetto rimasto com'era. La nota del riparatore lo ammette, ma non è nel registro."
+    },
+    {
+      "titolo": "Il testo di un errore vero arriva a Sentry senza oscurare email e telefoni",
+      "dimensione": "qa-flussi",
+      "severita": "minore",
+      "file": "lib/logger.ts:126",
+      "descrizione": "Dopo R03-013 il logger oscura la frase e il contesto, ma un oggetto Error va a Sentry intero con captureException(err): il suo message non passa da oscuraTesto, e ripulisciEvento (lib/analytics/sentry-config.ts:71) toglie richiesta e briciole ma non tocca il testo delle eccezioni. Un errore del database con un'email nel messaggio esce così com'è. La nota di R03-013 lo dichiara, ma la voce è segnata «copre tutta la voce» e il pezzo non è nel registro."
+    }
+  ],
+  "file_toccati": 111,
+  "file_guardati": 51,
+  "file_non_guardati": "60 file non letti a occhio, per scelta: 53 file di prova (tests/unit e tests/sql), che sono girati tutti verdi nella verifica, e i 7 referti dei riparatori in .riparazione/, che non sono codice. Letti a occhio i 50 file di codice più l'aiuto finto tests/unit/aiuti/finti/react-query.mjs, condiviso da tutte le prove.",
+  "note": [
+    "R07-001 non è tolta del tutto dal ramo unito: il revert a673164d toglie solo 5aae5c8e, mentre il primo commit della stessa voce, 55d79fba, resta (app/rider/profile/page.tsx: lo stato «Verificato» del documento guarda kyc_provider_status, kyc_provider_checked_at e approved_at; più la sua prova, verde). Le tre colonne esistono nelle migrazioni e la pagina non si rompe. Non l'ho controllata come voce, perché resta aperta.",
+    "R01-005: il revert 1d8a782d toglie c6e10d31 per intero; in lib/ai/tettoSpesa.ts resta solo R01-006.",
+    "Le sette unioni dei rami m01-m07 non hanno risoluzioni di conflitto (git show --cc vuoto) e nessun file di codice è toccato da due sessioni.",
+    "Dubbi dei revisori scartati dopo la verifica: R03-012 chiude la sola rotta dei contanti, che è tutto il perimetro della voce (la corsa con la carta è già fra i difetti nuovi di R03); il filmato che in eccezione torna l'originale è già fra i difetti nuovi di R05; i nomi Facebook riservati sono già fra quelli di R07."
+  ],
+  "conto": {
+    "subagenti": 7,
+    "modello_subagenti": "sonnet",
+    "token_stimati": 400815,
+    "nota": "token dei 7 subagenti dal loro conteggio; la sessione C01 non è contata qui perché get_session non mostra ancora usage.cost_usd"
+  }
+}

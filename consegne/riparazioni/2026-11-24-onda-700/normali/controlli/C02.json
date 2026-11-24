@@ -1,0 +1,31 @@
+{
+  "controllore": "C02",
+  "onda": 2,
+  "finita": true,
+  "aggiornato": "2026-11-24 19:20",
+  "testa": "e173796f6a402d02c9c1ebe748db615ce5ba8dbd",
+  "base": "d000e3b04bc9d12ab160f5ebc55c0d665fc6e5a9",
+  "verify": {
+    "comando": "npm ci && npm run verify; PGHOST=/var/run/postgresql PGUSER=root tests/sql/harness/apply.sh && tests/sql/harness/run.sh",
+    "esito": "verde",
+    "dettaglio": "Sulla testa e173796f: npm run verify uscita 0 (typecheck e lint senza errori, solo avvisi; vitest 2102 file di prova verdi su 2102, 12721 casi). apply.sh 226 migrazioni applicate, 0 fallite; run.sh 91 file SQL, tutti i controlli verdi. Postgres 16 locale (creato il ruolo root solo lì), nessun database vero."
+  },
+  "voci_rosse": [],
+  "nuovi_difetti_visti": [],
+  "note_di_controllo": [
+    "R08-001 (catalogo AI): il ricordo del blocco vale solo per un verdetto vero del filtro, è legato a un'impronta di testo+proposta (cambia la proposta o il testo in catalogo → si rifiltra) e può solo AGGIUNGERE blocchi, mai far passare: anche se qualcuno scrivesse a mano filtro_bloccato nei risultati non sbloccherebbe niente. cambiaQualcosaDiAltro confronta solo colonne presenti in PRODUCT_SNAPSHOT_COLS, che contiene tags, attributes, category_id, images: copre i campi della proposta.",
+    "R09-001: forsePartita non è morto: arriva da lib/privacy/avvisi-a-chi-aspetta.ts:222 (invariato, già sulla base) attraverso lo spread in process-deletions/route.ts:538.",
+    "R09-003/R09-004: i tetti messi sotto i campi (titolo galleria 120, alt 120, etichetta menu 30, titolo pagina 60, SEO 70/180) coincidono con lib/store-site.ts; nei tre file non resta nessun maxLength.",
+    "R10-003: lo scarto in lettura di un nome Facebook già salvato col trattino basso è conseguenza voluta e già dichiarata dal riparatore nel referto R10, non lo riapro.",
+    "R08-005: lib/zod-frasi.ts sulla testa ha le stesse frasi (comprese valoreNonValido e campiInPiu) tolte da lib/zod-i18n.ts: una copia sola.",
+    "Card.tsx: il resto delle prop HTML ora arriva all'elemento solo nel ramo senza href; nel ramo con href non serve per gli usi di questa onda (rider page, nessun href)."
+  ],
+  "file_toccati": 37,
+  "file_guardati": 17,
+  "conto": {
+    "subagenti": 0,
+    "token_stimati": 230000,
+    "costo_usd": 3.44
+  },
+  "buco_dichiarato": "Guardati a occhi i 17 file di codice; i 17 file di prova e i 3 referti .riparazione non letti, ma le prove sono girate tutte verdi nel verify."
+}

@@ -1,0 +1,176 @@
+{
+  "collaudatore": "K06",
+  "riparatori": [
+    "R11",
+    "R12"
+  ],
+  "aggiornato": "2026-11-24 20:05",
+  "finita": true,
+  "voci": [
+    {
+      "id": "R11-001",
+      "chiave": "ai-endpoints|con l'ai dei negozi spenta al lancio, l'allarme sul conto condiviso della spesa ai può arrivare lo stesso ogni sei ore",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R11 --base 242eafd01522a6f2f18d77e0e40f0a6afdfbaf2b^ --file lib/ai/tettoSpesa.ts --prove tests/unit/riparazione-r11-allarme-tetto-ai-spenta.test.ts,tests/unit/riparazione-r08-allarme-tetto-riga-vecchia.test.ts --json"
+      },
+      "nota": "Con AI_NEGOZI_ACCESA=false allarmiTettoSpesaAiPerIlCron torna [] e toglie la riga del ripiego (lib/ai/tettoSpesa.ts:473). Ho cercato altre vie di spesa AI che renderebbero l'allarme necessario anche ad AI spenta: l'unico punto che parla col modello è lib/ai/client.ts, fermato dallo stesso interruttore (:217). Riaccesa l'AI, l'allarme torna. Rimessa uscita 0."
+    },
+    {
+      "id": "R11-002",
+      "chiave": "architettura|il finto clienteavvisi è riscritto in quattro posti e la prova da 1033 righe mescola rotte, notte e una scansione del sorgente",
+      "verdetto": "parziale",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 2,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R11 --base 62882d888a0cca73045c8d90d175ce370f503179^ --file tests/unit/chi-vuole-cancellarsi-trova-una-strada-che-funziona.test.ts --prove tests/unit/chi-vuole-cancellarsi-trova-una-strada-che-funziona.test.ts --json"
+      },
+      "nota": "Esito parziale dichiarato dal riparatore. La correzione è il file di prova stesso: prova-rimessa esce 2 («un file non può essere insieme correzione e prova»). La voce resta aperta per la parte non fatta."
+    },
+    {
+      "id": "R11-003",
+      "chiave": "deploy-sre|il ritorno indietro può ancora scegliere il rilascio sbagliato in due casi rari: un solo altro commit negli ultimi 20 rilasci, o un dominio che non dice il suo commit",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R11 --base 2ebb80ee34cf34c86e62f1113c0c99535729deba^ --file scripts/prova-di-fumo.mjs --prove tests/unit/riparazione-r11-ritorno-indietro-casi-dubbi.test.ts,tests/unit/il-ritorno-indietro-non-torna-sullo-stesso-commit.test.ts,tests/unit/riparazione-r02-ritorno-indietro-casi-rari.test.ts,tests/unit/riparazione-r02-ritorno-indietro-commit-ripetuto.test.ts --json"
+      },
+      "nota": "rilascioDaTornare (scripts/prova-di-fumo.mjs:304-328): con il commit che esce noto, o col dominio che risponde senza dire il commit, ora torna sempre null (ritorno a mano). Chiude i due casi della voce. Più ritorni a mano quando il dominio non si legge: scelta prudente, non rompe altro. Il caso «dominio già sul commit che esce» dava null anche alla base, non è nuovo. Rimessa uscita 0."
+    },
+    {
+      "id": "R11-004",
+      "chiave": "microcopy|altri «rider» rivolti al cliente restano nella pagina dell'ordine e in quella del negozio",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R11 --base 981868bc85467e6eaabf315d7810087799b0e978^ --file app/orders/[id]/page.tsx,app/seller/orders/[id]/page.tsx,components/OrderTimeline.tsx --prove tests/unit/riparazione-r11-parola-fattorino.test.ts,tests/unit/i-nomi-si-leggono-anche-coi-profili-chiusi.test.ts,tests/unit/la-pagina-dell-ordine-aspetta-il-bonifico.test.ts --json"
+      },
+      "nota": "Nei tre file (app/orders/[id]/page.tsx, app/seller/orders/[id]/page.tsx, components/OrderTimeline.tsx) non resta nessuna scritta «rider» a schermo: restano solo nomi di variabili e import. Rimessa uscita 0."
+    },
+    {
+      "id": "R11-005",
+      "chiave": "qa-flussi|due guardie sulla veloce controllano il testo del sorgente e non il comportamento",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K06-R11-005 --base b9690ee6 --file components/checkout/DeliverySlotPicker.tsx --prove tests/unit/la-consegna-veloce-si-vende-solo-se-c-e-un-fattorino.test.ts --json (worktree su 33541c52, commit locale mutante b9690ee6 senza «&& veloceDisponibile === true» a :192); secondo mutante: --base a1605805 --file app/checkout/page.tsx --prove tests/unit/l-ordine-con-un-appuntamento-gia-passato.test.ts --json → 0"
+      },
+      "nota": "Rimessa del programma su ogni prova: uscita 2, perché la correzione è la prova stessa. Allora ho fatto la rimessa con un mutante di comportamento nel sorgente, due mutanti: tutti e due uscita 0, la prova nuova diventa rossa. Limite: anche le guardie vecchie sul testo prendevano questi due mutanti, quindi il guadagno di sensibilità non è dimostrato. Le prove nuove però guardano il comportamento, che è quello che la voce chiede. Nessuna regressione."
+    },
+    {
+      "id": "R11-006",
+      "chiave": "qa-flussi|una prova del promemoria del carrello resta verde solo per caso",
+      "verdetto": "non_regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 1,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K06-R11-006 --base 5e32b3c7da05411b9cdde8123b37b44c9dcefa75 --file app/api/cron/abandoned-carts/route.ts --prove tests/unit/le-email-d-ordine-escono-senza-il-tasto-per-smettere.test.ts --json (worktree su 7071aca9, mutante locale «if (!preso?.user_id)»)"
+      },
+      "nota": "La correzione rende il database finto più fedele: update().select() ora rende la riga e non []. Però il sorgente (app/api/cron/abandoned-carts/route.ts:188-202) guarda solo !preso, e [] e la riga sono veri tutti e due. Quindi nessun mutante del sorgente passa da verde a rosso: la rimessa esce 1. Resta senza prova il caso in cui la presa rende null (già presi, nessuna email). La voce è chiusa solo a metà."
+    },
+    {
+      "id": "R12-001",
+      "chiave": "api-backend|l'invio subito delle notifiche push prende le righe guardando solo pushed_at, e può correre col giro del cron",
+      "verdetto": "rompe_altro",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 4847bd9db869b9245d83bc6364257e8f98785e57^ --file app/api/cron/send-push/route.ts --prove tests/unit/riparazione-r12-onda3-giro-prende-in-carico.test.ts --json"
+      },
+      "nota": "La doppia push per la corsa è chiusa (rimessa uscita 0), ma il giro passa da «almeno una volta» a «al massimo una volta». Alla base una riga non mandata restava con pushed_at vuoto e il giro dopo la riprendeva SENZA scrivere niente. Adesso la presa (app/api/cron/send-push/route.ts:96-113) scrive pushed_at prima di leggere preferenze e iscrizioni, e il recupero dipende da una seconda scrittura (:255-269) che, se fallisce, viene solo loggata. I due guasti vanno insieme: se le iscrizioni non si leggono (:204) è perché il database è instabile, e proprio allora può fallire anche la restituzione. Risultato: la push persa per sempre. Lo stesso succede se la funzione muore fra presa e invio. La campanella resta in app; si perde la push sul telefono, anche quella del nuovo ordine al negozio, che oggi la manda solo questo giro. Raccomando di togliere 4847bd9 con un revert prima dell'unione. L'ho provato sulla testa 2549d2c: il revert si applica pulito e le 5 prove push di prima restano verdi (22/22). Poi va riaperta: la presa va spostata subito prima dell'invio e solo per daMandare, oppure serve una presa con scadenza. La doppia push è un fastidio raro, la push del nuovo ordine persa è peggio."
+    },
+    {
+      "id": "R12-002",
+      "chiave": "architettura|la prova sull'export elenca ancora cod_reconciliations fra le tabelle escluse",
+      "verdetto": "parziale",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 2,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base d39c12e634f62a9bb086d8d8707e2850f93cde3b^ --file tests/unit/scarica-i-miei-dati-non-salta-nessuna-tabella.test.ts --prove tests/unit/scarica-i-miei-dati-non-salta-nessuna-tabella.test.ts --json"
+      },
+      "nota": "Esito parziale dichiarato dal riparatore. Anche la sua rimessa esce 2: la correzione è la prova stessa. La voce resta aperta."
+    },
+    {
+      "id": "R12-003",
+      "chiave": "frontend-ux|incollare il link di instagram o scrivere il sito senza https blocca il salvataggio di tutta la vetrina con un messaggio che non dice dove",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 50d55e939df7541b14ad1f59953b23520187b0aa^ --file components/VendorForm.tsx --prove tests/unit/riparazione-r12-onda3-social.test.tsx,tests/unit/riparazione-r10-slogan-e-social.test.ts --json"
+      },
+      "nota": "components/VendorForm.tsx:184-191 e 289-333: col social sbagliato, al momento dell'invio si vede solo «campo: messaggio». La frase «il resto è salvato» resta in attesa (useRef) e compare solo quando salvataggioRiuscito cresce. A ogni invio si azzera (:289), quindi un salvataggio fallito non la mostra. I social non validi tornano al valore salvato e non bloccano il resto. Rimessa uscita 0."
+    },
+    {
+      "id": "R12-004",
+      "chiave": "qa-flussi|l'aiutante di prova accendi, con la suspense, rende vuoto in silenzio un componente che resta sospeso per sempre: una prova che controlla un'assenza può passare senza aver provato niente",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K06-R12-004 --base 9c8d5c2636f1178f9216c328ab80ac8f0bb09bba^ --file tests/unit/aiuti/schermo.ts --prove tests/unit/riparazione-r12-onda3-schermo-sospeso.test.ts --json"
+      },
+      "nota": "Rimessa uscita 0: la correzione è l aiutante, la prova è un file separato. Contro una regressione: lanciati tutti i 286 file di prova che importano aiuti/schermo, 286 su 286 verdi (1733 prove). La prova è in parte circolare, perché usa un componente finto: accettabile per un aiutante."
+    },
+    {
+      "id": "R12-005",
+      "chiave": "qa-flussi|le prove che fanno girare tutto lo script del backup non hanno un psql finto",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K06-R12-005 --base 2549d2c876def9840b159926aadc78ea2a4b30b4^ --file tests/unit/aiuti/finto-rclone.ts --prove tests/unit/riparazione-r12-onda3-backup-psql-finto.test.ts --json"
+      },
+      "nota": "Rimessa uscita 0. Rimettendo l aiutante e le 3 prove del backup com erano a C^, la prova nuova diventa rossa per il segno-trappola («ha chiamato il psql della macchina»): /usr/bin/psql esiste davvero qui. Le altre 3 prove che fanno girare lo script, con la trappola in testa al PATH, non chiamano psql: 26 su 26. La prova nuova lancia vitest annidato con 240 s di tempo massimo: è lenta."
+    }
+  ],
+  "campione": {
+    "R11": {
+      "accettato": false
+    },
+    "R12": {
+      "accettato": true
+    }
+  }
+}

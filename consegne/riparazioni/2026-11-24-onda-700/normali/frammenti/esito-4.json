@@ -1,0 +1,62 @@
+{
+  "corsia": 4,
+  "territorio": "R04",
+  "difetti": [
+    {
+      "chiave": "layout-responsive|in chi siamo altri due titoli h2 non hanno break-words né min-w-0, come quello riparato",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r04-chi-siamo-altri-titoli.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base fe677c2587383e923399cb03e05af095c1918fd5^ --file app/about/page.tsx --prove tests/unit/riparazione-r04-chi-siamo-altri-titoli.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-c --base fe677c2587383e923399cb03e05af095c1918fd5^ --file app/about/page.tsx --prove tests/unit/riparazione-r04-chi-siamo-altri-titoli.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "«I nostri valori» e «Vuoi farne parte?» hanno break-words hyphens-auto, con min-w-0 sul titolo (il primo) e sulla colonna flex che contiene il secondo; la prova monta la pagina vera e controlla ogni h2."
+    },
+    {
+      "chiave": "layout-responsive|il titolo di collectionheader non va a capo sulle parole lunghe a 280 px col testo al 200%",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r04-titolo-collezione-a-capo.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 83390c94a1e035561becf847a2331692377c8ae6^ --file components/CollectionHeader.tsx --prove tests/unit/riparazione-r04-titolo-collezione-a-capo.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-c --base 83390c94a1e035561becf847a2331692377c8ae6^ --file components/CollectionHeader.tsx --prove tests/unit/riparazione-r04-titolo-collezione-a-capo.test.tsx --json → uscita 0 (K02)",
+      "nota_fix": "Aggiunto break-words all'h1 di CollectionHeader (il contenitore aveva già min-w-0); prova di render sulle classi."
+    },
+    {
+      "chiave": "layout-responsive|il titolo grande di collectionheader esce dalla riga a 280 px col testo al 200%",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r04-titolo-collezione-a-capo.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 83390c94a1e035561becf847a2331692377c8ae6^ --file components/CollectionHeader.tsx --prove tests/unit/riparazione-r04-titolo-collezione-a-capo.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-c --base 83390c94a1e035561becf847a2331692377c8ae6^ --file components/CollectionHeader.tsx --prove tests/unit/riparazione-r04-titolo-collezione-a-capo.test.tsx --json → uscita 0 (K02)",
+      "nota_fix": "Stessa riga della voce gemella: un solo commit, break-words sull'h1."
+    },
+    {
+      "chiave": "microcopy|nella pagina del negozio il filtro dice ancora «rating minimo», mentre ricerca e categoria ora dicono «voto minimo»",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r04-voto-minimo-negozio.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base f37a158451099f58121cd49214258dd30bc82ebd^ --file components/StoreProductExplorer.tsx --prove tests/unit/riparazione-r04-voto-minimo-negozio.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-a --base f37a158451099f58121cd49214258dd30bc82ebd^ --file components/StoreProductExplorer.tsx --prove tests/unit/riparazione-r04-voto-minimo-negozio.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "La scritta del gruppo del voto da «Rating minimo» a «Voto minimo», la stessa di messages/it.json search.minRating usata da ricerca e categoria; la prova monta il componente, apre i filtri e legge l'etichetta."
+    },
+    {
+      "chiave": "performance-percepita|la lettura automatica della griglia con le pagine tutte filtrate non ha un tetto di pagine",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r04-griglia-tetto-pagine.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 7ff939f8efa76570a42acdfa872911ebae900980^ --file components/ProductGrid.tsx --prove tests/unit/riparazione-r04-griglia-tetto-pagine.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-a --base 7ff939f8efa76570a42acdfa872911ebae900980^ --file components/ProductGrid.tsx --prove tests/unit/riparazione-r04-griglia-tetto-pagine.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "Tetto tecnico dichiarato PAGINE_LETTE_DA_SOLA = 5 pagine (la prima compresa): oltre il tetto la griglia non resta sullo scheletro né dice «nessun prodotto», ma mostra «Ancora nessun prodotto da mostrare» con «Carica altri prodotti», una pagina per pressione. Giro di correzione chiesto dal collaudo (commit 1f71b0e0): fermi al tetto con zero prodotti e senza conteggio dal database, la griglia non dichiara più «0 prodotti» al genitore (come già per caricamento ed errore); a pagine finite e vuote lo zero si dice ancora."
+    },
+    {
+      "chiave": "qa-flussi|sulla bacheca del fattorino un doppio tocco su un ordine già suo dice «non è più disponibile» invece di «è già tuo»",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r04-bacheca-gia-tuo.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base d6bb7968402ecdcd87d593fe30a3efcb65defcca^ --file app/rider/page.tsx --prove tests/unit/riparazione-r04-bacheca-gia-tuo.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-b --base d6bb7968402ecdcd87d593fe30a3efcb65defcca^ --file app/rider/page.tsx --prove tests/unit/riparazione-r04-bacheca-gia-tuo.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "prendi_ordine risponde NON_PIU_DISPONIBILE anche quando l'ordine è già di chi lo chiede: prima di dirlo la bacheca legge orders con id e rider_id del fattorino; se è suo scrive «Questo ordine è già tuo.» e porta alla consegna, senza contare di nuovo trackRiderOrderAccepted. La prova monta la pagina col doppio tocco. Giro di correzione chiesto dal collaudo (commit c0eea283): la lettura «è già mio?» guarda anche lo stato (STATI_DELLE_MIE_CONSEGNE_APERTE, la costante della pagina), così un ordine suo ma annullato resta «non è più disponibile»."
+    },
+    {
+      "chiave": "qa-flussi|il conteggio delle veloci in mano non ha filtro di data e oltre 1000 righe esce basso",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r04-veloci-in-mano-oltre-mille.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 17b320d201e77a333859af8c14b50b279ed68bac^ --file lib/ordini/consegna-veloce.ts --prove tests/unit/riparazione-r04-veloci-in-mano-oltre-mille.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-a --base 17b320d201e77a333859af8c14b50b279ed68bac^ --file lib/ordini/consegna-veloce.ts --prove tests/unit/riparazione-r04-veloci-in-mano-oltre-mille.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "Cura solo nel mio file, nessuna prova altrui toccata: contaVelociInCorso calcola la soglia prima di leggere e legge con count:'exact'; se count supera le righe arrivate (taglio a 1000) rilegge con la stessa catena più .gte('created_at', soglia); se la rilettura sbaglia o è ancora tagliata risponde null («non so», che veloceSiPuo tratta già come «la veloce non si vende»). Prova con database finto che taglia a 1000 righe e orologio finto: 1200 vecchie + 2 recenti danno 2, più di 1000 recenti danno null."
+    },
+    {
+      "chiave": "stati-ui|sulla bacheca del fattorino, se l’interruttore online riesce ma la rilettura dopo cade, la scheda resta sul vecchio stato",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r04-interruttore-rilettura-caduta.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 0e655d33e4a4d924ead87950f3e492e013506f63^ --file app/rider/page.tsx --prove tests/unit/riparazione-r04-interruttore-rilettura-caduta.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-b --base 0e655d33e4a4d924ead87950f3e492e013506f63^ --file app/rider/page.tsx --prove tests/unit/riparazione-r04-interruttore-rilettura-caduta.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "Nell'onSuccess di toggleOnline lo stato scritto entra subito in rider.pref con qc.setQueryData, prima della rilettura: se la rilettura cade, scheda e interruttore mostrano lo stato nuovo, cioè quello vero. La prova monta la pagina, accende e spegne con la rilettura che cade."
+    }
+  ]
+}

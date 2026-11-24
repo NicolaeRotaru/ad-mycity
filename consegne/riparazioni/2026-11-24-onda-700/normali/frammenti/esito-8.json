@@ -1,0 +1,34 @@
+{
+  "corsia": 8,
+  "territorio": "R08",
+  "difetti": [
+    {
+      "chiave": "frontend-ux|una vetrina lasciata aperta oltre mezzanotte continua a mostrare l'annuncio del giorno prima finché la pagina non si ridisegna",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r08-annuncio-pagine-su-misura.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 8b06537efc05d427c2a2f6af24f6bd55c979067e^ --file app/store/[id]/[slug]/page.tsx --prove tests/unit/riparazione-r08-annuncio-pagine-su-misura.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base 8b06537efc05d427c2a2f6af24f6bd55c979067e^ --file app/store/[id]/[slug]/page.tsx --prove tests/unit/riparazione-r08-annuncio-pagine-su-misura.test.tsx --json → uscita 0 (K05)",
+      "nota_fix": "La pagina su misura del negozio ([slug]) ha lo stesso meccanismo della pagina principale (che reggeva già): giorno di Piacenza in uno stato ricontrollato ogni minuto, hook prima dei ritorni anticipati, timer spento allo smontaggio. Prova con orologio finto: «Chi siamo» alle 23:58 del 24/11 con annuncio fino al 24 lo mostra, tre minuti dopo non più."
+    },
+    {
+      "chiave": "layout-responsive|la pagina 404 a 280 px col testo al 200% esce di 5 px",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r08-404-dentro-il-riquadro.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 04bc5217053f02539fcc70e1d278ca5dbd1ccfb5^ --file app/not-found.tsx --prove tests/unit/riparazione-r08-404-dentro-il-riquadro.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base 2d4d29301e79861e0dd9dc7ddefb18afc16e3a67^ --file app/not-found.tsx --prove tests/unit/riparazione-r08-404-dentro-il-riquadro.test.ts --json → uscita 0 (K05)",
+      "nota_fix": "Due commit. 04bc5217, misurato in Chromium a 280 px con radice 32 px: «404» da 19,1-260,9 (29 px oltre il contenitore 48-232) a 69,5-210,5; riquadro «Link utili» da 5,1-274,9 a 48-232; scrollWidth 280; sopra sm invariato. Cura: numero min(3.75rem,25vw) sotto sm, overflow-wrap:anywhere sull elenco, max-w-full sulle voci. 2d4d2930 (giro di correzione dopo il revisore): i tre bottoni (Torna alla home, Esplora i negozi, Cerca prodotti) con max-w-full, testo centrato che va a capo e icona shrink-0: a 280/r32 da 25,3-254,7 a 48-232, a 320/r32 da 45,3-274,7 a 48-272; a 360/16, 640 e 1024 posizioni identiche alla base. Prova esistente tests/unit/riparazione-r02-404-testo-grande.test.ts aggiornata al nuovo nome della classe del numero (legge app/not-found.tsx per nome; vieta ancora text-7xl senza prefisso, sm:text-7xl e md:text-9xl restano)."
+    },
+    {
+      "chiave": "performance-percepita|il traduttore degli errori di zod entra in ogni pagina passando dal piede del sito",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r08-frasi-zod-una-copia.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 0332a24eada963e4cea3a547a302269f00269f30^ --file lib/zod-i18n.ts --prove tests/unit/riparazione-r08-frasi-zod-una-copia.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base 0332a24eada963e4cea3a547a302269f00269f30^ --file lib/zod-i18n.ts --prove tests/unit/riparazione-r08-frasi-zod-una-copia.test.ts --json → uscita 0 (K05)",
+      "nota_fix": "Sulla base lib/errors.ts prende già le frasi da lib/zod-frasi.ts (senza Zod). Tolta da lib/zod-i18n.ts la seconda copia di TIPI_IN_ITALIANO, quanti e FRASI_ZOD: ora import e re-export da ./zod-frasi, con gli stessi export. Prova: FRASI_ZOD di zod-i18n è lo stesso oggetto di zod-frasi; la rimessa cade sul comportamento (uscita 0)."
+    },
+    {
+      "chiave": "stati-ui|con la proposta di «genera con ai» aperta, le correzioni fatte a mano nel frattempo si perdono premendo «usa questa»",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r08-genera-con-ai-correzioni.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 0f3683ca0682e1b04eedfa9a5c96f8bbb9d1e347^ --file components/seller/ProductForm.tsx --prove tests/unit/riparazione-r08-genera-con-ai-correzioni.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base 0f3683ca0682e1b04eedfa9a5c96f8bbb9d1e347^ --file components/seller/ProductForm.tsx --prove tests/unit/riparazione-r08-genera-con-ai-correzioni.test.tsx --json → uscita 0 (K05)",
+      "nota_fix": "Il testo di confronto si ricorda quando si preme «Genera», non quando arriva la risposta. Prova montando ProductForm con l AI accesa solo nella prova: fetch in attesa, correzione a mano durante l attesa, «Usa questa» chiede conferma; con no la correzione resta, con sì entra la proposta; senza correzioni nessuna conferma."
+    }
+  ]
+}
