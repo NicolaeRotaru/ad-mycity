@@ -1,0 +1,43 @@
+{
+  "_cosa_e": "I costi misurati delle radiografie del sito. Il preventivo di una radiografia si fa SOLO da qui (come la riparazione, lezione 3 del 15/11), scegliendo le misure con la stessa configurazione: tipo di sessione (ricontrollo o cerca), metodo (lotti o sessione intera) e ultracode. Una riga per radiografia misurata, scritta dal comando `misura --scrivi` a fine lavoro; le righe vecchie non si riscrivono. Un gruppo senza dollari (usd null) non entra nel preventivo.",
+  "_aggiornato": "2026-11-24 12:00",
+  "misure": [
+    {
+      "fase": "radiografia del 6/11 in 12 sessioni",
+      "cartella": "consegne/audit/2026-11-06-radiografia-12-sessioni",
+      "data": "2026-11-06 19:17",
+      "profilo": "tutto (prima dei profili)",
+      "gruppi": [
+        { "tipo": "ricontrollo", "metodo": "sessione-intera", "ultracode": false, "sessioni": 1, "voci": null, "lotti": null, "usd": 60.62, "chiusi": 28 },
+        { "tipo": "cerca", "metodo": "sessione-intera", "ultracode": false, "sessioni": 11, "voci": null, "lotti": null, "usd": 266.77, "difetti": { "bloccante": 0, "grave": 11, "minore": 164 } }
+      ],
+      "usd_sessioni": 327.39,
+      "usd_regia_e_cf": 1108.15,
+      "nota": "Costi da consegne/radiografia/2026-11-12-radiografia-in-sessioni/costo-6-11.json (get_session ed eventi result). La regia è costata 1.108,15 $, più di tre volte le dodici sessioni: è rimasta aperta sei giorni, anche dopo la radiografia, e ogni suo risveglio rileggeva tutta la storia. Il 97% dei token era rilettura. I 28 chiusi sono i «già riparati» di quella radiografia (LAVORO-APERTO, 6/11 alle 19:17). Sessioni senza lotti: ognuna leggeva il codice da sola, con storie da 277 a 422 mila token. È la lezione più cara della radiografia, ed è la stessa dell'onda 2 della riparazione: la regia lunga."
+    },
+    {
+      "fase": "giro di prova della palestra del 7/11 (prova di fumo)",
+      "cartella": "consegne/audit/2026-11-07-palestra",
+      "data": "2026-11-12 13:55",
+      "profilo": "palestra",
+      "gruppi": [
+        { "tipo": "palestra", "metodo": "giro dei flussi che incassano", "ultracode": false, "sessioni": 1, "usd": null, "token": 1300000, "difetti": { "bloccante": 1, "grave": 1, "minore": 1 } }
+      ],
+      "usd_sessioni": null,
+      "usd_regia_e_cf": null,
+      "nota": "Il giro del pane in contanti con 4 ruoli, su una copia del sito: ha trovato un bloccante, un grave e un minore verificati (referto, riga «Prova di fumo»). Per il manuale dell'AD (regola ⑳) è il giro che ha trovato il bloccante degli indirizzi, che la lettura del codice in 12 sessioni del 6/11 non aveva visto. Misurato in token, non in dollari; la data è quella del referto della palestra (consegne/audit/2026-11-07-palestra/referto.md). La palestra intera (484 prove, 125 difetti nuovi, lotti da 0,5 a 7,8 milioni di token) è in consegne/audit/2026-11-12-conto-token-palestra.md."
+    },
+    {
+      "fase": "ricontrollo del 21/11 (settimana dei 700)",
+      "cartella": "consegne/radiografia/2026-11-21-ricontrollo",
+      "data": "2026-11-21 16:35",
+      "profilo": "ricontrollo",
+      "gruppi": [
+        { "tipo": "ricontrollo", "metodo": "lotti", "ultracode": true, "sessioni": 4, "voci": 459, "lotti": 31, "subagenti": 43, "usd": 104.72, "chiusi": 117, "esiti": { "non_piu_vero": 117, "cambiato": 85, "ancora_vero": 243, "non_verificabile": 14 } }
+      ],
+      "usd_sessioni": 104.72,
+      "usd_regia_e_cf": 25.28,
+      "nota": "Quattro sessioni da 99-120 voci, lotti da 15 voci, un subagente qa per lotto, verificatori solo sulle chiusure dei gravi. Ultracode su tutte e quattro, perché ognuna aveva dentro qualche grave. Il prepasso fatto da uno script della campagna ha tenuto fuori 214 voci su 673. Costo delle sessioni da get_session della regia (REGIA.md della settimana dei 700, 16:14). Regia e controllore finale non hanno un contatore: 25,28 $ è la differenza fra i circa 130 $ spesi prima della regia seconda e le sessioni, quindi è una stima. Le 117 chiusure sono 114 delle sessioni più 3 gravi confermati dal controllore finale. Chiudere una voce senza ripararla è costato circa 1,11 $ (130 $ diviso 117), contro 4-8 $ di una chiusura con riparazione nelle onde migliori."
+    }
+  ]
+}

@@ -12,6 +12,19 @@
 // da un programma prima della verifica, e un conto finale che non lascia sparire nessun difetto trovato.
 // Il metodo, le fasi e le fermate stanno nella skill `radiografia-sessioni`.
 //
+// LE ONDE DELLA RIPARAZIONE, PORTATE QUI (24/11, Nicola: «crea lo stesso sistema anche per la radiografia»). Dal 12/11
+// la riparazione ha girato nove onde e la settimana dei 700, e ogni regola che ha fallito come testo è diventata un
+// programma (regola ㉕). La radiografia era rimasta al 12/11 e ha girato una volta sola, il ricontrollo del 21/11,
+// con un primo passaggio scritto a mano nella cartella della campagna. Qui entrano: il prepasso come pezzo del
+// programma; il ricontrollo diviso fra voci gravi (ultracode) e minori (senza), perché ultracode raddoppia il costo
+// (4-8 $ a chiusa senza, 12-27 $ con, misure.json della riparazione); il preventivo SOLO dalle misure, scelte con la
+// stessa configurazione (la riparazione prende ancora l'ultima riga: regola 1 del 21/11, solo testo); la riga delle
+// misure scritta da un comando, senza la quale il registro non si scrive (regola 7 del 21/11); la falla scoperta
+// durante un ricontrollo (il 21/11 i dettagli di dodici voci aperte sono finiti nei rami pubblici); i gravi visti di
+// passaggio, che il ricontrollo non sapeva dove mettere; il costo in dollari nel referto; la sorveglianza muta, che
+// sveglia la regia solo quando cambia qualcosa, e la sessione che non parte. Analisi:
+// consegne/audit/2026-11-24-radiografia-a-onde/lezioni.md.
+//
 // Uso (dalla radice di ad-mycity):
 //   node cervello/radiografia-sessioni.mjs <comando> [argomenti] --cartella <dir> [opzioni]
 //
@@ -29,10 +42,21 @@
 //   doppioni                  i difetti contro il registro e fra le sessioni, prima della verifica finale
 //   grezzo --data AAAA-MM-GG  il grezzo per il digest: i difetti tenuti, senza doppioni né regressioni
 //   conti                     nessun difetto trovato è sparito: ogni id è nel grezzo, nei doppioni o negli scartati
-//   applica --data … [--scrivi] i ricontrolli e le regressioni sul registro, per chiave (🟡 con --scrivi)
+//   applica --data … [--scrivi] i ricontrolli e le regressioni sul registro, per chiave (🟡 con --scrivi); con
+//                             --scrivi vuole misura.json, e scrive da-riservare.txt (le voci che il ricontrollo
+//                             ha scoperto essere falle)
 //   copertura-dopo            i file letti o eseguiti dai referti, contro la mappa del perimetro
+//   misura [--scrivi]         la riga delle misure dai referti (conto.usd) e da --usd-regia/--usd-cf; con --scrivi
+//                             la aggiunge a cervello/radiografia/misure.json (mai due volte la stessa cartella)
+//   segnali --onda N          i segnali nuovi per la regia (ramo, finita, ferma, non partita, attesa, spesa, quota)
+//   sorveglia --onda N --attendi  la sorveglianza muta: aspetta in silenzio ed esce solo con un segnale nuovo (1) o
+//                             al battito (4); --intervallo e --battito in secondi (300 e 7200)
 //
-// Uscita: 0 verde · 1 rosso · 2 uso sbagliato o non ho potuto misurare · 3 in attesa (mai un verde muto).
+// Opzioni di prepara: --ultracode dove-serve|no|tutte (predefinito dove-serve: le sessioni di ricontrollo delle
+// voci gravi e le cercatrici dei temi a rischio alto) · --senza-prepasso (tutte le voci vanno agli agenti).
+//
+// Uscita: 0 verde · 1 rosso · 2 uso sbagliato o non ho potuto misurare · 3 in attesa (mai un verde muto) ·
+// 4 battito della sorveglianza muta (niente di nuovo).
 //
 // Opzioni comuni:
 //   --cartella <dir>   la cartella della radiografia (consegne/radiografia/AAAA-MM-GG-<nome>)
@@ -54,13 +78,13 @@ import { fileURLToPath } from "node:url";
 // L'unico esecutore di git della casa: il tetto di maxBuffer sta lì, una volta sola (malattia «git-letto-senza-tetto»).
 import { gitEsegui } from "./git-github.mjs";
 import { chiaveProblema } from "./referti-sito.mjs";
-import { timbroOra } from "./ora-piacenza.mjs";
+import { timbroOra, msDaTimbro } from "./ora-piacenza.mjs";
 // Ogni scrittura passa dalla porta della casa: fuori dalla memoria scrive dov'era, dentro rispetta la sola lettura e
 // la sabbiera (misura-che-non-sporca, AR-639). Una scrittura fermata non è un verde muto: si dice.
 import { scriviJsonAtomico, scriviTestoAtomico } from "./scrivi-json.mjs";
 // La forma delle falle riservate è UNA sola per la casa: la stessa del risolutore (regoleNuoviDifetti). Se cambia lì,
 // cambia qui: una riservata scritta bene per uno è scritta bene per l'altro.
-import { chiaviDoppie, dataVera, TITOLO_RISERVATO, AREE_RISERVATE, PRIVATO } from "./riparazione-sessioni.mjs";
+import { chiaviDoppie, dataVera, TITOLO_RISERVATO, AREE_RISERVATE, PRIVATO, nuoviSegnali } from "./riparazione-sessioni.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const veroPercorso = (p) => { try { return realpathSync(p); } catch { return resolve(p); } };
@@ -76,13 +100,15 @@ export const RE_SESSIONE = /^S\d{2}[b-z]?$/;
 export const SEP = " · ";
 // I campi di una riservata: un elenco chiuso. Un campo in più («nota», «dettagli») porterebbe la falla in chiaro.
 export const CAMPI_REFERTO = Object.freeze(["sessione", "base_sito", "aggiornato", "finita", "lotti", "copertura", "difetti", "scartati", "regressioni", "ricontrolli", "prove_per_la_palestra", "domande_per_nicola", "conto"]);
+export const CAMPI_RICONTROLLO = Object.freeze(["chiave", "esito", "prova", "prova_tipo", "prova_eseguita", "esito_prova", "verificato", "verificato_da", "nota", "falla"]);
 export const CAMPI_RISERVATA_RADIOGRAFIA = Object.freeze(["id", "trovato_da", "riservato", "titolo", "file", "severita", "dimensione", "prova_tipo", "prova_eseguita", "verificato", "verificato_da"]);
+export const MODI_ULTRACODE = Object.freeze(["dove-serve", "no", "tutte"]);
 const SEGNAPOSTI_REFERTO = ['"…"', '"una delle 24 lenti"', '"come lo diresti a voce"', "AAAA-MM-GG HH:MM"];
 const SEGNAPOSTI_SCHEDA = ["<sha>", "<ramo>", "<id>", "<regista>", "<cartella>", "{{", "}}", "AAAA-MM-GG HH:MM"];
 const BINARIO = /\.(png|jpe?g|gif|webp|avif|ico|svg|bmp|ttf|otf|woff2?|eot|mp3|mp4|webm|mov|pdf|zip)$/i;
 
 // ── Opzioni ──────────────────────────────────────────────────────────────────────────────────────
-const BOOLEANE = new Set(["json", "scrivi"]);
+const BOOLEANE = new Set(["json", "scrivi", "senza-prepasso", "attendi", "tutti"]);
 export function leggiOpzioni(argv) {
   const opz = { posizionali: [] };
   for (let i = 0; i < argv.length; i++) {
@@ -202,6 +228,185 @@ export function fileCitati(campo) {
     .map((m) => ({ f: m[1].replace(/^marketplace\//, ""), da: m[2] ? Number(m[2]) : null, a: m[3] ? Number(m[3]) : m[2] ? Number(m[2]) : null }));
 }
 
+// ── il prepasso: quello che un programma sa dire di una voce prima che la guardi un agente ───────────
+// Nato il 21/11 come script della campagna (consegne/riparazioni/2026-11-21-settimana-700/prepasso.mjs): delle 674
+// voci aperte non riservate, 214 avevano i file fermi, o le righe citate ferme, dall'ultima volta che la voce era stata
+// vista vera, e non sono andate agli agenti; le 459 rimaste, in 4 sessioni, hanno chiuso 117 voci con circa 105 $
+// (0,23 $ a voce guardata, meno di 1 $ a chiusa, contro 4-8 $ di una chiusura con riparazione). Era il pezzo più
+// conveniente del lavoro, e stava fuori dal programma: copertura-prima non lo poteva rifare, e ogni ricontrollo lo
+// avrebbe riscritto (regola ⑬). Qui lo usa `prepara`, e `copertura-prima` lo rifà e lo confronta.
+// Una voce tenuta dal programma NON si chiude: resta aperta com'era. Il prepasso toglie lavoro, mai difetti.
+export const CLASSI_DA_GUARDARE = Object.freeze(["righe_toccate", "senza_data", "senza_file", "file_spariti"]);
+const RE_PERCORSO_PP = /((?:[\w@.\-\[\]()]+\/)*[\w@.\-\[\]]+\.(?:tsx|ts|jsx|json|js|mjs|cjs|sql|css|md|yml|yaml|toml|html|txt|sh))(?![\w])(?::(\d+)(?:-(\d+))?)?/g;
+const dataIn = (v) => (String(v ?? "").match(/20\d\d-\d\d-\d\d(?:[ T]\d\d:\d\d)?/) ?? [null])[0];
+/** Una voce dichiarata riparata (un campo riparazione_GG_MM con esito riparato o già riparato) ma ancora aperta. PURA. */
+export function dichiarataRiparata(p) {
+  return Object.entries(p ?? {}).some(([k, v]) => /^riparazione_\d+_\d+$/.test(k) && v && typeof v === "object" && ["riparato", "gia_riparato_prima"].includes(v.esito));
+}
+/** Le volte che la voce è stata vista vera, dalla più recente: riverifiche, riapertura, nascita. PURA. */
+export function confermeDi(p) {
+  const out = [];
+  for (const [k, v] of Object.entries(p ?? {})) {
+    if (!/^riverifica(_\d+_\d+)?$/.test(k) || !v || typeof v !== "object") continue;
+    const esito = v.esito ?? v.verdetto;
+    if (["non_verificabile", "non_era_un_difetto"].includes(esito)) continue;
+    if (k === "riverifica_1_11" && esito !== "presente") continue;
+    const d = dataIn(v.data);
+    if (d) out.push({ d, c: typeof v.codice === "string" ? v.codice : null, da: k });
+  }
+  if (p?.riaperto_il && dataIn(p.riaperto_il)) out.push({ d: dataIn(p.riaperto_il), c: null, da: "riaperta" });
+  const nascita = dataIn(p?.fonte_radiografia) ?? dataIn(p?.fonte);
+  if (nascita) out.push({ d: nascita, c: null, da: "nascita" });
+  return out.sort((a, b) => String(b.d).localeCompare(String(a.d)));
+}
+/** La classe di una voce dai fatti del sito. PURA. */
+export function classePrepasso({ citati, spariti, commit, cambiati, toccati, righeToccate }) {
+  if (citati.length === 0) return "senza_file";
+  if (spariti.length) return "file_spariti";
+  if (!commit || !cambiati) return "senza_data";
+  if (toccati.length) return righeToccate ? "righe_toccate" : "righe_ferme";
+  return "fermo";
+}
+/** Va a un agente: le classi che chiedono uno sguardo, e ogni voce dichiarata riparata ma aperta (chiusura a buon mercato). PURA. */
+export const daGuardare = (e) => CLASSI_DA_GUARDARE.includes(e.classe) || e.dichiarata_riparata === true;
+
+/**
+ * Il prepasso su un elenco di voci del registro, al commit `base` della copia del sito. Legge solo git.
+ * Su una copia senza storia (clone corto) le date non si trovano: le voci diventano «senza_data» e vanno tutte agli
+ * agenti. È il verso sicuro: il prepasso può solo togliere lavoro che la storia dice inutile.
+ */
+export function prepassoVoci(opz, base, problemi) {
+  const g = (args) => git(opz.sito, args);
+  const allaBase = new Set(fileDelSito(opz, base).map((x) => x.f));
+  const perNome = new Map();
+  for (const f of allaBase) { const n = f.split("/").pop(); if (!perNome.has(n)) perNome.set(n, []); perNome.get(n).push(f); }
+  const memo = (fn) => { const m = new Map(); return (k) => { if (!m.has(k)) m.set(k, fn(k)); return m.get(k); }; };
+  const commitAllaData = memo((d) => { try { return g(["rev-list", "-1", `--before=${d.length === 10 ? `${d} 23:59` : d}`, base]).trim() || null; } catch { return null; } });
+  const commitVero = memo((c) => { try { return g(["rev-parse", "--verify", "--quiet", `${c}^{commit}`]).trim() || null; } catch { return null; } });
+  const cambiatiDa = memo((c) => { try { return new Set(g(["diff", "--name-only", "--no-renames", `${c}..${base}`]).split("\n").filter(Boolean)); } catch { return null; } });
+  const pezzi = memo((k) => {
+    const [rif, f] = k.split("\u0000");
+    try { return [...g(["diff", "-U0", "--no-renames", `${rif}..${base}`, "--", f]).matchAll(/^@@ -(\d+)(?:,(\d+))? /gm)].map((m) => [Number(m[1]), m[2] === undefined ? 1 : Number(m[2])]); } catch { return null; }
+  });
+  const risolvi = (f) => {
+    if (allaBase.has(f)) return f;
+    const coda = [...allaBase].filter((x) => x.endsWith("/" + f));
+    return coda.length === 1 ? coda[0] : coda.length > 1 ? { ambiguo: f } : null;
+  };
+  // i percorsi anche dentro le note fra parentesi: «app/x.tsx:12-20 (spiegazione) · lib/y.ts (…)»
+  const citatiDi = (campo) => {
+    const visti = new Map();
+    for (const m of String(campo ?? "").matchAll(RE_PERCORSO_PP)) {
+      let f = m[1].replace(/^[(`'"«]+/, "").replace(/^.*?\/marketplace\//, "").replace(/^marketplace\//, "").replace(/^\.\//, "");
+      if (f.startsWith("http") || f.includes("//") || /(^|\/)(node_modules|\.next)\//.test(f) || f.startsWith("cervello/") || f.includes("*")) continue;
+      if (!f.includes("/") && !/\.(sql|sh)$/.test(f) && !allaBase.has(f)) {
+        const n = perNome.get(f); // un nome nudo vale solo se nel sito c'è un file solo con quel nome
+        if (!n || n.length !== 1) continue;
+        f = n[0];
+      }
+      const r = risolvi(f);
+      if (r && typeof r === "object") continue; // ambiguo: non dice né sì né no
+      const ff = r ?? f, da = m[2] ? Number(m[2]) : null, a = m[3] ? Number(m[3]) : da;
+      if (!visti.has(`${ff}:${da}`)) visti.set(`${ff}:${da}`, { f: ff, da, a });
+    }
+    return [...visti.values()];
+  };
+  const esiti = [];
+  for (const p of problemi) {
+    const conferme = confermeDi(p);
+    const ult = conferme[0] ?? null;
+    let commit = null;
+    if (ult) commit = (ult.c && commitVero(ult.c)) || commitAllaData(ult.d);
+    const citati = citatiDi(p.file);
+    const spariti = citati.filter((x) => !allaBase.has(x.f)).map((x) => x.f);
+    const cam = commit ? cambiatiDa(commit) : null;
+    const toccati = cam ? [...new Set(citati.filter((x) => cam.has(x.f)).map((x) => x.f))] : [];
+    // le righe citate sono di quando la voce è nata: il confronto parte dal commit della nascita
+    let righeToccate = null;
+    if (toccati.length) {
+      const nascita = conferme.find((c) => c.da === "nascita");
+      const rif = nascita ? commitAllaData(nascita.d) : commit;
+      righeToccate = false;
+      for (const x of citati) {
+        if (!cam.has(x.f)) continue;
+        if (!x.da || !rif) { righeToccate = true; break; }
+        const pz = pezzi(`${rif}\u0000${x.f}`);
+        if (pz === null || pz.some(([a, n]) => (n === 0 ? a >= x.da - 1 && a <= x.a : a <= x.a && a + n - 1 >= x.da))) { righeToccate = true; break; }
+      }
+    }
+    const righeFuori = citati.filter((x) => allaBase.has(x.f) && x.a && (righeDi(opz, base, x.f) ?? Infinity) < x.a).map((x) => `${x.f}:${x.a}`);
+    esiti.push({
+      chiave: chiaveProblema(p), gravita: String(p.severita ?? "").toLowerCase(),
+      // righe citate oltre la fine del file: il file è cambiato sotto la voce, anche se la storia dice «fermo»
+      classe: ((c) => (righeFuori.length && !CLASSI_DA_GUARDARE.includes(c) ? "righe_toccate" : c))(classePrepasso({ citati, spariti, commit, cambiati: cam, toccati, righeToccate })),
+      conferma: ult ? `${ult.d} (${ult.da})` : null, commit: commit ? commit.slice(0, 12) : null,
+      spariti, toccati, righe_fuori: righeFuori, dichiarata_riparata: dichiarataRiparata(p),
+    });
+  }
+  return esiti;
+}
+/** Il riassunto del prepasso per il piano e per la fermata 1. PURA. */
+export function sintesiPrepasso(esiti) {
+  const per = {};
+  for (const e of esiti) per[e.classe] = (per[e.classe] ?? 0) + 1;
+  const guardate = esiti.filter(daGuardare).length;
+  return { voci: esiti.length, guardate, tenute_dal_programma: esiti.length - guardate, per_classe: per };
+}
+
+/**
+ * Le voci che il ricontrollo guarda: aperte, non riservate, delle gravità del profilo (e nel perimetro della
+ * funzione), poi il prepasso. Una funzione sola per `prepara` e `copertura-prima`: la seconda rifà la scelta della
+ * prima, invece di fidarsi di da-ricontrollare.txt.
+ */
+function vociDaRicontrollare(opz, { problemi, profilo, profiloNome, temiScelti, fileNelPerimetro, base, prepasso }) {
+  const candidate = [];
+  if (!temiScelti.includes("S01")) return { candidate, daRic: [], esiti: null };
+  for (const p of problemi) {
+    const g = String(p.severita ?? "").toLowerCase();
+    if (p.stato !== "aperto" || eRiservataTitolo(p.titolo) || !profilo.ricontrollo.includes(g)) continue;
+    if (profiloNome === "funzione" && !fileCitati(p.file).some((c) => fileNelPerimetro.has(c.f))) continue;
+    candidate.push({ p, chiave: chiaveProblema(p), gravita: g, file: piatto(p.file), titolo: piatto(p.titolo), primo: primoFile(p.file) });
+  }
+  if (!prepasso) return { candidate, daRic: candidate, esiti: null };
+  const esiti = prepassoVoci(opz, base, candidate.map((v) => v.p));
+  const tieni = new Set(esiti.filter(daGuardare).map((e) => e.chiave));
+  return { candidate, daRic: candidate.filter((v) => tieni.has(v.chiave)), esiti };
+}
+
+/**
+ * Le voci da ricontrollare divise in sessioni: prima le gravi e le bloccanti (delicate: ultracode e verificatore
+ * per chiuderle), poi le minori, mai mischiate. Il 21/11 ogni sessione aveva dentro qualche grave, e ultracode è
+ * stato acceso su tutte e quattro; nella riparazione ultracode costa il doppio per voce lavorata (4,16 $ contro
+ * 2,22 $, onde 1 e 2). Gli id continuano le lettere: S01, S01b, S01c… PURA.
+ */
+/**
+ * Le onde: prima il rischio alto, poi il resto, perOnda al massimo. Con `pilota` (un numero) la prima onda porta tutto
+ * il ricontrollo e al massimo `pilota` cercatrici, le prime a rischio alto. PURA.
+ */
+export function ordinaOnde(sessioni, perOnda, pilota = null) {
+  const ids = Object.keys(sessioni);
+  const ordinate = [...ids].sort((a, b) => (sessioni[a].rischio === "alto" ? 0 : 1) - (sessioni[b].rischio === "alto" ? 0 : 1) || a.localeCompare(b));
+  const onde = [];
+  let resto = ordinate;
+  if (pilota !== null && ordinate.some((x) => sessioni[x].tema !== "S01")) {
+    const ric = ordinate.filter((x) => sessioni[x].tema === "S01");
+    const cerca = ordinate.filter((x) => sessioni[x].tema !== "S01").slice(0, Math.max(1, Math.min(pilota, perOnda - Math.min(ric.length, perOnda - 1))));
+    const prima = [...ric.slice(0, perOnda - cerca.length), ...cerca];
+    onde.push(prima);
+    resto = ordinate.filter((x) => !prima.includes(x));
+  }
+  for (let i = 0; i < resto.length; i += perOnda) onde.push(resto.slice(i, i + perOnda));
+  return onde;
+}
+export function lottiRicontrollo(voci, perLotto, lottiMax) {
+  const pezzi = [];
+  for (const delicata of [true, false]) {
+    const lotti = lottiDiVoci(voci.filter((v) => GRAVI.has(v.gravita) === delicata), perLotto);
+    for (let i = 0; i < lotti.length; i += lottiMax) pezzi.push({ lotti: lotti.slice(i, i + lottiMax), delicata });
+  }
+  return pezzi.map((x, k) => ({ id: k === 0 ? "S01" : `S01${String.fromCharCode(97 + k)}`, ...x }));
+}
+
 // ── prepara ──────────────────────────────────────────────────────────────────────────────────────
 /**
  * Divide i file di un tema in lotti da ~kb_per_lotto, tenendo insieme le cartelle. PURA.
@@ -278,20 +483,28 @@ function prepara(opz) {
   const minoriAperti = contaMinoriAperti(problemi);
   const minoriAmmessi = profilo.minori === true && minoriAperti <= M.soglia_minori;
   const gravita = profilo.gravita.filter((g) => g !== "minore" || minoriAmmessi);
+  const modoUC = opz.ultracode ?? "dove-serve";
+  if (!MODI_ULTRACODE.includes(modoUC)) return uso(`prepara --ultracode <${MODI_ULTRACODE.join("|")}>`);
   const fileNelPerimetro = new Set(perimetroFile.map((x) => x.f));
   const compatto = ["# chiave\tstato\tgravita\tdimensione\tfile\ttitolo  (le riservate: solo chiave, stato, gravità e titolo; si legge con grep, mai con Read)"];
-  const daRic = [];
   for (const p of problemi) {
     const chiave = chiaveProblema(p);
     const g = String(p.severita ?? "").toLowerCase();
     if (eRiservataTitolo(p.titolo)) { compatto.push([chiave, p.stato, g, "-", "-", piatto(p.titolo)].join("\t")); continue; }
     compatto.push([chiave, p.stato, g, piatto(p.dimensione), piatto(p.file), piatto(p.titolo)].join("\t"));
-    if (p.stato !== "aperto" || !temiScelti.includes("S01") || !profilo.ricontrollo.includes(g)) continue;
-    if (profiloNome === "funzione" && !fileCitati(p.file).some((c) => fileNelPerimetro.has(c.f))) continue;
-    daRic.push({ chiave, gravita: g, file: piatto(p.file), titolo: piatto(p.titolo), primo: primoFile(p.file) });
   }
+  const prepasso = !opz["senza-prepasso"];
+  const scelta = vociDaRicontrollare(opz, { problemi, profilo, profiloNome, temiScelti, fileNelPerimetro, base: opz.base, prepasso });
+  const daRic = scelta.daRic;
   scriviTesto(join(opz.cartella, "registro-compatto.txt"), compatto.join("\n") + "\n");
-  scriviTesto(join(opz.cartella, "da-ricontrollare.txt"), ["# chiave\tgravita\tfile\ttitolo  (le voci aperte NON riservate del profilo, per S01)", ...daRic.map((v) => [v.chiave, v.gravita, v.file, v.titolo].join("\t"))].join("\n") + "\n");
+  scriviTesto(join(opz.cartella, "da-ricontrollare.txt"), [`# chiave\tgravita\tfile\ttitolo  (le voci aperte NON riservate del profilo, per S01${scelta.esiti ? ", dopo il prepasso" : ""})`, ...daRic.map((v) => [v.chiave, v.gravita, v.file, v.titolo].join("\t"))].join("\n") + "\n");
+  let infoPrepasso = null;
+  if (scelta.esiti) {
+    infoPrepasso = { ...sintesiPrepasso(scelta.esiti), storia_corta: (gitOk(opz.sito, ["rev-parse", "--is-shallow-repository"]) ?? "").trim() === "true" };
+    scriviJson(join(opz.cartella, "prepasso.json"), { base: opz.base, sintesi: infoPrepasso, esiti: scelta.esiti });
+    scriviTesto(join(opz.cartella, "prepasso.tsv"), ["chiave\tgravita\tclasse\tagli_agenti\tconferma\tcommit\tdichiarata_riparata\tspariti\ttoccati\trighe_fuori",
+      ...scelta.esiti.map((e) => [e.chiave, e.gravita, e.classe, daGuardare(e) ? "sì" : "no", e.conferma ?? "-", e.commit ?? "-", e.dichiarata_riparata ? "sì" : "no", e.spariti.join(" "), e.toccati.join(" "), e.righe_fuori.join(" ")].join("\t"))].join("\n") + "\n");
+  }
 
   // la mappa: ogni file del perimetro coi suoi proprietari (tutti) e il segno
   const mappa = [];
@@ -321,16 +534,21 @@ function prepara(opz) {
   // le sessioni: lotti, spezzate oltre lotti_max
   const sessioni = {};
   const righeLotti = {};
+  // ultracode solo dove serve (regola 5 del 15/11, firmata): il ricontrollo delle voci gravi, che si chiudono solo con
+  // un verificatore, e le cercatrici dei temi a rischio alto quando si cercano gravi; il resto senza
+  const cercaGravi = gravita.some((g) => GRAVI.has(g));
   for (const t of temiScelti) {
     const def = T.temi[t];
-    const lotti = t === "S01"
-      ? lottiDiVoci(daRic, M.voci_per_lotto_ricontrollo).map((l) => ({ voci: l.voci }))
-      : lottiDiFile(perTema[t], M.kb_per_lotto);
-    if (lotti.length === 0) continue; // un tema senza file né voci nel perimetro non apre una sessione
-    for (const pezzo of spezza(t, lotti, M.lotti_max)) {
+    // un tema senza file né voci nel perimetro non apre una sessione
+    const pezzi = t === "S01"
+      ? lottiRicontrollo(daRic, M.voci_per_lotto_ricontrollo, M.lotti_max)
+      : spezza(t, lottiDiFile(perTema[t], M.kb_per_lotto), M.lotti_max).map((x) => ({ ...x, delicata: def.rischio === "alto" && cercaGravi }));
+    for (const pezzo of pezzi) {
       sessioni[pezzo.id] = {
         tema: t, nome: def.nome, rischio: def.rischio, lenti: def.lenti, angoli: def.angoli, prefissi: def.prefissi ?? [],
         tetto: M.tetto_subagenti,
+        ultracode: modoUC === "tutte" || (modoUC === "dove-serve" && pezzo.delicata === true),
+        ...(t === "S01" ? { voci_gravi: pezzo.delicata === true } : {}),
         lotti: pezzo.lotti.map((l, i) => t === "S01"
           ? { id: `L${due(i + 1)}`, voci: l.voci.length }
           : { id: `L${due(i + 1)}`, file: l.file.length, kb: l.kb }),
@@ -344,9 +562,11 @@ function prepara(opz) {
   if (ids.length === 0) rossi.push("il profilo non apre nessuna sessione: niente file né voci nel perimetro");
   if (ids.length > M.max_sessioni) rossi.push(`il profilo chiede ${ids.length} sessioni, oltre il massimo di ${M.max_sessioni} (tre onde da ${M.sessioni_per_onda}): restringi i temi (--profilo scelta) o dividi in due radiografie`);
   // le onde: prima il rischio alto (soldi, cassa, accessi), poi il resto; sessioni_per_onda al massimo
-  const ordinate = [...ids].sort((a, b) => (sessioni[a].rischio === "alto" ? 0 : 1) - (sessioni[b].rischio === "alto" ? 0 : 1) || a.localeCompare(b));
-  const onde = [];
-  for (let i = 0; i < ordinate.length; i += M.sessioni_per_onda) onde.push(ordinate.slice(i, i + M.sessioni_per_onda));
+  // l'onda pilota: finché la ricerca a lotti non ha una misura, la prima onda porta il ricontrollo e al massimo
+  // stima.cerca_pilota cercatrici (regola 10 del 15/11: una novità alla volta). Le misure si leggono qui come nel preventivo.
+  const misureFile = resolve(opz.misure ?? join(QUI, "radiografia/misure.json"));
+  const cercaMisurata = (() => { try { return (leggiJson(misureFile).misure ?? []).some((m) => (m.gruppi ?? []).some((g) => g.tipo === "cerca" && g.metodo === "lotti" && Number(g.usd) > 0 && Number(g.lotti) > 0)); } catch { return false; } })();
+  const onde = ordinaOnde(sessioni, M.sessioni_per_onda, cercaMisurata ? null : Number(T.stima?.cerca_pilota) || 2);
   onde.forEach((o, i) => o.forEach((s) => { sessioni[s].onda = i + 1; }));
 
   // lenti e angoli fuori: quelli che nessun tema scelto porta, dichiarati (si dicono alla fermata 1)
@@ -366,7 +586,11 @@ function prepara(opz) {
     gravita_cercate: gravita,
     ricontrollo: profilo.ricontrollo,
     palestra_prima: profilo.palestra_prima === true,
+    onda_pilota: !cercaMisurata && ids.some((x) => sessioni[x].tema !== "S01") ? { cercatrici: onde[0].filter((x) => sessioni[x].tema !== "S01"), perche: "la ricerca a lotti non ha ancora una misura: dopo la prima onda si guarda il costo vero, e si va avanti solo col sì di Nicola" } : null,
     voci_da_ricontrollare: daRic.length,
+    prepasso: infoPrepasso,
+    ultracode_modo: modoUC,
+    cerca_nuovi: profilo.cerca_nuovi !== false,
     file_perimetro: perimetroFile.length,
     codice_fuori_profilo: fuoriTema,
     lenti_fuori: lentiTutte.filter((l) => !lentiDentro.has(l)),
@@ -379,6 +603,9 @@ function prepara(opz) {
 
   console.log(`profilo ${profiloNome} a ${opz.base.slice(0, 12)}: ${ids.length} sessioni in ${onde.length} onde (${onde.map((o) => o.join(" ")).join(" | ")})`);
   console.log(`file nel perimetro: ${perimetroFile.length} (codice ${conti.codice}) · codice dei soli temi fuori dal profilo: ${fuoriTema} · voci da ricontrollare: ${daRic.length}`);
+  if (infoPrepasso) console.log(`prepasso: ${infoPrepasso.voci} voci, ${infoPrepasso.guardate} agli agenti, ${infoPrepasso.tenute_dal_programma} tenute aperte dal programma (file o righe fermi dall'ultima conferma)${infoPrepasso.storia_corta ? " · copia del sito con la storia corta: nel dubbio le voci vanno agli agenti" : ""}`);
+  const conUC = ids.filter((x) => sessioni[x].ultracode);
+  console.log(`ultracode (${modoUC}): ${conUC.length ? conUC.join(" ") : "nessuna sessione"} · senza: ${ids.filter((x) => !sessioni[x].ultracode).join(" ") || "nessuna"}`);
   console.log(`minori aperti nel registro: ${minoriAperti} (soglia ${M.soglia_minori}) → minori nuovi ${minoriAmmessi ? "ammessi" : "NON ammessi (regola ⑳)"} · gravità cercate: ${gravita.join(", ") || "nessuna"}`);
   if (piano.lenti_fuori.length) console.log(`lenti fuori dal profilo (da dire alla fermata 1): ${piano.lenti_fuori.join(", ")}`);
   return chiudi("prepara", rossi, [], opz, { sessioni: ids.length, onde: onde.length, minori_ammessi: minoriAmmessi });
@@ -406,9 +633,11 @@ export function testoScheda(piano, s, T, { cartellaRel, ramo, regista }) {
     "",
     `**Cosa guardi.** ${def.cosa}${altri.length ? ` Il tema è diviso: ${[s, ...altri].sort().join(", ")}; tu guardi solo i tuoi lotti.` : ""}`,
     "",
-    `**Profilo «${piano.profilo}».** ${ric ? `Ricontrolli ${x.lotti.reduce((n, l) => n + l.voci, 0)} voci aperte (gravità: ${piano.ricontrollo.join(", ")}).` : `Cerchi solo: ${piano.gravita_cercate.join(", ") || "niente di nuovo"}.`} ${piano.minori_ammessi ? "I minori nuovi sono ammessi." : `I minori nuovi NON si scrivono: nel registro ne restano aperti ${piano.minori_aperti}, sopra la soglia di ${piano.soglia_minori} (regola ⑳). Un minore visto strada facendo non va nel referto.`}`,
+    `**Profilo «${piano.profilo}».** ${ric ? `Ricontrolli ${x.lotti.reduce((n, l) => n + l.voci, 0)} voci aperte, ${x.voci_gravi ? "tutte gravi o bloccanti" : "tutte minori"} (gravità del profilo: ${piano.ricontrollo.join(", ")}).${piano.gravita_cercate.length ? ` ${piano.cerca_nuovi === false ? "Non cerchi difetti nuovi, ma un" : "Un"} ${piano.gravita_cercate.join(" o un ")} che vedi strada facendo si scrive in «difetti», con l'asticella e il verificatore di sempre.` : ""}` : `Cerchi solo: ${piano.gravita_cercate.join(", ") || "niente di nuovo"}.`} ${piano.minori_ammessi ? "I minori nuovi sono ammessi." : `I minori nuovi NON si scrivono: nel registro ne restano aperti ${piano.minori_aperti}, sopra la soglia di ${piano.soglia_minori} (regola ⑳). Un minore visto strada facendo non va nel referto.`}`,
     "",
-    `**Onda ${x.onda} · tetto ${x.tetto} subagenti**, cercatori e verificatori insieme. Oltre, chiedi alla regista con send_message prima di lanciarli (regola ⑱).`,
+    `**Onda ${x.onda} · tetto ${x.tetto} subagenti**, cercatori e verificatori insieme, lanciati con lo strumento Agent (mai Workflow: un lancio solo ne apre molti, e il freno non li può contare). Oltre, chiedi alla regista con send_message prima di lanciarli (regola ⑱).`,
+    "",
+    `**Ultracode ${x.ultracode ? "acceso" : "spento"}** (${ric ? (x.voci_gravi ? "voci gravi: si chiudono solo con una prova e un verificatore" : "solo voci minori: senza ultracode una sessione costa circa la metà") : x.rischio === "alto" ? "tema a rischio alto: si cercano gravi su soldi, accessi o dati" : "tema a rischio medio"}; regola «${piano.ultracode_modo ?? "dove-serve"}»).`,
     "",
     "## Lenti",
     ...(x.lenti.length ? x.lenti.map((l) => `- \`${l}\``) : ["- (nessuna: ricontrolli il registro)"]),
@@ -469,18 +698,90 @@ export function calcolaPreventivo(piano, stima) {
     serve_firma: token > stima.soglia_firma_token || subagentiMax > stima.soglia_firma_subagenti,
   };
 }
+/**
+ * Il preventivo in dollari SOLO dalle misure (cervello/radiografia/misure.json), sessione per sessione, con la misura
+ * della STESSA configurazione: tipo (ricontrollo o cerca), metodo «lotti» e ultracode. La riparazione prende ancora
+ * l'ultima riga qualunque sia (regola 1 del 21/11, solo testo): il preventivo dell'onda 9 ha preso a memoria il 50%
+ * dell'onda 7 e il terzo giro, con ultracode su tutto, è finito a 17,76 $ a chiusa. Qui la scelta la fa il programma.
+ * Senza una misura uguale si usa quella con l'altro ultracode, e lo si dice; senza nessuna misura si usa la stima di
+ * temi.json, segnata «mai misurata»: è un pilota, e serve la firma. PURA.
+ * Torna minimo, atteso e massimo (le tre cifre della fermata 1), le chiusure attese del ricontrollo e da dove viene ogni cifra.
+ */
+export function preventivoDaMisure(piano, misure, stima, { quotaRegia = 0.2, usdPerPunto = null } = {}) {
+  const gruppi = (Array.isArray(misure?.misure) ? misure.misure : []).flatMap((m) => (Array.isArray(m?.gruppi) ? m.gruppi : []).map((g) => ({
+    ...g, fase: m.fase,
+    quota_regia: Number(m.usd_regia_e_cf) >= 0 && Number(m.usd_sessioni) > 0 && m.usd_regia_e_cf !== null ? Number(m.usd_regia_e_cf) / Number(m.usd_sessioni) : null,
+  })));
+  const perUnita = (g) => {
+    const u = g.tipo === "ricontrollo" ? Number(g.voci) : Number(g.lotti), usd = Number(g.usd);
+    return g.usd !== null && u > 0 && usd > 0 ? usd / u : null;
+  };
+  const tonda = (x) => Math.round(x * 100) / 100;
+  const righe = [], avvisi = [];
+  let quotaUsata = null;
+  for (const [id, x] of Object.entries(piano.sessioni)) {
+    const tipo = x.tema === "S01" ? "ricontrollo" : "cerca";
+    const uc = x.ultracode === true;
+    const unita = tipo === "ricontrollo" ? x.lotti.reduce((n, l) => n + (Number(l.voci) || 0), 0) : x.lotti.length;
+    const adatti = gruppi.filter((g) => g.tipo === tipo && g.metodo === "lotti" && perUnita(g) !== null);
+    const stessi = adatti.filter((g) => (g.ultracode === true) === uc);
+    const usati = stessi.length ? stessi : adatti;
+    if (usati.length) {
+      const ultimo = usati[usati.length - 1], v = usati.map(perUnita), pu = perUnita(ultimo), una = usati.length === 1;
+      const r = {
+        sessione: id, tipo, ultracode: uc, unita, misurata: true,
+        atteso: unita * pu, minimo: unita * (una ? pu * 0.8 : Math.min(...v)), massimo: unita * (una ? pu * 1.3 : Math.max(...v)),
+        fonte: `${ultimo.fase}${stessi.length ? "" : `, con ultracode ${ultimo.ultracode ? "acceso" : "spento"}: misura vicina`}${una ? ", una misura sola (forchetta -20% +30%)" : ""}`,
+        chiusi_attesi: tipo === "ricontrollo" && Number(ultimo.chiusi) >= 0 && Number(ultimo.voci) > 0 ? (unita * Number(ultimo.chiusi)) / Number(ultimo.voci) : 0,
+      };
+      if (!stessi.length) avvisi.push(`${id}: nessuna misura di ${tipo} con ultracode ${uc ? "acceso" : "spento"}: uso quella con l'altro (${ultimo.fase})`);
+      if (ultimo.quota_regia !== null) quotaUsata = ultimo.quota_regia;
+      righe.push(r);
+    } else {
+      const usd = (stima.usd_capo_sessione + x.lotti.length * stima.usd_lotto + stima.verificatori_attesi_per_sessione * stima.usd_verificatore) * (uc ? Number(stima.fattore_ultracode) || 1 : 1);
+      righe.push({ sessione: id, tipo, ultracode: uc, unita, misurata: false, atteso: usd, minimo: usd * 0.8, massimo: usd * 2, fonte: `stima di temi.json, mai misurata${uc ? `, ×${stima.fattore_ultracode} per ultracode` : ""}: il primo giro è un pilota`, chiusi_attesi: 0 });
+      avvisi.push(`${id}: ${tipo} a lotti${uc ? " con ultracode" : ""} mai misurato: stima di temi.json, da pilotare con la soglia scritta prima (regola 10 del 15/11)`);
+    }
+  }
+  const quota = quotaUsata ?? quotaRegia;
+  const somma = (k) => righe.reduce((n, r) => n + r[k], 0);
+  const sess = { minimo: somma("minimo"), atteso: somma("atteso"), massimo: somma("massimo") };
+  const tot = { minimo: tonda(sess.minimo * (1 + quota)), atteso: tonda(sess.atteso * (1 + quota)), massimo: tonda(sess.massimo * (1 + quota)) };
+  const chiusi = Math.round(somma("chiusi_attesi"));
+  const usdRicontrollo = righe.filter((r) => r.tipo === "ricontrollo").reduce((n, r) => n + r.atteso, 0) * (1 + quota);
+  return {
+    sessioni: righe.map((r) => ({ ...r, atteso: tonda(r.atteso), minimo: tonda(r.minimo), massimo: tonda(r.massimo), chiusi_attesi: Math.round(r.chiusi_attesi) })),
+    quota_regia_e_cf: tonda(quota), fonte_quota: quotaUsata !== null ? "dalla misura usata" : "predefinita (onda 9 della riparazione)",
+    usd_sessioni: { minimo: tonda(sess.minimo), atteso: tonda(sess.atteso), massimo: tonda(sess.massimo) },
+    usd: tot, chiusi_attesi: chiusi, usd_per_chiusa_attesa: chiusi > 0 ? tonda(usdRicontrollo / chiusi) : null,
+    percento_settimana: usdPerPunto > 0 ? Math.round((tot.atteso / usdPerPunto) * 10) / 10 : null,
+    per_onda: (piano.onde ?? []).map((o, i) => ({ onda: i + 1, sessioni: o, atteso: tonda(righe.filter((r) => o.includes(r.sessione)).reduce((n, r) => n + r.atteso, 0) * (1 + quota)) })),
+    mai_misurate: righe.filter((r) => !r.misurata).map((r) => r.sessione), avvisi,
+  };
+}
 function preventivo(opz) {
-  if (!opz.cartella) return uso("preventivo --cartella <dir>");
+  if (!opz.cartella) return uso("preventivo --cartella <dir> [--misure <file>]");
   const piano = leggiPiano(opz);
   const T = caricaTemi(opz);
   const p = calcolaPreventivo(piano, T.stima);
-  piano.preventivo = { ...p, calcolato: timbroOra() };
+  const fileMisure = resolve(opz.misure ?? join(QUI, "radiografia/misure.json"));
+  if (!existsSync(fileMisure)) return chiudi("preventivo", [`${fileMisure} non c'è: il preventivo si fa dalle misure, mai da un rimedio sperato`], [], opz);
+  // la calibrazione del limite settimanale vive in una casa sola: le misure della riparazione
+  const calib = (() => { try { return leggiJson(join(QUI, "riparazione/misure.json")).calibrazione_limite ?? null; } catch { return null; } })();
+  const d = preventivoDaMisure(piano, leggiJson(fileMisure), T.stima, { quotaRegia: T.misure.quota_regia_predefinita ?? 0.2, usdPerPunto: Number(calib?.usd_per_punto) || null });
+  const serveFirma = p.serve_firma || d.mai_misurate.length > 0;
+  piano.preventivo = { ...p, usd: d.usd.atteso, dollari: d, serve_firma: serveFirma, calcolato: timbroOra() };
   scriviJson(join(opz.cartella, "piano.json"), piano);
   console.log(`sessioni ${p.sessioni} in ${p.onde} onde · lotti ${p.lotti} · verificatori attesi ${p.verificatori_attesi} · subagenti al massimo per sessione ${p.subagenti_max_per_sessione}`);
-  console.log(`stima: circa ${p.usd} $ di listino, circa ${(p.token / 1e6).toFixed(1)} milioni di token (regia e controllore finale compresi)`);
-  console.log(`confronto: le 12 sessioni del 6/11 sono costate ${T.costi_6_11.sessioni_12_usd} $ (${T.costi_6_11._fonte})`);
-  console.log(`serve la firma di Nicola prima del via: ${p.serve_firma ? "sì (oltre 2 milioni di token o 12 subagenti: regola ⑱)" : "no, ma la fermata 1 la chiede comunque"}`);
-  return chiudi("preventivo", [], [], opz, p);
+  for (const r of d.sessioni) console.log(`  ${r.sessione} ${r.tipo}${r.ultracode ? " (ultracode)" : ""} · ${r.unita} ${r.tipo === "ricontrollo" ? "voci" : "lotti"} · ${r.minimo}-${r.massimo} $, atteso ${r.atteso} $ · ${r.fonte}`);
+  console.log(`dollari di listino: minimo ${d.usd.minimo} · atteso ${d.usd.atteso} · massimo ${d.usd.massimo} $ (regia e controllore finale compresi, al ${Math.round(d.quota_regia_e_cf * 100)}% delle sessioni: ${d.fonte_quota})`);
+  console.log(`per onda: ${d.per_onda.map((o) => `onda ${o.onda} circa ${o.atteso} $`).join(" · ")}${piano.onda_pilota ? ` (la prima è il pilota: ${piano.onda_pilota.cercatrici.join(" ")})` : ""}`);
+  if (d.percento_settimana !== null) console.log(`circa il ${d.percento_settimana}% del limite settimanale (stima: ${calib.usd_per_punto} $ a punto, ${calib.fonte}; si sostituisce con la percentuale letta nell'app)`);
+  if (d.chiusi_attesi) console.log(`chiusure attese dal ricontrollo: circa ${d.chiusi_attesi}, circa ${d.usd_per_chiusa_attesa} $ l'una (le sessioni di ricontrollo con la loro parte di regia)`);
+  console.log(`token: circa ${(p.token / 1e6).toFixed(1)} milioni (regia e controllore finale compresi)`);
+  for (const a of d.avvisi) console.log(`⚠️ ${a}`);
+  console.log(`serve la firma di Nicola prima del via: ${serveFirma ? `sì (${[p.serve_firma ? "oltre 2 milioni di token o 12 subagenti: regola ⑱" : null, d.mai_misurate.length ? `${d.mai_misurate.length} sessioni mai misurate: pilota` : null].filter(Boolean).join("; ")})` : "no, ma la fermata 1 la chiede comunque"}`);
+  return chiudi("preventivo", [], [], opz, { ...p, serve_firma: serveFirma, dollari: d.usd, chiusi_attesi: d.chiusi_attesi });
 }
 
 // ── copertura-prima ──────────────────────────────────────────────────────────────────────────────
@@ -574,7 +875,35 @@ function coperturaPrima(opz) {
     else {
       for (const k of daRic) { const n = vociNelLotto.get(k) ?? 0; if (n !== 1) rossi.push(`la voce «${k.slice(0, 70)}» sta in ${n} lotti di S01, non in uno`); }
       for (const k of vociNelLotto.keys()) if (!daRic.includes(k)) rossi.push(`la voce «${k.slice(0, 70)}» è in un lotto di S01 ma non in da-ricontrollare.txt`);
+      // la scelta delle voci (registro + prepasso) non si prende sulla parola: si rifà e si confronta. Una voce tolta
+      // a mano da da-ricontrollare.txt restava fuori dal ricontrollo col verde
+      try {
+        const reg = leggiJson(opz.registro);
+        const rifatta = vociDaRicontrollare(opz, {
+          problemi: Array.isArray(reg?.problemi) ? reg.problemi : [], profilo: T.profili[piano.profilo], profiloNome: piano.profilo,
+          temiScelti: piano.temi_scelti, fileNelPerimetro: new Set(dalSito), base: piano.base, prepasso: piano.prepasso != null,
+        }).daRic.map((v) => v.chiave);
+        const scritte = new Set(daRic), attese2 = new Set(rifatta);
+        const mancano = rifatta.filter((k) => !scritte.has(k)), inPiu = daRic.filter((k) => !attese2.has(k));
+        if (mancano.length) rossi.push(`${mancano.length} voci che il registro${piano.prepasso != null ? " e il prepasso mandano" : " manda"} al ricontrollo mancano da da-ricontrollare.txt (la prima: «${mancano[0].slice(0, 60)}»): rifai «prepara»`);
+        if (inPiu.length) rossi.push(`${inPiu.length} voci in da-ricontrollare.txt che la scelta rifatta non manda al ricontrollo (la prima: «${inPiu[0].slice(0, 60)}»): rifai «prepara»`);
+      } catch (e) { attese.push(`la scelta delle voci non si è potuta rifare: ${e.message}`); }
     }
+  }
+  // (c2) ultracode come lo dice la regola, e le sessioni di ricontrollo mai mischiate fra voci gravi e minori
+  const cercaGravi = (piano.gravita_cercate ?? []).some((g) => GRAVI.has(g));
+  for (const s of ids) {
+    const x = piano.sessioni[s];
+    const modo = piano.ultracode_modo ?? "dove-serve";
+    if (x.tema === "S01") {
+      const righe = leggiLotti(opz, s) ?? [];
+      const gravi = righe.filter((r) => GRAVI.has(r[2])).length;
+      if (gravi && gravi !== righe.length) rossi.push(`${s}: ${gravi} voci gravi e ${righe.length - gravi} minori nella stessa sessione: si dividono, così ultracode resta solo dove serve`);
+      if (righe.length && (gravi === righe.length) !== (x.voci_gravi === true)) rossi.push(`${s}: «voci_gravi» non dice quello che c'è nei suoi lotti`);
+    }
+    const delicata = x.tema === "S01" ? x.voci_gravi === true : x.rischio === "alto" && cercaGravi;
+    const atteso = modo === "tutte" || (modo === "dove-serve" && delicata);
+    if (x.ultracode !== atteso) rossi.push(`${s}: ultracode ${x.ultracode ? "acceso" : "spento"}, la regola «${modo}» lo vuole ${atteso ? "acceso" : "spento"}`);
   }
   // (d) le schede uguali al piano, e la partenza corta
   if (!piano.schede) attese.push("schede non ancora scritte: lancia «schede»");
@@ -832,6 +1161,18 @@ export function regoleReferto(r, ctx) {
     if (viste.has(k?.chiave)) rossi.push(`${cx}: la stessa voce ricontrollata due volte`);
     viste.add(k?.chiave);
     if (!ESITI_RICONTROLLO.includes(k?.esito)) rossi.push(`${cx}: esito «${k?.esito}»`);
+    // un elenco chiuso anche qui: un campo «dettagli» porterebbe in chiaro quello che «falla» deve tenere in chat
+    const extraK = Object.keys(k ?? {}).filter((c) => !CAMPI_RICONTROLLO.includes(c));
+    if (extraK.length) rossi.push(`${cx}: campi in più (${extraK.join(", ")}): solo ${CAMPI_RICONTROLLO.join(", ")}`);
+    // ⓕ la falla scoperta durante il ricontrollo (21/11: dettagli di dodici voci ancora aperte finiti nei rami
+    // pubblici, visti dal controllore finale dopo il push). Una voce che resta aperta dice SEMPRE se è una falla, anche
+    // nel referto parziale: il ramo è pubblico appena spinto. Se lo è, prova, esito e nota vanno solo in chat.
+    if (k?.esito && k.esito !== "non_piu_vero") {
+      if (typeof k?.falla !== "boolean") rossi.push(`${cx}: una voce che resta aperta dice se è una falla (qualcuno può vedere, cambiare o pagare quello che non dovrebbe): «falla» true o false`);
+      else if (k.falla === true) {
+        for (const c of ["prova", "esito_prova", "nota", "verificato_da"]) if (k[c] != null && k[c] !== PRIVATO) rossi.push(`${cx}: è una falla ancora aperta: «${c}» vale «${PRIVATO}» (o null), i dettagli vanno solo in chat`);
+      }
+    } else if (k?.falla === true) rossi.push(`${cx}: «falla: true» vale solo per una voce che resta aperta; una falla chiusa si scrive non_piu_vero con la sua prova`);
     if (!ctx.daRicontrollare) { attese.push("manca da-ricontrollare.txt: i ricontrolli non si possono controllare"); continue; }
     const v = ctx.daRicontrollare.get(k?.chiave);
     if (!v) { rossi.push(`${cx}: la chiave non è in da-ricontrollare.txt`); continue; }
@@ -872,6 +1213,11 @@ export function regoleReferto(r, ctx) {
   if (finita) {
     if (!Number.isInteger(agenti) || agenti < 0) rossi.push("a referto finito «conto.agenti» è il numero intero di subagenti usati");
     else if (agenti > x.tetto && !testo(r.conto?.permesso_regista)) rossi.push(`${agenti} subagenti, oltre il tetto di ${x.tetto}, senza «conto.permesso_regista» (regola ⑱)`);
+    // ⓓ il costo in dollari della sessione: senza, la riga delle misure resta vuota e il preventivo dopo si fa a memoria
+    // (il 21/11 nessuno dei quattro referti lo aveva: «ci sono solo i conteggi dei token»)
+    const usd = r.conto?.usd;
+    const usdOk = typeof usd === "number" && Number.isFinite(usd) && usd >= 0;
+    if (!usdOk && String(r.conto?.usd_perche ?? "").trim().length < 15) rossi.push("a referto finito «conto.usd» è il costo della sessione in dollari (usage.cost_usd di get_session senza id), oppure «conto.usd_perche» dice in una frase perché non c'è");
   }
   return { rossi, attese: [...new Set(attese)] };
 }
@@ -902,7 +1248,8 @@ function validaReferto(opz) {
 
 // ── sorveglia ────────────────────────────────────────────────────────────────────────────────────
 function sorveglia(opz) {
-  if (!opz.cartella || !opz.onda) return uso("sorveglia --cartella <dir> --onda N");
+  if (!opz.cartella || !opz.onda) return uso("sorveglia --cartella <dir> --onda N [--attendi]");
+  if (opz.attendi) return attendi(opz);
   const piano = leggiPiano(opz);
   const sess = leggiSessioni(opz);
   if (!sess?.sessioni) return chiudi("sorveglia", [], ["sessioni.json non c'è: nessuna sessione da sorvegliare"], opz);
@@ -1163,6 +1510,7 @@ export function applicaAlRegistro(problemi, referti, { data, base, ora, regressi
   const nuovi = problemi.map((p) => ({ ...p }));
   const rossi = [];
   const conti = { chiusi: 0, riverificati: 0, riaperti: 0 };
+  const daRiservare = [];
   const trova = (k, cx) => {
     const ii = perChiave.get(k) ?? [];
     if (ii.length !== 1) { rossi.push(`${cx}: la chiave aggancia ${ii.length} voci, non una`); return null; }
@@ -1177,8 +1525,11 @@ export function applicaAlRegistro(problemi, referti, { data, base, ora, regressi
       const grave = GRAVI.has(String(v.severita).toLowerCase());
       const provata = k.prova_tipo === "comando" && k.prova_eseguita === true && !vuoto(k.esito_prova);
       const chiude = k.esito === "non_piu_vero" && (!grave || (provata && k.verificato === true && !vuoto(k.verificato_da)));
-      v[campo] = { data: ora, esito: k.esito, prova: k.prova ?? null, codice: base, nota: k.nota ?? null };
+      v[campo] = { data: ora, esito: k.esito, prova: k.prova ?? null, codice: base, nota: k.nota ?? null, ...(k.falla === true ? { falla: true } : {}) };
       conti.riverificati++;
+      // una voce pubblica che il ricontrollo ha scoperto essere una falla: si dice alla regia, che propone a Nicola di
+      // renderla riservata anche nel registro (decide lui, voce per voce: controllo finale del 21/11)
+      if (k.falla === true && k.esito !== "non_piu_vero") daRiservare.push({ chiave: k.chiave, sessione: nome });
       if (chiude) {
         v.stato = "gia_riparato_prima";
         v.nota_riparazione = `Già riparato nel codice unito (ricontrollo della radiografia del ${Number(gg)}/${Number(mm)}, ${nome}${grave ? ", confermato dal verificatore" : ""}). ${k.prova ?? ""}`.trim();
@@ -1211,7 +1562,8 @@ export function applicaAlRegistro(problemi, referti, { data, base, ora, regressi
     conti.riaperti++;
   }
   if (nuovi.length !== problemi.length) rossi.push("il numero delle voci è cambiato: applica non toglie e non aggiunge voci");
-  return { problemi: nuovi, conti, rossi };
+  conti.da_riservare = daRiservare.length;
+  return { problemi: nuovi, conti, rossi, daRiservare };
 }
 function applica(opz) {
   if (!opz.cartella || !/^\d{4}-\d\d-\d\d$/.test(opz.data ?? "")) return uso("applica --cartella <dir> --data AAAA-MM-GG [--scrivi]");
@@ -1228,7 +1580,11 @@ function applica(opz) {
   if (!existsSync(dp)) rossi.push("manca doppioni.json: le regressioni trovate dai doppioni andrebbero perse (prima «doppioni»)");
   const esito = applicaAlRegistro(reg.problemi ?? [], referti.filter(({ nome, r }) => !rossi.some((x) => x.startsWith(`${nome}:`)) && r.finita === true), { data: opz.data, base: piano.base, ora: timbroOra(), regressioniDoppioni });
   rossi.push(...esito.rossi);
-  console.log(`ricontrolli applicati: ${esito.conti.riverificati} · chiusi come già riparati: ${esito.conti.chiusi} · regressioni riaperte: ${esito.conti.riaperti}${opz.scrivi ? "" : " (a vuoto: aggiungi --scrivi)"}`);
+  // ⓜ la riga delle misure prima del registro (regola 7 del 21/11: «a fine giro la regia scrive la sua riga», solo
+  // testo; il file della riparazione è rimasto fermo dal 17 al 21/11 mentre giravano quattro onde)
+  if (opz.scrivi && !existsSync(join(opz.cartella, "misura.json"))) rossi.push("manca misura.json: prima «misura --cartella … --usd-regia … --usd-cf …», poi il registro (regola 7 del 21/11)");
+  console.log(`ricontrolli applicati: ${esito.conti.riverificati} · chiusi come già riparati: ${esito.conti.chiusi} · regressioni riaperte: ${esito.conti.riaperti} · falle scoperte da rendere riservate: ${esito.daRiservare.length}${opz.scrivi ? "" : " (a vuoto: aggiungi --scrivi)"}`);
+  scriviTesto(join(opz.cartella, "da-riservare.txt"), ["# chiave<TAB>sessione  (voci pubbliche che il ricontrollo ha trovato essere falle ancora aperte: la regia chiede a Nicola se renderle riservate nel registro; i dettagli sono solo nelle chat delle sessioni)", ...esito.daRiservare.map((d) => `${d.chiave}\t${d.sessione}`)].join("\n") + "\n");
   if (opz.scrivi && !rossi.length) {
     if (scriviJsonAtomico(opz.registro, { ...reg, problemi: esito.problemi }) === null) rossi.push(`la scrittura del registro ${rel(opz, opz.registro)} è stata fermata dal freno della memoria: niente è cambiato`);
     else console.log(`registro scritto: ${rel(opz, opz.registro)}`);
@@ -1258,6 +1614,189 @@ function coperturaDopo(opz) {
   return chiudi("copertura-dopo", [], scoperti.length ? [`${scoperti.length} file di codice su ${codice.length} non li ha coperti nessuno`] : [], opz, { codice: codice.length, scoperti: scoperti.length });
 }
 
+// ── misura: la riga delle misure, scritta da un comando ─────────────────────────────────────────────
+/** Chiude la voce? La stessa regola di applica: un grave o un bloccante solo con prova a comando e verificatore. PURA. */
+export function chiudeRicontrollo(k, gravita) {
+  if (k?.esito !== "non_piu_vero") return false;
+  if (!GRAVI.has(gravita)) return true;
+  return k.prova_tipo === "comando" && k.prova_eseguita === true && !vuoto(k.esito_prova) && k.verificato === true && !vuoto(k.verificato_da);
+}
+/**
+ * La riga per cervello/radiografia/misure.json, dal piano e dai referti: un gruppo per tipo di sessione e ultracode,
+ * così il preventivo dopo trova la misura con la stessa configurazione. Un gruppo con un costo che manca ha usd null
+ * (e non entra nei preventivi): una misura a metà non si spaccia per intera. PURA.
+ */
+export function rigaMisura(piano, referti, { cartella, data, usdRegia = null, usdCf = null, gravitaDi = new Map(), nota = null }) {
+  const gruppi = new Map();
+  for (const [nome, x] of Object.entries(piano.sessioni)) {
+    const tipo = x.tema === "S01" ? "ricontrollo" : "cerca", uc = x.ultracode === true;
+    const k = `${tipo}|${uc}`;
+    if (!gruppi.has(k)) gruppi.set(k, { tipo, metodo: "lotti", ultracode: uc, sessioni: 0, voci: tipo === "ricontrollo" ? 0 : null, lotti: 0, subagenti: 0, usd: 0, usd_noti: 0, ...(tipo === "ricontrollo" ? { chiusi: 0, esiti: {} } : {}), difetti: { bloccante: 0, grave: 0, minore: 0 } });
+    const g = gruppi.get(k);
+    g.sessioni++;
+    g.lotti += x.lotti.length;
+    if (tipo === "ricontrollo") g.voci += x.lotti.reduce((n, l) => n + (Number(l.voci) || 0), 0);
+    const r = referti.find((y) => y.nome === nome)?.r;
+    if (!r) continue;
+    if (Number.isInteger(r.conto?.agenti)) g.subagenti += r.conto.agenti;
+    if (typeof r.conto?.usd === "number" && Number.isFinite(r.conto.usd)) { g.usd += r.conto.usd; g.usd_noti++; }
+    for (const d of r.difetti ?? []) if (g.difetti[d?.severita] !== undefined) g.difetti[d.severita]++;
+    if (tipo === "ricontrollo") for (const kk of r.ricontrolli ?? []) {
+      g.esiti[kk.esito] = (g.esiti[kk.esito] ?? 0) + 1;
+      if (chiudeRicontrollo(kk, gravitaDi.get(kk.chiave))) g.chiusi++;
+    }
+  }
+  const tonda = (v) => Math.round(v * 100) / 100;
+  const elenco = [...gruppi.values()].map(({ usd_noti, ...g }) => ({ ...g, usd: usd_noti === g.sessioni ? tonda(g.usd) : null, ...(usd_noti === g.sessioni ? {} : { usd_noti: `${usd_noti} su ${g.sessioni}` }) }));
+  const usdSess = elenco.every((g) => g.usd !== null) ? tonda(elenco.reduce((n, g) => n + g.usd, 0)) : null;
+  const usdRc = usdRegia !== null && usdCf !== null ? tonda(usdRegia + usdCf) : null;
+  return {
+    fase: `radiografia del ${data.slice(8, 10).replace(/^0/, "")}/${data.slice(5, 7).replace(/^0/, "")} (${piano.profilo})`,
+    cartella, data, profilo: piano.profilo, base: piano.base, gruppi: elenco,
+    usd_sessioni: usdSess, usd_regia: usdRegia, usd_cf: usdCf, usd_regia_e_cf: usdRc,
+    usd: usdSess !== null && usdRc !== null ? tonda(usdSess + usdRc) : null,
+    preventivo_atteso: piano.preventivo?.dollari?.usd?.atteso ?? null,
+    nota,
+  };
+}
+function misura(opz) {
+  if (!opz.cartella) return uso("misura --cartella <dir> [--usd-regia N] [--usd-cf N] [--nota «…»] [--scrivi] [--misure <file>]");
+  const numero = (k) => {
+    if (opz[k] === undefined) return null;
+    const v = Number(String(opz[k]).replace(",", "."));
+    if (!Number.isFinite(v) || v < 0) throw new Error(`--${k} vuole un numero di dollari: «${opz[k]}»`);
+    return v;
+  };
+  let usdRegia, usdCf;
+  try { usdRegia = numero("usd-regia"); usdCf = numero("usd-cf"); } catch (e) { return uso(e.message); }
+  const piano = leggiPiano(opz);
+  const referti = leggiReferti(opz);
+  const rossi = [], attese = [];
+  for (const s of Object.keys(piano.sessioni)) {
+    const r = referti.find((y) => y.nome === s)?.r;
+    if (!r) attese.push(`${s}: referto non ancora in referti/`);
+    else if (r.finita !== true) attese.push(`${s}: referto non finito`);
+  }
+  const tab = leggiTabella(join(opz.cartella, "da-ricontrollare.txt"));
+  const gravitaDi = new Map([...(tab?.values() ?? [])].map((v) => [v.righe[0], v.righe[1]]));
+  const riga = rigaMisura(piano, referti, { cartella: rel(opz, opz.cartella), data: timbroOra(), usdRegia, usdCf, gravitaDi, nota: opz.nota ?? null });
+  scriviJson(join(opz.cartella, "misura.json"), riga);
+  for (const g of riga.gruppi) console.log(`${g.tipo}${g.ultracode ? " con ultracode" : ""}: ${g.sessioni} sessioni · ${g.tipo === "ricontrollo" ? `${g.voci} voci, ${g.chiusi} chiuse · ` : ""}${g.lotti} lotti · ${g.subagenti} subagenti · ${g.usd === null ? `costo incompleto (${g.usd_noti})` : `${g.usd} $`}`);
+  console.log(`totale: ${riga.usd === null ? "non completo" : `${riga.usd} $`} (sessioni ${riga.usd_sessioni ?? "?"} · regia ${usdRegia ?? "?"} · controllore finale ${usdCf ?? "?"})${riga.preventivo_atteso ? ` contro un preventivo atteso di ${riga.preventivo_atteso} $` : ""}`);
+  if (riga.usd_sessioni === null) attese.push("il costo di qualche sessione manca (conto.usd nel referto): la riga entra, ma i gruppi incompleti non fanno preventivo");
+  if (usdRegia === null || usdCf === null) attese.push("manca il costo della regia o del controllore finale (--usd-regia, --usd-cf, da get_session)");
+  if (opz.scrivi) {
+    if (attese.some((a) => /referto non/.test(a))) rossi.push("la riga delle misure si scrive a radiografia finita: tutti i referti in referti/ e finiti");
+    const f = resolve(opz.misure ?? join(QUI, "radiografia/misure.json"));
+    const M = existsSync(f) ? leggiJson(f) : null;
+    if (!M || !Array.isArray(M.misure)) rossi.push(`${f}: non si legge, o non ha «misure»`);
+    else if (M.misure.some((m) => m?.cartella === riga.cartella)) rossi.push(`la riga di ${riga.cartella} è già in ${rel(opz, f)}: le righe non si riscrivono`);
+    if (!rossi.length) {
+      if (scriviJsonAtomico(f, { ...M, _aggiornato: riga.data, misure: [...M.misure, riga] }) === null) rossi.push(`la scrittura di ${rel(opz, f)} è stata fermata dal freno della memoria`);
+      else console.log(`riga aggiunta a ${rel(opz, f)}`);
+    }
+  }
+  return chiudi("misura", rossi, attese, opz, { usd: riga.usd, gruppi: riga.gruppi.length });
+}
+
+// ── segnali e sorveglianza muta ────────────────────────────────────────────────────────────────────
+// Nella riparazione la catena di send_later ogni 30 minuti costava fra 0,4 e 0,7 $ a giro a vuoto (regola 4 del 15/11);
+// la sostituisce la sorveglianza muta, che sveglia la regia solo quando cambia qualcosa. La skill della radiografia
+// prescriveva ancora la catena. Qui ci sono anche i due buchi della settimana dei 700: la sessione aperta che non parte
+// (C02, 52 minuti persi; il primo K02 mai partito) e il costo che passa il preventivo a metà onda.
+/**
+ * I segnali per la regia, uno per riga e con l'identità dentro: «ferma S02 abc1234» resta noto finché il ramo non si
+ * muove. PURA.
+ */
+export function segnaliRadiografia({ sessioni = [], vive = null, preventivoUsd = null, ora, minutiPartenza = 15, minutiFerma = 70, sogliaSpesa = 0.7, cieco = null }) {
+  const out = [];
+  if (cieco) out.push(`cieco ${cieco}`);
+  for (const s of sessioni) {
+    if (!s.sulRemoto) { if (Number.isFinite(s.aperta) && ora - s.aperta > minutiPartenza * 60000) out.push(`non partita ${s.nome}`); }
+    else out.push(`ramo ${s.nome} ${s.ramo}`);
+    if (s.finita) out.push(`finita ${s.nome}`);
+    else if (s.sulRemoto && s.testa && ora - s.testa.quando > minutiFerma * 60000) out.push(`ferma ${s.nome} ${String(s.testa.sha).slice(0, 7)}`);
+    if (/requires_action|blocked/i.test(String(vive?.sessioni?.[s.nome]?.stato ?? ""))) out.push(`attesa ${s.nome}`);
+  }
+  const stima = Number(preventivoUsd), spesa = Number(vive?.spesa_usd);
+  if (stima > 0 && spesa > 0) {
+    if (spesa >= stima) out.push("spesa oltre il 100% del preventivo atteso");
+    else if (spesa >= sogliaSpesa * stima) out.push(`spesa oltre il ${Math.round(sogliaSpesa * 100)}% del preventivo atteso`);
+  }
+  if (vive?.quota?.status === "allowed_warning") out.push("quota allowed_warning");
+  if (vive?.quota?.isUsingOverage === true) out.push("quota isUsingOverage");
+  return out;
+}
+const RE_RAMO = /^[A-Za-z0-9][\w./-]*$/;
+function ondaDi(opz, piano) {
+  if (!/^\d+$/.test(String(opz.onda ?? "")) || !Array.isArray(piano.onde[Number(opz.onda) - 1])) return null;
+  return piano.onde[Number(opz.onda) - 1];
+}
+// scarica i rami dell'onda; senza un «origin» (il banco delle prove) non c'è niente da scaricare, e non è un errore
+function scaricaRami(opz, rami) {
+  const buoni = rami.filter((r) => typeof r === "string" && RE_RAMO.test(r));
+  if (!buoni.length || !(gitOk(opz.git, ["remote"]) ?? "").split("\n").includes("origin")) return null;
+  return gitOk(opz.git, ["fetch", "-q", "origin", "--", ...buoni]) === null ? "fetch dei rami fallito" : null;
+}
+function fattiRadiografia(opz, piano, onda, cieco = null) {
+  const sess = leggiSessioni(opz);
+  if (!sess?.sessioni) throw new Error("sessioni.json non c'è: nessuna sessione da guardare");
+  const M = caricaTemi(opz).misure;
+  const relCart = rel(opz, opz.cartella);
+  const sessioni = onda.map((nome) => {
+    const v = sess.sessioni[nome];
+    const s = { nome, ramo: v?.ramo ?? null, aperta: v?.aperta ? msDaTimbro(v.aperta) : NaN, sulRemoto: false, finita: false, testa: null };
+    if (!v?.ramo || !RE_RAMO.test(v.ramo) || gitOk(opz.git, ["rev-parse", "--verify", "--quiet", `origin/${v.ramo}`]) === null) return s;
+    s.sulRemoto = true;
+    const [sha, quando] = String(gitOk(opz.git, ["log", "-1", "--format=%H %ct", `origin/${v.ramo}`]) ?? "").trim().split(" ");
+    if (sha) s.testa = { sha, quando: Number(quando) * 1000 };
+    const t = gitOk(opz.git, ["show", `origin/${v.ramo}:${relCart}/referti/${nome}.json`]);
+    if (t !== null) { try { s.finita = JSON.parse(t).finita === true; } catch { /* illeggibile: non finita */ } }
+    return s;
+  });
+  const leggiSe = (f) => (existsSync(join(opz.cartella, f)) ? leggiJson(join(opz.cartella, f)) : null);
+  const noti = existsSync(join(opz.cartella, "rossi-noti.txt")) ? readFileSync(join(opz.cartella, "rossi-noti.txt"), "utf8") : "";
+  const tutti = segnaliRadiografia({
+    sessioni, vive: leggiSe("stato-sessioni.json"), preventivoUsd: piano.preventivo?.usd ?? null, ora: Date.now(),
+    minutiPartenza: M.minuti_partenza ?? 15, minutiFerma: M.minuti_ferma ?? 70, sogliaSpesa: M.soglia_spesa ?? 0.7, cieco,
+  });
+  return { sessioni, tutti, nuovi: nuoviSegnali(tutti, noti) };
+}
+function segnali(opz) {
+  if (!opz.cartella) return uso("segnali --cartella <dir> --onda N [--tutti]");
+  const piano = leggiPiano(opz);
+  const onda = ondaDi(opz, piano);
+  if (!onda) return uso(`segnali --onda 1..${piano.onde.length} --cartella <dir>`);
+  const sess = leggiSessioni(opz);
+  const cieco = scaricaRami(opz, onda.map((x) => sess?.sessioni?.[x]?.ramo));
+  let f;
+  try { f = fattiRadiografia(opz, piano, onda, cieco); } catch (e) { console.error(`⚪ segnali: non ho potuto misurare — ${e.message}`); return 2; }
+  for (const x of opz.tutti ? f.tutti : f.nuovi) console.log(x);
+  if (opz.json) console.log(JSON.stringify({ controllo: "segnali", nuovi: f.nuovi, tutti: f.tutti }));
+  return f.nuovi.length ? 1 : 0;
+}
+const dormi = (ms) => { if (ms > 0) Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms); };
+function attendi(opz) {
+  const piano = leggiPiano(opz);
+  const onda = ondaDi(opz, piano);
+  const intervallo = Number(opz.intervallo ?? 300), battito = Number(opz.battito ?? 7200);
+  if (!onda || !(intervallo >= 0) || !(battito >= 0)) return uso(`sorveglia --onda 1..${piano.onde.length} --attendi [--intervallo secondi] [--battito secondi] --cartella <dir>`);
+  const sess = leggiSessioni(opz);
+  const inizio = Date.now();
+  for (;;) {
+    const cieco = scaricaRami(opz, onda.map((x) => sess?.sessioni?.[x]?.ramo));
+    let f;
+    try { f = fattiRadiografia(opz, piano, onda, cieco); } catch (e) { console.error(`⚪ sorveglia: non ho potuto misurare — ${e.message}`); return 2; }
+    if (f.nuovi.length) {
+      for (const n of f.nuovi) console.log(`🔴 ${n}`);
+      console.log(`prossimo: guarda i segnali (sorveglia --onda ${opz.onda} senza --attendi per guardia e referti), poi aggiungili a rossi-noti.txt e rilancia l'attesa`);
+      return 1;
+    }
+    if (Date.now() - inizio >= battito * 1000) { console.log(`💓 battito: niente di nuovo da ${Math.round(battito / 60)} minuti; rilancia l'attesa`); return 4; }
+    dormi(intervallo * 1000);
+  }
+}
+
 // ── uscita ───────────────────────────────────────────────────────────────────────────────────────
 function chiudi(nome, rossi, attese, opz, extra = {}) {
   const esito = rossi.length ? "rosso" : attese.length ? "in attesa" : "verde";
@@ -1276,6 +1815,7 @@ function uso(riga) {
 const COMANDI = {
   prepara, schede, preventivo, "copertura-prima": coperturaPrima, segnaposti, "guardia-ramo": guardiaRamo,
   "valida-referto": validaReferto, sorveglia, doppioni, grezzo, conti, applica, "copertura-dopo": coperturaDopo,
+  misura, segnali,
 };
 export function esegui(argv) {
   const [cmd, ...resto] = argv;

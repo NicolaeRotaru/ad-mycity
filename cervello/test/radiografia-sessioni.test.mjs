@@ -8,7 +8,9 @@ import { join, dirname } from "node:path";
 import { tmpdir } from "node:os";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
-import { esegui, regoleReferto, trovaDoppioni, applicaAlRegistro, calcolaPreventivo, lottiDiFile, spezza, prossimoR, riservataNelGrezzo } from "../radiografia-sessioni.mjs";
+import { esegui, regoleReferto, trovaDoppioni, applicaAlRegistro, calcolaPreventivo, lottiDiFile, spezza, prossimoR, riservataNelGrezzo,
+  classePrepasso, prepassoVoci, daGuardare, confermeDi, leggiOpzioni, lottiRicontrollo, preventivoDaMisure, ordinaOnde, segnaliRadiografia,
+  rigaMisura, chiudeRicontrollo } from "../radiografia-sessioni.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const RADICE_VERA = join(QUI, "..", "..");
@@ -142,7 +144,7 @@ const referto = (o = {}) => ({
   lotti: [{ id: "L01", esito: "fatto", perche: null }, { id: "L02", esito: "fatto", perche: null }],
   copertura: { file_letti_interi: ["lib/cassa/riquadro.ts"], file_letti_in_parte: [], file_eseguiti: [], non_guardato: [] },
   difetti: [grave()], scartati: [], regressioni: [], ricontrolli: [], prove_per_la_palestra: [], domande_per_nicola: [],
-  conto: { agenti: 3, permesso_regista: null }, ...o,
+  conto: { agenti: 3, permesso_regista: null, usd: 21.4 }, ...o,
 });
 const rossiDi = (r, piano = pianoFinto()) => regoleReferto(r, ctxDi(piano, "S02"));
 
@@ -186,8 +188,8 @@ test("nessun difetto sparito: un buco negli id è rosso, uno scartato col perch�
   assert.deepEqual(rossiDi(r).rossi, []);
 });
 test("⑱ oltre il tetto dei subagenti senza il permesso della regista è rosso", () => {
-  assert.ok(rossiDi(referto({ conto: { agenti: 13, permesso_regista: null } })).rossi.some((x) => x.includes("regola ⑱")));
-  assert.deepEqual(rossiDi(referto({ conto: { agenti: 13, permesso_regista: "sì della regista alle 11:02" } })).rossi, []);
+  assert.ok(rossiDi(referto({ conto: { agenti: 13, permesso_regista: null, usd: 30 } })).rossi.some((x) => x.includes("regola ⑱")));
+  assert.deepEqual(rossiDi(referto({ conto: { agenti: 13, permesso_regista: "sì della regista alle 11:02", usd: 30 } })).rossi, []);
 });
 test("a referto finito ogni lotto è dichiarato: un lotto saltato in silenzio è rosso", () => {
   const { rossi } = rossiDi(referto({ lotti: [{ id: "L01", esito: "fatto", perche: null }] }));
@@ -209,8 +211,8 @@ test("⑲ un verificatore che non è un testo (false, 0, {}) non conta, e nemmen
   for (const v of ["capo: rilanciata", "L02 ha riguardato"]) assert.ok(rossiDi(referto({ difetti: [grave({ verificato_da: v })] })).rossi.some((x) => x.includes("chi trova non conferma")), v);
 });
 test("⑱ un permesso che non è un testo non vale, e gli agenti sono un numero intero", () => {
-  for (const p of [false, 0, {}]) assert.ok(rossiDi(referto({ conto: { agenti: 13, permesso_regista: p } })).rossi.some((x) => x.includes("regola ⑱")), `permesso ${JSON.stringify(p)}`);
-  assert.ok(rossiDi(referto({ conto: { agenti: 3.5, permesso_regista: null } })).rossi.some((x) => x.includes("numero intero")));
+  for (const p of [false, 0, {}]) assert.ok(rossiDi(referto({ conto: { agenti: 13, permesso_regista: p, usd: 30 } })).rossi.some((x) => x.includes("regola ⑱")), `permesso ${JSON.stringify(p)}`);
+  assert.ok(rossiDi(referto({ conto: { agenti: 3.5, permesso_regista: null, usd: 30 } })).rossi.some((x) => x.includes("numero intero")));
 });
 test("una riservata con verificato_da in chiaro è rossa anche su un referto parziale", () => {
   const ris = { id: "S02-001", trovato_da: "L01", riservato: true, titolo: "Falla di sicurezza da chiudere (pagamenti): i dettagli restano fuori dal deposito pubblico finché non è chiusa", file: "(nel referto privato)", severita: "grave", dimensione: "pagamenti-stripe", prova_tipo: "comando", prova_eseguita: true, verificato: false, verificato_da: "il webhook in app/api/stripe/webhook/route.ts:40 accetta eventi senza firma" };
@@ -467,5 +469,292 @@ test("applica: riapre le regressioni trovate dai doppioni, e con un rosso non sc
     const a = b.lancia("applica", "--data", "2026-11-20", "--scrivi");
     assert.equal(a.codice, 1);
     assert.equal(readFileSync(b.registro, "utf8"), prima, "con un referto rosso il registro non si tocca");
+  } finally { b.pulisci(); }
+});
+
+
+// ══ Le onde della riparazione portate nella radiografia (24/11) ════════════════════════════════════════════════════
+
+// ── il prepasso: quello che la storia del sito dice prima degli agenti ─────────────────────────────
+function sitoConStoria() {
+  const dir = mkdtempSync(join(tmpdir(), "rad-pp-"));
+  const env = (d) => ({ ...process.env, GIT_AUTHOR_NAME: "t", GIT_AUTHOR_EMAIL: "t@t", GIT_COMMITTER_NAME: "t", GIT_COMMITTER_EMAIL: "t@t", GIT_AUTHOR_DATE: d, GIT_COMMITTER_DATE: d });
+  const g = (d, ...a) => execFileSync("git", ["-C", dir, ...a], { encoding: "utf8", env: env(d) }).trim();
+  g("2026-01-01T10:00:00", "init", "-q");
+  const scrivi = (p, t) => { mkdirSync(join(dir, dirname(p)), { recursive: true }); writeFileSync(join(dir, p), t); };
+  scrivi("lib/a.ts", righe(100)); scrivi("lib/b.ts", righe(50)); scrivi("lib/c.ts", righe(30)); scrivi("lib/d.ts", righe(30));
+  g("2026-01-01T10:00:00", "add", "-A"); g("2026-01-01T10:00:00", "commit", "-q", "-m", "nascita");
+  // a febbraio: in a.ts cambiano le righe 80-82 (lontane dalle 10-12), in b.ts cambiano le righe 10-11, c.ts sparisce
+  const a = readFileSync(join(dir, "lib/a.ts"), "utf8").split("\n"); a[80] = "// cambiata"; a[81] = "// cambiata"; writeFileSync(join(dir, "lib/a.ts"), a.join("\n"));
+  const b = readFileSync(join(dir, "lib/b.ts"), "utf8").split("\n"); b[9] = "// cambiata"; writeFileSync(join(dir, "lib/b.ts"), b.join("\n"));
+  execFileSync("git", ["-C", dir, "rm", "-q", "lib/c.ts"]);
+  g("2026-02-01T10:00:00", "add", "-A"); g("2026-02-01T10:00:00", "commit", "-q", "-m", "febbraio");
+  return { dir, base: g("2026-02-01T10:00:00", "rev-parse", "HEAD"), pulisci: () => rmSync(dir, { recursive: true, force: true }) };
+}
+test("prepasso: righe ferme e file fermi restano agli agenti solo se dichiarati riparati; righe toccate, file spariti e senza data vanno agli agenti", () => {
+  const sito = sitoConStoria();
+  try {
+    const nata = "radiografia 2026-01-15";
+    const voci = [
+      { dimensione: "qa-flussi", titolo: "Ferme le righe di a", severita: "minore", stato: "aperto", file: "lib/a.ts:10-12", fonte_radiografia: nata },
+      { dimensione: "qa-flussi", titolo: "Toccate le righe di b", severita: "minore", stato: "aperto", file: "lib/b.ts:9-12", fonte_radiografia: nata },
+      { dimensione: "qa-flussi", titolo: "Sparito c", severita: "minore", stato: "aperto", file: "lib/c.ts:3", fonte_radiografia: nata },
+      { dimensione: "qa-flussi", titolo: "Fermo d", severita: "minore", stato: "aperto", file: "lib/d.ts:3", fonte_radiografia: nata },
+      { dimensione: "qa-flussi", titolo: "Senza data", severita: "grave", stato: "aperto", file: "lib/d.ts:3" },
+      { dimensione: "qa-flussi", titolo: "Senza file", severita: "minore", stato: "aperto", file: "(la cassa)", fonte_radiografia: nata },
+      { dimensione: "qa-flussi", titolo: "Fermo ma riparato", severita: "minore", stato: "aperto", file: "lib/d.ts:5", fonte_radiografia: nata, riparazione_22_11: { esito: "riparato" } },
+    ];
+    const opz = leggiOpzioni(["--sito", sito.dir, "--radice", RADICE_VERA]);
+    const esiti = prepassoVoci(opz, sito.base, voci);
+    const per = Object.fromEntries(esiti.map((e) => [e.chiave.split("|")[1], e]));
+    assert.equal(per["ferme le righe di a"].classe, "righe_ferme");
+    assert.equal(per["toccate le righe di b"].classe, "righe_toccate");
+    assert.equal(per["sparito c"].classe, "file_spariti");
+    assert.equal(per["fermo d"].classe, "fermo");
+    assert.equal(per["senza data"].classe, "senza_data");
+    assert.equal(per["senza file"].classe, "senza_file");
+    const agli = esiti.filter(daGuardare).map((e) => e.chiave.split("|")[1]).sort();
+    assert.deepEqual(agli, ["fermo ma riparato", "senza data", "senza file", "sparito c", "toccate le righe di b"]);
+  } finally { sito.pulisci(); }
+});
+test("prepasso: una riverifica più recente con il suo commit sposta il confronto, e la classe è pura", () => {
+  const c = confermeDi({ fonte_radiografia: "radiografia 2026-01-15", riverifica_21_11: { data: "2026-11-21 16:00", esito: "ancora_vero", codice: "abc" }, riverifica_6_11: { data: "2026-11-06 19:13", esito: "non_verificabile" } });
+  assert.deepEqual(c.map((x) => x.da), ["riverifica_21_11", "nascita"], "una riverifica non verificabile non è una conferma");
+  assert.equal(c[0].c, "abc");
+  assert.equal(classePrepasso({ citati: [{ f: "x" }], spariti: [], commit: "c", cambiati: new Set(), toccati: [], righeToccate: null }), "fermo");
+  assert.equal(classePrepasso({ citati: [{ f: "x" }], spariti: [], commit: null, cambiati: null, toccati: [], righeToccate: null }), "senza_data");
+});
+
+// ── il ricontrollo diviso fra voci gravi e minori, e ultracode solo dove serve ──────────────────
+test("prepara: le voci gravi e le minori del ricontrollo stanno in sessioni diverse, e ultracode va solo sulle gravi", () => {
+  const b = banco();
+  try {
+    const piano = prontoConSchede(b, "ricontrollo");
+    assert.deepEqual(Object.keys(piano.sessioni), ["S01", "S01b"]);
+    assert.deepEqual(piano.gravita_cercate, ["bloccante", "grave"], "il ricontrollo scrive i gravi visti di passaggio");
+    assert.equal(piano.cerca_nuovi, false);
+    assert.equal(piano.sessioni.S01.voci_gravi, true);
+    assert.equal(piano.sessioni.S01.ultracode, true);
+    assert.equal(piano.sessioni.S01b.voci_gravi, false);
+    assert.equal(piano.sessioni.S01b.ultracode, false);
+    assert.ok(piano.prepasso && piano.prepasso.voci === 102, JSON.stringify(piano.prepasso));
+    assert.equal(b.lancia("copertura-prima").codice, 0);
+    assert.deepEqual(lottiRicontrollo([{ chiave: "a", gravita: "minore" }, { chiave: "b", gravita: "grave" }], 15, 8).map((x) => [x.id, x.delicata]), [["S01", true], ["S01b", false]]);
+  } finally { b.pulisci(); }
+});
+test("copertura-prima: rossa con un grave messo fra i minori, con ultracode cambiato a mano, o con una voce tolta da da-ricontrollare", () => {
+  const b = banco();
+  try {
+    prontoConSchede(b, "ricontrollo");
+    const pp = join(b.cartella, "piano.json");
+    const originale = readFileSync(pp, "utf8");
+    const piano = JSON.parse(originale);
+    piano.sessioni.S01b.ultracode = true;
+    writeFileSync(pp, JSON.stringify(piano));
+    assert.equal(b.lancia("schede", "--ramo", "claude/prova", "--regista", "session_REGISTA").codice, 0);
+    const u = b.lancia("copertura-prima");
+    assert.equal(u.codice, 1);
+    assert.match(u.out, /S01b: ultracode acceso, la regola «dove-serve» lo vuole spento/);
+    writeFileSync(pp, originale);
+    assert.equal(b.lancia("schede", "--ramo", "claude/prova", "--regista", "session_REGISTA").codice, 0);
+    const lp = join(b.cartella, "lotti/S01b.txt");
+    const lotti = readFileSync(lp, "utf8");
+    writeFileSync(lp, lotti.replace(/\tminore\t/, "\tgrave\t"));
+    const m = b.lancia("copertura-prima");
+    assert.equal(m.codice, 1);
+    assert.match(m.out, /voci gravi e .* minori nella stessa sessione/);
+    writeFileSync(lp, lotti);
+    const dp = join(b.cartella, "da-ricontrollare.txt");
+    const righeDR = readFileSync(dp, "utf8").split("\n");
+    const tolta = righeDR.findIndex((r) => r.startsWith("frontend-ux|"));
+    const chiave = righeDR[tolta].split("\t")[0];
+    writeFileSync(dp, righeDR.filter((_, i) => i !== tolta).join("\n"));
+    writeFileSync(lp, lotti.split("\n").filter((r) => r.split("\t")[1] !== chiave).join("\n"));
+    const t = b.lancia("copertura-prima");
+    assert.equal(t.codice, 1);
+    assert.match(t.out, /mancano da da-ricontrollare\.txt/);
+  } finally { b.pulisci(); }
+});
+test("ultracode «no» e «tutte» fanno quello che dicono, e un modo sconosciuto è un errore d'uso", () => {
+  const b = banco();
+  try {
+    assert.equal(b.lancia("prepara", "--profilo", "ricontrollo", "--base", b.base, "--ultracode", "no").codice, 0);
+    let piano = JSON.parse(readFileSync(join(b.cartella, "piano.json"), "utf8"));
+    assert.ok(Object.values(piano.sessioni).every((x) => x.ultracode === false));
+    assert.equal(b.lancia("prepara", "--profilo", "ricontrollo", "--base", b.base, "--ultracode", "tutte").codice, 0);
+    piano = JSON.parse(readFileSync(join(b.cartella, "piano.json"), "utf8"));
+    assert.ok(Object.values(piano.sessioni).every((x) => x.ultracode === true));
+    assert.equal(b.lancia("prepara", "--profilo", "ricontrollo", "--base", b.base, "--ultracode", "forse").codice, 2);
+  } finally { b.pulisci(); }
+});
+
+// ── il preventivo dalle misure con la stessa configurazione ──────────────────────────────────────
+const STIMA = JSON.parse(readFileSync(TEMI, "utf8")).stima;
+const pianoPrev = (sessioni, onde = [Object.keys(sessioni)]) => ({ sessioni, onde });
+test("preventivo: sceglie la misura con lo stesso ultracode anche se non è l'ultima, e lo dice quando non c'è", () => {
+  const misure = { misure: [
+    { fase: "senza", usd_sessioni: 50, usd_regia_e_cf: 10, gruppi: [{ tipo: "ricontrollo", metodo: "lotti", ultracode: false, voci: 100, usd: 50, chiusi: 30 }] },
+    { fase: "con", usd_sessioni: 200, usd_regia_e_cf: 20, gruppi: [{ tipo: "ricontrollo", metodo: "lotti", ultracode: true, voci: 100, usd: 200, chiusi: 30 }] },
+  ] };
+  const piano = pianoPrev({ S01b: { tema: "S01", ultracode: false, lotti: [{ voci: 10 }, { voci: 10 }] } });
+  const d = preventivoDaMisure(piano, misure, STIMA);
+  assert.equal(d.sessioni[0].atteso, 10, "20 voci × 0,5 $ della misura senza ultracode, non × 2 $ dell'ultima riga");
+  assert.match(d.sessioni[0].fonte, /^senza/);
+  assert.equal(d.quota_regia_e_cf, 0.2);
+  assert.equal(d.chiusi_attesi, 6);
+  const solo = preventivoDaMisure(piano, { misure: [misure.misure[1]] }, STIMA);
+  assert.equal(solo.sessioni[0].atteso, 40);
+  assert.ok(solo.avvisi.some((a) => /misura|l'altro/.test(a)), solo.avvisi.join("\n"));
+});
+test("preventivo: la ricerca a lotti mai misurata usa la stima, col fattore ultracode, e va firmata", () => {
+  const piano = pianoPrev({ S02: { tema: "S02", ultracode: true, lotti: [{}, {}, {}] }, S09: { tema: "S09", ultracode: false, lotti: [{}, {}, {}] } });
+  const d = preventivoDaMisure(piano, { misure: [] }, STIMA);
+  const senza = STIMA.usd_capo_sessione + 3 * STIMA.usd_lotto + STIMA.verificatori_attesi_per_sessione * STIMA.usd_verificatore;
+  assert.equal(d.sessioni.find((r) => r.sessione === "S09").atteso, Math.round(senza * 100) / 100);
+  assert.equal(d.sessioni.find((r) => r.sessione === "S02").atteso, Math.round(senza * STIMA.fattore_ultracode * 100) / 100);
+  assert.deepEqual(d.mai_misurate, ["S02", "S09"]);
+  assert.equal(d.usd_per_chiusa_attesa, null, "senza ricontrollo non ci sono chiusure attese");
+});
+test("le misure vere della radiografia si leggono, e il ricontrollo del 21/11 dà circa 0,23 $ a voce", () => {
+  const misure = JSON.parse(readFileSync(join(RADICE_VERA, "cervello/radiografia/misure.json"), "utf8"));
+  const piano = pianoPrev({ S01: { tema: "S01", ultracode: true, lotti: [{ voci: 100 }] } });
+  const d = preventivoDaMisure(piano, misure, STIMA);
+  assert.ok(d.sessioni[0].misurata);
+  assert.ok(Math.abs(d.sessioni[0].atteso - 22.81) < 0.01, String(d.sessioni[0].atteso));
+});
+test("onda pilota: senza una misura della ricerca a lotti la prima onda porta il ricontrollo e al massimo due cercatrici", () => {
+  const sess = { S01: { tema: "S01", rischio: "alto" }, S01b: { tema: "S01", rischio: "alto" }, S02: { tema: "S02", rischio: "alto" }, S03: { tema: "S03", rischio: "alto" }, S04: { tema: "S04", rischio: "alto" }, S09: { tema: "S09", rischio: "medio" } };
+  assert.deepEqual(ordinaOnde(sess, 6, 2), [["S01", "S01b", "S02", "S03"], ["S04", "S09"]]);
+  assert.deepEqual(ordinaOnde(sess, 6, null), [["S01", "S01b", "S02", "S03", "S04", "S09"]]);
+  assert.deepEqual(ordinaOnde({ S01: { tema: "S01", rischio: "alto" } }, 6, 2), [["S01"]], "un ricontrollo da solo non ha pilota");
+});
+
+// ── la falla scoperta durante il ricontrollo, i gravi visti di passaggio, il costo in dollari ─────
+const pianoRic = () => ({ ...pianoFinto(), gravita_cercate: ["bloccante", "grave"], cerca_nuovi: false, sessioni: { S01: { tema: "S01", lenti: [], prefissi: [], tetto: 12, lotti: [{ id: "L01" }] } } });
+const ctxRic = (piano) => ({ ...ctxDi(piano, "S01"), daRicontrollare: new Map([["qa-flussi|una voce aperta", { gravita: "minore", righe: ["qa-flussi|una voce aperta", "minore"] }]]) });
+const refRic = (k, o = {}) => referto({ sessione: "S01", lotti: [{ id: "L01", esito: "fatto", perche: null }], difetti: [], ricontrolli: [k], copertura: { file_letti_interi: [], file_letti_in_parte: [], file_eseguiti: [], non_guardato: [] }, ...o });
+const aperta = (o = {}) => ({ chiave: "qa-flussi|una voce aperta", esito: "ancora_vero", prova: "npx vitest run t", prova_tipo: "comando", prova_eseguita: true, esito_prova: "rosso", verificato: false, verificato_da: null, nota: null, falla: false, ...o });
+test("ⓕ una voce che resta aperta dice se è una falla, anche nel referto parziale", () => {
+  const piano = pianoRic();
+  const { falla, ...senza } = aperta();
+  const parziale = regoleReferto(refRic(senza, { finita: false }), ctxRic(piano));
+  assert.ok(parziale.rossi.some((x) => /«falla» true o false/.test(x)), parziale.rossi.join("\n"));
+  assert.deepEqual(regoleReferto(refRic(aperta()), ctxRic(piano)).rossi, []);
+});
+test("ⓕ una falla ancora aperta tiene prova, esito e nota solo in chat", () => {
+  const piano = pianoRic();
+  const r = regoleReferto(refRic(aperta({ falla: true, nota: "basta chiamare la rotta senza accesso" })), ctxRic(piano));
+  assert.ok(r.rossi.some((x) => /«prova» vale «\(nel referto privato\)»/.test(x)), r.rossi.join("\n"));
+  assert.ok(r.rossi.some((x) => /«nota» vale/.test(x)));
+  const ok = regoleReferto(refRic(aperta({ falla: true, prova: "(nel referto privato)", esito_prova: "(nel referto privato)", nota: null })), ctxRic(piano));
+  assert.deepEqual(ok.rossi, []);
+  const extra = regoleReferto(refRic({ ...aperta(), dettagli: "come si sfrutta" }), ctxRic(piano));
+  assert.ok(extra.rossi.some((x) => /campi in più \(dettagli\)/.test(x)));
+  const chiusa = regoleReferto(refRic(aperta({ esito: "non_piu_vero", falla: true })), ctxRic(piano));
+  assert.ok(chiusa.rossi.some((x) => /vale solo per una voce che resta aperta/.test(x)));
+});
+test("ⓝ nel ricontrollo un grave visto di passaggio entra, un minore no (⑳)", () => {
+  const piano = pianoRic();
+  const g = grave({ id: "S01-001", trovato_da: "L01" });
+  assert.deepEqual(regoleReferto(refRic(aperta(), { difetti: [g] }), ctxRic(piano)).rossi, []);
+  const m = grave({ id: "S01-001", trovato_da: "L01", severita: "minore", prova_tipo: "lettura-codice", verificato: false, verificato_da: null });
+  assert.ok(regoleReferto(refRic(aperta(), { difetti: [m] }), ctxRic(piano)).rossi.some((x) => x.includes("regola ⑳")));
+});
+test("ⓓ a referto finito il costo in dollari c'è, o c'è il perché", () => {
+  const senza = rossiDi(referto({ conto: { agenti: 3, permesso_regista: null } }));
+  assert.ok(senza.rossi.some((x) => /conto\.usd/.test(x)), senza.rossi.join("\n"));
+  assert.deepEqual(rossiDi(referto({ conto: { agenti: 3, permesso_regista: null, usd_perche: "get_session non porta usage in questa sessione" } })).rossi, []);
+  assert.ok(rossiDi(referto({ conto: { agenti: 3, permesso_regista: null, usd: -1 } })).rossi.some((x) => /conto\.usd/.test(x)));
+  assert.deepEqual(rossiDi(referto({ finita: false, conto: {} })).rossi.filter((x) => /conto\.usd/.test(x)), [], "a metà lavoro non si chiede");
+});
+
+// ── la riga delle misure, scritta da un comando, prima del registro ──────────────────────────────
+test("ⓜ applica --scrivi senza misura.json è rosso; misura scrive la riga una volta sola, e i gruppi senza costo restano senza", () => {
+  const b = banco();
+  try {
+    const piano = prontoConSchede(b, "ricontrollo");
+    mkdirSync(join(b.cartella, "referti"), { recursive: true });
+    const dr = readFileSync(join(b.cartella, "da-ricontrollare.txt"), "utf8").split("\n").filter((r) => r && !r.startsWith("#")).map((r) => r.split("\t"));
+    const voce = (ch, extra = {}) => ({ chiave: ch, esito: "ancora_vero", prova: "x", prova_tipo: "comando", prova_eseguita: true, esito_prova: "rosso", verificato: false, verificato_da: null, nota: null, falla: false, ...extra });
+    const lottiDi = (nome) => readFileSync(join(b.cartella, `lotti/${nome}.txt`), "utf8").split("\n").filter((r) => r && !r.startsWith("#")).map((r) => r.split("\t")[1]);
+    for (const nome of ["S01", "S01b"]) {
+      const mie = lottiDi(nome);
+      const ric = mie.map((ch, i) => voce(ch, nome === "S01b" && i === 0 ? { falla: true, prova: "(nel referto privato)", esito_prova: "(nel referto privato)" } : nome === "S01b" && i === 1 ? { esito: "non_piu_vero", falla: undefined } : {}));
+      ric.forEach((k) => { if (k.falla === undefined) delete k.falla; });
+      writeFileSync(join(b.cartella, `referti/${nome}.json`), JSON.stringify(refertoBanco(b, piano, nome, [], { ricontrolli: ric, copertura: { file_letti_interi: [], file_letti_in_parte: [], file_eseguiti: [], non_guardato: [] }, conto: { agenti: 2, permesso_regista: null, ...(nome === "S01" ? { usd: 4.5 } : { usd_perche: "get_session senza usage in questa prova" }) } })));
+    }
+    assert.ok(dr.length > 0);
+    assert.equal(b.lancia("doppioni").codice, 0);
+    const senzaMisura = b.lancia("applica", "--data", "2026-11-20", "--scrivi");
+    assert.equal(senzaMisura.codice, 1, senzaMisura.out);
+    assert.match(senzaMisura.out, /manca misura\.json/);
+    assert.match(readFileSync(join(b.cartella, "da-riservare.txt"), "utf8"), /\tS01b\n/);
+    const fm = join(b.dir, "misure.json");
+    writeFileSync(fm, JSON.stringify({ misure: [] }));
+    const m1 = b.lancia("misura", "--usd-regia", "3", "--usd-cf", "2", "--scrivi", "--misure", fm);
+    assert.equal(m1.codice, 3, m1.out);
+    const scritte = JSON.parse(readFileSync(fm, "utf8")).misure;
+    assert.equal(scritte.length, 1);
+    const gS01 = scritte[0].gruppi.find((g) => g.ultracode === true), gS01b = scritte[0].gruppi.find((g) => g.ultracode === false);
+    assert.equal(gS01.usd, 4.5);
+    assert.equal(gS01b.usd, null, "S01b non ha il costo: il suo gruppo non fa preventivo");
+    assert.equal(gS01b.chiusi, 1);
+    assert.equal(scritte[0].usd, null);
+    const m2 = b.lancia("misura", "--usd-regia", "3", "--usd-cf", "2", "--scrivi", "--misure", fm);
+    assert.equal(m2.codice, 1);
+    assert.match(m2.out, /le righe non si riscrivono/);
+    const ok = b.lancia("applica", "--data", "2026-11-20", "--scrivi");
+    assert.equal(ok.codice, 0, ok.out);
+    assert.match(ok.out, /falle scoperte da rendere riservate: 1/);
+  } finally { b.pulisci(); }
+});
+test("chiudeRicontrollo: un grave si chiude solo con prova a comando e verificatore", () => {
+  const k = { esito: "non_piu_vero", prova_tipo: "comando", prova_eseguita: true, esito_prova: "verde", verificato: false, verificato_da: null };
+  assert.equal(chiudeRicontrollo(k, "minore"), true);
+  assert.equal(chiudeRicontrollo(k, "grave"), false);
+  assert.equal(chiudeRicontrollo({ ...k, verificato: true, verificato_da: "qa nuovo" }, "grave"), true);
+  assert.equal(rigaMisura({ profilo: "x", base: "b", sessioni: {} }, [], { cartella: "c", data: "2026-11-24 10:00" }).fase, "radiografia del 24/11 (x)");
+});
+
+// ── i segnali e la sorveglianza muta ──────────────────────────────────────────────────────────────
+test("segnali: la sessione che non parte, il ramo fermo, la spesa oltre il preventivo, la quota", () => {
+  const ora = Date.parse("2026-11-24T10:00:00Z");
+  const min = (m) => ora - m * 60000;
+  const s = segnaliRadiografia({
+    ora, preventivoUsd: 100, vive: { spesa_usd: 75, quota: { status: "allowed_warning" }, sessioni: { S04: { stato: "BLOCKED" } } },
+    sessioni: [
+      { nome: "S02", ramo: "r-s02", aperta: min(16), sulRemoto: false, finita: false, testa: null },
+      { nome: "S03", ramo: "r-s03", aperta: min(5), sulRemoto: false, finita: false, testa: null },
+      { nome: "S04", ramo: "r-s04", aperta: min(90), sulRemoto: true, finita: false, testa: { sha: "abcdef123", quando: min(71) } },
+      { nome: "S05", ramo: "r-s05", aperta: min(90), sulRemoto: true, finita: true, testa: { sha: "fff", quando: min(80) } },
+    ],
+  });
+  assert.ok(s.includes("non partita S02"));
+  assert.ok(!s.some((x) => x.includes("S03")), "aperta da 5 minuti: ancora presto");
+  assert.ok(s.includes("ferma S04 abcdef1"));
+  assert.ok(s.includes("attesa S04"));
+  assert.ok(s.includes("finita S05") && !s.some((x) => x.startsWith("ferma S05")));
+  assert.ok(s.includes("spesa oltre il 70% del preventivo atteso"));
+  assert.ok(s.includes("quota allowed_warning"));
+  assert.ok(segnaliRadiografia({ ora, preventivoUsd: 100, vive: { spesa_usd: 100 }, sessioni: [] }).includes("spesa oltre il 100% del preventivo atteso"));
+});
+test("sorveglia --attendi: esce 1 col segnale nuovo, e 4 al battito quando i segnali sono già noti", () => {
+  const b = banco();
+  try {
+    prontoConSchede(b, "ricontrollo");
+    sh(b.ad, "add", "-A"); sh(b.ad, "commit", "-q", "-m", "regista");
+    const partenza = sh(b.ad, "rev-parse", "HEAD");
+    sh(b.ad, "update-ref", "refs/remotes/origin/claude/prova-s01", partenza);
+    writeFileSync(join(b.cartella, "sessioni.json"), JSON.stringify({ regista: "x", sessioni: { S01: { ramo: "claude/prova-s01", onda: 1, partenza, aperta: "2026-11-24 09:00" }, S01b: { ramo: "claude/prova-s01b", onda: 1, partenza, aperta: "2026-11-24 09:00" } } }));
+    const a = b.lancia("sorveglia", "--onda", "1", "--attendi", "--intervallo", "0", "--battito", "0");
+    assert.equal(a.codice, 1, a.out);
+    assert.match(a.out, /non partita S01b/);
+    assert.match(a.out, /ramo S01 claude\/prova-s01/);
+    const tutti = b.lancia("segnali", "--onda", "1", "--tutti").out.split("\n").filter((r) => r && !r.startsWith("{"));
+    writeFileSync(join(b.cartella, "rossi-noti.txt"), tutti.join("\n") + "\n");
+    const quieto = b.lancia("sorveglia", "--onda", "1", "--attendi", "--intervallo", "0", "--battito", "0");
+    assert.equal(quieto.codice, 4, quieto.out);
+    assert.match(quieto.out, /battito/);
+    assert.equal(b.lancia("segnali", "--onda", "9").codice, 2);
   } finally { b.pulisci(); }
 });
