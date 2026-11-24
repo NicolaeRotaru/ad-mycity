@@ -1,0 +1,78 @@
+# Voci che chiedono una risposta, una scelta o un gesto di Nicola — 77 voci, una chiave per riga (regia decima, 2026-11-24 19:45, dal registro con 610 aperti). Le riservate non sono qui: deposito pubblico.
+non_codice	frontend-ux|il cliente legge «il tuo rider» e il negozio legge «cliente» al posto dei nomi, perché le due strade nuove per i nomi non esistono nel database vero
+scelta_di_nicola	architettura|gli strumenti degli sviluppatori portano altre 19 falle note, 10 alte, ma nessuna arriva al sito
+non_codice	architettura|da controllare sui dati: un negozio che oggi ha salvato 7 giorni vuoti diventa chiuso sempre appena esce la modifica
+scelta_di_nicola	architettura|ferie salvate con l'editor di prima su 3 giorni o meno: il negozio resta aperto a qualunque ora
+scelta_di_nicola	deploy-sre|con il rilascio automatico acceso il ritorno indietro automatico non scatta quasi mai
+scelta_di_nicola	frontend-ux|lo scheletro del negozio impedisce il 404 vero sulle pagine dei negozi anche senza lo scheletro della radice
+scelta_di_nicola	immagini-media|next.config.js ammette ancora le immagini di placehold.co, che il sito non usa più
+scelta_di_nicola	qa-flussi|le prove unitarie montano i componenti con react 18.3.1, ma il sito gira con il react 19.2 di next
+scelta_di_nicola	architettura|zod, resend, @sentry/nextjs, minimatch e glob, librerie che vanno nel sito, hanno 10 avvisi pubblici di npm audit (zod alto) che si chiudono solo con aggiornamenti che rompono
+non_codice	deploy-sre|l'avviso «registratore degli errori acceso solo sul server» resta finché non si rifà il deploy
+scelta_di_nicola	microcopy|lo stesso invio del lotto ai rimasto senza risposta dice «scartalo e avviane un altro» a 3 minuti e «chiedi all'assistenza prima di avviarne un altro» a 24 ore
+non_codice	qa-flussi|una migrazione che aggiunge una colonna non si può consegnare da sola: i tipi generati vanno rigenerati nello stesso commit
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined
+domanda	undefined

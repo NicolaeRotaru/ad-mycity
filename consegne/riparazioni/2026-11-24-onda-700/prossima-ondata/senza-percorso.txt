@@ -1,0 +1,19 @@
+# Voci senza un percorso di file riconosciuto: da capire prima di dividerle — 18 voci, una chiave per riga (regia decima, 2026-11-24 19:45, dal registro con 610 aperti). Le riservate non sono qui: deposito pubblico.
+microcopy|la descrizione del negozio vero comincia a metà frase e promette pane e miele che online non vende
+sicurezza-auth|la chiave segreta del controllo anti-robot è salvata su vercel in forma leggibile, unica fra i segreti
+deploy-sre|le anteprime delle modifiche mostrano un sito senza database: nicola non può vedere una modifica prima di unirla
+dati-analytics|le statistiche di visita di vercel non sono attive, e quindi nessuno sa quanta gente entra
+api-backend|un alimento gia' in vendita senza allergeni non si salva dal modulo: l'app lo ammette, il trigger 126 lo rifiuta
+qa-flussi|nessun giro notturno di mutazioni sul percorso dei soldi: un controllo nuovo su incasso o bonifico puo' entrare senza una prova che lo tenga
+microcopy|ora dell'una scritta male: «entro le 1:15», «alle 1:15» invece di «entro l'1:15», «all'1:15»
+frontend-ux|i negozi già salvati a roma restano a roma finché non riaprono il profilo
+microcopy|le notifiche di benvenuto già consegnate promettono ancora 5 euro sopra 10 euro di spesa
+pagamenti-stripe|gli ordini già fermati dal trigger della 063 restano con dispute_status open: la 184 vale solo per i reclami nuovi
+privacy-legale|in vendita ci sono 7 alimenti su 9 senza allergeni né ingredienti, e la migrazione nuova li lascia comprabili
+rls-database|la regola di cancellazione del venditore lascia cancellare dal browser un prodotto mai venduto, senza riga in audit_logs
+rls-database|altre regole degli amministratori leggono profiles coi permessi di chi chiede invece di usare is_admin()
+qa-flussi|l'icona a cuore accanto ad «appena arrivati» in home
+qa-flussi|rilanciando la migrazione 424 la validazione non si riprova, e in produzione due movimenti punti orfani vanno ripuliti prima del validate
+qa-flussi|la prova rimessa rifiuta un albero con modifiche non salvate, quindi una voce serve_file_altrui (patch senza commit) si controlla solo a mano
+layout-responsive|a 1024 px col testo al 200% le pagine pubbliche scorrono di lato per la fascia animata in alto, non per il piede
+layout-responsive|col testo al 200% a 280 px il banner dei cookie esce dal suo riquadro
