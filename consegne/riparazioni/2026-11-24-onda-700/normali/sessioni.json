@@ -196,6 +196,16 @@
    "punta": "8c631b070c074c909af801cb0bf8a96e8957bcf2",
    "costo_usd": 1.6,
    "finita_alle": "2026-11-24 20:35"
+  },
+  "CF": {
+   "id": "session_01R8112K3uxv4DAfQ3rk6ww2",
+   "ramo": "ccr-d7a54140-hak4ez-cf",
+   "partenza": "0c2b2bd1159ce0b06c3bfaad5c8e487a5e7cc873",
+   "integrazione": "51495a1ce3f22739db639ff88f5a0015da4f965e",
+   "base": "5b8c786c96ec789918b3e85361ca435cef726b92",
+   "onda": "finale",
+   "limite_usd": 6,
+   "partita": "2026-11-24 20:33"
   }
  }
 }
