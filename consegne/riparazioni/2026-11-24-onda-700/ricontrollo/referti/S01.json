@@ -1,8 +1,8 @@
 {
   "sessione": "S01",
   "base_sito": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
-  "aggiornato": "2026-11-24 12:32",
-  "finita": false,
+  "aggiornato": "2026-11-24 12:36",
+  "finita": true,
   "lotti": [
     {
       "id": "L01",
@@ -41,8 +41,8 @@
     },
     {
       "id": "L08",
-      "esito": "non_fatto",
-      "perche": "in corso"
+      "esito": "fatto",
+      "perche": null
     }
   ],
   "copertura": {
@@ -57,10 +57,16 @@
       "lib/ai/decisioneTettoSpesa.ts",
       "lib/api/dopo-la-risposta.ts",
       "lib/cassa/quadratura.ts",
+      "lib/email/client.ts",
+      "lib/geocodifica.ts",
+      "lib/ordini/zona-di-consegna.ts",
+      "lib/stripe/webhook/posta-non-partita.ts",
       "migrations/364_una_domanda_si_segnala_e_si_nasconde.sql",
       "migrations/501_la_rimessa_conferma_solo_gli_ordini_visti.sql",
+      "tests/sql/rls/riparazione-r26-la-rimessa-conferma-solo-gli-ordini-visti.test.sql",
       "tests/unit/la-notte-vera-toglie-le-copie-orfane-dei-documenti.test.ts",
       "tests/unit/minori-s03-migrazioni-distruttive.test.ts",
+      "tests/unit/riparazione-r03-email-rifiutata-si-vede.test.ts",
       "tests/unit/riparazione-r03-il-reclamo-arriva-a-qualcuno.test.ts",
       "tests/unit/riparazione-r03-pagina-del-reclamo.test.tsx",
       "tests/unit/riparazione-r13-indirizzi-servizio-giu-rotta.test.ts",
@@ -86,6 +92,10 @@
       {
         "file": "app/admin/audit/page.tsx",
         "righe": "17-60"
+      },
+      {
+        "file": "app/admin/cod-remittance/page.tsx",
+        "righe": "80-175"
       },
       {
         "file": "app/admin/delivery/page.tsx",
@@ -124,6 +134,10 @@
         "righe": "1-239"
       },
       {
+        "file": "app/api/health/route.ts",
+        "righe": "365-405"
+      },
+      {
         "file": "app/api/kyc/start-check/route.ts",
         "righe": "1-186"
       },
@@ -136,8 +150,16 @@
         "righe": "150-160"
       },
       {
+        "file": "app/api/rider/cash-confirm/route.ts",
+        "righe": "60-130"
+      },
+      {
         "file": "app/api/stripe/checkout/route.ts",
-        "righe": "596-1125"
+        "righe": "518-1125"
+      },
+      {
+        "file": "app/api/track/route.ts",
+        "righe": "43-51"
       },
       {
         "file": "app/category/[slug]/layout.tsx",
@@ -149,7 +171,7 @@
       },
       {
         "file": "app/checkout/page.tsx",
-        "righe": "470-1110"
+        "righe": "64-1224"
       },
       {
         "file": "app/faq/page.tsx",
@@ -265,7 +287,7 @@
       },
       {
         "file": "app/seller/stories/page.tsx",
-        "righe": "265-350"
+        "righe": "27-350"
       },
       {
         "file": "app/shipping/page.tsx",
@@ -306,6 +328,10 @@
       {
         "file": "components/Footer.tsx",
         "righe": "135-203"
+      },
+      {
+        "file": "components/GoogleAnalytics.tsx",
+        "righe": "10-125"
       },
       {
         "file": "components/home/StoriesCarousel.tsx",
@@ -365,7 +391,7 @@
       },
       {
         "file": "lib/account/cancellazione.ts",
-        "righe": "90-1045"
+        "righe": "80-1045"
       },
       {
         "file": "lib/ai/esitoCopilot.ts",
@@ -384,6 +410,26 @@
         "righe": "1-270"
       },
       {
+        "file": "lib/analytics/events.ts",
+        "righe": "36-36"
+      },
+      {
+        "file": "lib/analytics/posthog.tsx",
+        "righe": "30-657"
+      },
+      {
+        "file": "lib/analytics/server.ts",
+        "righe": "180-285"
+      },
+      {
+        "file": "lib/api/middleware.ts",
+        "righe": "570-720"
+      },
+      {
+        "file": "lib/api/responses.ts",
+        "righe": "60-77"
+      },
+      {
         "file": "lib/audit-azioni.ts",
         "righe": "17-54"
       },
@@ -400,12 +446,20 @@
         "righe": "40-75"
       },
       {
-        "file": "lib/email/client.ts",
-        "righe": "55-110"
+        "file": "lib/consent.ts",
+        "righe": "25-60"
       },
       {
         "file": "lib/email/templates.ts",
         "righe": "130-600"
+      },
+      {
+        "file": "lib/env.ts",
+        "righe": "50-76"
+      },
+      {
+        "file": "lib/errors.ts",
+        "righe": "30-441"
       },
       {
         "file": "lib/format.ts",
@@ -413,7 +467,7 @@
       },
       {
         "file": "lib/funzioni-al-lancio.ts",
-        "righe": "1-46"
+        "righe": "1-133"
       },
       {
         "file": "lib/health/titolare-check.ts",
@@ -426,6 +480,10 @@
       {
         "file": "lib/legal/titolare.ts",
         "righe": "1-240"
+      },
+      {
+        "file": "lib/logger.ts",
+        "righe": "200-309"
       },
       {
         "file": "lib/metriche-venditore.ts",
@@ -441,7 +499,7 @@
       },
       {
         "file": "lib/ordini/consegna-veloce.ts",
-        "righe": "130-185"
+        "righe": "95-185"
       },
       {
         "file": "lib/ordini/prezzi.ts",
@@ -516,16 +574,20 @@
         "righe": "38-228"
       },
       {
+        "file": "lib/storage/percorso-caricamento.ts",
+        "righe": "1-40"
+      },
+      {
         "file": "lib/storage/regole-secchi.ts",
         "righe": "40-185"
       },
       {
         "file": "lib/stripe/webhook/comune.ts",
-        "righe": "127-160"
+        "righe": "127-339"
       },
       {
         "file": "lib/stripe/webhook/ordini.ts",
-        "righe": "145-560"
+        "righe": "145-580"
       },
       {
         "file": "lib/supabase/lettura-per-metadati.ts",
@@ -549,7 +611,7 @@
       },
       {
         "file": "migrations/127_minori_22_agosto.sql",
-        "righe": "643-679"
+        "righe": "640-682"
       },
       {
         "file": "migrations/160_la_merce_torna_a_scaffale_una_volta_sola.sql",
@@ -566,6 +628,10 @@
       {
         "file": "migrations/321_l_ordine_pronto_dice_la_fascia.sql",
         "righe": "38-90"
+      },
+      {
+        "file": "package.json",
+        "righe": "49-61"
       },
       {
         "file": "tailwind.config.ts",
@@ -888,6 +954,22 @@
       {
         "cosa": "L07: StoreLocationPicker montato con un 429 finto (voci 14 e 15)",
         "perche": "Leaflet è pesante da montare in parallelo con gli altri aiutanti: ho letto il ramo riga per riga"
+      },
+      {
+        "cosa": "L08: variabili di produzione su Vercel (ID di GA4, DSN di Sentry, SUPPORT_EMAIL, chiave di servizio, Upstash) e impostazione Fluid compute",
+        "perche": "Vercel è vietato dal mandato. Pesano sulle voci 7, 9, 10 e 15, lasciate aperte."
+      },
+      {
+        "cosa": "L08: Nominatim vero sulle 8 vie del centro",
+        "perche": "Il mandato vieta la rete. La prova usa un finto Nominatim che riproduce la misura della palestra."
+      },
+      {
+        "cosa": "L08: se la migrazione 381 è applicata al database di produzione",
+        "perche": "Il database vero è vietato. A questo commit la 381 non c'è."
+      },
+      {
+        "cosa": "L08: release-payouts ed expire-checkouts riga per riga (voce 10)",
+        "perche": "Il titolo si decide su withCronAuth e sull'allarme generico, quindi non serviva."
       }
     ]
   },
@@ -1738,9 +1820,9 @@
       "prova_tipo": "comando",
       "prova_eseguita": true,
       "esito_prova": "2 file verdi, 3 casi verdi. L06-2 usa la rotta vera POST /api/disputes: viene scritta la riga contro il negozio dell'ordine, parte l'avviso agli amministratori, la campanella del negozio contiene «bonifico», e il cliente riceve la ricevuta per email. Un estraneo riceve 403 e nessuno viene avvisato. La prova della pagina (monta la pagina vera) mostra che «Invia» chiama /api/disputes e non fa nessun insert in disputes dal browser. Mutazione con notifyAdmins e scriviCampanella resi muti: ROSSO («nessun amministratore avvisato»). Col difetto originale la rotta non esiste e l'import fallisce.",
-      "verificato": false,
-      "verificato_da": null,
-      "nota": "Le righe: app/orders/[id]/dispute/page.tsx:217-224 (fetch) e app/api/disputes/route.ts:87-133 (avvisi e ricevuta). Non ho guardato se la policy del database permette ancora l'INSERT diretto su disputes, perché non è nel titolo."
+      "verificato": true,
+      "verificato_da": "qa nuovo (verificatore V1): rilanciati i due file, 3 verdi; la prova morde: 5 mutazioni su 5 rosse (senza avviso agli amministratori, senza campanella, campanella senza «bonifico», senza ricevuta, pagina che riscrive dal browser). Confermato.",
+      "nota": "Sul percorso del cliente le due parti del titolo sono chiuse: la rotta del reclamo avvisa gli amministratori (app/api/disputes/route.ts:87-97) e dice al negozio che il bonifico resta fermo (:99-115); la pagina passa dalla rotta (app/orders/[id]/dispute/page.tsx:217-224). Resta, minore e fuori dal titolo: il database accetta ancora il reclamo scritto direttamente, senza la rotta (migrations/215_minori_s04_database.sql:276-290), e chi lo fa apposta salta gli avvisi."
     },
     {
       "chiave": "coerenza-brand|ombre nere fredde accanto alle ombre calde del brand; il token creato apposta non è usato mai",
@@ -2049,39 +2131,203 @@
       "verificato": false,
       "verificato_da": null,
       "nota": "È proprio la forma nata dalla riparazione della voce precedente, quella su «indirizzo non trovato»."
+    },
+    {
+      "chiave": "api-backend|la guardia della cancellazione dice un importo gonfiato su una giornata di cassa riaperta",
+      "esito": "cambiato",
+      "prova": "psql -X -d mycity_s01_l08 -v ON_ERROR_STOP=1 -f scratchpad/prove/L08-1.sql ; lib/account/cancellazione.ts:711-727 ; migrations/501_la_rimessa_conferma_solo_gli_ordini_visti.sql:66-69",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "Verde, exit 0. Nel database del commit le sole funzioni che nominano remitted_at sono le due forme di confirm_cod_remittance. Nessuna lo rimette a NULL, e su cod_reconciliations non c'è nessun grilletto. Nel commit non c'è nessun file migrations/38x_.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "La guardia è identica: somma collected_cents delle giornate con remitted_at NULL. Però la riapertura di una giornata (migrazione 381 del lotto R14) non è in questo commit, quindi il testo gonfiato su una giornata riaperta oggi non si produce. Su una giornata con rimessa parziale il comportamento è un altro (è la voce aperta «confermata una rimessa, la giornata del fattorino risulta versata…», ricontrollata nel lotto L01: ancora vera). Resta aperta: torna vera il giorno che la 381 entra."
+    },
+    {
+      "chiave": "api-backend|se la lettura dell'email cade, la cancellazione dell'account lascia l'indirizzo nella newsletter e nessuno lo sa",
+      "esito": "ancora_vero",
+      "prova": "cd marketplace && npx vitest run tests/unit/_s01/L08-2.test.ts ; lib/account/cancellazione.ts:564-575",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "1 rossa. Quando getUserById risponde con un errore, la funzione esce senza nessuna riga di log e senza eccezione, e la newsletter non viene toccata.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "L'errore di getUserById è ancora scartato (riga 566). Con l'email a null si esce in silenzio alla riga 568."
+    },
+    {
+      "chiave": "api-backend|una giornata di cassa riaperta dichiara come «non ancora versati» anche i contanti già versati quel giorno",
+      "esito": "cambiato",
+      "prova": "psql -X -d mycity_s01_l08 -v ON_ERROR_STOP=1 -f scratchpad/prove/L08-1.sql ; lib/account/cancellazione.ts:711-727",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "Verde, exit 0. Nessuna funzione o grilletto del commit riapre una giornata di cassa: la 381 non c'è.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Stessa situazione della voce gemella. Frase e somma sono invariate (righe 716-727), ma a questo commit la giornata non si riapre. Quindi l'esempio di 41,00 € invece di 20,50 € non si produce. Resta aperta per quando la riapertura entrerà."
+    },
+    {
+      "chiave": "privacy-legale|quando un negozio cancella l'account, logo, foto della vetrina e dei prodotti e storie restano nei secchi pubblici: la prova che gira per la voce delle foto dei resi, e il pezzo che quella voce non nomina",
+      "esito": "ancora_vero",
+      "prova": "cd marketplace && npx vitest run tests/unit/_s01/L08-4.test.ts ; lib/account/cancellazione.ts:92 e :105-107 e :323-329",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "1 rossa. cancellaFilePersonali toglie solo products/<uid>/returns/reso.jpg. Restano products/<uid>/logo.png, products/<uid>/prodotti/pane.jpg e stories/<uid>/storia.jpg.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Dal 15/11 (R26-001) si toglie la cartella dei resi. Il resto del secchio products e tutto il secchio stories restano fuori."
+    },
+    {
+      "chiave": "architettura|la misura della velocità manda a ga4 da una porta sua, fuori dall'aiutante comune",
+      "esito": "ancora_vero",
+      "prova": "lib/analytics/posthog.tsx:447-458 ; lib/analytics/events.ts:36 ; lib/analytics/posthog.tsx:632-648",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "mandaMisuraDiVelocita chiama window.gtag direttamente e non passa da ga(). web-vitals si importa con il solo consenso, anche con GA4 e PostHog spenti.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null
+    },
+    {
+      "chiave": "performance|al consenso statistico posthog si avvia due o tre volte in parallelo",
+      "esito": "ancora_vero",
+      "prova": "lib/analytics/posthog.tsx:388-430",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "getPosthog non conserva la promessa dell'avvio. posthogInstance si scrive solo alla riga 428, dopo l'import e l'init, quindi più chiamate insieme fanno ciascuna il proprio import e init.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Oggi in produzione non scatta, perché PostHog è spento dall'interruttore (lib/funzioni-al-lancio.ts:133, POSTHOG_ACCESO=false). Il codice però è quello descritto."
+    },
+    {
+      "chiave": "performance|la velocità del sito vista dai clienti veri non la misura nessuno",
+      "esito": "cambiato",
+      "prova": "lib/analytics/posthog.tsx:443-458 e :615-650 ; components/GoogleAnalytics.tsx:10 ; package.json:49 e :61 ; app/api/track/route.ts:43-45",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "Le misure non dipendono più da PostHog: dopo il consenso partono, e vanno anche a GA4 se gtag c'è (R23-013). Restano tre cose. Non c'è @vercel/speed-insights. /api/track accetta solo page_view, login e logout. GA4 parte solo con NEXT_PUBLIC_GA_MEASUREMENT_ID.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Il codice è riparato a metà. Da qui non si può vedere se in produzione c'è l'ID di GA4 (Vercel è vietato). Senza quell'ID, la misura continua a non arrivare a nessuno."
+    },
+    {
+      "chiave": "privacy-legale|il server manda l'acquisto a google e a posthog anche quando il sì alle statistiche è scaduto da più di sei mesi o era per un'informativa vecchia",
+      "esito": "ancora_vero",
+      "prova": "cd marketplace && npx vitest run tests/unit/_s01/L08-8.test.ts ; lib/analytics/server.ts:194-216",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "2 rosse e 1 verde di controllo. Con l'orologio finto al 6/11/2026, valgono ancora come sì sia un sì del 20/3/2026 sia un sì di ieri dato per la versione 1.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "La strada verso PostHog è spenta dall'interruttore (server.ts:231). Quella verso Google no."
+    },
+    {
+      "chiave": "architettura|le email mandate dopo la risposta aspettano in una fila sola per tutto il server: in una raffica l'ultima può non partire",
+      "esito": "ancora_vero",
+      "prova": "lib/api/dopo-la-risposta.ts:37-38 e :44-63 ; vercel.json",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "ultimoTurno è ancora una variabile del modulo. La condividono tutte le richieste dello stesso processo, con turni fino a 10 s.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Come dice la voce, pesa solo con Fluid compute acceso. In vercel.json non c'è, e le impostazioni del progetto non si possono leggere da qui."
+    },
+    {
+      "chiave": "api-backend|un lavoro a orario che va in errore a ogni giro risulta vivo, e per alcuni lavori nessuno viene avvisato",
+      "esito": "cambiato",
+      "prova": "lib/api/middleware.ts:684-713 ; app/api/cron/operational-alerts/route.ts:729-748 ; lib/logger.ts:220-223 e :300-303",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "Il battito si scrive anche con status >= 400, e last_success_at non esiste in nessuna migrazione. Dal 21/11 (R01-005) ogni logger.error del server viene contato e operational-alerts manda l'allarme ERRORI_DEL_SITO.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "La prima parte resta: un lavoro che fallisce sembra vivo. La seconda è cambiata: un 500 di un lavoro ora fa partire un allarme generico. L'allarme però non dice quale lavoro, e scatta solo con Sentry spento e Upstash configurato."
+    },
+    {
+      "chiave": "qa-flussi|nelle domeniche del cambio d'ora la quadratura della cassa del fattorino sbaglia la giornata: in autunno le consegne dalle 23 a mezzanotte non entrano in nessun conto",
+      "esito": "ancora_vero",
+      "prova": "cd marketplace && npx vitest run tests/unit/_s01/L08-11.test.ts ; lib/cassa/quadratura.ts:58-59",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "2 rosse. Per il 25/10/2026 la finestra finisce alle 2026-10-25T22:00Z invece che alle 23:00Z, e un'ora si perde. Per il 28/3/2027 finisce alle 2027-03-28T23:00Z invece che alle 22:00Z, e un'ora si conta due volte.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null
+    },
+    {
+      "chiave": "api-backend|se l'email «nuovo ordine» al negozio non parte, nessuno se ne accorge e nessuno la rimanda",
+      "esito": "cambiato",
+      "prova": "cd marketplace && npx vitest run tests/unit/_s01/L08-12.test.ts ; lib/stripe/webhook/posta-non-partita.ts:15-37 ; lib/stripe/webhook/comune.ts:260-273 ; app/api/orders/cod/route.ts:1858-1859 ; lib/email/client.ts:109-113",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "2 verdi e 1 rossa. Le verdi: con Resend finto che rifiuta, sia la strada della carta (provaAMandare) sia quella dei contanti (avvisaSeLaPostaNonParte) scrivono agli amministratori un avviso col numero d'ordine. La rossa: dopo il rifiuto non c'è nessuna riga in una coda, l'invio è uno solo, e l'unica scrittura è in notifications.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "La parte «nessuno se ne accorge» è riparata (R03-003). Resta «nessuno la rimanda»: non c'è una coda né un nuovo tentativo, e l'avviso dice all'amministratore «Avvisa tu il destinatario». Finché manca la seconda parte del titolo, la voce non si può chiudere."
+    },
+    {
+      "chiave": "frontend-ux|se il nome del negozio comincia con un numero, un apostrofo, le virgolette o contiene una parola inglese come «table», il cliente in cassa legge «qualcosa non ha funzionato» invece del motivo vero",
+      "esito": "non_piu_vero",
+      "prova": "cd marketplace && npx vitest run tests/unit/_s01/L08-13.test.ts ; lib/errors.ts:142-166, :386-396, :428-441 ; app/api/orders/cod/route.ts:1001 e :1013 ; app/api/stripe/checkout/route.ts:526 e :540",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "6 verdi. La catena vera ApiErrors.conflict → apiErrorMessage → friendlyError restituisce il motivo per 3 Archi, 'L Furnè, «Da Mario», Bistrot La Table e Pane Quotidiano. Anche il solo filtro dell'ultimo ramo accetta cifra, apostrofo e virgolette.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Riparato da R24-004 (le frasi delle rotte con codice CONFLICT passano intere) e dalla regex allargata. Col codice vecchio almeno 3 Archi e Bistrot La Table sarebbero rosse."
+    },
+    {
+      "chiave": "qa-flussi|la cassa dice «troppo lontano» a chi abita in via roma o in via cavour, in pieno centro, e l'ordine non parte",
+      "esito": "ancora_vero",
+      "prova": "cd marketplace && npx vitest run tests/unit/_s01/L08-14.test.ts ; lib/geocodifica.ts:28-32 ; app/api/geocode/route.ts:41 ; app/api/orders/cod/route.ts:1136-1145 ; app/api/stripe/checkout/route.ts:611-619",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "2 rosse. Il finto Nominatim, a testo libero, risponde con la Via Roma omonima fuori città. coordinateDiUnIndirizzo e POST /api/geocode restituiscono 44.9583, 9.6815, e fuoriZonaDiConsegna dice fuori zona. La chiamata è ancora q=…&limit=1&countrycodes=it, senza confini né forma strutturata.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Il bloccante è ancora vero: la ricerca dell'indirizzo non è cambiata, e il controllo dei 5 km blocca l'ordine sia coi contanti sia con la carta."
+    },
+    {
+      "chiave": "deploy-sre|il giorno del lancio un errore del sito non lo vede nessuno: il registratore degli errori è spento e l'unico allarme dipende dalla chiave che manca",
+      "esito": "cambiato",
+      "prova": "app/api/health/route.ts:370-397 ; app/api/cron/operational-alerts/route.ts:715-748 e :951-963 ; lib/logger.ts:81 e :300-303",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "Nel codice è riparato in parte. Il semaforo dice se il registratore è spento (R03-004). Ci sono gli allarmi REGISTRATORE_ERRORI_SPENTO ed ERRORI_DEL_SITO. La campanella suona anche senza SUPPORT_EMAIL. Restano tre cose: Sentry è spento per scelta, l'email degli allarmi vuole SUPPORT_EMAIL, e tutto il sorvegliante vuole la chiave di servizio.",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Da qui non si può leggere se in produzione oggi ci sono la chiave di servizio, SUPPORT_EMAIL, Upstash o il DSN (Vercel è vietato). La parte che dipende da quelle chiavi resta da verificare."
     }
   ],
   "prove_per_la_palestra": [],
-  "domande_per_nicola": [],
+  "domande_per_nicola": [
+    "Sul sito vero (Vercel, ambiente Production) ci sono la chiave della posta RESEND_API_KEY e il mittente RESEND_FROM? Da qui non si può guardare. Se mancano, il negozio non riceve l’email del nuovo ordine e il cliente nessuna conferma: la voce grave resta aperta finché qualcuno non controlla o fa un ordine di prova.",
+    "Nel database vero ci sono le funzioni del tetto di spesa AI (spesa_ai_di_oggi, registra_spesa_ai) e la tabella ai_spend_daily? La radiografia non può leggerlo: se mancano, ogni copia del sito conta la spesa per conto suo (oggi al massimo un terzo del tetto ciascuna, con allarme).",
+    "Su Vercel Production sono messe le variabili del titolare (NEXT_PUBLIC_TITOLARE_*: sede, partita IVA, PEC)? Il nome ora si vede, ma sede, partita IVA e PEC compaiono solo con quelle variabili: la voce bloccante resta aperta finché non lo sappiamo.",
+    "La regola di GitHub «Main» del deposito mycity è accesa e guarda il ramo main? Il controllo che aspetta ora esiste, ma accensione e ramo si leggono solo da Settings → Rules del deposito."
+  ],
   "conto": {
-    "agenti": 0,
+    "agenti": 9,
     "permesso_regista": null,
-    "token_sessione": {},
-    "token_subagenti": {},
-    "nota": "",
-    "prove_proprie": [
-      "L01: cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/_s01/L01-1.test.ts → 1 rosso (il difetto: 1 email arrivata su 6, 5 cadute), 1 verde (controprova con nellaFila); rifatta due volte",
-      "L02: npx vitest run tests/unit/_s01/L02-1.test.ts → 2 verdi",
-      "L02: psql -X -d mycity_s01_l02 -v ON_ERROR_STOP=1 -f …/L02-emoji-campanella.sql → 0 righe (controllo positivo della regex fatto a parte)",
-      "L02: node …/L02-emoji-titoli.cjs /home/user/ad-mycity/marketplace → 18 titoli title: che cominciano con emoji",
-      "L02: node …/L02-zod-guscio.cjs /home/user/ad-mycity/marketplace app/layout.tsx → exit 1, 2 catene verso zod",
-      "L02: node …/L02-img.cjs /home/user/ad-mycity/marketplace → exit 0, 57 su 57 con loader",
-      "L03: npx vitest run tests/unit/_s01/L03-1.test.ts → 3 verdi",
-      "L03: npx vitest run tests/unit/_s01/L03-2.test.ts → 2 rossi (apposta: dicono il comportamento giusto, rossi perché il difetto c'è)",
-      "L03: psql -X -d mycity_s01_l03 -v ON_ERROR_STOP=1 -f scratchpad/prove/L03-db.sql → photo_urls=0; trigger online t,t; rider_zones solo in enforce_profile_update_rules; user_carts 0 funzioni e 0 trigger",
-      "L03: grep -rL \"'use client'\" --include=page.tsx app | wc -l ; find app -name page.tsx | wc -l → 17 su 121",
-      "L04: cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/_s01/L04-2.test.ts → 2 verdi",
-      "L04: cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/_s01/L04-3.test.ts → 1 verde, 2 rossi (voluti: il difetto c'è)",
-      "L04: cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/_s01/L04-11.test.ts → 4 verdi",
-      "L04: psql -X -d mycity_s01_l04 -f /tmp/claude-0/-home-user-ad-mycity/5b2a0aa6-2f57-526e-8855-ef9714b18333/scratchpad/prove/L04-4-cancella-account-con-ordine.sql → 3 cancellazioni rifiutate senza token, 2 controprove riuscite, ERROR finale 'DIFETTO PRESENTE', ROLLBACK",
-      "L05: cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/_s01/L05-1.test.ts → 3 verdi (fotografia: il difetto c'è)",
-      "L05: cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/_s01/L05-2.test.ts → 2 verdi (fotografia: il difetto c'è)",
-      "L06: npx vitest run tests/unit/_s01/L06-2.test.ts tests/unit/riparazione-r03-pagina-del-reclamo.test.tsx → 2 file, 3 verdi; mutazione (avvisi muti) rossa",
-      "L06: npx vitest run tests/unit/_s01/L06-4.test.ts → 2 verdi; mutazioni A (senza products/returns) e B (un livello solo) rosse",
-      "L06: psql -X -d mycity_s01_l06 -v ON_ERROR_STOP=1 -f …/prove/L06-10.sql → NOTICE ROSSO: 1 avviso promo scritto per chi ha spento le promozioni (transazione annullata)",
-      "L07: npx vitest run tests/unit/_s01/L07-1.test.ts → 4 rossi, voluti: la prova descrive il sito riparato, quindi rosso = difetto HEIC presente",
-      "L07: npx vitest run tests/unit/_s01/L07-2.test.ts → 2 rossi, voluti: rosso = difetto del recesso presente",
-      "L07: psql -X -d mycity_s01_l07 -v ON_ERROR_STOP=1 -At -f /tmp/claude-0/-home-user-ad-mycity/5b2a0aa6-2f57-526e-8855-ef9714b18333/scratchpad/prove/L07-2.sql → vincoli 0, trigger 0, maglione_escluso=true, sciarpa_esclusa_dopo=true stato=available, SQL_EXIT=0 (transazione annullata)"
-    ]
+    "token_sessione": {
+      "agenti": 1,
+      "agenti_misurati": 1,
+      "turni": 52,
+      "input": 104,
+      "scritti_cache": 253795,
+      "letti_cache": 11489741,
+      "uscita": 36209,
+      "entrata_totale": 11743640
+    },
+    "token_subagenti": {
+      "agenti": 9,
+      "agenti_misurati": 9,
+      "turni": 658,
+      "input": 1316,
+      "scritti_cache": 1372409,
+      "letti_cache": 75112172,
+      "uscita": 419473,
+      "entrata_totale": 76485897
+    },
+    "nota": "9 subagenti qa, lanciati con lo strumento Agent: 8 aiutanti, uno per lotto, e 1 verificatore per l’unica chiusura di un grave (il reclamo, lotto L06: confermata). Le prove nuove degli aiutanti (tests/unit/_s01/*.test.ts e i file .sql) non sono nel commit del sito: le loro copie stanno nello scratchpad della sessione, che non sopravvive. Il database locale è stato copiato da una base fatta una volta sola (221 migrazioni, 0 fallite). Prove proprie eseguite (fuori dal commit, non elencate in copertura): 30."
   }
 }
