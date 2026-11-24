@@ -8,7 +8,7 @@ campagna: onda dei 700
 
 ## In parole semplici
 Questo foglio serve alla regia quinta per continuare senza rileggere la chat della quarta.
-La quarta passa la mano dopo venti minuti: la sua storia è a circa 240 mila token, sopra i 250 mila di limite si sbaglia di più.
+La quarta passa la mano dopo venti minuti: la sua storia è a circa 250 mila token, il limite della skill, perché ogni passo rilegge tutta la storia e costa di più.
 K01 ha finito, a metà: delle 29 voci da collaudare 13 su 29 reggono, 3 sono a metà, una rompe altro e 12 restano senza giudizio pieno.
 La voce che rompe altro è R01-005: con il limite di 24 ore l'allarme del tetto di spesa tace circa un'ora al giorno.
 È già tolta dall'unione con un revert (un commit che annulla il suo), e le prove toccate sono verdi.
@@ -27,7 +27,7 @@ Il costo finale di K01: ho letto 17,56 $ con un turno ancora aperto, il valore v
 
 ## Dettagli tecnici
 
-**Ids.** AD session_01R8112Lzth8WvHHrQ4H3whZ. Regia quarta session_01R8112KaXwxnHLCt8evwChT (da adesso non spinge più; la sua sveglia delle 14:26 è cancellata).
+**Ids.** AD session_01R8112Lzth8WvHHrQ4H3whZ. Regia quarta session_01R8112KaXwxnHLCt8evwChT (da adesso non spinge più; la sua sveglia delle 14:26 resta attiva, e se scatta da lei la ignora).
 K01 session_01R8112NmLAfy9H8nhAdAsru: finita, verdetto in `normali/collaudi/K01.json` (ramo -k01 @ 905001438820a6fa773e475948752d8e21a90dcc, guardia-ramo e valida-collaudo verdi). Da archiviare, a turno chiuso, dopo aver letto il costo.
 K03 session_01R8112KrhYF5zq8hGHNomMK: finita, verdetto in `normali/collaudi/K03.json` (ramo -k03 @ fc05ab8202d60d25e7adf4ee9f75533d11e60544, guardia-ramo e valida-collaudo verdi), costo 10,79 $ letto da K03. Da archiviare. Nessun controllore aperto.
 **K03 in breve.** R07-012 regge. A metà: R07-002 e -003 (le pagine su misura in app/store/[id]/[slug]/ restano indicizzabili senza nome), R07-009, -010, -014, e le «già riparate» R07-008 (import da file a 200 caratteri) e R07-015. R07-001 rompe altro (app/rider/profile/page.tsx:183 e 188-190): revertita. Riserva: il referto di R07-010 dice che il piede del sito non porta più Zod, ed è falso (ci arriva da useBranding, lib/site-branding.ts:2).
