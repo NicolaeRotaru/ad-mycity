@@ -183,14 +183,29 @@ export function conti(stato) {
 
 const cella = (s) => String(s ?? "").replace(/\|/g, "\\|").replace(/\s*\n\s*/g, " ");
 
-/** Il resoconto del turno, coi quattro blocchi. Le targhe (id, path) solo sotto «Dettagli tecnici». */
+const plurale = (n, uno, tanti) => `${n} ${n === 1 ? uno : tanti}`;
+/** «Ora del Gusto 2.0: ferma dal… Ho fatto: detto a Nicola.» — ogni voce compare una volta sola nel testo. */
+const voce = (n, conFatto = true) =>
+  `- **${n.sessione}**: ${n.cosa.replace(/[.\s]+$/, "")}.` + (conFatto && n.fatto ? ` Ho fatto: ${n.fatto.replace(/[.\s]+$/, "")}.` : "");
+
+/**
+ * Il resoconto del turno, coi quattro blocchi. Ogni voce del diario compare UNA volta nel testo (il
+ * controllo di leggibilità boccia la stessa idea ripetuta), e le targhe stanno sotto «Dettagli tecnici».
+ */
 export function resoconto(stato, ora = adesso()) {
   const c = conti(stato);
   const problemi = c.risolto + c["tocca-a-te"] + c["in-corso"];
-  const daTe = stato.note.filter((n) => n.esito === "tocca-a-te");
-  const inCorso = stato.note.filter((n) => n.esito === "in-corso");
+  const gruppo = (esito) => stato.note.filter((n) => n.esito === esito);
+  const daTe = gruppo("tocca-a-te");
   const dalle = hhmm(stato.inizio);
   const alle = hhmm(ora);
+  const pezzi = [
+    c.risolto && `${plurale(c.risolto, "sistemato", "sistemati")} da me`,
+    c["tocca-a-te"] && `${c["tocca-a-te"]} ${c["tocca-a-te"] === 1 ? "aspetta" : "aspettano"} te`,
+    c["in-corso"] && `${c["in-corso"]} ancora in corso`,
+  ].filter(Boolean);
+  const esempio = stato.note[0]?.sessione;
+  const elenco = (titolo, note) => (note.length ? ["", titolo, ...note.map((n) => voce(n))] : []);
   const righe = [
     "---",
     "tipo: resoconto-goku",
@@ -205,22 +220,23 @@ export function resoconto(stato, ora = adesso()) {
     `# Goku, il turno dalle ${dalle} alle ${alle}`,
     "",
     "## In parole semplici",
-    `Ho sorvegliato le sessioni attive dalle ${dalle} alle ${alle}, con ${stato.giri} giri.`,
-    problemi
-      ? `Ho trovato ${problemi} problemi: ${c.risolto} sistemati, ${c["tocca-a-te"]} aspettano te, ${c["in-corso"]} ancora in corso.`
-      : "Non ho trovato problemi da sistemare.",
-    c.visto ? `In più ho annotato ${c.visto} cose solo da tenere d'occhio.` : "",
+    "Questo è il resoconto di Goku, la sessione che sorveglia le altre. Serve a sapere cosa è successo mentre non guardavi.",
+    `Dalle ${dalle} alle ${alle} ho fatto ${plurale(stato.giri, "giro", "giri")}.` +
+      (problemi ? ` Ho trovato ${plurale(problemi, "problema", "problemi")}: ${pezzi.join(", ")}.` : " Non ho trovato problemi."),
+    esempio
+      ? `Ogni cosa porta il titolo della sessione, così la ritrovi subito nell'elenco dell'app: per esempio «${esempio}».`
+      : "",
+    ...elenco("Sistemati da me:", gruppo("risolto")),
+    ...elenco("Ancora aperti alla chiusura, da riguardare:", gruppo("in-corso")),
+    ...elenco("Solo da tenere d'occhio:", gruppo("visto")),
     "",
     "## Cosa cambia per te",
     daTe.length
-      ? `Ti restano ${daTe.length} cose da fare, scritte qui sotto.`
+      ? `Ti ${daTe.length === 1 ? "resta una cosa" : `restano ${daTe.length} cose`} da fare, scritte qui sotto.`
       : "Niente: quello che ho visto è sistemato, oppure era solo da guardare.",
     "",
     "## Cosa devi fare",
-    ...(daTe.length ? daTe.map((n) => `- **${n.sessione}**: ${n.cosa}. ${n.fatto}`.trim()) : ["Niente."]),
-    ...(inCorso.length
-      ? ["", "Ancora aperte alla chiusura, da riguardare:", ...inCorso.map((n) => `- **${n.sessione}**: ${n.cosa}.`)]
-      : []),
+    ...(daTe.length ? daTe.map((n) => voce(n)) : ["Niente."]),
     "",
     "## Cosa non ho verificato",
     "Ho guardato quello che gli strumenti dicono di ogni sessione: lo stato, il riassunto dell'ultimo turno, la storia usata, la quota e il costo.",
@@ -235,13 +251,11 @@ export function resoconto(stato, ora = adesso()) {
     "",
   ];
   if (stato.note.length) {
-    righe.push("| Sessione | Cosa ho visto | Cosa ho fatto | Esito | Prima volta | Volte |", "|---|---|---|---|---|---|");
+    righe.push("| Sessione | Esito | Prima volta | Ultima volta | Volte |", "|---|---|---|---|---|");
     for (const n of stato.note)
-      righe.push(
-        `| ${cella(n.sessione)} | ${cella(n.cosa)} | ${cella(n.fatto)} | ${n.esito} | ${hhmm(n.prima)} | ${n.volte} |`,
-      );
+      righe.push(`| ${cella(n.sessione)} | ${n.esito} | ${hhmm(n.prima)} | ${hhmm(n.ultima)} | ${n.volte} |`);
   } else righe.push("Diario vuoto.");
-  return righe.filter((r, i, a) => !(r === "" && a[i - 1] === "")).join("\n") + "\n";
+  return righe.filter((r, i, a) => r !== false && !(r === "" && a[i - 1] === "")).join("\n") + "\n";
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

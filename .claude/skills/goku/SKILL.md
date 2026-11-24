@@ -79,7 +79,9 @@ comando così com'è: il programma ti dice la fase.
 4. **Agisci** con la tabella. Ogni cosa notata va nel diario:
    `node cervello/goku.mjs nota "<titolo della sessione>" "<cosa ho visto>" "<cosa ho fatto>" <esito>`. L'esito è
    `risolto`, `tocca-a-te`, `in-corso` o `visto`. La stessa cosa vista a più giri non si duplica: il programma
-   aggiorna la voce. Quando un problema si risolve, riscrivi la stessa nota con esito `risolto`.
+   aggiorna la voce. Quando un problema si risolve, riscrivi la stessa nota con esito `risolto`. Le note finiscono
+   nel resoconto per Nicola: scrivi ogni numero col suo metro, per esempio «893 mila token, e la compressione scatta a
+   901 mila».
 5. **A Nicola.** Niente di nuovo → una riga sola: «Giro 3 delle 22:45: 5 sessioni, tutto tranquillo. Prossimo alle
    22:55.» Qualcosa di nuovo → «Il punto adesso» (✅ fatto · ⏳ in corso · 👉 tocca a te · 🕐 quando vuoi), poi «Cosa
    non ho verificato». Chiama le sessioni per titolo: gli id vanno sotto «Dettagli tecnici». Una cosa già detta non si

@@ -202,8 +202,12 @@ prova("⑤ il diario non ripete, e il resoconto ha i quattro blocchi con le targ
   const [sopra, sotto] = md.split("**Dettagli tecnici**");
   assert.doesNotMatch(sopra.split("---\n").slice(2).join("---\n"), /session_|cervello\//, "targhe sopra i dettagli");
   assert.match(sotto, /session_01ABC/);
-  assert.match(md, /\*\*Sistema radiografia\*\*: aspetta un clic\. ricordato a Nicola/);
+  assert.match(md, /\*\*Sistema radiografia\*\*: aspetta un clic\. Ho fatto: ricordato a Nicola\./);
   assert.equal((md.match(/\| Sistema radiografia \|/g) || []).length, 1, "una riga sola per la stessa cosa");
+  assert.equal((md.match(/aspetta un clic/g) || []).length, 1, "ogni voce compare una volta sola nel testo");
+  assert.match(md, /Sistemati da me:\n- \*\*R11\*\*: turno fallito per sovraccarico\. Ho fatto: mandato «riprendi»\./);
+  assert.match(md, /Ho trovato 2 problemi: 1 sistemato da me, 1 aspetta te\./);
+  assert.match(md, /Ti resta una cosa da fare/);
 });
 
 prova("⑥ la finestra non scorre: dopo una proroga resta un'ora prima dell'inizio", ({ corri }) => {
