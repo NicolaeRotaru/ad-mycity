@@ -1,0 +1,90 @@
+{
+  "collaudatore": "K01",
+  "riparatori": [
+    "R03"
+  ],
+  "aggiornato": "2026-11-24 13:40",
+  "finita": false,
+  "voci": [
+    {
+      "id": "R03-002",
+      "chiave": "architettura|email partita ma non segnata: la notte dopo riparte, e se fallisce l'allarme dice «non partita» per un'email già arrivata",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 59ddbb471eae511e43aa2a7fd96df18688a4f70a^ --file lib/privacy/avvisi-a-chi-aspetta.ts --prove tests/unit/riparazione-r03-email-partita.test.ts --json"
+      },
+      "nota": "BOZZA: prova rimessa uscita 0; giudizio pieno del revisore qa in corso, verdetto provvisorio (finita=false)"
+    },
+    {
+      "id": "R03-003",
+      "chiave": "architettura|il parametro propostail di negoziopuoservire non lo passa nessuno",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base fd05bc7181e4529f5c1470de36d70bece47271ee^ --file lib/quando-arriva.ts --prove tests/unit/riparazione-r03-fascia-domani-proposta.test.ts --json"
+      },
+      "nota": "BOZZA: prova rimessa uscita 0; giudizio pieno del revisore qa in corso, verdetto provvisorio (finita=false)"
+    },
+    {
+      "id": "R03-006",
+      "chiave": "architettura|una fascia «domani» inviata alle 23:59 e arrivata alla rotta dopo mezzanotte si giudica sul giorno dopo",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base fd05bc7181e4529f5c1470de36d70bece47271ee^ --file lib/quando-arriva.ts --prove tests/unit/riparazione-r03-fascia-domani-proposta.test.ts --json"
+      },
+      "nota": "BOZZA: prova rimessa uscita 0; giudizio pieno del revisore qa in corso, verdetto provvisorio (finita=false)"
+    },
+    {
+      "id": "R03-012",
+      "chiave": "qa-flussi|due veloci vendute nello stesso istante con un solo fattorino passano tutte e due",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "PGHOST=/var/run/postgresql PGUSER=root timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 3ded946e720350f0c113c11663ffade486af2f64^ --file migrations/840_due_veloci_insieme_non_passano_con_un_fattorino_solo.sql --prove tests/sql/rls/riparazione-r03-veloce.test.sql --sql k01_r03_rimessa --json"
+      },
+      "nota": "BOZZA: prova rimessa uscita 0; giudizio pieno del revisore qa in corso, verdetto provvisorio (finita=false)"
+    },
+    {
+      "id": "R03-013",
+      "chiave": "qa-flussi|il logger oscura solo le chiavi del contesto, non il testo del messaggio né un contesto stringa",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 24b217dc^ --file lib/logger.ts --prove tests/unit/riparazione-r03-logger-testo.test.ts --json"
+      },
+      "nota": "BOZZA: prova rimessa uscita 0; giudizio pieno del revisore qa in corso, verdetto provvisorio (finita=false); la correzione sta in due commit (24b217dc + 8defebc4): rimessa con base 24b217dc^ (toglie tutta la correzione) uscita 0, e con base 8defebc4^ (solo il secondo) uscita 0"
+    }
+  ],
+  "campione": {
+    "R03": {
+      "accettato": true
+    }
+  }
+}
