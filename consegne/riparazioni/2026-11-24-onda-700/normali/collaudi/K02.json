@@ -1,0 +1,549 @@
+{
+  "collaudatore": "K02",
+  "riparatori": [
+    "R05",
+    "R04",
+    "R06"
+  ],
+  "aggiornato": "2026-11-24 13:41",
+  "finita": true,
+  "punte": {
+    "R05": {
+      "ramo": "ccr-d7a54140-hak4ez-m05",
+      "punta": "aea6ad1bb23e8f701e489f6eec225baf62e4ffb6",
+      "testa": "634548714b1b922c17e4c74c2a71619c9da0cae5"
+    },
+    "R04": {
+      "ramo": "ccr-d7a54140-hak4ez-m04",
+      "punta": "17323573a23eb3b5bb047ab7929156ed20ef7f1a",
+      "testa": "c0eea2839a9eb82e88925fd82310ad7b78ec5380"
+    },
+    "R06": {
+      "ramo": "ccr-d7a54140-hak4ez-m06",
+      "punta": "11ea35a18462f484315be0a0a57d01b1a806ff75",
+      "testa": "a9cf358f4b1cb180163a736837d669b2848e33d9"
+    }
+  },
+  "voci": [
+    {
+      "id": "R05-001",
+      "chiave": "dati-analytics|strutturasenzaindirizzi in caso di eccezione lascia passare il valore originale",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-a --base bc409062aa2b6b232c12e564f874ea2fee063f7f^ --file lib/analytics/filmato-senza-dati-personali.ts --prove tests/unit/riparazione-r05-struttura-in-eccezione.test.ts --json"
+      },
+      "nota": "In eccezione torna «***» come a fine budget. Cercato chi lo chiama: posthog.tsx:238 (valore di una proprieta') e server.ts:245 (proprieta' di order_placed). ripulisci lancia solo con getter che lanciano o Proxy revocati (profondita' e pezzi hanno un tetto, le Date danno {} come prima): nessun evento normale perde dati."
+    },
+    {
+      "id": "R05-002",
+      "chiave": "dati-analytics|le visite al prodotto si contano con due regole diverse: posthog conta ogni nuova scheda, il database una per persona all'ora",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "prova_alla_base": "cd ../wt-a && git checkout --detach 5b8c786c96ec789918b3e85361ca435cef726b92 && npx vitest run tests/unit/riparazione-r02-visita-una-all-ora.test.ts tests/unit/riparazione-r08-visita-come-il-database.test.tsx tests/unit/riparazione-r16-nome-lungo.test.tsx tests/unit/riparazione-r12-footer.test.ts (4 file, 14 prove verdi)",
+      "nota": "Alla base 5b8c786c: lib/analytics/visita-prodotto.ts ha frenoOrario (un'ora, in localStorage condiviso fra le schede) e ProductViewTracker.tsx lo usa (commento R02-015) e annuncia a PostHog solo se il database ha preso la riga (count !== 0). Rilanciate alla base riparazione-r02-visita-una-all-ora e riparazione-r08-visita-come-il-database: verdi."
+    },
+    {
+      "id": "R05-003",
+      "chiave": "dati-analytics|il traguardo «venditore più votato» guarda solo le recensioni ai prodotti, mai quelle al negozio",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-c --base a3415aa0b9b467c1c9700f104396c25c893c41ab^ --file migrations/860_il_traguardo_top_rated_conta_anche_le_recensioni_al_negozio.sql --prove tests/sql/rls/riparazione-r05-traguardo-votato.test.sql --sql k02_r05_rimessa --json"
+      },
+      "nota": "Letta la 860: store_reviews.store_id punta a profiles(id) come products.seller_id (014:58), quindi unlock_achievement riceve un profilo vero e il trigger non puo' far fallire l'inserimento della recensione per chiave esterna. Nessuna colonna di moderazione su reviews o store_reviews da filtrare. Nessun'altra migrazione ridefinisce la funzione dopo la 032 (063/064 tolgono solo i permessi, che CREATE OR REPLACE conserva). Rimessa --sql su database locale k02_r05_rimessa: uscita 0."
+    },
+    {
+      "id": "R05-005",
+      "chiave": "layout-responsive|in «vicino a te» col testo al 200% a 320 px il selettore elenco/mappa allarga la pagina a 360 px",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "prova_alla_base": "cd ../wt-a && git checkout --detach 5b8c786c96ec789918b3e85361ca435cef726b92 && npx vitest run tests/unit/riparazione-r02-visita-una-all-ora.test.ts tests/unit/riparazione-r08-visita-come-il-database.test.tsx tests/unit/riparazione-r16-nome-lungo.test.tsx tests/unit/riparazione-r12-footer.test.ts (4 file, 14 prove verdi)",
+      "nota": "Alla base 5b8c786c: app/near/page.tsx:333 ha gia' il selettore Lista/Mappa con 'inline-flex w-fit max-w-full flex-wrap', col commento R16-008 che nomina proprio questo difetto (a 280/320 px col testo al 200% la pagina larga 359 px). riparazione-r16-nome-lungo rilanciata alla base: verde."
+    },
+    {
+      "id": "R05-006",
+      "chiave": "layout-responsive|sul tablet col testo al 200% «dichiarazione accessibilità» esce dal piede e la pagina scorre di lato",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "prova_alla_base": "cd ../wt-a && git checkout --detach 5b8c786c96ec789918b3e85361ca435cef726b92 && npx vitest run tests/unit/riparazione-r02-visita-una-all-ora.test.ts tests/unit/riparazione-r08-visita-come-il-database.test.tsx tests/unit/riparazione-r16-nome-lungo.test.tsx tests/unit/riparazione-r12-footer.test.ts (4 file, 14 prove verdi)",
+      "nota": "Alla base 5b8c786c: components/Footer.tsx ha COLONNE_A_CAPO (min-w-0 sulle colonne e overflow-wrap:anywhere su titoli, link e paragrafi), applicata alla griglia md:grid-cols-5, col commento R12-006 che nomina «Dichiarazione accessibilita'». riparazione-r12-footer rilanciata alla base: verde."
+    },
+    {
+      "id": "R05-007",
+      "chiave": "layout-responsive|col testo al 200% le schede negozio tagliano «nuovo negozio» e «chiuso ora»",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-c --base c14a867d47845b59edeb7510e77450eab81c8a69^ --file components/StorePreviewCard.tsx,components/StoreListRow.tsx --prove tests/unit/riparazione-r05-schede-negozio-badge-a-capo.test.ts --json"
+      },
+      "nota": "Diff: max-w-full e [overflow-wrap:anywhere] su «Chiuso ora»/«Aperto ora» e su «Nuovo negozio»/«Nuovo» in tutte e due le schede, cioe' i due segnalini che la voce nomina. overflow-wrap:anywhere abbassa anche la larghezza minima, quindi il segnalino si stringe dentro la riga flex. La prova e' di forma (classi), ammessa sui minori; la misura in Chromium e' quella del revisore di R05, non l'ho rifatta. Fuori voce resta il voto ★ tagliato, gia' segnalato da R05 tra i nuovi difetti."
+    },
+    {
+      "id": "R05-009",
+      "chiave": "performance|zod intero nel pacchetto comune per la validazione del marchio",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-b --base 4ad1d73b4b35c8028687e94ef6990c10633cb590^ --file lib/site-branding.ts --prove tests/unit/riparazione-r05-marchio-senza-zod.test.ts --json"
+      },
+      "nota": "Parziale confermato. Il safeParse a mano rifa' le regole dello schema zod (trim, 60/20/220, massimo 5, valori di partenza, campi sconosciuti scartati, null e array rifiutati); i due chiamanti (app/admin/branding, app/api/admin/branding) usano solo safeParse, e il tipo Branding e' scritto a mano. site-branding non porta piu' zod, ma zod entra comunque nel pacchetto comune dal piede (Footer → NewsletterForm → lib/errors → zod-i18n): il guadagno della voce non c'e' ancora."
+    },
+    {
+      "id": "R05-010",
+      "chiave": "qa-flussi|un cliente che esiste già non ha una strada da solo per diventare fattorino",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-c --base ea05d1137cda1cecefc87b0a3ac734a25569e46e^ --file app/help/page.tsx --prove tests/unit/riparazione-r05-aiuto-cliente-rider.test.ts --json"
+      },
+      "nota": "Parziale confermato. La scheda «Diventa rider» porta a /lavora-con-noi (la pagina esiste alla testa) e c'e' una riga per chi ha gia' l'account cliente, che pero' lo manda al modulo contatti: una strada da solo, come chiede la voce, non c'e' ancora (serve una rotta che promuova il profilo esistente, fuori dai file di R05)."
+    },
+    {
+      "id": "R05-012",
+      "chiave": "qa-flussi|un negoziante senza orari che preme «+ orario» e poi la x salva sette giorni vuoti, cioè chiuso sempre",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-b --base 08b97c2a4d659cc9ebb24a070de461430bf35ec0^ --file components/seller/StoreHoursEditor.tsx --prove tests/unit/riparazione-r05-orari-piu-e-x.test.tsx --json"
+      },
+      "nota": "Parziale confermato. Letta la logica: il ricordo di «senza orari» nasce solo se orariImpostati(value) e' null, la X sull'ultima fascia lo restituisce, «Chiudi» lo azzera; un negozio con orari o con la settimana chiusa scritta non cambia. Resta aperto il caso dichiarato: dopo un salvataggio, senza ricaricare, la X sull'ultima fascia riporta a «senza orari» invece della settimana chiusa. Non e' silenzioso: l'editor mostra subito l'avviso «per ora il negozio riceve ordini a qualunque ora». Serve la modifica in VendorForm.tsx:443 (key dopo il salvataggio), file non di R05."
+    },
+    {
+      "id": "R05-013",
+      "chiave": "qa-flussi|il finto di react-query mette mutationfn e onsuccess nello stesso try: un errore in onsuccess finisce in onerror e nasconde difetti nelle prove",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-a --base 0b996fe50f27337bf85b7193bfbe1178429b4be3^ --file tests/unit/aiuti/finti/react-query.mjs --prove tests/unit/riparazione-r05-finto-mutazioni.test.ts --json"
+      },
+      "nota": "Letto il diff del finto: solo l'errore di mutationFn va in onError, un errore in onSuccess rompe la promessa in volo e non viene piu' coperto. E' la voce intera. Accanto: il finto e' piu' severo del vero (dichiarato nel commento di 63454871); il verify completo alla testa e' verde, quindi nessuna prova esistente si appoggiava al vecchio comportamento."
+    },
+    {
+      "id": "R05-014",
+      "chiave": "qa-flussi|il finto di react-query non ha setqueriesdata",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-a --base 214616a895828a48ce214f2499df39d885303732^ --file tests/unit/aiuti/finti/react-query.mjs --prove tests/unit/riparazione-r05-finto-setqueriesdata.test.ts --json"
+      },
+      "nota": "setQueriesData confrontato con l'API vera di v5: corrispondenza a prefisso con partialMatch sulle chiavi, exact, predicate, undefined lascia la domanda e torna [queryKey, undefined] come setQueryData vero. La memoria si accende solo con __CACHE_QUERY__: chi non la mette non vede cambiamenti."
+    },
+    {
+      "id": "R04-001",
+      "chiave": "coerenza-brand|card a mano con bg-surface-0 restano fuori dal conteggio delle card ridisegnate",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "prova_alla_base": "cd ../wt-a && git checkout --detach 5b8c786c96ec789918b3e85361ca435cef726b92 && npx vitest run tests/unit/riparazione-r02-carica-altri-dopo-il-filtro.test.ts tests/unit/riparazione-r11-carica-altri.test.tsx tests/unit/riparazione-r07-guadagni-fattorino-card.test.ts tests/unit/riparazione-r10-manifest-nel-head.test.tsx (4 file, 24 prove verdi)",
+      "nota": "Alla base 5b8c786c: app/rider/earnings/page.tsx:214 e :220 sono gia' <Card variant=\"surface\">; l'unico bg-surface-0 rimasto (:119) e' un pulsante-filtro, non una card. Prova r07-guadagni-fattorino-card rilanciata alla base: verde."
+    },
+    {
+      "id": "R04-002",
+      "chiave": "coerenza-brand|la primitiva card è usata in 10 file, mentre 141 card sono ridisegnate a mano con quattro raggi diversi",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-c --base c9e92ee5c69840aa8626e221de6f220bc3c05b63^ --file app/about/page.tsx,app/rider/page.tsx,components/ProductGrid.tsx,components/StoreProductExplorer.tsx --prove tests/unit/riparazione-r04-card-a-mano-miei-file.test.ts --json"
+      },
+      "nota": "Parziale confermato. I 10 riquadri a mano dei suoi file diventano <Card>: confrontate le classi con components/ui/Card.tsx (bordered = bg-white border border-cream-300, surface = bg-surface-0 border border-cream-300, raggi lg/xl/2xl, padding none/md/lg = 0/p-4/p-6): identiche, e i div convertiti avevano solo key e className, che Card conserva. La voce parla di 141 card in tutto il sito: restano quelle degli altri file e le 4-5 dei suoi elencate in cosa_resta."
+    },
+    {
+      "id": "R04-003",
+      "chiave": "immagini-media|il logo del negozio del mese viene ritagliato a quadrato",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "prova_alla_base": "cd ../wt-a && git checkout --detach 5b8c786c96ec789918b3e85361ca435cef726b92 && npx vitest run tests/unit/riparazione-r02-carica-altri-dopo-il-filtro.test.ts tests/unit/riparazione-r11-carica-altri.test.tsx tests/unit/riparazione-r07-guadagni-fattorino-card.test.ts tests/unit/riparazione-r10-manifest-nel-head.test.tsx (4 file, 24 prove verdi)",
+      "nota": "Alla base 5b8c786c: ShopOfMonthHero.tsx:96 usa logoNegozio(store_logo, 176) (solo larghezza) e :101 object-contain; sizedImage resta solo per la copertina (:82, 'detail'), non per il logo."
+    },
+    {
+      "id": "R04-004",
+      "chiave": "immagini-media|quattro foto sotto la piega vengono chieste come «urgenti» su ogni home",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "prova_alla_base": "cd ../wt-a && git checkout --detach 5b8c786c96ec789918b3e85361ca435cef726b92 && npx vitest run tests/unit/riparazione-r02-carica-altri-dopo-il-filtro.test.ts tests/unit/riparazione-r11-carica-altri.test.tsx tests/unit/riparazione-r07-guadagni-fattorino-card.test.ts tests/unit/riparazione-r10-manifest-nel-head.test.tsx (4 file, 24 prove verdi)",
+      "nota": "Alla base 5b8c786c: ProductGrid.tsx:710 priority solo con prioritaPrimeFoto, fuori dalla forma a fila e per i < 4; in home la griglia e' una fila (HomeSectionRenderer passa rail), PromoDeals.tsx:71 e CollectionSection.tsx:98/156 sono a false. Resta urgente solo la prima riga di /promozioni, che non e' la home e sta sopra la piega."
+    },
+    {
+      "id": "R04-005",
+      "chiave": "layout-responsive|in chi siamo altri due titoli h2 non hanno break-words né min-w-0, come quello riparato",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-c --base fe677c2587383e923399cb03e05af095c1918fd5^ --file app/about/page.tsx --prove tests/unit/riparazione-r04-chi-siamo-altri-titoli.test.ts --json"
+      },
+      "nota": "I due h2 rimasti («I nostri valori», «Vuoi farne parte?») hanno break-words e hyphens-auto, con min-w-0 sul titolo o sulla colonna flex che lo contiene, come quello gia' riparato. La prova monta la pagina e controlla ogni h2."
+    },
+    {
+      "id": "R04-006",
+      "chiave": "layout-responsive|il titolo di collectionheader non va a capo sulle parole lunghe a 280 px col testo al 200%",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-c --base 83390c94a1e035561becf847a2331692377c8ae6^ --file components/CollectionHeader.tsx --prove tests/unit/riparazione-r04-titolo-collezione-a-capo.test.tsx --json"
+      },
+      "nota": "break-words sull'h1 di CollectionHeader, dentro un contenitore che ha gia' min-w-0: a 280 px col testo al 200% la parola lunga va a capo invece di uscire. La prova guarda le classi (ammessa sui minori); la misura nel browser non l'ho rifatta."
+    },
+    {
+      "id": "R04-007",
+      "chiave": "layout-responsive|il titolo grande di collectionheader esce dalla riga a 280 px col testo al 200%",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-c --base 83390c94a1e035561becf847a2331692377c8ae6^ --file components/CollectionHeader.tsx --prove tests/unit/riparazione-r04-titolo-collezione-a-capo.test.tsx --json"
+      },
+      "nota": "Stessa riga e stesso commit di R04-006: il titolo grande esce dalla riga per lo stesso motivo, e la stessa classe lo chiude. Stessa rimessa, uscita 0."
+    },
+    {
+      "id": "R04-008",
+      "chiave": "microcopy|nella pagina del negozio il filtro dice ancora «rating minimo», mentre ricerca e categoria ora dicono «voto minimo»",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-a --base f37a158451099f58121cd49214258dd30bc82ebd^ --file components/StoreProductExplorer.tsx --prove tests/unit/riparazione-r04-voto-minimo-negozio.test.ts --json"
+      },
+      "nota": "«Rating minimo» diventa «Voto minimo», la stessa scritta di search.minRating usata da ricerca e categoria. La prova monta il componente e legge l'etichetta."
+    },
+    {
+      "id": "R04-009",
+      "chiave": "mobile-pwa|il manifest del sito ha la registrazione vecchia: la voce parlava di orientation portrait che alla base non c'è",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "prova_alla_base": "cd ../wt-a && git checkout --detach 5b8c786c96ec789918b3e85361ca435cef726b92 && npx vitest run tests/unit/riparazione-r02-carica-altri-dopo-il-filtro.test.ts tests/unit/riparazione-r11-carica-altri.test.tsx tests/unit/riparazione-r07-guadagni-fattorino-card.test.ts tests/unit/riparazione-r10-manifest-nel-head.test.tsx (4 file, 24 prove verdi)",
+      "nota": "Alla base 5b8c786c: public/manifest.json non ha orientation (0 righe), come dice la voce stessa; il manifest lo scrive il <head> di app/layout.tsx (R10-001), solo con l'app installabile accesa. Prova r10-manifest-nel-head rilanciata alla base: verde."
+    },
+    {
+      "id": "R04-010",
+      "chiave": "performance-percepita|la lettura automatica della griglia con le pagine tutte filtrate non ha un tetto di pagine",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-a --base 7ff939f8efa76570a42acdfa872911ebae900980^ --file components/ProductGrid.tsx --prove tests/unit/riparazione-r04-griglia-tetto-pagine.test.ts --json"
+      },
+      "rimesse_successive": [
+        {
+          "commit": "1f71b0e004ed060424045aefeae6848b5a0c0afb",
+          "uscita": 0,
+          "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-a --base 1f71b0e004ed060424045aefeae6848b5a0c0afb^ --file components/ProductGrid.tsx --prove tests/unit/riparazione-r04-griglia-tetto-pagine.test.ts --json"
+        }
+      ],
+      "nota": "Letto il diff: il giro da solo si ferma a 5 pagine (la prima compresa); oltre, niente scheletro per sempre e niente «nessun prodotto», ma «Ancora nessun prodotto da mostrare» col pulsante, una pagina per pressione. Col secondo commit (1f71b0e0) la griglia non dichiara «0 prodotti» al genitore quando lo zero non e' vero. Accanto: in quel caso il genitore resta col numero di prima (come gia' succede con l'errore); scatta solo se le prime 5 pagine (480 righe) sono tutte di negozi non approvati, quindi resta una nota. Due rimesse, una per commit, tutte e due uscita 0."
+    },
+    {
+      "id": "R04-011",
+      "chiave": "qa-flussi|sulla bacheca del fattorino un doppio tocco su un ordine già suo dice «non è più disponibile» invece di «è già tuo»",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-b --base d6bb7968402ecdcd87d593fe30a3efcb65defcca^ --file app/rider/page.tsx --prove tests/unit/riparazione-r04-bacheca-gia-tuo.test.ts --json"
+      },
+      "rimesse_successive": [
+        {
+          "commit": "c0eea2839a9eb82e88925fd82310ad7b78ec5380",
+          "uscita": 0,
+          "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-b --base c0eea2839a9eb82e88925fd82310ad7b78ec5380^ --file app/rider/page.tsx --prove tests/unit/riparazione-r04-bacheca-gia-tuo.test.ts --json"
+        }
+      ],
+      "nota": "Letto il diff: su NON_PIU_DISPONIBILE la bacheca legge orders con id, rider_id del fattorino e stato fra STATI_DELLE_MIE_CONSEGNE_APERTE; se e' suo dice «Questo ordine e' gia' tuo.», porta alla consegna e non conta di nuovo trackRiderOrderAccepted. Utente non letto o ordine annullato: resta «non e' piu' disponibile», cioe' la strada sicura. Due rimesse, una per commit, uscita 0."
+    },
+    {
+      "id": "R04-012",
+      "chiave": "qa-flussi|«carica altri» sparisce quando una pagina della griglia perde righe al filtro dei negozi",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "prova_alla_base": "cd ../wt-a && git checkout --detach 5b8c786c96ec789918b3e85361ca435cef726b92 && npx vitest run tests/unit/riparazione-r02-carica-altri-dopo-il-filtro.test.ts tests/unit/riparazione-r11-carica-altri.test.tsx tests/unit/riparazione-r07-guadagni-fattorino-card.test.ts tests/unit/riparazione-r10-manifest-nel-head.test.tsx (4 file, 24 prove verdi)",
+      "nota": "Alla base 5b8c786c: components/ProductGrid.tsx:303-304 structuralSharing:false e getNextPageParam su righeLetteDellaPagina(ultima); :775 forseCeNeSonoAltri usa le righe lette, non quelle tenute. Prova r11-carica-altri rilanciata alla base: verde."
+    },
+    {
+      "id": "R04-013",
+      "chiave": "qa-flussi|il conteggio delle veloci in mano non ha filtro di data e oltre 1000 righe esce basso",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-a --base 17b320d201e77a333859af8c14b50b279ed68bac^ --file lib/ordini/consegna-veloce.ts --prove tests/unit/riparazione-r04-veloci-in-mano-oltre-mille.test.ts --json"
+      },
+      "nota": "Letto il diff: lettura con count esatto; se il conteggio supera le righe arrivate (taglio a 1000) rilegge solo la finestra con created_at >= soglia; se anche cosi' e' tagliata torna null, che veloceSiPuo tratta gia' come «la veloce non si vende». Il numero non esce piu' basso. Prova con database finto che taglia a 1000 e orologio finto."
+    },
+    {
+      "id": "R04-014",
+      "chiave": "qa-flussi|se il filtro finale sui negozi approvati scarta righe, «carica altri» si ferma",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "prova_alla_base": "cd ../wt-a && git checkout --detach 5b8c786c96ec789918b3e85361ca435cef726b92 && npx vitest run tests/unit/riparazione-r02-carica-altri-dopo-il-filtro.test.ts tests/unit/riparazione-r11-carica-altri.test.tsx tests/unit/riparazione-r07-guadagni-fattorino-card.test.ts tests/unit/riparazione-r10-manifest-nel-head.test.tsx (4 file, 24 prove verdi)",
+      "nota": "Alla base 5b8c786c: lib/queries/griglia-prodotti.ts:419 attacca righeLette con le righe date dal database PRIMA del filtro sui negozi approvati (anche nel ramo della pertinenza, :397): «carica altri» decide su quelle. Prove r02-carica-altri-dopo-il-filtro e r11-carica-altri rilanciate alla base: verdi."
+    },
+    {
+      "id": "R04-015",
+      "chiave": "stati-ui|sulla bacheca del fattorino, se l’interruttore online riesce ma la rilettura dopo cade, la scheda resta sul vecchio stato",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-b --base 0e655d33e4a4d924ead87950f3e492e013506f63^ --file app/rider/page.tsx --prove tests/unit/riparazione-r04-interruttore-rilettura-caduta.test.ts --json"
+      },
+      "nota": "Letto il diff: nell'onSuccess di toggleOnline lo stato scritto entra in rider.pref con setQueryData prima di invalidateQueries; se la rilettura cade la scheda resta sullo stato vero. Se la memoria e' vuota l'aggiornatore lascia undefined (nessuna forma inventata)."
+    },
+    {
+      "id": "R06-001",
+      "chiave": "deploy-sre|il sorvegliante legge il conto degli errori da upstash senza un tempo massimo",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-a --base c938e9ab529b5de29ea973e659033711d7dd4ae7^ --file app/api/cron/operational-alerts/route.ts --prove tests/unit/riparazione-r06-upstash-tempo-massimo.test.ts --json"
+      },
+      "nota": "Letto il diff: la lettura da Upstash ha un AbortController con 5 secondi, azzerato nel finally dopo la lettura del corpo; se Upstash tace anche a meta' risposta, l'abort finisce nel catch e il giro dice «controllo saltato» come per ogni lettura fallita."
+    },
+    {
+      "id": "R06-003",
+      "chiave": "deploy-sre|nel freno della veloce, un carrello di più negozi con un ordine scaduto si comporta in modo diverso secondo l'ordine in cui il database rende gli ordini",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "prova_alla_base": "cd ../wt-a && git checkout --detach 5b8c786c96ec789918b3e85361ca435cef726b92 && npx vitest run tests/unit/riparazione-r09-freno-ordine-di-ieri.test.ts (6 prove verdi)",
+      "nota": "Alla base 5b8c786c: lib/ordini/veloce-non-confermata.ts:500-504 cerca la scadenza in OGNI ordine nuovo del carrello (daSpostare.find), quindi l'esito non dipende dall'ordine in cui il database rende gli ordini. Prova riparazione-r09-freno-ordine-di-ieri rilanciata alla base: 6 verdi."
+    },
+    {
+      "id": "R06-004",
+      "chiave": "deploy-sre|senza la 181 ogni apertura della chat o delle recensioni del negozio scrive un avviso nel registro",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-a --base af03703c28b440073aacf80fceb375d082b55d9e^ --file lib/queries/seller-public-profiles.ts --prove tests/unit/riparazione-r06-avviso-senza-la-181-una-volta.test.ts --json"
+      },
+      "nota": "Parziale confermato. In fetchNomiDeiClienti l'avviso «funzione assente» si scrive una volta per processo; un guasto vero della funzione o della lettura degli ordini resta nel registro ogni volta. Ma chat (controparte-della-chat.ts:53) e recensioni del negozio (app/seller/reviews/page.tsx:61) chiamano la funzione da se' col loro avviso: in produzione il rumore resta finche' non passano da qui (file non di R06)."
+    },
+    {
+      "id": "R06-005",
+      "chiave": "deploy-sre|il readme nomina la variabile di google analytics con il nome vecchio",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-a --base dc5f926db77db0c8a6d0d50174f0393a0173d8fd^ --file README.md --prove tests/unit/riparazione-r06-readme-variabile-ga.test.ts --json"
+      },
+      "nota": "README.md:82 ora dice NEXT_PUBLIC_GA_MEASUREMENT_ID, la stessa variabile di components/GoogleAnalytics.tsx:10, lib/analytics/server.ts:61, lib/env.ts:96 e .env.example:112; il nome vecchio NEXT_PUBLIC_GA_ID non compare piu' da nessuna parte."
+    },
+    {
+      "id": "R06-006",
+      "chiave": "deploy-sre|con una destinazione che ha una cartella dentro il secchio, lo storico predefinito finisce nello stesso secchio della copia senza avviso e la notte resta verde",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-b --base 2a5750bceb1a3d40e937a65d18ec873571dacbee^ --file scripts/backup-db.sh --prove tests/unit/riparazione-r06-storico-secchio-diverso.test.ts --json"
+      },
+      "rimesse_successive": [
+        {
+          "commit": "a1c222e75e21870d40ffe8f4cd6b1ad8b6d2caaa",
+          "uscita": 0,
+          "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-b --base a1c222e7^ --file scripts/backup-db.sh --prove tests/unit/riparazione-r06-storico-secchio-diverso.test.ts --json"
+        }
+      ],
+      "nota": "Letto il diff di scripts/backup-db.sh: il tipo del remote si legge da `rclone listremotes --long` (solo la configurazione, niente rete); su un remote a secchi (s3, b2, swift, azureblob, google cloud storage e, col secondo commit a1c222e7, oracle, qingstor, storj) le barre iniziali si tolgono prima di ricavare lo storico, quindi «b2:/mycity-foto/copie» non da' piu' lo storico nello stesso secchio. Se il tipo non si legge vale il testo come prima. Due rimesse, una per commit, uscita 0."
+    },
+    {
+      "id": "R06-007",
+      "chiave": "deploy-sre|con una destinazione cifrata che ha una cartella, lo storico predefinito cade ancora nello stesso secchio sotto la cifratura",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-b --base 2a5750bceb1a3d40e937a65d18ec873571dacbee^ --file scripts/backup-db.sh --prove tests/unit/riparazione-r06-storico-secchio-diverso.test.ts --json"
+      },
+      "nota": "Stesso commit di R06-006: un remote che ne avvolge un altro (crypt, alias, chunker, compress, hasher, cache, union, combine) non ha piu' uno storico predefinito, e senza STORAGE_SYNC_STORICO la notte e' rossa (uscita 5) col perche' nel messaggio. E' la regola del 20/11 (lo storico mai nel secchio della copia). Da sapere prima di unire: se la copia vera usa un remote cifrato con una cartella e STORAGE_SYNC_STORICO non c'e', dalla notte dopo la copia delle foto si ferma rossa (R06 l'ha gia' messa fra le domande per Nicola)."
+    },
+    {
+      "id": "R06-011",
+      "chiave": "frontend-ux|nel ripiego dei nomi dei clienti il limite di 1000 ordini vale per tutti gli id insieme",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-b --base 41ecd312bef214204ec79d7019d548be708c91a9^ --file lib/queries/seller-public-profiles.ts --prove tests/unit/riparazione-r06-ripiego-nomi-mille-ordini.test.ts --json"
+      },
+      "nota": "Letto il diff: a pagina piena (1000 righe) il ripiego rilegge solo gli id non ancora usciti, finche' escono tutti o le righe finiscono; ogni giro toglie almeno un id, quindi il ciclo finisce. Chi e' uscito ha gia' i suoi ordini piu' recenti, e l'ordine per data resta per ogni id. Un errore a meta' tiene i nomi gia' letti invece di buttarli."
+    },
+    {
+      "id": "R06-014",
+      "chiave": "stati-ui|dopo un errore su un solo canale, la pagina delle segnalazioni dice che l'esito non è partito né a chi ha segnalato né al venditore",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-c --base 653f3e0950675f2ce7404c430f7fc14e358f2648^ --file app/admin/segnalazioni/page.tsx --prove tests/unit/riparazione-r06-segnalazioni-canale.test.tsx --json"
+      },
+      "rimesse_successive": [
+        {
+          "commit": "ab9366ee42908bb29f3dff5c4b6df3999ab1cd5c",
+          "uscita": 0,
+          "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-c --base ab9366ee^ --file app/admin/segnalazioni/page.tsx --prove tests/unit/riparazione-r06-segnalazioni-canale.test.tsx --json"
+        }
+      ],
+      "nota": "Letto il diff e la rotta: con un canale caduto PATCH /api/segnalazioni risponde 502 con segnalanteEmail, segnalanteNotifica e venditore (route.ts:236-240), la pagina li legge e nomina solo quelli a 'fallita'; corpo non leggibile = messaggio di prima. Col secondo commit ab9366ee il plurale («quelli») con piu' canali. Due rimesse, uscita 0."
+    }
+  ],
+  "campione": {
+    "R05": {
+      "accettato": true
+    },
+    "R04": {
+      "accettato": true
+    },
+    "R06": {
+      "accettato": true
+    }
+  },
+  "nota": "R05: tutte le 8 voci con commit hanno la prova rimessa rilanciata (uscita 0) e un giudizio pieno; le 3 gia_riparato_prima controllate alla base. Nessun subagente usato per R05 (tetto di 4 in tutta la vita, da tenere per R04 e R06): il giudizio l'ha dato K02 leggendo i diff e rilanciando le prove. R04: le 11 rimesse (9 voci con commit, piu' i secondi commit di R04-010 e R04-011) rilanciate, uscita 0; le 6 gia_riparato_prima controllate alla base; tutte le prove r04 verdi alla testa c0eea283 (301). Anche per R04 nessun subagente. R06: 8 rimesse (6 voci con commit, piu' i secondi commit di R06-006 e R06-014) uscita 0; R06-003 controllata alla base; tutte le prove r06 e la prova comune del ritorno indietro verdi alla testa a9cf358f (149). R06-008 non giudicata come riparata: alla testa scripts/prova-di-fumo.mjs e la prova comune sono identici alla base (revert a9cf358f). Anche per R06 nessun subagente."
+}
