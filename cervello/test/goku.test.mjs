@@ -12,7 +12,9 @@
 //
 // NON-VACUITÀ (provata rompendo il codice apposta): togliendo in `decidiGiro` il controllo
 // `Number(giro) !== stato.giro_atteso`, il caso ② diventa rosso; togliendo `stato.avvisato` dalla
-// condizione dell'avviso, il caso ① ter diventa rosso (l'avviso tornerebbe a ogni giro). Provate il 24/11.
+// condizione dell'avviso, il caso ① ter diventa rosso (l'avviso tornerebbe a ogni giro). Rimettendo
+// `Math.ceil` al posto di `Math.floor` nel risveglio diventa rosso ① quater; riportando la tolleranza
+// dell'avviso a mezzo minuto diventa rosso ① quinquies. Provate tutte e quattro il 24/11.
 
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
@@ -61,7 +63,7 @@ prova("① un turno intero: giro 1 subito, risvegli ogni 10 minuti, avviso alle 
   const a = corri(T0, "inizia", "--sessione", "session_prova");
   assert.equal(valore(a, "titolo"), "Goku · fino alle 23:25");
   assert.equal(valore(a, "fase"), "giro");
-  assert.match(a, /send_later delay_minutes=10 \(alle 22:35\)/);
+  assert.match(a, /send_later delay_minutes=10 \(verso le 22:35\)/);
   assert.match(a, /finestra: sessioni con updated_at ≥ 2026-11-24T20:25:00\.000Z \(cioè dalle 21:25\)/);
   const t = turnoDi(a);
   assert.equal(t, "20261124-222500");
@@ -77,7 +79,7 @@ prova("① un turno intero: giro 1 subito, risvegli ogni 10 minuti, avviso alle 
   const av = corri("2026-11-24T22:15:00Z", "giro", "--turno", t, "--giro", "6");
   assert.equal(valore(av, "fase"), "avviso");
   assert.equal(valore(av, "push"), "Goku scade alle 23:25, tra 10 minuti. Scrivi «goku ancora» per un'altra ora.");
-  assert.match(av, /send_later delay_minutes=10 \(alle 23:25\)/);
+  assert.match(av, /send_later delay_minutes=10 \(verso le 23:25\)/);
   // Giro 7, arrivato un minuto in ritardo: è la fine, senza nessun promemoria nuovo.
   const fi = corri("2026-11-24T22:26:00Z", "giro", "--turno", t, "--giro", "7");
   assert.equal(valore(fi, "fase"), "fine");
@@ -92,13 +94,13 @@ prova("① bis: con un giro ogni 15 minuti l'avviso non si salta — il risvegli
   const a = corri(T0, "inizia", "--ogni", "15");
   const t = turnoDi(a);
   const g = (o, n) => corri(`2026-11-24T${o}:00Z`, "giro", "--turno", t, "--giro", String(n));
-  assert.match(a, /delay_minutes=15 \(alle 22:40\)/);
-  assert.match(g("21:40", 2), /delay_minutes=15 \(alle 22:55\)/);
+  assert.match(a, /delay_minutes=15 \(verso le 22:40\)/);
+  assert.match(g("21:40", 2), /delay_minutes=15 \(verso le 22:55\)/);
   const terzo = g("21:55", 3);
-  assert.match(terzo, /delay_minutes=15 \(alle 23:10\)/);
+  assert.match(terzo, /delay_minutes=15 \(verso le 23:10\)/);
   const quarto = g("22:10", 4);
   assert.equal(valore(quarto, "fase"), "giro");
-  assert.match(quarto, /delay_minutes=5 \(alle 23:15\)/, "il risveglio va accorciato fino all'avviso");
+  assert.match(quarto, /delay_minutes=5 \(verso le 23:15\)/, "il risveglio va accorciato fino all'avviso");
   assert.equal(valore(g("22:15", 5), "fase"), "avviso");
 });
 
@@ -111,6 +113,24 @@ prova("① ter: con un giro ogni 5 minuti l'avviso arriva una volta sola, non a 
   }
   // 22:30 … 23:10 giro (9 volte), 23:15 avviso, 23:20 giro, 23:25 fine.
   assert.deepEqual(fasi, [...Array(9).fill("giro"), "avviso", "giro", "fine"]);
+});
+
+prova("① quater: un promemoria in ritardo o in anticipo di un minuto non fa saltare l'avviso", ({ corri }) => {
+  const t = turnoDi(corri(T0, "inizia"));
+  const g = (o, n) => corri(o, "giro", "--turno", t, "--giro", String(n));
+  for (const [o, n] of [["21:35", 2], ["21:45", 3], ["21:55", 4]]) g(`2026-11-24T${o}:00Z`, n);
+  // Giro 5 arrivato 45 secondi tardi: l'avviso è alle 23:15, cioè fra 9 minuti e 15 secondi → si chiede 9, per difetto.
+  const g5 = g("2026-11-24T22:05:45Z", 5);
+  assert.match(g5, /send_later delay_minutes=9 /);
+  // La chiamata parte 45 secondi dopo e lo strumento arrotonda al minuto dopo: arriva alle 23:16:00. È l'avviso.
+  assert.equal(valore(g("2026-11-24T22:16:00Z", 6), "fase"), "avviso");
+});
+
+prova("① quinquies: un promemoria arrivato un minuto prima dell'avviso è già l'avviso", ({ corri }) => {
+  const t = turnoDi(corri(T0, "inizia"));
+  const g = (o, n) => corri(o, "giro", "--turno", t, "--giro", String(n));
+  for (const [o, n] of [["21:35", 2], ["21:45", 3], ["21:55", 4], ["22:05", 5]]) g(`2026-11-24T${o}:00Z`, n);
+  assert.equal(valore(g("2026-11-24T22:14:05Z", 6), "fase"), "avviso");
 });
 
 prova("② promemoria doppio, vecchio, di un altro turno, o dopo «basta»: nessun giro", ({ corri, stato }) => {
@@ -172,7 +192,7 @@ prova("⑤ il diario non ripete, e il resoconto ha i quattro blocchi con le targ
   corri("2026-11-24T21:41:00Z", "nota", "R11", "turno fallito per sovraccarico", "mandato «riprendi»", "risolto");
   assert.match(corri("2026-11-24T21:42:00Z", "nota", "R11", "x", "y", "boh"), /esito «boh» sconosciuto/);
   const ch = corri("2026-11-24T22:25:00Z", "fine");
-  assert.match(ch, /push: Goku ha finito \(22:25-23:25\): 1 giri, 2 problemi, 1 sistemati, 1 aspettano te\./);
+  assert.match(ch, /push: Goku ha finito \(22:25-23:25\): 1 giri, 2 problemi, 1 sistemati, 1 aspettano te\. Scrivi «goku ancora» per ripartire\./);
   const file = readdirSync(join(cartella, "resoconti"));
   assert.deepEqual(file, ["2026-11-24-2225.md"]);
   const md = readFileSync(join(cartella, "resoconti", file[0]), "utf8");

@@ -85,7 +85,9 @@ comando così com'è: il programma ti dice la fase.
    non ho verificato». Chiama le sessioni per titolo: gli id vanno sotto «Dettagli tecnici». Una cosa già detta non si
    ripete a ogni giro: torna solo se peggiora, e all'avviso.
 6. **Il prossimo risveglio.** `send_later` con `delay_minutes` e `message` copiati dalle righe «prossimo risveglio» e
-   «messaggio». **Uno solo per giro**, e solo nei giri nati da un risveglio o dalla partenza.
+   «messaggio». **Uno solo per giro**, e solo nei giri nati da un risveglio o dalla partenza. Chiamalo **subito dopo il
+   comando del giro**, prima di guardare le sessioni: il conto parte dalla chiamata, e lo strumento arrotonda al minuto
+   intero dopo. Misurato il 24/11: chiamato alle 23:35:01 con 3 minuti, è partito alle 23:39:00.
 
 ## Cosa guardi e cosa fai
 | Segnale | Cosa vuol dire | Cosa fa Goku | Colore |
@@ -158,8 +160,9 @@ comando così com'è: il programma ti dice la fase.
 - L'orologio, la catena dei risvegli, la proroga, la ripartenza e il diario sono provati da
   `cervello/test/goku.test.mjs`. Il guardare e l'agire no: sono **solo testo**, e reggono sulla disciplina di chi segue
   questa skill.
-- `send_later` arriva al minuto intero, a volte uno dopo. Il programma ha mezzo minuto di tolleranza sull'avviso, e un
-  promemoria arrivato dopo la scadenza diventa la fine.
+- `send_later` arriva al minuto intero dopo. Il programma chiede il risveglio per difetto e tiene un minuto e mezzo di
+  tolleranza sull'avviso; un promemoria arrivato dopo la scadenza diventa la fine. Su un turno molto corto l'avviso
+  può comunque cadere insieme alla fine: per questo anche il push di fine dice «goku ancora».
 - Se il contenitore riparte, lo stato si ricostruisce dal promemoria. Il diario e le seguite dei giri di prima però
   sono persi, e il programma lo dice: al giro dopo si torna a scorrere tutto l'elenco.
 - Una sessione creata prima dell'inizio, ferma fuori dalla finestra, che si risveglia a turno già partito, non entra

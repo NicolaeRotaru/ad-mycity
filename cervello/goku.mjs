@@ -97,7 +97,10 @@ export function prossimoRisveglio(stato, ora = adesso()) {
   let bersaglio = t + stato.ogni * MIN;
   if (!stato.avvisato && avvisoAlle > t) bersaglio = Math.min(bersaglio, avvisoAlle);
   bersaglio = Math.min(bersaglio, scad);
-  const minuti = Math.max(1, Math.ceil((bersaglio - t) / MIN));
+  // Per difetto, non per eccesso: `send_later` arrotonda al minuto intero DOPO (misurato il 24/11: chiamato
+  // alle 22:35:01 con 3 minuti, è partito alle 22:39:00), e fra il comando e la chiamata passa anche il tempo
+  // di chi legge. Arrotondando per eccesso anche qui, l'avviso di un turno corto scivolava oltre la fine.
+  const minuti = Math.max(1, Math.floor((bersaglio - t) / MIN));
   return { minuti, alle: new Date(t + minuti * MIN) };
 }
 
@@ -124,8 +127,9 @@ export function decidiGiro(stato, { turno, giro, ora = adesso(), manuale = false
     };
   const rimasti = (+new Date(stato.scadenza) - +new Date(ora)) / MIN;
   if (rimasti <= 1) return { fase: "fine", rimasti };
-  // Mezzo minuto di tolleranza: il promemoria arriva al minuto intero, a volte uno dopo.
-  if (!stato.avvisato && rimasti <= stato.avviso + 0.5) return { fase: "avviso", rimasti };
+  // Un minuto e mezzo di tolleranza: il risveglio è chiesto per difetto e arriva al minuto intero dopo,
+  // quindi può cadere fino a un minuto prima dell'ora esatta dell'avviso.
+  if (!stato.avvisato && rimasti <= stato.avviso + 1.5) return { fase: "avviso", rimasti };
   return { fase: "giro", rimasti };
 }
 
@@ -288,8 +292,8 @@ function stampaGiro(stato, giro, decisione, ora) {
   } else {
     const p = prossimoRisveglio(stato, ora);
     out.push(
-      "  5. programma il prossimo risveglio, UNO solo, con questi due valori:",
-      `prossimo risveglio → send_later delay_minutes=${p.minuti} (alle ${hhmm(p.alle)})`,
+      "  5. programma il prossimo risveglio SUBITO, prima di guardare le sessioni: UNO solo, con questi due valori",
+      `prossimo risveglio → send_later delay_minutes=${p.minuti} (verso le ${hhmm(p.alle)})`,
       `messaggio: ${messaggioRisveglio(stato, giro + 1)}`,
     );
   }
@@ -323,7 +327,7 @@ function chiudi(stato, ora, { fermato = false } = {}) {
   const problemi = c.risolto + c["tocca-a-te"] + c["in-corso"];
   out.push(
     `push: Goku ha finito (${hhmm(stato.inizio)}-${hhmm(ora)}): ${stato.giri} giri, ${problemi} problemi, ` +
-      `${c.risolto} sistemati, ${c["tocca-a-te"]} aspettano te.`,
+      `${c.risolto} sistemati, ${c["tocca-a-te"]} aspettano te. Scrivi «goku ancora» per ripartire.`,
     `titolo: Goku · finito alle ${hhmm(ora)}`,
   );
   return out.join("\n");
@@ -431,7 +435,7 @@ export function main(argv = process.argv.slice(2)) {
         const p = prossimoRisveglio(stato, ora);
         out.push(
           "il turno era chiuso: la catena riparte da qui.",
-          `prossimo risveglio → send_later delay_minutes=${p.minuti} (alle ${hhmm(p.alle)})`,
+          `prossimo risveglio → send_later delay_minutes=${p.minuti} (verso le ${hhmm(p.alle)})`,
           `messaggio: ${messaggioRisveglio(stato, stato.giro_atteso)}`,
         );
       } else out.push("il promemoria già programmato resta valido: non programmarne un altro.");
