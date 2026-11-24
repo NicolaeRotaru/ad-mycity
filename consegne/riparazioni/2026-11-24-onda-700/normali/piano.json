@@ -1243,31 +1243,28 @@
     {
       "onda": 2,
       "base": "d000e3b04bc9d12ab160f5ebc55c0d665fc6e5a9",
-      "creata": "2026-11-24 17:05",
-      "per_sessione": 8,
+      "creata": "2026-11-24 17:10",
+      "per_sessione": 7,
       "candidate": [
         "ai-endpoints|l'allarme del tetto di spesa ai può dire «non risponde da tre giorni» al primo guasto di cinque minuti",
-        "stati-ui|a riga chiusa con il motivo «chiedi all'assistenza» il pulsante «avvia» resta",
-        "stati-ui|sotto un lavoro sul catalogo chiuso che dice di chiedere all'assistenza prima di ripartire, il pulsante «avvia sul catalogo» resta lì",
-        "api-backend|l'invio subito delle notifiche push prende le righe guardando solo pushed_at, e può correre col giro del cron",
+        "frontend-ux|altri percorsi di facebook non elencati possono essere salvati come nome del profilo",
         "layout-responsive|la pagina 404 a 280 px col testo al 200% esce di 5 px",
-        "architettura|email partita ma non segnata: la notte dopo riparte, e se fallisce l'allarme dice «non partita» per un'email già arrivata",
-        "ai-endpoints|con l'ai dei negozi spenta al lancio, l'allarme sul conto condiviso della spesa ai può arrivare lo stesso ogni sei ore",
-        "microcopy|altri «rider» rivolti al cliente restano nella pagina dell'ordine e in quella del negozio",
-        "qa-flussi|le prove che fanno girare tutto lo script del backup non hanno un psql finto",
-        "layout-responsive|la home a 320 px col testo al 200% scorre ancora di lato di 18 px",
-        "qa-flussi|una prova del promemoria del carrello resta verde solo per caso",
-        "architettura|il finto clienteavvisi è riscritto in quattro posti e la prova da 1033 righe mescola rotte, notte e una scansione del sorgente",
-        "architettura|la prova sull'export elenca ancora cod_reconciliations fra le tabelle escluse",
-        "qa-flussi|il pannello della home suggerisce ancora «i più amati / prodotti che vanno forte»",
+        "performance-percepita|il traduttore degli errori di zod entra in ogni pagina passando dal piede del sito",
         "qa-flussi|la risalita dei genitori delle categorie non ha un tetto",
-        "qa-flussi|l'aiutante di prova accendi, con la suspense, rende vuoto in silenzio un componente che resta sospeso per sempre: una prova che controlla un'assenza può passare senza aver provato niente",
         "frontend-ux|altri campi brevi del sito del negozio tagliano ancora in silenzio con maxlength",
         "frontend-ux|il costruttore della vetrina ha ancora campi brevi che tagliano in silenzio",
+        "layout-responsive|la home a 320 px col testo al 200% scorre ancora di lato di 18 px",
+        "qa-flussi|il pannello della home suggerisce ancora «i più amati / prodotti che vanno forte»",
+        "architettura|email partita ma non segnata: la notte dopo riparte, e se fallisce l'allarme dice «non partita» per un'email già arrivata",
         "qa-flussi|le maschere di caricamento delle foto accettano solo jpg, png e webp, mentre la porta e lo storage ne accettano sette",
-        "qa-flussi|due guardie sulla veloce controllano il testo del sorgente e non il comportamento",
-        "frontend-ux|altri percorsi di facebook non elencati possono essere salvati come nome del profilo",
-        "performance-percepita|il traduttore degli errori di zod entra in ogni pagina passando dal piede del sito"
+        "stati-ui|a riga chiusa con il motivo «chiedi all'assistenza» il pulsante «avvia» resta",
+        "stati-ui|sotto un lavoro sul catalogo chiuso che dice di chiedere all'assistenza prima di ripartire, il pulsante «avvia sul catalogo» resta lì",
+        "ai-endpoints|la conformità dei prodotti (classifyproductpolicy) non ha un tempo suo e i lavori sul catalogo la chiamano in 40 giri di fila",
+        "coerenza-brand|la primitiva card è usata in 10 file, mentre 141 card sono ridisegnate a mano con quattro raggi diversi",
+        "deploy-sre|senza la 181 ogni apertura della chat o delle recensioni del negozio scrive un avviso nel registro",
+        "frontend-ux|un negozio senza nome ha metadati indicizzabili mentre la sua pagina risponde «non trovato»",
+        "frontend-ux|una vetrina lasciata aperta oltre mezzanotte continua a mostrare l'annuncio del giorno prima finché la pagina non si ridisegna",
+        "stati-ui|con la proposta di «genera con ai» aperta, le correzioni fatte a mano nel frattempo si perdono premendo «usa questa»"
       ],
       "sessioni": {
         "R08": {
@@ -1275,14 +1272,12 @@
           "voci": [
             {
               "id": "R08-001",
-              "chiave": "ai-endpoints|con l'ai dei negozi spenta al lancio, l'allarme sul conto condiviso della spesa ai può arrivare lo stesso ogni sei ore",
+              "chiave": "ai-endpoints|la conformità dei prodotti (classifyproductpolicy) non ha un tempo suo e i lavori sul catalogo la chiamano in 40 giri di fila",
               "gravita": "minore",
-              "titolo": "Con l'AI dei negozi spenta al lancio, l'allarme sul conto condiviso della spesa AI può arrivare lo stesso ogni sei ore",
+              "titolo": "la conformità dei prodotti (classifyProductPolicy) non ha un tempo suo e i lavori sul catalogo la chiamano in 40 giri di fila",
               "file": [
-                "lib/ai/tettoSpesa.ts",
-                "tests/unit/riparazione-r04-allarme-ripiego.test.ts",
-                "tests/unit/riparazione-r13-allarme-tetto-dal-cron.test.ts",
-                "lib/ai/tettoSpesa.ts, tests/unit/riparazione-r01-allarme-tetto-ai-spenta.test.ts, tests/unit/riparazione-r01-allarme-tetto-riga-vecchia.test.ts"
+                "lib/ai/moderation.ts",
+                "app/api/ai/catalog-batch/apply/route.ts"
               ]
             },
             {
@@ -1296,11 +1291,12 @@
             },
             {
               "id": "R08-003",
-              "chiave": "frontend-ux|altri percorsi di facebook non elencati possono essere salvati come nome del profilo",
+              "chiave": "frontend-ux|una vetrina lasciata aperta oltre mezzanotte continua a mostrare l'annuncio del giorno prima finché la pagina non si ridisegna",
               "gravita": "minore",
-              "titolo": "Altri percorsi di Facebook non elencati possono essere salvati come nome del profilo",
+              "titolo": "Una vetrina lasciata aperta oltre mezzanotte continua a mostrare l'annuncio del giorno prima finché la pagina non si ridisegna",
               "file": [
-                "lib/store-customization.ts"
+                "app/store/[id]/page.tsx",
+                "app/store/[id]/[slug]/page.tsx"
               ]
             },
             {
@@ -1318,7 +1314,9 @@
               "gravita": "minore",
               "titolo": "Il traduttore degli errori di Zod entra in ogni pagina passando dal piede del sito",
               "file": [
-                "lib/errors.ts"
+                "lib/errors.ts",
+                "lib/zod-i18n.ts",
+                "lib/zod-frasi.ts"
               ]
             },
             {
@@ -1333,24 +1331,26 @@
             },
             {
               "id": "R08-007",
-              "chiave": "qa-flussi|le prove che fanno girare tutto lo script del backup non hanno un psql finto",
+              "chiave": "stati-ui|con la proposta di «genera con ai» aperta, le correzioni fatte a mano nel frattempo si perdono premendo «usa questa»",
               "gravita": "minore",
-              "titolo": "Le prove che fanno girare tutto lo script del backup non hanno un psql finto",
+              "titolo": "con la proposta di «genera con ai» aperta, le correzioni fatte a mano nel frattempo si perdono premendo «usa questa»",
               "file": [
-                "tests/unit/la-copia-delle-foto-si-riapre-davvero.test.ts",
-                "tests/unit/aiuti/finto-rclone.ts",
-                "tests/unit/il-lavoro-notturno-accende-davvero-la-copia-delle-foto.test.ts",
-                "tests/unit/la-copia-delle-foto-non-ripete-la-cancellazione.test.ts"
+                "components/seller/ProductForm.tsx"
               ]
             }
           ],
           "file": [
+            "app/api/ai/catalog-batch/apply/route.ts",
             "app/not-found.tsx",
+            "app/store/[id]/[slug]/page.tsx",
+            "app/store/[id]/page.tsx",
             "components/seller/ProductForm.tsx",
+            "lib/ai/moderation.ts",
             "lib/ai/tettoSpesa.ts",
             "lib/category-attributes.ts",
             "lib/errors.ts",
-            "lib/store-customization.ts"
+            "lib/zod-frasi.ts",
+            "lib/zod-i18n.ts"
           ],
           "migrazioni": [
             890,
@@ -1358,19 +1358,31 @@
           ]
         },
         "R09": {
-          "tema": "api-backend",
+          "tema": "architettura",
           "voci": [
             {
               "id": "R09-001",
-              "chiave": "api-backend|l'invio subito delle notifiche push prende le righe guardando solo pushed_at, e può correre col giro del cron",
+              "chiave": "architettura|email partita ma non segnata: la notte dopo riparte, e se fallisce l'allarme dice «non partita» per un'email già arrivata",
               "gravita": "minore",
-              "titolo": "l'invio subito delle notifiche push prende le righe guardando solo pushed_at, e può correre col giro del cron",
+              "titolo": "Email partita ma non segnata: la notte dopo riparte, e se fallisce l'allarme dice «non partita» per un'email già arrivata",
               "file": [
-                "lib/push/subito.ts"
+                "lib/privacy/avvisi-a-chi-aspetta.ts",
+                "app/api/cron/process-deletions/route.ts"
               ]
             },
             {
               "id": "R09-002",
+              "chiave": "deploy-sre|senza la 181 ogni apertura della chat o delle recensioni del negozio scrive un avviso nel registro",
+              "gravita": "minore",
+              "titolo": "senza la 181 ogni apertura della chat o delle recensioni del negozio scrive un avviso nel registro",
+              "file": [
+                "lib/queries/seller-public-profiles.ts",
+                "app/seller/reviews/page.tsx",
+                "lib/queries/controparte-della-chat.ts"
+              ]
+            },
+            {
+              "id": "R09-003",
               "chiave": "frontend-ux|altri campi brevi del sito del negozio tagliano ancora in silenzio con maxlength",
               "gravita": "minore",
               "titolo": "altri campi brevi del sito del negozio tagliano ancora in silenzio con maxLength",
@@ -1383,7 +1395,7 @@
               ]
             },
             {
-              "id": "R09-003",
+              "id": "R09-004",
               "chiave": "frontend-ux|il costruttore della vetrina ha ancora campi brevi che tagliano in silenzio",
               "gravita": "minore",
               "titolo": "Il costruttore della vetrina ha ancora campi brevi che tagliano in silenzio",
@@ -1392,17 +1404,6 @@
                 "components/seller/site/GalleryFields.tsx",
                 "components/seller/site/MenuEditor.tsx",
                 "components/seller/site/PageEditor.tsx"
-              ]
-            },
-            {
-              "id": "R09-004",
-              "chiave": "layout-responsive|la home a 320 px col testo al 200% scorre ancora di lato di 18 px",
-              "gravita": "minore",
-              "titolo": "la home a 320 px col testo al 200% scorre ancora di lato di 18 px",
-              "file": [
-                "components/home/HowItWorks.tsx",
-                "components/home-sections/HomeSectionRenderer.tsx:115",
-                "components/store-sections/CollectionSection.tsx"
               ]
             },
             {
@@ -1417,35 +1418,46 @@
             },
             {
               "id": "R09-006",
-              "chiave": "qa-flussi|l'aiutante di prova accendi, con la suspense, rende vuoto in silenzio un componente che resta sospeso per sempre: una prova che controlla un'assenza può passare senza aver provato niente",
+              "chiave": "stati-ui|a riga chiusa con il motivo «chiedi all'assistenza» il pulsante «avvia» resta",
               "gravita": "minore",
-              "titolo": "l'aiutante di prova accendi, con la Suspense, rende vuoto in silenzio un componente che resta sospeso per sempre: una prova che controlla un'assenza può passare senza aver provato niente",
+              "titolo": "a riga chiusa con il motivo «chiedi all'assistenza» il pulsante «Avvia» resta",
               "file": [
-                "tests/unit/aiuti/schermo.ts"
+                "lib/ai/statoLavoroCatalogo.ts",
+                "app/seller/products/ai-batch/page.tsx",
+                "app/api/ai/catalog-batch/start/route.ts",
+                "app/api/ai/catalog-batch/status/route.ts"
               ]
             },
             {
               "id": "R09-007",
-              "chiave": "qa-flussi|una prova del promemoria del carrello resta verde solo per caso",
+              "chiave": "stati-ui|sotto un lavoro sul catalogo chiuso che dice di chiedere all'assistenza prima di ripartire, il pulsante «avvia sul catalogo» resta lì",
               "gravita": "minore",
-              "titolo": "una prova del promemoria del carrello resta verde solo per caso",
+              "titolo": "Sotto un lavoro sul catalogo chiuso che dice di chiedere all'assistenza prima di ripartire, il pulsante «Avvia sul catalogo» resta lì",
               "file": [
-                "tests/unit/le-email-d-ordine-escono-senza-il-tasto-per-smettere.test.ts"
+                "lib/ai/statoLavoroCatalogo.ts",
+                "app/seller/products/ai-batch/page.tsx",
+                "app/api/ai/catalog-batch/start/route.ts",
+                "app/api/ai/catalog-batch/status/route.ts"
               ]
             }
           ],
           "file": [
+            "app/api/ai/catalog-batch/start/route.ts",
+            "app/api/ai/catalog-batch/status/route.ts",
+            "app/api/cron/process-deletions/route.ts",
+            "app/seller/products/ai-batch/page.tsx",
+            "app/seller/reviews/page.tsx",
             "components/admin/home/HomeSectionConfigForm.tsx",
-            "components/home-sections/HomeSectionRenderer.tsx:115",
-            "components/home/HowItWorks.tsx",
             "components/seller/site/CollectionFields.tsx",
             "components/seller/site/GalleryFields.tsx",
             "components/seller/site/MenuEditor.tsx",
             "components/seller/site/PageEditor.tsx",
             "components/seller/site/SectionConfigForm.tsx",
-            "components/store-sections/CollectionSection.tsx",
+            "lib/ai/statoLavoroCatalogo.ts",
             "lib/home-site.ts",
-            "lib/push/subito.ts"
+            "lib/privacy/avvisi-a-chi-aspetta.ts",
+            "lib/queries/controparte-della-chat.ts",
+            "lib/queries/seller-public-profiles.ts"
           ],
           "migrazioni": [
             900,
@@ -1453,48 +1465,47 @@
           ]
         },
         "R10": {
-          "tema": "architettura",
+          "tema": "coerenza-brand",
           "voci": [
             {
               "id": "R10-001",
-              "chiave": "architettura|email partita ma non segnata: la notte dopo riparte, e se fallisce l'allarme dice «non partita» per un'email già arrivata",
+              "chiave": "coerenza-brand|la primitiva card è usata in 10 file, mentre 141 card sono ridisegnate a mano con quattro raggi diversi",
               "gravita": "minore",
-              "titolo": "Email partita ma non segnata: la notte dopo riparte, e se fallisce l'allarme dice «non partita» per un'email già arrivata",
+              "titolo": "La primitiva Card è usata in 10 file, mentre 141 card sono ridisegnate a mano con quattro raggi diversi",
               "file": [
-                "lib/privacy/avvisi-a-chi-aspetta.ts"
+                "components/ui/Card.tsx",
+                "app/rider/page.tsx",
+                "app/about/page.tsx"
               ]
             },
             {
               "id": "R10-002",
-              "chiave": "architettura|il finto clienteavvisi è riscritto in quattro posti e la prova da 1033 righe mescola rotte, notte e una scansione del sorgente",
+              "chiave": "frontend-ux|un negozio senza nome ha metadati indicizzabili mentre la sua pagina risponde «non trovato»",
               "gravita": "minore",
-              "titolo": "Il finto ClienteAvvisi è riscritto in quattro posti e la prova da 1033 righe mescola rotte, notte e una scansione del sorgente",
+              "titolo": "Un negozio senza nome ha metadati indicizzabili mentre la sua pagina risponde «non trovato»",
               "file": [
-                "tests/unit/aiuti/finto-giro-notturno.ts",
-                "tests/unit/chi-vuole-cancellarsi-trova-una-strada-che-funziona.test.ts"
+                "app/store/[id]/layout.tsx",
+                "app/store/[id]/[slug]/layout.tsx"
               ]
             },
             {
               "id": "R10-003",
-              "chiave": "architettura|la prova sull'export elenca ancora cod_reconciliations fra le tabelle escluse",
+              "chiave": "frontend-ux|altri percorsi di facebook non elencati possono essere salvati come nome del profilo",
               "gravita": "minore",
-              "titolo": "La prova sull'export elenca ancora cod_reconciliations fra le tabelle escluse",
+              "titolo": "Altri percorsi di Facebook non elencati possono essere salvati come nome del profilo",
               "file": [
-                "tests/unit/scarica-i-miei-dati-non-salta-nessuna-tabella.test.ts"
+                "lib/store-customization.ts"
               ]
             },
             {
               "id": "R10-004",
-              "chiave": "microcopy|altri «rider» rivolti al cliente restano nella pagina dell'ordine e in quella del negozio",
+              "chiave": "layout-responsive|la home a 320 px col testo al 200% scorre ancora di lato di 18 px",
               "gravita": "minore",
-              "titolo": "altri «rider» rivolti al cliente restano nella pagina dell'ordine e in quella del negozio",
+              "titolo": "la home a 320 px col testo al 200% scorre ancora di lato di 18 px",
               "file": [
-                "app/orders/[id]/page.tsx",
-                "app/seller/orders/[id]/page.tsx",
-                "tests/unit/i-nomi-si-leggono-anche-coi-profili-chiusi.test.ts",
-                "tests/unit/la-pagina-dell-ordine-aspetta-il-bonifico.test.ts",
-                "components/OrderTimeline.tsx",
-                "app/orders/[id]/page.tsx, app/seller/orders/[id]/page.tsx"
+                "components/home/HowItWorks.tsx",
+                "components/home-sections/HomeSectionRenderer.tsx",
+                "components/store-sections/CollectionSection.tsx"
               ]
             },
             {
@@ -1508,47 +1519,22 @@
                 "components/SellerApplicationForm.tsx",
                 "components/StoreMediaManager.tsx"
               ]
-            },
-            {
-              "id": "R10-006",
-              "chiave": "qa-flussi|due guardie sulla veloce controllano il testo del sorgente e non il comportamento",
-              "gravita": "minore",
-              "titolo": "Due guardie sulla veloce controllano il testo del sorgente e non il comportamento",
-              "file": [
-                "tests/unit/la-consegna-veloce-si-vende-solo-se-c-e-un-fattorino.test.ts",
-                "tests/unit/l-ordine-con-un-appuntamento-gia-passato.test.ts"
-              ]
-            },
-            {
-              "id": "R10-007",
-              "chiave": "stati-ui|a riga chiusa con il motivo «chiedi all'assistenza» il pulsante «avvia» resta",
-              "gravita": "minore",
-              "titolo": "a riga chiusa con il motivo «chiedi all'assistenza» il pulsante «Avvia» resta",
-              "file": [
-                "lib/ai/statoLavoroCatalogo.ts"
-              ]
-            },
-            {
-              "id": "R10-008",
-              "chiave": "stati-ui|sotto un lavoro sul catalogo chiuso che dice di chiedere all'assistenza prima di ripartire, il pulsante «avvia sul catalogo» resta lì",
-              "gravita": "minore",
-              "titolo": "Sotto un lavoro sul catalogo chiuso che dice di chiedere all'assistenza prima di ripartire, il pulsante «Avvia sul catalogo» resta lì",
-              "file": [
-                "lib/ai/statoLavoroCatalogo.ts"
-              ]
             }
           ],
           "file": [
-            "app/orders/[id]/page.tsx",
-            "app/orders/[id]/page.tsx, app/seller/orders/[id]/page.tsx",
-            "app/seller/orders/[id]/page.tsx",
+            "app/about/page.tsx",
+            "app/rider/page.tsx",
+            "app/store/[id]/[slug]/layout.tsx",
+            "app/store/[id]/layout.tsx",
             "components/ImageUrlField.tsx",
-            "components/OrderTimeline.tsx",
             "components/SellerApplicationForm.tsx",
             "components/StoreMediaManager.tsx",
             "components/VendorForm.tsx",
-            "lib/ai/statoLavoroCatalogo.ts",
-            "lib/privacy/avvisi-a-chi-aspetta.ts"
+            "components/home-sections/HomeSectionRenderer.tsx",
+            "components/home/HowItWorks.tsx",
+            "components/store-sections/CollectionSection.tsx",
+            "components/ui/Card.tsx",
+            "lib/store-customization.ts"
           ],
           "migrazioni": [
             910,
@@ -1557,7 +1543,8 @@
         }
       },
       "rimandate": [],
-      "regia": []
+      "regia": [],
+      "nota_regia": "2026-11-24 17:55 regia settima: aggiunti a mano i file che le note di cosa_resta e le modifiche scritte nominano e che nessuna sessione dell'onda possedeva; tolto il ':115' attaccato a HomeSectionRenderer.tsx."
     }
   ],
   "cucitura": [],
