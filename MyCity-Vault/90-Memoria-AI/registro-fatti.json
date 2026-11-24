@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-11-24 15:42",
+  "aggiornato": "2026-11-24 17:02",
   "fatti": [
     {
       "id": "ad.uso-e-crediti",
@@ -1011,11 +1011,21 @@
     {
       "id": "negozi.modalita-demo",
       "nome": "Modalità demo per i negozi che non hanno pagato",
-      "valore": "Le attività che si iscrivono e non hanno ancora pagato entrano in «modalità demo»: entrano nella dashboard, preparano vetrina e prodotti e vedono il preventivo, ma la loro vetrina non è visibile sul marketplace. Escono dalla demo quando pagano un abbonamento ai servizi (Base, Business o Premium, MyCity tramite SDG); serve comunque l'approvazione dell'admin. Vale solo per i nuovi: Pane Quotidiano resta visibile com'è, e così i negozi di sistema (MyCity, SDG). Lavoro affidato il 24/11 alla sessione «Servizi SDG» (session_01R8112L8Qbu42abzNPKaAkQ), non ancora nel sito.",
-      "fonte": "Nicola, chat 2026-11-24 ~13:00: «Tutte le attività che si iscrivono però non hanno effettuato il loro pagamento entrano sulla piattaforma in modalità demo e la loro vetrina non è visibile ancora sul marketplace»; risposte: «Solo per i nuovi», pagamento = «Un abbonamento ai servizi»",
-      "aggiornato": "2026-11-24 15:42",
-      "storia": [],
-      "caccia": [],
+      "valore": "Le attività che si iscrivono e non hanno ancora pagato entrano in «modalità demo»: entrano nella dashboard, preparano vetrina e prodotti (anche prima dell'approvazione dell'admin: Nicola, 24/11 «Sì, li prepara subito») e vedono il preventivo, ma la loro vetrina e i loro prodotti non sono visibili sul marketplace. Escono dalla demo quando pagano un abbonamento ai servizi (Base, Business o Premium, MyCity tramite SDG) e l'admin li approva. Vale solo per i nuovi: Pane Quotidiano resta visibile com'è, e così i negozi di sistema (MyCity, SDG). Nel codice: mycity#313, migrazione 709 (public.negozio_in_vetrina); i prodotti prima dell'approvazione in arrivo dalla sessione «Servizi SDG».",
+      "fonte": "Nicola, chat 2026-11-24: regola ~13:00, «Solo per i nuovi», pagamento = «Un abbonamento ai servizi»; ~17:00 «Sì, li prepara subito»",
+      "aggiornato": "2026-11-24 17:02",
+      "storia": [
+        {
+          "valore": "Le attività che si iscrivono e non hanno ancora pagato entrano in «modalità demo»: entrano nella dashboard, preparano vetrina e prodotti e vedono il preventivo, ma la loro vetrina non è visibile sul marketplace. Escono dalla demo quando pagano un abbonamento ai servizi (Base, Business o Premium, MyCity tramite SDG); serve comunque l'approvazione dell'admin. Vale solo per i nuovi: Pane Quotidiano resta visibile com'è, e così i negozi di sistema (MyCity, SDG). Lavoro affidato il 24/11 alla sessione «Servizi SDG» (session_01R8112L8Qbu42abzNPKaAkQ), non ancora nel sito.",
+          "fino_a": "2026-11-24 17:02"
+        }
+      ],
+      "caccia": [
+        {
+          "pattern": "Le attività che si iscrivono e non hanno ancora pagato entrano in «modalità demo»: entrano nella dashboard, preparano vetrina e prodotti e vedono il preventivo, ma la loro vetrina non è visibile sul marketplace. Escono dalla demo quando pagano un abbonamento ai servizi (Base, Business o Premium, MyCity tramite SDG); serve comunque l'approvazione dell'admin. Vale solo per i nuovi: Pane Quotidiano resta visibile com'è, e così i negozi di sistema (MyCity, SDG). Lavoro affidato il 24/11 alla sessione «Servizi SDG» (session_01R8112L8Qbu42abzNPKaAkQ), non ancora nel sito.",
+          "dal": "2026-11-24 17:02"
+        }
+      ],
       "esenzioni": []
     },
     {
