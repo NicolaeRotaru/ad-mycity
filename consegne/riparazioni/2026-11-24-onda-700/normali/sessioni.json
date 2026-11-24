@@ -183,6 +183,15 @@
    "finita": true,
    "punta": "14b884860ee4af16e0fcbd55d241ce4028498378",
    "costo_usd": 3.44
+  },
+  "C03": {
+   "id": "session_01R8112MwmTXvN1PAwWEYcjp",
+   "ramo": "ccr-d7a54140-hak4ez-c03",
+   "partenza": "595c25e14edc1fbe98b2e3ee0df1ec9e1fd93285",
+   "integrazione": "d5d84f3a31d6aa7d7fcd5cad2306a069bd63c18a",
+   "onda": 3,
+   "limite_usd": 3,
+   "partita": "2026-11-24 20:20"
   }
  }
 }
