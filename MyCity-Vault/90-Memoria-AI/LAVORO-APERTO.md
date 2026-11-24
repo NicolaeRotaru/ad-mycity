@@ -1,7 +1,7 @@
 ---
 tipo: lavoro-aperto
 fonte: AD digitale
-aggiornato: 2026-11-17 22:00
+aggiornato: 2026-11-24 03:40
 regola: si legge PRIMA di cercare cosa manca; si aggiorna a ogni lavoro che si apre o si chiude
 ---
 
@@ -29,6 +29,8 @@ La pagina dice com'era il lavoro il 31 ottobre alle 01:45. Ogni voce va riletta 
 ---
 
 ## 1 · Cose che toccano a te
+
+**MyCity collegato a n8n, e l'analisi del mattino su n8n (24/11 03:40).** Il flusso «16 · Nuovo cliente da MyCity» è acceso su n8n: un'attività che si iscrive entra nella scheda Clienti col lavoro del modulo 12, con attivo = no. Il flusso «17 · Analisi del marketplace» è caricato ma spento. Restano tre cose di Nicola: unire la richiesta del sito, scrivere le due variabili in Vercel, incollare la chiave del database nella credenziale del 17 e accenderlo. Carta #261. Sorgenti e istruzioni: NicolaeRotaru/N8N, `flussi/LEGGIMI.md`. (aggiornato 2026-11-24 03:40)
 
 **La settimana dei 700: il ricontrollo ha chiuso 117 difetti già spariti (21/11 16:35).** Gli aperti nel registro scendono da 749 a 632: 559 minori, 68 gravi, 5 bloccanti. Nicola ha dato il tetto di 1.200 $, le firme a e b e il sì al ricontrollo. Il ricontrollo è costato circa 105 $ più il controllore finale. Resta da fare: dire a Nicola dei dettagli di alcune falle finiti nei referti sui rami pubblici (decide lui se riscriverli). Poi registrare il difetto nuovo del rimborso, dove «1.250,00» diventa 1,25 €. Poi le riparazioni sulle voci ancora vere. Quaderno: `consegne/riparazioni/2026-11-21-settimana-700/REGIA.md`; PR ad-mycity#990. (aggiornato 2026-11-21 16:35)
 

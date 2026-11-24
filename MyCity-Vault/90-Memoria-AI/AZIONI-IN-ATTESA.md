@@ -31,6 +31,27 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
+### 🔴 #261 — Accendi il collegamento fra MyCity e n8n, e incolla la chiave per l'analisi del mattino · ⏳ accodata 2026-11-24 03:40 · @builder-automazioni
+
+**In parole semplici.** Hai chiesto due cose, e sono pronte su n8n. La prima: quando un'attività si iscrive su MyCity, entra da sola nella scheda Clienti col lavoro del modulo 12. La seconda: l'analisi del marketplace che fa l'AD ogni giro, senza la radiografia, ora è il flusso n8n «17 · Analisi del marketplace» e ti arriva ogni mattina alle 8:10 su Telegram.
+Esempio vero: stanotte ho provato il primo con Pane Quotidiano in modalità prova. Claude ha trovato indirizzo, telefono e orari, e la scheda è arrivata fino a «avrei scritto la riga, attivo = no». Costo 0,39 $.
+
+**Cosa cambia per te.** Le nuove attività di MyCity non vanno più inserite a mano nella scheda Clienti: arrivano con attivo = no, e tu le correggi col modulo 12. Ogni mattina trovi su Telegram i numeri del marketplace, i segnali scattati e cosa propone l'AD.
+
+**Cosa devi fare tu.**
+- Unire la richiesta del sito (mycity), poi scrivere in Vercel le variabili `N8N_NUOVO_CLIENTE_WEBHOOK_URL` e `N8N_NUOVO_CLIENTE_SEGRETO`. Il valore del segreto è nel file che ti ho indicato in chat (n8n non lo rimostra). Se lo perdi, scegline uno nuovo e scrivilo in due posti: la credenziale «MyCity - Segreto nuovo cliente» in n8n e la variabile in Vercel.
+- In n8n aprire la credenziale «Supabase MyCity - Marketplace (lettura)», incollare la chiave del database di MyCity e accendere il flusso 17.
+- Ricaricare il credito dell'API di Claude. Alle 03:35 del 24/11 la chiamata del flusso 17 è stata respinta: «credit balance is too low». Senza credito il 16 non scrive schede (avvisa e basta), e si fermano anche gli altri flussi n8n che usano Claude.
+
+**Cosa non ho verificato.** La chiamata vera dal sito a n8n non l'ho fatta: serve il rilascio. Il flusso 17 ha girato una volta dentro n8n alle 03:35, ma senza la chiave: non ha mai letto il database vero. Il saldo del credito di Claude non lo vedo: so solo che alle 03:23 una chiamata è passata e alle 03:35 no.
+
+**Trovato strada facendo.** Il controllo «pronto» del sito risponde 200 ma si dice «degradato»: 11 lavori automatici su 11 fermi, fra cui payout, email e notifiche, da circa 117 giorni. Il flusso 17 ora lo segnala in giallo.
+
+Cosa cambia: ogni attività che si iscrive su MyCity entra nella scheda Clienti con attivo = no, e ogni mattina alle 8:10 arriva il giro dei numeri su Telegram.
+Se va bene: dopo il primo giro col database vero si confrontano i suoi numeri con quelli del Pannello, e si decide se salvare il riassunto anche nella card del Pannello.
+
+Dettagli: flussi n8n `xu0RPgoSNsDaP7xn` (16, acceso, MODALITA vero) ed `E9yH0gDDPe37fA8g` (17, spento). Sorgenti in NicolaeRotaru/N8N, cartella `flussi/` (`LEGGIMI.md`). Sito: `lib/agenzia/flusso-n8n.ts`, `app/api/seller/apply/route.ts`. Indirizzo del webhook: `https://n8n-shdy.sliplane.app/webhook/mycity-nuovo-cliente`.
+
 ### 🟡 #260 — Unisci l'onda 5 del sito e rispondi alle sue domande quando hai tempo · ⏳ accodata 2026-11-17 13:15
 
 **In parole semplici.** L'onda 5 ha riparato i difetti del sito con quattro riparatori. Si chiudono 10 difetti nuovi, e altri 10 erano già a posto dall'onda 4. La richiesta di unione è mycity#294, fuori bozza, con tutte le prove verdi.

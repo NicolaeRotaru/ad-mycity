@@ -7324,3 +7324,11 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Colore:** 🔴 spesa firmata da Nicola; ramo `claude/settimana-700-regia`.
 
 - 2026-11-21 23:15 · Settimana dei 700 · Nicola dà il via alle 182 voci semplici del sito (12 sessioni, stima circa 370 $, tetto del giro 480 $), con la strategia preparata dalla regia seconda; le 281 delicate restano ferme. Sulla riservatezza dei rami lascia scegliere alla regia: cancellare i rami laterali e unire la #990 compressa.
+
+## 2026-11-24 03:40 — MyCity collegato a n8n col modulo 12, e il giro dei numeri diventa un flusso n8n (🟡, richiesta di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD, 24/11 verso le 02:00: «collega mycity a n8n e fai in modo che un nuovo cliente che si collega a mycity si inserisce nel database dei clienti e deve sfruttare il modulo 12», e «l'analisi che ad-mycity fa sul marketplace (radiografia esclusa) rendila un workflow con n8n».
+- **Cosa:** il sito manda la nuova attività (solo nome, tipo, indirizzo, città, descrizione: niente dati personali del titolare) al flusso n8n «16 · Nuovo cliente da MyCity». Il 16 è generato dal modulo 12 vero da un programma: stesso codice, pagine compilate coi valori proposti, conferma automatica tranne sul possibile doppione. Il giro dei numeri è il flusso «17 · Analisi del marketplace», ogni mattina alle 8:10 su Telegram.
+- **Scelte mie (da validare):** il 16 parte all'invio della richiesta di diventare negozio, non all'approvazione; il 16 è acceso e in modalità «vero» ma non riceve niente finché Nicola non scrive le variabili in Vercel; tetto di 10 attività al giorno e una volta sola in 7 giorni per la stessa attività; il 17 resta spento finché non c'è la chiave del database.
+- **Prove:** una corsa vera del 16 in modalità prova su Pane Quotidiano (0,39 $, due messaggi Telegram a Nicola marcati PROVA); prove automatiche 30 su 30 in N8N, sito 12.515 prove verdi.
+- **Colore:** 🟡 per le modifiche (rami `claude/laughing-bardeen-6g0s4h`); 🔴 per Nicola il rilascio e le variabili in Vercel (carta #261).
+
