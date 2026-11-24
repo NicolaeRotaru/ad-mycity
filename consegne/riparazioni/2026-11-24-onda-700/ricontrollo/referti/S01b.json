@@ -1,0 +1,518 @@
+{
+  "sessione": "S01b",
+  "base_sito": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+  "aggiornato": "2026-11-24 12:32",
+  "finita": true,
+  "lotti": [
+    {
+      "id": "L01",
+      "esito": "fatto",
+      "perche": null
+    },
+    {
+      "id": "L02",
+      "esito": "fatto",
+      "perche": null
+    }
+  ],
+  "copertura": {
+    "file_letti_interi": [
+      "lib/zod-i18n.ts",
+      "app/rider/layout.tsx",
+      "app/api/disputes/route.ts",
+      "lib/supabase/lettura-per-metadati.ts",
+      "tests/unit/il-portiere-non-chiude-fuori-chi-aspetta-e-non-perde-il-rinnovo.test.ts",
+      "tests/unit/le-prove-della-cassa-non-passano-senza-aver-guardato.test.ts"
+    ],
+    "file_letti_in_parte": [
+      {
+        "file": "lib/ordini/annulla.ts",
+        "righe": "255-300"
+      },
+      {
+        "file": "app/api/admin/orders/[id]/cancel/route.ts",
+        "righe": "1-110"
+      },
+      {
+        "file": "app/api/orders/[id]/cancel/route.ts",
+        "righe": "55-80"
+      },
+      {
+        "file": "migrations/215_minori_s04_database.sql",
+        "righe": "270-295"
+      },
+      {
+        "file": "migrations/156_niente_fattorini_minorenni.sql",
+        "righe": "75-91"
+      },
+      {
+        "file": "migrations/135_le_prove_scadono.sql",
+        "righe": "85-120"
+      },
+      {
+        "file": "migrations/027_growth_engagement_foundations.sql",
+        "righe": "348-356"
+      },
+      {
+        "file": "lib/errors.ts",
+        "righe": "205-245"
+      },
+      {
+        "file": "app/rider/onboarding/page.tsx",
+        "righe": "1-250"
+      },
+      {
+        "file": "lib/ordini/chiave-dopo-l-errore.ts",
+        "righe": "1-78"
+      },
+      {
+        "file": "app/api/orders/cod/route.ts",
+        "righe": "140-340"
+      },
+      {
+        "file": "app/api/orders/cod/route.ts",
+        "righe": "1370-1510"
+      },
+      {
+        "file": "lib/ordini/veloce-non-confermata.ts",
+        "righe": "161-233"
+      },
+      {
+        "file": "lib/ordini/veloce-non-confermata.ts",
+        "righe": "915-960"
+      },
+      {
+        "file": "lib/privacy/avvisi-a-chi-aspetta.ts",
+        "righe": "340-356"
+      },
+      {
+        "file": "app/api/cron/process-deletions/route.ts",
+        "righe": "525-540"
+      },
+      {
+        "file": "lib/queries/griglia-prodotti.ts",
+        "righe": "170-425"
+      },
+      {
+        "file": "lib/queries/seller-public-profiles.ts",
+        "righe": "60-225"
+      },
+      {
+        "file": "lib/store-customization.ts",
+        "righe": "160-441"
+      },
+      {
+        "file": "lib/stripe/client.ts",
+        "righe": "440-522"
+      },
+      {
+        "file": "lib/stripe/webhook/ordini.ts",
+        "righe": "300-330"
+      },
+      {
+        "file": "lib/ordini/prezzi.ts",
+        "righe": "40-345"
+      },
+      {
+        "file": "app/api/stripe/checkout/route.ts",
+        "righe": "820-880"
+      },
+      {
+        "file": "lib/stripe/webhook/rimborsi.ts",
+        "righe": "81-90"
+      },
+      {
+        "file": "lib/stripe/webhook/dispute.ts",
+        "righe": "106-114"
+      },
+      {
+        "file": "lib/queries/metadati-vetrina.ts",
+        "righe": "30-122"
+      },
+      {
+        "file": "lib/auth/decisione-portiere.ts",
+        "righe": "200-281"
+      },
+      {
+        "file": "middleware.ts",
+        "righe": "395-420"
+      },
+      {
+        "file": "middleware.ts",
+        "righe": "660-748"
+      },
+      {
+        "file": "app/sign-up/page.tsx",
+        "righe": "80-380"
+      },
+      {
+        "file": "app/lavora-con-noi/page.tsx",
+        "righe": "25-50"
+      },
+      {
+        "file": "tests/e2e/12-la-cassa-dal-carrello-al-pagamento.spec.ts",
+        "righe": "174-589"
+      },
+      {
+        "file": ".github/workflows/ci.yml",
+        "righe": "481-600"
+      },
+      {
+        "file": ".github/workflows/ci.yml",
+        "righe": "905-956"
+      },
+      {
+        "file": "lib/account/cancellazione.ts",
+        "righe": "439-475"
+      },
+      {
+        "file": "lib/privacy/potature-ritenzione.ts",
+        "righe": "607-610"
+      },
+      {
+        "file": "tests/unit/webhook-diviso-per-mestiere.test.ts",
+        "righe": "48-61"
+      },
+      {
+        "file": "tests/unit/minori-s01-annullo.test.ts",
+        "righe": "1-60"
+      },
+      {
+        "file": "tests/unit/riparazione-r03-il-reclamo-arriva-a-qualcuno.test.ts",
+        "righe": "1-71"
+      },
+      {
+        "file": "tests/sql/harness/apply.sh",
+        "righe": "1-55"
+      },
+      {
+        "file": "tests/sql/harness/run.sh",
+        "righe": "1-32"
+      }
+    ],
+    "file_eseguiti": [
+      {
+        "file": "lib/ordini/annulla.ts",
+        "comando": "con la prova temporanea tests/unit/tmp-s01b-L01-1.test.ts (copia nello scratchpad, poi cancellata): npx vitest run tests/unit/tmp-s01b-L01-1.test.ts",
+        "esito": "2 rossi su 2: il rimborso dei contanti incassati non apre il reclamo"
+      },
+      {
+        "file": "lib/stripe/client.ts",
+        "comando": "con la prova temporanea tests/unit/tmp-s01b-L01-2.test.ts (copia nello scratchpad, poi cancellata): npx vitest run tests/unit/tmp-s01b-L01-2.test.ts",
+        "esito": "1 rosso, 3 verdi: netto del negozio 1350 invece di 1800; indirizzo ftp:// accettato"
+      },
+      {
+        "file": "tests/unit/minori-s01-annullo.test.ts",
+        "comando": "npx vitest run tests/unit/minori-s01-annullo.test.ts tests/unit/riparazione-r03-il-reclamo-arriva-a-qualcuno.test.ts",
+        "esito": "8 verdi: controprova del comportamento di oggi"
+      },
+      {
+        "file": "middleware.ts",
+        "comando": "con la prova temporanea tests/unit/tmp-s01b-L02-1.test.ts (copia nello scratchpad, poi cancellata): npx vitest run tests/unit/tmp-s01b-L02-1.test.ts --reporter=verbose",
+        "esito": "5 verdi, 2 rossi: negozio senza anello, fattorino rimandato a /"
+      },
+      {
+        "file": "tests/e2e/12-la-cassa-dal-carrello-al-pagamento.spec.ts",
+        "comando": "CI=1 E2E_BASE_URL=http://127.0.0.1:9 npx playwright test --list tests/e2e/12-la-cassa-dal-carrello-al-pagamento.spec.ts --project=chromium",
+        "esito": "8 prove elencate, nessun browser aperto"
+      },
+      {
+        "file": "tests/unit/le-prove-della-cassa-non-passano-senza-aver-guardato.test.ts",
+        "comando": "npx vitest run tests/unit/le-prove-della-cassa-non-passano-senza-aver-guardato.test.ts",
+        "esito": "4 verdi (rilanciata anche dal verificatore)"
+      },
+      {
+        "file": "tests/unit/le-prove-della-cassa-non-passano-senza-aver-guardato.test.ts",
+        "comando": "con la prova temporanea tests/unit/tmp-s01b-L02-3.test.ts (copia nello scratchpad, poi cancellata): npx vitest run tests/unit/tmp-s01b-L02-3.test.ts",
+        "esito": "1 rosso, 3 verdi: la guardia diventa rossa sul guscio vuoto (due mutanti, anche dal verificatore)"
+      },
+      {
+        "file": "lib/zod-i18n.ts",
+        "comando": "con la prova temporanea tests/unit/tmp-s01b-L02-4.test.ts (copia nello scratchpad, poi cancellata): npx vitest run tests/unit/tmp-s01b-L02-4.test.ts",
+        "esito": "1 verde: i 5 messaggi di zod escono in inglese"
+      }
+    ],
+    "non_guardato": [
+      {
+        "cosa": "se la variabile del repository E2E_DATI_DI_PROVA è accesa e se il lavoro «La cassa vera» ha mai girato",
+        "perche": "è un'impostazione di GitHub, fuori dalla copia del codice: nessuna automazione si lancia da qui"
+      },
+      {
+        "cosa": "prove sul Postgres locale (regola dei reclami, vincolo dei 18 anni)",
+        "perche": "voci minori: è bastata la lettura del codice; i database mycity_s01b_* non sono stati creati"
+      },
+      {
+        "cosa": "i layout di negozio e fattorino nel browser",
+        "perche": "è stato esercitato solo il controllo all'ingresso con richieste finte; i layout sono stati letti"
+      },
+      {
+        "cosa": "database vero, Vercel, Stripe, sito vero",
+        "perche": "vietati (LEGGIMI del cercatore, §1)"
+      }
+    ]
+  },
+  "difetti": [],
+  "scartati": [],
+  "regressioni": [],
+  "ricontrolli": [
+    {
+      "verificato": false,
+      "verificato_da": null,
+      "chiave": "qa-flussi|nel giorno dei 18 anni, fra mezzanotte e l'una, il modulo del fattorino dice sì e il database lo rifiuta con un errore generico",
+      "esito": "ancora_vero",
+      "prova": "migrations/156_niente_fattorini_minorenni.sql:81-86 · lib/maggiore-eta.ts:100-102 · lib/errors.ts:23,232-241 · app/rider/onboarding/page.tsx:158-186",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "il vincolo usa CURRENT_DATE della sessione, il codice il giorno di Piacenza; l'errore 23514 cade sul messaggio generico",
+      "nota": "Nessuna migrazione dopo la 156 tocca profiles_maggiore_eta; errors.ts non ha una frase per quel vincolo («Il valore inserito non è valido.»)."
+    },
+    {
+      "verificato": false,
+      "verificato_da": null,
+      "chiave": "qa-flussi|un ordine in contanti già incassato non si rimborsa dall’amministrazione: il sito non apre da solo il reclamo come deciso il 29/10, e il pannello dice di aprirlo a chi non può",
+      "esito": "ancora_vero",
+      "prova": "copia scratchpad di S01b, prove/tmp-s01b-L01-1.test.ts in marketplace/tests/unit/ e lancia npx vitest run tests/unit/tmp-s01b-L01-1.test.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "rosso 2 su 2: annullaERimborsa su contanti incassati lascia disputes vuota (0 invece di 1); POST /api/disputes dall'amministratore risponde 403 invece di 201",
+      "nota": "lib/ordini/annulla.ts:282-284 si ferma su CONTANTI_INCASSATI senza scrivere; rotta admin cancel 51-53 e 73-80 dice «apri un reclamo»; l'unico insert lato server (app/api/disputes/route.ts:62-66) è solo per il cliente. Fatto pagamenti.rimborso-contanti ancora vivo. Controprova verde: minori-s01-annullo e riparazione-r03 (8 passed)."
+    },
+    {
+      "verificato": false,
+      "verificato_da": null,
+      "chiave": "architettura|il segnale «tieni la chiave» ora vuol dire quattro cose diverse, e la regola nel file racconta ancora che vale solo per l invio gemello",
+      "esito": "cambiato",
+      "prova": "lib/ordini/chiave-dopo-l-errore.ts:10-13,24-33,37-40 · app/api/orders/cod/route.ts:146-152,228,259,280,304,325 · app/checkout/page.tsx:1054",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "la regola ora elenca le quattro risposte, ma il segnale resta uno solo",
+      "nota": "Le righe 24-33 elencano le 4 risposte con inCorso; le righe 10-13 e il commento della rotta 146-152 dicono ancora «una eccezione: invio gemello». Nessun segnale «fermati» distinto da «riprova»."
+    },
+    {
+      "verificato": false,
+      "verificato_da": null,
+      "chiave": "architettura|anche il freno della veloce trova il carrello in contanti solo dalla riga di cod_checkout_attempts",
+      "esito": "ancora_vero",
+      "prova": "lib/ordini/veloce-non-confermata.ts:202-215,927,161",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "senza la riga in cod_checkout_attempts la funzione restituisce null",
+      "nota": "Ramo contanti: carrello solo da cod_checkout_attempts.order_ids; senza riga null (210), con meno di 2 id null (215); il chiamante (927) ripiega su un ordine solo."
+    },
+    {
+      "verificato": false,
+      "verificato_da": null,
+      "chiave": "architettura|il freno della veloce in contanti, se manca la riga del carrello, tratta ogni ordine da solo senza dirlo a nessuno",
+      "esito": "ancora_vero",
+      "prova": "lib/ordini/veloce-non-confermata.ts:210,215,927",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "`(await ordiniDelCarrello(admin, o)) ?? [o]` senza log né avviso",
+      "nota": "Al ripiego nessun logger né notifyAdmins: gli altri ordini dello stesso carrello passano uno per volta, ognuno con la sua campanella."
+    },
+    {
+      "verificato": false,
+      "verificato_da": null,
+      "chiave": "api-backend|la rotta delle cancellazioni copia una stringa privata della libreria degli avvisi",
+      "esito": "ancora_vero",
+      "prova": "lib/privacy/avvisi-a-chi-aspetta.ts:350 · app/api/cron/process-deletions/route.ts:530-534",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "EMAIL_PARTITA non esportata e ricopiata nella rotta",
+      "nota": "Il commento della rotta lo dice apertamente: «lì è una costante non esportata: deve restare uguale»."
+    },
+    {
+      "verificato": false,
+      "verificato_da": null,
+      "chiave": "flussi-conversione|il filtro «prezzo minimo» taglia sul prezzo pieno, non su quello che il cliente paga",
+      "esito": "ancora_vero",
+      "prova": "lib/queries/griglia-prodotti.ts:173-180",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "`if (d.minPrice !== undefined) q = q.gte('price', d.minPrice);`",
+      "nota": "Solo maxPrice ha il ramo per i prodotti scontati (173-178)."
+    },
+    {
+      "verificato": false,
+      "verificato_da": null,
+      "chiave": "flussi-conversione|l'ordine «prezzo crescente» ordina sul prezzo pieno, mentre la griglia mostra il prezzo scontato",
+      "esito": "ancora_vero",
+      "prova": "lib/queries/griglia-prodotti.ts:230-238,310-311 · app/promozioni/page.tsx:67",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "order('price') nel database e Number(a.price) nel riordino",
+      "nota": "Solo /promozioni riordina sul prezzo mostrato."
+    },
+    {
+      "verificato": false,
+      "verificato_da": null,
+      "chiave": "frontend-ux|ordinando per prezzo, le griglie guardano il prezzo pieno e non quello che si paga",
+      "esito": "ancora_vero",
+      "prova": "lib/queries/griglia-prodotti.ts:230-238,310-311",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "ordinamento sul prezzo pieno",
+      "nota": "Stesso codice della voce precedente: vale per ricerca, categoria e piccoli prezzi, che passano da griglia-prodotti senza riordinare."
+    },
+    {
+      "verificato": false,
+      "verificato_da": null,
+      "chiave": "architettura|in home ogni sezione chiede di nuovo alla vetrina lo stesso negozio, e ogni fascia compare un giro di rete più tardi",
+      "esito": "cambiato",
+      "prova": "lib/queries/seller-public-profiles.ts:81-149 · components/home/DropOfDay.tsx:91 · components/home/StoriesCarousel.tsx:190",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "si uniscono solo le domande in volo, senza memoria dopo l'arrivo",
+      "nota": "Dal 22/11 la chiave usa le colonne normalizzate: Drop e fasce si uniscono se partono insieme; atterrato il volo si toglie (136-139). Le storie chiedono colonne diverse. Resta il secondo giro di rete per sezione."
+    },
+    {
+      "verificato": false,
+      "verificato_da": null,
+      "chiave": "qa-flussi|la lettura dei negozi della griglia non va a blocchi",
+      "esito": "ancora_vero",
+      "prova": "lib/queries/seller-public-profiles.ts:151-187 · lib/queries/griglia-prodotti.ts:412-416",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "un solo .in('id', unique), nel principale (167) e nel ripiego (176)",
+      "nota": "leggiDallaVista non usa inBlocchi/DIMENSIONE_BLOCCO; la griglia passa tutti i seller_id della pagina in una volta."
+    },
+    {
+      "verificato": false,
+      "verificato_da": null,
+      "chiave": "frontend-ux|il sito del negozio accetta un indirizzo con schema sbagliato, come ftp:// o http//",
+      "esito": "ancora_vero",
+      "prova": "copia scratchpad di S01b, prove/tmp-s01b-L01-2.test.ts in marketplace/tests/unit/ e lancia S01B_OUT=<file> npx vitest run tests/unit/tmp-s01b-L01-2.test.ts -t S01b-L01-12, poi leggi <file>",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "ftp://pane.it diventa https://ftp://pane.it e http//pane.it diventa https://http//pane.it: schema accettato, link creato",
+      "nota": "lib/store-customization.ts:396-399 mette https:// davanti a ciò che non inizia con http(s):// e ha un punto; z.url() (168-174) lo accetta; socialLinks (440-441) crea il link."
+    },
+    {
+      "verificato": false,
+      "verificato_da": null,
+      "chiave": "pagamenti-stripe|il codice sconto di mycity lo paga il negozio: su 20 euro di pane con 5 euro di sconto incassa 13,50 invece di 18",
+      "esito": "ancora_vero",
+      "prova": "copia scratchpad di S01b, prove/tmp-s01b-L01-2.test.ts in marketplace/tests/unit/ e lancia npx vitest run tests/unit/tmp-s01b-L01-2.test.ts -t S01b-L01-13",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "rosso: senza codice netto 1800 (verde); con 500 di codice netto 1350 su totale 1800, atteso 1800",
+      "nota": "lib/stripe/client.ts:500-510 calcola la base sul totale già scontato; carta (webhook/ordini.ts:311-315) e contanti (cod/route.ts:1411,1499-1503) passano il totale dopo lo sconto. Nel registro dei fatti nessuna decisione su chi paga; i codici sono spenti al lancio (funzioni-al-lancio.ts:112)."
+    },
+    {
+      "verificato": false,
+      "verificato_da": null,
+      "chiave": "pagamenti-stripe|una sponsorizzazione o un abbonamento rimborsati o contestati in banca restano attivi",
+      "esito": "cambiato",
+      "prova": "lib/stripe/webhook/rimborsi.ts:83-84 · lib/stripe/webhook/dispute.ts:110-111 · app/api/stripe/webhook/route.ts:165-176",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "la sponsorizzazione ora si spegne o va in pausa; l'abbonamento no",
+      "nota": "Rimborsi e contestazioni spengono o mettono in pausa la sponsorizzazione. In rimborsi.ts, dispute.ts e comune.ts l'abbonamento compare solo nei commenti: un abbonamento rimborsato o contestato resta attivo."
+    },
+    {
+      "verificato": false,
+      "verificato_da": null,
+      "chiave": "performance|la memoria a due secondi dei metadati usa la stessa chiave anche quando si passa un client da fuori",
+      "esito": "ancora_vero",
+      "prova": "lib/supabase/lettura-per-metadati.ts:73,76,89,114",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "la chiave della memoria non tiene conto del client",
+      "nota": "Con un client da fuori si salta solo React.cache: leggiConMemoria usa la stessa chiave e la stessa mappa (89 get, 114 set). Nessun chiamante in produzione passa un client."
+    },
+    {
+      "verificato": false,
+      "verificato_da": null,
+      "chiave": "microcopy|alcuni errori di zod restano in inglese: discriminatedunion, multipleof, finite, startswith, datetime",
+      "esito": "ancora_vero",
+      "prova": "copia scratchpad di S01b, prove/L02-4-zod-inglese.test.ts in marketplace/tests/unit/tmp-s01b-L02-4.test.ts e lancia npx vitest run tests/unit/tmp-s01b-L02-4.test.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "1 passed: i 5 casi danno messaggi che cominciano con Invalid / Number must / Expected",
+      "nota": "lib/zod-i18n.ts:60-112 non ha casi per invalid_union_discriminator, not_multiple_of, not_finite e invalid_string startsWith/datetime: cadono su ctx.defaultError. discriminatedUnion è ancora usato in lib/store-site.ts."
+    },
+    {
+      "verificato": false,
+      "verificato_da": null,
+      "chiave": "sicurezza-auth|il controllo all'ingresso chiude fuori chi aspetta l'approvazione: il negozio nuovo gira in tondo e il fattorino non arriva mai alla pagina dei documenti",
+      "esito": "cambiato",
+      "prova": "copia scratchpad di S01b, prove/L02-1-portiere.test.ts in marketplace/tests/unit/tmp-s01b-L02-1.test.ts e lancia npx vitest run tests/unit/tmp-s01b-L02-1.test.ts --reporter=verbose",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "5 verdi, 2 rossi: negozio in attesa da /, /product/abc e /seller/products va a /seller/dashboard con 200, nessun anello; fattorino in attesa su /rider/onboarding e /rider riceve 307 verso / (rosso); fattorino approvato 200",
+      "nota": "Metà negozio riparata (lib/auth/decisione-portiere.ts:279, middleware.ts:691-699,720). Metà fattorino ancora vera (decisione-portiere.ts:270-280), mentre il sito recluta ancora (app/lavora-con-noi/page.tsx:36-37 porta a sign-up?role=rider)."
+    },
+    {
+      "verificato": false,
+      "verificato_da": null,
+      "chiave": "privacy-legale|la scadenza dei 90 giorni e la cancellazione dell'account non guardano la quarta colonna delle prove di consegna",
+      "esito": "ancora_vero",
+      "prova": "migrations/135_le_prove_scadono.sql:89-120 · lib/account/cancellazione.ts:439-475",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "le due funzioni leggono e azzerano solo cash_photo_url, delivery_photo_url e cash_signature_url",
+      "nota": "foto_consegna_da_cancellare non è ridefinita dopo la 135. Il passo degli orfani (lib/privacy/potature-ritenzione.ts:607-610) guarda già delivery_signature_url. Difetto latente: oggi la colonna non la scrive nessuno."
+    },
+    {
+      "verificato": false,
+      "verificato_da": null,
+      "chiave": "rls-database|chi apre un reclamo può indirizzarlo a un negozio qualunque, e il negozio giusto non lo vede",
+      "esito": "ancora_vero",
+      "prova": "migrations/215_minori_s04_database.sql:276-290 · migrations/027_growth_engagement_foundations.sql:350-355 · app/api/disputes/route.ts:55-72",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "la regola di inserimento non lega against_id al negozio dell'ordine, e nessuna migrazione dopo la 215 la tocca",
+      "nota": "Cambiato solo il percorso del sito: la pagina del reclamo passa da /api/disputes, che scrive against_id lato server. Chi scrive direttamente nel database può ancora mettere un negozio qualunque."
+    },
+    {
+      "verificato": true,
+      "verificato_da": "qa nuovo: chiusura smentita, resta cambiato: gusci spariti (spec 12:486-588, senza la variabile si saltano col motivo 257-269) ma in CI il lavoro e2e-cassa-vera parte solo con vars.E2E_DATI_DI_PROVA=='1' (ci.yml:521) e il contrassegno si salta senza le chiavi di prova Stripe, restando verde",
+      "chiave": "qa-flussi|le tre prove automatiche dell'acquisto vero sono vuote: passano in tre millesimi senza aprire niente",
+      "esito": "cambiato",
+      "prova": "cd marketplace && npx vitest run tests/unit/le-prove-della-cassa-non-passano-senza-aver-guardato.test.ts (4 verdi); mutanti coi corpi vuoti o rimessi come nel difetto (scratchpad di S01b, prove/L02-2-mutante-cassa.spec.ts + L02-3-guardia-sul-mutante.test.ts copiati in tests/e2e e tests/unit): la guardia va rossa",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "guardia 4 passed; su entrambi i mutanti 1 failed e 3 passed: un guscio vuoto oggi fa diventare rossa la prova",
+      "nota": "Il difetto del titolo (gusci vuoti che passano) non c'è più ed è sorvegliato dalla guardia. Resta il pezzo della riapertura del 31/10: nessuna prova porta davvero un ordine fino al database finché la variabile del repository e le chiavi di prova non ci sono. Il verificatore propone di abbassare la gravità a minore; per chiuderla serve un giro di CI con «La cassa vera» e il contrassegno «passata»."
+    },
+    {
+      "verificato": false,
+      "verificato_da": null,
+      "chiave": "architettura|una prova sul webhook di stripe controlla l'ordine delle righe cercando una parola, e basta togliere uno spazio per ingannarla",
+      "esito": "ancora_vero",
+      "prova": "tests/unit/webhook-diviso-per-mestiere.test.ts:51-60 · app/api/stripe/webhook/route.ts:113,148,237",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "la prova confronta ancora rotta.indexOf('switch (event.type)') con rotta.indexOf(\"processed: true\")",
+      "nota": "File identico alla descrizione della voce."
+    }
+  ],
+  "prove_per_la_palestra": [],
+  "domande_per_nicola": [
+    "Codice sconto di MyCity: chi paga lo sconto, MyCity o il negozio? Oggi il negozio incassa sul totale già scontato (20 euro di pane con 5 di sconto: 13,50 invece di 18). Nel registro dei fatti non c'è una decisione; i codici sono spenti al lancio, quindi il difetto morde solo quando si accendono.",
+    "Prove della cassa vera in CI: la variabile del repository E2E_DATI_DI_PROVA è accesa, e ci sono le chiavi di prova Stripe? Senza, il lavoro «La cassa vera» resta spento o verde senza aver fatto un ordine. Il verificatore propone di abbassare la voce da grave a minore: è una scelta tua.",
+    "Fattorini in attesa di approvazione: il controllo all'ingresso li rimanda ancora alla home e non arrivano alla pagina dei documenti, mentre la pagina «Lavora con noi» li porta a iscriversi. Al lancio i fattorini si reclutano dal sito? La «decisione del 26/10» citata nella voce non si trova nel registro dei fatti né in DECISIONI."
+  ],
+  "conto": {
+    "agenti": 3,
+    "permesso_regista": null,
+    "token_sessione": {
+      "turni": 22,
+      "input": 45,
+      "scritti_cache": 152366,
+      "letti_cache": 3808440,
+      "uscita": 23254,
+      "entrata_totale": 3960851
+    },
+    "token_subagenti": {
+      "agenti": 3,
+      "turni": 137,
+      "input": 274,
+      "scritti_cache": 332077,
+      "letti_cache": 12137218,
+      "uscita": 78122,
+      "entrata_totale": 12469569
+    },
+    "nota": "Due cercatori qa (L01, L02) e un verificatore qa per l'unica chiusura proposta di un grave, smentita. Conto della sessione preso prima della scrittura del referto (mancano gli ultimi turni). Un cercatore ha tentato una sola lettura dell'elenco delle esecuzioni CI su GitHub, rifiutata dal server: nessuna automazione lanciata. Nessuno strumento del database vero, di Vercel o di Stripe."
+  }
+}
