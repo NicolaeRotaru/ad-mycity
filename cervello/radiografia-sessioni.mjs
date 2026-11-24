@@ -639,7 +639,7 @@ function prepara(opz) {
 
   console.log(`profilo ${profiloNome} a ${opz.base.slice(0, 12)}: ${ids.length} sessioni in ${onde.length} onde (${onde.map((o) => o.join(" ")).join(" | ")})`);
   console.log(`file nel perimetro: ${perimetroFile.length} (codice ${conti.codice}) · codice dei soli temi fuori dal profilo: ${fuoriTema} · voci da ricontrollare: ${daRic.length}`);
-  if (infoPrepasso) console.log(`prepasso: ${infoPrepasso.voci} voci, ${infoPrepasso.guardate} agli agenti, ${infoPrepasso.tenute_dal_programma} tenute aperte dal programma (file o righe fermi dall'ultima conferma)${infoPrepasso.storia_corta ? " · copia del sito con la storia corta: nel dubbio le voci vanno agli agenti" : ""}`);
+  if (infoPrepasso) console.log(`prepasso: ${infoPrepasso.voci} voci, ${infoPrepasso.guardate} agli agenti, ${infoPrepasso.tenute_dal_programma} tenute aperte dal programma (file o righe fermi dall'ultima conferma)${infoPrepasso.storia_corta ? " · copia del sito con la storia corta: dove la storia non arriva, la voce va agli agenti (con la storia intera il programma ne terrebbe aperte di più)" : ""}`);
   const conUC = ids.filter((x) => sessioni[x].ultracode);
   console.log(`ultracode (${modoUC}): ${conUC.length ? conUC.join(" ") : "nessuna sessione"} · senza: ${ids.filter((x) => !sessioni[x].ultracode).join(" ") || "nessuna"}`);
   console.log(`minori aperti nel registro: ${minoriAperti} (soglia ${M.soglia_minori}) → minori nuovi ${minoriAmmessi ? "ammessi" : "NON ammessi (regola ⑳)"} · gravità cercate: ${gravita.join(", ") || "nessuna"}`);
@@ -814,7 +814,7 @@ function preventivo(opz) {
   scriviJson(join(opz.cartella, "piano.json"), piano);
   console.log(`sessioni ${p.sessioni} in ${p.onde} onde · lotti ${p.lotti} · verificatori attesi ${p.verificatori_attesi} · subagenti al massimo per sessione ${p.subagenti_max_per_sessione}`);
   for (const r of d.sessioni) console.log(`  ${r.sessione} ${r.tipo}${r.ultracode ? " (ultracode)" : ""} · ${r.unita} ${r.tipo === "ricontrollo" ? "voci" : "lotti"} · ${r.minimo}-${r.massimo} $, atteso ${r.atteso} $ · ${r.fonte}`);
-  console.log(`dollari di listino: minimo ${d.usd.minimo} · atteso ${d.usd.atteso} · massimo ${d.usd.massimo} $ (regia e controllore finale compresi, al ${Math.round(d.quota_regia_e_cf * 100)}% delle sessioni: ${d.fonte_quota})`);
+  console.log(`dollari di listino: minimo ${d.usd.minimo} · atteso ${d.usd.atteso} · massimo ${d.usd.massimo} $ (regia e controllore finale compresi: ogni sessione porta la quota della sua misura, ${d.fonte_quota === "predefinita (onda 9 della riparazione)" ? `qui la predefinita del ${Math.round(d.quota_regia_e_cf * 100)}%` : `l'ultima usata è il ${Math.round(d.quota_regia_e_cf * 100)}%`})`);
   console.log(`per onda: ${d.per_onda.map((o) => `onda ${o.onda} circa ${o.atteso} $`).join(" · ")}${piano.onda_pilota ? ` (la prima è il pilota: ${piano.onda_pilota.cercatrici.join(" ")})` : ""}`);
   if (d.percento_settimana !== null) console.log(`circa il ${d.percento_settimana}% del limite settimanale (stima: ${calib.usd_per_punto} $ a punto, ${calib.fonte}; si sostituisce con la percentuale letta nell'app)`);
   if (d.chiusi_attesi) console.log(`chiusure attese dal ricontrollo: circa ${d.chiusi_attesi}, circa ${d.usd_per_chiusa_attesa} $ l'una (le sessioni di ricontrollo con la loro parte di regia)`);
@@ -1247,9 +1247,11 @@ export function regoleReferto(r, ctx) {
   // una falla scoperta nel ricontrollo non si racconta altrove: il suo titolo non torna in domande, prove per la
   // palestra, copertura o difetti (collaudo A del 24/11: il «come» passava da domande_per_nicola e da non_guardato).
   // Il programma vede il titolo ripetuto, non una parafrasi: quella resta un giudizio (debito dichiarato).
-  const falleAperte = ricontrolli.filter((k) => k?.falla === true && k?.esito !== "non_piu_vero" && typeof k?.chiave === "string").map((k) => k.chiave.split("|").slice(1).join("|").trim().toLowerCase()).filter((t) => t.length >= 12);
+  // spazi e a capo contano come uno spazio solo, e anche il «perche» di un lotto è un posto dove raccontare (collaudo A, secondo giro)
+  const normale = (t) => String(t).toLowerCase().replace(/\s+/g, " ").trim();
+  const falleAperte = ricontrolli.filter((k) => k?.falla === true && k?.esito !== "non_piu_vero" && typeof k?.chiave === "string").map((k) => normale(k.chiave.split("|").slice(1).join("|"))).filter((t) => t.length >= 12);
   if (falleAperte.length) {
-    const altrove = valori({ difetti: r.difetti, scartati: r.scartati, regressioni: r.regressioni, prove_per_la_palestra: r.prove_per_la_palestra, domande_per_nicola: r.domande_per_nicola, copertura: r.copertura, conto: r.conto }).map((v) => v.toLowerCase());
+    const altrove = valori({ lotti: r.lotti, difetti: r.difetti, scartati: r.scartati, regressioni: r.regressioni, prove_per_la_palestra: r.prove_per_la_palestra, domande_per_nicola: r.domande_per_nicola, copertura: r.copertura, conto: r.conto }).map(normale);
     for (const t of falleAperte) if (altrove.some((v) => v.includes(t.slice(0, 60)))) rossi.push(`la falla «${t.slice(0, 50)}…» è nominata fuori dal suo ricontrollo: i dettagli vanno solo in chat`);
   }
   // l'id di una riservata non si nomina in nessun altro campo (collaudo del 6/11)

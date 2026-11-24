@@ -799,6 +799,8 @@ test("ⓕ la falla scoperta non si racconta altrove, e prova_tipo e verificato d
   const falla = aperta({ falla: true, prova: "(nel referto privato)", esito_prova: "(nel referto privato)", nota: null });
   const r = regoleReferto(refRic(falla, { domande_per_nicola: ["Una voce aperta: la apro dal pannello?"] }), ctxRic(piano));
   assert.ok(r.rossi.some((x) => /è nominata fuori dal suo ricontrollo/.test(x)), r.rossi.join("\n"));
+  const nelLotto = regoleReferto(refRic(falla, { lotti: [{ id: "L01", esito: "non_fatto", perche: "Una voce\n   aperta: la seconda prova l'ho rimandata" }] }), ctxRic(piano));
+  assert.ok(nelLotto.rossi.some((x) => /è nominata fuori dal suo ricontrollo/.test(x)), "anche nel perché di un lotto, anche spezzata da un a capo");
   assert.ok(regoleReferto(refRic(aperta({ prova_tipo: "basta chiamare la rotta" })), ctxRic(piano)).rossi.some((x) => /prova_tipo/.test(x)));
   assert.ok(regoleReferto(refRic(aperta({ verificato: "sì, con la rotta senza accesso" })), ctxRic(piano)).rossi.some((x) => /«verificato» è true, false o null/.test(x)));
 });
