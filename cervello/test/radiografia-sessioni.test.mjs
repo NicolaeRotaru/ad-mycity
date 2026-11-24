@@ -665,6 +665,11 @@ test("ⓓ a referto finito il costo in dollari c'è, o c'è il perché", () => {
   assert.ok(senza.rossi.some((x) => /conto\.usd/.test(x)), senza.rossi.join("\n"));
   assert.deepEqual(rossiDi(referto({ conto: { agenti: 3, permesso_regista: null, usd_perche: "get_session non porta usage in questa sessione" } })).rossi, []);
   assert.ok(rossiDi(referto({ conto: { agenti: 3, permesso_regista: null, usd: -1 } })).rossi.some((x) => /conto\.usd/.test(x)));
+  assert.ok(rossiDi(referto({ conto: { agenti: 3, permesso_regista: null, usd: 0, usd_perche: null } })).rossi.some((x) => /conto\.usd/.test(x)), "lo 0 del modello lasciato com'è è un costo che manca");
+  const g = rigaMisura({ profilo: "x", base: "b", sessioni: { S02: { tema: "S02", ultracode: false, lotti: [{}] }, S03: { tema: "S03", ultracode: false, lotti: [{}] } } },
+    [{ nome: "S02", r: { conto: { usd: 30 } } }, { nome: "S03", r: { conto: { usd: 0, usd_perche: "get_session non porta usage qui" } } }], { cartella: "c", data: "2026-11-24 10:00" }).gruppi[0];
+  assert.equal(g.usd, null, "un gruppo con una sessione a 0 $ non è un costo intero");
+  assert.equal(g.usd_noti, "1 su 2");
   assert.deepEqual(rossiDi(referto({ finita: false, conto: {} })).rossi.filter((x) => /conto\.usd/.test(x)), [], "a metà lavoro non si chiede");
 });
 

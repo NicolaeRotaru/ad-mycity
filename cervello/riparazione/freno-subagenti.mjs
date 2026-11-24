@@ -14,7 +14,7 @@
 // non lo può cambiare. Una sessione senza ruolo (l'AD, il giro) non ha tetto da qui.
 //   riparatore-minori 6 · riparatore-gravi 8 · collaudatore 4 · controllore 4 · regia 2 · cercatore 12
 // Il cercatore è la sessione della radiografia (24/11): otto lotti e fino a quattro verificatori, cioè il tetto
-// della sua scheda. Il 21/11 le quattro sessioni del ricontrollo hanno lanciato i lotti con Workflow (8-12 agenti per
+// della sua scheda. Il 21/11 le quattro sessioni del ricontrollo hanno lanciato i lotti con Workflow (8-12 subagenti per
 // lancio): da qui anche per loro Workflow è bloccato, e i lotti partono con Agent, tutti nello stesso messaggio.
 // Il freno lavora dove l'hook è incollato: nel sito c'è, in ad-mycity (dove lavorano le sessioni della
 // radiografia) lo incolla Nicola, se vuole, in .claude/settings.json.

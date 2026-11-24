@@ -1216,8 +1216,10 @@ export function regoleReferto(r, ctx) {
     // ⓓ il costo in dollari della sessione: senza, la riga delle misure resta vuota e il preventivo dopo si fa a memoria
     // (il 21/11 nessuno dei quattro referti lo aveva: «ci sono solo i conteggi dei token»)
     const usd = r.conto?.usd;
-    const usdOk = typeof usd === "number" && Number.isFinite(usd) && usd >= 0;
-    if (!usdOk && String(r.conto?.usd_perche ?? "").trim().length < 15) rossi.push("a referto finito «conto.usd» è il costo della sessione in dollari (usage.cost_usd di get_session senza id), oppure «conto.usd_perche» dice in una frase perché non c'è");
+    // una sessione che ha lavorato costa più di zero: lo 0 del modello lasciato com'è vale come costo che manca
+    // (collaudo B del 24/11: con lo 0 il referto passava e misura lo contava come costo noto)
+    const usdOk = costoNoto(usd);
+    if (!usdOk && String(r.conto?.usd_perche ?? "").trim().length < 15) rossi.push("a referto finito «conto.usd» è il costo della sessione in dollari, più di zero (usage.cost_usd di get_session senza id), oppure «conto.usd_perche» dice in una frase perché non c'è");
   }
   return { rossi, attese: [...new Set(attese)] };
 }
@@ -1615,6 +1617,8 @@ function coperturaDopo(opz) {
 }
 
 // ── misura: la riga delle misure, scritta da un comando ─────────────────────────────────────────────
+/** Un costo in dollari è noto solo se è un numero vero sopra zero: lo 0 del modello è un costo che manca. PURA. */
+export const costoNoto = (v) => typeof v === "number" && Number.isFinite(v) && v > 0;
 /** Chiude la voce? La stessa regola di applica: un grave o un bloccante solo con prova a comando e verificatore. PURA. */
 export function chiudeRicontrollo(k, gravita) {
   if (k?.esito !== "non_piu_vero") return false;
@@ -1639,7 +1643,7 @@ export function rigaMisura(piano, referti, { cartella, data, usdRegia = null, us
     const r = referti.find((y) => y.nome === nome)?.r;
     if (!r) continue;
     if (Number.isInteger(r.conto?.agenti)) g.subagenti += r.conto.agenti;
-    if (typeof r.conto?.usd === "number" && Number.isFinite(r.conto.usd)) { g.usd += r.conto.usd; g.usd_noti++; }
+    if (costoNoto(r.conto?.usd)) { g.usd += r.conto.usd; g.usd_noti++; }
     for (const d of r.difetti ?? []) if (g.difetti[d?.severita] !== undefined) g.difetti[d.severita]++;
     if (tipo === "ricontrollo") for (const kk of r.ricontrolli ?? []) {
       g.esiti[kk.esito] = (g.esiti[kk.esito] ?? 0) + 1;

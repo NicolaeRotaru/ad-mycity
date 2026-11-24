@@ -117,7 +117,7 @@ Il tuo ramo cambia **un solo file**: `<cartella>/referti/SNN.json`. Prove, copie
                   { "chiave": "dimensione|titolo", "esito": "ancora_vero", "prova": "…", "prova_tipo": "comando", "prova_eseguita": true, "esito_prova": "…", "verificato": false, "verificato_da": null, "nota": null, "falla": false }],
   "prove_per_la_palestra": [{ "id": "S02-P001", "funzione": "…", "chi": "cliente", "file": "app/checkout/page.tsx", "dati_di_prova": "…", "passi": "…", "atteso": "…", "limite": "…" }],
   "domande_per_nicola": [],
-  "conto": { "agenti": 0, "permesso_regista": null, "usd": 0, "usd_perche": null, "token_sessione": {}, "token_subagenti": {}, "nota": "" }
+  "conto": { "agenti": 0, "permesso_regista": null, "usd": null, "usd_perche": null, "token_sessione": {}, "token_subagenti": {}, "nota": "" }
 }
 ```
 
@@ -126,7 +126,7 @@ Il tuo ramo cambia **un solo file**: `<cartella>/referti/SNN.json`. Prove, copie
 - **L'asticella.** Un grave o un bloccante vale solo con `prova_tipo: "comando"`, `prova_eseguita: true` ed `esito_prova` (la prova diventa rossa se il difetto c'è), oppure con `prova_tipo: "umano"` e il perché in `perche_umano`. `lettura-codice` basta solo per i minori.
 - `ricontrolli` lo compila solo S01; la voce si ritrova per `chiave`, mai per posizione. I campi sono quelli dell'esempio e nessun altro.
 - `prove_per_la_palestra`: le prove che chiedono di usare il sito come una persona vera si scrivono, non si fanno; `file` sono percorsi senza riga.
-- `conto`: alla fine, con `node cervello/conto-token.mjs --sessione <trascrizione>.jsonl --json` e `--dir <trascrizione>/subagents --json` (`ls -t ~/.claude/projects/*/*.jsonl | head -1`). `agenti` è il numero dei subagenti lanciati. `usd` è il costo della tua sessione in dollari: `usage.cost_usd` di `get_session` senza id. Se lo strumento non lo dà, `usd_perche` lo dice in una frase. Senza questo numero la riga delle misure resta vuota, e il preventivo dopo si fa a memoria: il 21/11 nessuno dei quattro referti l'aveva.
+- `conto`: alla fine, con `node cervello/conto-token.mjs --sessione <trascrizione>.jsonl --json` e `--dir <trascrizione>/subagents --json` (`ls -t ~/.claude/projects/*/*.jsonl | head -1`). `agenti` è il numero dei subagenti lanciati. `usd` è il costo della tua sessione in dollari, più di zero: `usage.cost_usd` di `get_session` senza id. Se lo strumento non lo dà, `usd` resta null e `usd_perche` lo dice in una frase. Uno zero vale come costo che manca. Senza questo numero la riga delle misure resta vuota, e il preventivo dopo si fa a memoria: il 21/11 nessuno dei quattro referti l'aveva.
 
 **Le falle riservate.** Il deposito è pubblico, e ogni ramo spinto è già una pubblicazione. Una falla (qualcuno può vedere, cambiare o pagare quello che non dovrebbe) si scrive in una forma sola, con questi campi e nessun altro: `id`, `trovato_da`, `riservato: true`, `titolo: "Falla di sicurezza da chiudere (<area>): i dettagli restano fuori dal deposito pubblico finché non è chiusa"` con l'area presa da `pagamenti`, `accessi`, `dati`, `permessi`, `API`, `rilascio`, `privacy`, `altro`, `file: "(nel referto privato)"`, `severita`, `dimensione`, `prova_tipo`, `prova_eseguita`, `verificato`, `verificato_da: "(nel referto privato)"`. I dettagli (file e righe, come si sfrutta, la prova, il verdetto) vanno **solo in chat**, in un tuo messaggio, appena la falla è confermata: mai in un file, un commit, un titolo o un `send_message`. L'id di una riservata non compare in nessun altro campo.
 
