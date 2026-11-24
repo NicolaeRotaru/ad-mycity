@@ -8,7 +8,7 @@ campagna: onda dei 700
 
 ## In parole semplici
 La regia seconda passa la mano a 294 mila token di storia, contro un limite di 250 mila.
-Il passo 1 è chiuso: 14 voci chiuse nel registro vero.
+Il passo 1 è chiuso: 14 voci su 141 ricontrollate si chiudono nel registro vero.
 Il passo 2 è a metà: i sette riparatori lavorano, e nessuno ha ancora finito.
 
 ## Cosa cambia per te
