@@ -40,6 +40,6 @@ Su internet Ora del Gusto non compare: indirizzo, titolare e categoria esatta li
 4. Avvio del collegamento per i pagamenti con carta, quando la carta è accesa.
 
 ## Dettagli tecnici
-- Preventivo: `consegne/preventivi/2026-11-24-ora-del-gusto/preventivo.html`
+- Preventivo: la pagina «Il tuo preventivo» della dashboard del negozio sul sito (`/seller/preventivo`), che si calcola da sola dopo l'iscrizione. Il file `preventivo.html` qui accanto è SUPERATO dal 2026-11-24 03:10: i servizi per fascia non coincidono più con il sito.
 - Prezzi: `registro-fatti.json` → `pricing.abbonamento` (aggiornato 2026-11-24 02:15).
 - Il codice del sito applica ancora il 10% a tutti gli ordini (`migrations/091_marketplace_fees.sql` e seguenti): per un negozio a solo canone va tolto in un ramo del marketplace prima del suo primo ordine.

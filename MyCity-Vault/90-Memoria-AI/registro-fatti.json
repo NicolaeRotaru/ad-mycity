@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-11-24 02:15",
+  "aggiornato": "2026-11-24 03:14",
   "fatti": [
     {
       "id": "ad.uso-e-crediti",
@@ -1182,9 +1182,9 @@
     {
       "id": "pricing.abbonamento",
       "nome": "Abbonamento venditore MyCity",
-      "valore": "Listino a tre abbonamenti mensili per i negozi: Base 300 euro/mese, Business 500 euro/mese, Premium 999 euro/mese. Ognuno comprende tutti i servizi di MyCity, ma in misura diversa (quanti prodotti, quante uscite social, quanti richiami ai clienti, quanta visibilità, quanto spesso il report). Solo canone: nessuna percentuale sul venduto per chi ha uno di questi abbonamenti. Primo cliente col listino nuovo: Ora del Gusto (pasticceria/bar). Come si dividono i servizi fra le tre fasce: proposta dell'AD nel preventivo di Ora del Gusto, da confermare con Nicola. APERTO: se il listino vale anche per Pane Quotidiano e per i negozi di prova, che oggi stanno a 50 euro/mese più il 10% (domanda fatta il 24/11, non ancora risposta); se resta la sospensione del canone fino ai primi incassi (scelta 13 della carta #209); l'IVA la conferma il commercialista.",
-      "fonte": "Nicola, chat 2026-11-24 ~01:30 (sessione Ora del Gusto): «ci sono 3 abbonamenti: base 300€/mese, business 500€/mese e premium 999€/mese», «l'abbonamento comprende tutti i servizi ma in modi diversi»; alla domanda sul 10%: «Solo canone, niente 10%»",
-      "aggiornato": "2026-11-24 02:15",
+      "valore": "Listino a tre abbonamenti mensili per i negozi: Base 300 euro/mese, Business 500 euro/mese, Premium 999 euro/mese. Ognuno comprende tutti i servizi (foto e video con scattiDG, social, sito web, scheda Google, vetrina MyCity), ma in misura diversa: il dettaglio vive nel codice del sito, lib/agenzia/preventivo.ts (FASCE), proposta dell'AD da confermare con Nicola. Solo canone: nessuna percentuale sul venduto per chi ha uno di questi abbonamenti. Condizioni (Nicola, 24/11): nessun vincolo di durata, disdetta quando si vuole con 30 giorni di preavviso, primo mese a metà prezzo (150 / 250 / 499,50 euro). Il preventivo è la pagina «Il tuo preventivo» della dashboard del negozio, calcolata dai suoi dati. Primo cliente col listino nuovo: Ora del Gusto (bar e pasticceria). APERTO: se il listino vale anche per Pane Quotidiano e per i negozi di prova (oggi 50 euro/mese più il 10%); l'IVA la conferma il commercialista.",
+      "fonte": "Nicola, chat 2026-11-24: tre abbonamenti 300/500/999, «solo canone, niente 10%»; condizioni scelte alle ~02:50: «disdici quando vuoi», «preavviso di 30 giorni», «primo mese a metà prezzo»",
+      "aggiornato": "2026-11-24 03:14",
       "storia": [
         {
           "valore": "50€/mese",
@@ -1193,6 +1193,10 @@
         {
           "valore": "50€/mese di listino, SOSPESO finché il negozio non incassa: niente canone fino ai primi incassi portati da MyCity (scelta 13 della carta #209, firmata da Nicola il 2026-10-26 con «ok 209»).",
           "fino_a": "2026-11-24 02:15"
+        },
+        {
+          "valore": "Listino a tre abbonamenti mensili per i negozi: Base 300 euro/mese, Business 500 euro/mese, Premium 999 euro/mese. Ognuno comprende tutti i servizi di MyCity, ma in misura diversa (quanti prodotti, quante uscite social, quanti richiami ai clienti, quanta visibilità, quanto spesso il report). Solo canone: nessuna percentuale sul venduto per chi ha uno di questi abbonamenti. Primo cliente col listino nuovo: Ora del Gusto (pasticceria/bar). Come si dividono i servizi fra le tre fasce: proposta dell'AD nel preventivo di Ora del Gusto, da confermare con Nicola. APERTO: se il listino vale anche per Pane Quotidiano e per i negozi di prova, che oggi stanno a 50 euro/mese più il 10% (domanda fatta il 24/11, non ancora risposta); se resta la sospensione del canone fino ai primi incassi (scelta 13 della carta #209); l'IVA la conferma il commercialista.",
+          "fino_a": "2026-11-24 03:14"
         }
       ],
       "caccia": [
@@ -1218,6 +1222,10 @@
         {
           "pattern": "50€/mese di listino, SOSPESO finché il negozio non incassa: niente canone fino ai primi incassi portati da MyCity (scelta 13 della carta #209, firmata da Nicola il 2026-10-26 con «ok 209»).",
           "dal": "2026-11-24 02:15"
+        },
+        {
+          "pattern": "Listino a tre abbonamenti mensili per i negozi: Base 300 euro/mese, Business 500 euro/mese, Premium 999 euro/mese. Ognuno comprende tutti i servizi di MyCity, ma in misura diversa (quanti prodotti, quante uscite social, quanti richiami ai clienti, quanta visibilità, quanto spesso il report). Solo canone: nessuna percentuale sul venduto per chi ha uno di questi abbonamenti. Primo cliente col listino nuovo: Ora del Gusto (pasticceria/bar). Come si dividono i servizi fra le tre fasce: proposta dell'AD nel preventivo di Ora del Gusto, da confermare con Nicola. APERTO: se il listino vale anche per Pane Quotidiano e per i negozi di prova, che oggi stanno a 50 euro/mese più il 10% (domanda fatta il 24/11, non ancora risposta); se resta la sospensione del canone fino ai primi incassi (scelta 13 della carta #209); l'IVA la conferma il commercialista.",
+          "dal": "2026-11-24 03:14"
         }
       ],
       "esenzioni": [
