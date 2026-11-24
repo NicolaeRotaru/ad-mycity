@@ -7,6 +7,8 @@ per: Nicola
 
 # La radiografia a onde: cosa insegnano le onde della riparazione
 
+> **In due righe.** La radiografia del sito ora lavora come le onde della riparazione: prima ricontrolla i difetti aperti, che è il modo più economico di chiuderli, poi cerca. Le regole che nelle onde hanno fallito come testo qui le fa rispettare un programma.
+
 ## In parole semplici
 
 Questo documento serve a decidere se la radiografia del sito può lavorare come le onde della riparazione. Racconta cosa hanno insegnato le onde, e cosa ho già portato dentro.
@@ -24,9 +26,9 @@ Un esempio concreto. Il 21/11 il ricontrollo ha guardato 459 voci aperte su 673,
 ## Cosa cambia per te
 
 - Prima di cercare difetti nuovi, la radiografia ricontrolla quelli aperti. È il modo più economico che abbiamo di accorciare la lista.
-- Oggi un ricontrollo costerebbe circa 60 $ in tutto, con una forchetta da 48 a 78 $. Dovrebbe chiudere circa 54 voci su 212 guardate, circa 1,1 $ l'una.
+- Oggi un ricontrollo costerebbe circa 86 $ in tutto, con una forchetta da 69 a 112 $. Dovrebbe chiudere circa 78 voci su 305 guardate, circa 1,1 $ l'una.
 - Il preventivo viene solo dai costi misurati, scelti con la stessa configurazione. Prima veniva da una stima scritta a mano.
-- La ricerca di difetti nuovi a lotti non è mai stata misurata. Quindi la prima onda è un pilota piccolo: il ricontrollo più due sessioni di ricerca, circa 90 $ su un totale atteso di circa 442 $. Il resto parte solo col tuo sì.
+- La ricerca di difetti nuovi a lotti non è mai stata misurata. Quindi la prima onda è un pilota piccolo: il ricontrollo più due sessioni di ricerca, circa 93 $ su un totale atteso di circa 444 $. Il resto parte solo col tuo sì.
 
 ## Cosa devi fare
 
@@ -39,7 +41,8 @@ Nessuna radiografia parte con questo lavoro: per lanciarne una serve il tuo «vi
 
 ## Cosa non ho verificato
 
-- Le regole nuove non le ha ancora usate nessuna radiografia vera. Le ho provate con 58 prove automatiche e 19 mutazioni nuove su 54 in tutto: togliendo ogni regola, la sua prova diventa rossa.
+- Le regole nuove non le ha ancora usate nessuna radiografia vera. Le ho provate con 63 prove automatiche e 31 controprove nuove, 66 in tutto: togliendo ogni regola, la sua prova diventa rossa.
+- Due collaudatori indipendenti hanno bocciato il primo giro per nove difetti veri, e li ho corretti tutti. Il più serio: il primo filtro teneva fuori due voci gravi sui soldi. Il secondo giro del collaudo è nei dettagli.
 - Il preventivo della ricerca a lotti è una stima: nessuna misura vera esiste ancora. Per questo c'è il pilota.
 - La copia del sito che uso qui ha la storia corta. Su una copia intera il primo filtro toglierebbe qualche voce in più. Con la storia corta, nel dubbio, manda la voce agli agenti.
 - Il costo di regia e controllore finale del 21/11 è una stima dal quaderno della regia: non aveva un contatore.
@@ -102,7 +105,7 @@ E la radiografia (`cervello/radiografia/misure.json`, nuovo):
 | Ultracode solo dove serve | ricontrollo diviso in sessioni di voci gravi (ultracode) e minori (senza); `--ultracode dove-serve|no|tutte` | programma |
 | Preventivo dalle misure | `preventivo` sceglie la misura con lo stesso tipo, metodo e ultracode; tre cifre, per onda, percentuale della settimana, chiusure attese | programma |
 | Una novità alla volta | `prepara` mette al massimo 2 cercatrici nella prima onda finché la ricerca a lotti non ha una misura | programma (la soglia per andare avanti è testo) |
-| La riga delle misure | comando `misura`; `applica --scrivi` è rosso senza `misura.json` | programma |
+| La riga delle misure | comando `misura`; `applica --scrivi` è rosso senza la riga di questa radiografia in `misure.json` (una misura a vuoto non basta) | programma |
 | Il costo nel referto | `valida-referto` vuole `conto.usd` o il perché | programma |
 | La falla scoperta | `valida-referto` vuole `falla` su ogni voce che resta aperta, anche nel referto parziale; con `falla: true` i dettagli valgono «(nel referto privato)»; `applica` scrive `da-riservare.txt` | programma |
 | Il grave di passaggio | profilo `ricontrollo` con gravità bloccante e grave, senza ricerca | programma |
@@ -112,10 +115,30 @@ E la radiografia (`cervello/radiografia/misure.json`, nuovo):
 
 **Un miglioramento che la riparazione non ha ancora.** Il preventivo della riparazione (`conti --preventivo`) prende l'ultima riga di `misure.json`, e la regola 1 del 21/11 che lo corregge è solo testo. Quello della radiografia sceglie la riga per configurazione. Lo stesso pezzo si può portare nella riparazione: è una proposta, non l'ho fatto.
 
+### I collaudi (chi ha costruito non collauda)
+
+Due collaudatori nuovi, uno per lente, su `2c19ae489`. Primo giro: bocciato da tutti e due.
+
+| Lente | Difetto trovato | Correzione |
+|---|---|---|
+| A «sa diventare rosso?» | il prepasso leggeva solo il primo intervallo di righe: «payout.ts:921-927, 1662, 1869-1889» teneva fuori due gravi sui soldi | `intervalliDi`: tutti gli intervalli |
+| A | un grave con ultima riverifica «non più vero» senza verificatore restava fuori per sempre (e lo scrive `applica` stesso) | classe `chiusura_da_confermare`, sempre agli agenti |
+| A | la data di nascita cadeva su un commit di un ramo laterale | si guardano due versioni (linea principale e ultimo commit di ogni ramo): basta una «toccata» |
+| A | senza data di nascita le righe si confrontavano dall'ultima conferma | file cambiato e nascita ignota: agli agenti |
+| A | un nome di file ambiguo non diceva niente e la voce restava fuori | classe `file_ambigui`, agli agenti |
+| A | `misura` a vuoto scriveva `misura.json`, e `applica --scrivi` passava senza la riga | misura a vuoto non scrive; `applica` cerca la riga nel file delle misure |
+| A | un fetch solo per tutti i rami falliva se uno non era spinto: la sessione che non parte accecava l'onda | un fetch per ramo, refspec esplicito; ramo assente non è errore |
+| A | il «come» di una falla passava da domande, prove per la palestra, copertura | rosso se il titolo della voce ricompare lì; tipi chiusi per prova_tipo e verificato |
+| A | una quota di regia sola per tutte le sessioni | quota per sessione |
+| B «nasce rotto?» | «8-12 agenti per lancio» faceva scattare il guardiano dei senior, vincolo duro a ogni giro | «8-12 subagenti» |
+| B | il modello del referto portava `"usd": 0`, e lo zero passava come costo | `null` nel modello; lo zero è un costo che manca |
+| B | radiografia in corsa da registrare dopo l'ultima modifica | registrata dopo il secondo giro |
+
 ### Le prove
 
-- `node --test cervello/test/radiografia-sessioni.test.mjs`: 58 verdi (41 di prima, 17 nuove).
+- `node --test cervello/test/radiografia-sessioni.test.mjs`: 63 verdi (41 di prima, 22 nuove).
 - `node --test cervello/test/freno-subagenti.test.mjs`: 9 verdi (1 nuova).
-- Mutazioni: le 54 di `radiografia-in-sessioni` e `radiografia-a-onde`, ognuna rende rossa la sua prova (runner `consegne/audit/2026-11-24-radiografia-a-onde/mutazioni.mjs`).
-- Il prepasso rifatto sui dati veri del 21/11 (registro prima della #990, sito a `1ad51b4c`): 467 voci agli agenti contro le 459 di allora, nessuna in meno; le 8 in più hanno il commit di nascita fuori dalla storia corta della copia.
-- Prova a vuoto sul registro di oggi (sito a `0311a90f`): ricontrollo 3 sessioni, 212 voci su 556 agli agenti, preventivo 48-60-78 $, circa 54 chiusure; lancio 9 sessioni in 2 onde, pilota S01 S02 S03 circa 90 $, totale atteso circa 442 $.
+- Controprove: le 66 di `radiografia-in-sessioni` e `radiografia-a-onde`, ognuna rende rossa la sua prova (runner `consegne/audit/2026-11-24-radiografia-a-onde/mutazioni.mjs`; `non-vacuita.mjs --difetti` accetta solo codici AR).
+- Guardiani verdi: `agent-registry-check` (drift 0), `mutazioni-orfane`, `mutazioni-senza-esecutore`, `mutazione-vagante --tutti`, `forma-json`, `gate-veri`.
+- Il prepasso rifatto sui dati veri del 21/11 (registro prima della #990, sito a `1ad51b4c`): 513 voci agli agenti contro le 459 di allora, nessuna in meno. Le 54 in più sono le voci che le correzioni del collaudo mandano agli agenti nel dubbio.
+- Prova a vuoto sul registro di oggi (sito a `0311a90f`): ricontrollo in 4 sessioni, 305 voci su 556 agli agenti, preventivo 69-86-112 $, circa 78 chiusure; lancio in 9 sessioni e 2 onde, pilota S01 S02 S03 circa 93 $, totale atteso circa 444 $.
