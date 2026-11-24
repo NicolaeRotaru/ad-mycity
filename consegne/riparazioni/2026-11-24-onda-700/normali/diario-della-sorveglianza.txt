@@ -14,3 +14,17 @@
 2026-11-24 13:20 · R06 · in lavoro · guardia 🔴 · referto – · unione (sotto) · nessuna
 2026-11-24 13:20 · R07 · in lavoro · guardia 🔴 · referto 🔴 15 voci · unione (sotto) · nessuna
 2026-11-24 13:20 · onda 1 · prova-unione ✅
+2026-11-24 13:24 · R01 · in lavoro · guardia 🔴 · referto ⏳ 12 voci · unione (sotto) · nessuna
+2026-11-24 13:24 · R02 · in lavoro · guardia ✅ · referto – · unione (sotto) · nessuna
+2026-11-24 13:24 · R03 · in lavoro · guardia ✅ · referto 🔴 14 voci · unione (sotto) · nessuna
+2026-11-24 13:24 · R04 · in lavoro · guardia ✅ · referto ⏳ 15 voci · unione (sotto) · nessuna
+2026-11-24 13:24 · R05 · in lavoro FINITA · guardia ✅ · referto ✅ 14 voci · unione (sotto) · nessuna
+2026-11-24 13:24 · R06 · in lavoro · guardia 🔴 · referto – · unione (sotto) · nessuna
+2026-11-24 13:24 · R07 · in lavoro · guardia 🔴 · referto 🔴 15 voci · unione (sotto) · nessuna
+2026-11-24 13:24 · onda 1 · prova-unione ✅
+2026-11-24 13:25 · R01 · in lavoro, consegna annunciata (22,94 $) · guardia 🔴 prove comuni · referto ⏳ · unione (sotto) · detto: revert del commit sulle prove comuni, diff esatto nel referto
+2026-11-24 13:25 · R03 · in lavoro · guardia ✅ · referto 🔴 esiti vuoti (a metà) · unione (sotto) · nessuna
+2026-11-24 13:25 · R05 · finita (19,18 $ misurati) · guardia ✅ · referto ✅ 14 voci · unione (sotto) · aperto K02 (session_01R8112Njtre8g4wLRA1wx4o)
+2026-11-24 13:25 · R06 · in lavoro · guardia 🔴 prove comuni · referto – · unione (sotto) · nessuna (si dice alla consegna)
+2026-11-24 13:25 · R07 · in lavoro · guardia 🔴 prove comuni · referto 🔴 segnaposti (a metà) · unione (sotto) · nessuna (si dice alla consegna)
+2026-11-24 13:25 · onda 1 · prova-unione ✅ · regia terza al posto della seconda

@@ -8,5 +8,7 @@
   "R06": {"id": "session_01R8112NDYENCnDnyKGWQaSG", "ramo": "ccr-d7a54140-hak4ez-m06", "onda": 1},
   "R07": {"id": "session_01R8112LC6Mqv34xPCFCCtoC", "ramo": "ccr-d7a54140-hak4ez-m07", "onda": 1}
  },
- "collaudatori": {}
+ "collaudatori": {
+  "K02": {"id": "session_01R8112Njtre8g4wLRA1wx4o", "ramo": "ccr-d7a54140-hak4ez-k02", "partenza": "33f51c26faf22ee0cf5d68aa2812a2960f6a54cc", "riparatori": ["R05"]}
+ }
 }
