@@ -1,0 +1,190 @@
+{
+  "collaudatore": "K05",
+  "riparatori": [
+    "R08",
+    "R09",
+    "R10"
+  ],
+  "aggiornato": "2026-11-24 18:20",
+  "finita": false,
+  "voci": [
+    {
+      "id": "R08-002",
+      "chiave": "ai-endpoints|l'allarme del tetto di spesa ai può dire «non risponde da tre giorni» al primo guasto di cinque minuti",
+      "verdetto": "regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base 5725d5fb389b6a72236ce866c0c639fbbfb004c2^ --file lib/ai/tettoSpesa.ts --prove tests/unit/riparazione-r08-allarme-tetto-riga-vecchia.test.ts --json"
+      }
+    },
+    {
+      "id": "R08-001",
+      "chiave": "ai-endpoints|la conformità dei prodotti (classifyproductpolicy) non ha un tempo suo e i lavori sul catalogo la chiamano in 40 giri di fila",
+      "verdetto": "regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base 5470d9a12ff2536f9f86b307691fc0477668947e^ --file app/api/ai/catalog-batch/apply/route.ts --prove tests/unit/riparazione-r08-catalogo-rimandati.test.ts --json"
+      }
+    },
+    {
+      "id": "R08-007",
+      "chiave": "stati-ui|con la proposta di «genera con ai» aperta, le correzioni fatte a mano nel frattempo si perdono premendo «usa questa»",
+      "verdetto": "regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base 0f3683ca0682e1b04eedfa9a5c96f8bbb9d1e347^ --file components/seller/ProductForm.tsx --prove tests/unit/riparazione-r08-genera-con-ai-correzioni.test.tsx --json"
+      }
+    },
+    {
+      "id": "R08-006",
+      "chiave": "qa-flussi|la risalita dei genitori delle categorie non ha un tetto",
+      "verdetto": "regge",
+      "giudizio": "nessuno"
+    },
+    {
+      "id": "R08-003",
+      "chiave": "frontend-ux|una vetrina lasciata aperta oltre mezzanotte continua a mostrare l'annuncio del giorno prima finché la pagina non si ridisegna",
+      "verdetto": "regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base 8b06537efc05d427c2a2f6af24f6bd55c979067e^ --file app/store/[id]/[slug]/page.tsx --prove tests/unit/riparazione-r08-annuncio-pagine-su-misura.test.tsx --json"
+      }
+    },
+    {
+      "id": "R08-005",
+      "chiave": "performance-percepita|il traduttore degli errori di zod entra in ogni pagina passando dal piede del sito",
+      "verdetto": "regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base 0332a24eada963e4cea3a547a302269f00269f30^ --file lib/zod-i18n.ts --prove tests/unit/riparazione-r08-frasi-zod-una-copia.test.ts --json"
+      }
+    },
+    {
+      "id": "R08-004",
+      "chiave": "layout-responsive|la pagina 404 a 280 px col testo al 200% esce di 5 px",
+      "verdetto": "regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base 2d4d29301e79861e0dd9dc7ddefb18afc16e3a67^ --file app/not-found.tsx --prove tests/unit/riparazione-r08-404-dentro-il-riquadro.test.ts --json",
+        "nota": "primo tentativo uscita 2 (il file di prova r02 non cambia in 2d4d2930); rifatta sul solo file di codice della correzione finale"
+      }
+    },
+    {
+      "id": "R09-001",
+      "chiave": "architettura|email partita ma non segnata: la notte dopo riparte, e se fallisce l'allarme dice «non partita» per un'email già arrivata",
+      "verdetto": "parziale",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base b82b9190107702a1663f30ac24da04f776182b4c^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r09-allarme-forse-partita.test.ts --json"
+      }
+    },
+    {
+      "id": "R09-002",
+      "chiave": "deploy-sre|senza la 181 ogni apertura della chat o delle recensioni del negozio scrive un avviso nel registro",
+      "verdetto": "regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base 5381741c7e426fb6a4ccf047807a74cf0d99ca9f^ --file lib/queries/controparte-della-chat.ts,app/seller/reviews/page.tsx --prove tests/unit/riparazione-r09-avviso-chat-recensioni.test.ts,tests/unit/riparazione-r09-avviso-recensioni.test.tsx --json"
+      }
+    },
+    {
+      "id": "R09-003",
+      "chiave": "frontend-ux|altri campi brevi del sito del negozio tagliano ancora in silenzio con maxlength",
+      "verdetto": "regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base a504c89cbd5cb8e3f20a022916638b5d3e5259e2^ --file components/seller/site/GalleryFields.tsx,components/seller/site/MenuEditor.tsx,components/seller/site/PageEditor.tsx --prove tests/unit/riparazione-r09-campi-brevi.test.tsx --json"
+      }
+    },
+    {
+      "id": "R09-004",
+      "chiave": "frontend-ux|il costruttore della vetrina ha ancora campi brevi che tagliano in silenzio",
+      "verdetto": "regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base a504c89cbd5cb8e3f20a022916638b5d3e5259e2^ --file components/seller/site/GalleryFields.tsx,components/seller/site/MenuEditor.tsx,components/seller/site/PageEditor.tsx --prove tests/unit/riparazione-r09-campi-brevi.test.tsx --json"
+      }
+    },
+    {
+      "id": "R09-005",
+      "chiave": "qa-flussi|il pannello della home suggerisce ancora «i più amati / prodotti che vanno forte»",
+      "verdetto": "regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base 1a6d53c68048148043ccdbee1ce20a994455f3ea^ --file lib/home-site.ts --prove tests/unit/riparazione-r09-pannello-home.test.ts --json"
+      }
+    },
+    {
+      "id": "R09-006",
+      "chiave": "stati-ui|a riga chiusa con il motivo «chiedi all'assistenza» il pulsante «avvia» resta",
+      "verdetto": "regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base d695062a533ca7913c42689d6ac1caa3bab38cbd^ --file app/api/ai/catalog-batch/status/route.ts,app/seller/products/ai-batch/page.tsx --prove tests/unit/riparazione-r09-pulsante-dopo-assistenza.test.tsx --json"
+      }
+    },
+    {
+      "id": "R09-007",
+      "chiave": "stati-ui|sotto un lavoro sul catalogo chiuso che dice di chiedere all'assistenza prima di ripartire, il pulsante «avvia sul catalogo» resta lì",
+      "verdetto": "regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base d695062a533ca7913c42689d6ac1caa3bab38cbd^ --file app/api/ai/catalog-batch/status/route.ts,app/seller/products/ai-batch/page.tsx --prove tests/unit/riparazione-r09-pulsante-dopo-assistenza.test.tsx --json"
+      }
+    },
+    {
+      "id": "R10-001",
+      "chiave": "coerenza-brand|la primitiva card è usata in 10 file, mentre 141 card sono ridisegnate a mano con quattro raggi diversi",
+      "verdetto": "parziale",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base 47f644ba5b097bd0e7454e2d9884cbe02a00bc8d^ --file app/rider/page.tsx,components/ui/Card.tsx --prove tests/unit/riparazione-r10-card-a-mano.test.ts --json"
+      }
+    },
+    {
+      "id": "R10-002",
+      "chiave": "frontend-ux|un negozio senza nome ha metadati indicizzabili mentre la sua pagina risponde «non trovato»",
+      "verdetto": "regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base f4a0858692ab78108a20604e1e8a4a53c8a8b539^ --file app/store/[id]/[slug]/layout.tsx --prove tests/unit/riparazione-r10-pagina-negozio-senza-nome.test.ts --json"
+      }
+    },
+    {
+      "id": "R10-003",
+      "chiave": "frontend-ux|altri percorsi di facebook non elencati possono essere salvati come nome del profilo",
+      "verdetto": "parziale",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base 963b5384ce657ae77d1905786b26d46df2455972^ --file lib/store-customization.ts --prove tests/unit/riparazione-r10-facebook-altri-percorsi.test.ts --json"
+      }
+    },
+    {
+      "id": "R10-005",
+      "chiave": "qa-flussi|le maschere di caricamento delle foto accettano solo jpg, png e webp, mentre la porta e lo storage ne accettano sette",
+      "verdetto": "parziale",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base dc98170c79ddb186dd88f144b64061b92df125c8^ --file components/StoreMediaManager.tsx --prove tests/unit/riparazione-r10-foto-sette-tipi-media.test.tsx --json"
+      }
+    }
+  ],
+  "campione": {}
+}
