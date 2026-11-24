@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-11-24 03:14",
+  "aggiornato": "2026-11-24 03:38",
   "fatti": [
     {
       "id": "ad.uso-e-crediti",
@@ -1182,9 +1182,9 @@
     {
       "id": "pricing.abbonamento",
       "nome": "Abbonamento venditore MyCity",
-      "valore": "Listino a tre abbonamenti mensili per i negozi: Base 300 euro/mese, Business 500 euro/mese, Premium 999 euro/mese. Ognuno comprende tutti i servizi (foto e video con scattiDG, social, sito web, scheda Google, vetrina MyCity), ma in misura diversa: il dettaglio vive nel codice del sito, lib/agenzia/preventivo.ts (FASCE), proposta dell'AD da confermare con Nicola. Solo canone: nessuna percentuale sul venduto per chi ha uno di questi abbonamenti. Condizioni (Nicola, 24/11): nessun vincolo di durata, disdetta quando si vuole con 30 giorni di preavviso, primo mese a metà prezzo (150 / 250 / 499,50 euro). Il preventivo è la pagina «Il tuo preventivo» della dashboard del negozio, calcolata dai suoi dati. Primo cliente col listino nuovo: Ora del Gusto (bar e pasticceria). APERTO: se il listino vale anche per Pane Quotidiano e per i negozi di prova (oggi 50 euro/mese più il 10%); l'IVA la conferma il commercialista.",
-      "fonte": "Nicola, chat 2026-11-24: tre abbonamenti 300/500/999, «solo canone, niente 10%»; condizioni scelte alle ~02:50: «disdici quando vuoi», «preavviso di 30 giorni», «primo mese a metà prezzo»",
-      "aggiornato": "2026-11-24 03:14",
+      "valore": "50€/mese di listino, SOSPESO finché il negozio non incassa: niente canone fino ai primi incassi portati da MyCity (scelta 13 della carta #209, firmata da Nicola il 2026-10-26 con «ok 209»). APERTO dal 2026-11-24: Nicola ha detto che il prezzo di MyCity cambia, ma il valore nuovo non l'ha ancora detto. I tre abbonamenti da 300/500/999 euro NON sono di MyCity: sono di SDG (fatto sdg.abbonamenti).",
+      "fonte": "Nicola, chat 2026-11-24 ~03:30: «questa zona di servizi non c'entra niente con mycity, sono servizi offerti da SDG»; alla domanda «sono di SDG?»: «Sono di SDG, MyCity cambia» (il nuovo prezzo di MyCity non ancora detto)",
+      "aggiornato": "2026-11-24 03:38",
       "storia": [
         {
           "valore": "50€/mese",
@@ -1197,6 +1197,10 @@
         {
           "valore": "Listino a tre abbonamenti mensili per i negozi: Base 300 euro/mese, Business 500 euro/mese, Premium 999 euro/mese. Ognuno comprende tutti i servizi di MyCity, ma in misura diversa (quanti prodotti, quante uscite social, quanti richiami ai clienti, quanta visibilità, quanto spesso il report). Solo canone: nessuna percentuale sul venduto per chi ha uno di questi abbonamenti. Primo cliente col listino nuovo: Ora del Gusto (pasticceria/bar). Come si dividono i servizi fra le tre fasce: proposta dell'AD nel preventivo di Ora del Gusto, da confermare con Nicola. APERTO: se il listino vale anche per Pane Quotidiano e per i negozi di prova, che oggi stanno a 50 euro/mese più il 10% (domanda fatta il 24/11, non ancora risposta); se resta la sospensione del canone fino ai primi incassi (scelta 13 della carta #209); l'IVA la conferma il commercialista.",
           "fino_a": "2026-11-24 03:14"
+        },
+        {
+          "valore": "Listino a tre abbonamenti mensili per i negozi: Base 300 euro/mese, Business 500 euro/mese, Premium 999 euro/mese. Ognuno comprende tutti i servizi (foto e video con scattiDG, social, sito web, scheda Google, vetrina MyCity), ma in misura diversa: il dettaglio vive nel codice del sito, lib/agenzia/preventivo.ts (FASCE), proposta dell'AD da confermare con Nicola. Solo canone: nessuna percentuale sul venduto per chi ha uno di questi abbonamenti. Condizioni (Nicola, 24/11): nessun vincolo di durata, disdetta quando si vuole con 30 giorni di preavviso, primo mese a metà prezzo (150 / 250 / 499,50 euro). Il preventivo è la pagina «Il tuo preventivo» della dashboard del negozio, calcolata dai suoi dati. Primo cliente col listino nuovo: Ora del Gusto (bar e pasticceria). APERTO: se il listino vale anche per Pane Quotidiano e per i negozi di prova (oggi 50 euro/mese più il 10%); l'IVA la conferma il commercialista.",
+          "fino_a": "2026-11-24 03:38"
         }
       ],
       "caccia": [
@@ -1226,6 +1230,14 @@
         {
           "pattern": "Listino a tre abbonamenti mensili per i negozi: Base 300 euro/mese, Business 500 euro/mese, Premium 999 euro/mese. Ognuno comprende tutti i servizi di MyCity, ma in misura diversa (quanti prodotti, quante uscite social, quanti richiami ai clienti, quanta visibilità, quanto spesso il report). Solo canone: nessuna percentuale sul venduto per chi ha uno di questi abbonamenti. Primo cliente col listino nuovo: Ora del Gusto (pasticceria/bar). Come si dividono i servizi fra le tre fasce: proposta dell'AD nel preventivo di Ora del Gusto, da confermare con Nicola. APERTO: se il listino vale anche per Pane Quotidiano e per i negozi di prova, che oggi stanno a 50 euro/mese più il 10% (domanda fatta il 24/11, non ancora risposta); se resta la sospensione del canone fino ai primi incassi (scelta 13 della carta #209); l'IVA la conferma il commercialista.",
           "dal": "2026-11-24 03:14"
+        },
+        {
+          "pattern": "Listino a tre abbonamenti mensili per i negozi",
+          "dal": "2026-11-24 03:38"
+        },
+        {
+          "pattern": "Listino a tre abbonamenti mensili per i negozi: Base 300 euro/mese, Business 500 euro/mese, Premium 999 euro/mese. Ognuno comprende tutti i servizi (foto e video con scattiDG, social, sito web, scheda Google, vetrina MyCity), ma in misura diversa: il dettaglio vive nel codice del sito, lib/agenzia/preventivo.ts (FASCE), proposta dell'AD da confermare con Nicola. Solo canone: nessuna percentuale sul venduto per chi ha uno di questi abbonamenti. Condizioni (Nicola, 24/11): nessun vincolo di durata, disdetta quando si vuole con 30 giorni di preavviso, primo mese a metà prezzo (150 / 250 / 499,50 euro). Il preventivo è la pagina «Il tuo preventivo» della dashboard del negozio, calcolata dai suoi dati. Primo cliente col listino nuovo: Ora del Gusto (bar e pasticceria). APERTO: se il listino vale anche per Pane Quotidiano e per i negozi di prova (oggi 50 euro/mese più il 10%); l'IVA la conferma il commercialista.",
+          "dal": "2026-11-24 03:38"
         }
       ],
       "esenzioni": [
@@ -1286,20 +1298,14 @@
       "esenzioni": [
         "consegne/legale/contratto-pane-quotidiano-bozza.md",
         "consegne/account-negozi/2026-07-04-anti-churn-standalone-pane-quotidiano.md"
-      ],
-      "note_successive": [
-        {
-          "data": "2026-11-24 01:40",
-          "testo": "Nicola, 24/11: con i tre abbonamenti (300/500/999 euro/mese) «Solo canone, niente 10%». Il 10% resta valido solo per chi è ancora sul vecchio listino da 50 euro/mese, finché Nicola non dice se il listino nuovo vale per tutti. Il codice del sito applica ancora il 10% a tutti gli ordini: da cambiare in un ramo del marketplace (lavoro aperto)."
-        }
       ]
     },
     {
       "id": "pricing.worker-negozi",
       "nome": "Prezzo del Worker per i negozi",
-      "valore": "Il Worker (social, recensioni, richiami, report) è compreso in tutti e tre gli abbonamenti (Base 300, Business 500, Premium 999 euro/mese), in misura crescente: vedi pricing.abbonamento. Sostituisce «Worker incluso nell'abbonamento da 50 euro/mese fino a 50-100 negozi, poi altri 50 euro» dell'11/8.",
-      "fonte": "Nicola, chat 2026-11-24 ~01:30 (sessione Ora del Gusto): «ci sono 3 abbonamenti: base 300€/mese, business 500€/mese e premium 999€/mese», «l'abbonamento comprende tutti i servizi ma in modi diversi»; alla domanda sul 10%: «Solo canone, niente 10%»",
-      "aggiornato": "2026-11-24 02:15",
+      "valore": "Il Worker è INCLUSO nell'abbonamento marketplace da 50 euro/mese fino a circa 50-100 negozi; oltre quella soglia diventa un servizio in più da altri 50 euro/mese (totale 100 euro/mese per negozio). Valore ripristinato il 2026-11-24: la riscrittura delle 02:15 legava il Worker ai tre abbonamenti, che invece sono di SDG (sdg.abbonamenti). Il prezzo di MyCity cambierà (pricing.abbonamento, APERTO).",
+      "fonte": "Nicola, chat 2026-11-24 ~03:30: «questa zona di servizi non c'entra niente con mycity, sono servizi offerti da SDG»; alla domanda «sono di SDG?»: «Sono di SDG, MyCity cambia» (il nuovo prezzo di MyCity non ancora detto)",
+      "aggiornato": "2026-11-24 03:38",
       "storia": [
         {
           "valore": "Vetrina 99€/mese · Autopilot 299€/mese · Direttore Digitale 699-999€/mese (+ setup una tantum). Prodotto DIVERSO dall'abbonamento venditore marketplace (pricing.abbonamento = 50€/mese)",
@@ -1308,6 +1314,10 @@
         {
           "valore": "Il Worker è INCLUSO nell'abbonamento marketplace da 50 euro/mese fino a circa 50-100 negozi; oltre quella soglia diventa un servizio in più da altri 50 euro/mese (totale 100 euro/mese per negozio). Supera il listino a tre fasce del 29/7 (Vetrina 99 · Autopilot 299 · Direttore Digitale 699-999, più setup): nessun negozio è mai stato venduto a quei prezzi e la linea non è costruita, quindi il cambio non tocca nessun cliente. Coerente con l'obiettivo dichiarato di 10.000 euro/mese = 100 negozi per 100 euro/mese (obiettivo.ricavi). APERTO: i 3 pilot founder a 149 euro/mese (pilot.worker-negozi) non sono nominati nel documento — restano come stavano finché non lo dice Nicola.",
           "fino_a": "2026-11-24 02:15"
+        },
+        {
+          "valore": "Il Worker (social, recensioni, richiami, report) è compreso in tutti e tre gli abbonamenti (Base 300, Business 500, Premium 999 euro/mese), in misura crescente: vedi pricing.abbonamento. Sostituisce «Worker incluso nell'abbonamento da 50 euro/mese fino a 50-100 negozi, poi altri 50 euro» dell'11/8.",
+          "fino_a": "2026-11-24 03:38"
         }
       ],
       "caccia": [
@@ -1338,6 +1348,14 @@
         {
           "pattern": "Il Worker è INCLUSO nell'abbonamento marketplace da 50 euro/mese fino a circa 50-100 negozi; oltre quella soglia diventa un servizio in più da altri 50 euro/mese (totale 100 euro/mese per negozio). Supera il listino a tre fasce del 29/7 (Vetrina 99 · Autopilot 299 · Direttore Digitale 699-999, più setup): nessun negozio è mai stato venduto a quei prezzi e la linea non è costruita, quindi il cambio non tocca nessun cliente. Coerente con l'obiettivo dichiarato di 10.000 euro/mese = 100 negozi per 100 euro/mese (obiettivo.ricavi). APERTO: i 3 pilot founder a 149 euro/mese (pilot.worker-negozi) non sono nominati nel documento — restano come stavano finché non lo dice Nicola.",
           "dal": "2026-11-24 02:15"
+        },
+        {
+          "pattern": "Il Worker (social, recensioni, richiami, report) è compreso in tutti e tre gli abbonamenti",
+          "dal": "2026-11-24 03:38"
+        },
+        {
+          "pattern": "Il Worker (social, recensioni, richiami, report) è compreso in tutti e tre gli abbonamenti (Base 300, Business 500, Premium 999 euro/mese), in misura crescente: vedi pricing.abbonamento. Sostituisce «Worker incluso nell'abbonamento da 50 euro/mese fino a 50-100 negozi, poi altri 50 euro» dell'11/8.",
+          "dal": "2026-11-24 03:38"
         }
       ],
       "esenzioni": []
@@ -1455,6 +1473,16 @@
       "valore": "Il ritiro in negozio è acceso dal lancio. Per il cliente è gratis, senza costo di consegna (scelta dell'AD, su «decidi tu» di Nicola: meno consegne per Nicola, meno fatica per il cliente, MyCity prende comunque il 10%). Il cliente paga con carta online, oppure in contanti al banco. Sui contanti al banco il 10% di MyCity si compensa sul bonifico del lunedì al negozio; se in una settimana non basta, il resto va nella fattura del mese con l'abbonamento.",
       "fonte": "Nicola, conversazione del 2026-11-01 mattina (fino alle 12:18), sessione «cosa serve per essere pronti»",
       "aggiornato": "2026-11-01 12:19",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
+      "id": "sdg.abbonamenti",
+      "nome": "Abbonamenti di SDG Agenzia",
+      "valore": "SDG Agenzia (l'agenzia di Nicola: web, marketing, foto e video) vende tre abbonamenti mensili: Base 300 euro, Business 500 euro, Premium 999 euro. Ognuno comprende tutti i servizi — foto e video, gestione dei social, sito web, scheda Google — in misura diversa (proposta dell'AD nel preventivo di Ora del Gusto, da confermare). Solo canone, nessuna percentuale. Condizioni scelte da Nicola il 24/11: nessun vincolo di durata, disdetta quando si vuole con 30 giorni di preavviso, primo mese a metà prezzo. Sono servizi di SDG, non di MyCity: dal 24/11 il menu «Servizi» è uscito dal marketplace. Primo cliente: Ora del Gusto (bar e pasticceria, Piacenza).",
+      "fonte": "Nicola, chat 2026-11-24: «ci sono 3 abbonamenti: base 300€/mese, business 500€/mese e premium 999€/mese»; «solo canone, niente 10%»; condizioni scelte ~02:50; «sono servizi offerti da SDG» ~03:30",
+      "aggiornato": "2026-11-24 03:38",
       "storia": [],
       "caccia": [],
       "esenzioni": []

@@ -27,7 +27,6 @@ Su internet Ora del Gusto non compare: indirizzo, titolare e categoria esatta li
 | ❗ Telefono WhatsApp del negozio | | anteprime da approvare, «Contatta il negozio» |
 | ❗ Email del titolare | | accesso al sito e avvisi d'ordine |
 | ❗ IBAN | | bonifico del lunedì dei contanti |
-| ❗ Abbonamento scelto | Base 300 / Business 500 / Premium 999 €/mese | fattura |
 | Orari di apertura e giorno di chiusura | | fasce di consegna mostrate al cliente |
 | Categoria sul sito | Pasticceria · Bar | ricerca e vetrina |
 | Primi prodotti (foto + prezzo + allergeni confermati dal titolare) | | catalogo iniziale |
@@ -40,6 +39,5 @@ Su internet Ora del Gusto non compare: indirizzo, titolare e categoria esatta li
 4. Avvio del collegamento per i pagamenti con carta, quando la carta è accesa.
 
 ## Dettagli tecnici
-- Preventivo: la pagina «Il tuo preventivo» della dashboard del negozio sul sito (`/seller/preventivo`), che si calcola da sola dopo l'iscrizione. Il file `preventivo.html` qui accanto è SUPERATO dal 2026-11-24 03:10: i servizi per fascia non coincidono più con il sito.
-- Prezzi: `registro-fatti.json` → `pricing.abbonamento` (aggiornato 2026-11-24 02:15).
-- Il codice del sito applica ancora il 10% a tutti gli ordini (`migrations/091_marketplace_fees.sql` e seguenti): per un negozio a solo canone va tolto in un ramo del marketplace prima del suo primo ordine.
+- Preventivo: è di SDG Agenzia, non di MyCity (Nicola, 24/11 03:30): `preventivo.html` e `preventivo-sdg-ora-del-gusto.pdf` qui accanto. Su MyCity il negozio si iscrive e basta.
+- Prezzi: `registro-fatti.json` → `sdg.abbonamenti` (SDG); MyCity resta `pricing.abbonamento`.

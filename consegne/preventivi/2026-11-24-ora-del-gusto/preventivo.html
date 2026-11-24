@@ -5,183 +5,235 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Preventivo Ora del Gusto</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
+/* SDG Agenzia — preventivo nello stile delle linee guida (nero, fumo, pietra, avorio, ambra). */
 :root{
-  --bg:#faf7f2; --paper:#ffffff; --ink:#1f1a17; --muted:#6b625b; --line:#e7e0d6;
-  --brand:#b4532a; --brand-soft:#f6e6dc; --accent:#2f6b4f; --accent-soft:#e3efe8;
-  --blank:#c9bfb3;
+  --nero:#101010; --fondo:#161616; --fumo:#2C2A27; --pietra:#A29D95; --avorio:#F4F1EC; --ambra:#E0A95C;
+  --linea:#2a2826; --testo:#d9d4cc;
 }
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --bg:#151210; --paper:#1e1a17; --ink:#f2ece6; --muted:#a99f96; --line:#3a332d;
-    --brand:#e08a5f; --brand-soft:#3a2519; --accent:#7cc4a0; --accent-soft:#1d3329; --blank:#5a5049;
-  }
-}
-:root[data-theme="dark"]{
-  --bg:#151210; --paper:#1e1a17; --ink:#f2ece6; --muted:#a99f96; --line:#3a332d;
-  --brand:#e08a5f; --brand-soft:#3a2519; --accent:#7cc4a0; --accent-soft:#1d3329; --blank:#5a5049;
-}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --nero:#101010; --fondo:#161616; } }
+:root[data-theme="dark"]{ --nero:#101010; --fondo:#161616; }
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 Inter,system-ui,sans-serif}
-.page{max-width:980px;margin:0 auto;padding:32px 16px 64px}
-.sheet{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:36px clamp(16px,4vw,44px)}
-h1,h2,h3{font-family:Fraunces,Georgia,serif;margin:0}
-h1{font-size:clamp(26px,4vw,36px);line-height:1.15}
-h2{font-size:21px;margin:36px 0 12px}
-.top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:20px;border-bottom:2px solid var(--brand);padding-bottom:20px}
-.logo{font-family:Fraunces,serif;font-weight:700;font-size:22px;color:var(--brand)}
-.meta{font-size:13px;color:var(--muted);text-align:right}
-.meta b{color:var(--ink)}
-.parti{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-top:22px}
-.box{border:1px solid var(--line);border-radius:10px;padding:14px 16px}
-.box h3{font-size:14px;font-family:Inter,sans-serif;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:8px}
-.campo{display:flex;gap:8px;font-size:14px;margin:4px 0}
-.campo span:first-child{color:var(--muted);min-width:110px}
-.vuoto{flex:1;border-bottom:1px dotted var(--blank);min-height:1.3em}
-.intro{margin-top:24px;font-size:16px}
-.piani{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
-.piano{border:1px solid var(--line);border-radius:12px;padding:20px;position:relative}
-.piano.consigliato{border:2px solid var(--accent);background:var(--accent-soft)}
-.badge{position:absolute;top:-11px;left:16px;background:var(--accent);color:var(--paper);font-size:12px;font-weight:600;padding:2px 10px;border-radius:99px}
-.piano h3{font-size:20px}
-.prezzo{font-family:Fraunces,serif;font-size:34px;font-weight:700;margin:6px 0 0}
-.prezzo small{font-family:Inter,sans-serif;font-size:14px;font-weight:500;color:var(--muted)}
-.anno{font-size:13px;color:var(--muted)}
-.per{font-size:14px;margin-top:10px}
-.tab-wrap{overflow-x:auto;margin:0 -4px}
-table{width:100%;border-collapse:collapse;font-size:14px;min-width:640px}
-th,td{padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top;text-align:left}
-thead th{font-family:Fraunces,serif;font-size:16px;border-bottom:2px solid var(--ink)}
-thead th.cons{color:var(--accent)}
-td:first-child{font-weight:600;width:24%}
-td.cons{background:var(--accent-soft)}
-.ok{color:var(--accent);font-weight:600}
-.natale{background:var(--brand-soft);border-radius:12px;padding:18px 20px;margin-top:8px}
-.natale h3{font-size:18px;margin-bottom:6px;color:var(--brand)}
-ul{padding-left:20px;margin:8px 0}
-li{margin:4px 0}
-.firme{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:28px;margin-top:20px}
-.firma{border-top:1px solid var(--ink);padding-top:6px;font-size:13px;color:var(--muted);margin-top:56px}
-.scelta{display:flex;flex-wrap:wrap;gap:18px;font-size:15px;margin-top:8px}
-.scelta span::before{content:"";display:inline-block;width:14px;height:14px;border:1.5px solid var(--ink);border-radius:3px;margin-right:8px;vertical-align:-2px}
-.nota{font-size:12.5px;color:var(--muted);margin-top:28px}
+html,body{margin:0;background:#000;color:var(--testo);font-family:Poppins,system-ui,sans-serif;font-weight:300}
+.pagine{max-width:1120px;margin:0 auto;padding:24px 16px 48px;display:flex;flex-direction:column;gap:24px}
+.pagina{background:var(--fondo);border:1px solid #3a3836;padding:36px clamp(18px,4vw,44px) 28px;display:flex;flex-direction:column;position:relative}
+@media (min-width:900px){ .pagina{aspect-ratio:297/210} }
+.testa,.piede{display:flex;justify-content:space-between;gap:12px;font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--pietra)}
+.testa b{color:var(--ambra);font-weight:600;margin-right:8px}
+.piede{margin-top:auto;padding-top:20px;font-size:8.5px;color:#6f6a63}
+h1,h2,h3{font-weight:500;color:var(--avorio);margin:0}
+.ambra{color:var(--ambra)}
+.etichetta{font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ambra);font-weight:600}
+
+/* Il marchio e la cornice ad angoli */
+.marchio{display:inline-flex;flex-direction:column;align-items:flex-start;position:relative;padding:10px 14px}
+.marchio .nome{font-size:30px;font-weight:700;letter-spacing:.06em;color:var(--avorio);line-height:1}
+.marchio .sotto{font-size:9px;letter-spacing:.32em;text-transform:uppercase;color:var(--pietra);margin-top:4px}
+.angoli{position:relative}
+.angoli::before,.angoli::after,.angoli>.a3,.angoli>.a4{content:"";position:absolute;width:18px;height:18px;border-color:var(--avorio);border-style:solid}
+.angoli::before{top:0;left:0;border-width:2px 0 0 2px}
+.angoli::after{bottom:0;right:0;border-width:0 2px 2px 0}
+.angoli>.a3{top:0;right:0;border-width:2px 2px 0 0}
+.angoli>.a4{bottom:0;left:0;border-width:0 0 2px 2px}
+.titolo{padding:22px 26px;margin:22px 0 14px}
+.titolo h1{font-size:clamp(26px,3.4vw,36px);line-height:1.12;font-weight:600}
+
+/* Pagina 01 */
+.p1{display:grid;grid-template-columns:1fr;gap:28px;margin-top:22px}
+@media (min-width:900px){ .p1{grid-template-columns:34% 1fr} }
+.sotto-titolo{font-size:12.5px;color:var(--pietra);line-height:1.6;margin:0 0 16px}
+.meta{font-size:11px;border-collapse:collapse}
+.meta td{padding:3px 14px 3px 0;vertical-align:top}
+.meta td:first-child{font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--pietra)}
+.vuoto{display:inline-block;min-width:140px;border-bottom:1px solid #4a4743}
+.piani{display:grid;grid-template-columns:1fr;gap:16px}
+@media (min-width:640px){ .piani{grid-template-columns:repeat(3,1fr)} }
+.piano{border:1px solid #3a3836;padding:20px 16px 16px;position:relative}
+.piano.cons{border-color:var(--ambra)}
+.piano .chi{position:absolute;top:-7px;left:12px;background:var(--fondo);padding:0 6px;font-size:8.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ambra);font-weight:600}
+.piano h3{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ambra);font-weight:600}
+.prezzo{font-size:30px;font-weight:600;color:var(--avorio);margin:6px 0 2px}
+.prezzo small{font-size:12px;font-weight:400;color:var(--pietra)}
+.primo{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--pietra);margin-bottom:12px}
+.righe{list-style:none;margin:0;padding:0;font-size:11px}
+.righe li{padding:7px 0;border-top:1px solid var(--linea)}
+.pari{margin-top:10px;font-size:10.5px;background:var(--fumo);padding:8px 10px;color:var(--avorio);line-height:1.5}
+.nota{font-size:9.5px;color:#7d776f;margin-top:12px}
+
+/* Pagina 02 */
+.p2 h2,.p3 h2{font-size:clamp(20px,2.4vw,24px);margin-top:26px}
+.sotto{font-size:12px;color:var(--pietra);margin:6px 0 0}
+.guadagni{display:grid;grid-template-columns:1fr;gap:14px;margin:18px 0 6px}
+@media (min-width:760px){ .guadagni{grid-template-columns:repeat(3,1fr)} }
+.guadagni div{border-top:1px solid var(--ambra);padding-top:10px;font-size:11.5px;line-height:1.55}
+.guadagni b{display:block;color:var(--avorio);font-weight:500;margin-bottom:3px}
+.tab{overflow-x:auto;margin-top:14px}
+table.servizi{width:100%;border-collapse:collapse;font-size:11px;min-width:620px}
+.servizi th{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--ambra);text-align:left;padding:8px 10px 8px 0;border-bottom:1px solid #4a4743}
+.servizi th.cons{color:var(--avorio)}
+.servizi td{padding:8px 10px 8px 0;border-bottom:1px solid var(--linea);vertical-align:top;line-height:1.45}
+.servizi td:first-child{color:var(--avorio);font-weight:500;width:18%}
+.servizi td.tutti{color:var(--avorio)}
+
+/* Pagina 03 */
+.p3{display:grid;grid-template-columns:1fr;gap:34px}
+@media (min-width:900px){ .p3{grid-template-columns:1fr 1fr} }
+.passi{list-style:none;margin:16px 0 0;padding:0}
+.passi li{display:grid;grid-template-columns:38px 1fr;padding:12px 0;border-top:1px solid var(--linea)}
+.passi .n{font-size:16px;font-weight:600;color:var(--ambra)}
+.passi b{color:var(--avorio);font-weight:500;font-size:12.5px}
+.passi p{margin:3px 0 0;font-size:11px;color:var(--pietra)}
+.colonna h3{margin-top:26px}
+.elenco{list-style:none;margin:8px 0 0;padding:0;font-size:11px}
+.elenco li{padding:7px 0;border-top:1px solid var(--linea)}
+.scelta{display:flex;flex-wrap:wrap;gap:16px;font-size:11.5px;margin-top:10px;color:var(--avorio)}
+.scelta span::before{content:"";display:inline-block;width:11px;height:11px;border:1px solid var(--avorio);margin-right:7px;vertical-align:-1px}
+.firma{margin-top:38px;border-top:1px solid #4a4743;width:min(260px,100%);padding-top:5px;font-size:9.5px;color:#7d776f}
+
 @media print{
-  body{background:#fff}
-  .page{padding:0}
-  .sheet{border:none;padding:0}
-  h2{break-after:avoid}
-  .piani,.tab-wrap,.firme{break-inside:avoid}
+  @page{size:A4 landscape;margin:0}
+  html,body{background:var(--fondo)}
+  .pagine{padding:0;gap:0;max-width:none}
+  .pagina{width:297mm;height:210mm;aspect-ratio:auto;border:none;break-after:page;padding:14mm 15mm 9mm}
+  .p1{grid-template-columns:34% 1fr}
+  .piani{grid-template-columns:repeat(3,1fr)}
+  .guadagni{grid-template-columns:repeat(3,1fr)}
+  .p3{grid-template-columns:1fr 1fr}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 }
 </style>
 </head>
 <body>
-<div class="page"><div class="sheet">
+<main class="pagine">
 
-<div class="top">
-  <div>
-    <div class="logo">MyCity Piacenza</div>
-    <h1>Preventivo di abbonamento<br>per Ora del Gusto</h1>
+<!-- ═════════ 01 · PREVENTIVO ═════════ -->
+<section class="pagina">
+  <div class="testa"><span><b>01</b>Preventivo</span><span>Preventivo n. SDG-2026-001 · 24 novembre 2026</span></div>
+  <div class="p1">
+    <div>
+      <div class="marchio angoli"><span class="a3"></span><span class="a4"></span><span class="nome">SDG</span><span class="sotto">Agenzia</span></div>
+      <div class="titolo angoli"><span class="a3"></span><span class="a4"></span><h1>Abbonamento<br>mensile.</h1></div>
+      <p class="sotto-titolo">Foto e video, social, sito web e scheda Google per Ora del Gusto, bar e pasticceria a Piacenza.</p>
+      <table class="meta">
+        <tr><td>Cliente</td><td>Ora del Gusto · Piacenza</td></tr>
+        <tr><td>Alla c.a.</td><td><span class="vuoto"></span></td></tr>
+        <tr><td>Data</td><td>24 novembre 2026</td></tr>
+        <tr><td>Validità</td><td>30 giorni</td></tr>
+      </table>
+    </div>
+    <div>
+      <div class="piani">
+        <div class="piano">
+          <span class="chi">Per partire</span>
+          <h3>Base</h3>
+          <p class="prezzo">300 € <small>/ mese</small></p>
+          <p class="primo">Il primo mese 150 €</p>
+          <ul class="righe">
+            <li>Una sessione di foto all’avvio</li>
+            <li>8 post al mese sui vostri social</li>
+            <li>Un sito di una pagina col vostro nome</li>
+            <li>Scheda Google creata o sistemata</li>
+          </ul>
+          <p class="pari">Circa 10 € al giorno: l’incasso di 4 colazioni in più al giorno.</p>
+        </div>
+        <div class="piano cons">
+          <span class="chi">Consigliato</span>
+          <h3>Business</h3>
+          <p class="prezzo">500 € <small>/ mese</small></p>
+          <p class="primo">Il primo mese 250 €</p>
+          <ul class="righe">
+            <li>Foto ogni tre mesi e un video al mese</li>
+            <li>12 post al mese, con 2 video brevi</li>
+            <li>Un sito completo di più pagine</li>
+            <li>Scheda Google e risposte alle recensioni</li>
+          </ul>
+          <p class="pari">Circa 17 € al giorno: l’incasso di 6 colazioni in più al giorno.</p>
+        </div>
+        <div class="piano">
+          <span class="chi">Completo</span>
+          <h3>Premium</h3>
+          <p class="prezzo">999 € <small>/ mese</small></p>
+          <p class="primo">Il primo mese 499,50 €</p>
+          <ul class="righe">
+            <li>Foto e video ogni mese</li>
+            <li>20 post al mese, 4 video brevi e le storie</li>
+            <li>Sito completo, aggiornato ogni mese</li>
+            <li>Un referente vostro, una visita al mese</li>
+          </ul>
+          <p class="pari">Circa 33 € al giorno: l’incasso di 12 colazioni in più al giorno.</p>
+        </div>
+      </div>
+      <p class="nota">Importi IVA esclusa, se dovuta. Le colazioni sono calcolate su uno scontrino da 3 €: è l’incasso, non il guadagno netto.</p>
+    </div>
   </div>
-  <div class="meta">
-    Preventivo n. <b>PRV-2026-001</b><br>
-    Data: <b>24 novembre 2026</b><br>
-    Valido fino al: <b>24 dicembre 2026</b>
+  <div class="piede"><span>SDG Agenzia · Preventivo abbonamento · Ora del Gusto</span><span>01 / 03</span></div>
+</section>
+
+<!-- ═════════ 02 · COSA COMPRENDE ═════════ -->
+<section class="pagina p2">
+  <div class="testa"><span><b>02</b>Cosa comprende</span><span>Tutti i servizi, in misura diversa</span></div>
+  <h2>Un abbonamento, quattro servizi</h2>
+  <p class="sotto">Ogni piano comprende tutto: foto e video, social, sito e scheda Google. Cambia quanto ne facciamo per voi.</p>
+
+  <div class="guadagni">
+    <div><b>Il cliente sceglie con gli occhi</b>Foto vere del vostro banco e dei vostri dolci, fatte da noi, ovunque vi cercano: social, sito e Google.</div>
+    <div><b>Vi trova chi passa vicino</b>Chi cerca «bar vicino a me» vede prima le schede Google complete di orari e foto.</div>
+    <div><b>Voi restate al banco</b>Post, sito e scheda li prepariamo noi. Voi li approvate su WhatsApp prima che escano.</div>
   </div>
-</div>
 
-<div class="parti">
-  <div class="box">
-    <h3>Da</h3>
-    <div class="campo"><span>Azienda</span><b>MyCity — marketplace dei negozi di Piacenza</b></div>
-    <div class="campo"><span>Referente</span><b>Nicola</b></div>
-    <div class="campo"><span>Sito</span><b>mycity-marketplace.com</b></div>
+  <div class="tab">
+  <table class="servizi">
+    <thead><tr><th></th><th>Base</th><th class="cons">Business · consigliato</th><th>Premium</th></tr></thead>
+    <tbody>
+      <tr><td>Foto e video</td><td>Una sessione di foto all’avvio: il locale e i prodotti principali.</td><td>Foto all’avvio, una nuova sessione ogni tre mesi e un video al mese.</td><td>Una sessione di foto e video ogni mese.</td></tr>
+      <tr><td>Social</td><td>8 post al mese, preparati e pubblicati da noi.</td><td>12 post al mese, 3 a settimana, con 2 video brevi.</td><td>20 post al mese, 4 video brevi e le storie.</td></tr>
+      <tr><td>Sito web</td><td>Un sito di una pagina col vostro nome.</td><td>Un sito completo di più pagine.</td><td>Un sito completo, aggiornato da noi ogni mese.</td></tr>
+      <tr><td>Scheda Google</td><td>Creata o sistemata all’avvio.</td><td>Sistemata, più le risposte alle recensioni scritte da noi.</td><td>Curata ogni mese: foto nuove, post e risposte alle recensioni.</td></tr>
+      <tr><td>Resoconto</td><td colspan="3" class="tutti">In tutti e tre, ogni mese: quante persone hanno visto i vostri post, il sito e la scheda Google, e quante hanno chiamato o chiesto le indicazioni.</td></tr>
+      <tr><td>Assistenza</td><td>Su WhatsApp, risposta entro 24 ore lavorative.</td><td>Su WhatsApp, risposta entro 4 ore lavorative.</td><td>Un referente vostro e una visita nel locale ogni mese.</td></tr>
+    </tbody>
+  </table>
   </div>
-  <div class="box">
-    <h3>Per</h3>
-    <div class="campo"><span>Negozio</span><b>Ora del Gusto — pasticceria e bar</b></div>
-    <div class="campo"><span>Titolare</span><span class="vuoto"></span></div>
-    <div class="campo"><span>Indirizzo</span><span class="vuoto"></span></div>
-    <div class="campo"><span>Partita IVA</span><span class="vuoto"></span></div>
-    <div class="campo"><span>Telefono / email</span><span class="vuoto"></span></div>
+  <div class="piede"><span>SDG Agenzia · Preventivo abbonamento · Ora del Gusto</span><span>02 / 03</span></div>
+</section>
+
+<!-- ═════════ 03 · CONDIZIONI ═════════ -->
+<section class="pagina">
+  <div class="testa"><span><b>03</b>Condizioni</span><span>Preventivo n. SDG-2026-001 · 24 novembre 2026</span></div>
+  <div class="p3">
+    <div>
+      <h2>Come lavoriamo</h2>
+      <p class="sotto">Semplice, chiaro, senza sorprese.</p>
+      <ol class="passi">
+        <li><span class="n">01</span><div><b>Conferma</b><p>Firmate il preventivo e scegliete l’abbonamento. Il primo mese costa la metà.</p></div></li>
+        <li><span class="n">02</span><div><b>Avvio</b><p>Un incontro nel locale: foto, scheda Google e piano dei primi post.</p></div></li>
+        <li><span class="n">03</span><div><b>Ogni mese</b><p>Prepariamo i contenuti, voi li approvate su WhatsApp, e a fine mese ricevete il resoconto.</p></div></li>
+        <li><span class="n">04</span><div><b>Nessun vincolo</b><p>Disdite quando volete, con 30 giorni di preavviso. Il canone si paga a inizio mese.</p></div></li>
+      </ol>
+    </div>
+    <div class="colonna">
+      <p class="etichetta">Da parte vostra</p>
+      <ul class="elenco">
+        <li>Una persona del locale disponibile durante le riprese</li>
+        <li>L’accesso al locale per foto e video, in un orario tranquillo</li>
+        <li>Il vostro logo in alta qualità</li>
+        <li>L’accesso ai profili social e alla scheda Google</li>
+      </ul>
+      <p class="etichetta" style="margin-top:22px">Contatti</p>
+      <ul class="elenco">
+        <li><span style="color:var(--avorio);font-weight:500">Nicola</span> · SDG Agenzia</li>
+        <li>Email <span class="vuoto"></span></li>
+        <li>WhatsApp <span class="vuoto"></span></li>
+      </ul>
+      <p class="etichetta" style="margin-top:22px">Abbonamento scelto</p>
+      <div class="scelta"><span>Base</span><span>Business</span><span>Premium</span></div>
+      <div class="firma">Per accettazione</div>
+    </div>
   </div>
-</div>
+  <div class="piede"><span>SDG Agenzia · Preventivo abbonamento · Ora del Gusto</span><span>03 / 03</span></div>
+</section>
 
-<p class="intro">Con MyCity i clienti di Piacenza ordinano i vostri dolci online e li ricevono a casa in giornata, oppure li ritirano al banco. Noi mettiamo online il negozio, facciamo le foto e scriviamo le schede. Voi approvate tutto su WhatsApp, senza imparare app nuove.</p>
-<p><b>Tutti e tre gli abbonamenti comprendono tutti i servizi di MyCity.</b> Cambia quanto ne fate: quanti prodotti, quanti post, quanti messaggi ai clienti, quanta visibilità. <b>Nessuna percentuale su quello che vendete:</b> pagate solo il canone del mese, e i clienti che arrivano restano vostri.</p>
-
-<h2>I tre abbonamenti</h2>
-<div class="piani">
-  <div class="piano">
-    <h3>Base</h3>
-    <p class="prezzo">300 € <small>/ mese</small></p>
-    <p class="anno">3.600 € all'anno</p>
-    <p class="per">Per essere online e vendere da subito, con un aiuto costante ma leggero.</p>
-  </div>
-  <div class="piano consigliato">
-    <span class="badge">Consigliato per voi</span>
-    <h3>Business</h3>
-    <p class="prezzo">500 € <small>/ mese</small></p>
-    <p class="anno">6.000 € all'anno</p>
-    <p class="per">Per crescere ogni settimana: più clienti richiamati, più visibilità, regali alle aziende.</p>
-  </div>
-  <div class="piano">
-    <h3>Premium</h3>
-    <p class="prezzo">999 € <small>/ mese</small></p>
-    <p class="anno">11.988 € all'anno</p>
-    <p class="per">Il servizio completo: un referente vostro, foto ogni mese, in primo piano sul sito.</p>
-  </div>
-</div>
-
-<h2>Cosa comprende ogni abbonamento</h2>
-<div class="tab-wrap">
-<table>
-  <thead><tr><th>Servizio</th><th>Base</th><th class="cons">Business</th><th>Premium</th></tr></thead>
-  <tbody>
-    <tr><td>Vetrina sul marketplace</td><td>Fino a 40 prodotti</td><td class="cons">Fino a 150 prodotti</td><td>Prodotti senza limite</td></tr>
-    <tr><td>Schede prodotto scritte da noi</td><td>40 all'avvio</td><td class="cons">150 all'avvio, più gli aggiornamenti di ogni mese</td><td>Senza limite, più i cambi di stagione (Natale, Pasqua, estate)</td></tr>
-    <tr><td>Foto dei prodotti</td><td>Una sessione all'avvio</td><td class="cons">All'avvio e poi una ogni tre mesi</td><td>Una sessione ogni mese</td></tr>
-    <tr><td>Ordini, pagamento e consegna</td><td colspan="3" class="ok">Compresi in tutti e tre: pagamento con carta o in contanti, consegna in giornata, ritiro gratuito al banco. La consegna la paga il cliente.</td></tr>
-    <tr><td>Percentuale sul venduto</td><td colspan="3" class="ok">Zero in tutti e tre: pagate solo il canone</td></tr>
-    <tr><td>I vostri clienti</td><td colspan="3" class="ok">In tutti e tre: l'elenco dei clienti è vostro e lo scaricate quando volete</td></tr>
-    <tr><td>Report degli incassi</td><td>Ogni mese</td><td class="cons">Ogni lunedì, in euro</td><td>Ogni lunedì, più un incontro al mese con il piano del mese dopo</td></tr>
-    <tr><td>Messaggi ai clienti su WhatsApp (li approvate voi prima dell'invio)</td><td>1 al mese</td><td class="cons">4 al mese</td><td>Su misura, fino a 12 al mese</td></tr>
-    <tr><td>Recensioni</td><td>Richiesta automatica dopo ogni ordine</td><td class="cons">Richiesta automatica, più le risposte scritte da noi</td><td>Tutto il Business, più la cura della scheda Google del negozio</td></tr>
-    <tr><td>Post sui social (li approvate voi)</td><td>4 post al mese</td><td class="cons">8 post e 2 video brevi al mese</td><td>16 post, 4 video brevi e le storie</td></tr>
-    <tr><td>Visibilità sul sito</td><td>Normale</td><td class="cons">In evidenza nella categoria una settimana al mese</td><td>In home page due settimane al mese, in evidenza sempre</td></tr>
-    <tr><td>Regali, gift card e aziende</td><td>Siete nel circuito della gift card di Piacenza</td><td class="cons">Proponiamo le vostre scatole regalo alle aziende della zona</td><td>Campagna di regali aziendali dedicata e scatole col vostro marchio</td></tr>
-    <tr><td>Vetrofania e cartello con il QR «ordina da me»</td><td colspan="3" class="ok">Compresi in tutti e tre</td></tr>
-    <tr><td>Assistenza</td><td>Su WhatsApp, risposta entro 24 ore lavorative</td><td class="cons">Su WhatsApp, risposta entro 4 ore lavorative</td><td>Un referente vostro e una visita in negozio ogni mese</td></tr>
-  </tbody>
-</table>
-</div>
-
-<div class="natale">
-  <h3>Perché vi consigliamo il Business, e perché adesso</h3>
-  <p>Per una pasticceria dicembre è il mese più importante: panettoni, vassoi per le feste, regali di Natale per clienti e aziende. Con il Business mandiamo 4 messaggi al mese ai vostri clienti. Mettiamo le vostre proposte di Natale in evidenza sul sito. E le portiamo agli uffici della zona che cercano regali per i dipendenti. Se partiamo entro la prima settimana di dicembre, le feste le vendete anche online.</p>
-</div>
-
-<h2>Condizioni</h2>
-<ul>
-  <li><b>Attivazione:</b> gratuita. Mettiamo online noi il negozio, di solito entro 48 ore dalla firma.</li>
-  <li><b>Pagamento:</b> canone mensile anticipato, a inizio mese.</li>
-  <li><b>Durata:</b> mese per mese. Si disdice con 30 giorni di preavviso, senza penali.</li>
-  <li><b>Cambio di abbonamento:</b> si passa a quello sopra o sotto dal mese successivo.</li>
-  <li><b>Prezzi e allergeni:</b> li confermate sempre voi prima che una scheda vada online.</li>
-  <li><b>Importi:</b> al netto dell'IVA, se dovuta.</li>
-</ul>
-
-<h2>Abbonamento scelto</h2>
-<div class="scelta"><span>Base — 300 €/mese</span><span>Business — 500 €/mese</span><span>Premium — 999 €/mese</span></div>
-<div class="campo" style="margin-top:14px"><span>Data di partenza</span><span class="vuoto"></span></div>
-
-<div class="firme">
-  <div class="firma">Per MyCity — Nicola</div>
-  <div class="firma">Per Ora del Gusto — firma del titolare</div>
-</div>
-
-<p class="nota">Preventivo valido 30 giorni dalla data di emissione. Il dettaglio dei servizi è descritto in questa pagina; il contratto venditore di MyCity ne regola le condizioni generali.</p>
-
-</div></div>
+</main>
 </body>
 </html>
