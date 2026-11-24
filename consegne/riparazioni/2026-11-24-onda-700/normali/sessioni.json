@@ -121,7 +121,10 @@
     "R10"
    ],
    "limite_usd": 5,
-   "partita": "2026-11-24 17:59"
+   "partita": "2026-11-24 17:59",
+   "finita": true,
+   "punta": "20569c3fec514422be31fca125b75297b2b31909",
+   "costo_usd": 6.19
   }
  },
  "controllori": {
