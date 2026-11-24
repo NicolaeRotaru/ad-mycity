@@ -68,7 +68,11 @@
    "ramo": "ccr-d7a54140-hak4ez-m11",
    "onda": 3,
    "limite_usd": 4.5,
-   "partita": "2026-11-24 19:20"
+   "partita": "2026-11-24 19:20",
+   "finita": true,
+   "punta": "33156447622ca138061646e801b7a28dbec36983",
+   "testa": "62882d888a0cca73045c8d90d175ce370f503179",
+   "costo_usd": 6.06
   },
   "R12": {
    "id": "session_01R8112LoDyLqbZBCi3c6K7j",
