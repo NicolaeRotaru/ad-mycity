@@ -1707,6 +1707,7 @@
             }
           ],
           "file": [
+            "app/api/cron/send-push/route.ts",
             "components/VendorForm.tsx",
             "components/seller/CustomizationSection.tsx",
             "components/seller/SocialLinksFields.tsx",
@@ -1720,7 +1721,8 @@
         }
       },
       "rimandate": [],
-      "regia": []
+      "regia": [],
+      "nota_regia": "2026-11-24 19:25 regia decima: aggiunto a R12 app/api/cron/send-push/route.ts, che la modifica scritta di R12-001 nomina (cherry-pick a6bee2db) e che nessuna sessione dell'onda possedeva."
     }
   ],
   "cucitura": [],
