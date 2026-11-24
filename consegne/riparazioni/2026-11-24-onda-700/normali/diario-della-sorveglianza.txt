@@ -54,3 +54,4 @@
 2026-11-24 13:33 · K02 · R05 collaudato: 8 reggono, 3 parziali confermate, 0 cadute · ramo 894cdf4e · R04 in corso
 2026-11-24 13:33 · R06 · guardia ✅ (prova comune tolta dal ramo) · referto – · in chiusura
 2026-11-24 13:33 · R07 · guardia ✅ · referto 🔴 segnaposti · in chiusura
+2026-11-24 13:34 · R01 · consegnata (22,94 $) a fd478324 · guardia 🔴 prove comuni (0689079c sul ramo) · referto ✅ · unione (sotto) · chiesto: revert di 0689079c e del codice di R01-004, voce → serve_file_altrui
