@@ -79,3 +79,4 @@
 2026-11-24 13:37 · R06 · finita (19,97 $ dichiarati) · guardia ✅ · referto ✅ 14 voci · unione (sotto) · data a K02 in catena
 2026-11-24 13:37 · R07 · finita (22,52 $ dichiarati) · guardia ✅ · referto ✅ 15 voci · unione (sotto) · aperto K03 (session_01R8112KrhYF5zq8hGHNomMK)
 2026-11-24 13:37 · R01 · in attesa dei revert · guardia 🔴 prove comuni · referto ✅ 16 voci · punta ancora fd478324
+2026-11-24 13:38 · K02 · R04 collaudato: 14 reggono, 1 parziale confermata (R04-002), 0 cadute · ramo 3b154fa3 · R06 in corso
