@@ -36,7 +36,7 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 **In parole semplici.** Hai chiesto due cose, e sono pronte su n8n. La prima: quando un'attività si iscrive su MyCity, entra da sola nella scheda Clienti col lavoro del modulo 12. La seconda: l'analisi del marketplace che fa l'AD ogni giro, senza la radiografia, ora è il flusso n8n «17 · Analisi del marketplace» e ti arriva ogni mattina alle 8:10 su Telegram.
 Esempio vero: stanotte ho provato il primo con Pane Quotidiano in modalità prova. Claude ha trovato indirizzo, telefono e orari, e la scheda è arrivata fino a «avrei scritto la riga, attivo = no». Costo 0,39 $.
 
-**Cosa cambia per te.** Le nuove attività di MyCity non vanno più inserite a mano nella scheda Clienti: arrivano con attivo = no, e tu le correggi col modulo 12. Ogni mattina trovi su Telegram i numeri del marketplace, i segnali scattati e cosa propone l'AD.
+**Cosa cambia per te.** Le nuove attività di MyCity non vanno più inserite a mano nella scheda Clienti: arrivano con attivo = no, e tu le correggi col modulo 12. Per ognuna ti arriva anche l'analisi del suo business (flusso 18): a che punto è per il primo incasso, cosa le manca, le prossime mosse e cosa chiedere al titolare. Ogni mattina trovi su Telegram i numeri del marketplace, i segnali scattati e cosa propone l'AD.
 
 **Cosa devi fare tu.**
 - Unire la richiesta del sito (mycity), poi scrivere in Vercel le variabili `N8N_NUOVO_CLIENTE_WEBHOOK_URL` e `N8N_NUOVO_CLIENTE_SEGRETO`. Il valore del segreto è nel file che ti ho indicato in chat (n8n non lo rimostra). Se lo perdi, scegline uno nuovo e scrivilo in due posti: la credenziale «MyCity - Segreto nuovo cliente» in n8n e la variabile in Vercel.
@@ -50,7 +50,7 @@ Esempio vero: stanotte ho provato il primo con Pane Quotidiano in modalità prov
 Cosa cambia: ogni attività che si iscrive su MyCity entra nella scheda Clienti con attivo = no, e ogni mattina alle 8:10 arriva il giro dei numeri su Telegram.
 Se va bene: dopo il primo giro col database vero si confrontano i suoi numeri con quelli del Pannello, e si decide se salvare il riassunto anche nella card del Pannello.
 
-Dettagli: flussi n8n `xu0RPgoSNsDaP7xn` (16, acceso, MODALITA vero) ed `E9yH0gDDPe37fA8g` (17, spento). Sorgenti in NicolaeRotaru/N8N, cartella `flussi/` (`LEGGIMI.md`). Sito: `lib/agenzia/flusso-n8n.ts`, `app/api/seller/apply/route.ts`. Indirizzo del webhook: `https://n8n-shdy.sliplane.app/webhook/mycity-nuovo-cliente`.
+Dettagli: flussi n8n `xu0RPgoSNsDaP7xn` (16, acceso, MODALITA vero), `C5DH4QtG2YgKqYvK` (18, acceso, chiamato dal 16) ed `E9yH0gDDPe37fA8g` (17, spento). Il 18 usa la stessa chiave del database del 17: finché non la incolli, scrive «non misurato». Sorgenti in NicolaeRotaru/N8N, cartella `flussi/` (`LEGGIMI.md`). Sito: `lib/agenzia/flusso-n8n.ts`, `app/api/seller/apply/route.ts`. Indirizzo del webhook: `https://n8n-shdy.sliplane.app/webhook/mycity-nuovo-cliente`.
 
 ### 🟡 #260 — Unisci l'onda 5 del sito e rispondi alle sue domande quando hai tempo · ⏳ accodata 2026-11-17 13:15
 

@@ -7332,3 +7332,10 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Prove:** una corsa vera del 16 in modalità prova su Pane Quotidiano (0,39 $, due messaggi Telegram a Nicola marcati PROVA); prove automatiche 30 su 30 in N8N, sito 12.515 prove verdi.
 - **Colore:** 🟡 per le modifiche (rami `claude/laughing-bardeen-6g0s4h`); 🔴 per Nicola il rilascio e le variabili in Vercel (carta #261).
 
+## 2026-11-24 04:00 — L'analisi del business di ogni nuova attività parte dal modulo 12 automatico (🟡, richiesta di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD, 24/11 verso le 03:45: «ci deve essere l'analisi anche sull'azienda nuova che inserisco dentro MyCity [...] inseriscilo dentro questo modulo se è una buona idea».
+- **Cosa:** nuovo flusso n8n «18 · Analisi di un'attività» (la stessa analisi del giro, su una sola attività). Il 16 lo chiama come ultimo passo di ogni iscrizione, comunque sia andata la scheda Clienti, e gli passa la lettura del web del 12.
+- **La scelta, col perché:** l'avvio sta dentro il modulo (il 16), il calcolo in un flusso a parte. Il 16 si rigenera dal 12 e deve restargli uguale; la stessa analisi serve anche dopo, senza rifare la ricerca; se l'analisi si guasta, la scheda Clienti è già scritta. Il modulo 12 manuale non l'ho toccato: i clienti messi a mano non hanno un codice MyCity, e la scheda Clienti non ha una colonna per collegarli.
+- **Prove:** 49 prove su 49 in N8N; corsa vera su n8n (iscrizione di collaudo in prova → analisi partita → Telegram).
+- **Colore:** 🟡, rami `claude/laughing-bardeen-6g0s4h`.
+
