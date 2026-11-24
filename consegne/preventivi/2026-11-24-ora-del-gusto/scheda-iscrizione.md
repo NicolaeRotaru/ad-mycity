@@ -9,7 +9,7 @@ stato: dati da raccogliere — NON ancora nel database del sito
 Ora del Gusto è una pasticceria-bar e sarà il primo negozio col listino nuovo a tre abbonamenti. Per metterlo sul sito servono i dati qui sotto. Appena li hai, l'iscrizione si fa in circa 20 minuti.
 
 ## Cosa cambia per te
-Finché questi campi sono vuoti il negozio non può stare sul sito: sarebbe una vetrina senza titolare, senza indirizzo e senza modo di ricevere i soldi.
+Finché questi campi sono vuoti il negozio non può stare sul sito: sarebbe una vetrina senza titolare, senza indirizzo e senza modo di ricevere i soldi. Per esempio: senza l'IBAN, il lunedì non possiamo fargli il bonifico dei contanti incassati per lui.
 
 ## Cosa devi fare
 Alla visita fai compilare i campi segnati ❗. Poi dai il via alla card «Iscrivi Ora del Gusto sul sito» nel Pannello.
