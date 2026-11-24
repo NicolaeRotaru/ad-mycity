@@ -69,5 +69,15 @@
    ],
    "finita": true
   }
+ },
+ "controllori": {
+  "C01": {
+   "id": "session_01R8112MCedazmwF5a39XHqD",
+   "ramo": "ccr-d7a54140-hak4ez-c01",
+   "partenza": "8ea02976bfe2a8ea27b6bb2cd6b80f28ad4ff6c9",
+   "integrazione": "a673164da05ab165480595967128d01795601ba9",
+   "onda": 1,
+   "finita": false
+  }
  }
 }
