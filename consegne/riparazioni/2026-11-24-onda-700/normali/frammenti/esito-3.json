@@ -1,0 +1,13 @@
+{
+  "corsia": 3,
+  "territorio": "R03",
+  "difetti": [
+    {
+      "chiave": "qa-flussi|due veloci vendute nello stesso istante con un solo fattorino passano tutte e due",
+      "esito": "riparato",
+      "verifica_comando": "bash tests/sql/harness/apply.sh r03_prova_tutto && psql -d r03_prova_tutto -v ON_ERROR_STOP=1 -f tests/sql/rls/riparazione-r03-veloce.test.sql ; npx vitest run tests/unit/riparazione-r03-veloce.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo . --base 3ded946e720350f0c113c11663ffade486af2f64^ --file migrations/840_due_veloci_insieme_non_passano_con_un_fattorino_solo.sql --prove tests/sql/rls/riparazione-r03-veloce.test.sql --sql r03_rimessa_veloce --json → uscita 0 (riparatore); PGHOST=/var/run/postgresql PGUSER=root timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 3ded946e720350f0c113c11663ffade486af2f64^ --file migrations/840_due_veloci_insieme_non_passano_con_un_fattorino_solo.sql --prove tests/sql/rls/riparazione-r03-veloce.test.sql --sql k01_r03_rimessa --json → uscita 0 (K01)",
+      "nota_fix": "Migrazione 840: un trigger BEFORE INSERT su orders, solo per la veloce in contanti a domicilio, prende un lucchetto (pg_advisory_xact_lock) e ferma con 23514 + segno veloce_senza_fattorino_libero la veloce che supera i fattorini accesi (stessa regola di contaFattoriniOnline/contaVelociInCorso: una per fattorino, per cliente, ultime 3 ore); la rotta dei contanti trasforma quel rifiuto nel 409 «non c'è un fattorino libero» con la merce rimessa, invece di un 500. Ordini non veloci, ritiro e veloci con la carta escono subito dal controllo: le prove (SQL e rotta) hanno il caso esplicito «un ordine non veloce passa come prima»."
+    }
+  ]
+}

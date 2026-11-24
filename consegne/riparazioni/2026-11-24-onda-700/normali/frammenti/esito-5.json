@@ -1,0 +1,41 @@
+{
+  "corsia": 5,
+  "territorio": "R05",
+  "difetti": [
+    {
+      "chiave": "dati-analytics|strutturasenzaindirizzi in caso di eccezione lascia passare il valore originale",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r05-struttura-in-eccezione.test.ts --reporter=dot",
+      "non_vacuita": "node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo . --base bc409062aa2b6b232c12e564f874ea2fee063f7f^ --file lib/analytics/filmato-senza-dati-personali.ts --prove tests/unit/riparazione-r05-struttura-in-eccezione.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-a --base bc409062aa2b6b232c12e564f874ea2fee063f7f^ --file lib/analytics/filmato-senza-dati-personali.ts --prove tests/unit/riparazione-r05-struttura-in-eccezione.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "In eccezione strutturaSenzaIndirizzi ora torna VALORE_NASCOSTO ('***'), come a fine budget, e non più l'originale. La prova forza l'eccezione con un getter che lancia e con un Proxy revocato; le 68 prove che importano analytics sono verdi."
+    },
+    {
+      "chiave": "dati-analytics|il traguardo «venditore più votato» guarda solo le recensioni ai prodotti, mai quelle al negozio",
+      "esito": "riparato",
+      "verifica_comando": "bash tests/sql/harness/apply.sh r05_prova && psql -q -X -d r05_prova -v ON_ERROR_STOP=1 -f tests/sql/rls/riparazione-r05-traguardo-votato.test.sql",
+      "non_vacuita": "node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo . --base a3415aa0b9b467c1c9700f104396c25c893c41ab^ --file migrations/860_il_traguardo_top_rated_conta_anche_le_recensioni_al_negozio.sql --prove tests/sql/rls/riparazione-r05-traguardo-votato.test.sql --sql r05_rimessa --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-c --base a3415aa0b9b467c1c9700f104396c25c893c41ab^ --file migrations/860_il_traguardo_top_rated_conta_anche_le_recensioni_al_negozio.sql --prove tests/sql/rls/riparazione-r05-traguardo-votato.test.sql --sql k02_r05_rimessa --json → uscita 0 (K02)",
+      "nota_fix": "La definizione in uso era ancora quella della 032. La 860 la ridefinisce: conteggio e media del venditore contano le recensioni ai prodotti più quelle in store_reviews, e la stessa funzione gira anche AFTER INSERT su store_reviews. Nessuna funzione nuova, permessi invariati. Prova SQL a 4 casi, 3 rossi sulla base; suite tests/sql verde. Migrazione da applicare: decide Nicola."
+    },
+    {
+      "chiave": "layout-responsive|col testo al 200% le schede negozio tagliano «nuovo negozio» e «chiuso ora»",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r05-schede-negozio-badge-a-capo.test.ts --reporter=dot",
+      "non_vacuita": "node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo . --base c14a867d47845b59edeb7510e77450eab81c8a69^ --file components/StorePreviewCard.tsx,components/StoreListRow.tsx --prove tests/unit/riparazione-r05-schede-negozio-badge-a-capo.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-c --base c14a867d47845b59edeb7510e77450eab81c8a69^ --file components/StorePreviewCard.tsx,components/StoreListRow.tsx --prove tests/unit/riparazione-r05-schede-negozio-badge-a-capo.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "A 320 px col testo al 200% il segnalino «Chiuso ora» usciva a 201 px contro il bordo scheda a 144 ed era tagliato da overflow-hidden. Aggiunti max-w-full e [overflow-wrap:anywhere] ai segnalini di stato e a «Nuovo negozio»/«Nuovo» in entrambe le schede; con la correzione resta a 111 px dentro la scheda (misurato con Playwright). Il truncate del nome negozio, che la voce non nomina, non è toccato."
+    },
+    {
+      "chiave": "qa-flussi|il finto di react-query mette mutationfn e onsuccess nello stesso try: un errore in onsuccess finisce in onerror e nasconde difetti nelle prove",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r05-finto-mutazioni.test.ts --reporter=dot",
+      "non_vacuita": "node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo . --base 0b996fe50f27337bf85b7193bfbe1178429b4be3^ --file tests/unit/aiuti/finti/react-query.mjs --prove tests/unit/riparazione-r05-finto-mutazioni.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-a --base 0b996fe50f27337bf85b7193bfbe1178429b4be3^ --file tests/unit/aiuti/finti/react-query.mjs --prove tests/unit/riparazione-r05-finto-mutazioni.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "Solo un errore di mutationFn va in onError; un errore dentro onSuccess ora rompe la promessa in volo e onError non viene chiamato. Le 11 prove che usano il finto sono verdi (con la voce del setQueriesData, vedi nota). Nota: react-query vero 5.x chiama onError anche quando onSuccess lancia; il finto ora è volutamente più severo, come chiede la voce, per non nascondere difetti. Commento corretto nel commit 634548714b1b922c17e4c74c2a71619c9da0cae5 (solo commento, nessun cambio di comportamento; 5 file / 15 prove del finto verdi)."
+    },
+    {
+      "chiave": "qa-flussi|il finto di react-query non ha setqueriesdata",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r05-finto-setqueriesdata.test.ts --reporter=dot",
+      "non_vacuita": "node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo . --base 214616a895828a48ce214f2499df39d885303732^ --file tests/unit/aiuti/finti/react-query.mjs --prove tests/unit/riparazione-r05-finto-setqueriesdata.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-a --base 214616a895828a48ce214f2499df39d885303732^ --file tests/unit/aiuti/finti/react-query.mjs --prove tests/unit/riparazione-r05-finto-setqueriesdata.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "setQueriesData come nell'API vera: filtro con queryKey a prefisso (o exact) e predicate, aggiorna tutte le domande che corrispondono, undefined le lascia com'erano, torna [queryKey, dato][]; memoria accesa con globalThis.__CACHE_QUERY__. Senza questa, la correzione del try separato fa diventare rossa una prova esistente delle notifiche (TypeError setQueriesData is not a function nell'onSuccess di app/notifications/page.tsx): il difetto nascosto era nel finto."
+    }
+  ]
+}

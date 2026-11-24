@@ -1,0 +1,48 @@
+{
+  "corsia": 6,
+  "territorio": "R06",
+  "difetti": [
+    {
+      "chiave": "deploy-sre|il sorvegliante legge il conto degli errori da upstash senza un tempo massimo",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r06-upstash-tempo-massimo.test.ts",
+      "non_vacuita": "node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo . --base c938e9ab529b5de29ea973e659033711d7dd4ae7^ --file app/api/cron/operational-alerts/route.ts --prove tests/unit/riparazione-r06-upstash-tempo-massimo.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-a --base c938e9ab529b5de29ea973e659033711d7dd4ae7^ --file app/api/cron/operational-alerts/route.ts --prove tests/unit/riparazione-r06-upstash-tempo-massimo.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "La lettura del conto errori da Upstash ha un AbortController con tempo massimo di 5 secondi (azzerato nel finally): se Upstash tace, il giro prosegue con «controllo saltato»."
+    },
+    {
+      "chiave": "deploy-sre|il readme nomina la variabile di google analytics con il nome vecchio",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r06-readme-variabile-ga.test.ts",
+      "non_vacuita": "node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo . --base dc5f926db77db0c8a6d0d50174f0393a0173d8fd^ --file README.md --prove tests/unit/riparazione-r06-readme-variabile-ga.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-a --base dc5f926db77db0c8a6d0d50174f0393a0173d8fd^ --file README.md --prove tests/unit/riparazione-r06-readme-variabile-ga.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "README.md:82 ora dice NEXT_PUBLIC_GA_MEASUREMENT_ID, la variabile che components/GoogleAnalytics.tsx legge davvero."
+    },
+    {
+      "chiave": "deploy-sre|con una destinazione che ha una cartella dentro il secchio, lo storico predefinito finisce nello stesso secchio della copia senza avviso e la notte resta verde",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r06-storico-secchio-diverso.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/mycity --base 2a5750bceb1a3d40e937a65d18ec873571dacbee^ --file scripts/backup-db.sh --prove tests/unit/riparazione-r06-storico-secchio-diverso.test.ts --json (a testa a1c222e7, copre anche la correzione a1c222e7; sul solo a1c222e7^ uscita 0) → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-b --base 2a5750bceb1a3d40e937a65d18ec873571dacbee^ --file scripts/backup-db.sh --prove tests/unit/riparazione-r06-storico-secchio-diverso.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "Il caso «b2:mycity-foto/copie» era già chiuso sulla base; restava la stessa destinazione scritta con la barra iniziale («b2:/mycity-foto/copie», «b2://…»), che per rclone su B2/S3 è lo stesso secchio e dava lo storico «b2:/mycity-foto/copie-storico» con la notte verde. Ora lo script legge il tipo del remote da `rclone listremotes --long` (nessuna rete, nessuna chiave) e su un remote a secchi toglie le barre iniziali prima di ricavare lo storico: «b2:mycity-foto-storico/copie». Alias e remote cifrati: vedi la voce insieme. Giro di correzione chiesto dal collaudo (commit a1c222e75e21870d40ffe8f4cd6b1ad8b6d2caaa): anche oracleobjectstorage, qingstor, storj (e tardigrade) sono remote a secchi, con un caso di prova per ciascuno."
+    },
+    {
+      "chiave": "deploy-sre|con una destinazione cifrata che ha una cartella, lo storico predefinito cade ancora nello stesso secchio sotto la cifratura",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r06-storico-secchio-diverso.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo . --base 2a5750bceb1a3d40e937a65d18ec873571dacbee^ --file scripts/backup-db.sh --prove tests/unit/riparazione-r06-storico-secchio-diverso.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-b --base 2a5750bceb1a3d40e937a65d18ec873571dacbee^ --file scripts/backup-db.sh --prove tests/unit/riparazione-r06-storico-secchio-diverso.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "Con lo stesso tipo letto da `rclone listremotes --long`, una destinazione su un remote che ne avvolge un altro (crypt, alias, chunker, compress, hasher, cache, union, combine) non ha più uno storico predefinito: senza STORAGE_SYNC_STORICO la notte è rossa (uscita 5) e il messaggio dice la causa e cosa impostare, come già per «cifrata:» alla radice (regola del 20/11: lo storico mai nel secchio della copia). Con STORAGE_SYNC_STORICO impostato la copia parte come prima; se il tipo non si legge vale il testo come prima."
+    },
+    {
+      "chiave": "frontend-ux|nel ripiego dei nomi dei clienti il limite di 1000 ordini vale per tutti gli id insieme",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r06-ripiego-nomi-mille-ordini.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo . --base 41ecd312bef214204ec79d7019d548be708c91a9^ --file lib/queries/seller-public-profiles.ts --prove tests/unit/riparazione-r06-ripiego-nomi-mille-ordini.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-b --base 41ecd312bef214204ec79d7019d548be708c91a9^ --file lib/queries/seller-public-profiles.ts --prove tests/unit/riparazione-r06-ripiego-nomi-mille-ordini.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "Nel ripiego senza la 181, quando la lettura degli ordini riempie il tetto di 1000 righe, fetchNomiDeiClienti rilegge gli ordini dei soli id che non sono usciti, finché tutti escono o le righe finiscono: un cliente con mille ordini recenti non nasconde più gli altri. Con pochi ordini resta una lettura sola."
+    },
+    {
+      "chiave": "stati-ui|dopo un errore su un solo canale, la pagina delle segnalazioni dice che l'esito non è partito né a chi ha segnalato né al venditore",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r06-segnalazioni-canale.test.tsx",
+      "non_vacuita": "timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/mycity --base 653f3e0950675f2ce7404c430f7fc14e358f2648^ --file app/admin/segnalazioni/page.tsx --prove tests/unit/riparazione-r06-segnalazioni-canale.test.tsx --json (a testa a1c222e7, copre anche la correzione ab9366ee; sul solo ab9366ee^ uscita 0) → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-c --base 653f3e0950675f2ce7404c430f7fc14e358f2648^ --file app/admin/segnalazioni/page.tsx --prove tests/unit/riparazione-r06-segnalazioni-canale.test.tsx --json → uscita 0 (K02)",
+      "nota_fix": "La pagina legge dal corpo della risposta quali canali sono 'fallita' (email o notifica a chi ha segnalato, avviso al venditore) e li nomina nel messaggio; senza dettaglio resta il testo di prima. Giro di correzione chiesto dal collaudo (commit ab9366ee42908bb29f3dff5c4b6df3999ab1cd5c): con più canali caduti il messaggio dice «rimandare solo quelli», con uno solo resta «quello»; la prova ha un caso in più."
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "corsia": 2,
+  "territorio": "R02",
+  "difetti": [
+    {
+      "chiave": "microcopy|la campanella «ordine pronto» dice la fascia senza il giorno",
+      "esito": "riparato",
+      "verifica_comando": "bash tests/sql/harness/apply.sh mycity_test && psql -X -d mycity_test -v ON_ERROR_STOP=1 -f tests/sql/rls/riparazione-r02-ordine-pronto-col-giorno.test.sql",
+      "non_vacuita": "timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo . --base 3cf71891^ --file migrations/832_l_ordine_pronto_dice_anche_il_giorno.sql --prove tests/sql/rls/riparazione-r02-ordine-pronto-col-giorno.test.sql --sql r02_rimessa_ordine_pronto --json (uscita 0) ; timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo . --base 7ff5361d^ --file migrations/832_l_ordine_pronto_dice_anche_il_giorno.sql --prove tests/sql/rls/riparazione-r02-ordine-pronto-col-giorno.test.sql --sql r02_rimessa_assegnato --json (uscita 0) → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R02 --base 3cf718916f12689010815764d8cae8af5b40eebf^ --file migrations/832_l_ordine_pronto_dice_anche_il_giorno.sql --prove tests/sql/rls/riparazione-r02-ordine-pronto-col-giorno.test.sql --sql k04_r02_rimessa --json ; timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R02 --base 7ff5361d91bd4baf024da081bd806b2c0f8a1486^ --file migrations/832_l_ordine_pronto_dice_anche_il_giorno.sql --prove tests/sql/rls/riparazione-r02-ordine-pronto-col-giorno.test.sql --sql k04_r02_rimessa2 --json → uscita 0 (K04)",
+      "nota_fix": "Commit 3cf71891: la migrazione 832 ridefinisce notify_buyer_on_order_status partendo dalla 321: nella campanella «Ordine pronto» a domicilio il giorno della fascia (oggi/domani a Piacenza; senza giorno se la fascia è passata o l etichetta è ignota) e «fattorino» al posto di «rider». Commit 7ff5361d: anche il ramo ASSIGNED dice fattorino (al cliente «Un fattorino ha preso il tuo ordine», «Il fattorino passa a prendere l ordine #… e te lo porta.»; al negozio «Fattorino assegnato», «Un fattorino passa a prendere l ordine #…»). Prova SQL con date fisse: 11 controlli verdi."
+    },
+    {
+      "chiave": "qa-flussi|in un commento del cron delle notifiche resta l'id di un'altra sessione",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run --reporter=dot tests/unit/riparazione-r02-commento-senza-id.test.ts",
+      "non_vacuita": "timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo . --base 2930b8aa^ --file app/api/cron/send-push/route.ts --prove tests/unit/riparazione-r02-commento-senza-id.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R02 --base 2930b8aa172da8e443a63b839feb4481b65e2dbf^ --file app/api/cron/send-push/route.ts --prove tests/unit/riparazione-r02-commento-senza-id.test.ts --json → uscita 0 (K04)",
+      "nota_fix": "Alla riga 10 tolto il codice di sessione fra parentesi dopo la data; il resto della nota è uguale. Prova leggera: la nota c è ancora e non contiene codici di voce o di sessione (regex, senza scrivere l id)."
+    },
+    {
+      "chiave": "qa-flussi|il nome del negozio non ha un tetto nel database: dal modulo del negozio si salva direttamente nella tabella dei profili",
+      "esito": "riparato",
+      "verifica_comando": "bash tests/sql/harness/apply.sh mycity_test && psql -X -d mycity_test -v ON_ERROR_STOP=1 -f tests/sql/rls/riparazione-r02-nome-negozio-con-tetto.test.sql ; npx vitest run tests/unit/riparazione-r02-nome-negozio-con-tetto.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo . --base af9d3bb0^ --file migrations/830_il_nome_del_negozio_ha_un_tetto_anche_nel_database.sql --prove tests/sql/rls/riparazione-r02-nome-negozio-con-tetto.test.sql --sql r02_rimessa_nome_negozio --json (uscita 0) ; timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo . --base af9d3bb0^ --file components/seller/site/StoreDetailsEditor.tsx --prove tests/unit/riparazione-r02-nome-negozio-con-tetto.test.ts --json (uscita 0) → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R02 --base af9d3bb05ccf9a58407508b5bffa9bad3fafbdfc^ --file components/seller/site/StoreDetailsEditor.tsx --prove tests/unit/riparazione-r02-nome-negozio-con-tetto.test.ts --json ; timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R02 --base af9d3bb05ccf9a58407508b5bffa9bad3fafbdfc^ --file migrations/830_il_nome_del_negozio_ha_un_tetto_anche_nel_database.sql --prove tests/sql/rls/riparazione-r02-nome-negozio-con-tetto.test.sql --sql k04_r02_rimessa --json → uscita 0 (K04)",
+      "nota_fix": "Migrazione 830: trigger BEFORE INSERT OR UPDATE OF store_name su profiles che rifiuta (23514) un nome oltre 80 caratteri quando nasce o cambia, come il tetto del modulo e della domanda d'iscrizione. Il modulo «Dettagli negozio» salva il nome con trim(), cioe' quello su cui VendorForm conta gli 80 caratteri."
+    }
+  ]
+}
