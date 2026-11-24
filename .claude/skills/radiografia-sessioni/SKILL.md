@@ -47,9 +47,9 @@ tutte le regole solo testo sui costi sono state superate almeno una volta (regol
 | 4 | **Una novità alla volta.** La ricerca a lotti non è mai stata misurata: la prima onda porta il ricontrollo e al massimo due cercatrici | Regola 10 del 15/11 | `prepara` (onda pilota); la soglia per andare avanti è solo testo |
 | 5 | **La regia corta.** Una regista per fase, aperta dalla sessione dell'AD, che passa la mano a 250 mila token e non resta aperta oltre la radiografia | 6/11: regia 1.108 $ in sei giorni; onda 9: 7 regie fino a 650 mila token, il 20% della spesa; settimana dei 700: catena a 7 livelli su 8, la regia nuova non si poteva più aprire | Solo testo |
 | 6 | **La sorveglianza muta**: la regia si sveglia solo quando cambia qualcosa | Riparazione: 0,4-0,7 $ per giro a vuoto | `sorveglia --attendi`, `segnali` |
-| 7 | **La sessione che non parte si vede.** Primo push entro 10 minuti; dopo 15 senza ramo il segnale «non partita» | Settimana dei 700: C02 ferma 52 minuti, il primo K02 mai partito | `segnali`; il primo push è nel LEGGIMI |
+| 7 | **La sessione che non parte si vede, e non acceca le altre.** Primo push entro 10 minuti; dopo 15 senza ramo il segnale «non partita»; i rami si scaricano uno per uno | Settimana dei 700: C02 ferma 52 minuti, il primo K02 mai partito | `segnali`; il primo push è nel LEGGIMI |
 | 8 | **Il costo in dollari nel referto** | 21/11: nessuno dei quattro referti lo aveva | `valida-referto` |
-| 9 | **La riga delle misure prima del registro** | Riparazione: `misure.json` fermo dal 17 al 21/11 mentre giravano quattro onde | `applica --scrivi` vuole `misura.json` |
+| 9 | **La riga delle misure prima del registro** | Riparazione: `misure.json` fermo dal 17 al 21/11 mentre giravano quattro onde | `applica --scrivi` vuole la riga di questa radiografia in `misure.json` (una misura a vuoto non basta) |
 | 10 | **La falla scoperta durante il ricontrollo**: ogni voce che resta aperta dice se è una falla, e se lo è i dettagli vanno solo in chat | 21/11: dettagli di dodici voci aperte nei rami pubblici, visti dal controllore finale dopo il push | `valida-referto` (anche sul referto parziale), `applica` → `da-riservare.txt` |
 | 11 | **Il grave visto di passaggio ha un posto**, anche nel ricontrollo | 21/11: il rimborso «1.250,00» letto come 1,25 € non aveva dove andare | profilo `ricontrollo`, `valida-referto` |
 | 12 | **Agent, mai Workflow**, e al massimo 12 subagenti per sessione | 21/11: i lotti lanciati con Workflow, 8-12 subagenti per lancio | il freno (`ruolo-freno: cercatore`) dove l'hook è incollato; in `ad-mycity` serve la firma di Nicola, altrimenti solo testo |
@@ -183,11 +183,11 @@ con «via la seconda».
    rilancia tre prove a sorpresa, decide i simili, scrive `controllo-finale.json` col suo costo. Se toglie dei
    simili, `grezzo … --togli <id,id>`.
 3. `conti --cartella <C>` verde. Con `conti` rosso non si scrive niente nel registro.
-4. **La riga delle misure** (regola 9): `misura --cartella <C> --usd-regia <somma delle regie> --usd-cf <costo del CF>`,
-   poi con `--scrivi`. Va in `cervello/radiografia/misure.json`, una volta sola. È da lì che si farà il prossimo
-   preventivo.
+4. **La riga delle misure** (regola 9): `misura --cartella <C> --usd-regia <somma delle regie> --usd-cf <costo del CF>`
+   per vederla (a vuoto non scrive niente), poi con `--scrivi`. Va in `cervello/radiografia/misure.json`, una volta
+   sola, e solo allora nasce `<C>/misura.json`. È da lì che si farà il prossimo preventivo.
 5. **Il registro**, nell'ordine: `git merge origin/main`; `applica --cartella <C> --data <giorno>` a vuoto, poi con
-   `--scrivi` (vuole `misura.json`). `applica` scrive `<C>/da-riservare.txt`: le voci pubbliche che il ricontrollo ha
+   `--scrivi` (vuole la riga in `misure.json`). `applica` scrive `<C>/da-riservare.txt`: le voci pubbliche che il ricontrollo ha
    scoperto essere falle, più quelle del CF. Si chiede a Nicola se renderle riservate nel registro, voce per voce.
    Poi il grezzo in `consegne/audit/<giorno>-radiografia-marketplace-raw.json` e
    `node cervello/radiografia-marketplace-digest.mjs` una volta sola, contando le voci prima e dopo; il referto
@@ -234,7 +234,7 @@ dettaglio finisce in un ramo pubblico, si avvisa Nicola subito: cancellare o ris
 | `grezzo` | solo referti verdi, riservate a campi chiusi, `--togli` solo fra i simili | 0 · 1 |
 | `conti` | ogni difetto trovato è nel grezzo, nei doppioni o fra i simili tolti | 0 · 1 · 3 |
 | `misura` | la riga delle misure dai referti e dai costi di regia e CF; con `--scrivi` in `misure.json`, una volta sola | 0 · 1 · 3 |
-| `applica` | ricontrolli e regressioni sul registro, per chiave; `da-riservare.txt`; con `--scrivi` vuole `misura.json` | 0 · 1 |
+| `applica` | ricontrolli e regressioni sul registro, per chiave; `da-riservare.txt`; con `--scrivi` vuole la riga in `misure.json` | 0 · 1 |
 | `copertura-dopo` | i file del perimetro letti o eseguiti | 0 · 3 |
 
 L'uscita 2 vuol dire «non ho potuto misurare»: non è mai un verde. Le prove del programma:
@@ -247,6 +247,9 @@ L'uscita 2 vuol dire «non ho potuto misurare»: non è mai un verde. Le prove d
 - La soglia del pilota, la regia corta, il tetto che non si alza e le firme prima del via sono solo testo.
 - Il freno sugli agenti conta le cercatrici solo dove l'hook è incollato: in `ad-mycity` lo decide Nicola.
 - Riconoscere una falla resta un giudizio: il programma obbliga a dichiararlo voce per voce, non lo può decidere.
+  Vede il titolo di una falla ripetuto in un altro campo, non una parafrasi.
+- Il prepasso guarda la linea principale del sito e l'ultimo commit di ogni ramo, perché la data di nascita non dice da
+  quale versione vengono le righe; il caso di due versioni diverse non ha una prova a sé.
 - Il giro dei flussi che incassano in palestra non ha ancora un comando suo.
 - Lo stato delle figlie lo vede solo la regia (`list_sessions`), e lo passa al programma con `stato-sessioni.json`.
 - Il controllo del CF (`controllo-finale.json`) non ha ancora un validatore del programma.

@@ -7324,3 +7324,21 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Colore:** 🔴 spesa firmata da Nicola; ramo `claude/settimana-700-regia`.
 
 - 2026-11-21 23:15 · Settimana dei 700 · Nicola dà il via alle 182 voci semplici del sito (12 sessioni, stima circa 370 $, tetto del giro 480 $), con la strategia preparata dalla regia seconda; le 281 delicate restano ferme. Sulla riservatezza dei rami lascia scegliere alla regia: cancellare i rami laterali e unire la #990 compressa.
+
+## 2026-11-24 21:32 — La radiografia del sito prende le regole delle onde della riparazione (🟡, vale con la firma di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD, 24/11: «guarda come funzionano ondate oggi, come sono andate, dove hanno sbagliato e dove hanno fatto bene, impara da esse e crea lo stesso sistema anche per la radiografia».
+- **Cosa:** `cervello/radiografia-sessioni.mjs` prende le lezioni delle onde 1-9 e della settimana dei 700. Le prende come programma, dove si può.
+  - Il primo filtro del ricontrollo (era uno script della campagna) entra in `prepara` e lo rifà `copertura-prima`.
+  - Il ricontrollo si divide fra voci gravi, con ultracode, e voci minori, senza.
+  - Il preventivo viene solo dalle misure con la stessa configurazione, scritte nel nuovo `cervello/radiografia/misure.json`.
+  - La ricerca a lotti, mai misurata, parte con un'onda pilota di due cercatrici.
+  - Il referto porta il costo in dollari, e ogni voce aperta dice se è una falla.
+  - Un grave visto di passaggio ha un posto anche nel ricontrollo.
+  - Il registro non si scrive senza la riga delle misure.
+  - La sorveglianza è muta: sveglia la regia solo con un segnale nuovo, e vede la sessione che non parte.
+  - Nel freno sugli agenti entra il ruolo «cercatore» (12, mai Workflow).
+  - Skill, LEGGIMI, COMANDI.md e una riga del manuale dell'AD aggiornati.
+- **Collaudo:** due collaudatori indipendenti, uno per lente. Hanno bocciato al primo giro per sei difetti, tutti corretti con la loro prova. Il primo filtro teneva fuori due gravi sui soldi, perché leggeva solo il primo intervallo di righe. Una misura a vuoto apriva la porta del registro. Un ramo non ancora spinto accecava la sorveglianza di tutta l'onda. Lo zero lasciato nel modello passava come costo. Una frase sugli agenti faceva scattare il guardiano dei senior. Mancava la registrazione della radiografia in corsa.
+- **Perché:** la radiografia era ferma alle regole del 12/11. Il ricontrollo del 21/11 ha chiuso 117 voci con circa 130 $, circa 1,1 $ l'una. Una chiusura con riparazione costa 4-8 $ nelle onde migliori.
+- **Scelte dell'AD da confermare:** ultracode sulle cercatrici dei temi a rischio alto (per analogia con la regola 5 del 15/11) e l'hook del freno in `ad-mycity` (lo incolla Nicola, se vuole).
+- **Colore:** 🟡 modifica alla macchina, ramo `ccr-aa319319-23ibpz`; nessuna radiografia lanciata. Analisi: `consegne/audit/2026-11-24-radiografia-a-onde/lezioni.md`.

@@ -1,6 +1,6 @@
 ---
 tipo: analisi e costruzione
-data: 2026-11-24 22:00
+data: 2026-11-24 21:31
 fonte: misure delle onde della riparazione (cervello/riparazione/misure.json), ricontrollo del 21/11, radiografia del 6/11, quaderni delle regie
 per: Nicola
 ---

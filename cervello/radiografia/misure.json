@@ -1,6 +1,6 @@
 {
   "_cosa_e": "I costi misurati delle radiografie del sito. Il preventivo di una radiografia si fa SOLO da qui (come la riparazione, lezione 3 del 15/11), scegliendo le misure con la stessa configurazione: tipo di sessione (ricontrollo o cerca), metodo (lotti o sessione intera) e ultracode. Una riga per radiografia misurata, scritta dal comando `misura --scrivi` a fine lavoro; le righe vecchie non si riscrivono. Un gruppo senza dollari (usd null) non entra nel preventivo.",
-  "_aggiornato": "2026-11-24 12:00",
+  "_aggiornato": "2026-11-24 21:31",
   "misure": [
     {
       "fase": "radiografia del 6/11 in 12 sessioni",

@@ -1,7 +1,7 @@
 ---
 tipo: regole per le sessioni della radiografia in sessioni
-data: 2026-11-24 15:30
-aggiornato: 2026-11-24 15:30 — le lezioni delle onde della riparazione e del ricontrollo del 21/11
+data: 2026-11-12 23:55
+aggiornato: 2026-11-24 21:31 — le lezioni delle onde della riparazione e del ricontrollo del 21/11
 per: ogni sessione che cerca difetti nel sito (S01…S12), prima del suo primo passo
 ---
 
