@@ -49,7 +49,10 @@
   "R10": {
    "id": "session_01R8112MESXTLhypH8keWXCN",
    "ramo": "ccr-d7a54140-hak4ez-m10",
-   "onda": 2
+   "onda": 2,
+   "finita": true,
+   "punta": "fd69bb04288ed2558423c16681ddc417f49b0e01",
+   "testa": "47f644ba5b097bd0e7454e2d9884cbe02a00bc8d"
   }
  },
  "collaudatori": {
