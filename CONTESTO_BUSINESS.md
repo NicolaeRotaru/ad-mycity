@@ -251,3 +251,14 @@ cliente pagante*, estratte dai PDF e confrontate riga per riga con la sintesi qu
 sta in `consegne/strategia/2026-08-11-verifica-sintesi-contro-ricerche.md`: la sintesi regge, due
 numeri non hanno riscontro nei report, e nove soglie operative stanno solo nei PDF e non erano
 arrivate quassù.
+
+**⑥ Le regole cambiate da Nicola il 22-23/11/2026: dentro tutti, e l'agenzia.** Il §6 e il §11 escludevano i
+ristoranti, e la regola del 16/7 diceva «non lavoro con i ristoranti». Nicola, nella notte fra il 22 e il 23/11:
+all'iscrizione non serve più essere una bottega. Entra ogni attività che vende qualcosa: bar, ristoranti, artigiani,
+servizi. Restano escluse catene e franchising. Ogni attività iscritta trova in dashboard il preventivo di MyCity,
+già pronto, di quello che le manca: logo, foto e video, social automatici, sito web. Foto e video li fa scattiDG,
+l'azienda partner a cui MyCity si affida per riprese, scatti, montaggio e ritocco: è un partner e offre solo
+quel servizio. Social, sito web e logo sono servizi di MyCity. Le regole vive sono nel registro (`strategia.cliente-core`, `strategia.segmenti-onboarding`,
+`agenzia.listino`, `agenzia.nome`). Un avviso per chi scrive il preventivo, dal §2.1: il negoziante diffida delle agenzie web.
+Per questo ogni voce del preventivo dice il motivo con il numero vero, per esempio «12 prodotti senza foto»,
+e non parla mai di «digitalizzazione».
