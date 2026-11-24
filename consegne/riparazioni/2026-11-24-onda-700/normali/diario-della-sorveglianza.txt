@@ -85,3 +85,15 @@
 2026-11-24 13:46 · R01 · finita di nuovo (22,94 $) a d5fa79cf · guardia ✅ · referto ✅ 16 voci (5 riparate, 5 parziali, 3 serve_file_altrui, 3 già) · data a K01 in catena
 2026-11-24 13:47 · onda 1 · unione locale m01..m07 senza conflitti, prova 48 cambiata (70f72c3d), verify e harness SQL in corso
 2026-11-24 13:48 · onda 1 · harness SQL sull'unione 70f72c3d: 226 migrazioni applicate, 91 file di controllo, tutti verdi (uscita 0); verify ancora al typecheck
+2026-11-24 13:51 · R01 · in lavoro FINITA · guardia ✅ · referto ✅ 16 voci · unione (sotto) · nessuna
+2026-11-24 13:51 · R02 · in lavoro FINITA · guardia ✅ · referto ✅ 15 voci · unione (sotto) · nessuna
+2026-11-24 13:51 · R03 · in lavoro FINITA · guardia ✅ · referto ✅ 14 voci · unione (sotto) · nessuna
+2026-11-24 13:51 · R04 · in lavoro FINITA · guardia ✅ · referto ✅ 15 voci · unione (sotto) · nessuna
+2026-11-24 13:51 · R05 · in lavoro FINITA · guardia ✅ · referto ✅ 14 voci · unione (sotto) · nessuna
+2026-11-24 13:51 · R06 · in lavoro FINITA · guardia ✅ · referto ✅ 14 voci · unione (sotto) · nessuna
+2026-11-24 13:51 · R07 · in lavoro FINITA · guardia ✅ · referto ✅ 15 voci · unione (sotto) · nessuna
+2026-11-24 13:51 · K01 · collaudo · guardia ✅ · collaudo ⏳ · nessuna
+2026-11-24 13:51 · K02 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-24 13:51 · K03 · ramo non ancora spinto · guardia – · collaudo – · nessuna
+2026-11-24 13:51 · onda 1 · prova-unione ✅
+2026-11-24 13:53 · regia terza · giro verde (9 sessioni guardate su 10, K03 non ancora spinto), passa la mano a 348 mila token: PASSAGGIO.md scritto, catena di sorveglianza chiusa qui
