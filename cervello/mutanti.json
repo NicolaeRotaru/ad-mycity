@@ -12641,8 +12641,8 @@
    "difetto": "radiografia-a-onde",
    "nome": "ⓜ applica scrive il registro senza la riga delle misure",
    "file": "cervello/radiografia-sessioni.mjs",
-   "cerca": "    const scritta = (() => { try { return (leggiJson(fm).misure ?? []).some((m) => m?.cartella === rel(opz, opz.cartella)); } catch { return false; } })();",
-   "sostituisci": "    const scritta = true;",
+   "cerca": "    try { scritta = (leggiJson(fm).misure ?? []).some((m) => m?.cartella === rel(opz, opz.cartella)); } catch (e) { illeggibile = e.message; }",
+   "sostituisci": "    try { scritta = true; } catch (e) { illeggibile = e.message; }",
    "test": "cervello/test/radiografia-sessioni.test.mjs"
   },
   {
@@ -12749,8 +12749,8 @@
    "difetto": "radiografia-a-onde",
    "nome": "ⓜ applica torna a fidarsi di un file nella cartella invece della riga nel file delle misure",
    "file": "cervello/radiografia-sessioni.mjs",
-   "cerca": "    if (!scritta) rossi.push(",
-   "sostituisci": "    if (false) rossi.push(",
+   "cerca": "    else if (!scritta) rossi.push(",
+   "sostituisci": "    else if (false) rossi.push(",
    "test": "cervello/test/radiografia-sessioni.test.mjs"
   },
   {

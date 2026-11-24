@@ -601,7 +601,10 @@ function prepara(opz) {
   // l'onda pilota: finché la ricerca a lotti non ha una misura, la prima onda porta il ricontrollo e al massimo
   // stima.cerca_pilota cercatrici (regola 10 del 15/11: una novità alla volta). Le misure si leggono qui come nel preventivo.
   const misureFile = resolve(opz.misure ?? join(QUI, "radiografia/misure.json"));
-  const cercaMisurata = (() => { try { return (leggiJson(misureFile).misure ?? []).some((m) => (m.gruppi ?? []).some((g) => g.tipo === "cerca" && g.metodo === "lotti" && Number(g.usd) > 0 && Number(g.lotti) > 0)); } catch { return false; } })();
+  // un file delle misure che non si legge non vale «nessuna misura» in silenzio: si dice, e si va col pilota
+  let cercaMisurata = false;
+  try { cercaMisurata = (leggiJson(misureFile).misure ?? []).some((m) => (m.gruppi ?? []).some((g) => g.tipo === "cerca" && g.metodo === "lotti" && Number(g.usd) > 0 && Number(g.lotti) > 0)); }
+  catch (e) { console.log(`⚠️ ${rel(opz, misureFile)} non si legge (${e.message}): la ricerca a lotti vale come mai misurata, e la prima onda è un pilota`); }
   const onde = ordinaOnde(sessioni, M.sessioni_per_onda, cercaMisurata ? null : Number(T.stima?.cerca_pilota) || 2);
   onde.forEach((o, i) => o.forEach((s) => { sessioni[s].onda = i + 1; }));
 
@@ -1639,8 +1642,10 @@ function applica(opz) {
   if (opz.scrivi) {
     // la prova non è un file della cartella ma la riga nel file delle misure, quello da cui nasce il preventivo
     const fm = resolve(opz.misure ?? join(QUI, "radiografia/misure.json"));
-    const scritta = (() => { try { return (leggiJson(fm).misure ?? []).some((m) => m?.cartella === rel(opz, opz.cartella)); } catch { return false; } })();
-    if (!scritta) rossi.push(`la riga delle misure di questa radiografia non è in ${rel(opz, fm)}: prima «misura --cartella … --usd-regia … --usd-cf … --scrivi», poi il registro (regola 7 del 21/11)`);
+    let scritta = false, illeggibile = null;
+    try { scritta = (leggiJson(fm).misure ?? []).some((m) => m?.cartella === rel(opz, opz.cartella)); } catch (e) { illeggibile = e.message; }
+    if (illeggibile) rossi.push(`${rel(opz, fm)} non si legge (${illeggibile}): senza la riga delle misure il registro non si scrive`);
+    else if (!scritta) rossi.push(`la riga delle misure di questa radiografia non è in ${rel(opz, fm)}: prima «misura --cartella … --usd-regia … --usd-cf … --scrivi», poi il registro (regola 7 del 21/11)`);
   }
   console.log(`ricontrolli applicati: ${esito.conti.riverificati} · chiusi come già riparati: ${esito.conti.chiusi} · regressioni riaperte: ${esito.conti.riaperti} · falle scoperte da rendere riservate: ${esito.daRiservare.length}${opz.scrivi ? "" : " (a vuoto: aggiungi --scrivi)"}`);
   scriviTesto(join(opz.cartella, "da-riservare.txt"), ["# chiave<TAB>sessione  (voci pubbliche che il ricontrollo ha trovato essere falle ancora aperte: la regia chiede a Nicola se renderle riservate nel registro; i dettagli sono solo nelle chat delle sessioni)", ...esito.daRiservare.map((d) => `${d.chiave}\t${d.sessione}`)].join("\n") + "\n");

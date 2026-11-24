@@ -31,6 +31,27 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
+### 🟡 #262 — Guarda la radiografia a onde e dimmi due scelte prima della prima radiografia · ⏳ accodata 2026-11-24 21:58 · @ad
+
+**In parole semplici.** La radiografia del sito ora lavora come le onde della riparazione. Prima ricontrolla i difetti aperti, che è il modo più economico di chiuderli, poi cerca quelli nuovi.
+Esempio vero: il 21/11 il ricontrollo ha chiuso 117 voci su 459 guardate, a circa 1,1 $ l'una.
+
+**Cosa cambia per te.** Nessuna radiografia parte da sola: la prima chiede il tuo «via» sul preventivo. Prima di quel via servono due tue scelte.
+
+**Cosa devi fare.**
+- Dire se tenere ultracode sulle sessioni che cercano difetti nei temi a rischio alto: soldi, accessi e dati. Costa circa il doppio per quelle sessioni.
+- Dire se vuoi il freno sul numero di agenti anche nella macchina. Va incollato a mano nelle impostazioni, e puoi farlo solo tu.
+- Unire la richiesta di unione quando è pronta: parte dopo la richiesta unica delle altre sessioni.
+
+**Cosa non ho verificato.** Nessuna radiografia vera ha ancora usato queste regole: le hanno provate 63 prove automatiche e due collaudi.
+
+**Cosa cambia:** la radiografia si lancia con le regole delle onde: oggi un ricontrollo costerebbe circa 86 $ per circa 78 difetti chiusi.
+**Se va bene:** al tuo «via» parte il primo ricontrollo, e la sua misura vera corregge il preventivo dopo.
+
+- **Colore:** 🟡
+- **Reparto:** ad
+- **Dettagli tecnici:** `consegne/audit/2026-11-24-radiografia-a-onde/lezioni.md`; ultracode si spegne con `prepara --ultracode no`; il freno è `cervello/riparazione/freno-subagenti.mjs` (ruolo `cercatore`), da agganciare in `.claude/settings.json` di ad-mycity come nel sito; ramo `ccr-aa319319-23ibpz`.
+
 ### 🟡 #260 — Unisci l'onda 5 del sito e rispondi alle sue domande quando hai tempo · ⏳ accodata 2026-11-17 13:15
 
 **In parole semplici.** L'onda 5 ha riparato i difetti del sito con quattro riparatori. Si chiudono 10 difetti nuovi, e altri 10 erano già a posto dall'onda 4. La richiesta di unione è mycity#294, fuori bozza, con tutte le prove verdi.
