@@ -12641,8 +12641,8 @@
    "difetto": "radiografia-a-onde",
    "nome": "ⓜ applica scrive il registro senza la riga delle misure",
    "file": "cervello/radiografia-sessioni.mjs",
-   "cerca": "  if (opz.scrivi && !existsSync(join(opz.cartella, \"misura.json\"))) rossi.push(",
-   "sostituisci": "  if (false) rossi.push(",
+   "cerca": "    const scritta = (() => { try { return (leggiJson(fm).misure ?? []).some((m) => m?.cartella === rel(opz, opz.cartella)); } catch { return false; } })();",
+   "sostituisci": "    const scritta = true;",
    "test": "cervello/test/radiografia-sessioni.test.mjs"
   },
   {
@@ -12668,8 +12668,8 @@
    "difetto": "radiografia-a-onde",
    "nome": "segnali: la sessione aperta che non parte non si vede più",
    "file": "cervello/radiografia-sessioni.mjs",
-   "cerca": "    if (!s.sulRemoto) { if (Number.isFinite(s.aperta) && ora - s.aperta > minutiPartenza * 60000) out.push(",
-   "sostituisci": "    if (!s.sulRemoto) { if (false) out.push(",
+   "cerca": "      else if (ora - s.aperta > minutiPartenza * 60000) out.push(",
+   "sostituisci": "      else if (false) out.push(",
    "test": "cervello/test/radiografia-sessioni.test.mjs"
   },
   {
@@ -12688,6 +12688,105 @@
    "file": "cervello/radiografia-sessioni.mjs",
    "cerca": "export const costoNoto = (v) => typeof v === \"number\" && Number.isFinite(v) && v > 0;",
    "sostituisci": "export const costoNoto = (v) => typeof v === \"number\" && Number.isFinite(v) && v >= 0;",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-a-onde",
+   "nome": "prepasso: torna a leggere solo il primo intervallo di righe di una citazione",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "(?::(\\d+(?:-\\d+)?(?:\\s*,\\s*\\d+(?:-\\d+)?)*))?/g;",
+   "sostituisci": "(?::(\\d+(?:-\\d+)?))?/g;",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-a-onde",
+   "nome": "prepasso: una chiusura proposta e mai confermata resta fuori dagli agenti",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "  if (daConfermare) return \"chiusura_da_confermare\";",
+   "sostituisci": "  if (false) return \"chiusura_da_confermare\";",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-a-onde",
+   "nome": "prepasso: un nome che porta a più file torna a non dire niente",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "  if (ambigui > 0) return \"file_ambigui\";",
+   "sostituisci": "  if (false) return \"file_ambigui\";",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-a-onde",
+   "nome": "prepasso: senza data di nascita le righe si confrontano dall'ultima conferma",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "      const rifs = nascita ? commitsAllaData(nascita.d) : [];",
+   "sostituisci": "      const rifs = nascita ? commitsAllaData(nascita.d) : commits;",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-a-onde",
+   "nome": "ⓕ una falla scoperta torna a potersi raccontare in domande, prove o copertura",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "    for (const t of falleAperte) if (altrove.some((v) => v.includes(t.slice(0, 60)))) rossi.push(",
+   "sostituisci": "    for (const t of falleAperte) if (false) rossi.push(",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-a-onde",
+   "nome": "ⓕ prova_tipo del ricontrollo torna testo libero",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "    if (k?.prova_tipo != null && !PROVE.includes(k.prova_tipo)) rossi.push(",
+   "sostituisci": "    if (false) rossi.push(",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-a-onde",
+   "nome": "ⓜ applica torna a fidarsi di un file nella cartella invece della riga nel file delle misure",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "    if (!scritta) rossi.push(",
+   "sostituisci": "    if (false) rossi.push(",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-a-onde",
+   "nome": "ⓜ la misura a vuoto torna a scrivere misura.json",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "  const riga = rigaMisura(piano, referti, { cartella: rel(opz, opz.cartella), data: timbroOra(), usdRegia, usdCf, gravitaDi, nota: opz.nota ?? null });",
+   "sostituisci": "  const riga = rigaMisura(piano, referti, { cartella: rel(opz, opz.cartella), data: timbroOra(), usdRegia, usdCf, gravitaDi, nota: opz.nota ?? null }); scriviJson(join(opz.cartella, \"misura.json\"), riga);",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-a-onde",
+   "nome": "segnali: un ramo non ancora spinto torna ad accecare la sorveglianza",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "    catch (e) { if (!/couldn't find remote ref|couldn.t find remote ref/i.test(",
+   "sostituisci": "    catch (e) { if (true || !/couldn't find remote ref|couldn.t find remote ref/i.test(",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-a-onde",
+   "nome": "segnali: la sessione senza ora d'apertura torna a tacere",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "      if (!Number.isFinite(s.aperta)) { if (s.ramo) out.push(",
+   "sostituisci": "      if (!Number.isFinite(s.aperta)) { if (false) out.push(",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-a-onde",
+   "nome": "preventivo: torna una quota di regia sola per tutte le sessioni",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "      r.quota = ultimo.quota_regia;",
+   "sostituisci": "      r.quota = null;",
    "test": "cervello/test/radiografia-sessioni.test.mjs"
   }
  ],

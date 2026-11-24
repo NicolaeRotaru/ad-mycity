@@ -690,12 +690,16 @@ test("ⓜ applica --scrivi senza misura.json è rosso; misura scrive la riga una
     }
     assert.ok(dr.length > 0);
     assert.equal(b.lancia("doppioni").codice, 0);
-    const senzaMisura = b.lancia("applica", "--data", "2026-11-20", "--scrivi");
-    assert.equal(senzaMisura.codice, 1, senzaMisura.out);
-    assert.match(senzaMisura.out, /manca misura\.json/);
-    assert.match(readFileSync(join(b.cartella, "da-riservare.txt"), "utf8"), /\tS01b\n/);
     const fm = join(b.dir, "misure.json");
     writeFileSync(fm, JSON.stringify({ misure: [] }));
+    const senzaMisura = b.lancia("applica", "--data", "2026-11-20", "--scrivi", "--misure", fm);
+    assert.equal(senzaMisura.codice, 1, senzaMisura.out);
+    assert.match(senzaMisura.out, /la riga delle misure di questa radiografia non è in/);
+    assert.match(readFileSync(join(b.cartella, "da-riservare.txt"), "utf8"), /\tS01b\n/);
+    // la misura a vuoto non scrive niente, e non apre la porta al registro
+    assert.equal(b.lancia("misura", "--usd-regia", "3", "--usd-cf", "2", "--misure", fm).codice, 3);
+    assert.equal(existsSync(join(b.cartella, "misura.json")), false);
+    assert.equal(b.lancia("applica", "--data", "2026-11-20", "--scrivi", "--misure", fm).codice, 1);
     const m1 = b.lancia("misura", "--usd-regia", "3", "--usd-cf", "2", "--scrivi", "--misure", fm);
     assert.equal(m1.codice, 3, m1.out);
     const scritte = JSON.parse(readFileSync(fm, "utf8")).misure;
@@ -708,7 +712,7 @@ test("ⓜ applica --scrivi senza misura.json è rosso; misura scrive la riga una
     const m2 = b.lancia("misura", "--usd-regia", "3", "--usd-cf", "2", "--scrivi", "--misure", fm);
     assert.equal(m2.codice, 1);
     assert.match(m2.out, /le righe non si riscrivono/);
-    const ok = b.lancia("applica", "--data", "2026-11-20", "--scrivi");
+    const ok = b.lancia("applica", "--data", "2026-11-20", "--scrivi", "--misure", fm);
     assert.equal(ok.codice, 0, ok.out);
     assert.match(ok.out, /falle scoperte da rendere riservate: 1/);
   } finally { b.pulisci(); }
@@ -762,4 +766,71 @@ test("sorveglia --attendi: esce 1 col segnale nuovo, e 4 al battito quando i seg
     assert.match(quieto.out, /battito/);
     assert.equal(b.lancia("segnali", "--onda", "9").codice, 2);
   } finally { b.pulisci(); }
+});
+
+
+// ── le correzioni dei collaudi A e B del 24/11 ─────────────────────────────────────────────────────
+test("prepasso: tutte le righe citate contano, una chiusura non confermata torna agli agenti, un nome ambiguo pure, e senza nascita il file cambiato basta", () => {
+  const sito = sitoConStoria();
+  try {
+    // a febbraio in a.ts sono cambiate le righe 81-82: «a.ts:10-12, 81» va agli agenti, «a.ts:10-12» no
+    mkdirSync(join(sito.dir, "app/x"), { recursive: true }); mkdirSync(join(sito.dir, "app/y"), { recursive: true });
+    const nata = "radiografia 2026-01-15";
+    const voci = [
+      { dimensione: "qa-flussi", titolo: "Righe multiple", severita: "grave", stato: "aperto", file: "lib/a.ts:10-12, 81", fonte_radiografia: nata },
+      { dimensione: "qa-flussi", titolo: "Righe multiple con virgola stretta", severita: "grave", stato: "aperto", file: "lib/a.ts:10-12,81", fonte_radiografia: nata },
+      { dimensione: "qa-flussi", titolo: "Solo righe ferme", severita: "grave", stato: "aperto", file: "lib/a.ts:10-12", fonte_radiografia: nata },
+      { dimensione: "qa-flussi", titolo: "Chiusura non confermata", severita: "grave", stato: "aperto", file: "lib/d.ts:3", fonte_radiografia: nata, riverifica_24_11: { data: "2026-11-24 10:00", esito: "non_piu_vero", codice: sito.base } },
+      { dimensione: "qa-flussi", titolo: "Senza nascita, file cambiato", severita: "minore", stato: "aperto", file: "lib/a.ts:10-12", riaperto_il: "2026-01-20 10:00" },
+    ];
+    const opz = leggiOpzioni(["--sito", sito.dir, "--radice", RADICE_VERA]);
+    const per = Object.fromEntries(prepassoVoci(opz, sito.base, voci).map((e) => [e.chiave.split("|")[1], e]));
+    assert.equal(per["righe multiple"].classe, "righe_toccate");
+    assert.equal(per["righe multiple con virgola stretta"].classe, "righe_toccate");
+    assert.equal(per["solo righe ferme"].classe, "righe_ferme");
+    assert.equal(per["chiusura non confermata"].classe, "chiusura_da_confermare");
+    assert.ok(daGuardare(per["chiusura non confermata"]));
+    assert.equal(per["senza nascita, file cambiato"].classe, "righe_toccate");
+    assert.equal(classePrepasso({ citati: [{ f: "x" }], spariti: [], commit: "c", cambiati: new Set(), toccati: [], righeToccate: null, ambigui: 1 }), "file_ambigui");
+  } finally { sito.pulisci(); }
+});
+test("ⓕ la falla scoperta non si racconta altrove, e prova_tipo e verificato del ricontrollo hanno valori chiusi", () => {
+  const piano = pianoRic();
+  const falla = aperta({ falla: true, prova: "(nel referto privato)", esito_prova: "(nel referto privato)", nota: null });
+  const r = regoleReferto(refRic(falla, { domande_per_nicola: ["Una voce aperta: la apro dal pannello?"] }), ctxRic(piano));
+  assert.ok(r.rossi.some((x) => /è nominata fuori dal suo ricontrollo/.test(x)), r.rossi.join("\n"));
+  assert.ok(regoleReferto(refRic(aperta({ prova_tipo: "basta chiamare la rotta" })), ctxRic(piano)).rossi.some((x) => /prova_tipo/.test(x)));
+  assert.ok(regoleReferto(refRic(aperta({ verificato: "sì, con la rotta senza accesso" })), ctxRic(piano)).rossi.some((x) => /«verificato» è true, false o null/.test(x)));
+});
+test("segnali: una sessione aperta senza ora d'apertura si dice, invece di tacere", () => {
+  const s = segnaliRadiografia({ ora: Date.now(), sessioni: [{ nome: "S02", ramo: "r-s02", aperta: NaN, sulRemoto: false, finita: false, testa: null }] });
+  assert.ok(s.includes("senza ora d'apertura S02"));
+});
+test("sorveglia --attendi con un origin vero: la sessione che non ha ancora spinto non acceca le altre", () => {
+  const b = banco();
+  try {
+    prontoConSchede(b, "ricontrollo");
+    const nudo = join(b.dir, "origine.git");
+    execFileSync("git", ["init", "-q", "--bare", nudo]);
+    sh(b.ad, "add", "-A"); sh(b.ad, "commit", "-q", "-m", "regista");
+    const partenza = sh(b.ad, "rev-parse", "HEAD");
+    sh(b.ad, "remote", "add", "origin", nudo);
+    sh(b.ad, "push", "-q", "origin", `${partenza}:refs/heads/claude/prova-s01`);
+    writeFileSync(join(b.cartella, "sessioni.json"), JSON.stringify({ regista: "x", sessioni: { S01: { ramo: "claude/prova-s01", onda: 1, partenza, aperta: "2026-11-24 09:00" }, S01b: { ramo: "claude/prova-s01b", onda: 1, partenza, aperta: "2026-11-24 09:00" } } }));
+    const a = b.lancia("sorveglia", "--onda", "1", "--attendi", "--intervallo", "0", "--battito", "0");
+    assert.equal(a.codice, 1, a.out);
+    assert.match(a.out, /ramo S01 claude\/prova-s01/, "il ramo spinto si vede anche se l'altro non c'è");
+    assert.match(a.out, /non partita S01b/);
+    assert.doesNotMatch(a.out, /cieco|non partita S01\b/);
+  } finally { b.pulisci(); }
+});
+test("preventivo: ogni sessione porta la quota di regia della sua misura", () => {
+  const misure = { misure: [
+    { fase: "senza", usd_sessioni: 50, usd_regia_e_cf: 150, gruppi: [{ tipo: "ricontrollo", metodo: "lotti", ultracode: false, voci: 100, usd: 50, chiusi: 30 }] },
+    { fase: "con", usd_sessioni: 200, usd_regia_e_cf: 20, gruppi: [{ tipo: "ricontrollo", metodo: "lotti", ultracode: true, voci: 100, usd: 200, chiusi: 30 }] },
+  ] };
+  const piano = pianoPrev({ S01: { tema: "S01", ultracode: true, lotti: [{ voci: 10 }] }, S01b: { tema: "S01", ultracode: false, lotti: [{ voci: 10 }] } });
+  const d = preventivoDaMisure(piano, misure, STIMA);
+  // S01: 10 × 2 $ × 1,1 = 22 · S01b: 10 × 0,5 $ × 4 = 20 → 42, non (20 + 5) × una quota sola
+  assert.equal(d.usd.atteso, 42);
 });

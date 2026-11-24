@@ -236,12 +236,29 @@ export function fileCitati(campo) {
 // conveniente del lavoro, e stava fuori dal programma: copertura-prima non lo poteva rifare, e ogni ricontrollo lo
 // avrebbe riscritto (regola ⑬). Qui lo usa `prepara`, e `copertura-prima` lo rifà e lo confronta.
 // Una voce tenuta dal programma NON si chiude: resta aperta com'era. Il prepasso toglie lavoro, mai difetti.
-export const CLASSI_DA_GUARDARE = Object.freeze(["righe_toccate", "senza_data", "senza_file", "file_spariti"]);
-const RE_PERCORSO_PP = /((?:[\w@.\-\[\]()]+\/)*[\w@.\-\[\]]+\.(?:tsx|ts|jsx|json|js|mjs|cjs|sql|css|md|yml|yaml|toml|html|txt|sh))(?![\w])(?::(\d+)(?:-(\d+))?)?/g;
+export const CLASSI_DA_GUARDARE = Object.freeze(["righe_toccate", "senza_data", "senza_file", "file_spariti", "file_ambigui", "chiusura_da_confermare"]);
+// il percorso e TUTTE le sue righe: «payout.ts:921-927, 1662, 1869-1889» sono quattro intervalli. Il collaudo A del 24/11
+// ha trovato due gravi sui soldi tenuti fuori perché si leggeva solo il primo.
+const RE_PERCORSO_PP = /((?:[\w@.\-\[\]()]+\/)*[\w@.\-\[\]]+\.(?:tsx|ts|jsx|json|js|mjs|cjs|sql|css|md|yml|yaml|toml|html|txt|sh))(?![\w])(?::(\d+(?:-\d+)?(?:\s*,\s*\d+(?:-\d+)?)*))?/g;
+/** Gli intervalli di riga di una citazione: «10-12, 300» → [[10,12],[300,300]]. Senza righe: [[null,null]]. PURA. */
+export function intervalliDi(testo) {
+  if (!testo) return [[null, null]];
+  return String(testo).split(/\s*,\s*/).map((x) => x.match(/^(\d+)(?:-(\d+))?$/)).filter(Boolean).map((m) => [Number(m[1]), m[2] ? Number(m[2]) : Number(m[1])]);
+}
 const dataIn = (v) => (String(v ?? "").match(/20\d\d-\d\d-\d\d(?:[ T]\d\d:\d\d)?/) ?? [null])[0];
 /** Una voce dichiarata riparata (un campo riparazione_GG_MM con esito riparato o già riparato) ma ancora aperta. PURA. */
 export function dichiarataRiparata(p) {
   return Object.entries(p ?? {}).some(([k, v]) => /^riparazione_\d+_\d+$/.test(k) && v && typeof v === "object" && ["riparato", "gia_riparato_prima"].includes(v.esito));
+}
+/**
+ * L'ultima riverifica della voce dice «non più vero», ma la voce è ancora aperta: una chiusura proposta e mai
+ * confermata (un grave senza verificatore). Va agli agenti sempre: è la chiusura più economica che ci sia, e il
+ * programma stesso scrive questo caso (collaudo A del 24/11). PURA.
+ */
+export function chiusuraDaConfermare(p) {
+  const riv = Object.entries(p ?? {}).filter(([k, v]) => /^riverifica(_\d+_\d+)?$/.test(k) && v && typeof v === "object" && dataIn(v.data))
+    .sort((a, b) => String(dataIn(b[1].data)).localeCompare(String(dataIn(a[1].data))));
+  return riv.length > 0 && (riv[0][1].esito ?? riv[0][1].verdetto) === "non_piu_vero";
 }
 /** Le volte che la voce è stata vista vera, dalla più recente: riverifiche, riapertura, nascita. PURA. */
 export function confermeDi(p) {
@@ -249,7 +266,8 @@ export function confermeDi(p) {
   for (const [k, v] of Object.entries(p ?? {})) {
     if (!/^riverifica(_\d+_\d+)?$/.test(k) || !v || typeof v !== "object") continue;
     const esito = v.esito ?? v.verdetto;
-    if (["non_verificabile", "non_era_un_difetto"].includes(esito)) continue;
+    // «non più vero» non è una conferma che la voce c'è: è una chiusura che aspetta il suo verificatore
+    if (["non_verificabile", "non_era_un_difetto", "non_piu_vero"].includes(esito)) continue;
     if (k === "riverifica_1_11" && esito !== "presente") continue;
     const d = dataIn(v.data);
     if (d) out.push({ d, c: typeof v.codice === "string" ? v.codice : null, da: k });
@@ -260,7 +278,9 @@ export function confermeDi(p) {
   return out.sort((a, b) => String(b.d).localeCompare(String(a.d)));
 }
 /** La classe di una voce dai fatti del sito. PURA. */
-export function classePrepasso({ citati, spariti, commit, cambiati, toccati, righeToccate }) {
+export function classePrepasso({ citati, spariti, commit, cambiati, toccati, righeToccate, ambigui = 0, daConfermare = false }) {
+  if (daConfermare) return "chiusura_da_confermare";
+  if (ambigui > 0) return "file_ambigui";
   if (citati.length === 0) return "senza_file";
   if (spariti.length) return "file_spariti";
   if (!commit || !cambiati) return "senza_data";
@@ -281,7 +301,15 @@ export function prepassoVoci(opz, base, problemi) {
   const perNome = new Map();
   for (const f of allaBase) { const n = f.split("/").pop(); if (!perNome.has(n)) perNome.set(n, []); perNome.get(n).push(f); }
   const memo = (fn) => { const m = new Map(); return (k) => { if (!m.has(k)) m.set(k, fn(k)); return m.get(k); }; };
-  const commitAllaData = memo((d) => { try { return g(["rev-list", "-1", `--before=${d.length === 10 ? `${d} 23:59` : d}`, base]).trim() || null; } catch { return null; } });
+  // Una data, due versioni possibili del sito: la linea principale (--first-parent) e l'ultimo commit di qualunque ramo
+  // (un ramo di riparazione, dove nascono i difetti visti dai controllori). Il collaudo A del 24/11 ha mostrato che
+  // l'una o l'altra da sola tiene fuori voci che l'altra manda agli agenti: si guardano tutte e due, e basta una che
+  // dica «toccato» per mandare la voce agli agenti.
+  const primaDi = (d) => `--before=${d.length === 10 ? `${d} 23:59` : d}`;
+  const commitsAllaData = memo((d) => {
+    const uno = (extra) => { try { return g(["rev-list", "-1", ...extra, primaDi(d), base]).trim() || null; } catch { return null; } };
+    return [...new Set([uno(["--first-parent"]), uno([])].filter(Boolean))];
+  });
   const commitVero = memo((c) => { try { return g(["rev-parse", "--verify", "--quiet", `${c}^{commit}`]).trim() || null; } catch { return null; } });
   const cambiatiDa = memo((c) => { try { return new Set(g(["diff", "--name-only", "--no-renames", `${c}..${base}`]).split("\n").filter(Boolean)); } catch { return null; } });
   const pezzi = memo((k) => {
@@ -294,51 +322,59 @@ export function prepassoVoci(opz, base, problemi) {
     return coda.length === 1 ? coda[0] : coda.length > 1 ? { ambiguo: f } : null;
   };
   // i percorsi anche dentro le note fra parentesi: «app/x.tsx:12-20 (spiegazione) · lib/y.ts (…)»
+  // un nome che porta a più file è un «non lo so»: la voce va agli agenti (collaudo A del 24/11)
   const citatiDi = (campo) => {
     const visti = new Map();
+    let ambigui = 0;
     for (const m of String(campo ?? "").matchAll(RE_PERCORSO_PP)) {
       let f = m[1].replace(/^[(`'"«]+/, "").replace(/^.*?\/marketplace\//, "").replace(/^marketplace\//, "").replace(/^\.\//, "");
       if (f.startsWith("http") || f.includes("//") || /(^|\/)(node_modules|\.next)\//.test(f) || f.startsWith("cervello/") || f.includes("*")) continue;
       if (!f.includes("/") && !/\.(sql|sh)$/.test(f) && !allaBase.has(f)) {
         const n = perNome.get(f); // un nome nudo vale solo se nel sito c'è un file solo con quel nome
-        if (!n || n.length !== 1) continue;
+        if (!n) continue;
+        if (n.length !== 1) { ambigui++; continue; }
         f = n[0];
       }
       const r = risolvi(f);
-      if (r && typeof r === "object") continue; // ambiguo: non dice né sì né no
-      const ff = r ?? f, da = m[2] ? Number(m[2]) : null, a = m[3] ? Number(m[3]) : da;
-      if (!visti.has(`${ff}:${da}`)) visti.set(`${ff}:${da}`, { f: ff, da, a });
+      if (r && typeof r === "object") { ambigui++; continue; }
+      const ff = r ?? f;
+      for (const [da, a] of intervalliDi(m[2])) if (!visti.has(`${ff}:${da}`)) visti.set(`${ff}:${da}`, { f: ff, da, a });
     }
-    return [...visti.values()];
+    return { citati: [...visti.values()], ambigui };
   };
   const esiti = [];
   for (const p of problemi) {
     const conferme = confermeDi(p);
     const ult = conferme[0] ?? null;
-    let commit = null;
-    if (ult) commit = (ult.c && commitVero(ult.c)) || commitAllaData(ult.d);
-    const citati = citatiDi(p.file);
+    let commits = [];
+    if (ult) { const c = ult.c && commitVero(ult.c); commits = c ? [c] : commitsAllaData(ult.d); }
+    const commit = commits[0] ?? null;
+    const { citati, ambigui } = citatiDi(p.file);
+    const daConfermare = chiusuraDaConfermare(p);
     const spariti = citati.filter((x) => !allaBase.has(x.f)).map((x) => x.f);
-    const cam = commit ? cambiatiDa(commit) : null;
+    // i file cambiati dall'ultima conferma: l'unione delle versioni possibili (null se una non si legge)
+    const insiemi = commits.map(cambiatiDa);
+    const cam = commits.length && insiemi.every(Boolean) ? new Set(insiemi.flatMap((x) => [...x])) : null;
     const toccati = cam ? [...new Set(citati.filter((x) => cam.has(x.f)).map((x) => x.f))] : [];
-    // le righe citate sono di quando la voce è nata: il confronto parte dal commit della nascita
+    // le righe citate sono di quando la voce è nata: il confronto parte dal commit della nascita. Senza la data di
+    // nascita non si sa a quale versione del file appartengono: il file è cambiato, quindi la voce va agli agenti
     let righeToccate = null;
     if (toccati.length) {
       const nascita = conferme.find((c) => c.da === "nascita");
-      const rif = nascita ? commitAllaData(nascita.d) : commit;
+      const rifs = nascita ? commitsAllaData(nascita.d) : [];
       righeToccate = false;
       for (const x of citati) {
         if (!cam.has(x.f)) continue;
-        if (!x.da || !rif) { righeToccate = true; break; }
-        const pz = pezzi(`${rif}\u0000${x.f}`);
-        if (pz === null || pz.some(([a, n]) => (n === 0 ? a >= x.da - 1 && a <= x.a : a <= x.a && a + n - 1 >= x.da))) { righeToccate = true; break; }
+        if (!x.da || !rifs.length) { righeToccate = true; break; }
+        const tocca = (rif) => { const pz = pezzi(`${rif}\u0000${x.f}`); return pz === null || pz.some(([a, n]) => (n === 0 ? a >= x.da - 1 && a <= x.a : a <= x.a && a + n - 1 >= x.da)); };
+        if (rifs.some(tocca)) { righeToccate = true; break; }
       }
     }
     const righeFuori = citati.filter((x) => allaBase.has(x.f) && x.a && (righeDi(opz, base, x.f) ?? Infinity) < x.a).map((x) => `${x.f}:${x.a}`);
     esiti.push({
       chiave: chiaveProblema(p), gravita: String(p.severita ?? "").toLowerCase(),
       // righe citate oltre la fine del file: il file è cambiato sotto la voce, anche se la storia dice «fermo»
-      classe: ((c) => (righeFuori.length && !CLASSI_DA_GUARDARE.includes(c) ? "righe_toccate" : c))(classePrepasso({ citati, spariti, commit, cambiati: cam, toccati, righeToccate })),
+      classe: ((c) => (righeFuori.length && !CLASSI_DA_GUARDARE.includes(c) ? "righe_toccate" : c))(classePrepasso({ citati, spariti, commit, cambiati: cam, toccati, righeToccate, ambigui, daConfermare })),
       conferma: ult ? `${ult.d} (${ult.da})` : null, commit: commit ? commit.slice(0, 12) : null,
       spariti, toccati, righe_fuori: righeFuori, dichiarata_riparata: dichiarataRiparata(p),
     });
@@ -735,6 +771,9 @@ export function preventivoDaMisure(piano, misure, stima, { quotaRegia = 0.2, usd
         chiusi_attesi: tipo === "ricontrollo" && Number(ultimo.chiusi) >= 0 && Number(ultimo.voci) > 0 ? (unita * Number(ultimo.chiusi)) / Number(ultimo.voci) : 0,
       };
       if (!stessi.length) avvisi.push(`${id}: nessuna misura di ${tipo} con ultracode ${uc ? "acceso" : "spento"}: uso quella con l'altro (${ultimo.fase})`);
+      // la parte di regia la porta ogni sessione con la quota della SUA misura (collaudo A del 24/11: una quota sola,
+      // presa dall'ultima sessione del giro, valeva per tutte)
+      r.quota = ultimo.quota_regia;
       if (ultimo.quota_regia !== null) quotaUsata = ultimo.quota_regia;
       righe.push(r);
     } else {
@@ -744,18 +783,19 @@ export function preventivoDaMisure(piano, misure, stima, { quotaRegia = 0.2, usd
     }
   }
   const quota = quotaUsata ?? quotaRegia;
-  const somma = (k) => righe.reduce((n, r) => n + r[k], 0);
+  const q = (r) => (typeof r.quota === "number" ? r.quota : quota);
+  const somma = (k, conRegia = false) => righe.reduce((n, r) => n + r[k] * (conRegia ? 1 + q(r) : 1), 0);
   const sess = { minimo: somma("minimo"), atteso: somma("atteso"), massimo: somma("massimo") };
-  const tot = { minimo: tonda(sess.minimo * (1 + quota)), atteso: tonda(sess.atteso * (1 + quota)), massimo: tonda(sess.massimo * (1 + quota)) };
+  const tot = { minimo: tonda(somma("minimo", true)), atteso: tonda(somma("atteso", true)), massimo: tonda(somma("massimo", true)) };
   const chiusi = Math.round(somma("chiusi_attesi"));
-  const usdRicontrollo = righe.filter((r) => r.tipo === "ricontrollo").reduce((n, r) => n + r.atteso, 0) * (1 + quota);
+  const usdRicontrollo = righe.filter((r) => r.tipo === "ricontrollo").reduce((n, r) => n + r.atteso * (1 + q(r)), 0);
   return {
-    sessioni: righe.map((r) => ({ ...r, atteso: tonda(r.atteso), minimo: tonda(r.minimo), massimo: tonda(r.massimo), chiusi_attesi: Math.round(r.chiusi_attesi) })),
+    sessioni: righe.map(({ quota: _q, ...r }) => ({ ...r, atteso: tonda(r.atteso), minimo: tonda(r.minimo), massimo: tonda(r.massimo), chiusi_attesi: Math.round(r.chiusi_attesi) })),
     quota_regia_e_cf: tonda(quota), fonte_quota: quotaUsata !== null ? "dalla misura usata" : "predefinita (onda 9 della riparazione)",
     usd_sessioni: { minimo: tonda(sess.minimo), atteso: tonda(sess.atteso), massimo: tonda(sess.massimo) },
     usd: tot, chiusi_attesi: chiusi, usd_per_chiusa_attesa: chiusi > 0 ? tonda(usdRicontrollo / chiusi) : null,
     percento_settimana: usdPerPunto > 0 ? Math.round((tot.atteso / usdPerPunto) * 10) / 10 : null,
-    per_onda: (piano.onde ?? []).map((o, i) => ({ onda: i + 1, sessioni: o, atteso: tonda(righe.filter((r) => o.includes(r.sessione)).reduce((n, r) => n + r.atteso, 0) * (1 + quota)) })),
+    per_onda: (piano.onde ?? []).map((o, i) => ({ onda: i + 1, sessioni: o, atteso: tonda(righe.filter((r) => o.includes(r.sessione)).reduce((n, r) => n + r.atteso * (1 + q(r)), 0)) })),
     mai_misurate: righe.filter((r) => !r.misurata).map((r) => r.sessione), avvisi,
   };
 }
@@ -1167,6 +1207,8 @@ export function regoleReferto(r, ctx) {
     // ⓕ la falla scoperta durante il ricontrollo (21/11: dettagli di dodici voci ancora aperte finiti nei rami
     // pubblici, visti dal controllore finale dopo il push). Una voce che resta aperta dice SEMPRE se è una falla, anche
     // nel referto parziale: il ramo è pubblico appena spinto. Se lo è, prova, esito e nota vanno solo in chat.
+    if (k?.prova_tipo != null && !PROVE.includes(k.prova_tipo)) rossi.push(`${cx}: prova_tipo «${String(k.prova_tipo).slice(0, 30)}» (vale ${PROVE.join(", ")} o null)`);
+    if (k?.verificato != null && typeof k.verificato !== "boolean") rossi.push(`${cx}: «verificato» è true, false o null`);
     if (k?.esito && k.esito !== "non_piu_vero") {
       if (typeof k?.falla !== "boolean") rossi.push(`${cx}: una voce che resta aperta dice se è una falla (qualcuno può vedere, cambiare o pagare quello che non dovrebbe): «falla» true o false`);
       else if (k.falla === true) {
@@ -1201,6 +1243,14 @@ export function regoleReferto(r, ctx) {
       if (/:\d+(-\d+)?$/.test(p)) rossi.push(`${cx}: «${p}» porta una riga, qui vanno percorsi senza riga`);
       else if (ctx.righeDi(p) === null) rossi.push(`${cx}: ${p} non è un file a ${piano.base.slice(0, 12)}`);
     }
+  }
+  // una falla scoperta nel ricontrollo non si racconta altrove: il suo titolo non torna in domande, prove per la
+  // palestra, copertura o difetti (collaudo A del 24/11: il «come» passava da domande_per_nicola e da non_guardato).
+  // Il programma vede il titolo ripetuto, non una parafrasi: quella resta un giudizio (debito dichiarato).
+  const falleAperte = ricontrolli.filter((k) => k?.falla === true && k?.esito !== "non_piu_vero" && typeof k?.chiave === "string").map((k) => k.chiave.split("|").slice(1).join("|").trim().toLowerCase()).filter((t) => t.length >= 12);
+  if (falleAperte.length) {
+    const altrove = valori({ difetti: r.difetti, scartati: r.scartati, regressioni: r.regressioni, prove_per_la_palestra: r.prove_per_la_palestra, domande_per_nicola: r.domande_per_nicola, copertura: r.copertura, conto: r.conto }).map((v) => v.toLowerCase());
+    for (const t of falleAperte) if (altrove.some((v) => v.includes(t.slice(0, 60)))) rossi.push(`la falla «${t.slice(0, 50)}…» è nominata fuori dal suo ricontrollo: i dettagli vanno solo in chat`);
   }
   // l'id di una riservata non si nomina in nessun altro campo (collaudo del 6/11)
   const idRiservate = difetti.filter((d) => d?.riservato === true && !vuoto(d?.id)).map((d) => d.id);
@@ -1259,8 +1309,8 @@ function sorveglia(opz) {
   // un'onda che non c'è non è un verde: la skill smette di sorvegliare proprio sull'uscita 0 (collaudo del 12/11)
   if (!Array.isArray(onda) || !/^\d+$/.test(String(opz.onda))) return uso(`sorveglia --onda 1..${piano.onde.length} --cartella <dir>`);
   // un nome di ramo che comincia con «-» git lo leggerebbe come un'opzione: si passano solo nomi di ramo veri
-  const rami = onda.map((s) => sess.sessioni[s]?.ramo).filter((r) => typeof r === "string" && /^[A-Za-z0-9][\w./-]*$/.test(r));
-  if (rami.length) gitOk(opz.git, ["fetch", "-q", "origin", "--", ...rami]);
+  const cieco = scaricaRami(opz, onda.map((s) => sess.sessioni[s]?.ramo));
+  if (cieco) console.log(`⚪ ${cieco}: quei rami si guardano al giro dopo`);
   const rossi = [], attese = [], righe = [];
   const tmp = mkdtempSync(join(tmpdir(), "radiografia-"));
   const relCart = rel(opz, opz.cartella);
@@ -1584,7 +1634,12 @@ function applica(opz) {
   rossi.push(...esito.rossi);
   // ⓜ la riga delle misure prima del registro (regola 7 del 21/11: «a fine giro la regia scrive la sua riga», solo
   // testo; il file della riparazione è rimasto fermo dal 17 al 21/11 mentre giravano quattro onde)
-  if (opz.scrivi && !existsSync(join(opz.cartella, "misura.json"))) rossi.push("manca misura.json: prima «misura --cartella … --usd-regia … --usd-cf …», poi il registro (regola 7 del 21/11)");
+  if (opz.scrivi) {
+    // la prova non è un file della cartella ma la riga nel file delle misure, quello da cui nasce il preventivo
+    const fm = resolve(opz.misure ?? join(QUI, "radiografia/misure.json"));
+    const scritta = (() => { try { return (leggiJson(fm).misure ?? []).some((m) => m?.cartella === rel(opz, opz.cartella)); } catch { return false; } })();
+    if (!scritta) rossi.push(`la riga delle misure di questa radiografia non è in ${rel(opz, fm)}: prima «misura --cartella … --usd-regia … --usd-cf … --scrivi», poi il registro (regola 7 del 21/11)`);
+  }
   console.log(`ricontrolli applicati: ${esito.conti.riverificati} · chiusi come già riparati: ${esito.conti.chiusi} · regressioni riaperte: ${esito.conti.riaperti} · falle scoperte da rendere riservate: ${esito.daRiservare.length}${opz.scrivi ? "" : " (a vuoto: aggiungi --scrivi)"}`);
   scriviTesto(join(opz.cartella, "da-riservare.txt"), ["# chiave<TAB>sessione  (voci pubbliche che il ricontrollo ha trovato essere falle ancora aperte: la regia chiede a Nicola se renderle riservate nel registro; i dettagli sono solo nelle chat delle sessioni)", ...esito.daRiservare.map((d) => `${d.chiave}\t${d.sessione}`)].join("\n") + "\n");
   if (opz.scrivi && !rossi.length) {
@@ -1684,7 +1739,8 @@ function misura(opz) {
   const tab = leggiTabella(join(opz.cartella, "da-ricontrollare.txt"));
   const gravitaDi = new Map([...(tab?.values() ?? [])].map((v) => [v.righe[0], v.righe[1]]));
   const riga = rigaMisura(piano, referti, { cartella: rel(opz, opz.cartella), data: timbroOra(), usdRegia, usdCf, gravitaDi, nota: opz.nota ?? null });
-  scriviJson(join(opz.cartella, "misura.json"), riga);
+  // a vuoto non si scrive niente: misura.json nella cartella vuol dire «la riga è nel file delle misure» (collaudo A
+  // del 24/11: con la misura a vuoto applica --scrivi passava e la riga non c'era)
   for (const g of riga.gruppi) console.log(`${g.tipo}${g.ultracode ? " con ultracode" : ""}: ${g.sessioni} sessioni · ${g.tipo === "ricontrollo" ? `${g.voci} voci, ${g.chiusi} chiuse · ` : ""}${g.lotti} lotti · ${g.subagenti} subagenti · ${g.usd === null ? `costo incompleto (${g.usd_noti})` : `${g.usd} $`}`);
   console.log(`totale: ${riga.usd === null ? "non completo" : `${riga.usd} $`} (sessioni ${riga.usd_sessioni ?? "?"} · regia ${usdRegia ?? "?"} · controllore finale ${usdCf ?? "?"})${riga.preventivo_atteso ? ` contro un preventivo atteso di ${riga.preventivo_atteso} $` : ""}`);
   if (riga.usd_sessioni === null) attese.push("il costo di qualche sessione manca (conto.usd nel referto): la riga entra, ma i gruppi incompleti non fanno preventivo");
@@ -1697,7 +1753,7 @@ function misura(opz) {
     else if (M.misure.some((m) => m?.cartella === riga.cartella)) rossi.push(`la riga di ${riga.cartella} è già in ${rel(opz, f)}: le righe non si riscrivono`);
     if (!rossi.length) {
       if (scriviJsonAtomico(f, { ...M, _aggiornato: riga.data, misure: [...M.misure, riga] }) === null) rossi.push(`la scrittura di ${rel(opz, f)} è stata fermata dal freno della memoria`);
-      else console.log(`riga aggiunta a ${rel(opz, f)}`);
+      else { scriviJson(join(opz.cartella, "misura.json"), { ...riga, scritta_in: rel(opz, f) }); console.log(`riga aggiunta a ${rel(opz, f)}`); }
     }
   }
   return chiudi("misura", rossi, attese, opz, { usd: riga.usd, gruppi: riga.gruppi.length });
@@ -1716,7 +1772,10 @@ export function segnaliRadiografia({ sessioni = [], vive = null, preventivoUsd =
   const out = [];
   if (cieco) out.push(`cieco ${cieco}`);
   for (const s of sessioni) {
-    if (!s.sulRemoto) { if (Number.isFinite(s.aperta) && ora - s.aperta > minutiPartenza * 60000) out.push(`non partita ${s.nome}`); }
+    if (!s.sulRemoto) {
+      if (!Number.isFinite(s.aperta)) { if (s.ramo) out.push(`senza ora d'apertura ${s.nome}`); }
+      else if (ora - s.aperta > minutiPartenza * 60000) out.push(`non partita ${s.nome}`);
+    }
     else out.push(`ramo ${s.nome} ${s.ramo}`);
     if (s.finita) out.push(`finita ${s.nome}`);
     else if (s.sulRemoto && s.testa && ora - s.testa.quando > minutiFerma * 60000) out.push(`ferma ${s.nome} ${String(s.testa.sha).slice(0, 7)}`);
@@ -1736,11 +1795,19 @@ function ondaDi(opz, piano) {
   if (!/^\d+$/.test(String(opz.onda ?? "")) || !Array.isArray(piano.onde[Number(opz.onda) - 1])) return null;
   return piano.onde[Number(opz.onda) - 1];
 }
-// scarica i rami dell'onda; senza un «origin» (il banco delle prove) non c'è niente da scaricare, e non è un errore
+// Scarica i rami dell'onda UNO PER UNO, col refspec esplicito (vale anche in un clone a ramo singolo). Un fetch solo
+// per tutti falliva intero se un ramo non era ancora spinto: proprio la sessione che non parte accecava tutta l'onda
+// fino al battito (collaudo A del 24/11). Un ramo che non c'è ancora non è un errore; un fetch che fallisce per altro
+// sì. Senza un «origin» (il banco delle prove) non c'è niente da scaricare.
 function scaricaRami(opz, rami) {
   const buoni = rami.filter((r) => typeof r === "string" && RE_RAMO.test(r));
   if (!buoni.length || !(gitOk(opz.git, ["remote"]) ?? "").split("\n").includes("origin")) return null;
-  return gitOk(opz.git, ["fetch", "-q", "origin", "--", ...buoni]) === null ? "fetch dei rami fallito" : null;
+  const falliti = [];
+  for (const r of buoni) {
+    try { git(opz.git, ["fetch", "-q", "origin", "--", `+refs/heads/${r}:refs/remotes/origin/${r}`]); }
+    catch (e) { if (!/couldn't find remote ref|couldn.t find remote ref/i.test(`${e?.message ?? ""} ${e?.stderr ?? ""}`)) falliti.push(r); }
+  }
+  return falliti.length ? `fetch fallito per ${falliti.join(" ")}` : null;
 }
 function fattiRadiografia(opz, piano, onda, cieco = null) {
   const sess = leggiSessioni(opz);
