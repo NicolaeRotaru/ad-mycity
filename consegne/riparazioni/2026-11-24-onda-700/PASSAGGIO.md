@@ -46,6 +46,9 @@ Dopo il revert, `git diff 5b8c786c96ec789918b3e85361ca435cef726b92 HEAD -- app/r
 Le prove che ho visto verdi dopo il revert: tsc 0, eslint su page.tsx 0, vitest sui 6 file di prova vicini 0 (25 prove).
 vitest completo: IN CORSO alle 15:30.
 Per spingere serve add_repo su NicolaeRotaru/mycity con accesso push. Fallo solo dopo il clic di Nicola, passato dall'AD.
+L'AD aveva proposto un'altra strada: una sessione piccola con create_session sul sito e outcome_branch ccr-d7a54140-hak4ez, che fa il revert e spinge.
+Alle 15:23 il controllo dei permessi della sessione l'ha negata come «aggirare la sorveglianza»: spingere sul sito senza il clic di Nicola.
+Non riprovarla e non aggirarla: la spinta resta legata al clic di Nicola. Se Nicola vuole la strada senza clic, la autorizza lui nelle impostazioni.
 
 **I numeri dopo C01.** `applica` a vuoto è verde: 21 si chiudono, 15 erano già riparate, 67 restano aperte, 31 nati (29 dai referti e 2 da C01, tutti minori).
 `conti` è verde: 103 aperte nel registro, come deve essere prima dell'unione di Nicola.
