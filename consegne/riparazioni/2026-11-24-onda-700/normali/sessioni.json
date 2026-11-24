@@ -94,7 +94,10 @@
     "R07"
    ],
    "parziale": true,
-   "aperta": "2026-11-24 17:15"
+   "aperta": "2026-11-24 17:15",
+   "finita": true,
+   "punta": "c69d997906944b9f40c1c47346e13933532f627a",
+   "archiviata": "2026-11-24 17:36"
   }
  },
  "controllori": {
