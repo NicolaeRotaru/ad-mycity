@@ -110,6 +110,18 @@
    "finita": true,
    "punta": "c69d997906944b9f40c1c47346e13933532f627a",
    "archiviata": "2026-11-24 17:36"
+  },
+  "K05": {
+   "id": "session_01R8112NFfioktgK2UyUJotU",
+   "ramo": "ccr-d7a54140-hak4ez-k05",
+   "partenza": "fac374b6256d96d3c4ad9fc577e19a95f95bfe11",
+   "riparatori": [
+    "R08",
+    "R09",
+    "R10"
+   ],
+   "limite_usd": 5,
+   "partita": "2026-11-24 17:59"
   }
  },
  "controllori": {
