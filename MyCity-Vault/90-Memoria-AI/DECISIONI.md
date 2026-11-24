@@ -7437,6 +7437,6 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 ## 2026-11-24 22:38 — L'offerta al negozio si fa su misura anche secondo l'abbonamento che ha scelto (🟡, richiesta di Nicola)
 - **Chi e quando:** Nicola, 24/11 alle 22:38. Le sue parole, riportate dalla sessione «Monitoraggio sessioni simultanee»: «il servizio deve essere anche in base all'abbonamento che hanno scelto… è già un preventivo sulla base dei dati che si ha sul cliente, però in più deve essere anche in base all'abbonamento».
 - **Cosa cambia:** finora l'offerta si basava sui dati che abbiamo del cliente. Adesso conta anche l'abbonamento che ha scelto: Base, Business o Premium.
-- **Chi la costruisce:** la sessione «Analisi del business», sul ramo claude/offerta-su-misura del sito (repo mycity).
+- **Chi la costruisce:** la sessione «Analisi del business», sul ramo claude/offerta-su-misura del sito (repo mycity). Nicola l'ha unita in main la sera stessa (mycity#317, commit ea10d5e). Non servono migrazioni né segreti.
 - **Fonte:** messaggio della sessione di monitoraggio delle 22:50 alla sessione «Ora del Gusto 2.0». Chi scrive questa riga non ha letto la chat originale di Nicola.
 - **Colore:** 🟡: è codice del sito in un ramo. Il passaggio in produzione resta di Nicola.
