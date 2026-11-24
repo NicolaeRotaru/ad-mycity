@@ -46,6 +46,7 @@ Regole da tenere (lezioni del 22/11): SHA interi; controllo a 10 minuti anche pe
   - Tetto dei passi 1 e 2: **360 $** (il massimo delle due forchette: 60 + 300). La percentuale della quota non l'ha data: il tetto è rigido, oltre ci si ferma e si dice all'AD (regola 2 del 15/11: non si alza a metà).
   - Mandato stretto: non ha risposto → restano le regole di sempre (i nati vanno nel registro, R-B).
   - Le 65 domande: non ancora risposte.
+- 2026-11-24 17:03 Nicola, scritto nella chat della regia settima: «A» alla fermata delle 15:25 → giro di correzione nel tetto (circa 22 voci delle 44 più il collaudo delle 11), tetto sempre 360 $. Firme sulle prove comuni e domande: non date.
 
 ## Ancora aperto per Nicola dal giro prima
 Cancellare i rami `claude/settimana-700-regia-cf`, `-s01`, `-s01b`, `-s01c`, `-s01d` (ad-mycity) e `-m10` (mycity); migrazione 703; scelte R17-002/003, R17-010, R18-004, R14-002, R15-015, S02-04; giro riservato (S02-02, -05, -06, 4 nati di KS02, S02-04, S02-08).
