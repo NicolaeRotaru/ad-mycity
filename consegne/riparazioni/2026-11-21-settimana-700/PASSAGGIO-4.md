@@ -10,6 +10,11 @@ a: la regia quarta della settimana dei 700
 ## In parole semplici
 I 12 riparatori delle voci semplici sono al lavoro dalle 00:25 circa. Tre hanno finito (R01, R06, R11) e il loro collaudo K01 è appena partito.
 Dai piani ho tolto 11 voci: 10 delicate (soldi, permessi, dati personali, annulli) vanno all'onda dei delicati, una (ritiro in negozio, quarto giro) va a Nicola.
+Per esempio: il ritiro in negozio non lo ripara nessun riparatore, perché prima serve una scelta di Nicola.
+
+## Cosa cambia per te
+Per Nicola: niente finché non unisce la richiesta del sito.
+Per la regia quarta: prende la sorveglianza dei 12 riparatori e dei collaudi.
 
 ## Cosa non ho verificato
 - Il costo delle figlie: alle 01:10 non lo mostravano ancora. Tetto del giro 480 $.
