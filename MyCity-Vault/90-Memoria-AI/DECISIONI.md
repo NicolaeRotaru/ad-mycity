@@ -7381,3 +7381,9 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Proposta dell'AD, da confermare:** dalla scheda nasce una vetrina pronta, fatta con le sezioni che il sito ha già (`lib/store-site.ts`); il venditore la vede in anteprima nella dashboard e la pubblica con un clic; in pubblico vanno solo i dati confermati; la pagella la calcola il sito dai suoi dati. Passata a «Servizi SDG» (session_01R8112L8Qbu42abzNPKaAkQ), che sta progettando come conservare la scheda.
 - **Colore:** 🔴 scelta di prodotto di Nicola; la costruzione sarà 🟡, su un ramo con PR.
 
+## 2026-11-24 20:55 — Analisi dei canali: Instagram con l'API ufficiale, Google solo dopo i costi; tutti i lavori con l'API di Claude passano all'AD (🔴, decisioni di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD («n8n workflow per MyCity»), 24/11 verso le 20:50, scegliendo fra le opzioni proposte.
+- **Cosa:** ① Instagram dei negozi: sì, col conto Meta dell'agenzia e l'API ufficiale (solo profili aziendali o creator); ② scheda Google (valutazione e recensioni) con l'API Google Places: sì, ma prima l'AD verifica i costi; ③ API di Claude, parole sue: «Passa tutti i lavori che usano le api e falle fare all'ad e spiegami come fa l'ad ad usare il piano max».
+- **Fatto subito:** flussi 17 e 18 già senza Claude (commento spento dalle 04:20). Da fare: il passaggio dei flussi n8n che chiamano Claude (accesi: 01, 04, 08, 16, 99) alla coda dei lavori dell'AD. È una modifica della macchina (🟡, con la firma di Nicola) e il worker del server oggi è spento per la regola «si riaccende a difetti zero»: serve una sua scelta.
+- **Costi Google (fonti non ufficiali, la pagina di Google da qui non si apre):** Place Details Enterprise (valutazione e numero di recensioni) 20 $ ogni 1.000 chiamate, con 1.000 chiamate gratis al mese per voce; serve comunque un conto di fatturazione Google con la carta.
+
