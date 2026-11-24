@@ -191,7 +191,11 @@
    "integrazione": "d5d84f3a31d6aa7d7fcd5cad2306a069bd63c18a",
    "onda": 3,
    "limite_usd": 3,
-   "partita": "2026-11-24 20:20"
+   "partita": "2026-11-24 20:20",
+   "finita": true,
+   "punta": "8c631b070c074c909af801cb0bf8a96e8957bcf2",
+   "costo_usd": 1.6,
+   "finita_alle": "2026-11-24 20:35"
   }
  }
 }
