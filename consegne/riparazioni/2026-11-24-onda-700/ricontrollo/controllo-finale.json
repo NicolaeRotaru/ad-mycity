@@ -1,0 +1,120 @@
+{
+  "aggiornato": "2026-11-24 12:52",
+  "cartella": "consegne/riparazioni/2026-11-24-onda-700/ricontrollo",
+  "commit_controllato": "fec3e792c29f55fcdc656bdd4805e193d0b6e506",
+  "base_sito": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+  "profilo": "ricontrollo",
+  "conti": "verde",
+  "rossi_conti": [],
+  "conti_uscita": "referti 2 di 2 · difetti trovati 0 (bloccanti 0, gravi 0, minori 0) · scartati 0 · nel grezzo 0 · fuori dal grezzo 0 · conti exit 0 · copertura-dopo: perimetro 0 file (profilo senza lenti), exit 0",
+  "ricontrolli": "141 voci: 83 ancora_vero, 42 cambiato, 14 non_piu_vero (1 grave confermato da un verificatore, 13 minori), 2 non_verificabile",
+  "riservatezza": [
+    {
+      "dove": "referti/S01.json",
+      "campo": "ricontrolli[76].nota (in parte esito_prova)",
+      "cosa": "tipo a, confidenza 40%: residuo aperto di permessi sul database, con file e righe della migrazione; lo stesso dettaglio in forma breve è già nel registro pubblico come minore aperto"
+    },
+    {
+      "dove": "referti/S01b.json",
+      "campo": "ricontrolli[18].nota, esito_prova, prova",
+      "cosa": "tipo a, confidenza 35%: stessa debolezza del segno precedente (tabella, colonna, migrazione e modo d'uso); già nel registro pubblico in forma breve"
+    },
+    {
+      "dove": "referti/S01.json",
+      "campo": "ricontrolli[15].nota, esito_prova",
+      "cosa": "tipo b, confidenza 50%: stato della protezione del ramo e ordine del rilascio, ancora aperto; area vicina a due maschere «rilascio»"
+    },
+    {
+      "dove": "referti/S01.json",
+      "campo": "ricontrolli[14].nota, prova",
+      "cosa": "tipo b, confidenza 35%: percorso della pubblicazione automatica, stessa area del segno precedente"
+    },
+    {
+      "dove": "referti/S01.json",
+      "campo": "ricontrolli[1].prova, nota; ricontrolli[26].esito_prova, prova",
+      "cosa": "tipo b, confidenza 35%: funzione e rotta di amministrazione con una scrittura senza condizioni, ancora aperta; area pagamenti, dove ci sono maschere gravi"
+    },
+    {
+      "dove": "referti/S01.json",
+      "campo": "ricontrolli[39].nota",
+      "cosa": "tipo a, confidenza 35%: due rotte del server accettano un dato senza controllo, abuso lieve, ancora aperto"
+    },
+    {
+      "dove": "referti/S01.json",
+      "campo": "ricontrolli[48].esito_prova, nota",
+      "cosa": "tipo b, confidenza 30%: quale guardia di tabella ferma un'operazione e con quale ruolo passa; area «regole del database»"
+    },
+    {
+      "dove": "referti/S01.json",
+      "campo": "ricontrolli[101].esito_prova",
+      "cosa": "tipo a, confidenza 30%: vincolo mancante su una colonna di prodotto, con la dimostrazione dell'abuso da parte di un negozio"
+    },
+    {
+      "dove": "referti/S01b.json",
+      "campo": "ricontrolli[13].nota",
+      "cosa": "tipo a, confidenza 30%: pagamenti, un servizio a pagamento che resta attivo dopo un rimborso, con file e punto mancante (esito cambiato)"
+    },
+    {
+      "dove": "referti/S01.json",
+      "campo": "ricontrolli[36].esito_prova, prova",
+      "cosa": "tipo a, confidenza 30%: dati personali che restano nel browser senza scadenza, ancora aperto"
+    },
+    {
+      "dove": "referti/S01.json",
+      "campo": "ricontrolli[59].esito_prova; ricontrolli[108].esito_prova; ricontrolli[78].nota",
+      "cosa": "tipo a, confidenza 20-25%: privacy, finestra del giro di cancellazione account e cosa resta raggiungibile nei secchi pubblici; area con maschere gravi"
+    },
+    {
+      "dove": "referti/S01.json",
+      "campo": "ricontrolli[33].esito_prova, prova",
+      "cosa": "tipo b, confidenza 25%: rotte di verifica del fattorino e uno stato che non si chiude; area vicina a due maschere"
+    },
+    {
+      "dove": "referti/S01.json, referti/S01b.json",
+      "campo": "S01 ricontrolli[6], [22], [64], [99] · S01b ricontrolli[11] · S01 copertura e domande_per_nicola",
+      "cosa": "tipo a/b, confidenza 10-20%: contorno, nessuna ricetta"
+    }
+  ],
+  "riservatezza_note": [
+    "Puliti: grezzo.json, trovati.txt, diario-della-sorveglianza.txt, doppioni.json, piano.json, sessioni.json, le due schede, REGIA.md dalla sezione «Fermo su», e in S01b copertura, domande e conto.",
+    "Nessun id di una riservata compare fuori dal suo posto. Il confronto (b) delle otto parole è solo per inferenza: nel deposito delle 85 falle riservate ci sono solo le maschere (area e gravità), e contro le maschere nessuna ripetizione.",
+    "Tutte le voci segnate sono pubbliche e non riservate nel registro: i referti ne aggiungono il dettaglio. Nessun segno supera il 50%. Va deciso voce per voce se è una falla; se sì, va tolta anche dal registro pubblico.",
+    "I due referti sono già spinti su rami pubblici (le sessioni e la regia al fec3e79): se un segno è una falla vera, va detto a Nicola, che decide se riscrivere i rami.",
+    "Il corpo della PR della regista non c'era: non è stato riletto. I due lettori security hanno letto anche copertura e domande di S01 troncate a 3500 caratteri per campo."
+  ],
+  "sorpresa": [
+    {
+      "id": "S01 ricontrolli[22] · microcopy · avviso «freno fermo a metà» con lo stato vero (non_piu_vero, minore)",
+      "comando": "npx vitest run tests/unit/riparazione-r09-freno-fermo-stato-vero.test.ts && npx vitest run tests/unit/_cf/cf-freno-altra-causa.test.ts (ricostruito dal CF sul banco di r09: carta con 5,00 € e 3,50 € già resi per altra causa, rimborso id re_altro, la scrittura della fascia cade)",
+      "esito": "verde come scritto: r09 2 su 2; prova del CF 2 su 2 (nessun avviso dice «già reso sulla carta», l'avviso «fermo a metà» dice «non è l’euro della veloce», rimborso non richiamato). Mutazione: frase vecchia «già reso sulla carta» nel ramo dell'altra causa → 2 rossi su 2; codice ripristinato. Il test temporaneo della sessione (tests/unit/_s01/L02-1.test.ts) non è nel deposito. Resta il caso limite che la sessione nota: un rimborso di altra causa di esattamente 1,00 € con un id Stripe è letto come l'euro della veloce (lib/ordini/veloce-non-confermata.ts:571)."
+    },
+    {
+      "id": "S01 ricontrolli[117] · frontend-ux · nome del negozio con cifra, apostrofo, virgolette o «table» in cassa (non_piu_vero, minore)",
+      "comando": "npx vitest run tests/unit/_cf/cf-nome-negozio-in-cassa.test.ts (ricostruito dal CF: ApiErrors.conflict → res.json → apiErrorMessage → friendlyError per 3 Archi, 'L Furnè, «Da Mario», Bistrot La Table, Pane Quotidiano, 1920 Bottega; più il solo filtro dell'ultimo ramo per i primi tre)",
+      "esito": "verde come scritto: 9 su 9. Mutazione: passaggio delle frasi delle rotte spento e filtro ristretto alle sole lettere → 8 rossi su 9 (resta verde solo Pane Quotidiano, il caso di controllo); codice ripristinato. Il test temporaneo della sessione (tests/unit/_s01/L08-13.test.ts) non è nel deposito."
+    },
+    {
+      "id": "S01 ricontrolli[82] · api-backend · un 429 della ricerca indirizzi fa salvare l'indirizzo senza coordinate (non_piu_vero, minore, lettura-codice)",
+      "comando": "lettura di app/profile/addresses/page.tsx:63-135, components/StoreLocationPicker.tsx:160-185, app/api/geocode/route.ts:10-64, lib/shipping-coordinate.ts:38-70",
+      "esito": "regge come scritto: la descrizione del registro parla del 429 di /api/geocode, e oggi quel 429 esce senza salvare («l'indirizzo non è stato salvato. Riprova»); lo StoreLocationPicker tratta 429 e 5xx come servizio limitato. Residuo minore, fuori dal titolo: quando a limitare è Nominatim, /api/geocode risponde 503 e la rubrica salva lo stesso senza coordinate, dicendo «non abbiamo trovato la posizione… controlla via e CAP»; nessuno le riempie dopo (il server le prende solo dagli indirizzi salvati con coordinate). Il profilo non ammette minori nuovi: la regista decide dove portarlo."
+    }
+  ],
+  "sorpresa_nota": "Il grezzo è vuoto (0 difetti nuovi): come chiesto dalla regista, le tre prove sono estratte a caso (mulberry32, seme 20261124) fra le 13 chiusure minori non_piu_vero mai riguardate da un verificatore, e rilanciate sulla copia del sito al e67ed29 (git clone superficiale del deposito pubblico in /home/user/mycity-cf, npm ci). Nessun database usato.",
+  "togli": [],
+  "simili_nota": "doppioni.json non ha simili né simili_registro: niente da decidere.",
+  "buchi": [
+    "Il database vero: migrazioni applicate in produzione (131, 158, 381, 501), le regole di inserimento sui reclami dal vivo, le prove SQL locali che le sessioni non hanno creato (rimessa contanti, regola dei reclami, vincolo dei 18 anni). Vietato a tutte le sessioni.",
+    "Vercel: variabili di produzione (RESEND_API_KEY, RESEND_FROM, SUPPORT_EMAIL, NEXT_PUBLIC_TITOLARE_*, GA4, Sentry, Upstash, chiave di servizio), Fluid compute, il commit davvero pubblicato.",
+    "GitHub: la regola «Main» (accesa? su che ramo?), i segreti del rilascio, la variabile E2E_DATI_DI_PROVA e se «La cassa vera» ha mai girato.",
+    "Le misure nel browser e coi server: pagine a 280 px col testo al 200%, codice HTTP delle pagine inesistenti, cache di React Query dopo l'eliminazione di una lista, richieste di rete e LCP della scheda prodotto, contenuto del pacchetto JS dopo la build, StoreLocationPicker montato con un 429 finto, layout di negozio e fattorino.",
+    "I servizi esterni: Nominatim vero, il modello AI vero del copilot, Supabase Auth in produzione, la trasformazione HEIC di Supabase, Stripe.",
+    "Le 2 voci non_verificabile di S01 (tetto di spesa AI condiviso in produzione; chiave della posta sul sito vero): dipendono dalla produzione.",
+    "La storia git: la copia del sito è a profondità 1, nessuno sa dire quando sono arrivate le riparazioni.",
+    "I test temporanei delle sessioni (tests/unit/_s01/*) non sono nel deposito: le chiusure a comando che si reggono solo su quelli non si possono rilanciare così come sono scritte (il CF ne ha ricostruiti due).",
+    "Il corpo della PR della regista: da rileggere per la riservatezza quando c'è."
+  ],
+  "agenti": 2,
+  "agenti_dettaglio": "2 security nuovi su sonnet (riservatezza: S01 voci 0-59 con copertura e domande; S01 voci 60-119 con S01b e i file piccoli). Le tre prove a sorpresa le ha rilanciate il CF senza subagenti.",
+  "token_subagenti": 149862,
+  "divieto": "nessuno strumento del database vero, di Vercel o di Stripe, né per il CF né per i subagenti; niente add_repo: solo la copia del sito al e67ed29 in /home/user/mycity-cf"
+}

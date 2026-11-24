@@ -1,0 +1,34 @@
+{
+  "corsia": 9,
+  "territorio": "R09",
+  "difetti": [
+    {
+      "chiave": "deploy-sre|la rotta «sei pronto» legge i battiti dei lavori pianificati senza un tetto di tempo: un database lento la lascia appesa",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r09-pronto-battiti-con-tetto.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base cdb1d41cd37558e9f03644755692184ae107c9c0^ --file app/api/health/ready/route.ts --prove tests/unit/riparazione-r09-pronto-battiti-con-tetto.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R09 --base cdb1d41cd37558e9f03644755692184ae107c9c0^ --file app/api/health/ready/route.ts --prove tests/unit/riparazione-r09-pronto-battiti-con-tetto.test.ts  --json → uscita 0 (K03)",
+      "nota_fix": "La lettura di cron_heartbeats corre in Promise.race con lo stesso TETTO_MS (3000) del controllo sul database: allo scadere la rotta risponde con i battiti non letti (degraded, 200) e il dettaglio «nessuna risposta entro 3000ms»."
+    },
+    {
+      "chiave": "deploy-sre|il commento di stalecrons dice ancora che i lavori senza battito sono ignorati",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r09-commento-stalecrons.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 19353ada296b32ba45234a6d3c4e7103699a31f4^ --file lib/cron-health.ts --prove tests/unit/riparazione-r09-commento-stalecrons.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R09 --base 19353ada296b32ba45234a6d3c4e7103699a31f4^ --file lib/cron-health.ts --prove tests/unit/riparazione-r09-commento-stalecrons.test.ts  --json → uscita 0 (K03)",
+      "nota_fix": "Riscritto solo il commento sopra staleCrons: un lavoro senza battito si segnala dopo la finestra di prima accensione se si conosce installatoDaMs, altrimenti resta ignorato. Codice invariato."
+    },
+    {
+      "chiave": "deploy-sre|il conto degli errori del sito non ha un tempo massimo e fa una richiesta per ogni errore",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r09-conto-errori.test.ts tests/unit/riparazione-r01-errori-del-sito-senza-sentry.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base a083413448a582358e2111eccf021834e27c06c8^ --file lib/logger.ts --prove tests/unit/riparazione-r09-conto-errori.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R09 --base 1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46 --file lib/logger.ts --prove tests/unit/riparazione-r09-conto-errori.test.ts --json → uscita 0 (K03)",
+      "nota_fix": "Due commit della voce: a0834134 e il giro di correzione 8048e2b9 (che riporta alla base la prova comune riparazione-r01-errori-del-sito-senza-sentry, decisione della regista). Il fetch verso Upstash si interrompe dopo 3 s; gli errori dello stesso giro si sommano e partono in UNA pipeline; le richieste hanno una scorta di 5 che si ricarica di una ogni 10 s: in una tempesta non parte più una richiesta per errore. Il logger non lancia mai."
+    },
+    {
+      "chiave": "deploy-sre|il giorno che si riaccendono i lavori, il cliente di un ordine veloce vecchio riceve una scadenza già passata",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r09-freno-ordine-di-ieri.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 9de228fbb43816dd7a2fbc8fe1fad1f2d9bd15c9^ --file lib/ordini/veloce-non-confermata.ts --prove tests/unit/riparazione-r09-freno-ordine-di-ieri.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R09 --base a652438a^ --file lib/ordini/veloce-non-confermata.ts --prove tests/unit/riparazione-r09-freno-ordine-di-ieri.test.ts  --json → uscita 0 (K03)",
+      "nota_fix": "Commit della voce: 9de228fb e il giro di correzione del collaudo a652438a. A carrello intatto spostaIlCarrello guarda la scadenza di OGNI ordine nuovo del carrello, non solo del primo letto: se uno è già scaduto non si sposta niente e non si scrive a nessuno, in qualunque ordine il database renda le righe; expire-stale-orders annulla lo scaduto e il giro dopo il freno sposta il valido e avvisa il cliente. Il carrello si sposta tutto insieme perché l'euro della veloce sta sull'ordine che porta la base (può essere proprio lo scaduto): spostare solo il valido lascerebbe l'euro a mano e confonderebbe consegnaDopoLAnnullo e il giro dopo. Prezzo: il valido resta «Adesso» senza avviso fino al giro di expire (al più 30 minuti), ora uguale in tutte e due le letture. Eccezione lasciata com'era: con un fratello già spostato da un giro caduto a metà, il resto lo segue (la prova esistente riparazione-r09-carrello-spostato-a-meta conta su questo). PROVA COMUNE TOCCATA CON IL PERMESSO DELLA REGIA (21/11 alle 23:57): tests/unit/minori-s02-freno-della-veloce.test.ts, caso «2372», nascita alle 22:45 invece che alle 20:45, perché il vecchio caso pretendeva lo spostamento di un ordine già scaduto; sta nel commit 9de228fb (già spinto: separarla avrebbe chiesto di riscrivere la storia); non toccata nel giro di correzione."
+    }
+  ]
+}

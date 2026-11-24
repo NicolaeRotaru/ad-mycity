@@ -1,0 +1,16 @@
+{
+  "_cosa_e": "Il preventivo della nuova onda (24/11), fatto dalle righe di cervello/riparazione/misure.json con la stessa configurazione (regola 1 del 21/11). Sono stime da misure vere, non promesse.",
+  "creato": "2026-11-24 11:40",
+  "registro_sito": { "aperti": 624, "lavorabili": 452, "bloccanti": 4, "gravi": 46, "minori": 402, "fuori": { "riservate": 89, "domande_per_nicola": 65, "senza_percorso": 18 } },
+  "divisione": { "delicati": 349, "normali": 103, "regola": "filtro sul testo della voce (filtro-delicati.mjs): gravi e bloccanti, dimensioni soldi/dati/permessi, parole di soldi, annulli, dati personali, permessi" },
+  "passi": [
+    { "passo": 1, "cosa": "ricontrollo lampo delle voci con almeno un file cambiato sul sito dal 21/11", "voci": 198, "sessioni": "2 + controllore", "usd": [45, 60], "chiuse_attese": [20, 40], "da_dove": "ricontrollo del 21/11: 117 chiuse su 459 voci con circa 105 $ (0,9 $ a chiusa); qui la resa è stimata più bassa (10-20%) perché le voci sono state ricontrollate 3 giorni fa" },
+    { "passo": 2, "cosa": "le 103 voci normali", "voci": 103, "sessioni": "7 riparatori senza ultracode, 3 collaudatori, 1 controllore, regia", "usd": [180, 300], "usd_atteso": 215, "chiuse_attese": [25, 40], "usd_per_chiusa": [5, 12], "da_dove": "onde 7 (5,66), 8 (4,35), 9 giro 1 (8,22), 9 giro 4 (4,74), settimana dei 700 onda 1 (circa 7,5) e onda 2 (13,2). Resa 26-35% sugli avanzi" },
+    { "passo": 3, "cosa": "delicati, onda 1 (45 dei 50 gravi e bloccanti dentro)", "voci": 192, "sessioni": "12 riparatori con ultracode, 4 collaudatori (due lenti sui soldi), 1 controllore, regia", "usd": [550, 950], "usd_atteso": 700, "chiuse_attese": [35, 60], "usd_per_chiusa": [12, 18], "da_dove": "onda 9 giro del 19/11 (12,23), giro 3 (17,76), giro 5 (15,18). Sopra 12 $ a chiusa: decide Nicola (regola 1 del 21/11)" },
+    { "passo": 4, "cosa": "delicati, onda 2, più le correzioni", "voci": 157, "usd_atteso": 600, "chiuse_attese": [25, 45] }
+  ],
+  "settimana": { "usd": [1300, 1900], "usd_atteso": 1550, "chiuse_attese": [130, 170], "nati_attesi": "circa uno per chiusa al ritmo misurato (settimana dei 700: 72 nati su 70 chiuse nei giri di riparazione)", "registro_a_fine_settimana": "circa 590-600 aperti senza cambiare le regole" },
+  "settecento": "Non si raggiungono in una settimana: gli aperti del sito sono 624, i lavorabili 452; ogni voce chiede in media 3 passaggi (resa 25-35% a giro); chiudere tutti i 452 costerebbe 6.000-7.000 $ ai costi misurati; e oggi nasce circa un difetto nuovo per ogni chiuso.",
+  "quota": { "letta": "2026-11-24 11:00, get_session dell'AD: stato allowed, niente extra; il limite settimanale si rinnova giovedì 26/11 alle 10:00", "calibrazione": "30,5 $ a punto (onda 1, 12/11) oppure circa 200 $ a punto (lettura in app del 15/11): non sappiamo quale vale. Serve la percentuale che Nicola vede in app (regola 27)" },
+  "spesa_settimana_dei_700": "circa 770 $ sul tetto di 1.200 $ (ricontrollo circa 120, onda 1 circa 400, onda 2 224, riservata 24): stima dalle righe di misure.json e dal quaderno"
+}

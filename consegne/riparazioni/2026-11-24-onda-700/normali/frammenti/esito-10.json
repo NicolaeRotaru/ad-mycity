@@ -1,0 +1,13 @@
+{
+  "corsia": 10,
+  "territorio": "R10",
+  "difetti": [
+    {
+      "chiave": "frontend-ux|un negozio senza nome ha metadati indicizzabili mentre la sua pagina risponde «non trovato»",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r10-pagina-negozio-senza-nome.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base f4a0858692ab78108a20604e1e8a4a53c8a8b539^ --file app/store/[id]/[slug]/layout.tsx --prove tests/unit/riparazione-r10-pagina-negozio-senza-nome.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base f4a0858692ab78108a20604e1e8a4a53c8a8b539^ --file app/store/[id]/[slug]/layout.tsx --prove tests/unit/riparazione-r10-pagina-negozio-senza-nome.test.ts --json → uscita 0 (K05)",
+      "nota_fix": "generateMetadata della pagina su misura usa la stessa condizione del guscio (nome vuoto/null compreso) e da noindex senza canonico; la chiave robots si omette invece di essere undefined."
+    }
+  ]
+}

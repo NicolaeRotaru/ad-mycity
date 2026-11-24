@@ -1,0 +1,215 @@
+{
+ "regista": "session_01R8112KPerW4JdmjTRVhpJR",
+ "sessioni": {
+  "R01": {
+   "id": "session_01R8112Lp2bBcajUDGtjG7Qz",
+   "ramo": "ccr-d7a54140-hak4ez-m01",
+   "onda": 1
+  },
+  "R02": {
+   "id": "session_01R8112PK4PfyGTkr6aYGLXf",
+   "ramo": "ccr-d7a54140-hak4ez-m02",
+   "onda": 1
+  },
+  "R03": {
+   "id": "session_01R8112Np1tzDBAtjMNpBPka",
+   "ramo": "ccr-d7a54140-hak4ez-m03",
+   "onda": 1
+  },
+  "R04": {
+   "id": "session_01R8112M9VcVXS9YRyzaNGuB",
+   "ramo": "ccr-d7a54140-hak4ez-m04",
+   "onda": 1
+  },
+  "R05": {
+   "id": "session_01R8112KCokQvSt7SYJVbB21",
+   "ramo": "ccr-d7a54140-hak4ez-m05",
+   "onda": 1
+  },
+  "R06": {
+   "id": "session_01R8112NDYENCnDnyKGWQaSG",
+   "ramo": "ccr-d7a54140-hak4ez-m06",
+   "onda": 1
+  },
+  "R07": {
+   "id": "session_01R8112LC6Mqv34xPCFCCtoC",
+   "ramo": "ccr-d7a54140-hak4ez-m07",
+   "onda": 1
+  },
+  "R08": {
+   "id": "session_01R8112NqLXrakyTZaUMMqrC",
+   "ramo": "ccr-d7a54140-hak4ez-m08",
+   "onda": 2,
+   "finita": true,
+   "punta": "ab803f50178b8b4f460534aa4cc167cbf5743630",
+   "testa": "5470d9a12ff2536f9f86b307691fc0477668947e",
+   "archiviata": "2026-11-24 17:57"
+  },
+  "R09": {
+   "id": "session_01R8112KUKQJB8drAMNwk3KX",
+   "ramo": "ccr-d7a54140-hak4ez-m09",
+   "onda": 2,
+   "finita": true,
+   "punta": "38d213fc34322a4c945a86bb4b26cb0b78a54d8e",
+   "testa": "10f73a8c8cf527d0d0b63922194f53293a91906c",
+   "archiviata": "2026-11-24 17:57"
+  },
+  "R10": {
+   "id": "session_01R8112MESXTLhypH8keWXCN",
+   "ramo": "ccr-d7a54140-hak4ez-m10",
+   "onda": 2,
+   "finita": true,
+   "punta": "fd69bb04288ed2558423c16681ddc417f49b0e01",
+   "testa": "47f644ba5b097bd0e7454e2d9884cbe02a00bc8d",
+   "archiviata": "2026-11-24 17:57"
+  },
+  "R11": {
+   "id": "session_01R8112PM8B4A7UrENiRimDG",
+   "ramo": "ccr-d7a54140-hak4ez-m11",
+   "onda": 3,
+   "limite_usd": 4.5,
+   "partita": "2026-11-24 19:20",
+   "finita": true,
+   "punta": "33156447622ca138061646e801b7a28dbec36983",
+   "testa": "62882d888a0cca73045c8d90d175ce370f503179",
+   "costo_usd": 6.06
+  },
+  "R12": {
+   "id": "session_01R8112LoDyLqbZBCi3c6K7j",
+   "ramo": "ccr-d7a54140-hak4ez-m12",
+   "onda": 3,
+   "limite_usd": 3.5,
+   "partita": "2026-11-24 19:17",
+   "finita": true,
+   "punta": "f3504ff75e6eeae60821e98c9bad0c50f591c021",
+   "testa": "2549d2c876def9840b159926aadc78ea2a4b30b4",
+   "costo_usd": 3.07
+  }
+ },
+ "collaudatori": {
+  "K01": {
+   "id": "session_01R8112NmLAfy9H8nhAdAsru",
+   "ramo": "ccr-d7a54140-hak4ez-k01",
+   "partenza": "33f51c26faf22ee0cf5d68aa2812a2960f6a54cc",
+   "riparatori": [
+    "R03",
+    "R02",
+    "R01"
+   ],
+   "finita": true
+  },
+  "K02": {
+   "id": "session_01R8112Njtre8g4wLRA1wx4o",
+   "ramo": "ccr-d7a54140-hak4ez-k02",
+   "partenza": "33f51c26faf22ee0cf5d68aa2812a2960f6a54cc",
+   "riparatori": [
+    "R05",
+    "R04",
+    "R06"
+   ],
+   "finita": true
+  },
+  "K03": {
+   "id": "session_01R8112KrhYF5zq8hGHNomMK",
+   "ramo": "ccr-d7a54140-hak4ez-k03",
+   "partenza": "33f51c26faf22ee0cf5d68aa2812a2960f6a54cc",
+   "riparatori": [
+    "R07"
+   ],
+   "finita": true
+  },
+  "K04": {
+   "id": "session_01R8112Pdg55NMC7nQoy7BEC",
+   "ramo": "ccr-d7a54140-hak4ez-k04",
+   "partenza": "4577cfac8baf787d5a6d8f3d4dc94de1a7ea7c0b",
+   "riparatori": [
+    "R01",
+    "R02",
+    "R07"
+   ],
+   "parziale": true,
+   "aperta": "2026-11-24 17:15",
+   "finita": true,
+   "punta": "c69d997906944b9f40c1c47346e13933532f627a",
+   "archiviata": "2026-11-24 17:36"
+  },
+  "K05": {
+   "id": "session_01R8112NFfioktgK2UyUJotU",
+   "ramo": "ccr-d7a54140-hak4ez-k05",
+   "partenza": "fac374b6256d96d3c4ad9fc577e19a95f95bfe11",
+   "riparatori": [
+    "R08",
+    "R09",
+    "R10"
+   ],
+   "limite_usd": 5,
+   "partita": "2026-11-24 17:59",
+   "finita": true,
+   "punta": "20569c3fec514422be31fca125b75297b2b31909",
+   "costo_usd": 6.19
+  },
+  "K06": {
+   "id": "session_01R8112PHSf3MRoHnBPCXrae",
+   "ramo": "ccr-d7a54140-hak4ez-k06",
+   "partenza": "086a6a468df4ea2ab0f6d0c9d564458bc0093abc",
+   "riparatori": [
+    "R11",
+    "R12"
+   ],
+   "limite_usd": 4,
+   "partita": "2026-11-24 19:53",
+   "finita": true,
+   "punta": "3283b6b2225ec2e49b1e5565628dc3332bc44f2b",
+   "costo_usd": 3.23,
+   "finita_alle": "2026-11-24 20:02"
+  }
+ },
+ "controllori": {
+  "C01": {
+   "id": "session_01R8112MCedazmwF5a39XHqD",
+   "ramo": "ccr-d7a54140-hak4ez-c01",
+   "partenza": "8ea02976bfe2a8ea27b6bb2cd6b80f28ad4ff6c9",
+   "integrazione": "a673164da05ab165480595967128d01795601ba9",
+   "onda": 1,
+   "finita": true
+  },
+  "C02": {
+   "id": "session_01R8112LFkd4RRfxLYhJMoFV",
+   "ramo": "ccr-d7a54140-hak4ez-c02",
+   "partenza": "27f5d973c048b74b68bfe3eda1950c8234266dd9",
+   "integrazione": "e173796f6a402d02c9c1ebe748db615ce5ba8dbd",
+   "base": "d000e3b04bc9d12ab160f5ebc55c0d665fc6e5a9",
+   "onda": 2,
+   "finita": true,
+   "punta": "14b884860ee4af16e0fcbd55d241ce4028498378",
+   "costo_usd": 3.44
+  },
+  "C03": {
+   "id": "session_01R8112MwmTXvN1PAwWEYcjp",
+   "ramo": "ccr-d7a54140-hak4ez-c03",
+   "partenza": "595c25e14edc1fbe98b2e3ee0df1ec9e1fd93285",
+   "integrazione": "d5d84f3a31d6aa7d7fcd5cad2306a069bd63c18a",
+   "onda": 3,
+   "limite_usd": 3,
+   "partita": "2026-11-24 20:20",
+   "finita": true,
+   "punta": "8c631b070c074c909af801cb0bf8a96e8957bcf2",
+   "costo_usd": 1.6,
+   "finita_alle": "2026-11-24 20:35"
+  },
+  "CF": {
+   "id": "session_01R8112K3uxv4DAfQ3rk6ww2",
+   "ramo": "ccr-d7a54140-hak4ez-cf",
+   "partenza": "0c2b2bd1159ce0b06c3bfaad5c8e487a5e7cc873",
+   "integrazione": "51495a1ce3f22739db639ff88f5a0015da4f965e",
+   "base": "5b8c786c96ec789918b3e85361ca435cef726b92",
+   "onda": "finale",
+   "limite_usd": 6,
+   "partita": "2026-11-24 20:33",
+   "finita": true,
+   "punta": "13d494ae0989af7b183946412b6e278c9da9288b",
+   "costo_usd": 2.15,
+   "finita_alle": "2026-11-24 20:44"
+  }
+ }
+}

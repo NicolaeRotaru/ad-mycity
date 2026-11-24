@@ -325,7 +325,7 @@ Specchio umano di `registro-fatti.json` (AR-102): qui vivono i fatti-chiave del 
 | Bici consegna | Non operativa; riparazione da **~28/7** in poi | 14/7 02:59 |
 | Ordini consegnati (North Star) | **0** | 07/7 00:29 |
 | Ordine #16 (test 19,05 € del 24/6) | **Annullato** — non riesumare, il primo ordine reale va creato ex-novo | 07/7 00:29 |
-| Ristoranti/trattorie | **Esclusi** — MyCity lavora solo con botteghe | 16/7 12:57 |
+| Ristoranti/trattorie | **Dentro** — dal 22/11 si iscrive ogni attività che vende qualcosa: botteghe, bar, ristoranti, artigiani, servizi | 23/11 01:08 |
 | Bando Commercio ER (40% fondo perduto) | **Chiuso** il 23/6 (350 domande raggiunte) — nessuna azione possibile | 11/7 11:40 |
 | Motore AI del cervello | **Claude Code** — Cursor solo con flag esplicito | 16/7 12:03 |
 | Ramo di pubblicazione memoria | **main** (ramo unico) | 07/7 00:29 |

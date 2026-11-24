@@ -1,0 +1,22 @@
+# giro di correzione dell'onda 1 (regia settima, 2026-11-24 17:55): 19 voci nel tetto, una chiave per riga.
+# Fuori 8 voci che si riparano solo in prove senza padrone (firma di Nicola): R01-004 R01-014 R06-013 R02-014 R03-009 R03-010 R01-008 R07-013 R02-004
+# Fuori anche R05-009: la sua cura passa da lib/errors.ts, lo stesso file di R07-010 (stessa strada di zod nel piede del sito).
+ai-endpoints|l'allarme del tetto di spesa ai può dire «non risponde da tre giorni» al primo guasto di cinque minuti
+frontend-ux|altri percorsi di facebook non elencati possono essere salvati come nome del profilo
+layout-responsive|la pagina 404 a 280 px col testo al 200% esce di 5 px
+performance-percepita|il traduttore degli errori di zod entra in ogni pagina passando dal piede del sito
+qa-flussi|la risalita dei genitori delle categorie non ha un tetto
+frontend-ux|altri campi brevi del sito del negozio tagliano ancora in silenzio con maxlength
+frontend-ux|il costruttore della vetrina ha ancora campi brevi che tagliano in silenzio
+layout-responsive|la home a 320 px col testo al 200% scorre ancora di lato di 18 px
+qa-flussi|il pannello della home suggerisce ancora «i più amati / prodotti che vanno forte»
+architettura|email partita ma non segnata: la notte dopo riparte, e se fallisce l'allarme dice «non partita» per un'email già arrivata
+qa-flussi|le maschere di caricamento delle foto accettano solo jpg, png e webp, mentre la porta e lo storage ne accettano sette
+stati-ui|a riga chiusa con il motivo «chiedi all'assistenza» il pulsante «avvia» resta
+stati-ui|sotto un lavoro sul catalogo chiuso che dice di chiedere all'assistenza prima di ripartire, il pulsante «avvia sul catalogo» resta lì
+ai-endpoints|la conformità dei prodotti (classifyproductpolicy) non ha un tempo suo e i lavori sul catalogo la chiamano in 40 giri di fila
+coerenza-brand|la primitiva card è usata in 10 file, mentre 141 card sono ridisegnate a mano con quattro raggi diversi
+deploy-sre|senza la 181 ogni apertura della chat o delle recensioni del negozio scrive un avviso nel registro
+frontend-ux|un negozio senza nome ha metadati indicizzabili mentre la sua pagina risponde «non trovato»
+frontend-ux|una vetrina lasciata aperta oltre mezzanotte continua a mostrare l'annuncio del giorno prima finché la pagina non si ridisegna
+stati-ui|con la proposta di «genera con ai» aperta, le correzioni fatte a mano nel frattempo si perdono premendo «usa questa»

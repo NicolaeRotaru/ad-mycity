@@ -1,0 +1,19 @@
+# elenco B di pronte (2026-11-24 17:05): 18 voci uniche, una chiave per riga
+ai-endpoints|con l'ai dei negozi spenta al lancio, l'allarme sul conto condiviso della spesa ai può arrivare lo stesso ogni sei ore
+microcopy|altri «rider» rivolti al cliente restano nella pagina dell'ordine e in quella del negozio
+qa-flussi|le prove che fanno girare tutto lo script del backup non hanno un psql finto
+layout-responsive|la home a 320 px col testo al 200% scorre ancora di lato di 18 px
+qa-flussi|una prova del promemoria del carrello resta verde solo per caso
+architettura|commenti delle rotte della veloce dicono ancora «un fattorino approvato e online»
+architettura|il finto clienteavvisi è riscritto in quattro posti e la prova da 1033 righe mescola rotte, notte e una scansione del sorgente
+architettura|la prova sull'export elenca ancora cod_reconciliations fra le tabelle escluse
+qa-flussi|faccine nei titoli delle notifiche scritte dal codice del sito
+qa-flussi|il pannello della home suggerisce ancora «i più amati / prodotti che vanno forte»
+deploy-sre|il ritorno indietro può ancora scegliere il rilascio sbagliato in due casi rari: un solo altro commit negli ultimi 20 rilasci, o un dominio che non dice il suo commit
+qa-flussi|la risalita dei genitori delle categorie non ha un tetto
+qa-flussi|l'aiutante di prova accendi, con la suspense, rende vuoto in silenzio un componente che resta sospeso per sempre: una prova che controlla un'assenza può passare senza aver provato niente
+frontend-ux|altri campi brevi del sito del negozio tagliano ancora in silenzio con maxlength
+frontend-ux|il costruttore della vetrina ha ancora campi brevi che tagliano in silenzio
+frontend-ux|incollare il link di instagram o scrivere il sito senza https blocca il salvataggio di tutta la vetrina con un messaggio che non dice dove
+qa-flussi|le maschere di caricamento delle foto accettano solo jpg, png e webp, mentre la porta e lo storage ne accettano sette
+qa-flussi|due guardie sulla veloce controllano il testo del sorgente e non il comportamento

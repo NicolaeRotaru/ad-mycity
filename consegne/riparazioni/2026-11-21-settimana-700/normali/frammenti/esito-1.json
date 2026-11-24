@@ -1,0 +1,27 @@
+{
+  "corsia": 1,
+  "territorio": "R01",
+  "difetti": [
+    {
+      "chiave": "accessibilita|la trappola del fuoco delle finestre conta anche i campi con tabindex -1",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r01-fuoco-modal.test.tsx",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base bf9d30d0^ --file components/ui/Modal.tsx --prove tests/unit/riparazione-r01-fuoco-modal.test.tsx --json (dopo ad49df0d) → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01-001 --base bf9d30d0520164f5e8dd9423c906b96aeafc62b7^ --file components/ui/Modal.tsx --prove tests/unit/riparazione-r01-fuoco-modal.test.tsx --json → uscita 0 (K01)",
+      "nota_fix": "Un solo elenco di elementi attivabili per il primo fuoco e per la trappola, che esclude ogni [tabindex=-1]. La prova: Tab dall'ultimo campo raggiungibile torna al primo, Shift+Tab fa il giro opposto."
+    },
+    {
+      "chiave": "microcopy|resta «rider in arrivo» a video per lo stato assigned",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r01-stato-assegnato.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base cc4a776464f2497fa69249319c7776d5a193a03d^ --file lib/order-status.ts --prove tests/unit/riparazione-r01-stato-assegnato.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01-003 --base cc4a776464f2497fa69249319c7776d5a193a03d^ --file lib/order-status.ts --prove tests/unit/riparazione-r01-stato-assegnato.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "ORDER_STATUS_LABEL.ASSIGNED passa da «Rider in arrivo» a «Fattorino in arrivo»."
+    },
+    {
+      "chiave": "qa-flussi|il cliente non trova l'esito del reclamo nella pagina del suo ordine",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r01-esito-del-reclamo.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 54fec5e1bc74a714721ac210726cbadbdb9de311^ --file app/orders/[id]/page.tsx,app/orders/[id]/dispute/page.tsx --prove tests/unit/riparazione-r01-esito-del-reclamo.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt2-R01-006d --base 31451f1b1090601e358a1a2316d1f5ccf9d4350e^ --file app/orders/[id]/page.tsx,app/orders/[id]/dispute/page.tsx --prove tests/unit/riparazione-r01-esito-del-reclamo.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "La pagina dell'ordine legge i reclami e mostra stato, esito, rimborso e note. Nasconde «Apri reclamo» solo mentre c'è un reclamo aperto ('open' o 'under_review'), come il server; con un reclamo chiuso lo lascia accanto all'esito. La pagina del reclamo, su un reclamo chiuso, mostra l'esito e sotto il modulo per aprirne uno nuovo; con un reclamo aperto dice che ce n'è già uno."
+    }
+  ]
+}

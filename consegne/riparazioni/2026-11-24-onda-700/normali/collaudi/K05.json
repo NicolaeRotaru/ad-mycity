@@ -1,0 +1,290 @@
+{
+  "collaudatore": "K05",
+  "riparatori": [
+    "R08",
+    "R09",
+    "R10"
+  ],
+  "aggiornato": "2026-11-24 19:05",
+  "finita": true,
+  "voci": [
+    {
+      "id": "R08-002",
+      "chiave": "ai-endpoints|l'allarme del tetto di spesa ai può dire «non risponde da tre giorni» al primo guasto di cinque minuti",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base 5725d5fb389b6a72236ce866c0c639fbbfb004c2^ --file lib/ai/tettoSpesa.ts --prove tests/unit/riparazione-r08-allarme-tetto-riga-vecchia.test.ts --json"
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Chiude solo il caso 'tetto non configurato' (tettoSpesa.ts:469-475). La riga vecchia si legge ancora senza limite d'età: i delete (:471 nuovo e :482 alla guarigione) non controllano {error} (Supabase non lancia, il catch non scatta) e se il cron non gira durante la guarigione la riga resta; il guasto dopo eredita la data vecchia. Senza tetto ora fa un DELETE ogni 5 minuti."
+    },
+    {
+      "id": "R08-001",
+      "chiave": "ai-endpoints|la conformità dei prodotti (classifyproductpolicy) non ha un tempo suo e i lavori sul catalogo la chiamano in 40 giri di fila",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base 5470d9a12ff2536f9f86b307691fc0477668947e^ --file app/api/ai/catalog-batch/apply/route.ts --prove tests/unit/riparazione-r08-catalogo-rimandati.test.ts --json"
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Correzione finale 5470d9a1 guardata per prima: il caso principale regge (bloccato vero non si ripaga, impronta cambia con proposta o catalogo, segni non persi). Due buchi: (a) la non risposta del modello (lib/ai/moderation.ts:150 allowed:false 'Classificazione non disponibile.') viene ricordata come blocco vero in route.ts:333-336, contro 'gli errori non lasciano segni', e resta bloccata per sempre a proposta invariata; (b) chi passa il filtro ma ha la scrittura fallita (route.ts:404-407) si rifiltra e si ripaga a ogni giro e il lavoro può restare pronto per sempre: il 5470d9a1 ha tolto l'ordine 'per ultimo' di 6159065f."
+    },
+    {
+      "id": "R08-007",
+      "chiave": "stati-ui|con la proposta di «genera con ai» aperta, le correzioni fatte a mano nel frattempo si perdono premendo «usa questa»",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base 0f3683ca0682e1b04eedfa9a5c96f8bbb9d1e347^ --file components/seller/ProductForm.tsx --prove tests/unit/riparazione-r08-genera-con-ai-correzioni.test.tsx --json"
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "La base del confronto è il testo al clic su «Genera» (ProductForm.tsx:1083, usata a :1093); le correzioni durante l'attesa fanno partire la conferma di «Usa questa» (:1117); il bottone è disabilitato durante il caricamento (AIDescriptionButton.tsx:84), nessuna corsa."
+    },
+    {
+      "id": "R08-006",
+      "chiave": "qa-flussi|la risalita dei genitori delle categorie non ha un tetto",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Alla base il TypeScript è a posto (category-attributes.ts:285-310 tetto 20 + visti; ProductForm.tsx:356-367 viste). Ma la risalita dei genitori in SQL non ha tetto né controllo dei cerchi: migrations/363_*.sql:73-82 e :119-125 (WITH RECURSIVE ... UNION ALL); su A→B→A girano fino allo statement_timeout. Il cerchio lo impedisce solo genitoreNonAmmesso (app/api/admin/categories/route.ts:52-62), letto e scritto senza vincolo: due PATCH insieme passano. Non è 'già riparato' per intero."
+    },
+    {
+      "id": "R08-003",
+      "chiave": "frontend-ux|una vetrina lasciata aperta oltre mezzanotte continua a mostrare l'annuncio del giorno prima finché la pagina non si ridisegna",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base 8b06537efc05d427c2a2f6af24f6bd55c979067e^ --file app/store/[id]/[slug]/page.tsx --prove tests/unit/riparazione-r08-annuncio-pagine-su-misura.test.tsx --json"
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "useState + setInterval sul giorno di Piacenza prima dei return anticipati; announcementActive ricalcolato a ogni render. Le altre pagine con l'annuncio: app/store/[id]/page.tsx aveva già la cura (R07-003), layout dinamico."
+    },
+    {
+      "id": "R08-005",
+      "chiave": "performance-percepita|il traduttore degli errori di zod entra in ogni pagina passando dal piede del sito",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base 0332a24eada963e4cea3a547a302269f00269f30^ --file lib/zod-i18n.ts --prove tests/unit/riparazione-r08-frasi-zod-una-copia.test.ts --json"
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Frasi tolte identiche a lib/zod-frasi.ts; dalle import statiche di app/layout.tsx e Footer non si arriva né a zod né a zod-i18n, che resta solo nell'import dinamico di QueryProvider."
+    },
+    {
+      "id": "R08-004",
+      "chiave": "layout-responsive|la pagina 404 a 280 px col testo al 200% esce di 5 px",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base 2d4d29301e79861e0dd9dc7ddefb18afc16e3a67^ --file app/not-found.tsx --prove tests/unit/riparazione-r08-404-dentro-il-riquadro.test.ts --json",
+        "nota": "primo tentativo uscita 2 (il file di prova r02 non cambia in 2d4d2930); rifatta sul solo file di codice della correzione finale"
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Correzione finale 2d4d2930 guardata per prima: min(3.75rem,25vw), max-w-full e overflow-wrap su riquadro, voci e bottoni; Button.tsx:80 unisce className con cn(). La prova vecchia R02 cambia una sola asserzione con una classe equivalente, non indebolita. Rimessa sulla sola correzione finale: rossa senza, verde con. Non misurata in Chromium dal collaudo."
+    },
+    {
+      "id": "R09-001",
+      "chiave": "architettura|email partita ma non segnata: la notte dopo riparte, e se fallisce l'allarme dice «non partita» per un'email già arrivata",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base b82b9190107702a1663f30ac24da04f776182b4c^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r09-allarme-forse-partita.test.ts --json"
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Il pezzo fatto regge: il segno forsePartita (lib/privacy/avvisi-a-chi-aspetta.ts:222, route.ts:537) cambia il testo dell'allarme (route.ts:805), la controprova con posta rifiutata dice ancora «non partita». Resta: il titolo dell'allarme dice ancora «Spiegazione dell'attesa non partita per email» (route.ts:859) anche quando il testo dice «può essere arrivata»; la seconda spedizione della notte dopo resta; il ramo senza tempo (route.ts:526-530) non tratta il caso."
+    },
+    {
+      "id": "R09-002",
+      "chiave": "deploy-sre|senza la 181 ogni apertura della chat o delle recensioni del negozio scrive un avviso nel registro",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base 5381741c7e426fb6a4ccf047807a74cf0d99ca9f^ --file lib/queries/controparte-della-chat.ts,app/seller/reviews/page.tsx --prove tests/unit/riparazione-r09-avviso-chat-recensioni.test.ts,tests/unit/riparazione-r09-avviso-recensioni.test.tsx --json"
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Il silenzio scatta solo con PGRST202/42883 (funzioneNonAncoraCreata), una volta per pagina; un errore vero scrive ancora l'avviso a ogni chiamata; il ripiego «Cliente» resta. Nella pagina recensioni, che gira nel browser, «una volta» vale per scheda aperta."
+    },
+    {
+      "id": "R09-003",
+      "chiave": "frontend-ux|altri campi brevi del sito del negozio tagliano ancora in silenzio con maxlength",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base a504c89cbd5cb8e3f20a022916638b5d3e5259e2^ --file components/seller/site/GalleryFields.tsx,components/seller/site/MenuEditor.tsx,components/seller/site/PageEditor.tsx --prove tests/unit/riparazione-r09-campi-brevi.test.tsx --json"
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "In components/seller/site/ nessun maxLength attivo, solo commenti; i tetti coincidono con lo schema in lib/store-site.ts (120/120/30/60/70/180) e si contano senza spazi come lo schema. Scarto trascurabile: bozza link del menu a menu spento (store-site.ts:277)."
+    },
+    {
+      "id": "R09-004",
+      "chiave": "frontend-ux|il costruttore della vetrina ha ancora campi brevi che tagliano in silenzio",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base a504c89cbd5cb8e3f20a022916638b5d3e5259e2^ --file components/seller/site/GalleryFields.tsx,components/seller/site/MenuEditor.tsx,components/seller/site/PageEditor.tsx --prove tests/unit/riparazione-r09-campi-brevi.test.tsx --json"
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Regge per i file di components/seller/site/, ma l'editor dell'annuncio della vetrina (components/seller/AnnouncementEditor.tsx:35, maxLength={MAX_ANNOUNCEMENT}, nessun contatore), aperto da «Personalizza la tua vetrina», taglia ancora in silenzio: nel dubbio fa parte del costruttore della vetrina."
+    },
+    {
+      "id": "R09-005",
+      "chiave": "qa-flussi|il pannello della home suggerisce ancora «i più amati / prodotti che vanno forte»",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base 1a6d53c68048148043ccdbee1ce20a994455f3ea^ --file lib/home-site.ts --prove tests/unit/riparazione-r09-pannello-home.test.ts --json"
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Il pannello dice «Appena arrivati» (lib/home-site.ts:75), coerente con HomeSectionConfigForm.tsx:136-137 e HomeSectionRenderer.tsx:228-232. «Più amati» in app/stores/page.tsx:375 è un ordinamento per voto, legittimo e fuori voce."
+    },
+    {
+      "id": "R09-006",
+      "chiave": "stati-ui|a riga chiusa con il motivo «chiedi all'assistenza» il pulsante «avvia» resta",
+      "verdetto": "rompe_altro",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base d695062a533ca7913c42689d6ac1caa3bab38cbd^ --file app/api/ai/catalog-batch/status/route.ts,app/seller/products/ai-batch/page.tsx --prove tests/unit/riparazione-r09-pulsante-dopo-assistenza.test.tsx --json"
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "La voce come scritta è chiusa e /status filtra sempre per il negozio. Ma il blocco è ora permanente: status/route.ts:60-76 restituisce senza scadenza l'ultimo lavoro chiuso con «chiedi all'assistenza», la pagina lo ricorda (page.tsx:350,375) anche cambiando operazione (page.tsx:491); il negozio non vede più «Avvia» su nessuna operazione e nessuno strumento admin riapre il lavoro (nessun riferimento a catalog_ai_jobs in app/admin). Prima bastava ricaricare; start/route.ts:100-120 non applica il divieto. Serve una via d'uscita (sblocco admin o scadenza)."
+    },
+    {
+      "id": "R09-007",
+      "chiave": "stati-ui|sotto un lavoro sul catalogo chiuso che dice di chiedere all'assistenza prima di ripartire, il pulsante «avvia sul catalogo» resta lì",
+      "verdetto": "rompe_altro",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base d695062a533ca7913c42689d6ac1caa3bab38cbd^ --file app/api/ai/catalog-batch/status/route.ts,app/seller/products/ai-batch/page.tsx --prove tests/unit/riparazione-r09-pulsante-dopo-assistenza.test.tsx --json"
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Stesso commit e stesso difetto di R09-006: il divieto di ripartire non scade mai e nessuno lo può togliere dalla pagina o dall'admin (status/route.ts:60-76, page.tsx:350,375,491)."
+    },
+    {
+      "id": "R10-001",
+      "chiave": "coerenza-brand|la primitiva card è usata in 10 file, mentre 141 card sono ridisegnate a mano con quattro raggi diversi",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base 47f644ba5b097bd0e7454e2d9884cbe02a00bc8d^ --file app/rider/page.tsx,components/ui/Card.tsx --prove tests/unit/riparazione-r10-card-a-mano.test.ts --json"
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Il pezzo fatto regge: Card.tsx:73 passa le prop HTML in più senza cambiare le 24 card che la importano; i riquadri di app/rider/page.tsx restano identici. Minore: con href le prop in più (aria-live, id, role) sono scartate in silenzio (Card.tsx:81-86). Resta aperto: le circa 141 card a mano negli altri file."
+    },
+    {
+      "id": "R10-002",
+      "chiave": "frontend-ux|un negozio senza nome ha metadati indicizzabili mentre la sua pagina risponde «non trovato»",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base f4a0858692ab78108a20604e1e8a4a53c8a8b539^ --file app/store/[id]/[slug]/layout.tsx --prove tests/unit/riparazione-r10-pagina-negozio-senza-nome.test.ts --json"
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "[slug]/layout.tsx:35 usa la stessa condizione del guscio (layout.tsx:80 metadati, :145 404), nome vuoto compreso; togliere robots: undefined non cancella più il noindex del padre."
+    },
+    {
+      "id": "R10-003",
+      "chiave": "frontend-ux|altri percorsi di facebook non elencati possono essere salvati come nome del profilo",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base 963b5384ce657ae77d1905786b26d46df2455972^ --file lib/store-customization.ts --prove tests/unit/riparazione-r10-facebook-altri-percorsi.test.ts --json"
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Il pezzo fatto regge: trattino basso rifiutato (lib/store-customization.ts:163), coerente con R07-009, nessun profilo valido rifiutato. Resta: RISERVATI_FACEBOOK è un elenco di esclusioni, un percorso non elencato a un pezzo (facebook.com/dating, /weather) si salva ancora come nome, e un nome scritto a mano come «groups» passa."
+    },
+    {
+      "id": "R10-005",
+      "chiave": "qa-flussi|le maschere di caricamento delle foto accettano solo jpg, png e webp, mentre la porta e lo storage ne accettano sette",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base dc98170c79ddb186dd88f144b64061b92df125c8^ --file components/StoreMediaManager.tsx --prove tests/unit/riparazione-r10-foto-sette-tipi-media.test.tsx --json"
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Il pezzo fatto regge (StoreMediaManager.tsx:55 usa mappaAccept e fileColTipoGiusto come GalleryFields e ImageUpload). Resta: components/seller/ProductImagesField.tsx:123-127 accetta ancora solo jpg, png e webp. Non verificato: un HEIC caricato finisce nel deposito senza conversione."
+    }
+  ],
+  "campione": {
+    "R08": {
+      "accettato": false
+    },
+    "R09": {
+      "accettato": false
+    },
+    "R10": {
+      "accettato": true
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "corsia": 12,
+  "territorio": "R12",
+  "difetti": [
+    {
+      "chiave": "frontend-ux|incollare il link di instagram o scrivere il sito senza https blocca il salvataggio di tutta la vetrina con un messaggio che non dice dove",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r12-onda3-social.test.tsx tests/unit/riparazione-r10-slogan-e-social.test.ts --reporter=dot",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 50d55e9^ --file components/VendorForm.tsx --prove tests/unit/riparazione-r12-onda3-social.test.tsx,tests/unit/riparazione-r10-slogan-e-social.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 50d55e939df7541b14ad1f59953b23520187b0aa^ --file components/VendorForm.tsx --prove tests/unit/riparazione-r12-onda3-social.test.tsx,tests/unit/riparazione-r10-slogan-e-social.test.ts --json → uscita 0 (K06)",
+      "nota_fix": "La base sistemava già da sola i link incollati e il sito senza https (normalizzaSocials), e il social sbagliato non bloccava più tutta la vetrina. Mancava che «il resto è salvato» comparisse solo a salvataggio riuscito, con il plurale e con «non si è salvato» per un campo prima vuoto: l'ho riapplicato in VendorForm. Ho fatto la modifica scritta alla prova r10 (firma prove_comuni) senza togliere asserzioni. Le 18 prove che importano VendorForm sono verdi (148)."
+    },
+    {
+      "chiave": "qa-flussi|l'aiutante di prova accendi, con la suspense, rende vuoto in silenzio un componente che resta sospeso per sempre: una prova che controlla un'assenza può passare senza aver provato niente",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r12-onda3-schermo-sospeso.test.ts --reporter=dot",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 9c8d5c2^ --file tests/unit/aiuti/schermo.ts --prove tests/unit/riparazione-r12-onda3-schermo-sospeso.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K06-R12-004 --base 9c8d5c2636f1178f9216c328ab80ac8f0bb09bba^ --file tests/unit/aiuti/schermo.ts --prove tests/unit/riparazione-r12-onda3-schermo-sospeso.test.ts --json → uscita 0 (K06)",
+      "nota_fix": "Ho applicato a schermo.ts il diff esatto della scheda (firma prove_comuni). Un componente sospeso per sempre fa rigettare attendi(); con permettiSospeso: true no. Le 286 prove che importano l'aiutante sono verdi (1733)."
+    },
+    {
+      "chiave": "qa-flussi|le prove che fanno girare tutto lo script del backup non hanno un psql finto",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r12-onda3-backup-psql-finto.test.ts tests/unit/la-copia-delle-foto-si-riapre-davvero.test.ts tests/unit/il-lavoro-notturno-accende-davvero-la-copia-delle-foto.test.ts tests/unit/la-copia-delle-foto-non-ripete-la-cancellazione.test.ts --reporter=dot",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 2549d2c^ --file tests/unit/aiuti/finto-rclone.ts,tests/unit/la-copia-delle-foto-si-riapre-davvero.test.ts --prove tests/unit/riparazione-r12-onda3-backup-psql-finto.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K06-R12-005 --base 2549d2c876def9840b159926aadc78ea2a4b30b4^ --file tests/unit/aiuti/finto-rclone.ts --prove tests/unit/riparazione-r12-onda3-backup-psql-finto.test.ts --json → uscita 0 (K06)",
+      "nota_fix": "FINTO_PSQL è in finto-rclone.ts e viene scritto in finti/psql nelle 3 prove del backup; nella terza come costante locale. La prova nuova mette un psql trappola in testa al PATH, lancia le 3 prove e controlla che la trappola non sia mai stata chiamata. 18 prove verdi."
+    }
+  ]
+}

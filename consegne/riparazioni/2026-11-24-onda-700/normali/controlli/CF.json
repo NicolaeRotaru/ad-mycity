@@ -1,0 +1,38 @@
+{
+  "controllore": "CF",
+  "onda": "campagna",
+  "finita": true,
+  "aggiornato": "2026-11-24 21:05",
+  "testa": "51495a1ce3f22739db639ff88f5a0015da4f965e",
+  "base": "5b8c786c96ec789918b3e85361ca435cef726b92",
+  "verify": {
+    "comando": "npm ci && npm run verify && tests/sql/harness/apply.sh && tests/sql/harness/run.sh",
+    "esito": "verde",
+    "dettaglio": "Sulla testa 51495a1c: npm run verify uscita 0 (typecheck senza errori; lint 0 errori e 122 avvisi; vitest 2107 file di prova verdi e 1 saltato su 2108, 12745 casi verdi e 1 saltato). Harness SQL su un Postgres 16 locale usa-e-getta (nessun database vero): 226 migrazioni applicate, 0 fallite; run.sh «tutti i controlli verdi». Stesse prove sull'albero unito con origin/main 0311a90f (unione senza conflitti, albero 8ff13b6d): 232 migrazioni applicate, 0 fallite, run.sh verde, tsc --noEmit uscita 0."
+  },
+  "voci_rosse": [],
+  "nuovi_difetti_visti": [],
+  "revert_voluti": {
+    "voci": ["R01-005", "R07-001", "R09-006", "R09-007", "R12-001"],
+    "esito": "Non sono riparazioni perse. Controllato che i revert siano completi: app/rider/profile/page.tsx, app/api/ai/catalog-batch/status/route.ts e app/seller/products/ai-batch/page.tsx sono identici alla base; le prove di quelle voci non ci sono più. Restano due differenze dalla base, entrambe di altre voci: lib/ai/tettoSpesa.ts (R11-001, già vista da C03) e una riga di commento in app/api/cron/send-push/route.ts (tolta la sigla R02-004)."
+  },
+  "migrazioni": {
+    "nuove_della_campagna": ["821", "822", "830", "831", "832", "840", "860"],
+    "regola": "Le applica il rilascio prima del codice nuovo, quando Nicola unisce.",
+    "rompono_il_codice_di_main": "No, lette in sola lettura contro origin/main 0311a90f. 821 e 822: trigger AFTER su product_questions, best-effort (EXCEPTION WHEN OTHERS), main non manda già quelle notifiche: nessun doppione. 830: trigger sul nome del negozio solo se nasce o cambia oltre 80 caratteri; main lo limita già a 80 nel modulo e nell'iscrizione. 831: ritocca solo la pulizia degli allarmi (660). 832 e 860: ridefiniscono notify_buyer_on_order_status e check_achievements_on_review, che nessuna delle 705-710 tocca, quindi non cancellano niente di main. 840: trigger BEFORE INSERT su orders solo per la veloce in contanti; usa la stessa etichetta di main (ETICHETTA_ADESSO di lib/quando-arriva.ts) e la stessa regola di main (una veloce per fattorino, lib/ordini/consegna-veloce.ts): sul codice di main scatta solo nella gara fra due ordini simultanei, che main oggi lascia passare; in quei minuti fra migrazione e codice nuovo quel caso raro avrebbe un errore generico invece del 409 del codice nuovo. Nessuna delle 705-710 di main tocca le stesse funzioni, tabelle con trigger o viste. Prova: harness verde sull'albero unito, con le 705-710 applicate prima delle nuove.",
+    "conto_per_il_tetto": "Se al database mancano 703, 705-710 e le 7 nuove: 14 migrazioni (15 se mancasse anche la 704). Il tetto MASSIMO_MIGRAZIONI di .github/workflows/deploy-dopo-ci.yml è 20, uguale su main e sulla campagna: si resta sotto. Non verificato sul database quali sono già applicate (niente database vero)."
+  },
+  "note_di_controllo": [
+    "Dopo C03 (testa d5d84f3a) l'unico commit è 51495a1c, che toglie solo la cartella .riparazione/ (12 file, solo righe tolte).",
+    "La catena dei controlli copre tutta la campagna: C01 5b8c786c→a673164d, C02 d000e3b0→e173796f, C03 e173796f→d5d84f3a. L'unico tratto fra C01 e C02 (a673164d→d000e3b0) è il revert voluto di R07-001.",
+    "Nessun file è toccato sia dalla campagna sia da main dopo la base: l'unione è pulita anche nel senso del contenuto, non solo del testo.",
+    "get_session non mostra il campo is_ultracode_active: ho lavorato lo stesso perché la regia ha dato il mandato con il limite di 6 $ e 1 subagente."
+  ],
+  "file_toccati": 156,
+  "file_guardati": 18,
+  "buco_dichiarato": "Guardate a occhi le 7 migrazioni nuove, le 6 di main (705-710) e i file dei revert; gli altri file del codice li avevano già guardati C01, C02 e C03 onda per onda, e dopo C03 non sono cambiati. Le prove sono girate tutte, verdi, sia sulla testa sia sull'albero unito con main.",
+  "conto": {
+    "subagenti": 0,
+    "token_stimati": 140000
+  }
+}
