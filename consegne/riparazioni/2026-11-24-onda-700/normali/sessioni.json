@@ -62,6 +62,20 @@
    "punta": "fd69bb04288ed2558423c16681ddc417f49b0e01",
    "testa": "47f644ba5b097bd0e7454e2d9884cbe02a00bc8d",
    "archiviata": "2026-11-24 17:57"
+  },
+  "R11": {
+   "id": "session_01R8112PM8B4A7UrENiRimDG",
+   "ramo": "ccr-d7a54140-hak4ez-m11",
+   "onda": 3,
+   "limite_usd": 4.5,
+   "partita": "2026-11-24 19:20"
+  },
+  "R12": {
+   "id": "session_01R8112LoDyLqbZBCi3c6K7j",
+   "ramo": "ccr-d7a54140-hak4ez-m12",
+   "onda": 3,
+   "limite_usd": 3.5,
+   "partita": "2026-11-24 19:17"
   }
  },
  "collaudatori": {
