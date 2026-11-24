@@ -1,6 +1,6 @@
 {
   "campagna": "normali",
-  "quando": "2026-11-24 18:37",
+  "quando": "2026-11-24 19:27",
   "decisioni": [
     {
       "id": "R01-001",
@@ -1486,6 +1486,127 @@
       "collaudatore": "K05",
       "decisione": "resta_aperta",
       "perche": "parziale: Le quattro caselle nominate dalla voce sono a posto (StoreMediaManager con questo commit; ImageUrlField, VendorForm e SellerApplicationForm già sulla base). Resta ferma a tre tipi la casella delle foto prodotto components/seller/ProductImagesField.tsx:123-127 (messaggio :137), che non è un mio file: vedi serve_file_altrui."
+    },
+    {
+      "id": "R11-001",
+      "sessione": "R11",
+      "chiave": "ai-endpoints|con l'ai dei negozi spenta al lancio, l'allarme sul conto condiviso della spesa ai può arrivare lo stesso ogni sei ore",
+      "gravita": "minore",
+      "esito": "senza_referto",
+      "verdetto": null,
+      "collaudatore": null,
+      "decisione": "resta_aperta",
+      "perche": "il riparatore non l'ha scritta nel referto"
+    },
+    {
+      "id": "R11-002",
+      "sessione": "R11",
+      "chiave": "architettura|il finto clienteavvisi è riscritto in quattro posti e la prova da 1033 righe mescola rotte, notte e una scansione del sorgente",
+      "gravita": "minore",
+      "esito": "senza_referto",
+      "verdetto": null,
+      "collaudatore": null,
+      "decisione": "resta_aperta",
+      "perche": "il riparatore non l'ha scritta nel referto"
+    },
+    {
+      "id": "R11-003",
+      "sessione": "R11",
+      "chiave": "deploy-sre|il ritorno indietro può ancora scegliere il rilascio sbagliato in due casi rari: un solo altro commit negli ultimi 20 rilasci, o un dominio che non dice il suo commit",
+      "gravita": "minore",
+      "esito": "senza_referto",
+      "verdetto": null,
+      "collaudatore": null,
+      "decisione": "resta_aperta",
+      "perche": "il riparatore non l'ha scritta nel referto"
+    },
+    {
+      "id": "R11-004",
+      "sessione": "R11",
+      "chiave": "microcopy|altri «rider» rivolti al cliente restano nella pagina dell'ordine e in quella del negozio",
+      "gravita": "minore",
+      "esito": "senza_referto",
+      "verdetto": null,
+      "collaudatore": null,
+      "decisione": "resta_aperta",
+      "perche": "il riparatore non l'ha scritta nel referto"
+    },
+    {
+      "id": "R11-005",
+      "sessione": "R11",
+      "chiave": "qa-flussi|due guardie sulla veloce controllano il testo del sorgente e non il comportamento",
+      "gravita": "minore",
+      "esito": "senza_referto",
+      "verdetto": null,
+      "collaudatore": null,
+      "decisione": "resta_aperta",
+      "perche": "il riparatore non l'ha scritta nel referto"
+    },
+    {
+      "id": "R11-006",
+      "sessione": "R11",
+      "chiave": "qa-flussi|una prova del promemoria del carrello resta verde solo per caso",
+      "gravita": "minore",
+      "esito": "senza_referto",
+      "verdetto": null,
+      "collaudatore": null,
+      "decisione": "resta_aperta",
+      "perche": "il riparatore non l'ha scritta nel referto"
+    },
+    {
+      "id": "R12-001",
+      "sessione": "R12",
+      "chiave": "api-backend|l'invio subito delle notifiche push prende le righe guardando solo pushed_at, e può correre col giro del cron",
+      "gravita": "minore",
+      "esito": "senza_referto",
+      "verdetto": null,
+      "collaudatore": null,
+      "decisione": "resta_aperta",
+      "perche": "il riparatore non l'ha scritta nel referto"
+    },
+    {
+      "id": "R12-002",
+      "sessione": "R12",
+      "chiave": "architettura|la prova sull'export elenca ancora cod_reconciliations fra le tabelle escluse",
+      "gravita": "minore",
+      "esito": "senza_referto",
+      "verdetto": null,
+      "collaudatore": null,
+      "decisione": "resta_aperta",
+      "perche": "il riparatore non l'ha scritta nel referto"
+    },
+    {
+      "id": "R12-003",
+      "sessione": "R12",
+      "chiave": "frontend-ux|incollare il link di instagram o scrivere il sito senza https blocca il salvataggio di tutta la vetrina con un messaggio che non dice dove",
+      "gravita": "minore",
+      "esito": "senza_referto",
+      "verdetto": null,
+      "collaudatore": null,
+      "decisione": "resta_aperta",
+      "perche": "il riparatore non l'ha scritta nel referto"
+    },
+    {
+      "id": "R12-004",
+      "sessione": "R12",
+      "chiave": "qa-flussi|l'aiutante di prova accendi, con la suspense, rende vuoto in silenzio un componente che resta sospeso per sempre: una prova che controlla un'assenza può passare senza aver provato niente",
+      "gravita": "minore",
+      "esito": "senza_referto",
+      "verdetto": null,
+      "collaudatore": null,
+      "decisione": "resta_aperta",
+      "perche": "il riparatore non l'ha scritta nel referto"
+    },
+    {
+      "id": "R12-005",
+      "sessione": "R12",
+      "chiave": "qa-flussi|le prove che fanno girare tutto lo script del backup non hanno un psql finto",
+      "gravita": "minore",
+      "esito": "senza_referto",
+      "verdetto": null,
+      "collaudatore": null,
+      "decisione": "resta_aperta",
+      "perche": "il riparatore non l'ha scritta nel referto"
     }
   ]
 }
