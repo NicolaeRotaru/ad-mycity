@@ -24,6 +24,48 @@
       "esenzioni": []
     },
     {
+      "id": "agenzia.listino",
+      "nome": "agenzia.listino",
+      "valore": "Listino del preventivo di MyCity (22/11/2026; foto e video col partner scattiDG): sito web professionale 500 € una volta; gestione automatica dei social (flusso n8n) 300 € al mese; foto e video (riprese, scatti, montaggio, ritocco) da 50 a 300 € al mese; logo e grafica su richiesta; vetrina sul marketplace 50 € al mese (= pricing.abbonamento). Sul sito: lib/agenzia/preventivo.ts (LISTINO), modificabile da site_settings.agenzia senza rifare il sito.",
+      "fonte": "Nicola, chat della notte fra il 22 e il 23/11/2026 (messaggio con i prezzi)",
+      "aggiornato": "2026-11-23 01:08",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
+      "id": "agenzia.nome",
+      "nome": "agenzia.nome",
+      "valore": "scattiDG è un'azienda partner di MyCity e offre SOLO foto e video (riprese, scatti, montaggio, ritocco). Non offre social, sito web né logo: quelli sono servizi di MyCity. Il preventivo in dashboard lo firma MyCity, e il nome di scattiDG compare solo dentro il servizio Foto e video. Sul sito: LISTINO.foto_video.partner e NOME_AGENZIA_DI_RISERVA = MyCity in lib/agenzia/preventivo.ts.",
+      "fonte": "Nicola, chat 2026-11-23 («ScattiDG è l'azienda partner a cui mycity si affida per foto/video making/editing»; «è un partner e offre solo quel servizio»)",
+      "aggiornato": "2026-11-23 02:47",
+      "storia": [
+        {
+          "valore": "L'agenzia foto e video di Nicola si chiama scattiDG. Sul sito: NOME_AGENZIA_DI_RISERVA in lib/agenzia/preventivo.ts; site_settings.agenzia.nome lo sovrascrive senza rifare il sito.",
+          "fino_a": "2026-11-23 01:42"
+        },
+        {
+          "valore": "scattiDG è l'azienda partner a cui MyCity si affida per foto e video (riprese, scatti, montaggio, ritocco). Il preventivo in dashboard lo firma MyCity; social, sito web e logo sono servizi di MyCity. Sul sito: LISTINO.foto_video.partner e NOME_AGENZIA_DI_RISERVA = MyCity in lib/agenzia/preventivo.ts.",
+          "fino_a": "2026-11-23 02:47"
+        }
+      ],
+      "caccia": [
+        {
+          "pattern": "L'agenzia foto e video di Nicola si chiama scattiDG",
+          "dal": "2026-11-23 01:42"
+        },
+        {
+          "pattern": "L'agenzia foto e video di Nicola si chiama scattiDG. Sul sito: NOME_AGENZIA_DI_RISERVA in lib/agenzia/preventivo.ts; site_settings.agenzia.nome lo sovrascrive senza rifare il sito.",
+          "dal": "2026-11-23 01:42"
+        },
+        {
+          "pattern": "scattiDG è l'azienda partner a cui MyCity si affida per foto e video (riprese, scatti, montaggio, ritocco). Il preventivo in dashboard lo firma MyCity; social, sito web e logo sono servizi di MyCity. Sul sito: LISTINO.foto_video.partner e NOME_AGENZIA_DI_RISERVA = MyCity in lib/agenzia/preventivo.ts.",
+          "dal": "2026-11-23 02:47"
+        }
+      ],
+      "esenzioni": []
+    },
+    {
       "id": "architettura.tre-macchine",
       "nome": "Architettura bersaglio: le tre macchine (Centro, Piazza, Bottega)",
       "valore": "Architettura bersaglio a tre macchine — CENTRO (azienda) → PIAZZA (marketplace, una per citta, unica con le chiavi in scrittura) → BOTTEGA (la linea di ricavo #2 'Worker per i negozi': UNA macchina multi-negozio, mai una per negozio; listino gia definito, vedi pricing.worker-negozi). Stato: visione registrata, nessuna fase avviata, nessun codice scritto. Fase 1 (porta unica di scrittura verso il marketplace) raccomandata subito; Fase 3 solo quando Nicola apre la linea (worker-negozi.stato). Dettaglio: MyCity-Vault/90-Memoria-AI/ARCHITETTURA-TRE-MACCHINE.md",
@@ -1086,15 +1128,24 @@
     {
       "id": "onboarding.6-ristoranti-tattici",
       "nome": "onboarding.6-ristoranti-tattici",
-      "valore": "ESCLUSI — Nicola 16/7: «non lavoro con i ristoranti». I 6 del dossier 6/7 (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori) non sono prospect validi. MyCity lavora solo con botteghe, non ristoranti/trattorie.",
-      "fonte": "Nicola chat 2026-07-16 (casella Trattoria La Forchetta)",
-      "aggiornato": "2026-07-16 12:57",
-      "storia": [],
+      "valore": "NON PIÙ ESCLUSI — dal 22/11/2026 Nicola apre l'iscrizione a tutte le attività, ristoranti compresi («dentro tutti»). I 6 del dossier 6/7 (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori) tornano prospect possibili, da fondare prima di lavorarci (AR-006).",
+      "fonte": "Nicola, chat della notte fra il 22 e il 23/11/2026",
+      "aggiornato": "2026-11-23 01:08",
+      "storia": [
+        {
+          "valore": "ESCLUSI — Nicola 16/7: «non lavoro con i ristoranti». I 6 del dossier 6/7 (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori) non sono prospect validi. MyCity lavora solo con botteghe, non ristoranti/trattorie.",
+          "fino_a": "2026-11-23 01:08"
+        }
+      ],
       "caccia": [
         {
           "pattern": "6 botteghe food",
           "dal": "2026-07-13 11:40",
           "chiusa": "2026-07-13 20:21"
+        },
+        {
+          "pattern": "ESCLUSI — Nicola 16/7: «non lavoro con i ristoranti». I 6 del dossier 6/7 (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori) non sono prospect validi. MyCity lavora solo con botteghe, non ristoranti/trattorie.",
+          "dal": "2026-11-23 01:08"
         }
       ],
       "esenzioni": []
@@ -1560,13 +1611,17 @@
     {
       "id": "strategia.cliente-core",
       "nome": "strategia.cliente-core",
-      "valore": "I clienti MyCity sono le botteghe (carrello multi-negozio settimanale) — né ristoranti né trattorie",
-      "fonte": "Nicola chat 2026-07-13 22:34",
-      "aggiornato": "2026-07-13 22:35",
+      "valore": "I clienti MyCity sono tutte le attività che vendono qualcosa: botteghe, bar, ristoranti, artigiani, servizi alla persona. All'iscrizione non serve più essere una bottega (Nicola 22/11/2026: «dentro tutti», anche i ristoranti)",
+      "fonte": "Nicola, chat della notte fra il 22 e il 23/11/2026 (risposta «Sì, dentro tutti» alle domande dell'AD)",
+      "aggiornato": "2026-11-23 01:08",
       "storia": [
         {
           "valore": "botteghe (carrello multi-negozio settimanale) — i 6 del 13/7 sono ristoranti/trattorie, mossa tattica non profilo core",
           "fino_a": "2026-07-13 22:35"
+        },
+        {
+          "valore": "I clienti MyCity sono le botteghe (carrello multi-negozio settimanale) — né ristoranti né trattorie",
+          "fino_a": "2026-11-23 01:08"
         }
       ],
       "caccia": [
@@ -1604,6 +1659,14 @@
           "pattern": "botteghe (carrello multi-negozio settimanale) — i 6 del 13/7 sono ristoranti/trattorie, mossa tattica non profilo core",
           "dal": "2026-07-13 22:35",
           "chiusa": "2026-07-13 22:35"
+        },
+        {
+          "pattern": "MyCity lavora solo con botteghe",
+          "dal": "2026-11-23 01:08"
+        },
+        {
+          "pattern": "I clienti MyCity sono le botteghe (carrello multi-negozio settimanale) — né ristoranti né trattorie",
+          "dal": "2026-11-23 01:08"
         }
       ],
       "esenzioni": []
@@ -1652,13 +1715,17 @@
     {
       "id": "strategia.segmenti-onboarding",
       "nome": "Calendario dei segmenti da aprire (set-dic 2026)",
-      "valore": "SETTEMBRE 2026 — fresco (frutta e verdura, panetterie, gastronomie, macellerie): primo valore = anti-spreco + richiami, pre-ordini per le macellerie. OTTOBRE — ottiche, estetiste, mercato coperto: prenotazioni, promemoria, recupero dei clienti persi. NOVEMBRE — regali e PMI (saltato: calendario.novembre-regali). DICEMBRE — si continua a far entrare negozi: Nicola il 1/11/2026 ha tolto lo «stop all'onboarding» di dicembre, che non aveva fonte nelle due ricerche (la ricerca sui negozianti ha solo tre finestre: settembre, ottobre, novembre) — «toglila». Esclusi per decisione di Nicola: ristoranti, catene e franchising; pescherie in fase 2. Il ritmo vero dopo l'apertura sta in negozi.ingresso.",
-      "fonte": "Nicola, conversazione del 2026-11-01 mattina (fino alle 12:18), sessione «cosa serve per essere pronti»",
-      "aggiornato": "2026-11-01 12:18",
+      "valore": "SETTEMBRE 2026 — fresco (frutta e verdura, panetterie, gastronomie, macellerie): primo valore = anti-spreco + richiami, pre-ordini per le macellerie. OTTOBRE — ottiche, estetiste, mercato coperto: prenotazioni, promemoria, recupero dei clienti persi. NOVEMBRE — regali e PMI (saltato: calendario.novembre-regali). DICEMBRE — si continua a far entrare negozi: Nicola il 1/11/2026 ha tolto lo «stop all'onboarding» di dicembre, che non aveva fonte nelle due ricerche (la ricerca sui negozianti ha solo tre finestre: settembre, ottobre, novembre) — «toglila». Esclusi per decisione di Nicola: catene e franchising; pescherie in fase 2. I ristoranti sono dentro dal 22/11/2026, insieme a bar, artigiani e servizi: «dentro tutti» (fatto strategia.cliente-core). Il ritmo vero dopo l'apertura sta in negozi.ingresso.",
+      "fonte": "Nicola, chat della notte fra il 22 e il 23/11/2026 («dentro tutti»)",
+      "aggiornato": "2026-11-23 01:08",
       "storia": [
         {
           "valore": "SETTEMBRE 2026 — fresco (frutta e verdura, panetterie, gastronomie, macellerie): primo valore = anti-spreco + richiami su WhatsApp, pre-ordini per le macellerie; prova richiesta = box vendute e clienti richiamati. OTTOBRE — ottiche, estetiste, mercato coperto: primo valore = prenotazioni + promemoria + recupero dei clienti persi; prova = meno buchi in agenda. NOVEMBRE — regali (enoteche, fiorai, cartolerie) e PMI strutturate: primo valore = gift card cittadina, regali aziendali, welfare territoriale; prova = primo ordine welfare o gift card incassato. DICEMBRE — stop all'onboarding: si consolida e si rinnova. Esclusi per decisione di Nicola: ristoranti, catene e franchising; pescherie in fase 2.",
           "fino_a": "2026-11-01 12:18"
+        },
+        {
+          "valore": "SETTEMBRE 2026 — fresco (frutta e verdura, panetterie, gastronomie, macellerie): primo valore = anti-spreco + richiami, pre-ordini per le macellerie. OTTOBRE — ottiche, estetiste, mercato coperto: prenotazioni, promemoria, recupero dei clienti persi. NOVEMBRE — regali e PMI (saltato: calendario.novembre-regali). DICEMBRE — si continua a far entrare negozi: Nicola il 1/11/2026 ha tolto lo «stop all'onboarding» di dicembre, che non aveva fonte nelle due ricerche (la ricerca sui negozianti ha solo tre finestre: settembre, ottobre, novembre) — «toglila». Esclusi per decisione di Nicola: ristoranti, catene e franchising; pescherie in fase 2. Il ritmo vero dopo l'apertura sta in negozi.ingresso.",
+          "fino_a": "2026-11-23 01:08"
         }
       ],
       "caccia": [
@@ -1669,6 +1736,14 @@
         {
           "pattern": "SETTEMBRE 2026 — fresco (frutta e verdura, panetterie, gastronomie, macellerie): primo valore = anti-spreco + richiami su WhatsApp, pre-ordini per le macellerie; prova richiesta = box vendute e clienti richiamati. OTTOBRE — ottiche, estetiste, mercato coperto: primo valore = prenotazioni + promemoria + recupero dei clienti persi; prova = meno buchi in agenda. NOVEMBRE — regali (enoteche, fiorai, cartolerie) e PMI strutturate: primo valore = gift card cittadina, regali aziendali, welfare territoriale; prova = primo ordine welfare o gift card incassato. DICEMBRE — stop all'onboarding: si consolida e si rinnova. Esclusi per decisione di Nicola: ristoranti, catene e franchising; pescherie in fase 2.",
           "dal": "2026-11-01 12:18"
+        },
+        {
+          "pattern": "Esclusi per decisione di Nicola: ristoranti, catene e franchising",
+          "dal": "2026-11-23 01:08"
+        },
+        {
+          "pattern": "SETTEMBRE 2026 — fresco (frutta e verdura, panetterie, gastronomie, macellerie): primo valore = anti-spreco + richiami, pre-ordini per le macellerie. OTTOBRE — ottiche, estetiste, mercato coperto: prenotazioni, promemoria, recupero dei clienti persi. NOVEMBRE — regali e PMI (saltato: calendario.novembre-regali). DICEMBRE — si continua a far entrare negozi: Nicola il 1/11/2026 ha tolto lo «stop all'onboarding» di dicembre, che non aveva fonte nelle due ricerche (la ricerca sui negozianti ha solo tre finestre: settembre, ottobre, novembre) — «toglila». Esclusi per decisione di Nicola: ristoranti, catene e franchising; pescherie in fase 2. Il ritmo vero dopo l'apertura sta in negozi.ingresso.",
+          "dal": "2026-11-23 01:08"
         }
       ],
       "esenzioni": []

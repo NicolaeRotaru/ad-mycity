@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-11-21 15:35",
+  "aggiornato": "2026-11-23 02:09",
   "scansioni": [
     {
       "quando": "2026-08-25 20:35",
@@ -7530,6 +7530,156 @@
         "cervello/allocazione-check.mjs": "53af95e6fef4",
         "cervello/cancello-stop.mjs": "69bf6fd80ca5",
         "cervello/coerenza-fatti.mjs": "253a6ef2f4da"
+      }
+    },
+    {
+      "quando": "2026-11-23 01:27",
+      "casa": "marketplace",
+      "dimensione": "api-backend",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 3,
+      "schede": [
+        "Due negozi con le stesse prime sei cifre si scambiavano l'avviso del preventivo",
+        "Un guasto nel leggere le impostazioni dell'agenzia rimetteva un prezzo tolto",
+        "Il preventivo accettato due volte nello stesso giorno con scelte diverse lascia avvisi che si contraddicono"
+      ],
+      "nota": "",
+      "file": {
+        "app/api/seller/preventivo/route.ts": "39ffceebc43c",
+        "app/api/seller/apply/route.ts": "9a57eda18d10"
+      }
+    },
+    {
+      "quando": "2026-11-23 01:27",
+      "casa": "marketplace",
+      "dimensione": "rls-database",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "Il commento della colonna dei prezzi dell'agenzia insegnava prezzi a zero"
+      ],
+      "nota": "",
+      "file": {
+        "migrations/703_ogni_attivita_puo_iscriversi_e_ha_il_suo_preventivo.sql": "2e8bf53baa06"
+      }
+    },
+    {
+      "quando": "2026-11-23 01:27",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "lib/agenzia/flusso-n8n.ts": "733aeab04960",
+        "lib/agenzia/preventivo.ts": "993fc671b175",
+        "lib/agenzia/tipi-attivita.ts": "16609202469c",
+        "lib/database.types.ts": "8a35b0539648"
+      }
+    },
+    {
+      "quando": "2026-11-23 01:27",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 2,
+      "schede": [
+        "La nota su foto e video compariva anche senza la voce foto e video",
+        "Il riquadro del preventivo in dashboard non sparisce mai, nemmeno dopo l'accettazione"
+      ],
+      "nota": "",
+      "file": {
+        "app/sell/page.tsx": "a4d12d7937b1",
+        "app/seller/dashboard/page.tsx": "1958a1edc6bc",
+        "app/seller/preventivo/page.tsx": "d38128e16bb0",
+        "components/SellerApplicationForm.tsx": "ec47209368a0",
+        "components/seller/PreventivoAgenziaCard.tsx": "c450e8996559",
+        "components/seller/SellerShell.tsx": "78c986003d0f",
+        "components/seller/preventivo-agenzia.ts": "1843ad6b6d25"
+      }
+    },
+    {
+      "quando": "2026-11-23 01:42",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "lib/agenzia/flusso-n8n.ts": "75e185165cf4",
+        "lib/agenzia/preventivo.ts": "331181112fd0"
+      }
+    },
+    {
+      "quando": "2026-11-23 01:42",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "app/seller/preventivo/page.tsx": "4b240efe553c"
+      }
+    },
+    {
+      "quando": "2026-11-23 01:42",
+      "casa": "marketplace",
+      "dimensione": "rls-database",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "migrations/703_ogni_attivita_puo_iscriversi_e_ha_il_suo_preventivo.sql": "7118a4a28568"
+      }
+    },
+    {
+      "quando": "2026-11-23 02:09",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "app/seller/preventivo/page.tsx": "20a8e5798888",
+        "app/seller/preventivo/[servizio]/page.tsx": "613fc673de12",
+        "components/seller/servizi-nel-menu.ts": "e00b260bfbd9",
+        "components/seller/SellerShell.tsx": "555ad467ae0e",
+        "components/seller/preventivo-agenzia.ts": "4c58c38a0f57"
+      }
+    },
+    {
+      "quando": "2026-11-23 02:09",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "lib/agenzia/preventivo.ts": "572e6e6641e0"
       }
     }
   ]
