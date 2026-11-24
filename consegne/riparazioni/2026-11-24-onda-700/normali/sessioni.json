@@ -35,6 +35,21 @@
    "id": "session_01R8112LC6Mqv34xPCFCCtoC",
    "ramo": "ccr-d7a54140-hak4ez-m07",
    "onda": 1
+  },
+  "R08": {
+   "id": "session_01R8112NqLXrakyTZaUMMqrC",
+   "ramo": "ccr-d7a54140-hak4ez-m08",
+   "onda": 2
+  },
+  "R09": {
+   "id": "session_01R8112KUKQJB8drAMNwk3KX",
+   "ramo": "ccr-d7a54140-hak4ez-m09",
+   "onda": 2
+  },
+  "R10": {
+   "id": "session_01R8112MESXTLhypH8keWXCN",
+   "ramo": "ccr-d7a54140-hak4ez-m10",
+   "onda": 2
   }
  },
  "collaudatori": {
