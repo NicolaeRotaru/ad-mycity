@@ -22,7 +22,7 @@ Parti solo quando arriva la risposta di Nicola alla fermata.
 Segui «I prossimi passi» qui sotto, dall'1.
 
 ## Cosa non ho verificato
-Le prove complete del sito dopo il revert: vedi la riga «vitest completo» nei dettagli.
+Le prove complete del sito dopo il revert le ho viste verdi solo nel mio contenitore: sul ramo del sito il revert non c'è ancora.
 Il costo finale della mia regia: leggilo tu con get_session a turno chiuso.
 
 ## Dettagli tecnici
@@ -44,7 +44,7 @@ C01 l'ha vista, ma ha scritto «non rompe niente»: guardava solo se la pagina s
 Il mio revert locale era 6bdc18c3, ma nel tuo contenitore non c'è. Rifallo: `git revert --no-edit 55d79fba` su ccr-d7a54140-hak4ez.
 Dopo il revert, `git diff 5b8c786c96ec789918b3e85361ca435cef726b92 HEAD -- app/rider/profile/page.tsx` deve essere vuoto, e la prova riparazione-r07-documento-ricaricato-dopo-l-approvazione sparisce.
 Le prove che ho visto verdi dopo il revert: tsc 0, eslint su page.tsx 0, vitest sui 6 file di prova vicini 0 (25 prove).
-vitest completo: IN CORSO alle 15:30.
+vitest completo dopo il revert, finito alle 15:31: verde, uscita 0. 2087 file (2086 passati, 1 saltato) e 12.670 prove (12.669 passate, 1 saltata). È un file in meno rispetto ai 2088 di C01: la prova di R07-001 tolta col revert.
 Per spingere serve add_repo su NicolaeRotaru/mycity con accesso push. Fallo solo dopo il clic di Nicola, passato dall'AD.
 L'AD aveva proposto un'altra strada: una sessione piccola con create_session sul sito e outcome_branch ccr-d7a54140-hak4ez, che fa il revert e spinge.
 Alle 15:23 il controllo dei permessi della sessione l'ha negata come «aggirare la sorveglianza»: spingere sul sito senza il clic di Nicola.
@@ -62,9 +62,9 @@ Il referto di C01 è copiato in `normali/controlli/C01.json`. Sul ramo -c01 c'er
 - Con A si sceglie quali 22 delle 44: prima le 2 che rompono altro, poi le voci a metà con il verdetto «regge» (7), poi le file altrui che chiedono meno file.
 - Note già scritte in REGIA.md: R02-004 (5 diff dei finti, poi cherry-pick a6bee2db), R06-007 (STORAGE_SYNC_STORICO), l'avviso di K01 su R03-003 e R03-006 (commit a76a1a6).
 
-**Il tetto, rigido: 360 $.** Misurato con get_session alle 15:18: 292,33 $.
-- 278,01 $ fino alla quarta, più quinta 6,36, C01 6,33 e sesta 1,63 (a metà turno).
-- Restano circa 67 $. Togli la tua regia (circa 10 $) e il collaudo delle 11 (circa 8 $): per riparare restano circa 45 $.
+**Il tetto, rigido: 360 $.** Misurato con get_session alle 15:32: 295,68 $.
+- 278,01 $ fino alla quarta, più quinta 6,36, C01 6,33 e sesta 4,98 (turno ancora aperto, a 251 mila token).
+- Restano circa 64 $. Togli la tua regia (circa 10 $) e il collaudo delle 11 (circa 8 $): per riparare restano circa 45 $ (alla fermata ho detto 45 $ con la sesta stimata a ~4 $ in più).
 - A circa 2 $ a voce (1,48 di riparazione, 0,38 di collaudo, 0,15 di controllo) sono circa 22 voci.
 
 **Le regole da tenere.** SHA interi. Controllo a 10 minuti su ogni figlia: get_session, poi `list_events` kinds assistant con grep `"name":"mcp__` (niente database vero).
