@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-11-21 15:35",
+  "aggiornato": "2026-11-24 23:10",
   "scansioni": [
     {
       "quando": "2026-08-25 20:35",
@@ -7530,6 +7530,70 @@
         "cervello/allocazione-check.mjs": "53af95e6fef4",
         "cervello/cancello-stop.mjs": "69bf6fd80ca5",
         "cervello/coerenza-fatti.mjs": "253a6ef2f4da"
+      }
+    },
+    {
+      "quando": "2026-11-24 22:53",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "lib/agenzia/etichetta-piano.ts": "57e09402f8b1"
+      }
+    },
+    {
+      "quando": "2026-11-24 22:53",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "app/seller/profile/page.tsx": "b335ce40578f",
+        "components/seller/MenuAccount.tsx": "9f295b094dbd",
+        "components/seller/PianoNelProfilo.tsx": "878e565e1ad8",
+        "components/seller/SellerShell.tsx": "56d8f79e8b3b",
+        "components/seller/servizi-nel-menu.ts": "da670db5e08b"
+      }
+    },
+    {
+      "quando": "2026-11-24 23:10",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "app/seller/profile/page.tsx": "b335ce40578f",
+        "components/seller/MenuAccount.tsx": "85118a51e35a",
+        "components/seller/PianoNelProfilo.tsx": "878e565e1ad8",
+        "components/seller/SellerShell.tsx": "56d8f79e8b3b",
+        "components/seller/servizi-nel-menu.ts": "da670db5e08b"
+      }
+    },
+    {
+      "quando": "2026-11-24 23:10",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "lib/agenzia/etichetta-piano.ts": "57e09402f8b1"
       }
     }
   ]
