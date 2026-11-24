@@ -5,8 +5,8 @@
     "R09",
     "R10"
   ],
-  "aggiornato": "2026-11-24 18:50",
-  "finita": false,
+  "aggiornato": "2026-11-24 19:05",
+  "finita": true,
   "voci": [
     {
       "id": "R08-002",
@@ -42,11 +42,16 @@
       "id": "R08-007",
       "chiave": "stati-ui|con la proposta di «genera con ai» aperta, le correzioni fatte a mano nel frattempo si perdono premendo «usa questa»",
       "verdetto": "regge",
-      "giudizio": "nessuno",
+      "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base 0f3683ca0682e1b04eedfa9a5c96f8bbb9d1e347^ --file components/seller/ProductForm.tsx --prove tests/unit/riparazione-r08-genera-con-ai-correzioni.test.tsx --json"
-      }
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "La base del confronto è il testo al clic su «Genera» (ProductForm.tsx:1083, usata a :1093); le correzioni durante l'attesa fanno partire la conferma di «Usa questa» (:1117); il bottone è disabilitato durante il caricamento (AIDescriptionButton.tsx:84), nessuna corsa."
     },
     {
       "id": "R08-006",
@@ -169,11 +174,16 @@
       "id": "R09-005",
       "chiave": "qa-flussi|il pannello della home suggerisce ancora «i più amati / prodotti che vanno forte»",
       "verdetto": "regge",
-      "giudizio": "nessuno",
+      "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base 1a6d53c68048148043ccdbee1ce20a994455f3ea^ --file lib/home-site.ts --prove tests/unit/riparazione-r09-pannello-home.test.ts --json"
-      }
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Il pannello dice «Appena arrivati» (lib/home-site.ts:75), coerente con HomeSectionConfigForm.tsx:136-137 e HomeSectionRenderer.tsx:228-232. «Più amati» in app/stores/page.tsx:375 è un ordinamento per voto, legittimo e fuori voce."
     },
     {
       "id": "R09-006",
@@ -209,42 +219,72 @@
       "id": "R10-001",
       "chiave": "coerenza-brand|la primitiva card è usata in 10 file, mentre 141 card sono ridisegnate a mano con quattro raggi diversi",
       "verdetto": "parziale",
-      "giudizio": "nessuno",
+      "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base 47f644ba5b097bd0e7454e2d9884cbe02a00bc8d^ --file app/rider/page.tsx,components/ui/Card.tsx --prove tests/unit/riparazione-r10-card-a-mano.test.ts --json"
-      }
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Il pezzo fatto regge: Card.tsx:73 passa le prop HTML in più senza cambiare le 24 card che la importano; i riquadri di app/rider/page.tsx restano identici. Minore: con href le prop in più (aria-live, id, role) sono scartate in silenzio (Card.tsx:81-86). Resta aperto: le circa 141 card a mano negli altri file."
     },
     {
       "id": "R10-002",
       "chiave": "frontend-ux|un negozio senza nome ha metadati indicizzabili mentre la sua pagina risponde «non trovato»",
       "verdetto": "regge",
-      "giudizio": "nessuno",
+      "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base f4a0858692ab78108a20604e1e8a4a53c8a8b539^ --file app/store/[id]/[slug]/layout.tsx --prove tests/unit/riparazione-r10-pagina-negozio-senza-nome.test.ts --json"
-      }
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "[slug]/layout.tsx:35 usa la stessa condizione del guscio (layout.tsx:80 metadati, :145 404), nome vuoto compreso; togliere robots: undefined non cancella più il noindex del padre."
     },
     {
       "id": "R10-003",
       "chiave": "frontend-ux|altri percorsi di facebook non elencati possono essere salvati come nome del profilo",
       "verdetto": "parziale",
-      "giudizio": "nessuno",
+      "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base 963b5384ce657ae77d1905786b26d46df2455972^ --file lib/store-customization.ts --prove tests/unit/riparazione-r10-facebook-altri-percorsi.test.ts --json"
-      }
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Il pezzo fatto regge: trattino basso rifiutato (lib/store-customization.ts:163), coerente con R07-009, nessun profilo valido rifiutato. Resta: RISERVATI_FACEBOOK è un elenco di esclusioni, un percorso non elencato a un pezzo (facebook.com/dating, /weather) si salva ancora come nome, e un nome scritto a mano come «groups» passa."
     },
     {
       "id": "R10-005",
       "chiave": "qa-flussi|le maschere di caricamento delle foto accettano solo jpg, png e webp, mentre la porta e lo storage ne accettano sette",
       "verdetto": "parziale",
-      "giudizio": "nessuno",
+      "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K05 --base dc98170c79ddb186dd88f144b64061b92df125c8^ --file components/StoreMediaManager.tsx --prove tests/unit/riparazione-r10-foto-sette-tipi-media.test.tsx --json"
-      }
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Il pezzo fatto regge (StoreMediaManager.tsx:55 usa mappaAccept e fileColTipoGiusto come GalleryFields e ImageUpload). Resta: components/seller/ProductImagesField.tsx:123-127 accetta ancora solo jpg, png e webp. Non verificato: un HEIC caricato finisce nel deposito senza conversione."
     }
   ],
-  "campione": {}
+  "campione": {
+    "R08": {
+      "accettato": false
+    },
+    "R09": {
+      "accettato": false
+    },
+    "R10": {
+      "accettato": true
+    }
+  }
 }
