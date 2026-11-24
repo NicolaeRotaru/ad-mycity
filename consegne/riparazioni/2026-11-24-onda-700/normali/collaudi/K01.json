@@ -3,7 +3,7 @@
   "riparatori": [
     "R03"
   ],
-  "aggiornato": "2026-11-24 13:40",
+  "aggiornato": "2026-11-24 14:00",
   "finita": false,
   "voci": [
     {
@@ -19,12 +19,12 @@
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 59ddbb471eae511e43aa2a7fd96df18688a4f70a^ --file lib/privacy/avvisi-a-chi-aspetta.ts --prove tests/unit/riparazione-r03-email-partita.test.ts --json"
       },
-      "nota": "BOZZA: prova rimessa uscita 0; giudizio pieno del revisore qa in corso, verdetto provvisorio (finita=false)"
+      "nota": "Parziale dichiarato onesto. Provato a rompere forsePartita (righe vecchie senza segnaIlNo, scrittura «fallita» che cade, tetto dei 31 tentativi): il segnale nasce giusto e arriva alla rotta notturna (process-deletions/route.ts:501, :522), ma lì nessuno lo legge ancora, come dice cosa_resta. Revisore qa + rimessa uscita 0."
     },
     {
       "id": "R03-003",
       "chiave": "architettura|il parametro propostail di negoziopuoservire non lo passa nessuno",
-      "verdetto": "regge",
+      "verdetto": "parziale",
       "giudizio": "pieno",
       "lenti": [
         "chiude_tutta",
@@ -34,12 +34,12 @@
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base fd05bc7181e4529f5c1470de36d70bece47271ee^ --file lib/quando-arriva.ts --prove tests/unit/riparazione-r03-fascia-domani-proposta.test.ts --json"
       },
-      "nota": "BOZZA: prova rimessa uscita 0; giudizio pieno del revisore qa in corso, verdetto provvisorio (finita=false)"
+      "nota": "La parte dichiarata regge solo nella prova: motivoFasciaRifiutata passa propostaIl fino a negozioPuoServire, ma nessuna delle tre chiamate vere lo passa (cod/route.ts:1013, stripe/checkout:522, webhook/ordini.ts:292): sul sito non cambia niente. La ricetta lasciata in serve_file_altrui per stripe/checkout (ricavare la proposta da delivery_date del browser) non va applicata così: propostaIl non ha recinto (quando-arriva.ts:226,234; store-hours.ts:243), un sabato passato come proposta fa passare «Domani» con il negozio chiuso domani (provato). Il webhook ricontrolla e rimborsa, quindi niente soldi persi, ma alla cassa la regola diventa aggirabile."
     },
     {
       "id": "R03-006",
       "chiave": "architettura|una fascia «domani» inviata alle 23:59 e arrivata alla rotta dopo mezzanotte si giudica sul giorno dopo",
-      "verdetto": "regge",
+      "verdetto": "parziale",
       "giudizio": "pieno",
       "lenti": [
         "chiude_tutta",
@@ -49,7 +49,7 @@
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base fd05bc7181e4529f5c1470de36d70bece47271ee^ --file lib/quando-arriva.ts --prove tests/unit/riparazione-r03-fascia-domani-proposta.test.ts --json"
       },
-      "nota": "BOZZA: prova rimessa uscita 0; giudizio pieno del revisore qa in corso, verdetto provvisorio (finita=false)"
+      "nota": "Stessa correzione della 003, che vive solo nella prova. I contanti erano già coperti alla base (fasciaDelGiornoDellaRichiesta); resta scoperta solo la rotta che apre la pagina della carta. cosa_resta è impreciso: il webhook riporta già «Domani» a «Oggi» con session.created (webhook/ordini.ts:284-293, provato). La ricetta lasciata alla regista per il webhook è sbagliata: new Date(session.created*1000) non è l ora di Roma che negozioPuoServire si aspetta, e seguita alla lettera crea un difetto fra mezzanotte e l una (le due d estate). Non applicarla."
     },
     {
       "id": "R03-012",
@@ -64,12 +64,12 @@
         "uscita": 0,
         "comando": "PGHOST=/var/run/postgresql PGUSER=root timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 3ded946e720350f0c113c11663ffade486af2f64^ --file migrations/840_due_veloci_insieme_non_passano_con_un_fattorino_solo.sql --prove tests/sql/rls/riparazione-r03-veloce.test.sql --sql k01_r03_rimessa --json"
       },
-      "nota": "BOZZA: prova rimessa uscita 0; giudizio pieno del revisore qa in corso, verdetto provvisorio (finita=false)"
+      "nota": "Corsa vera sul Postgres locale: due psql in parallelo, la seconda aspetta il lucchetto ed esce con 23514 e hint veloce_senza_fattorino_libero; se la prima annulla, la seconda nasce. Con 20 clienti in parallelo e 1 fattorino nasce 1 ordine su 20, con 2 fattorini ne nascono 2. Regola SQL uguale al codice (etichetta identica byte per byte, 3 ore, 6 stati, conto per cliente); l esenzione per lo stesso cliente è meno severa del codice, quindi nessun 409 senza una corsa vera. Niente ordini orfani; il 409 libera la chiave. 840 si applica pulita (220/220) e non collide; suite SQL verde. Rimessa anche sulla rotta (route.ts + tests/unit/riparazione-r03-veloce.test.ts) uscita 0. Limiti dichiarati: migrazione da applicare, veloci con la carta fuori. Minore: nessuna prova lega l 840 a ETICHETTA_ADESSO."
     },
     {
       "id": "R03-013",
       "chiave": "qa-flussi|il logger oscura solo le chiavi del contesto, non il testo del messaggio né un contesto stringa",
-      "verdetto": "regge",
+      "verdetto": "parziale",
       "giudizio": "pieno",
       "lenti": [
         "chiude_tutta",
@@ -79,12 +79,12 @@
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 24b217dc^ --file lib/logger.ts --prove tests/unit/riparazione-r03-logger-testo.test.ts --json"
       },
-      "nota": "BOZZA: prova rimessa uscita 0; giudizio pieno del revisore qa in corso, verdetto provvisorio (finita=false); la correzione sta in due commit (24b217dc + 8defebc4): rimessa con base 24b217dc^ (toglie tutta la correzione) uscita 0, e con base 8defebc4^ (solo il secondo) uscita 0"
+      "nota": "Testo e contesto stringa ora passano dal filtro (la rimessa morde con base 24b217dc^ e con base 8defebc4^), ma la voce è chiusa solo in parte. Restano in chiaro telefoni in formati comuni: «333 123 45 67», «333/1234567», «0523/123456», «(0523) 123456», «tel:+39…» (lib/logger.ts:64); delivery_phone è testo libero. testoSenzaRecapiti (lib/analytics/filmato-senza-dati-personali.ts:185) oscura i primi cinque formati. Restano in chiaro anche chiavi sk_live_/whsec_/re_, «Bearer <opaco>» e numeri di carta, mentre il commento a :57 dice «telefono o carta». Nata rotta, latente: line() chiama oscuraTesto(msg) senza guardia (:285), quindi warn/info/spesa con un messaggio che non è testo, o un Error con message che non è testo, ora lanciano TypeError invece di scrivere; alla base non lanciavano. Oggi TypeScript impedisce quei chiamanti."
     }
   ],
   "campione": {
     "R03": {
-      "accettato": true
+      "accettato": false
     }
   }
 }
