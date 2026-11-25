@@ -7522,3 +7522,12 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa:** resta la regola entrata con mycity#320 (unita il 25/11 alle 12:04). Lo staff non approva un negozio finché mancano nome, cognome, codice fiscale e data di nascita del titolare. Chiude la voce «La scelta dell'AD, da confermare» del 25/11 alle 00:20.
 - **Aperto:** la frase dei Termini sulla «verifica KYC (documento, codice fiscale, IBAN)», da far rivedere a legale-privacy.
 
+
+## 2026-11-25 13:23 — Unite le 10 richieste di unione pronte, dopo averlo chiesto a chi le aveva aperte (🔴 eseguito su ordine di Nicola)
+- **Chi e quando:** Nicola, in chat a questa sessione dell'AD, il 25/11 verso le 12:44. Parole sue: «sistema tutte le pr e mergiale, solo quelle che sono pronte», chiedendo prima alla sessione che le aveva create se era pronta e se il lavoro era finito.
+- **Cosa:** unite 8 PR della memoria dell'AD (#995, #996, #997, #998, #999, #1000, #1001, #1002) e 2 di n8n (N8N#2, N8N#3), fra le 12:48 e le 13:22. Ogni sessione ha risposto «PRONTA» prima dell'unione. La #996 no, perché la sua sessione era archiviata: è valso il suo ultimo messaggio («pronta, unisci quando vuoi»), e la PR del sito collegata era già unita.
+- **Perché in quell'ordine:** la #995 è entrata per prima, perché riparava un guasto di main. La prova `due-case` cadeva in 2 casi su 36 e teneva rossa la CI di tutte le altre.
+- **Cosa è stato sistemato prima di unire:** i conflitti nei file della memoria, tenendo le righe di tutti. Poi frasi difficili in tre PR (#998, #1001, #1000), una radiografia da rifare dopo una modifica (#997, #1000) e 6 prove del cervello rosse nel programma nuovo della mappa (#1000). Le ultime due cose le hanno riparate le sessioni che avevano aperto le PR.
+- **Prove:** il main finale ha lo stesso albero che la CI ha provato per intero sul ramo della #1000 (`28da367`): 14 controlli verdi su 14. In n8n, 72 prove verdi su 72 sulle due PR insieme.
+- **Lezione:** «PRONTA» detto da una sessione non vuol dire CI verde. 4 sessioni sulle 7 che hanno risposto hanno detto pronta con la CI rossa per colpa del loro lavoro.
+- **Aperte dopo l'ordine, e non unite:** ad-mycity#1003 (i 120 senior con la descrizione corta) e mycity#322 (PageSpeed nel preventivo). La seconda tocca il sito in produzione.
