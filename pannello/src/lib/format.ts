@@ -45,6 +45,23 @@ export function testoPulito(s: unknown): string {
 //     convertiti e mostrati in Europe/Rome → istante().
 const TZ_ROMA = "Europe/Rome";
 
+// Velocità (perf home, 25/11/2026): creare un `Intl.DateTimeFormat` è caro (carica le regole di
+// lingua e di fuso), e qui se ne creava uno NUOVO a ogni data formattata. All'apertura della home
+// `offsetRoma` + `giornoRoma` + `timbro` pesavano ~110 ms di processore su un telefono medio, quasi
+// tutti spesi a ricreare lo stesso oggetto. Lo stesso formattatore ora si crea una volta e si
+// riusa: stesso risultato, perché a parità di lingua e opzioni l'oggetto è identico. Se la
+// creazione lancia (runtime senza `longOffset`), lancia come prima e non resta nulla in memoria.
+const formattatori = new Map<string, Intl.DateTimeFormat>();
+function formattatore(lingua: string, opzioni: Intl.DateTimeFormatOptions): Intl.DateTimeFormat {
+  const chiave = lingua + "|" + JSON.stringify(opzioni);
+  let f = formattatori.get(chiave);
+  if (!f) {
+    f = new Intl.DateTimeFormat(lingua, opzioni);
+    formattatori.set(chiave, f);
+  }
+  return f;
+}
+
 // True se la stringa NON porta un fuso (né 'Z' né offset '±HH:MM') → è una data-vault wall-clock.
 export function senzaFuso(s: string): boolean {
   const raw = (s || "").trim();
@@ -54,7 +71,7 @@ export function senzaFuso(s: string): boolean {
 // Offset di Europe/Rome a una certa data, come "+02:00" (estate) / "+01:00" (inverno).
 export function offsetRoma(d: Date): string {
   try {
-    const parts = new Intl.DateTimeFormat("en-US", { timeZone: TZ_ROMA, timeZoneName: "longOffset" }).formatToParts(d);
+    const parts = formattatore("en-US", { timeZone: TZ_ROMA, timeZoneName: "longOffset" }).formatToParts(d);
     const v = parts.find((p) => p.type === "timeZoneName")?.value || "";
     const m = v.match(/GMT([+-])(\d{2}):?(\d{2})/);
     if (m) return `${m[1]}${m[2]}:${m[3]}`;
@@ -125,7 +142,7 @@ export function oreDaDataVault(dataStr: unknown, adesso: number = Date.now(), or
 
 /** Giorno calendario in Europe/Rome (AAAA-MM-GG). */
 export function giornoRoma(d: Date = new Date()): string {
-  return new Intl.DateTimeFormat("en-CA", { timeZone: TZ_ROMA }).format(d);
+  return formattatore("en-CA", { timeZone: TZ_ROMA }).format(d);
 }
 
 /** Tra più date-vault (Piacenza, senza fuso), restituisce la più recente — stringa grezza. */
@@ -187,7 +204,7 @@ export function istante(iso: string): string {
   const d = new Date(raw);
   if (Number.isNaN(d.getTime())) return dataVault(raw); // fallback: stringa-vault
   try {
-    return new Intl.DateTimeFormat("it-IT", {
+    return formattatore("it-IT", {
       timeZone: TZ_ROMA, day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit",
     }).format(d).replace(", ", " · ");
   } catch {
@@ -211,13 +228,13 @@ export function faRelativo(iso: string | null | undefined): string {
           ? `${Math.round(sec / 3600)} h fa`
           : `${Math.round(sec / 86400)} g fa`;
   try {
-    const giorno = (x: Date) => new Intl.DateTimeFormat("en-CA", { timeZone: TZ_ROMA }).format(x);
+    const giorno = (x: Date) => formattatore("en-CA", { timeZone: TZ_ROMA }).format(x);
     const opts: Intl.DateTimeFormatOptions = { timeZone: TZ_ROMA, hour: "2-digit", minute: "2-digit" };
     if (giorno(d) !== giorno(new Date())) {
       opts.day = "2-digit";
       opts.month = "2-digit";
     }
-    return `${rel} · ${new Intl.DateTimeFormat("it-IT", opts).format(d)}`;
+    return `${rel} · ${formattatore("it-IT", opts).format(d)}`;
   } catch {
     return rel;
   }
@@ -229,7 +246,7 @@ export function timbro(quando: string | number | Date | null | undefined): strin
   const d = quando instanceof Date ? quando : new Date(quando);
   if (Number.isNaN(d.getTime())) return "";
   try {
-    return new Intl.DateTimeFormat("it-IT", {
+    return formattatore("it-IT", {
       timeZone: TZ_ROMA, day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit",
     }).format(d).replace(", ", " · ");
   } catch {

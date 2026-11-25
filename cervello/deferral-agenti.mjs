@@ -33,6 +33,7 @@
 //
 // Exit: 0 = i due elenchi concordano · 1 = divergono · 2 = non ho potuto misurare (cieco)
 
+import { portaDi } from "./porta-senior.mjs";
 import { existsSync, readFileSync } from "node:fs";
 import { basename, join } from "node:path";
 import { AD_ROOT } from "./git-github.mjs";
@@ -81,6 +82,8 @@ export function rosterDaOrganigramma(testo = "") {
 
 /** Il campo `description` di un mansionario, e i rimandi che dichiara. */
 export function descrizioneDi(testo = "") {
+  const porta = portaDi(testo);
+  if (porta) return porta;
   const d = String(testo).match(/^description:\s*([\s\S]*?)(?:\n[a-z_]+:|\n---)/m);
   return d ? d[1] : "";
 }

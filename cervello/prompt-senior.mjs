@@ -28,6 +28,7 @@
 //   node cervello/prompt-senior.mjs --guardiano        # i file-pilota che non passano dalla porta
 //   node cervello/prompt-senior.mjs --elenco           # i senior disponibili
 
+import { portaDi } from "./porta-senior.mjs";
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -112,6 +113,8 @@ function leggiSePresente(percorso) {
 
 /** La `description` del frontmatter: è la porta d'ingresso del senior (quella che decide il routing). */
 export function descrizioneDi(testo) {
+  const porta = portaDi(testo);
+  if (porta) return porta;
   const m = String(testo || "").match(/^description:\s*(.+)$/m);
   return m ? m[1].trim() : "";
 }

@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-11-24 21:34",
+  "aggiornato": "2026-11-25 17:34",
   "fatti": [
     {
       "id": "ad.uso-e-crediti",
@@ -33,6 +33,16 @@
           "dal": "2026-11-24 21:22"
         }
       ],
+      "esenzioni": []
+    },
+    {
+      "id": "agenzia.analisi-e-scheda",
+      "nome": "Analisi subito, scheda e pagella dopo l'abbonamento",
+      "valore": "Quando nascono l'analisi, la scheda del cliente e la pagella sul marketplace (Nicola, 25/11/2026 verso le 17:40). ① Subito, appena l'attività si iscrive: l'analisi dell'attività con tutte le analisi a disposizione (ricerca sulle fonti pubbliche, social, scheda Google, sito). Serve a personalizzare i servizi: ogni proposta ha una parte generale (cosa comprende la fascia) e una parte specifica, su misura per le esigenze di quell'attività. ② Solo dopo che l'attività ha fatto l'abbonamento: la scheda del cliente (indirizzo, telefono, orari, menu, link, quella che riempie la vetrina). ③ Solo dopo l'abbonamento: l'analisi dell'attività sul marketplace (la pagella del flusso 18: approvazione, carta, vetrina, prodotti, ordini, incassi). Va tolta dalla demo e dal preventivo, perché il marketplace non si può usare finché l'attività non si abbona.",
+      "fonte": "Nicola in chat all'AD, 25/11/2026 verso le 17:40 («la scheda cliente creala solo dopo che l'azienda ha effettuato l'abbonamento…») e 17:45 («togliela anche dal preventivo»)",
+      "aggiornato": "2026-11-25 17:34",
+      "storia": [],
+      "caccia": [],
       "esenzioni": []
     },
     {

@@ -1,9 +1,9 @@
 "use client";
 
+import MarkdownPigro from "@/components/MarkdownPigro";
+import { jsonCondiviso } from "@/lib/json-condiviso";
 import { useCallback, useEffect, useState } from "react";
 import { Mail, X } from "lucide-react";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 import { dataVault } from "@/lib/format";
 import { usePanelRefresh } from "@/lib/panel-sync";
 import { intervalloRipasso } from "@/lib/casella-ricarica";
@@ -16,8 +16,8 @@ export default function LetteraAdCard() {
   const [aperta, setAperta] = useState(false);
 
   const carica = useCallback(() => {
-    fetch("/api/memoria/auto-radiografia", { cache: "no-store" })
-      .then((r) => r.json())
+    // Una sola lettura condivisa con MacchinaHomeCard, che chiede lo stesso file insieme (perf home).
+    jsonCondiviso<any>("/api/memoria/auto-radiografia")
       .then((d) => {
         if (d?.lettera) setLettera(String(d.lettera));
         const dt = d?.radiografia?.data || d?.live?.data_scan;
@@ -79,7 +79,7 @@ export default function LetteraAdCard() {
               </button>
             </div>
             <div className="p-4 overflow-y-auto prose prose-sm max-w-none">
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>{lettera}</ReactMarkdown>
+              <MarkdownPigro>{lettera}</MarkdownPigro>
             </div>
           </div>
         </div>

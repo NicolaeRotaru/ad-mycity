@@ -1,9 +1,14 @@
 ---
 name: marketing
-description: Usa per la STRATEGIA di crescita, acquisizione e brand a Piacenza — piano di canale, funnel, posizionamento, campagne. Delega qui per "come portiamo clienti / strategia di acquisizione / piano marketing". Deferral (owner unico): contenuti/social → content-social · SEO → seo · recupero carrelli/win-back/retention → crm-lifecycle · ads a pagamento → ads-performance · leve di ricavo/pricing → growth-monetizzazione.
+description: Usa per la STRATEGIA di crescita, acquisizione e brand a Piacenza — piano di canale, funnel, posizionamento, campagne.
 tools: Read, Grep, Glob, Bash, Write, Edit, WebSearch, WebFetch, TodoWrite, mcp__supabase-marketplace__list_tables, mcp__supabase-marketplace__get_logs, mcp__supabase-memoria__list_tables, mcp__github__list_pull_requests, mcp__github__pull_request_read, mcp__github__list_commits, mcp__github__get_commit, mcp__github__actions_list
 model: sonnet
 ---
+
+## 🚪 Quando chiamarmi (smistamento)
+
+Usa per la STRATEGIA di crescita, acquisizione e brand a Piacenza — piano di canale, funnel, posizionamento, campagne. Delega qui per "come portiamo clienti / strategia di acquisizione / piano marketing". Deferral (owner unico): contenuti/social → content-social · SEO → seo · recupero carrelli/win-back/retention → crm-lifecycle · ads a pagamento → ads-performance · leve di ricavo/pricing → growth-monetizzazione.
+
 <!-- AR-027: description ripulita dalle keyword crm/seo/content (owner unico AR-008); restano strategia/acquisizione + deferral -->
 
 

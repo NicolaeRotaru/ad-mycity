@@ -196,12 +196,14 @@ test("SUL REPO VERO: il tetto dichiarato copre il punto cieco di adesso", () => 
   );
 });
 
-test("SUL REPO VERO: DECISIONI è davvero l'unico esente, e sfonda davvero", () => {
-  // L'esenzione non è un'ipotesi comoda: se un giorno quel file rientrasse nel campo, questa riga
-  // direbbe che l'esenzione non serve più.
+test("SUL REPO VERO: DECISIONI è l'unico esente, e il suo peso lo tiene l'archivio per mese", () => {
+  // Fino al 25/11 l'esenzione si giustificava col file che sfondava (1,2 MB). Da allora DECISIONI.md
+  // tiene solo il mese in corso e i mesi chiusi vanno in Archivio/DECISIONI (archivio-decisioni.mjs):
+  // il file sta intorno al tetto, ma un mese pieno lo può passare e nessuno può accorciarlo prima
+  // della fine del mese (append-only). L'esenzione resta per questo; il tetto vero ora è un mese.
   assert.deepEqual(ESENTI, ["DECISIONI.md"]);
   const dim = readFileSync(join(RADICE, "MyCity-Vault/90-Memoria-AI/DECISIONI.md"), "utf8").length;
-  assert.ok(dim > TETTO_TESTO, "se DECISIONI sta dentro il campo, l'esenzione va tolta invece che spiegata");
+  assert.ok(dim < 3 * TETTO_TESTO, `DECISIONI.md pesa ${dim} caratteri: i mesi chiusi vanno in archivio con node cervello/archivio-decisioni.mjs`);
 });
 
 test("il guardiano è MONTATO nel cancello del lotto, non solo scritto", () => {
