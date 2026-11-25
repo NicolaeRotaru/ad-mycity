@@ -32,8 +32,8 @@ La pagina dice com'era il lavoro il 31 ottobre alle 01:45. Ogni voce va riletta 
 
 **Scatti di G: l'editor video automatico aspetta due risposte di Nicola (aggiornato 2026-11-25 16:00).** È un lavoro per l'agenzia, non per MyCity: officina 1.4.0 e workflow n8n «16 · Montatore».
 - **Cosa fa:** monta reel e storie nello stile della moodboard, parte da solo quando un servizio compare nella cartella Drive del cliente, e chiede ✅ Approva / ✏️ Correggi su Telegram. Un servizio al mese per cliente; le quantità vengono dalle colonne `reel_mese`, `post_mese`, `storie_mese` del foglio Clienti.
-- **Dove sta:** ramo `claude/affectionate-thompson-j841pj` di NicolaeRotaru/N8N (workflow fino a `7de1e46`, officina fino a `9fa8a33`), non unito. In n8n il 16 è identico al ramo e spento. Sul server gira ancora l'officina 1.1.1.
-- **I collaudi:** officina ricollaudata e passata; il modulo del 16 (campo vuoto = 0) corretto e passato. Il segno «sostituito» sulle idee del workflow 03 è stato bocciato tre volte: per la regola del terzo rosso decide Nicola (strade A/B/C, consigliata A = il 16 non scrive più sulle righe del 03). Il controllo dei filtri all'avvio dell'officina è stato bocciato una volta, corretto, e il ricollaudo era in corso alle 16:00.
+- **Dove sta:** ramo `claude/affectionate-thompson-j841pj` di NicolaeRotaru/N8N (workflow fino a `7de1e46`, officina fino al commit dei medi del ricollaudo), non unito. In n8n il 16 è identico al ramo e spento. Sul server gira ancora l'officina 1.1.1.
+- **I collaudi:** officina ricollaudata e passata; il modulo del 16 (campo vuoto = 0) corretto e passato. Il segno «sostituito» sulle idee del workflow 03 è stato bocciato tre volte: per la regola del terzo rosso decide Nicola (strade A/B/C, consigliata A = il 16 non scrive più sulle righe del 03). Il controllo dei filtri all'avvio dell'officina: bocciato una volta, corretto, ricollaudato e passato (17:30), con quattro difetti medi corretti subito.
 - **Tocca a Nicola:**
   1. scegliere A, B o C sulle idee del 03;
   2. scrivere «pubblica» per unire il ramo e mettere l'officina 1.4.0 su Sliplane (poi `/salute` deve dire 1.4.0 e `filtri.ok: true`);
