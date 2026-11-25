@@ -8,14 +8,15 @@ per: una sessione nuova, aperta dall'AD (session_01R8112NUV9py61BAPkYSVQ6)
 ## In parole semplici
 Nicola, 25/11 18:55: «nel momento in cui io inserisco un nuovo cliente con n8n viene creata la sua demo su mycity con il preventivo fatto bene».
 La regola «analisi subito, scheda e pagella dopo l'abbonamento» è già costruita e collaudata in tre richieste. Restano tre pezzi.
+Per esempio: Nicola iscrive La Ragazzetta col modulo 12 alle 10:00. Verso le 10:10 deve trovare nel link un preventivo corto, cucito su di lei, con l'analisi del business e le fonti. Niente pagella.
 
 ## Cosa cambia per te
 Questa sessione riparte da quelle tre richieste: non deve rifare né l'analisi né la scheda.
 
 ## Cosa devi fare
-1. Accorciare le descrizioni dei servizi nel preventivo. È la regola delle 18:30, da fare in una richiesta nuova sopra mycity#330.
-2. Cambiare il messaggio del flusso 20 e ripubblicare il 16, il 18 e il 20. Solo dopo che Nicola dice «ok, ripubblica».
-3. Fare la prova vera con La Ragazzetta e mandare l'esito all'AD, con uno screenshot.
+Prima accorcia le descrizioni dei servizi nel preventivo: è la regola delle 18:30, in una richiesta nuova sopra mycity#330.
+Poi cambia il messaggio del flusso 20 e ripubblica il 16, il 18 e il 20, solo dopo che Nicola dice «ok, ripubblica».
+Infine fai la prova vera con La Ragazzetta e manda l'esito all'AD, con uno screenshot.
 
 ## Cosa non ho verificato
 Non ho mai eseguito i flussi su n8n vero: le prove sono tutte nel repository. Non so se la routine «Chiedi all'AD» trova davvero le fonti sul web.
