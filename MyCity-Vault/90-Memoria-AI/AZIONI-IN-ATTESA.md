@@ -54,6 +54,26 @@ Per esempio: il 21/11 il ricontrollo ha guardato 459 voci aperte e ne ha chiuse 
 - **Ultracode:** si spegne con `prepara --ultracode no`.
 - **Il freno:** `cervello/riparazione/freno-subagenti.mjs`, ruolo `cercatore`. Si aggancia in `.claude/settings.json` di ad-mycity, come nel sito.
 
+### 🟡 #263 — Genera la chiave della routine «Chiedi all'AD» e scegli il modello · ⏳ accodata 2026-11-25 13:35 · @builder-automazioni
+
+**In parole semplici.** La routine «Chiedi all'AD» fa fare all'AD, col piano Max, i lavori di n8n che prima pagavano l'API di Claude. Esiste e funziona: oggi alle 12:35 ha risposto a n8n in 31 secondi. n8n però non può ancora chiamarla, perché manca la sua chiave. La chiave la può creare solo tu.
+Esempio vero: il flusso 04 scrive le didascalie dei post. Oggi è collegato alla routine, ma senza chiave non scrive niente.
+
+**Cosa cambia per te.** Con la chiave i testi dei post, il controllo finale prima di pubblicare e la scelta delle foto tornano a funzionare, sul piano Max e senza spese a consumo.
+
+**Cosa devi fare tu.**
+- Apri claude.ai/code/routines, poi «Chiedi all'AD» → Edit → Trigger → API → Generate token. La chiave si vede una volta sola.
+- In n8n apri la credenziale «Chiedi all'AD - chiave della routine». Nel valore scrivi `Bearer ` seguito dalla chiave. Non incollarla in chat.
+- Scegli il modello della routine: «Sonnet» consuma meno quota, «Opus» è quello di adesso.
+- Poi di' all'AD «chiave messa»: accende il sotto-flusso in modalità vera, con l'id della routine, e fa una prova vera.
+
+**Cosa non ho verificato.** La chiamata da n8n con la chiave vera: finora la routine l'ho fatta partire solo da una sessione. Non ho letto da dentro il sotto-flusso su n8n, perché non è aperto al collegamento dell'AD: ho letto il suo codice nel repository.
+
+Cosa cambia: i lavori di n8n con l'IA passano sul piano Max invece dell'API a pagamento, e il flusso dei testi riparte.
+Se va bene: l'AD accende il sotto-flusso in modalità vera e prova un giro intero dei testi.
+
+---
+
 ### 🔴 #261 — Accendi il collegamento fra MyCity e n8n, e incolla la chiave per l'analisi del mattino · ⏳ accodata 2026-11-24 03:40 · @builder-automazioni
 
 **In parole semplici.** Hai chiesto due cose, e sono pronte su n8n. La prima: quando un'attività si iscrive su MyCity, entra da sola nella scheda Clienti col lavoro del modulo 12. La seconda: l'analisi del marketplace che fa l'AD ogni giro, senza la radiografia, ora è il flusso n8n «17 · Analisi del marketplace» e ti arriva ogni mattina alle 8:10 su Telegram.

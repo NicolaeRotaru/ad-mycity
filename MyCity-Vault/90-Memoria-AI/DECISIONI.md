@@ -7522,3 +7522,11 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa:** resta la regola entrata con mycity#320 (unita il 25/11 alle 12:04). Lo staff non approva un negozio finché mancano nome, cognome, codice fiscale e data di nascita del titolare. Chiude la voce «La scelta dell'AD, da confermare» del 25/11 alle 00:20.
 - **Aperto:** la frase dei Termini sulla «verifica KYC (documento, codice fiscale, IBAN)», da far rivedere a legale-privacy.
 
+
+## 2026-11-25 13:35 — «Chiedi all'AD»: il ricontrollo trova il sotto-flusso n8n già costruito, e rimette in ordine la memoria (🟢, domanda di Nicola)
+- **Chi e quando:** Nicola all'AD, 25/11 verso le 13:20: «hai fatto tutto quello che ci siamo detti dentro questa sessione».
+- **Cosa mancava:** la decisione B non era nella bacheca delle sessioni, e la chiave da generare non era una card. Ora ci sono: riga nella bacheca e card #263.
+- **Cosa era cambiato nel frattempo:** un'altra sessione ha costruito su n8n il sotto-flusso «Chiedi all'AD» (`fRtCLoVmjbbWo9uB`, acceso, in «prova») e ci ha collegato 01, 04, 08 e 18. Il 99 non chiede più spiegazioni. Codice nel ramo `claude/chiedi-all-ad-senza-api` del repository N8N, non ancora unito. Il formato che manda (`flusso`, `compito`, `dati`, `schema`, `rispondi_a`) è quello della routine.
+- **Correzione:** alle 12:41 avevo scritto che 01, 04, 08 e 99 «possono ancora spendere sull'API». Non è più vero: i nodi a pagamento sono stati tolti. E la card #261 diceva già che il credito dell'API era finito dal 24/11 alle 03:35.
+- **Cosa succede senza la routine:** il 01 pubblica le righe già approvate da una persona senza il controllo finale; il 08 sceglie foto e copertina a regole; il 04 non scrive testi e avvisa su Telegram.
+- **Da sapere per il 08:** le foto non arrivano alla routine finché la sua rete raggiunge solo n8n. Aprire gli indirizzi delle foto è una scelta di Nicola.
