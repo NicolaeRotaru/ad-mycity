@@ -39,6 +39,12 @@
     delle 12 sessioni: 33 falle coperte solo nel grezzo vecchio, uscita 0. *Cura: prima di provare la
     guardia, chiedi da quale ramo passa il lavoro di tutti i giorni, e provala lì.*
 
+38. **La prova col comando scritto a mano.** *(Aggiunta del 24/11, collaudo di Goku.)* La catena dei
+    promemoria era provata scrivendo a mano la forma corta `giro --turno T --giro N`, mentre il promemoria
+    vero arriva sempre nella forma lunga, con inizio, scadenza e passo. Tre mutazioni del programma restavano
+    verdi: una di queste ricostruiva lo stato a ogni promemoria, e un Goku fermato con «basta» ripartiva.
+    *Cura: la prova rigioca l'uscita esatta che il programma stampa, mai una forma scritta a mano.*
+
 ## C. Il numero mente
 
 8. **Il numero dichiarato dalla parte comoda.** Il pezzo dichiara «sono cieco sul 40%»: ricontato,
