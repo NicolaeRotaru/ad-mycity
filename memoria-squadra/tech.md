@@ -8,6 +8,7 @@ reparto: tech
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-11-25 01:22 · collaudo B3 workflow 16 dd8cf00 (editor Scatti di G, segno su Drive contro il doppio avvio) · V4 C5 A5 K5 I3 M4 E3 (media 4.14) · atteso nessun doppio avvio nelle varianti scomode → reale 3 avvii su 3 servizi, 0 con memoria azzerata; regge al terzo giro dopo due bocciature · #collaudo #n8n #idempotenza
 - 2026-11-21 16:27 · Settimana dei 700: ricontrollo del registro del sito in 4 sessioni più controllore finale · V5 C4 A5 K4 I4 M4 E4 (media 4.29) · atteso circa 150 $ e voci chiuse da scoprire → reale circa 105 $ (più il CF), 117 chiusure su 459, 6+3 gravi confermati · #ricontrollo #settimana-700
 - 2026-11-21 15:27 · Settimana dei 700: preparazione del ricontrollo; temi.json senza regola per app/fonts e cancello-stop che accusava le schede delle cercatrici · V4 C4 A4 K4 I3 M4 E4 (media 3.86) · atteso prepara verde al primo colpo → reale prepara rosso per 14 file dei caratteri, verde con una regola; CI rossa per le schede, verde con l'esenzione provata · #radiografia #ricontrollo
 - 2026-11-17 21:55 · onde 8 e 8b del sito: 40 + 25 minori (rimasti dell'onda 7, nati, correzioni scritte) in 5 riparatori, collaudo e controllore (mycity#296) · V4 C4 A4 K4 I4 M4 E4 (media 4) · atteso circa 50% che reggono, sotto 10 $ a chiuso → reale 33 reggono su 65 date (51%), circa 4,4 $ a chiuso (onda 8 3,6 $, 8b 6,5 $); 3 rompe_altro tolte · #riparazione #onda8 #costo
