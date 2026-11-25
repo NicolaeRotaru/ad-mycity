@@ -7451,6 +7451,18 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Fatto subito:** nel documento la fase M1 diventa «La mappa dell'azienda», cioè tutto quello che esiste in una pagina che l'AD legge per prima. Il fatto `ad.uso-e-crediti` del registro ora dice «server spento per sempre».
 - **Aperto:** la scelta del nome (proposte dell'AD in chat). Il cambio di nome si fa insieme alla fase M3, così ogni file si tocca una volta sola. Se il nome diventa pubblico o il nome della società, prima va verificato il marchio (🔴).
 
+## 2026-11-24 22:38 — L'offerta al negozio si fa su misura anche secondo l'abbonamento che ha scelto (🟡, richiesta di Nicola)
+- **Chi e quando:** Nicola, 24/11 alle 22:38. Le sue parole, riportate dalla sessione «Monitoraggio sessioni simultanee»: «il servizio deve essere anche in base all'abbonamento che hanno scelto… è già un preventivo sulla base dei dati che si ha sul cliente, però in più deve essere anche in base all'abbonamento».
+- **Cosa cambia:** finora l'offerta si basava sui dati che abbiamo del cliente. Adesso conta anche l'abbonamento che ha scelto: Base, Business o Premium.
+- **Chi la costruisce:** la sessione «Analisi del business», sul ramo claude/offerta-su-misura del sito (repo mycity). Nicola l'ha unita in main la sera stessa (mycity#317, commit ea10d5e). Non servono migrazioni né segreti.
+- **Fonte:** messaggio della sessione di monitoraggio delle 22:50 alla sessione «Ora del Gusto 2.0». Chi scrive questa riga non ha letto la chat originale di Nicola.
+- **Colore:** 🟡: è codice del sito in un ramo. Il passaggio in produzione resta di Nicola.
+
+## 2026-11-25 00:25 — La prima scheda scritta dall'AD è nel sito; il link pubblico resta coi soli dati confermati (🟡, decisione di Nicola)
+- **Fatto:** l'AD ha scritto la scheda di Ora del Gusto (Viale Sant'Ambrogio 6/B: Nicola ha scelto lui fra tre locali omonimi) col piano Max e ricerca web, senza l'API di Claude. L'ha consegnata il nuovo flusso n8n «19 · Consegna la scheda scritta dall'AD», spento e lanciato a mano: il sito ha risposto ok alle 00:14, e in `schede_clienti` ci sono 9 campi. La copia della scheda è in `consegne/schede/2026-11-25-ora-del-gusto.json`.
+- **Chiavi:** Nicola ha messo su Vercel `N8N_NUOVO_CLIENTE_WEBHOOK_URL`, `N8N_NUOVO_CLIENTE_SEGRETO` e `N8N_SCHEDA_CLIENTE_SEGRETO`, e gli stessi segreti nelle due credenziali n8n. Non ci sono ancora né `AD_BOZZA_SITO_SEGRETO` né le due chiavi del preventivo.
+- **Decisione:** Nicola, alle 00:25: «lasciamo così». Il link pubblico del preventivo mostra solo i dati confermati, quindi la scheda «da confermare» non compare lì. Si vede solo nell'area del negozio, dopo l'accesso.
+- **Costi riferiti a Nicola:** le API di Meta sono gratis, ma serve la revisione dell'app. Google Places costa zero ai nostri numeri (soglia gratuita mensile), ma serve una carta su Google Cloud con un tetto di spesa. La decisione resta sua.
 ## 2026-11-25 12:15 — L'esenzione di round2-applica rinnovata di una settimana, fino al 2/12 (🟡, scelta di Nicola)
 - **Chi e quando:** Nicola, in chat alla sessione «Sistema radiografia», il 25/11 verso le 12:05. Rispondendo alla domanda sul rosso della PR #995, ha scelto «Rinnova una settimana».
 - **Cosa:** in `cervello/atti-con-porte.json` l'esenzione di `cervello/round2-applica.mjs` passa dal 21/11 al 2/12, col perché nuovo scritto accanto. In `cervello/scadenzario.json` la voce `esenzione-round2-applica` scade il 3/12 all'01:00.
