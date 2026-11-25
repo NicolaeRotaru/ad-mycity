@@ -106,7 +106,7 @@ async function giroAutopilota(): Promise<EsitoAutopilota> {
     // l'esito confermato. Adesso l'ordine sta in `attoUnaVoltaSola` e non si può invertire qui.
     const svolgimento = await attoUnaVoltaSola({
       prenota: () => prenotaAzione(a.id, "auto"),
-      atto: () => eseguiAzione({ titolo: a.titolo, canale: a.canale, destinatario: a.destinatario, testo: a.testo }),
+      atto: () => eseguiAzione({ id: a.id, titolo: a.titolo, canale: a.canale, destinatario: a.destinatario, testo: a.testo, livello: a.livello, firmataDa: "auto" }),
       registra: async (esito) => [
         { nome: "sigillo dell'atto", ok: await sigillaAzione(a.id, esito.stato) },
         // AR-110: qui ha deciso la MACCHINA, non Nicola. La firma si scrive lo stesso — serve la
