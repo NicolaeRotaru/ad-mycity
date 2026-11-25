@@ -31,6 +31,32 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
+### 🟡 #263 — Genera la chiave della routine «Chiedi all'AD» e scegli il modello · ⏳ accodata 2026-11-25 13:35 · @builder-automazioni
+
+**In parole semplici.** La routine «Chiedi all'AD» fa fare all'AD, col piano Max, i lavori di n8n che prima pagavano l'API di Claude. Esiste e funziona: oggi alle 12:35 ha risposto a n8n in 31 secondi. n8n però non può ancora chiamarla, perché manca la sua chiave. La chiave la può creare solo tu.
+Esempio vero: il flusso 04 scrive le didascalie dei post. Oggi è collegato alla routine, ma senza chiave non scrive niente.
+
+**Cosa cambia per te.** Con la chiave i testi dei post, il controllo finale prima di pubblicare e la scelta delle foto tornano a funzionare, sul piano Max e senza spese a consumo.
+
+**Cosa devi fare tu.**
+- Apri claude.ai/code/routines, poi «Chiedi all'AD» → Edit → Trigger → API → Generate token. La chiave si vede una volta sola.
+- In n8n apri la credenziale «Chiedi all'AD - chiave della routine». Nel valore scrivi `Bearer ` seguito dalla chiave. Non incollarla in chat.
+- Scegli il modello della routine: «Sonnet» consuma meno quota, «Opus» è quello di adesso.
+- Poi di' all'AD «chiave messa»: accende il sotto-flusso in modalità vera, con l'id della routine, e fa una prova vera.
+
+**Aggiornamento 2026-11-25 13:58.** La chiave c'è: Nicola l'ha generata e messa in n8n. Prova vera da n8n con la sua chiave: la routine è partita e la risposta è tornata a n8n in 17 secondi. Restano la scelta del modello (oggi Opus) e il passaggio del sotto-flusso a «vero».
+
+**Aggiornamento 2026-11-25 14:23.** Nicola ha scritto «Accendi chiedi ad». La sessione che possiede il sotto-flusso l'ha passato a «vero» verso le 14:08, con la routine e la chiave giuste. Corse vere alle 14:23: 0, perché i flussi partono solo quando arriva un lavoro vero. Di questa card resta solo la scelta del modello.
+
+**Aggiornamento 2026-11-25 14:30.** Nicola ha aperto il sotto-flusso al collegamento dell'AD. L'AD l'ha letto senza toccarlo: acceso, in «vero», con l'id della routine e la chiave giusti; la versione accesa è quella salvata.
+
+**Cosa non ho verificato.** Una corsa con un lavoro vero non è ancora partita: il sotto-flusso lo avviano solo gli altri flussi.
+
+Cosa cambia: i lavori di n8n con l'IA passano sul piano Max invece dell'API a pagamento, e il flusso dei testi riparte.
+Se va bene: l'AD accende il sotto-flusso in modalità vera e prova un giro intero dei testi.
+
+---
+
 ### 🟡 #262 — Guarda la radiografia a onde e dimmi due scelte prima della prima radiografia · ⏳ accodata 2026-11-24 21:58 · @ad
 
 **In parole semplici.** La radiografia del sito ora lavora come le onde della riparazione. Prima ricontrolla i difetti aperti, che è il modo più economico di chiuderli, poi cerca quelli nuovi.

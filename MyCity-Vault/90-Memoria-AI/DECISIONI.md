@@ -1178,3 +1178,23 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Prove:** il main finale ha lo stesso albero che la CI ha provato per intero sul ramo della #1000 (`28da367`): 14 controlli verdi su 14. In n8n, 72 prove verdi su 72 sulle due PR insieme.
 - **Lezione:** «PRONTA» detto da una sessione non vuol dire CI verde. 4 sessioni sulle 7 che hanno risposto hanno detto pronta con la CI rossa per colpa del loro lavoro.
 - **Aperte dopo l'ordine, e non unite:** ad-mycity#1003 (i 120 senior con la descrizione corta) e mycity#322 (PageSpeed nel preventivo). La seconda tocca il sito in produzione.
+## 2026-11-25 13:35 — «Chiedi all'AD»: il ricontrollo trova il sotto-flusso n8n già costruito, e rimette in ordine la memoria (🟢, domanda di Nicola)
+- **Chi e quando:** Nicola all'AD, 25/11 verso le 13:20: «hai fatto tutto quello che ci siamo detti dentro questa sessione».
+- **Cosa mancava:** la decisione B non era nella bacheca delle sessioni, e la chiave da generare non era una card. Ora ci sono: riga nella bacheca e card #263.
+- **Cosa era cambiato nel frattempo:** un'altra sessione ha costruito su n8n il sotto-flusso «Chiedi all'AD» (`fRtCLoVmjbbWo9uB`, acceso, in «prova») e ci ha collegato 01, 04, 08 e 18. Il 99 non chiede più spiegazioni. Codice nel ramo `claude/chiedi-all-ad-senza-api` del repository N8N, non ancora unito. Il formato che manda (`flusso`, `compito`, `dati`, `schema`, `rispondi_a`) è quello della routine.
+- **Correzione:** alle 12:41 avevo scritto che 01, 04, 08 e 99 «possono ancora spendere sull'API». Non è più vero: i nodi a pagamento sono stati tolti. E la card #261 diceva già che il credito dell'API era finito dal 24/11 alle 03:35.
+- **Cosa succede senza la routine:** il 01 pubblica le righe già approvate da una persona senza il controllo finale; il 08 sceglie foto e copertina a regole; il 04 non scrive testi e avvisa su Telegram.
+- **Da sapere per il 08:** le foto non arrivano alla routine finché la sua rete raggiunge solo n8n. Aprire gli indirizzi delle foto è una scelta di Nicola.
+
+## 2026-11-25 13:58 — La chiave della routine «Chiedi all'AD» è in n8n e funziona (🟡, gesto di Nicola)
+- **Fatto da Nicola:** ha generato la chiave dalla pagina della routine alle 13:50 e l'ha messa nella credenziale n8n «Chiedi all'AD - chiave della routine».
+- **Provato:** alle 13:52 la prima prova è stata rifiutata con «chiave non valida»: la chiave era stata generata due volte, e valeva solo l'ultima. Nicola ha rimesso quella giusta. Alle 13:58 un flusso di prova su n8n ha chiamato la routine con la sua chiave: partita al primo colpo, risposta tornata a n8n in 17 secondi. Il flusso di prova è archiviato.
+- **Visto alla prova:** il compito chiedeva i secondi fra due ore, ma nei dati ce n'era una sola. La routine non ha inventato il numero e lo ha scritto negli avvisi.
+- **Resta:** la scelta del modello (oggi Opus) e il passaggio del sotto-flusso «Chiedi all'AD» da «prova» a «vero». Quel flusso è chiuso al collegamento dell'AD: serve che Nicola lo apra, oppure cambi a mano due valori.
+
+## 2026-11-25 14:23 — «Chiedi all'AD» è acceso: il sotto-flusso n8n è in «vero» (🟡, ordine di Nicola)
+- **Chi e quando:** Nicola all'AD, 25/11 verso le 14:05: «Accendi chiedi ad». L'AD l'ha girato come urgente alla sessione B («via l'API Claude a pagamento»), che possiede il sotto-flusso, e in copia alla regia «n8n workflow per MyCity».
+- **Fatto da B, verso le 14:08:** sotto-flusso `fRtCLoVmjbbWo9uB` in «vero», con la routine `trig_01BwYC2cBXdf2TeiKuQw3zis` e la credenziale `yjiPYh9lMR06Z6xp`. Lo ha acceso con il proprio programma, così ricostruirlo non lo rimette in «prova».
+- **Corse vere alle 14:23:** 0. Partono solo quando 04, 12 o 16 hanno un lavoro vero. B segue le esecuzioni e riferisce tempo ed esito della prima.
+- **Resta:** la scelta del modello della routine (oggi Opus).
+- 2026-11-25 14:30 · Nicola ha attivato «Available in MCP» sul sotto-flusso «Chiedi all'AD» (versione delle 14:24). L'AD l'ha letto senza modificarlo: acceso, MODALITA = vero, ROUTINE_ID `trig_01BwYC2cBXdf2TeiKuQw3zis`, credenziale `yjiPYh9lMR06Z6xp`, versione attiva uguale alla bozza. B, che lo possiede, è stato avvisato che quel salvataggio è di Nicola.
