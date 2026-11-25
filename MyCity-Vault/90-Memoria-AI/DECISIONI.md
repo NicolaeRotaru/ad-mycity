@@ -7522,3 +7522,9 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa:** resta la regola entrata con mycity#320 (unita il 25/11 alle 12:04). Lo staff non approva un negozio finché mancano nome, cognome, codice fiscale e data di nascita del titolare. Chiude la voce «La scelta dell'AD, da confermare» del 25/11 alle 00:20.
 - **Aperto:** la frase dei Termini sulla «verifica KYC (documento, codice fiscale, IBAN)», da far rivedere a legale-privacy.
 
+
+## 2026-11-25 13:59 — I dati di chi firma escono dalla guardia dei profili; il fattorino passa da una rotta sua (🟡 codice, 🔴 migrazione in attesa di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD, 25/11 verso le 12:30: «Una migrazione nuova che tolga le sette colonne `legal_*` dalla lista `consentiti`, come ha fatto la 365 […] La migrazione in produzione la applica Nicola: non applicarla. Apri la PR su main».
+- **Cosa:** NicolaeRotaru/mycity#324. Migrazione 861 scritta e non applicata. Il modulo del fattorino, l'unico che scriveva `legal_*` dal browser, passa da `PATCH /api/rider/anagrafica`. La rotta ha gli stessi controlli di quella del titolare: formato, 18 anni, solo fattorini, sospesi fermi, avviso allo staff se un dato già scritto cambia.
+- **Perché una rotta e non un'eccezione nella guardia (scelta dell'AD):** un'eccezione per il ruolo `rider` avrebbe lasciato il buco aperto proprio per i fattorini, senza controllo del formato e senza avviso.
+- **Verificato:** prova SQL 6 su 10 rossa senza la 861 e 10 su 10 verde con la 861; `npm run verify` verde; collaudo lente A (security) e lente B (qa), tutte e due reggono. Il rilascio automatico non applica le migrazioni oggi: il passo è stato saltato alle 12:14 per le chiavi di Vercel mancanti.
