@@ -56,7 +56,7 @@ Cosa cambia: i lavori di n8n con l'IA passano sul piano Max invece dell'API a pa
 Se va bene: l'AD accende il sotto-flusso in modalità vera e prova un giro intero dei testi.
 
 ---
-### 🔴 #263 — Unisci la correzione che impedisce di crearsi una scheda da amministratore, poi applicala al database · ⏳ accodata 2026-11-25 16:19 · @security
+### 🔴 #264 — Unisci la correzione che impedisce di crearsi una scheda da amministratore, poi applicala al database · ⏳ accodata 2026-11-25 16:19 · @security
 
 **In parole semplici.** Ogni utente ha nel database una scheda che dice se è cliente, negozio, fattorino o amministratore. Chi aveva un account senza scheda poteva crearsela dal browser e scriverci «amministratore, approvato». La correzione toglie quella possibilità: la scheda la crea solo la registrazione, o il server.
 Per esempio: un cliente la cui scheda viene cancellata per sbaglio, prima poteva rientrare e diventare amministratore; adesso il database gli dice «non hai il permesso».
