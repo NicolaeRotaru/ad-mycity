@@ -7536,3 +7536,9 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Provato:** alle 13:52 la prima prova è stata rifiutata con «chiave non valida»: la chiave era stata generata due volte, e valeva solo l'ultima. Nicola ha rimesso quella giusta. Alle 13:58 un flusso di prova su n8n ha chiamato la routine con la sua chiave: partita al primo colpo, risposta tornata a n8n in 17 secondi. Il flusso di prova è archiviato.
 - **Visto alla prova:** il compito chiedeva i secondi fra due ore, ma nei dati ce n'era una sola. La routine non ha inventato il numero e lo ha scritto negli avvisi.
 - **Resta:** la scelta del modello (oggi Opus) e il passaggio del sotto-flusso «Chiedi all'AD» da «prova» a «vero». Quel flusso è chiuso al collegamento dell'AD: serve che Nicola lo apra, oppure cambi a mano due valori.
+
+## 2026-11-25 14:23 — «Chiedi all'AD» è acceso: il sotto-flusso n8n è in «vero» (🟡, ordine di Nicola)
+- **Chi e quando:** Nicola all'AD, 25/11 verso le 14:05: «Accendi chiedi ad». L'AD l'ha girato come urgente alla sessione B («via l'API Claude a pagamento»), che possiede il sotto-flusso, e in copia alla regia «n8n workflow per MyCity».
+- **Fatto da B, verso le 14:08:** sotto-flusso `fRtCLoVmjbbWo9uB` in «vero», con la routine `trig_01BwYC2cBXdf2TeiKuQw3zis` e la credenziale `yjiPYh9lMR06Z6xp`. Lo ha acceso con il proprio programma, così ricostruirlo non lo rimette in «prova».
+- **Corse vere alle 14:23:** 0. Partono solo quando 04, 12 o 16 hanno un lavoro vero. B segue le esecuzioni e riferisce tempo ed esito della prima.
+- **Resta:** la scelta del modello della routine (oggi Opus).

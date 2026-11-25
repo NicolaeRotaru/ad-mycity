@@ -69,6 +69,8 @@ Esempio vero: il flusso 04 scrive le didascalie dei post. Oggi è collegato alla
 
 **Aggiornamento 2026-11-25 13:58.** La chiave c'è: Nicola l'ha generata e messa in n8n. Prova vera da n8n con la sua chiave: la routine è partita e la risposta è tornata a n8n in 17 secondi. Restano la scelta del modello (oggi Opus) e il passaggio del sotto-flusso a «vero».
 
+**Aggiornamento 2026-11-25 14:23.** Nicola ha scritto «Accendi chiedi ad». La sessione che possiede il sotto-flusso l'ha passato a «vero» verso le 14:08, con la routine e la chiave giuste. Corse vere alle 14:23: 0, perché i flussi partono solo quando arriva un lavoro vero. Di questa card resta solo la scelta del modello.
+
 **Cosa non ho verificato.** Non ho letto da dentro il sotto-flusso su n8n, perché non è aperto al collegamento dell'AD: ho letto il suo codice nel repository.
 
 Cosa cambia: i lavori di n8n con l'IA passano sul piano Max invece dell'API a pagamento, e il flusso dei testi riparte.
