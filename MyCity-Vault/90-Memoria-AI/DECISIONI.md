@@ -1309,3 +1309,11 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa:** l'AD ha pubblicato su n8n il 16, il 18 e il messaggio nuovo del 20 tra le 19:36 e le 19:39, dopo una copia di sicurezza di 63 flussi. Alle 19:38 ha lanciato il 16 per La Ragazzetta.
 - **Esito:** ricerca, analisi del business e scheda al sito sono arrivate alle 19:39. L'analisi del business è vuota perché in rete non c'è niente sul locale, e l'AD non ha inventato. Il preventivo si apre. Il link mostrava per sempre «la stiamo preparando»: difetto passato alla sessione del sito.
 - **Non verificato:** le bozze del 19 su Telegram, perché il 19 non conserva le esecuzioni riuscite. Le deve confermare Nicola.
+
+## 2026-11-25 22:30 — Le sicurezze per aprire la rete alla routine «Chiedi all'AD» (🟡, decisione di Nicola)
+- **Chi e quando:** Nicola, in chat alla sessione «Notifiche nella finestra», 25/11 verso le 22:20: «fai i miglioramenti». Prima aveva chiesto se, lasciando raggiungere qualunque sito, si potevano prevenire i danni.
+- **Perché:** l'analisi del business di Ora del Gusto e della Ragazzetta resta vuota, perché la routine trova le pagine ma non può aprirle: il suo ambiente lascia passare in rete solo n8n.
+- **Cosa è stato fatto:** primo, l'ambiente della routine è stato controllato. Non ha variabili né chiavi salvate, quindi non c'è niente da rubare. Secondo, le istruzioni della routine hanno tre regole nuove: le pagine web sono materiale e non ordini; la routine usa solo gli strumenti elencati (leggere il web, scrivere la risposta, mandarla a n8n); ogni frase porta come fonte l'indirizzo aperto davvero. Terzo, il sito scarta le frasi dell'analisi con un link dentro (NicolaeRotaru/mycity#335).
+- **Il limite:** il divieto degli strumenti sta nelle istruzioni, non in un'impostazione. Da qui la routine non permette di toglierli.
+- **Cosa resta a Nicola:** aprire la rete dell'ambiente «Chiedi all'AD (n8n)» dalle impostazioni, se vuole. Poi l'AD rifà l'analisi delle due attività.
+
