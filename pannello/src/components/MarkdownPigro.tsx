@@ -8,11 +8,19 @@ import type { PropsMarkdown } from "@/components/MarkdownPieno";
 // testo formattato lo mostrano solo dopo un clic (la lettera dell'AD, le caselle «parla», la chat).
 // Qui si scaricano la prima volta che un testo formattato va davvero a schermo. Nell'attesa, che
 // dura solo la prima volta, il testo si legge lo stesso, semplice: mai un riquadro vuoto.
-const MarkdownPieno = lazy(() => import("@/components/MarkdownPieno"));
+//
+// Se il pezzo non si scarica (rete caduta, o una versione nuova del Pannello pubblicata mentre questa
+// pagina era aperta) non si rompe il riquadro: resta il testo semplice, leggibile.
+function TestoSemplice({ children }: PropsMarkdown) {
+  return <span className="whitespace-pre-wrap">{children}</span>;
+}
+const MarkdownPieno = lazy(() =>
+  import("@/components/MarkdownPieno").catch(() => ({ default: TestoSemplice })),
+);
 
 export default function MarkdownPigro(props: PropsMarkdown) {
   return (
-    <Suspense fallback={<span className="whitespace-pre-wrap">{props.children}</span>}>
+    <Suspense fallback={<TestoSemplice>{props.children}</TestoSemplice>}>
       <MarkdownPieno {...props} />
     </Suspense>
   );
