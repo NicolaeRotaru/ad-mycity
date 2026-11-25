@@ -1261,3 +1261,8 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Chi e quando:** Nicola, in chat all'AD, 25/11 verso le 18:20. Parole sue: «voglio che aggiungi nella pagina analisi dentro la demo anche i dati di analisi di business».
 - **Cosa:** la pagina «Analisi del business» che il negozio vede in demo mostra l'analisi del business dell'attività (quella delle 17:55), insieme a canali e sito, al posto della pagella del marketplace.
 - **Dove:** fatto `agenzia.analisi-e-scheda` (coerenza verde), regola 5 del brief, detta alla sessione `session_01R8112N9acTBU46fC5YpxTg`.
+
+## 2026-11-25 18:30 — Nel preventivo i servizi si descrivono corti, con lo stretto necessario (🟡, decisione di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD, 25/11 verso le 18:30. Parole sue: «dentro il preventivo la descrizione dei servizi deve essere corta e con lo stretto necessario che gli interessa».
+- **Cosa:** ogni servizio del preventivo si legge in poche righe, solo con quello che interessa a quell'attività. Vale anche per l'analisi del business nel preventivo, il cui dettaglio sta nella pagina «Analisi» della demo.
+- **Dove:** fatto `agenzia.analisi-e-scheda` (coerenza verde), regola 6 del brief, detta alla sessione `session_01R8112N9acTBU46fC5YpxTg`.
