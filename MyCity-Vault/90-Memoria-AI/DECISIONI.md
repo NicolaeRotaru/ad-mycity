@@ -1261,3 +1261,8 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa:** un solo giro di «Migrazioni a mano» su main, con conferma APPLICA, 2 migrazioni, ultima la 862. È finito alle 18:06, tutto verde. Prima erano partiti due giri per la sola 861, uno dell'AD e uno della sessione dei dati di chi firma. Si sono fermati da soli senza scrivere niente, perché nel frattempo main era cambiato.
 - **Perché un giro solo:** la 861 (i dati di chi firma si cambiano solo dal server) e la 862 (la scheda la crea solo la registrazione) toccano tutte e due la tabella dei profili. Applicarle insieme evita un momento in cui c'è una sola delle due.
 - **Controllo dopo, in sola lettura:** il registro delle migrazioni ha 860, 861 e 862. Su `profiles` le regole di inserimento sono 0, e chi è anonimo o collegato non ha il permesso INSERT. La funzione di guardia è la versione nuova, con l'elenco dei campi consentiti. Card #264 chiusa.
+
+## 2026-11-25 18:20 — L'analisi del business anche nella pagina «Analisi» della demo (🟡, decisione di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD, 25/11 verso le 18:20. Parole sue: «voglio che aggiungi nella pagina analisi dentro la demo anche i dati di analisi di business».
+- **Cosa:** la pagina «Analisi del business» che il negozio vede in demo mostra l'analisi del business dell'attività (quella delle 17:55), insieme a canali e sito, al posto della pagella del marketplace.
+- **Dove:** fatto `agenzia.analisi-e-scheda` (coerenza verde), regola 5 del brief, detta alla sessione `session_01R8112N9acTBU46fC5YpxTg`.
