@@ -30,6 +30,7 @@ Nicola, 25/11 verso le 17:40 e le 17:45:
 3. **Solo dopo l'abbonamento:** la pagella sul marketplace (flusso 18 e `lib/agenzia/pagella.ts`). Va **tolta dalla demo e dal preventivo**.
 4. **Aggiunta delle 17:55:** nel preventivo c'è anche l'**analisi del business** dell'attività. Si fa come l'AD analizza MyCity come azienda, non il marketplace. Dice com'è messa, mercato e concorrenti vicini, clienti e reputazione, opportunità, rischi e le prime mosse. Anche qui c'è una parte generale (cosa comprende il servizio di analisi in ogni fascia) e una parte specifica per quell'attività. Prima dell'abbonamento usa solo fonti pubbliche e gratuite; i numeri interni arrivano dopo. Il metodo da imitare: `cervello/giro.md` (situazione, opportunità, mosse) e il mansionario del senior `intelligence`. Parole di Nicola: «fai il preventivo anche sulla parte di analisi sul suo business come fa AD su MyCity (non MyCity marketplace ma azienda)».
 5. **Aggiunta delle 18:20:** la stessa analisi del business compare anche nella pagina «Analisi del business» che il negozio vede in demo (`AnalisiDelBusiness.tsx`), insieme a canali e sito, al posto della pagella. Parole di Nicola: «aggiungi nella pagina analisi dentro la demo anche i dati di analisi di business».
+6. **Regola delle 18:30:** nel preventivo la descrizione di ogni servizio è corta, con lo stretto necessario che interessa a quell'attività. Niente spiegoni e niente liste lunghe. Anche l'analisi del business nel preventivo sta in poche righe: il dettaglio è nella pagina «Analisi» della demo. Parole di Nicola: «dentro il preventivo la descrizione dei servizi deve essere corta e con lo stretto necessario che gli interessa».
 
 ### Com'è oggi (mappa)
 - Sito, `mycity`:
@@ -58,6 +59,7 @@ Nicola, 25/11 verso le 17:40 e le 17:45:
 - Attività in demo apre «Analisi del business» → nessun blocco pagella; `/api/seller/pagella` non dà la pagella.
 - Attività in demo apre «Analisi del business» → c'è il blocco dell'analisi del business (situazione, concorrenti, opportunità, rischi, prime mosse), con le fonti.
 - Attività in demo, `/preventivo/<codice>` → parte generale + parte specifica, nessuna voce sul marketplace.
+- Attività in demo, `/preventivo/<codice>` → ogni servizio si legge in poche righe, solo con le cose che riguardano quell'attività.
 - Attività in demo, `/preventivo/<codice>` → c'è l'analisi del business (situazione, concorrenti vicini, opportunità, prime mosse), ogni frase con la sua fonte pubblica; dove una fonte manca, lo dice e non inventa.
 - Il flusso 16 su un'iscrizione nuova → analisi salvata, scheda NON salvata, 18 non parte, 19 parte.
 - Il flusso 20 dal modulo 12 → stessa cosa del 16.
