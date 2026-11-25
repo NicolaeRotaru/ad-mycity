@@ -1,17 +1,33 @@
 ---
-data: 2026-11-25 12:19
+data: 2026-11-25 12:59
 generata_da: cervello/mappa-azienda.mjs
 ---
 
 # La mappa dell'azienda
 
-> Rifatta da un programma il 2026-11-25 12:19, a 0 token: `node cervello/mappa-azienda.mjs`. Non si corregge a mano.
+**In breve.** n8n ha 26 flussi vivi, e 11 sono accesi. Nel marketplace ci sono 4 venditori. Nella macchina, 154 file di codice su 939 non li fa partire nessuno.
+
+> Rifatta da un programma il 2026-11-25 12:59, a 0 token: `node cervello/mappa-azienda.mjs`. Non si corregge a mano.
 > È la pagina che l'AD legge per prima: invece di esplorare quattro repository e n8n, legge questa.
 
 ## In parole semplici
 
 Qui c'è tutto quello che l'azienda ha oggi: le sue parti, dove gira ogni cosa, i flussi di n8n, i negozi, le persone e il codice della macchina.
 Ogni numero lo conta il programma da solo. Quello che da qui non si può misurare è scritto come «non misurato», mai come zero.
+Un esempio. Per sapere se il flusso «08 Post dalle foto» è acceso, prima l'AD apriva n8n e leggeva il flusso. Adesso legge la sua riga nella tabella dei flussi, qui sotto.
+
+## Cosa cambia per te
+
+L'AD non deve più esplorare tutto a ogni sessione: legge questa pagina, e spende meno token. Tu trovi in un posto solo cosa c'è e cosa è acceso.
+
+## Cosa devi fare
+
+Niente. Se vedi un errore, dillo all'AD: si corregge il programma, non la pagina.
+
+## Cosa non ho verificato
+
+Per capire chi fa partire un file, il programma cerca il suo nome negli altri file. Un file nominato solo in un commento sembra vivo.
+La tabella «Dove gira ogni cosa» l'ha letta l'AD a mano, il 25/11.
 
 ## Le parti dell'azienda
 
@@ -26,28 +42,26 @@ Com'è fatta dentro la macchina dell'AD (le sue 9 parti): `MAPPA-MACCHINA.md`.
 
 ## Dove gira ogni cosa
 
-| Cosa | Dove gira | Codice | Note |
-| --- | --- | --- | --- |
-| Marketplace MyCity | Vercel, progetto «mycity» | repo mycity | database Supabase «Mycity» (Parigi), letto dall'AD solo in lettura |
-| Pannello di Controllo | Vercel, progetto «ad-mycity» | repo ad-mycity, cartella pannello/ | due lavori a orario: battito alle 9:00, report alle 19:07 |
-| Palestra | Vercel, progetto «mycity-palestra» | repo mycity | la copia di prova del marketplace |
-| Sito SDG | nessun progetto Vercel col suo nome | repo SDG | non risulta pubblicato |
-| n8n | Sliplane (n8n-shdy.sliplane.app) | repo N8N per i flussi da programma | le mani e l'orologio: flussi, credenziali, scheda Clienti |
-| Memoria dell'AD | Supabase «ad-mycity» (Zurigo) + il vault nel repo | repo ad-mycity | la coda dei lavori del vecchio server vive qui |
-| Server del worker (VPS) | spento dal 21/11, per sempre (Nicola, 24/11) | cervello/vps/ | i suoi pezzi di codice sono contati sotto come «solo server» |
-
-_Questa tabella l'ha letta l'AD da Vercel e Supabase il 25/11: il programma da solo non ha quelle chiavi._
+| Cosa | Dove gira | Nome lì | Repository | Note |
+| --- | --- | --- | --- | --- |
+| Marketplace MyCity | Vercel | mycity | mycity | il database è Supabase «Mycity», a Parigi; l'AD lo legge e basta |
+| Pannello di Controllo | Vercel | ad-mycity | ad-mycity, cartella pannello/ | due lavori a orario: battito alle 9:00, report alle 19:07 |
+| Palestra | Vercel | mycity-palestra | mycity | la copia di prova del marketplace |
+| Sito SDG | nessuno | — | SDG | non risulta pubblicato |
+| n8n | Sliplane | n8n-shdy.sliplane.app | N8N, per i flussi fatti da programma | le mani e l'orologio dell'azienda |
+| Memoria dell'AD | Supabase e il repository | ad-mycity | ad-mycity | qui vive anche la coda dei lavori del vecchio server |
+| Server del worker | spento per sempre | — | ad-mycity, cartella cervello/vps/ | spento dal 21/11; Nicola ha deciso il 24/11 di non riaccenderlo |
 
 | Repository | Cos'è | Ultimo commit | File |
 | --- | --- | --- | --- |
-| ad-mycity | la macchina dell'AD: memoria, senior, programmi, Pannello | 2026-11-25 | 4192 |
+| ad-mycity | la macchina dell'AD: memoria, senior, programmi, Pannello | 2026-11-25 | 4198 |
 | mycity | il marketplace MyCity (sito, dashboard dei negozi, API) | 2026-11-24 | 3591 |
-| SDG | il sito dell'agenzia SDG (web, marketing, foto e video) | 2026-11-23 | 41 |
+| SDG | il sito dell'agenzia SDG | 2026-11-23 | 41 |
 | N8N | i sorgenti e le prove dei flussi n8n costruiti da programma (repository pubblico) | 2026-11-25 | 65 |
 
 ## I flussi di n8n
 
-44 flussi: 26 vivi, 18 archiviati. Accesi: 11. Nodi nei flussi vivi: 1555.
+45 flussi: 26 vivi, 19 archiviati. Accesi: 11. Nodi nei flussi vivi: 1555.
 Accesi con almeno un nodo che chiama l'API di Claude: 7 (01 · Pubblica contenuti (Instagram + Facebook), 04 · Scrivi i testi (AI), 08 Post dalle foto, 12 · Nuovo cliente (automatico), 16 · Nuovo cliente da MyCity, 18 · Analisi di un'attività, 99 · Avvisi errori). Un nodo presente non vuol dire che venga chiamato: dipende dai bivi.
 
 | Flusso | Acceso | Nodi | Nodi Claude | Ultima corsa |
@@ -103,27 +117,31 @@ Fonte: file negozi.json (estratto in sola lettura). Venditori registrati: 4, di 
 
 ## I soldi
 
-- Incassi dei negozi: al lancio solo contanti alla consegna (registro-fatti, `pagamenti.al-lancio`). Stripe non è collegato ai sensori dell'AD.
-- Ricavi: abbonamenti SDG Base 300, Business 500, Premium 999 euro al mese (`sdg.abbonamenti`); 10% sugli ordini portati dal marketplace (`pricing.commissione`).
-- Spese per l'IA: nessuna API a pagamento. I lavori con l'IA li fa l'AD col piano Max (`ad.uso-e-crediti`).
+- Al lancio i clienti pagano solo in contanti, alla consegna. Fonte: `pagamenti.al-lancio`.
+- Stripe non è collegato ai sensori dell'AD.
+- L'agenzia vende tre abbonamenti al mese: Base a 300 euro, Business a 500 euro e Premium a 999 euro. Fonte: `sdg.abbonamenti`.
+- Il marketplace prende il 10% sugli ordini che porta lui. Fonte: `pricing.commissione`.
+- Per l'IA non si paga nessuna API: quel lavoro lo fa l'AD col piano Max. Fonte: `ad.uso-e-crediti`.
 
 ## Il codice della macchina: chi lo fa partire
 
-Il programma parte dagli ingressi veri e segue chi nomina chi: GitHub e Pannello (da fuori), manuali, skill e senior (a mano), server del worker (solo server). Un file che nessuno nomina è orfano. File di programma in `cervello/`: 939, 199.459 righe.
+Il programma parte dagli ingressi veri e segue chi nomina chi. Gli ingressi sono di tre tipi.
+Da fuori: GitHub e il Pannello. A mano: i manuali, le skill e i senior. Solo server: il server del worker.
+Un file che nessuno nomina è orfano. In `cervello/` ci sono 939 file di programma, con 200.475 righe.
 
 Le prove stanno nella riga del codice che provano: una prova di un file orfano è orfana anche lei.
 
 | Chi lo fa partire | Programmi | Righe | Prove | Righe delle prove |
 | --- | --- | --- | --- | --- |
-| Da fuori (GitHub, Pannello, hook) | 320 | 97.554 | 452 | 80.407 |
+| Da fuori (GitHub, Pannello, hook) | 320 | 98.178 | 452 | 80.783 |
 | A mano (manuali, skill, senior) | 5 | 1646 | 5 | 1951 |
 | Solo il server, spento per sempre | 2 | 190 | 1 | 226 |
-| Nessuno: orfano | 88 | 7930 | 66 | 9555 |
+| Nessuno: orfano | 88 | 7946 | 66 | 9555 |
 
 Gli orfani più grandi, primi candidati da togliere dopo un controllo uno per uno:
 
 - `cervello/permessi-elenco.mjs`: 533 righe, ultima modifica 2026-11-06
-- `cervello/mappa-azienda.mjs`: 400 righe, ultima modifica non nota
+- `cervello/mappa-azienda.mjs`: 416 righe, ultima modifica 2026-11-25
 - `cervello/round6-applica.mjs`: 356 righe, ultima modifica 2026-11-06
 - `cervello/ricuci-corsie.mjs`: 334 righe, ultima modifica 2026-11-06
 - `cervello/sintomo.mjs`: 331 righe, ultima modifica 2026-11-06
@@ -153,16 +171,15 @@ Ogni sessione dell'AD rilegge le stesse cose prima di fare qualsiasi lavoro. Sti
 | --- | --- | --- |
 | Regole per tutti (CLAUDE.md) | 17.465 | 4366 |
 | Le descrizioni dei 120 senior, nella lista degli agenti | 61.974 | 15.494 |
-| Manuale dell'AD, una volta per sessione | 23.609 | 5902 |
-| Memoria: DECISIONI.md (7442 righe), se si legge intera | 1.212.921 | 303.230 |
-| Memoria: LAVORO-APERTO.md (221 righe), se si legge intera | 45.962 | 11.491 |
-| Memoria: STATO.md (1744 righe), se si legge intera | 177.148 | 44.287 |
+| Manuale dell'AD, una volta per sessione | 23.847 | 5962 |
+| Memoria: DECISIONI.md (7472 righe), se si legge intera | 1.218.127 | 304.532 |
+| Memoria: LAVORO-APERTO.md (226 righe), se si legge intera | 47.280 | 11.820 |
+| Memoria: STATO.md (1748 righe), se si legge intera | 177.748 | 44.437 |
 | Memoria: registro-fatti.json (1813 righe), se si legge intera | 136.069 | 34.017 |
 | Memoria: BACHECA-SESSIONI.md (199 righe), se si legge intera | 51.604 | 12.901 |
-| Memoria: AZIONI-IN-ATTESA.md (1949 righe), se si legge intera | 152.790 | 38.198 |
+| Memoria: AZIONI-IN-ATTESA.md (1972 righe), se si legge intera | 154.498 | 38.625 |
 
 ## Cosa non è misurato
 
-- La scheda Clienti dell'agenzia (foglio Google dentro n8n).
 - Le visite e la velocità dei siti: servono le chiavi di Vercel, che il programma non ha.
 - Gli incassi veri: Stripe non è collegato.

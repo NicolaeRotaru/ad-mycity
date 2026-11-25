@@ -1,13 +1,13 @@
 {
- "generata": "2026-11-25 12:19",
+ "generata": "2026-11-25 12:59",
  "repo": [
   {
    "nome": "ad-mycity",
    "cosa": "la macchina dell'AD: memoria, senior, programmi, Pannello",
    "presente": true,
    "ultimo_commit": "2026-11-25",
-   "titolo": "Ramo ripartito da main: la storia vecchia del ramo è già dentro la #994",
-   "file": 4192
+   "titolo": "Prendo main con la #995 (cancello di nuovo verde); nel registro della radiografia tengo le",
+   "file": 4198
   },
   {
    "nome": "mycity",
@@ -19,7 +19,7 @@
   },
   {
    "nome": "SDG",
-   "cosa": "il sito dell'agenzia SDG (web, marketing, foto e video)",
+   "cosa": "il sito dell'agenzia SDG",
    "presente": true,
    "ultimo_commit": "2026-11-23",
    "titolo": "Sito SDG: cinque pagine pronte per Vercel",
@@ -36,8 +36,8 @@
  ],
  "n8n": {
   "misurato": true,
-  "totali": 44,
-  "archiviati": 18,
+  "totali": 45,
+  "archiviati": 19,
   "vivi": [
    {
     "nome": "00 · Attiva cliente",
@@ -124,7 +124,7 @@
     "chiamate_claude": 2,
     "ultima": {
      "stato": "success",
-     "quando": "2026-11-25T11:15:27.413Z"
+     "quando": "2026-11-25T11:45:25.134Z"
     }
    },
    {
@@ -199,7 +199,7 @@
     "chiamate_claude": 1,
     "ultima": {
      "stato": "success",
-     "quando": "2026-11-25T00:31:52.283Z"
+     "quando": "2026-11-25T11:47:17.218Z"
     }
    },
    {
@@ -312,24 +312,24 @@
  },
  "peso": {
   "claude_md": 17465,
-  "manuale_ad": 23609,
+  "manuale_ad": 23847,
   "senior": 120,
   "descrizioni_senior": 61974,
   "memoria": [
    {
     "file": "DECISIONI.md",
-    "byte": 1212921,
-    "righe": 7442
+    "byte": 1218127,
+    "righe": 7472
    },
    {
     "file": "LAVORO-APERTO.md",
-    "byte": 45962,
-    "righe": 221
+    "byte": 47280,
+    "righe": 226
    },
    {
     "file": "STATO.md",
-    "byte": 177148,
-    "righe": 1744
+    "byte": 177748,
+    "righe": 1748
    },
    {
     "file": "registro-fatti.json",
@@ -343,8 +343,8 @@
    },
    {
     "file": "AZIONI-IN-ATTESA.md",
-    "byte": 152790,
-    "righe": 1949
+    "byte": 154498,
+    "righe": 1972
    }
   ]
  },
@@ -353,11 +353,11 @@
    "da_fuori": {
     "programmi": {
      "file": 320,
-     "righe": 97554
+     "righe": 98178
     },
     "prove": {
      "file": 452,
-     "righe": 80407
+     "righe": 80783
     }
    },
    "a_mano": {
@@ -383,7 +383,7 @@
    "orfano": {
     "programmi": {
      "file": 88,
-     "righe": 7930
+     "righe": 7946
     },
     "prove": {
      "file": 66,
@@ -392,7 +392,7 @@
    },
    "totale": {
     "file": 939,
-    "righe": 199459
+    "righe": 200475
    }
   },
   "voci": [
@@ -1882,10 +1882,10 @@
    },
    {
     "file": "cervello/mappa-azienda.mjs",
-    "righe": 400,
+    "righe": 416,
     "prova": false,
     "categoria": "orfano",
-    "ultima_modifica": null
+    "ultima_modifica": "2026-11-25"
    },
    {
     "file": "cervello/mappa-copertura.mjs",
@@ -2463,10 +2463,10 @@
    },
    {
     "file": "cervello/radiografia-sessioni.mjs",
-    "righe": 1294,
+    "righe": 1912,
     "prova": false,
     "categoria": "da_fuori",
-    "ultima_modifica": "2026-11-13"
+    "ultima_modifica": "2026-11-25"
    },
    {
     "file": "cervello/ramo-pulito.mjs",
@@ -2561,10 +2561,10 @@
    },
    {
     "file": "cervello/riparazione/freno-subagenti.mjs",
-    "righe": 149,
+    "righe": 155,
     "prova": false,
     "categoria": "da_fuori",
-    "ultima_modifica": "2026-11-15"
+    "ultima_modifica": "2026-11-25"
    },
    {
     "file": "cervello/riparazione/sorveglia.sh",
@@ -4234,10 +4234,10 @@
    },
    {
     "file": "cervello/test/freno-subagenti.test.mjs",
-    "righe": 107,
+    "righe": 116,
     "prova": true,
     "categoria": "da_fuori",
-    "ultima_modifica": "2026-11-15"
+    "ultima_modifica": "2026-11-25"
    },
    {
     "file": "cervello/test/freschezza-che-mente.test.mjs",
@@ -5746,10 +5746,10 @@
    },
    {
     "file": "cervello/test/radiografia-sessioni.test.mjs",
-    "righe": 472,
+    "righe": 839,
     "prova": true,
     "categoria": "da_fuori",
-    "ultima_modifica": "2026-11-13"
+    "ultima_modifica": "2026-11-25"
    },
    {
     "file": "cervello/test/radiografia-snella.test.mjs",

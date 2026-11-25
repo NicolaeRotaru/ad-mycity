@@ -68,7 +68,7 @@ const righe = (testo) => (testo ? testo.split('\n').length : 0);
 const REPO = [
   { nome: 'ad-mycity', cosa: "la macchina dell'AD: memoria, senior, programmi, Pannello", dir: RADICE },
   { nome: 'mycity', cosa: 'il marketplace MyCity (sito, dashboard dei negozi, API)', dir: join(RADICE, '..', 'mycity') },
-  { nome: 'SDG', cosa: "il sito dell'agenzia SDG (web, marketing, foto e video)", dir: join(RADICE, '..', 'SDG') },
+  { nome: 'SDG', cosa: "il sito dell'agenzia SDG", dir: join(RADICE, '..', 'SDG') },
   { nome: 'N8N', cosa: 'i sorgenti e le prove dei flussi n8n costruiti da programma (repository pubblico)', dir: join(RADICE, '..', 'N8N') },
 ];
 const repo = REPO.map((r) => {
@@ -81,13 +81,13 @@ const repo = REPO.map((r) => {
 
 // Dove gira cosa. Non si misura da qui (servono le chiavi di Vercel e Sliplane): letto dall'AD il 25/11.
 const DOVE_GIRA = [
-  ['Marketplace MyCity', 'Vercel, progetto «mycity»', 'repo mycity', 'database Supabase «Mycity» (Parigi), letto dall\'AD solo in lettura'],
-  ['Pannello di Controllo', 'Vercel, progetto «ad-mycity»', 'repo ad-mycity, cartella pannello/', 'due lavori a orario: battito alle 9:00, report alle 19:07'],
-  ['Palestra', 'Vercel, progetto «mycity-palestra»', 'repo mycity', 'la copia di prova del marketplace'],
-  ['Sito SDG', 'nessun progetto Vercel col suo nome', 'repo SDG', 'non risulta pubblicato'],
-  ['n8n', 'Sliplane (n8n-shdy.sliplane.app)', 'repo N8N per i flussi da programma', 'le mani e l\'orologio: flussi, credenziali, scheda Clienti'],
-  ['Memoria dell\'AD', 'Supabase «ad-mycity» (Zurigo) + il vault nel repo', 'repo ad-mycity', 'la coda dei lavori del vecchio server vive qui'],
-  ['Server del worker (VPS)', 'spento dal 21/11, per sempre (Nicola, 24/11)', 'cervello/vps/', 'i suoi pezzi di codice sono contati sotto come «solo server»'],
+  ['Marketplace MyCity', 'Vercel', 'mycity', 'mycity', "il database è Supabase «Mycity», a Parigi; l'AD lo legge e basta"],
+  ['Pannello di Controllo', 'Vercel', 'ad-mycity', 'ad-mycity, cartella pannello/', 'due lavori a orario: battito alle 9:00, report alle 19:07'],
+  ['Palestra', 'Vercel', 'mycity-palestra', 'mycity', 'la copia di prova del marketplace'],
+  ['Sito SDG', 'nessuno', '—', 'SDG', 'non risulta pubblicato'],
+  ['n8n', 'Sliplane', 'n8n-shdy.sliplane.app', 'N8N, per i flussi fatti da programma', "le mani e l'orologio dell'azienda"],
+  ["Memoria dell'AD", 'Supabase e il repository', 'ad-mycity', 'ad-mycity', 'qui vive anche la coda dei lavori del vecchio server'],
+  ['Server del worker', 'spento per sempre', '—', 'ad-mycity, cartella cervello/vps/', 'spento dal 21/11; Nicola ha deciso il 24/11 di non riaccenderlo'],
 ];
 
 // ── ② n8n ───────────────────────────────────────────────────────────────────────────────────────
@@ -276,12 +276,25 @@ function pagina({ n8n, negozi, codice, peso }) {
   const r = codice.riepilogo;
   L.push('---', `data: ${quando}`, 'generata_da: cervello/mappa-azienda.mjs', '---', '');
   L.push("# La mappa dell'azienda", '');
+  const breve = [];
+  if (n8n.misurato) breve.push(`n8n ha ${n8n.vivi.length} flussi vivi, e ${n8n.vivi.filter((x) => x.acceso).length} sono accesi.`);
+  if (negozi.misurato) breve.push(`Nel marketplace ci sono ${negozi.negozi.length} venditori.`);
+  breve.push(`Nella macchina, ${r.orfano.programmi.file + r.orfano.prove.file} file di codice su ${r.totale.file} non li fa partire nessuno.`);
+  L.push(`**In breve.** ${breve.join(' ')}`, '');
   L.push(`> Rifatta da un programma il ${quando}, a 0 token: \`node cervello/mappa-azienda.mjs\`. Non si corregge a mano.`);
   L.push("> È la pagina che l'AD legge per prima: invece di esplorare quattro repository e n8n, legge questa.", '');
 
   L.push('## In parole semplici', '');
   L.push("Qui c'è tutto quello che l'azienda ha oggi: le sue parti, dove gira ogni cosa, i flussi di n8n, i negozi, le persone e il codice della macchina.");
-  L.push('Ogni numero lo conta il programma da solo. Quello che da qui non si può misurare è scritto come «non misurato», mai come zero.', '');
+  L.push('Ogni numero lo conta il programma da solo. Quello che da qui non si può misurare è scritto come «non misurato», mai come zero.');
+  L.push("Un esempio. Per sapere se il flusso «08 Post dalle foto» è acceso, prima l'AD apriva n8n e leggeva il flusso. Adesso legge la sua riga nella tabella dei flussi, qui sotto.", '');
+  L.push('## Cosa cambia per te', '');
+  L.push("L'AD non deve più esplorare tutto a ogni sessione: legge questa pagina, e spende meno token. Tu trovi in un posto solo cosa c'è e cosa è acceso.", '');
+  L.push('## Cosa devi fare', '');
+  L.push("Niente. Se vedi un errore, dillo all'AD: si corregge il programma, non la pagina.", '');
+  L.push('## Cosa non ho verificato', '');
+  L.push('Per capire chi fa partire un file, il programma cerca il suo nome negli altri file. Un file nominato solo in un commento sembra vivo.');
+  L.push("La tabella «Dove gira ogni cosa» l'ha letta l'AD a mano, il 25/11.", '');
 
   L.push("## Le parti dell'azienda", '');
   L.push('| Parte | Cos\'è | Dove sta scritto |');
@@ -293,10 +306,10 @@ function pagina({ n8n, negozi, codice, peso }) {
   L.push('', "Com'è fatta dentro la macchina dell'AD (le sue 9 parti): `MAPPA-MACCHINA.md`.", '');
 
   L.push('## Dove gira ogni cosa', '');
-  L.push('| Cosa | Dove gira | Codice | Note |');
-  L.push('| --- | --- | --- | --- |');
-  for (const [a, b, c, d] of DOVE_GIRA) L.push(`| ${a} | ${b} | ${c} | ${d} |`);
-  L.push('', '_Questa tabella l\'ha letta l\'AD da Vercel e Supabase il 25/11: il programma da solo non ha quelle chiavi._', '');
+  L.push('| Cosa | Dove gira | Nome lì | Repository | Note |');
+  L.push('| --- | --- | --- | --- | --- |');
+  for (const [a, b, c, d, e] of DOVE_GIRA) L.push(`| ${a} | ${b} | ${c} | ${d} | ${e} |`);
+  L.push('');
   L.push('| Repository | Cos\'è | Ultimo commit | File |');
   L.push('| --- | --- | --- | --- |');
   for (const x of repo) L.push(x.presente ? `| ${x.nome} | ${x.cosa} | ${x.ultimo_commit} | ${fmt(x.file)} |` : `| ${x.nome} | ${x.cosa} | non misurato (non c'è qui accanto) | — |`);
@@ -343,12 +356,16 @@ function pagina({ n8n, negozi, codice, peso }) {
   L.push('');
 
   L.push('## I soldi', '');
-  L.push("- Incassi dei negozi: al lancio solo contanti alla consegna (registro-fatti, `pagamenti.al-lancio`). Stripe non è collegato ai sensori dell'AD.");
-  L.push("- Ricavi: abbonamenti SDG Base 300, Business 500, Premium 999 euro al mese (`sdg.abbonamenti`); 10% sugli ordini portati dal marketplace (`pricing.commissione`).");
-  L.push('- Spese per l\'IA: nessuna API a pagamento. I lavori con l\'IA li fa l\'AD col piano Max (`ad.uso-e-crediti`).', '');
+  L.push("- Al lancio i clienti pagano solo in contanti, alla consegna. Fonte: `pagamenti.al-lancio`.");
+  L.push("- Stripe non è collegato ai sensori dell'AD.");
+  L.push("- L'agenzia vende tre abbonamenti al mese: Base a 300 euro, Business a 500 euro e Premium a 999 euro. Fonte: `sdg.abbonamenti`.");
+  L.push("- Il marketplace prende il 10% sugli ordini che porta lui. Fonte: `pricing.commissione`.");
+  L.push("- Per l'IA non si paga nessuna API: quel lavoro lo fa l'AD col piano Max. Fonte: `ad.uso-e-crediti`.", '');
 
   L.push('## Il codice della macchina: chi lo fa partire', '');
-  L.push(`Il programma parte dagli ingressi veri e segue chi nomina chi: GitHub e Pannello (da fuori), manuali, skill e senior (a mano), server del worker (solo server). Un file che nessuno nomina è orfano. File di programma in \`cervello/\`: ${fmt(r.totale.file)}, ${fmt(r.totale.righe)} righe.`, '');
+  L.push('Il programma parte dagli ingressi veri e segue chi nomina chi. Gli ingressi sono di tre tipi.');
+  L.push('Da fuori: GitHub e il Pannello. A mano: i manuali, le skill e i senior. Solo server: il server del worker.');
+  L.push(`Un file che nessuno nomina è orfano. In \`cervello/\` ci sono ${fmt(r.totale.file)} file di programma, con ${fmt(r.totale.righe)} righe.`, '');
   L.push('Le prove stanno nella riga del codice che provano: una prova di un file orfano è orfana anche lei.', '');
   L.push('| Chi lo fa partire | Programmi | Righe | Prove | Righe delle prove |');
   L.push('| --- | --- | --- | --- | --- |');
@@ -373,7 +390,6 @@ function pagina({ n8n, negozi, codice, peso }) {
   L.push('');
 
   L.push('## Cosa non è misurato', '');
-  L.push("- La scheda Clienti dell'agenzia (foglio Google dentro n8n).");
   L.push("- Le visite e la velocità dei siti: servono le chiavi di Vercel, che il programma non ha.");
   L.push("- Gli incassi veri: Stripe non è collegato.");
   if (!n8n.misurato) L.push(`- n8n: ${n8n.motivo}.`);
