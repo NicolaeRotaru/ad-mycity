@@ -11,7 +11,7 @@ L'analisi parte subito e serve a cucire i servizi su misura. La scheda del clien
 Per esempio: La Ragazzetta, iscritta il 25/11, deve ricevere subito una proposta con una parte generale e una parte sua, ma non la pagella «0 prodotti, vetrina vuota».
 
 ## Cosa cambia per te
-Questa sessione possiede il lavoro dall'inizio alla fine, su due repository: `mycity` (sito) e `N8N` (flussi).
+Questa sessione possiede il lavoro dall'inizio alla fine. Lavora su due repository: `mycity` per il sito e `N8N` per i flussi.
 
 ## Cosa devi fare
 Prima le scelte, poi il codice: leggi le «Scelte dell'AD», e se una non regge chiedi a Nicola prima di costruire.
