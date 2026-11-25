@@ -11,9 +11,17 @@
     "max_sessioni": 18,
     "caratteri_partenza": 40000,
     "righe_vicine": 10,
-    "somiglianza_titoli": 0.4
+    "somiglianza_titoli": 0.4,
+    "minuti_partenza": 15,
+    "minuti_ferma": 70,
+    "soglia_spesa": 0.7,
+    "quota_regia_predefinita": 0.2
   },
   "_misure_perche": {
+    "minuti_partenza": "una sessione aperta da 15 minuti senza ramo spinto non è partita (il primo push, col referto vuoto, si fa entro 10 minuti: LEGGIMI §6): nella settimana dei 700 la prima apertura di C02 è rimasta ferma 52 minuti, e il primo K02 non è mai partito (commit di partenza sbagliato).",
+    "minuti_ferma": "un ramo fermo da 70 minuti: chi cerca spinge il referto ogni 10 difetti o ogni ora (LEGGIMI §6), quindi i 20 minuti della riparazione suonerebbero a vuoto.",
+    "soglia_spesa": "al 70% del preventivo atteso la sorveglianza dà un segnale, al 100% un altro.",
+    "quota_regia_predefinita": "regia e controllore finale come parte del costo delle sessioni, quando le misure non la dicono: onda 9 della riparazione, 151,36 su 742,50 $, circa 0,20.",
     "kb_per_lotto": "un lotto di codice da circa 300 KB (circa 85 mila token) tiene la storia di un subagente sotto i 150-300 mila token: il 6/11 ogni sessione arrivava a 277-422 mila, e il 97% dei token era rilettura (costo-6-11.json).",
     "lotti_max": "8 cercatori più fino a 4 verificatori stanno nel tetto di 12 subagenti per sessione (regola ⑱).",
     "soglia_minori": "regola ⑳: con più di 100 minori aperti nel registro non si cercano minori nuovi.",
@@ -33,6 +41,10 @@
   },
   "stima": {
     "_perche": "La stima del preventivo, prima della misura vera alla fermata 2. Sessione di partenza e lotti dalla misura del 6/11 (S01: 60,62 $ per 29 subagenti, circa 2 $ l'uno, contesto finale 412 mila token); i token per agente dalla regola ⑱ (80-150 mila chi prova, 50-100 mila chi verifica). Con i lotti la storia del capo resta piccola: per questo il capo vale meno di una sessione del 6/11.",
+    "fattore_ultracode": 1.9,
+    "_fattore_ultracode_perche": "Solo per le sessioni mai misurate: nella riparazione un riparatore con ultracode è costato 4,16 $ per voce lavorata contro 2,22 $ senza (onde 2 e 1, cervello/riparazione/misure.json), circa 1,9 volte.",
+    "cerca_pilota": 2,
+    "_cerca_pilota_perche": "Finché la ricerca a lotti non ha una misura, la prima onda porta al massimo due cercatrici, le prime a rischio alto: una novità alla volta, con la soglia scritta prima (regola 10 del 15/11).",
     "usd_capo_sessione": 6,
     "usd_lotto": 2.5,
     "usd_verificatore": 1.5,
@@ -88,9 +100,10 @@
       "palestra_prima": false
     },
     "ricontrollo": {
-      "cosa": "Nessun difetto nuovo: solo il ricontrollo delle voci aperte del registro, per chiudere quelle non più vere.",
+      "cosa": "Nessuna ricerca nuova: il ricontrollo delle voci aperte del registro, per chiudere quelle non più vere. Un bloccante o un grave visto di passaggio si scrive (il 21/11 il rimborso «1.250,00» letto come 1,25 € non aveva dove andare).",
       "temi": ["S01"],
-      "gravita": [],
+      "gravita": ["bloccante", "grave"],
+      "cerca_nuovi": false,
       "ricontrollo": ["bloccante", "grave", "minore"],
       "minori": false,
       "palestra_prima": false
