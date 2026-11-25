@@ -30,17 +30,18 @@ La pagina dice com'era il lavoro il 31 ottobre alle 01:45. Ogni voce va riletta 
 
 ## 1 · Cose che toccano a te
 
-**Scatti di G: l'editor video automatico è pronto da provare (2026-11-25 00:50).** È un lavoro per l'agenzia, non per MyCity: officina 1.4.0 e workflow n8n «16 · Montatore».
-- **Cosa fa:** monta reel e storie nello stile della moodboard (ritmo lento, nero morbido, Poppins avorio e oro, 25 fotogrammi), parte da solo quando un servizio compare nella cartella Drive del cliente, e chiede ✅ Approva / ✏️ Correggi su Telegram.
-- **Dove sta:** ramo `claude/affectionate-thompson-j841pj` di NicolaeRotaru/N8N, non ancora unito. In n8n il 16 è aggiornato ma spento. Guide: `montatore/LEGGIMI.md`, `montatore/REGIA-SDG.md`, `officina/LEGGIMI.md`.
-- **I collaudi:** due collaudi indipendenti l'hanno bocciato (rallenty sulle interviste, stesso servizio avviato due volte, secondo ritocco impossibile). I difetti sono corretti. Il ricollaudo era in corso alle 00:50.
+**Scatti di G: l'editor video automatico aspetta due risposte di Nicola (aggiornato 2026-11-25 16:00).** È un lavoro per l'agenzia, non per MyCity: officina 1.4.0 e workflow n8n «16 · Montatore».
+- **Cosa fa:** monta reel e storie nello stile della moodboard, parte da solo quando un servizio compare nella cartella Drive del cliente, e chiede ✅ Approva / ✏️ Correggi su Telegram. Un servizio al mese per cliente; le quantità vengono dalle colonne `reel_mese`, `post_mese`, `storie_mese` del foglio Clienti.
+- **Dove sta:** ramo `claude/affectionate-thompson-j841pj` di NicolaeRotaru/N8N (workflow fino a `7de1e46`, officina fino a `9fa8a33`), non unito. In n8n il 16 è identico al ramo e spento. Sul server gira ancora l'officina 1.1.1.
+- **I collaudi:** officina ricollaudata e passata; il modulo del 16 (campo vuoto = 0) corretto e passato. Il segno «sostituito» sulle idee del workflow 03 è stato bocciato tre volte: per la regola del terzo rosso decide Nicola (strade A/B/C, consigliata A = il 16 non scrive più sulle righe del 03). Il controllo dei filtri all'avvio dell'officina è stato bocciato una volta, corretto, e il ricollaudo era in corso alle 16:00.
 - **Tocca a Nicola:**
-  1. unire il ramo e pubblicare l'officina 1.4.0 su Sliplane;
-  2. mandare le pagine 04-07 della moodboard, i codici esatti dei colori e il logo nuovo, e dire dove va il logo di Scatti di G;
-  3. dire camera e profilo log, e mandare il file .cube;
-  4. scegliere due clienti pilota, con la colonna `anteprime_con_persone`, e preparare un servizio piccolo di prova;
-  5. dire quanto è grande il disco su Sliplane;
-  6. dopo la prova, premere Publish sul 16.
+  1. scegliere A, B o C sulle idee del 03;
+  2. scrivere «pubblica» per unire il ramo e mettere l'officina 1.4.0 su Sliplane (poi `/salute` deve dire 1.4.0 e `filtri.ok: true`);
+  3. mandare le pagine 04-07 della moodboard, i codici esatti dei colori e il logo nuovo, e dire dove va il logo di Scatti di G;
+  4. dire camera e profilo log, e mandare il file .cube;
+  5. preparare il servizio pilota di El Tropico (5-10 file) e le colonne del foglio Clienti;
+  6. dire quanto è grande il disco su Sliplane;
+  7. dopo la prova, premere Publish sul 16.
 
 **La settimana dei 700: il ricontrollo ha chiuso 117 difetti già spariti (21/11 16:35).** Gli aperti nel registro scendono da 749 a 632: 559 minori, 68 gravi, 5 bloccanti. Nicola ha dato il tetto di 1.200 $, le firme a e b e il sì al ricontrollo. Il ricontrollo è costato circa 105 $ più il controllore finale. Resta da fare: dire a Nicola dei dettagli di alcune falle finiti nei referti sui rami pubblici (decide lui se riscriverli). Poi registrare il difetto nuovo del rimborso, dove «1.250,00» diventa 1,25 €. Poi le riparazioni sulle voci ancora vere. Quaderno: `consegne/riparazioni/2026-11-21-settimana-700/REGIA.md`; PR ad-mycity#990. (aggiornato 2026-11-21 16:35)
 
