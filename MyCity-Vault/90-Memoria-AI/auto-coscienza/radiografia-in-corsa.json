@@ -8087,6 +8087,36 @@
       }
     },
     {
+      "quando": "2026-11-25 13:40",
+      "casa": "pannello",
+      "dimensione": "coerenza-azioni",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "pannello/src/app/api/azioni-pronte/route.ts": "a9e26d0e2ecf"
+      }
+    },
+    {
+      "quando": "2026-11-25 13:40",
+      "casa": "pannello",
+      "dimensione": "robustezza-errori",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "pannello/src/lib/autopilota.ts": "6c72ca6669dc",
+        "pannello/src/lib/mani-n8n.ts": "46c986857d51",
+        "pannello/src/lib/mani.ts": "4a0a4d0d35e3"
+      }
+    },
+    {
       "quando": "2026-11-25 14:03",
       "casa": "macchina",
       "dimensione": "rischio-sicurezza-se",
