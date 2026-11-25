@@ -7440,3 +7440,9 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Chi la costruisce:** la sessione «Analisi del business», sul ramo claude/offerta-su-misura del sito (repo mycity). Nicola l'ha unita in main la sera stessa (mycity#317, commit ea10d5e). Non servono migrazioni né segreti.
 - **Fonte:** messaggio della sessione di monitoraggio delle 22:50 alla sessione «Ora del Gusto 2.0». Chi scrive questa riga non ha letto la chat originale di Nicola.
 - **Colore:** 🟡: è codice del sito in un ramo. Il passaggio in produzione resta di Nicola.
+
+## 2026-11-25 00:25 — La prima scheda scritta dall'AD è nel sito; il link pubblico resta coi soli dati confermati (🟡, decisione di Nicola)
+- **Fatto:** l'AD ha scritto la scheda di Ora del Gusto (Viale Sant'Ambrogio 6/B: Nicola ha scelto lui fra tre locali omonimi) col piano Max e ricerca web, senza l'API di Claude. L'ha consegnata il nuovo flusso n8n «19 · Consegna la scheda scritta dall'AD», spento e lanciato a mano: il sito ha risposto ok alle 00:14, e in `schede_clienti` ci sono 9 campi. La copia della scheda è in `consegne/schede/2026-11-25-ora-del-gusto.json`.
+- **Chiavi:** Nicola ha messo su Vercel `N8N_NUOVO_CLIENTE_WEBHOOK_URL`, `N8N_NUOVO_CLIENTE_SEGRETO` e `N8N_SCHEDA_CLIENTE_SEGRETO`, e gli stessi segreti nelle due credenziali n8n. Non ci sono ancora né `AD_BOZZA_SITO_SEGRETO` né le due chiavi del preventivo.
+- **Decisione:** Nicola, alle 00:25: «lasciamo così». Il link pubblico del preventivo mostra solo i dati confermati, quindi la scheda «da confermare» non compare lì. Si vede solo nell'area del negozio, dopo l'accesso.
+- **Costi riferiti a Nicola:** le API di Meta sono gratis, ma serve la revisione dell'app. Google Places costa zero ai nostri numeri (soglia gratuita mensile), ma serve una carta su Google Cloud con un tetto di spesa. La decisione resta sua.
