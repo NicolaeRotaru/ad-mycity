@@ -1,12 +1,12 @@
 {
-  "data": "2026-11-25 17:34",
+  "data": "2026-11-25 18:12",
   "esito": "ok",
-  "copertura": 2161,
+  "copertura": 2165,
   "origine": "cloud",
   "scritto_da": "coerenza-fatti.mjs",
   "fatti_totali": 79,
   "cacce_aperte": 54,
-  "file_scansionati": 2161,
+  "file_scansionati": 2165,
   "incoerenze": [],
   "cacce": [
     {
@@ -336,6 +336,7 @@
   ],
   "esenzioni_default": [
     "MyCity-Vault/90-Memoria-AI/DECISIONI.md",
+    "MyCity-Vault/90-Memoria-AI/Archivio/",
     "MyCity-Vault/90-Memoria-AI/SALA-OPERATIVA.md",
     "MyCity-Vault/90-Memoria-AI/Briefing/",
     "MyCity-Vault/90-Memoria-AI/Report/",
