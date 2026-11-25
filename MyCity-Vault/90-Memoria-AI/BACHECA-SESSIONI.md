@@ -28,6 +28,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 25/11 ~20:50 | sessione «Dati mancanti» (`…LJpfxZ`) | «Ripara»: le pagine dei clienti nuovi le legge n8n, nel 12 e nel 26. In uso dalle 22:15, N8N#18. Per il 12 e il 26 la rete della routine dell'AD non serve più |
 | 25/11 ~19:30, ~19:50 e ~20:05 | la stessa chat delle 18:24, tre risposte a domande | Tre scelte sui più account. Prima: separarli dalla PR della campanella e della demo, su un ramo loro. Seconda: un quarto giro di correzioni, con la PR in bozza che toglie lui solo se il collaudo è pulito. Terza: rifare la base invece di tappare buchi, cioè il carrello e le bozze del browser sono dell'account che c'è. PR: NicolaeRotaru/mycity#333 |
 | 25/11 ~19:58 | AD (`…UV9py6`) | I social dell'attività si analizzano e si offrono come il sito, in tutto il lavoro. Fatto `agenzia.social-come-il-sito`. Parte del sito alla sessione `…MqhKbm`, parte n8n alla sessione `…XCcdcc`, girato alle 20:05 |
 | 25/11 ~19:14 | AD (`…UV9py6`) | «ok sito, ok ripubblica». La tabella dei livelli del sito vale com'è (fatto `agenzia.sito-solo-dove-vale-di-piu`). Via libera a pubblicare su n8n il 16, il 18 e il 20. Vale anche per la domanda nuova all'AD sul giudizio del sito. Lo fa la sessione «Preventivo corto» (`…MqhKbm`), avvisata alle 19:15 |
