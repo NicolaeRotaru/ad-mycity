@@ -7790,6 +7790,35 @@
       }
     },
     {
+      "quando": "2026-11-24 23:59",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/goku.mjs": "c2c858b548be",
+        "cervello/mappa-copertura.mjs": "26c836850ce3"
+      }
+    },
+    {
+      "quando": "2026-11-24 23:59",
+      "casa": "macchina",
+      "dimensione": "cadenza-esecuzione",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        ".claude/skills/goku/SKILL.md": "04580a146037"
+      }
+    },
+    {
       "quando": "2026-11-25 12:20",
       "casa": "macchina",
       "dimensione": "rischio-sicurezza-se",
@@ -7801,6 +7830,23 @@
       "nota": "",
       "file": {
         "cervello/mappa-azienda.mjs": "3afc1d29dfa6"
+      }
+    },
+    {
+      "quando": "2026-11-25 13:04",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/censimento-macchina.mjs": "809ffbfbcfbb",
+        "cervello/goku.mjs": "944fa280792c",
+        "cervello/radiografia-sessioni.mjs": "67c80b640402",
+        "cervello/riparazione/freno-subagenti.mjs": "f7121ba59eae"
       }
     },
     {

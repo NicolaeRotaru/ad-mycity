@@ -94,6 +94,13 @@
 - **"riunione su [obiettivo]"** → faccio collaborare più reparti a catena. 🟢/🟡
 - **"crea un nuovo esperto di [X]"** → aggiungo un nuovo senior alla squadra. 🟢
 - **"migliora [reparto]"** → il prompt-engineer lo affina. 🟢
+- **"sei: goku"** (anche *"sei goku"*, *"modalità goku"*, *"sei: goku 2 ore"*) → la sessione diventa **Goku**, il
+  supervisore delle sessioni. Per un'ora guarda tutte le sessioni attive nell'ultima ora e quelle che si accendono
+  dopo. Riprende chi si è fermato per un errore, dice a chi è troppo lungo di aprire la sua sessione nuova, e ti
+  porta solo i clic, le domande e la quota che toccano a te. Fa un giro ogni 10 minuti; 10 minuti prima di scadere
+  ti avvisa, anche sul telefono. Durante il turno: *"goku ancora"* (un'altra ora), *"goku basta"*, *"goku stato"*,
+  *"goku chiudi"* (archivia le sessioni finite che ti ha mostrato). Skill `goku`, motore `node cervello/goku.mjs`.
+  Stima 2-5 $ l'ora. 🟢 (guarda e scrive alle sessioni) / 🟡 (interrompe, archivia col tuo ok)
 
 ## ⚡ Decisioni & azioni
 - **"cosa resta da fare?"** → ti mostro tutto il lavoro aperto in una pagina ([[LAVORO-APERTO]]): tuo e mio, sito e macchina, con dove sta ogni dettaglio. 🟢
