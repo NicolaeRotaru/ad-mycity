@@ -1,5 +1,6 @@
 "use client";
 
+import { importConRiprova, ePezzoMancante } from "@/lib/import-con-riprova";
 import MarkdownPigro from "@/components/MarkdownPigro";
 import { useState, useRef, useEffect, useCallback, useMemo, memo, Component, Fragment, type ReactNode } from "react";
 import {
@@ -174,17 +175,17 @@ import {
 // solo quando le apri. Prima stavano tutte nel pezzo della home (page-*.js, 552 KB prima della
 // compressione): Lighthouse ne contava 105 KB mai usati, e il telefono li doveva leggere e compilare
 // prima di rendere la home toccabile. Il Markdown della chat passa da MarkdownPigro, per lo stesso motivo.
-const Memoria = dynamic(() => import("@/components/aree/Memoria"));
-const RadiografiaMacchinaArea = dynamic(() => import("@/components/aree/RadiografiaMacchinaArea"));
-const SaluteSitoArea = dynamic(() => import("@/components/aree/SaluteSitoArea"));
-const AutoCoscienzaArea = dynamic(() => import("@/components/aree/AutoCoscienzaArea"));
-const Lavori = dynamic(() => import("@/components/aree/Lavori"));
-const Intelligence = dynamic(() => import("@/components/Intelligence"));
-const NumeriArea = dynamic(() => import("@/components/aree/NumeriArea"));
-const NumeriReport = dynamic(() => import("@/components/NumeriReport"));
-const AreaModuli = dynamic(() => import("@/components/aree/AreaModuli"));
-const Azioni = dynamic(() => import("@/components/aree/Azioni"));
-const DirettaContenuti = dynamic(() => import("@/components/DirettaContenuti"));
+const Memoria = dynamic(() => importConRiprova(() => import("@/components/aree/Memoria")));
+const RadiografiaMacchinaArea = dynamic(() => importConRiprova(() => import("@/components/aree/RadiografiaMacchinaArea")));
+const SaluteSitoArea = dynamic(() => importConRiprova(() => import("@/components/aree/SaluteSitoArea")));
+const AutoCoscienzaArea = dynamic(() => importConRiprova(() => import("@/components/aree/AutoCoscienzaArea")));
+const Lavori = dynamic(() => importConRiprova(() => import("@/components/aree/Lavori")));
+const Intelligence = dynamic(() => importConRiprova(() => import("@/components/Intelligence")));
+const NumeriArea = dynamic(() => importConRiprova(() => import("@/components/aree/NumeriArea")));
+const NumeriReport = dynamic(() => importConRiprova(() => import("@/components/NumeriReport")));
+const AreaModuli = dynamic(() => importConRiprova(() => import("@/components/aree/AreaModuli")));
+const Azioni = dynamic(() => importConRiprova(() => import("@/components/aree/Azioni")));
+const DirettaContenuti = dynamic(() => importConRiprova(() => import("@/components/DirettaContenuti")));
 
 // Id stabile per un messaggio di chat: la lista dei messaggi usa `m.id` come key React
 // (non più l'indice), così durante il polling/il passaggio "pending → risposta" le bolle
@@ -926,13 +927,15 @@ type Vista =
  * Il testo non è scritto qui: lo decide `messaggioGuasto` in lib/stato-card.ts, dove una prova
  * verifica che una promessa non possa mai essere più larga dell'ambito. Qui restano solo le mani.
  */
-class ReteArea extends Component<{ nome: string; children: ReactNode }, { caduta: boolean }> {
+class ReteArea extends Component<{ nome: string; children: ReactNode }, { caduta: boolean; pezzoMancante: boolean }> {
   constructor(p: { nome: string; children: ReactNode }) {
     super(p);
-    this.state = { caduta: false };
+    this.state = { caduta: false, pezzoMancante: false };
   }
-  static getDerivedStateFromError() {
-    return { caduta: true };
+  static getDerivedStateFromError(errore: unknown) {
+    // Se a cadere è il download del pezzo dell'area (non il suo codice), rimontarla non basta:
+    // `next/dynamic` si ricorda il fallimento. «Riprova» allora ricarica la pagina (vedi sotto).
+    return { caduta: true, pezzoMancante: ePezzoMancante(errore) };
   }
   componentDidCatch(errore: unknown) {
     // In console resta tutto, per quando serve capire davvero.
@@ -947,7 +950,10 @@ class ReteArea extends Component<{ nome: string; children: ReactNode }, { caduta
         <h2 className="t-sez">{g.titolo}</h2>
         <p className="t-corpo">{g.promessa}</p>
         <button
-          onClick={() => this.setState({ caduta: false })}
+          onClick={() => {
+            if (this.state.pezzoMancante) window.location.reload();
+            else this.setState({ caduta: false, pezzoMancante: false });
+          }}
           className="inline-flex items-center gap-1.5 min-h-[44px] bg-brand text-white text-[13px] font-medium px-3.5 py-2 rounded-xl shadow-card hover:bg-brand-dark transition"
         >
           Riprova

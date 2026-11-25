@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-11-25 15:26",
+  "aggiornato": "2026-11-25 15:46",
   "scansioni": [
     {
       "quando": "2026-08-25 20:35",
@@ -7904,6 +7904,33 @@
         "pannello/src/components/ParlaCasella.tsx": "d467c9ba59cf",
         "pannello/src/components/aree/Plancia.tsx": "21995453b270",
         "pannello/src/lib/format.ts": "01818d1309fa",
+        "pannello/src/lib/json-condiviso.ts": "e57afeac093a"
+      }
+    },
+    {
+      "quando": "2026-11-25 15:46",
+      "casa": "pannello",
+      "dimensione": "robustezza-errori",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "pannello/src/app/layout.tsx": "57ff1317c923",
+        "pannello/src/app/page.tsx": "0358257709bc",
+        "pannello/src/components/Bacheca.tsx": "daf5d07dbfee",
+        "pannello/src/components/ChatCasella.tsx": "180bdf24d0ca",
+        "pannello/src/components/DemoBanner.tsx": "a3428969f2d7",
+        "pannello/src/components/LetteraAdCard.tsx": "db2f1d0e4c4d",
+        "pannello/src/components/MacchinaHomeCard.tsx": "99030e624dbb",
+        "pannello/src/components/MarkdownPieno.tsx": "a2eea3f29ebd",
+        "pannello/src/components/MarkdownPigro.tsx": "a64672c8d7db",
+        "pannello/src/components/ParlaCasella.tsx": "d467c9ba59cf",
+        "pannello/src/components/aree/Plancia.tsx": "21995453b270",
+        "pannello/src/lib/format.ts": "01818d1309fa",
+        "pannello/src/lib/import-con-riprova.ts": "82c7bb9f63d5",
         "pannello/src/lib/json-condiviso.ts": "e57afeac093a"
       }
     }

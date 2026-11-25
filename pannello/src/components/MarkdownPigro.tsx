@@ -2,6 +2,7 @@
 
 import { lazy, Suspense } from "react";
 import type { PropsMarkdown } from "@/components/MarkdownPieno";
+import { importConRiprova } from "@/lib/import-con-riprova";
 
 // Velocità (perf home, 25/11/2026): react-markdown e i suoi plugin (~130 ms di processore su un
 // telefono medio solo per caricarli) stavano nel pezzo della home, importati da riquadri che il
@@ -15,7 +16,7 @@ function TestoSemplice({ children }: PropsMarkdown) {
   return <span className="whitespace-pre-wrap">{children}</span>;
 }
 const MarkdownPieno = lazy(() =>
-  import("@/components/MarkdownPieno").catch(() => ({ default: TestoSemplice })),
+  importConRiprova(() => import("@/components/MarkdownPieno")).catch(() => ({ default: TestoSemplice })),
 );
 
 export default function MarkdownPigro(props: PropsMarkdown) {
