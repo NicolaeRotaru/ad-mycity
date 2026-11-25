@@ -156,7 +156,6 @@ Aggiornata il 2026-11-24 21:16. Le sessioni dell'onda dei 700, regie e figlie, s
 
 | Sessione | Lavoro | File suoi |
 |---|---|---|
-| «Pagina troppo lunga» (`…LM4cHG`) | Modulo di iscrizione corto su /sell, dati del titolare dopo l'invio, freno all'approvazione | `components/SellerApplicationForm.tsx`, `app/sell/page.tsx`, `app/api/seller/apply` e `titolare`, `lib/admin/regole-approvazione.ts` |
 | «700 difetti risoluzione» (`…Lzth8W`) | AD della campagna. Fa la PR unica di ad-mycity chiesta da Nicola alle 21:11 | #991-#994 → PR unica |
 | «Ora del Gusto: iscrizione e preventivo» (`…LZXxKx`) | Ora del Gusto e servizi SDG. Migrazioni 703-710 in produzione alle 20:49. Aspetta 3 clic di Nicola | ramo di #992, fermo |
 | «Servizio Analisi del business e bozza del sito» (`…NW9NV7`) | Figlia di Ora del Gusto. Codice del sito, migrazione 711 | ramo suo su mycity |
