@@ -1,7 +1,7 @@
 ---
 tipo: lavoro-aperto
 fonte: AD digitale
-aggiornato: 2026-11-24 03:40
+aggiornato: 2026-11-25 23:30
 regola: si legge PRIMA di cercare cosa manca; si aggiorna a ogni lavoro che si apre o si chiude
 ---
 
@@ -29,6 +29,8 @@ La pagina dice com'era il lavoro il 31 ottobre alle 01:45. Ogni voce va riletta 
 ---
 
 ## 1 · Cose che toccano a te
+
+**Tropico Latino: 13 contenuti di dicembre nel Calendario (25/11 23:30).** Fatti dall'AD con le 13 foto del fotografo e l'officina, senza API di IA. Alle 23:25 Nicola ne aveva approvati 5 su 13 su Telegram, rifiutato 1 (il burrito del 17/12, ora in bozza); 7 aspettano il suo clic fino al 29/11 sera. Restano: il motivo del rifiuto, i nomi di due piatti dal titolare, il numero WhatsApp giusto, e riprese nuove con persone e feste (24, 25, 31 dicembre). Dettaglio: `consegne/content/2026-11-25-tropico-latino-pacchetto-dicembre.md`.
 
 - **Ora del Gusto e i servizi SDG.** Aperto il 2026-11-24 02:20, aggiornato il 2026-11-24 19:00. TUTTO IL CODICE È IN MAIN. L'ha verificato l'AD: #309, #312, #313 e #314, con main a 0311a90f e le migrazioni dalla 703 alla 710 presenti. Nel database vero, letto in sola lettura verso le 19:00, le migrazioni si fermano alla 702. Vuol dire che niente è ancora attivo: né Ora del Gusto, né SDG, né gli abbonamenti, né la modalità demo. Il sito vero regge lo stesso. L'iscrizione da /sell salva senza il tipo di attività. La dashboard non mette nessuno in demo se la funzione manca. Per Nicola, in fila. ① «Migrazioni a mano»: entrano la 703, la 704, la 705 che è solo un commento, e poi 706, 707, 708, 709 e 710. ② Supabase Auth → Redirect URLs: permettere /seller/abbonamento. ③ Vercel: la variabile `N8N_SCHEDA_CLIENTE_SEGRETO`, col valore che ha la sessione n8n, e il dominio per n8n. ④ Admin → «Preventivi col link»: mandare il link di Ora del Gusto solo al titolare. ⑤ Quando il titolare accetta, controllare l'email. Non approvare senza IBAN e documenti. Restano aperti cinque punti. Il credito dell'API di Claude per la ricerca n8n. Il nuovo prezzo della vetrina MyCity. Il resoconto mensile promesso, da costruire. La vetrina «esperienza», dopo le correzioni all'anteprima. Piccoli residui del collaudo: l'abbonamento Stripe resta «incomplete», e in demo compare la scritta «Negozio attivo». **Il 24/11 alle 20:49 le migrazioni dalla 703 alla 710 sono entrate in produzione**. Le ha avviate l'AD su richiesta di Nicola, che ha scritto «Fai tu le migrazioni». È servito il lavoro «Migrazioni a mano»: APPLICA/8/710, esecuzione 45471204952, tutti i passi verdi. L'AD l'ha verificato in sola lettura. Ora del Gusto esiste: non è approvata, è fuori vetrina e ha il suo link col codice. SDG Agenzia è approvata, con 3 prodotti. Pane Quotidiano resta visibile. Quindi il passo ① è fatto; restano il ②, il ③, il ④ e il ⑤. Di nuovo c'è il servizio «Analisi del business», con la bozza del sito scritta dall'AD. Li ha in mano la sessione `session_01R8112NW9NV7N6jACcLJvG7`, che apre la sua PR su main. La parte dell'AD nella bozza è uno script nel repo ad-mycity: resta da costruire quando arriva il formato. Il 24/11 alle 21:40 la mycity#316 (Analisi del business e porta per la bozza del sito dall'AD) ha la CI verde: da unire, poi migrazione 711 e segreto `AD_BOZZA_SITO_SEGRETO` su Vercel. Passaggio per la sessione nuova: `consegne/sessioni/2026-11-24-passaggio-ora-del-gusto.md`.
 

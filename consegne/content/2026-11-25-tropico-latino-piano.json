@@ -1,0 +1,289 @@
+{
+ "cliente": "tropico-latino",
+ "firma": "MyCity · AD, 2026-11-25",
+ "pezzi": [
+  {
+   "chiave": "P1-margarita",
+   "tipo": "post",
+   "riga": "tropico-latino-20261206-1830",
+   "data_ora": "2026-12-06 18:30",
+   "foto": [
+    "_MG_0330.jpg"
+   ],
+   "didascalia": "Margarita classico: sale sul bordo e una fetta di lime. 🍋\nLo prepariamo al bancone dalle 18:30, da martedì a domenica. Se preferisci il frozen, c'è anche quello.\nDa bere con calma, magari con dei nachos da dividere.\n\n📍 Via Mazzini 77/A, Piacenza\n📞 Prenota: 0523 335932\n\n#eltropicolatino #piacenza #margarita #aperitivopiacenza",
+   "primo_commento": "Sale sul bordo: sì o no? 👇"
+  },
+  {
+   "chiave": "P2-bancone",
+   "tipo": "carosello",
+   "riga": "tropico-latino-20261211-1830",
+   "data_ora": "2026-12-11 18:30",
+   "foto": [
+    "_MG_0286.jpg",
+    "_MG_0267.jpg",
+    "_MG_0278.jpg",
+    "_MG_0292.jpg",
+    "_MG_0307.jpg"
+   ],
+   "didascalia": "Bienvenidos al bancone del Tropico. 🦜\nIl pappagallo sulla parete gialla, le bottiglie in fila, il legno del bancone: qui comincia la serata, dal 1992.\nAperitivo dalle 18:30, da martedì a domenica. La sangria c'è anche in caraffa, da dividere al tavolo.\nSfoglia le foto: tu da cosa cominci?\n\n📍 Via Mazzini 77/A, Piacenza\n📞 Prenota: 0523 335932\n\n#eltropicolatino #piacenza #aperitivopiacenza #sangria",
+   "primo_commento": "Bancone o tavolo: dove ti siedi? 👇"
+  },
+  {
+   "chiave": "P3-misto",
+   "tipo": "post",
+   "riga": "tropico-latino-20261204-1830",
+   "data_ora": "2026-12-04 18:30",
+   "foto": [
+    "_MG_0444.jpg"
+   ],
+   "didascalia": "Quando non sai scegliere: un piatto con un po' di tutto. 🌶️\nNachos con formaggio fuso e jalapeños, riso, una tortilla arrotolata, qualche fritto dorato e una salsa.\nCucina aperta dalle 19:00 alle 23:00, venerdì e sabato fino alle 23:30. Lunedì chiuso.\n\n📍 Via Mazzini 77/A, Piacenza\n📞 Prenota: 0523 335932\n\n#eltropicolatino #piacenza #cucinamessicana #cenapiacenza",
+   "primo_commento": "Nachos o fritti: da cosa cominci? 👇"
+  },
+  {
+   "chiave": "P4-burrito",
+   "tipo": "post",
+   "riga": "tropico-latino-20261217-1830",
+   "data_ora": "2026-12-17 18:30",
+   "foto": [
+    "_MG_0449.jpg"
+   ],
+   "didascalia": "Cinque burrito nel menu: il classico, de pollo, de verduras, del mar e de chile, il più piccante. 🌯\nQui accanto: insalata, pomodori, carote e mais. Tu quale scegli?\n\n📍 Via Mazzini 77/A, Piacenza\n📞 Prenota: 0523 335932\n\n#eltropicolatino #piacenza #burrito #cucinamessicana",
+   "primo_commento": "Il tuo burrito preferito? Scrivilo qui 👇"
+  },
+  {
+   "chiave": "P5-griglia",
+   "tipo": "post",
+   "riga": "tropico-latino-20261222-1830",
+   "data_ora": "2026-12-22 18:30",
+   "foto": [
+    "_MG_0431-centro.jpg"
+   ],
+   "didascalia": "Dalla griglia, con la sua salsa e una montagna di patatine a spirale. 🔥\nNel menu «A la grilla» ci sono dieci piatti, dalla Barbacoa alla Parrilla per 2 o più.\nA dicembre conviene prenotare.\n\n📍 Via Mazzini 77/A, Piacenza\n📞 Prenota: 0523 335932\n\n#eltropicolatino #piacenza #grigliata #cenapiacenza",
+   "primo_commento": "Barbacoa o Parrilla per 2 o più? 👇"
+  },
+  {
+   "chiave": "S1-margarita",
+   "tipo": "storia",
+   "riga": "tropico-latino-20261210-1915",
+   "data_ora": "2026-12-10 19:15",
+   "foto": [
+    "_MG_0330.jpg"
+   ],
+   "righe": [
+    {
+     "testo": "Margarita frozen o classico?",
+     "ruolo": "titolo"
+    },
+    {
+     "testo": "Rispondi qui sotto",
+     "ruolo": "sotto"
+    }
+   ],
+   "modello": "titolo"
+  },
+  {
+   "chiave": "S2-bienvenidos",
+   "tipo": "storia",
+   "riga": "tropico-latino-20261201-1845",
+   "data_ora": "2026-12-01 18:45",
+   "foto": [
+    "_MG_0286.jpg"
+   ],
+   "righe": [
+    {
+     "testo": "Bienvenidos al Tropico!",
+     "ruolo": "titolo"
+    },
+    {
+     "testo": "Via Mazzini 77/A · dal 1992",
+     "ruolo": "sotto"
+    }
+   ],
+   "modello": "cornice"
+  },
+  {
+   "chiave": "S3-aperitivo",
+   "tipo": "storia",
+   "riga": "tropico-latino-20261205-1900",
+   "data_ora": "2026-12-05 19:00",
+   "foto": [
+    "_MG_0278.jpg"
+   ],
+   "righe": [
+    {
+     "testo": "Aperitivo al bancone, si parte!",
+     "ruolo": "titolo"
+    },
+    {
+     "testo": "Da martedì a domenica, dalle 18:30",
+     "ruolo": "sotto"
+    }
+   ],
+   "modello": "titolo"
+  },
+  {
+   "chiave": "S4-prenota",
+   "tipo": "storia",
+   "riga": "tropico-latino-20261204-1900",
+   "data_ora": "2026-12-04 19:00",
+   "foto": [
+    "_MG_0449.jpg"
+   ],
+   "righe": [
+    {
+     "testo": "Prenota il tuo tavolo:",
+     "ruolo": "titolo"
+    },
+    {
+     "testo": "0523 335932",
+     "ruolo": "titolo"
+    },
+    {
+     "testo": "Per stasera e domani sera",
+     "ruolo": "sotto"
+    }
+   ],
+   "modello": "cornice"
+  },
+  {
+   "chiave": "S5-cucina",
+   "tipo": "storia",
+   "riga": "tropico-latino-20261209-1830",
+   "data_ora": "2026-12-09 18:30",
+   "foto": [
+    "_MG_0430.jpg"
+   ],
+   "righe": [
+    {
+     "testo": "Cucina aperta fino alle 23, nel weekend 23:30",
+     "ruolo": "titolo"
+    },
+    {
+     "testo": "Domenica fino alle 23 · si comincia alle 19:00 · lunedì chiuso",
+     "ruolo": "sotto"
+    }
+   ],
+   "modello": "titolo"
+  },
+  {
+   "chiave": "S6-weekend",
+   "tipo": "storia",
+   "riga": "tropico-latino-20261219-2130",
+   "data_ora": "2026-12-19 21:30",
+   "foto": [
+    "_MG_0267.jpg"
+   ],
+   "righe": [
+    {
+     "testo": "Venerdì e sabato aperti fino alle 2",
+     "ruolo": "titolo"
+    },
+    {
+     "testo": "Via Mazzini 77/A, Piacenza",
+     "ruolo": "sotto"
+    }
+   ],
+   "modello": "cornice"
+  },
+  {
+   "chiave": "R1-una-sera",
+   "tipo": "reel",
+   "riga": "tropico-latino-20261203-1900",
+   "data_ora": "2026-12-03 19:00",
+   "sequenza": [
+    [
+     "_MG_0286.jpg",
+     2.4
+    ],
+    [
+     "_MG_0267.jpg",
+     1.2
+    ],
+    [
+     "_MG_0278.jpg",
+     1.2
+    ],
+    [
+     "_MG_0330.jpg",
+     1.8
+    ],
+    [
+     "_MG_0292.jpg",
+     1.2
+    ],
+    [
+     "_MG_0307.jpg",
+     1.2
+    ],
+    [
+     "_MG_0430.jpg",
+     1.2
+    ],
+    [
+     "_MG_0399.jpg",
+     1.2
+    ],
+    [
+     "_MG_0449.jpg",
+     1.8
+    ],
+    [
+     "_MG_0444.jpg",
+     1.8
+    ],
+    [
+     "_MG_0437.jpg",
+     1.2
+    ],
+    [
+     "_MG_0431.jpg",
+     1.8
+    ]
+   ],
+   "intro": "Una sera al Tropico",
+   "outro": "Via Mazzini 77/A · Prenota 0523 335932",
+   "didascalia": "Una sera al Tropico, in venti secondi. 🦜\nIl bancone che si accende, un margarita, la sangria, la cucina che lavora e i piatti che arrivano al tavolo.\nSiamo in via Mazzini 77/A dal 1992: due sale, oltre 100 posti.\n\n📞 Prenota: 0523 335932\n\n#eltropicolatino #piacenza #cucinamessicana #cenapiacenza",
+   "primo_commento": "Con chi ci vieni la prossima volta? Taggalo 👇"
+  },
+  {
+   "chiave": "R3-cucina-tavolo",
+   "tipo": "reel",
+   "riga": "tropico-latino-20261215-1900",
+   "data_ora": "2026-12-15 19:00",
+   "sequenza": [
+    [
+     "_MG_0430.jpg",
+     2.4
+    ],
+    [
+     "_MG_0399.jpg",
+     1.8
+    ],
+    [
+     "_MG_0405.jpg",
+     1.8
+    ],
+    [
+     "_MG_0437.jpg",
+     1.8
+    ],
+    [
+     "_MG_0449.jpg",
+     1.8
+    ],
+    [
+     "_MG_0444.jpg",
+     1.8
+    ],
+    [
+     "_MG_0431.jpg",
+     1.8
+    ]
+   ],
+   "intro": "Dalla cucina al tavolo",
+   "outro": "Cucina aperta dalle 19:00",
+   "didascalia": "Dalla cucina al tavolo. 🌯\nBurritos, nachos, piatti dalla griglia: escono dalla nostra cucina e arrivano caldi da te.\nCucina aperta dalle 19:00 alle 23:00, venerdì e sabato fino alle 23:30. Lunedì chiuso.\n\n📞 Prenota: 0523 335932\n\n#eltropicolatino #piacenza #cucinamessicana #burrito",
+   "primo_commento": "Cosa ordini per primo? 👇"
+  }
+ ]
+}
