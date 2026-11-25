@@ -93,6 +93,7 @@ const FILE_EXTRA = ["cervello/calendario-editoriale.json"]; // file vivi fuori d
 // macchina che citano legittimamente i valori vecchi (registro stesso, report, lezioni).
 const ESENZIONI_DEFAULT = [
   "MyCity-Vault/90-Memoria-AI/DECISIONI.md",
+  "MyCity-Vault/90-Memoria-AI/Archivio/", // archivi per mese di DECISIONI, STATO, AZIONI, SALA: storia
   "MyCity-Vault/90-Memoria-AI/SALA-OPERATIVA.md",
   "MyCity-Vault/90-Memoria-AI/Briefing/",
   "MyCity-Vault/90-Memoria-AI/Report/",
