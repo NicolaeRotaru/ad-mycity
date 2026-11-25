@@ -1,6 +1,6 @@
 ---
 tipo: bacheca
-aggiornato: 2026-11-17 09:45
+aggiornato: 2026-11-25 18:57
 regole: cervello/sessioni-insieme.md
 ---
 
@@ -28,6 +28,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 25/11 ~18:24 e ~18:40 | sessione «Notifiche nella finestra» (`…N3dBK2XKzBk69xUxj`) | Quattro lavori sul sito. ① La campanella del pannello negozio mostra le ultime notifiche, non solo quante sono. ② Più account sullo stesso dispositivo, col cambio senza uscire: per tutti (cliente, negozio, fattorino, admin), nel menu dell'account, accessi salvati solo su quel dispositivo. ③ Il link col codice /preventivo/<codice> apre un pannello demo SENZA accesso, come la dashboard di Pane Quotidiano, col nome dell'attività; per abbonarsi si sceglie la fascia e si lascia l'email come prima. ④ Ogni fascia (Base, Business, Premium) apre il suo preventivo su misura; l'analisi più profonda la fa la sessione «Analisi subito…» (`…N9acTBU46fC5YpxTg`), non si rifà. PR in bozza: NicolaeRotaru/mycity#331 |
 | 25/11 ~18:30 | AD (`…KB64nj`) | Nel preventivo la descrizione dei servizi è corta, con lo stretto necessario che interessa a quell'attività. Il dettaglio dell'analisi sta nella pagina «Analisi» della demo |
 | 25/11 ~17:55 e ~18:20 | AD, la chat della Ragazzetta, come le due righe sotto (`…KB64nj`) | Nel preventivo e nella pagina «Analisi del business» della demo c'è l'analisi del business dell'attività, fatta come l'AD analizza MyCity come azienda: situazione, concorrenti vicini, clienti e reputazione, opportunità, rischi, prime mosse. Parte generale e parte specifica, solo fonti pubbliche prima dell'abbonamento. Al posto della pagella |
 | 25/11 ~17:52 | AD, la stessa chat della riga delle 17:40 (`…KB64nj`) | «Ok alle quattro scelte» su analisi, scheda e pagella. «Abbonamento fatto» vuol dire primo pagamento riuscito. Fuori dalla demo la pagella resta. Le schede già salvate non si usano prima dell'abbonamento. Domande e idee stanno nell'analisi, che parte subito |
