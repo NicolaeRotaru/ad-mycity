@@ -7522,3 +7522,11 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa:** resta la regola entrata con mycity#320 (unita il 25/11 alle 12:04). Lo staff non approva un negozio finché mancano nome, cognome, codice fiscale e data di nascita del titolare. Chiude la voce «La scelta dell'AD, da confermare» del 25/11 alle 00:20.
 - **Aperto:** la frase dei Termini sulla «verifica KYC (documento, codice fiscale, IBAN)», da far rivedere a legale-privacy.
 
+## 2026-11-25 17:38 — I messaggi Telegram divisi per gruppo, e per ogni negozio un argomento (🟡, fatto e avvisato)
+- **Chi e quando:** Nicola, in chat all'AD, 25/11. Prima «voglio avere una chat telegram per funzioni diverse», poi «fai la B, un solo posto per attività», «errori in un gruppo Tecnica; solo io», «1 Officina».
+- **Cosa:** tre gruppi Telegram con dentro solo Nicola e il bot: «Attività» con un argomento per negozio, «Marketplace» per il giro del mattino, «Tecnica» per scarti ed errori. Il flusso nuovo «97 · Scrivi nell'argomento dell'attività» è acceso su n8n. Cerca l'argomento nella tabella «Argomenti delle attività». Se non c'è, lo fa aprire all'Officina con `POST /telegram/argomento` (versione 1.2.0), dove sta la chiave del bot. L'analisi di un'attività (28) e le bozze (15) scrivono passando dal 97.
+- **Perché l'Officina:** la richiesta HTTP di n8n non sa usare la credenziale del bot nell'indirizzo di Telegram. Provato il 25/11 con una chiamata innocua: «Not Found».
+- **Finché i gruppi non ci sono non cambia niente:** con CHAT_ATTIVITA, CHAT_MARKETPLACE e CHAT_TECNICA vuoti si va nella chat privata.
+- **Aspetta Nicola:** unire NicolaeRotaru/N8N#9; ripubblicare l'Officina su Sliplane con `TELEGRAM_BOT_TOKEN`; creare i tre gruppi e mandare i numeri.
+- **Colore:** 🟡 (macchina n8n e Officina, reversibile, scrive solo a Nicola).
+
