@@ -1,6 +1,6 @@
 ---
 tipo: bacheca
-aggiornato: 2026-11-17 09:45
+aggiornato: 2026-11-25 18:57
 regole: cervello/sessioni-insieme.md
 ---
 
@@ -28,6 +28,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 25/11 ~18:24 e ~18:40 | sessione «Notifiche nella finestra» (`…N3dBK2XKzBk69xUxj`) | Quattro lavori sul sito. ① La campanella del pannello negozio mostra le ultime notifiche, non solo quante sono. ② Più account sullo stesso dispositivo, col cambio senza uscire. Vale per tutti: cliente, negozio, fattorino e admin. Il cambio sta nel menu dell'account. Gli accessi restano salvati solo su quel dispositivo. ③ Il titolare che riceve la proposta vede il pannello del suo negozio in demo, senza accesso. È come la dashboard di Pane Quotidiano, col nome dell'attività. Per abbonarsi si sceglie la fascia e si lascia l'email, come prima. ④ Ogni fascia apre il suo preventivo su misura. L'analisi più profonda la fa la sessione «Analisi subito…» (`…N9acTBU46fC5YpxTg`): non si rifà. PR in bozza: NicolaeRotaru/mycity#331 |
 | 25/11 ~18:40 | AD (`…UV9py6`) | Quando inserisce un cliente nuovo col modulo 12 di n8n, su MyCity nasce la sua demo col preventivo fatto bene: analisi subito, preventivo cucito, servizi corti. Passato alla sessione «Analisi subito, scheda e pagella dopo l'abbonamento» (`…N9acTB`) alle 18:49, con tre aggiunte: il messaggio del flusso 20, le descrizioni corte, la prova vera su La Ragazzetta. Alle 18:51 quella sessione aveva finito il contesto: le tre aggiunte le ha prese «Preventivo corto, avviso del flusso 20 e prova vera» (`…MqhKbm`) |
 | 25/11 ~18:30 | AD (`…KB64nj`) | Nel preventivo la descrizione dei servizi è corta, con lo stretto necessario che interessa a quell'attività. Il dettaglio dell'analisi sta nella pagina «Analisi» della demo |
 | 25/11 ~17:55 e ~18:20 | AD, la chat della Ragazzetta, come le due righe sotto (`…KB64nj`) | Nel preventivo e nella pagina «Analisi del business» della demo c'è l'analisi del business dell'attività, fatta come l'AD analizza MyCity come azienda: situazione, concorrenti vicini, clienti e reputazione, opportunità, rischi, prime mosse. Parte generale e parte specifica, solo fonti pubbliche prima dell'abbonamento. Al posto della pagella |

@@ -1271,3 +1271,11 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Chi e quando:** Nicola, in chat all'AD, 25/11 verso le 18:30. Parole sue: «dentro il preventivo la descrizione dei servizi deve essere corta e con lo stretto necessario che gli interessa».
 - **Cosa:** ogni servizio del preventivo si legge in poche righe, solo con quello che interessa a quell'attività. Vale anche per l'analisi del business nel preventivo, il cui dettaglio sta nella pagina «Analisi» della demo.
 - **Dove:** fatto `agenzia.analisi-e-scheda` (coerenza verde), regola 6 del brief, detta alla sessione `session_01R8112N9acTBU46fC5YpxTg`.
+
+## 2026-11-25 18:57 — Campanella con le notifiche, più account, demo dal link, un preventivo per fascia (🟡, decisioni di Nicola)
+- **Chi e quando:** Nicola, in chat alla sessione «Notifiche nella finestra» (`session_01R8112N3dBK2XKzBk69xUxj`), 25/11 dalle 18:24. Parole sue: «dentro la finestra delle notifiche in alto a destra siano visibili le ultime notifiche»; «aggiungi la possibilità di avere più account e fare lo swic senza doversi disconettere»; «che il link del preventivo ti porti ad una demo come quella di pane quotidiano»; «che il link all'abbonamento sia il preventivo personalizzato in base all'azienda e all'abbonamento».
+- **Le sue scelte (domande con risposta, tutte sulla strada consigliata):** pannello demo senza accesso; ogni fascia apre il suo preventivo; l'analisi non si rifà, si usa quella della sessione «Analisi subito…»; più account per tutti, nel menu dell'account, salvati solo sul dispositivo.
+- **Cosa è stato fatto:** codice in un ramo del sito, con una prova per ognuno dei quattro lavori, rossa sul codice vecchio. PR in bozza NicolaeRotaru/mycity#331. Nessun deploy.
+- **Perché è 🟡:** cambia il codice del sito in un ramo; il punto 2 tocca l'accesso. Per questo c'è un collaudo con due lenti: accessi e pagina pubblica.
+- **Scelte tecniche dell'AD (da far vedere a Nicola):** «Esci» dimentica tutti gli account salvati su quel dispositivo, così un computer condiviso non resta con le chiavi di nessuno. Un accesso salvato si prova a parte prima di installarlo, perché la libreria dell'accesso altrimenti farebbe uscire anche l'account attivo. Al cambio, il carrello dell'account che si lascia sale sul server e non passa all'altro.
+
