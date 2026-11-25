@@ -99,7 +99,7 @@ if (import.meta.url === `file://${process.argv[1]}` && process.argv.includes("--
     console.error("❌ il registro delle decisioni non esiste: qualunque atto reale è senza traccia.");
     process.exit(1);
   }
-  const r = riscontroTracce(readFileSync(LOG, "utf8"), readFileSync(DEC, "utf8"));
+  const r = riscontroTracce(readFileSync(LOG, "utf8"), (await import("./archivio-decisioni.mjs")).leggiDecisioniTutte(DEC));
   if (r.ok) {
     console.log(`✅ ${r.reali} pubblicazioni reali, ${r.con_traccia} con la loro riga in DECISIONI.md.`);
     process.exit(0);
