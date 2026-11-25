@@ -10,11 +10,13 @@ import { creaLavoro } from "@/lib/store";
 import { isCanaleGithub } from "@/lib/github-pr-merge";
 import { esaminaOnesta, riassuntoViolazioni } from "@/lib/onesta-check";
 import { readRepoFile } from "@/lib/vault";
+import { mandaAN8n, type FirmataDa } from "@/lib/mani-n8n";
 
 export type EsitoStato = "fatta" | "simulata" | "coda";
 export type Esito = { stato: EsitoStato; dettaglio: string };
 
-type AzioneEseguibile = { titolo: string; canale: string; destinatario?: string; testo: string };
+// `livello` e `firmataDa` servono alle mani in n8n: un 🔴 parte solo se l'ha firmato Nicola (mani-n8n.ts).
+type AzioneEseguibile = { id?: string; titolo: string; canale: string; destinatario?: string; testo: string; livello?: string; firmataDa?: FirmataDa };
 
 export { isCanaleGithub };
 
@@ -102,8 +104,10 @@ export async function eseguiAzione(a: AzioneEseguibile): Promise<Esito> {
       : { stato: "coda", dettaglio: "Memoria non collegata (tabella 'lavori'): impossibile passare il merge al worker." };
   }
 
+  // 25/11/2026: ogni canale che non è email né GitHub passa alle mani in n8n (flusso «23 · Mani del
+  // Pannello»). Senza N8N_WEBHOOK_URL resta in coda come prima.
   if (!isEmail(a.canale)) {
-    return { stato: "coda", dettaglio: `Canale "${a.canale || "non indicato"}" non ancora collegato: resta in coda.` };
+    return mandaAN8n(a);
   }
   if (!a.destinatario) {
     return { stato: "coda", dettaglio: "Manca l'indirizzo email del destinatario: resta in coda." };

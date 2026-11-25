@@ -16,6 +16,7 @@
 import { existsSync, readFileSync, appendFileSync } from "node:fs";
 import { join } from "node:path";
 import { AD_ROOT } from "./git-github.mjs";
+import { leggiDecisioniTutte } from "./archivio-decisioni.mjs";
 
 const DRY = process.argv.includes("--dry");
 const DECISIONI = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/DECISIONI.md");
@@ -55,7 +56,7 @@ if (!existsSync(DECISIONI)) {
   process.exit(1);
 }
 
-if (readFileSync(DECISIONI, "utf8").includes(FIRMA)) {
+if (leggiDecisioniTutte(DECISIONI).includes(FIRMA)) {
   console.log("✓ Già in memoria: la riga del round 3 è in DECISIONI.md (niente da fare).");
   process.exit(0);
 }

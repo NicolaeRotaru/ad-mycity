@@ -181,9 +181,23 @@ function inventarioCodice() {
     perNome.get(x.nome).push(x.rel);
   }
   const nomi = [...perNome.keys()];
+  // Cartelle caricate tutte insieme (per esempio cervello/capacita/, letta dal suo indice): chi nomina la
+  // cartella fa vivere tutti i suoi file. Solo nomi lunghi almeno 6, e mai la cartella delle prove.
+  const perCartella = new Map();
+  for (const x of info.values()) {
+    const parti = x.rel.split('/');
+    if (parti.length < 3) continue;
+    const cartella = parti[1];
+    if (cartella.length < 6 || cartella === 'test') continue;
+    if (!perCartella.has(cartella)) perCartella.set(cartella, []);
+    perCartella.get(cartella).push(x.rel);
+  }
   const nominati = (testo) => {
     const out = new Set();
     for (const n of nomi) if (testo.includes(n)) for (const rel of perNome.get(n)) out.add(rel);
+    for (const [cartella, file] of perCartella) {
+      if (new RegExp(`["'/]${cartella}["'/]`).test(testo)) for (const rel of file) out.add(rel);
+    }
     return out;
   };
 
@@ -194,6 +208,8 @@ function inventarioCodice() {
     ...elencaFile(join(RADICE, 'pannello'), (p) => /\.(ts|tsx|js|mjs|json)$/.test(p)),
     join(RADICE, 'package.json'),
     join(RADICE, '.claude', 'settings.json'),
+    // Le prove delle schede chiuse le rifà la suite della CI: i programmi citati lì girano davvero.
+    join(MEMORIA, 'auto-coscienza', 'cantiere-difetti.json'),
   ]);
   const aMano = testi([
     join(RADICE, 'CLAUDE.md'), join(RADICE, 'COMANDI.md'), join(CERVELLO, 'MANUALE-AD.md'),
@@ -370,10 +386,10 @@ function pagina({ n8n, negozi, codice, peso }) {
   L.push('Il programma parte dagli ingressi veri e segue chi nomina chi. Gli ingressi sono di tre tipi.');
   L.push('Da fuori: GitHub e il Pannello. A mano: i manuali, le skill e i senior. Solo server: il server del worker.');
   L.push(`Un file che nessuno nomina è orfano. In \`cervello/\` ci sono ${fmt(r.totale.file)} file di programma, con ${fmt(r.totale.righe)} righe.`, '');
-  L.push('Le prove stanno nella riga del codice che provano: una prova di un file orfano è orfana anche lei.', '');
-  L.push('| Chi lo fa partire | Programmi | Righe | Prove | Righe delle prove |');
+  L.push('Le prove girano tutte nella CI, perché la suite prende la cartella intera. Nella tabella ogni prova sta nella riga del codice che prova.', '');
+  L.push('| Chi lo fa partire | Programmi | Righe | Le loro prove | Righe delle prove |');
   L.push('| --- | --- | --- | --- | --- |');
-  const nomeCat = { da_fuori: 'Da fuori (GitHub, Pannello, hook)', a_mano: 'A mano (manuali, skill, senior)', solo_server: 'Solo il server, spento per sempre', orfano: 'Nessuno: orfano' };
+  const nomeCat = { da_fuori: 'Da fuori (GitHub, Pannello, hook, prove delle schede)', a_mano: 'A mano (manuali, skill, senior)', solo_server: 'Solo il server, spento per sempre', orfano: 'Nessuno, a parte le sue prove' };
   for (const cat of ['da_fuori', 'a_mano', 'solo_server', 'orfano']) {
     L.push(`| ${nomeCat[cat]} | ${fmt(r[cat].programmi.file)} | ${fmt(r[cat].programmi.righe)} | ${fmt(r[cat].prove.file)} | ${fmt(r[cat].prove.righe)} |`);
   }
