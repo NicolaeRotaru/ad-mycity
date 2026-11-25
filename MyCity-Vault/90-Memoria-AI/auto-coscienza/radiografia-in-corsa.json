@@ -8047,6 +8047,46 @@
       }
     },
     {
+      "quando": "2026-11-25 13:28",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/archivio-decisioni.mjs": "6c60f414e39c",
+        "cervello/coerenza-fatti.mjs": "96bf5ff87887",
+        "cervello/conflitti-memoria.mjs": "0c8393d9eb74",
+        "cervello/guardiano-tempo.mjs": "107bc2a98c1b",
+        "cervello/macchina-del-tempo.mjs": "9150fa9288c1",
+        "cervello/onesta-ambito.mjs": "c03047390984",
+        "cervello/perimetro-conteggi.mjs": "780739d4e571",
+        "cervello/programma-intelligenza-memoria.mjs": "6fb8003c6286",
+        "cervello/registra-programma-intelligenza.mjs": "de48de42bee8",
+        "cervello/registra-riverifica-programma.mjs": "6d07962c39e0",
+        "cervello/round3-memoria.mjs": "910c537e2eb6",
+        "cervello/tasso-lezioni.mjs": "205263bc010f",
+        "cervello/traccia-decisione.mjs": "f217b9d867b6"
+      }
+    },
+    {
+      "quando": "2026-11-25 13:28",
+      "casa": "pannello",
+      "dimensione": "coerenza-azioni",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "pannello/src/app/api/memoria/decisioni/route.ts": "6f46aa6f1aa1"
+      }
+    },
+    {
       "quando": "2026-11-25 14:03",
       "casa": "macchina",
       "dimensione": "rischio-sicurezza-se",
