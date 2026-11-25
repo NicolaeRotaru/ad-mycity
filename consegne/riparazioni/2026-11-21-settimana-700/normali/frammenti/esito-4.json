@@ -1,0 +1,48 @@
+{
+  "corsia": 4,
+  "territorio": "R04",
+  "difetti": [
+    {
+      "chiave": "api-backend|la memoria degli allarmi (operational_alert_log) non si pulisce mai",
+      "esito": "riparato",
+      "verifica_comando": "bash tests/sql/harness/apply.sh r04_prova && psql -X -d r04_prova -v ON_ERROR_STOP=1 -f tests/sql/rls/riparazione-r04-allarmi.test.sql",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 98e4568f^ --file migrations/660_la_memoria_degli_allarmi_si_pulisce_da_sola.sql --prove tests/sql/rls/riparazione-r04-allarmi.test.sql --sql r04_rimessa --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 98e4568f^ --file migrations/660_la_memoria_degli_allarmi_si_pulisce_da_sola.sql --prove tests/sql/rls/riparazione-r04-allarmi.test.sql --sql k02_r04_rimessa --json → uscita 0 (K02)",
+      "nota_fix": "Migrazione nuova 660: un trigger FOR EACH STATEMENT dopo INSERT/UPDATE su operational_alert_log cancella le righe con last_sent_at più vecchio di 24 ore (SKIP LOCKED). Le 24 ore sono l'attesa più lunga che il codice legge in quella memoria (ATTESA_DI_UN_GIORNO_ORE=24, ORE_SILENZIO_CARRELLO=24). Esclusa 'ai-tetto-condiviso:ripiego-da' (lib/ai/tettoSpesa.ts), che deve durare quanto il guasto. Niente pg_cron (il deposito non lo usa). EXECUTE revocato a PUBLIC, anon, authenticated. Non applicata: lo decide Nicola."
+    },
+    {
+      "chiave": "microcopy|nella pagina dei punti restano «streak», «referral» e «checkout»",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r04-punti-in-italiano.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 0e025881^ --file app/profile/loyalty/page.tsx --prove tests/unit/riparazione-r04-punti-in-italiano.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 0e025881^ --file app/profile/loyalty/page.tsx --prove tests/unit/riparazione-r04-punti-in-italiano.test.tsx  --json → uscita 0 (K02)",
+      "nota_fix": "Streak diventa «giorni di fila» (scheda, record, movimenti, «Come accumuli punti»), referral «amico invitato» / «codice di invito», checkout «alla cassa». La prova disegna la pagina vera e legge il testo visibile; per la lista «Come accumuli punti», accesa solo coi punti accesi, legge le frasi dal sorgente. Giro di correzione (3e6e71a8): «in cassa» come nel resto del sito, «con il tuo codice» come in app/profile/referral."
+    },
+    {
+      "chiave": "microcopy|alcuni errori di zod arrivano ancora in inglese: «invalid input» di un'unione, chiavi non riconosciute, literal sbagliato, refine senza messaggio",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r04-zod-in-italiano.test.ts --reporter=dot",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 8ef975e4d27ea8695fe58ee7ae746ee02376dc38^ --file lib/zod-i18n.ts --prove tests/unit/riparazione-r04-zod-in-italiano.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 8ef975e4d27ea8695fe58ee7ae746ee02376dc38^ --file lib/zod-i18n.ts --prove tests/unit/riparazione-r04-zod-in-italiano.test.ts  --json → uscita 0 (K02)",
+      "nota_fix": "Messaggi italiani per invalid_union e invalid_literal («Valore non valido»), unrecognized_keys («C’è un campo che non serve qui» / «Ci sono N campi che non servono qui», senza nominare le chiavi) e custom senza messaggio. Un refine col suo messaggio resta il suo. Prova con schemi zod veri (unione, strict, literal, refine, superRefine)."
+    },
+    {
+      "chiave": "qa-flussi|una voce della chat sul campanello può restare accesa anche se la chat è stata letta mentre era aperta",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r04-campanella-letta-nel-mezzo.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 46b8f43f^ --file app/api/chat/messages/route.ts --prove tests/unit/riparazione-r04-campanella-letta-nel-mezzo.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 46b8f43f^ --file app/api/chat/messages/route.ts --prove tests/unit/riparazione-r04-campanella-letta-nel-mezzo.test.ts  --json → uscita 0 (K02)",
+      "nota_fix": "Dopo aver scritto la voce del campanello la rotta rilegge il contatore dei non letti: se è a 0 (chat letta nel frattempo) spegne la voce appena scritta. Se la lettura arriva dopo, la spegne mark-read, che azzera il contatore prima di spegnere le voci. Prova sulla rotta vera con supabase finto, con la lettura che cade tra la lettura del contatore e la scrittura della voce. Giro di correzione (023a2977): la voce nuova ha un id generato dalla rotta (crypto.randomUUID()) e lo spegnimento filtra solo per quell’id, così una voce arrivata nel frattempo non si spegne; la prova copre anche rilettura caduta, contatore riletto a 2 e voce arrivata nel frattempo. Mutanti a mano: null come zero → rosso; <= 2 → rosso; filtro largo senza id → rosso."
+    },
+    {
+      "chiave": "qa-flussi|sulla bacheca del fattorino un «accetta» perso lascia l'ordine in elenco fino a un minuto, e fa girare tutti i pulsanti insieme",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r04-presa-ordine.test.tsx --reporter=dot ; psql -X -d r04_prova -v ON_ERROR_STOP=1 -f tests/sql/rls/riparazione-r04-presa-persa.test.sql",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 0dd2c82a^ --file app/rider/page.tsx --prove tests/unit/riparazione-r04-presa-ordine.test.tsx --json ; timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 0dd2c82a^ --file migrations/661_la_presa_persa_dice_se_l_ha_preso_un_altro.sql --prove tests/sql/rls/riparazione-r04-presa-persa.test.sql --sql r04_rimessa --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 0dd2c82a^ --file app/rider/page.tsx --prove tests/unit/riparazione-r04-presa-ordine.test.tsx  --json && timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 0dd2c82a^ --file migrations/661_la_presa_persa_dice_se_l_ha_preso_un_altro.sql --prove tests/sql/rls/riparazione-r04-presa-persa.test.sql --sql k02_r04_rimessa --json → uscita 0 (K02)",
+      "nota_fix": "In pagina una presa persa (GIA_PRESO o NON_PIU_DISPONIBILE) toglie subito l'ordine dalla bacheca in memoria e la rilegge; gira solo il pulsante dell'ordine premuto, gli altri restano spenti senza rotella (una presa alla volta, come alla base). Migrazione nuova 661: prendi_ordine dice GIA_PRESO solo se l'ordine ha un altro fattorino, NON_PIU_DISPONIBILE negli altri casi; la presa atomica e i controlli NON_FATTORINO e DOCUMENTI_SCADUTI restano uguali alla 270. Due prove rimesse (vitest e SQL), tutte e due uscita 0. Finché la 661 non è applicata, un ordine annullato risponde ancora GIA_PRESO."
+    },
+    {
+      "chiave": "stati-ui|sulla bacheca del fattorino, se la lettura dello stato online cade, la pagina scrive «sei offline» invece di dire che non lo sa; anche il voto ignora l’errore",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r04-stato-online.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base f6dc1586^ --file app/rider/page.tsx --prove tests/unit/riparazione-r04-stato-online.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base f6dc1586^ --file app/rider/page.tsx --prove tests/unit/riparazione-r04-stato-online.test.tsx  --json → uscita 0 (K02)",
+      "nota_fix": "Lo stato online ha tre valori (online, offline, non-so): senza un dato letto non si scrive mai «Sei offline». Lettura caduta = isError, failureCount > 0 o fetchStatus 'paused': la pagina dice «Non so se sei online» con «Riprova»; durante la prima lettura «Controllo se sei online…». Il voto segue la stessa regola. Alla base 4 casi su 5 della prova sono rossi."
+    }
+  ]
+}

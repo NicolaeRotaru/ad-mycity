@@ -1,0 +1,513 @@
+{
+  "collaudatore": "K04",
+  "riparatori": [
+    "R03",
+    "R10",
+    "R12"
+  ],
+  "aggiornato": "2026-11-22 05:50",
+  "finita": true,
+  "voci": [
+    {
+      "id": "R03-004",
+      "chiave": "api-backend|due allarmi del giro notturno delle cancellazioni si ripetono ogni notte a ogni amministratore",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 489543c2^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r03-allarmi-della-notte.test.ts --json"
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Allarme «dati vecchi non cancellati» con chiave stabile (route.ts:585), notte resta 500; tolta la chiave la prova va rossa (3 su 3). Residuo fuori voce: l'allarme non si chiude mai, se il guasto torna dopo la lettura non compare una riga nuova."
+    },
+    {
+      "id": "R03-003",
+      "chiave": "api-backend|allarme 'persone non avvisate' riscritto ogni notte, senza dire chi: la stessa classe chiusa per le email resta aperta qui",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base bfc33235^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r03-persone-non-avvisate.test.ts --json (worktree a bfc33235)"
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Giro 2 (bfc33235): «Persone non avvisate» si chiude con lo stesso id con cui nasce (route.ts:928 contro :859-861); resta aperto se la persona aspetta ancora e non è avvisata, si chiude con la spiegazione nel pannello o se non aspetta più, resta aperto se la lettura fallisce; chiamata nei due percorsi (:214, :345). Notte rossa solo quando l'allarme nasce o non si scrive (:403-407), coerente con le email ferme; il guasto che continua resta visibile (allarme aperto, avvisiFalliti). 6 mutanti rossi; resta verde «pannello illeggibile, allora chiudi» (:865): codice giusto, manca il caso nella prova (minore).",
+      "nota_rimessa": "Giro 2, dalla base prima del primo commit della voce alla testa bfc33235: uscita 0 — timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 665234dd^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r03-persone-non-avvisate.test.ts --json (worktree a bfc33235)"
+    },
+    {
+      "id": "R03-006",
+      "chiave": "api-backend|l'allarme «scrivile tu» resta aperto per sempre se la persona esce dall'elenco della notte",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 3cc4248b^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r03-scrivile-tu-si-chiude.test.ts --json (worktree a bfc33235)"
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Giro 2: il commit 5ea27bdf aggiunge il caso della persona oltre il mese col termine scaduto che deve restare aperto. Il mutante «solo rinviata» alla testa bfc33235 ora fa 1 rossa su 8 sulla sola prova della voce. La chiusura rifatta in bfc33235 (titolo e segno come parametri, predefinito «scrivile tu») tiene le prove verdi.",
+      "nota_rimessa": "Giro 2: rimessa del codice di 3cc4248b alla testa bfc33235 con la prova nuova; mutanti di K04 rifatti alla testa sulla sola prova riparazione-r03-scrivile-tu-si-chiude.test.ts: senza filtro titolo 7 rosse su 8, solo «rinviata» 1 rossa su 8, senza filtro is_read verde (innocuo: rimette letto su allarmi già letti)."
+    },
+    {
+      "id": "R03-007",
+      "chiave": "api-backend|la chiusura dell allarme «scrivile tu» legge al massimo 200 avvisi senza ordine né filtro: oltre 200, quelli aperti possono restare fuori",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 3cc4248b^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r03-scrivile-tu-si-chiude.test.ts --json (worktree a bfc33235)"
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Giro 2: il commit e4ecc08b aggiunge il caso di «Persone non avvisate» con «Chi aspetta» che deve restare aperto. Il mutante senza filtro sul titolo alla testa bfc33235 ora fa 7 rosse su 8 sulla sola prova della voce. Senza filtro is_read resta verde, innocuo (rimette letto su allarmi già letti).",
+      "nota_rimessa": "Giro 2: rimessa del codice di 3cc4248b alla testa bfc33235 con la prova nuova; mutanti di K04 rifatti alla testa sulla sola prova riparazione-r03-scrivile-tu-si-chiude.test.ts: senza filtro titolo 7 rosse su 8, solo «rinviata» 1 rossa su 8, senza filtro is_read verde (innocuo: rimette letto su allarmi già letti)."
+    },
+    {
+      "id": "R03-008",
+      "chiave": "api-backend|quando la notte finisce il tempo delle email, l'allarme agli amministratori conta come «non partite» anche le spiegazioni gia' arrivate per email nelle notti prima",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base f9a54ab5^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r03-email-gia-partite.test.ts --json"
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "emailGiaPartita legge il registro invii con la stessa azione e target della libreria (lib/privacy/avvisi-a-chi-aspetta.ts:384-391); mutanti «conta tutte», «nessun filtro», «allarme sempre» rossi. Minore: N letture in fila a tempo email già scaduto."
+    },
+    {
+      "id": "R03-001",
+      "chiave": "api-backend|con taglie alla stessa posizione la traccia può segnare un riordino che non c'è",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 9dbcc052^ --file app/api/admin/products/route.ts --prove tests/unit/riparazione-r03-taglie-stessa-posizione.test.ts --json (worktree a 9dbcc052)"
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Giro 2 (9dbcc052): taglieCambiate (app/api/admin/products/route.ts:155-163) segna se cambia l'insieme o se due posizioni di prima strettamente diverse arrivano invertite; ragionata sul salvataggio vero (persistVariantsServer.ts:85-91, posizioni 0..n-1). Riordini veri segnati (scambio, spostamento in mezzo, aggiunta + riordino), finti no (pari posizione, posizioni con buchi); stesso nome con opzioni diverse distinte. 3 mutanti rossi; resta verde «togli le opzioni dal confronto» (route.ts:126): codice giusto, manca il caso nella prova (minore).",
+      "nota_rimessa": "Giro 2, dalla base prima del primo commit della voce alla testa bfc33235: uscita 0 — timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 41992655^ --file app/api/admin/products/route.ts --prove tests/unit/riparazione-r03-taglie-stessa-posizione.test.ts --json (worktree a bfc33235)"
+    },
+    {
+      "id": "R03-002",
+      "chiave": "api-backend|se un promemoria del carrello viene saltato, il rilascio del segno può cancellare anche il segno di un carrello cambiato nel frattempo",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base a6ecae54^ --file app/api/cron/abandoned-carts/route.ts --prove tests/unit/riparazione-r03-rilascio-segno-carrello.test.ts --json"
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Il rilascio del segno filtra anche su last_activity (app/api/cron/abandoned-carts/route.ts:241-247), come gli altri due punti che scrivono il segno; prove vicine verdi."
+    },
+    {
+      "id": "R03-014",
+      "chiave": "api-backend|un rifiuto per troppe richieste della ricerca indirizzi fa salvare l'indirizzo senza coordinate per sempre",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 81ba580d^ --file app/profile/addresses/page.tsx --prove tests/unit/riparazione-r03-indirizzo-429.test.tsx --json (worktree a 81ba580d)"
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Giro 2 (81ba580d): con lo stesso indirizzo e coordinate buone non si cerca e il 429 non blocca (2 mutanti rossi); su indirizzo cambiato non salva mai coordinate vecchie (via, città, CAP alla lettera, app/profile/addresses/page.tsx:70-71; spazi o maiuscole diversi rifanno la ricerca, prudente). Minore: coordinate non vuote ma sbagliate dello stesso indirizzo non si aggiornano più. Resta, come dichiarato, components/StoreLocationPicker.tsx:169-172: sul 429 il negoziante legge ancora «Indirizzo non trovato».",
+      "nota_rimessa": "Giro 2, dalla base prima del primo commit della voce alla testa bfc33235: uscita 0 — timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base b1f99d1d^ --file app/profile/addresses/page.tsx --prove tests/unit/riparazione-r03-indirizzo-429.test.tsx --json (worktree a bfc33235)"
+    },
+    {
+      "id": "R12-006",
+      "chiave": "layout-responsive|sul tablet col testo al 200% «dichiarazione accessibilità» esce dal piede e la pagina scorre di lato",
+      "verdetto": "rompe_altro",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 87941fbf^ --file components/Footer.tsx --prove tests/unit/riparazione-r12-footer.test.ts --comando \"npx vitest run {prove} --reporter=dot -t R12-006\" --json (worktree a 16fc7e09)"
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Giro 2 (e9a96af4): nessun testo esce più dalla colonna e nessuna sovrapposizione (/about a 768, 900, 1280 al 200% e 768, 1024, 1280 al 100%; a 1024 al 200% la barra in alto, dichiarata). Ma la correzione schiaccia le icone delle categorie del piede: a 768 al 200% passano da 14 a 4-8 px (a 63e85883 erano 14), manca shrink-0 sull'icona (components/Footer.tsx:273, :280). Inoltre al 100% «Pia-cenza» ora si spezza nel paragrafo del marchio (hyphens-auto anche sui paragrafi), e al 200% si spezzano a metà anche le voci di categoria («Bel-lezz-a», «Cas-a &»), non solo titoli e logo come dichiarato.",
+      "nota_rimessa": "Giro 2: dalla base prima del primo commit della voce alla testa 16fc7e09, con le prove filtrate sul nome della voce (-t R12-006), perché più voci condividono file e prove (pagine-200 porta 001, 002, 004, 007)."
+    },
+    {
+      "id": "R12-010",
+      "chiave": "navigazione-gerarchia|il piè di pagina passa dall h1 all h3 su ogni pagina pubblica senza un h2 nel contenuto",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 0bb8e7ef^ --file components/Footer.tsx --prove tests/unit/riparazione-r12-footer.test.ts --json"
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "h2 sr-only prima degli h3 del piede (components/Footer.tsx:217); il piede è unico, reso da app/layout.tsx:286 (assente solo nell'area pro); la regola h2 di globals.css non lo rende visibile."
+    },
+    {
+      "id": "R12-001",
+      "chiave": "layout-responsive|in chi siamo a 280 px col testo al 200% il titolo «come siamo arrivati qui» entra nel margine destro",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 50f5b47e^ --file app/about/page.tsx --prove tests/unit/riparazione-r12-pagine-200.test.ts --json"
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Misurato: a 280 px al 200% il titolo «Come siamo arrivati qui» occupava 48-277 su colonna 48-232, ora 48-232; a 320 al 200%, 375, 768 al 200% e 1280 tutto dentro, larghezza pagina uguale allo schermo."
+    },
+    {
+      "id": "R12-002",
+      "chiave": "layout-responsive|a 280 px col testo al 200% scorrono di lato anche faq, negozi, resi e lavora con noi",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base b04a677d^ --file app/stores/page.tsx,app/faq/page.tsx,app/returns/page.tsx,app/lavora-con-noi/page.tsx --prove tests/unit/riparazione-r12-pagine-200.test.ts --comando \"npx vitest run {prove} --reporter=dot -t R12-002\" --json (worktree a 16fc7e09)"
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Giro 2 (47bde5b2 + parte resi in 16fc7e09): faq, resi e riquadri di lavora con noi tengono il testo dentro a 280 e 320 al 200%, nessuno sbordo a 375/768/1280 al 100%. cosa_resta è esatto: /stores a 381 px per l'h1 di components/CollectionHeader.tsx:80 e il testo che esce dai bottoni del banner dei cookie. Minore: il paragrafo «Scrivici comunque» di lavora con noi esce dal suo paragrafo (resta nel riquadro scuro), nato dal cambio di dimensione di R12-014.",
+      "nota_rimessa": "Giro 2: dalla base prima del primo commit della voce alla testa 16fc7e09, con le prove filtrate sul nome della voce (-t R12-002), perché più voci condividono file e prove (pagine-200 porta 001, 002, 004, 007). 16fc7e09 porta 004 e la parte resi di 002: col filtro si separano (ognuna rossa sui propri file)."
+    },
+    {
+      "id": "R12-004",
+      "chiave": "layout-responsive|in lavora con noi, a 280 px col testo grande, le righe delle posizioni restano strettissime: il titolo e «candidati» vanno quasi una lettera per riga",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 6a87c607^ --file app/lavora-con-noi/page.tsx --prove tests/unit/riparazione-r12-pagine-200.test.ts --comando \"npx vitest run {prove} --reporter=dot -t R12-004\" --json (worktree a 16fc7e09)"
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Giro 2 (d6b03f13 + 16fc7e09): larghezza pagina uguale allo schermo a 280, 300, 301, 320, 340, 375 al 200% e a 280, 320, 375, 768 al 100%; «Candidati» sempre in una riga; il titolo si allarga in modo continuo (201, 216, 230, 245, 270 px), niente più gradino a 300 px; nessun testo esce dal riquadro.",
+      "nota_rimessa": "Giro 2: dalla base prima del primo commit della voce alla testa 16fc7e09, con le prove filtrate sul nome della voce (-t R12-004), perché più voci condividono file e prove (pagine-200 porta 001, 002, 004, 007). 16fc7e09 porta 004 e la parte resi di 002: col filtro si separano (ognuna rossa sui propri file)."
+    },
+    {
+      "id": "R12-011",
+      "chiave": "qa-flussi|altre due ancore sommano il loro scroll-mt allo scroll-padding da md in su",
+      "verdetto": "non_regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Già riparato solo a metà: il registro nomina app/faq/page.tsx:229 (a posto già alla base, :231) e components/seller/DatiPerIBonifici.tsx:65, che alla base 1ad51b4c e alla testa ha ancora scroll-mt-24 senza md:scroll-mt-0 e si somma allo scroll-padding di globals.css:200 (ci atterra /seller/profile#bonifici da app/seller/earnings/page.tsx:246). Il riparatore ha citato app/lavora-con-noi/page.tsx:181, che non è nella voce."
+    },
+    {
+      "id": "R12-013",
+      "chiave": "qa-flussi|nella pagina dei negozi, se la lettura delle categorie cade, i filtri spariscono senza avviso",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base c3162108^ --file app/stores/page.tsx --prove tests/unit/riparazione-r12-negozi-categorie.test.tsx --json"
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "L'avviso esce per errore delle categorie, delle categorie per negozio e per una finestra caduta dopo la prima (lib/supabase/blocchi.ts:84). Residuo fuori voce: se cadono sia store_cards sia il ripiego prodotti nessun avviso (app/stores/page.tsx, productsRes.error)."
+    },
+    {
+      "id": "R12-009",
+      "chiave": "layout-responsive|basta un negozio col nome lungo e sul telefono la home, l'elenco negozi e «vicino a te» diventano più larghe dello schermo",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base c2b7c9f0^ --file components/StoreListRow.tsx,components/StorePreviewCard.tsx --prove tests/unit/riparazione-r12-nome-lungo.test.ts --comando \"npx vitest run {prove} --reporter=dot -t R12-009\" --json (worktree a 16fc7e09)"
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Giro 2 (d90b94db): il rompe_altro è chiuso, il nome non sparisce più (colonna del nome 142/182/197 px a 280/320/375 al 200%; al 100% logo, nome e freccia sulla stessa riga; niente esce dalla riga a 375/768/1280), home ed elenco col nome di 70 caratteri restano a 320 e 390. Resta: «vicino a te» scorre ancora fino a 360 px a 280 e 320 al 200%, per il selettore «Lista/Mappa» (app/near/page.tsx:328), e la voce nomina «vicino a te» più largo dello schermo. Minore: un nome normale di 20 caratteri è troncato coi puntini già a 320 al 100%, a 280 al 200% ne resta una parola.",
+      "nota_rimessa": "Giro 2: dalla base prima del primo commit della voce alla testa 16fc7e09, con le prove filtrate sul nome della voce (-t R12-009), perché più voci condividono file e prove (pagine-200 porta 001, 002, 004, 007). Anche solo d90b94db (base d90b94db^, StoreListRow): uscita 0."
+    },
+    {
+      "id": "R12-003",
+      "chiave": "layout-responsive|col testo al 200% sul telefono la barra a schede è più alta del margine in fondo: l ultima parte della pagina finisce sotto la barra",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base c62fdea6^ --file app/globals.css --prove tests/unit/riparazione-r12-barre.test.ts --json"
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Misurato col sito acceso in locale a 280/320/375/414/767 px: barra e margine in fondo 57,5 px col testo normale e 75,5 px al 200%. Safe-area per costruzione (.pb-safe e lo stesso env() nel body, globals.css:341/:350), non emulata. senza-tabbar e ≥768 px restano a 0. La prova vecchia r04 cambiata nel commit resta equivalente (calc col testo normale, 1 px di tolleranza). MobileTabBar.tsx nel commit porta solo un commento: rimessa fatta col solo globals.css."
+    },
+    {
+      "id": "R12-007",
+      "chiave": "layout-responsive|la home a 320 px col testo al 200% scorre ancora di lato di 18 px",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 83fe9903^ --file components/home/HowItWorks.tsx --prove tests/unit/riparazione-r12-testo-grande.test.ts,tests/unit/riparazione-r12-pagine-200.test.ts --comando \"npx vitest run {prove} --reporter=dot -t R12-007\" --json (worktree a 16fc7e09)"
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Giro 2 (cf39448a): la scheda dei passi regge, a 280 e 320 px al 200% «Ordina» intero e nessuna parola spezzata; al 100% margine 24 px da 343 px in su, sotto si stringe come dichiarato. Ma il titolo della voce resta vero: la home è ancora larga 378 px a 280, 320 e 375 al 200%, per components/LiveActivityFeed.tsx (dichiarato, non di R12) e a 280 anche per la fascia «Hai un negozio a Piacenza?» (components/home-sections/HomeSectionRenderer.tsx:381-384, già alla base, non dichiarata). Minore: a 768 px al 200% le parole dei passi si spezzano ancora a metà.",
+      "nota_rimessa": "Giro 2: dalla base prima del primo commit della voce alla testa 16fc7e09, con le prove filtrate sul nome della voce (-t R12-007), perché più voci condividono file e prove (pagine-200 porta 001, 002, 004, 007)."
+    },
+    {
+      "id": "R12-008",
+      "chiave": "layout-responsive|barra mobile a 280 px col testo al 200%: la pillola del luogo si stringe a zero e sparisce",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base ce3441c5^ --file components/Navbar.tsx --prove tests/unit/riparazione-r12-testo-grande.test.ts --json"
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Misurato: alla base a 280 px col testo al 200% lo spazio della pillola era 0 px e finiva sopra il logo; alla testa la riga va a capo e la pillola è larga 155 px con il CAP visibile. Col testo normale a 280/320/375 identico alla base. Non provato da utente loggato."
+    },
+    {
+      "id": "R12-014",
+      "chiave": "tipografia|la scala delle dimensioni del testo viene scavalcata circa trecentotrenta volte",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base b5f62937^ --file components/StorePreviewCard.tsx,components/StoreListRow.tsx,app/about/page.tsx,app/lavora-con-noi/page.tsx --prove tests/unit/riparazione-r12-scala-testo.test.ts --comando \"npx vitest run {prove} --reporter=dot -t R12-014\" --json (worktree a 16fc7e09)"
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Giro 2 (6a0558bb): la parte dichiarata regge, chi siamo senza misure a mano e lavora con noi col solo titolo da 54 px (:113); nessuno scorrimento di lato. Conteggio text-[N px|rem] in app e components: 245 alla base, 237 dopo il primo giro, 224 in 81 file adesso (il riparatore dichiarava circa 217 in 76: un po' sotto il conto vero). Effetto visibile ragionevole: chi siamo a 375 px più lunga di 190 px su 3652 (paragrafi da 17 a 18 px), lavora con noi +45 px.",
+      "nota_rimessa": "Giro 2: dalla base prima del primo commit della voce alla testa 16fc7e09, con le prove filtrate sul nome della voce (-t R12-014), perché più voci condividono file e prove (pagine-200 porta 001, 002, 004, 007)."
+    },
+    {
+      "id": "R10-001",
+      "chiave": "frontend-ux|le pagine di prodotti, negozi e categorie che non esistono rispondono «tutto ok» invece di «non trovato»",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base c2d7cbeb^ --file 'app/product/[id]/layout.tsx,app/store/[id]/layout.tsx,app/category/[slug]/layout.tsx,app/store/[id]/[slug]/layout.tsx' --prove tests/unit/riparazione-r10-pagine-inesistenti.test.ts --json (worktree a 502ba692)"
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Giro 2 (08b93709, solo commenti): ora i commenti dei gusci dicono il vero (la 404 arriva in rete solo togliendo le attese sopra) e cosa_resta nomina anche app/store/loading.tsx oltre a app/loading.tsx e app/store/[id]/loading.tsx: il parziale dichiarato è esatto. La parte fatta regge (rimessa 0 da c2d7cbeb^ alla testa 502ba692). Resta la 404 vera in rete, che dipende dal togliere le attese."
+    },
+    {
+      "id": "R10-003",
+      "chiave": "frontend-ux|il link delle storie rifiuta l'indirizzo intero del sito stesso (https://<dominio>/promozioni), che è quello che il negoziante copia dalla barra",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Sulla base 1ad51b4c c'erano già togliOrigineDelSito (:45) e la chiamata (:126); le 3 prove passano 20/20 e gli altri domini restano rifiutati. Residuo minore: migrations/403_il_link_delle_storie_porta_solo_dentro_mycity.sql:22-25 mette NULL invece di convertire il link in percorso; storie di 24 ore e migrazione una tantum, impatto trascurabile."
+    },
+    {
+      "id": "R10-004",
+      "chiave": "frontend-ux|la pagina del negozio in cache può mostrare un annuncio già scaduto dopo la mezzanotte",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 66e3b924^ --file 'app/store/[id]/layout.tsx' --prove tests/unit/riparazione-r10-annuncio-scaduto.test.ts --json (worktree a 66e3b924)"
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Nel layout del negozio revalidate 0, vale anche per le pagine su misura; oggi non cambia nulla perché force-dynamic c'è già (app/layout.tsx:124), copre il giorno in cui verrà tolto. Mutante rosso, prove vicine verdi."
+    },
+    {
+      "id": "R10-006",
+      "chiave": "frontend-ux|il controllo sul taglio dei campi di testo del costruttore della home tronca ancora titoli e sottotitoli in silenzio",
+      "verdetto": "non_regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Già riparato solo a metà: il costruttore della home (components/admin/home/HomeSectionConfigForm.tsx) alla base 1ad51b4c è davvero pulito, ma la voce cita anche BannerFields.tsx:57,64 e il riparatore dice che il file non esiste: esiste, components/seller/site/BannerFields.tsx, e alla base ha maxLength silenzioso alle righe 60 (titolo), 67 (sottotitolo), 75 e 98; alla testa ci sono ancora tutti e quattro (verificato da K04 con git show alla base)."
+    },
+    {
+      "id": "R10-007",
+      "chiave": "frontend-ux|il conferma per le modifiche non salvate dice «la vetrina» anche sul profilo",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base b09b7f26^ --file 'components/VendorForm.tsx' --prove tests/unit/riparazione-r10-conferma-profilo-o-vetrina.test.ts --json (worktree a b09b7f26)"
+      },
+      "nota_rimessa": "Anche con la base prima del PRIMO commit della voce, alla testa: uscita 0 — timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base cce7770a^ --file 'components/seller/site/dove-e-l-errore.ts,components/VendorForm.tsx' --prove tests/unit/riparazione-r10-conferma-profilo-o-vetrina.test.ts --json (worktree a 38a1e1ac)",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "VendorForm è montato in due punti e il testo segue il modo del modulo: «al profilo» in app/seller/profile/page.tsx:145, «alla vetrina» in StoreDetailsEditor.tsx:82; SiteEditor.tsx:87 usa il predefinito «alla vetrina», giusto. Rimessa anche dalla base prima del primo commit della voce: regge."
+    },
+    {
+      "id": "R10-008",
+      "chiave": "frontend-ux|altri campi brevi del sito del negozio tagliano ancora in silenzio con maxlength",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 876a6196^ --file 'components/VendorForm.tsx' --prove tests/unit/riparazione-r10-slogan-e-social.test.ts --json (worktree a 876a6196)"
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Giro 2 (876a6196): la parte nuova regge, lo slogan non si taglia più (testo intero, oltre 80 errore sotto il campo e invio fermato dallo schema, lib/store-customization.ts:183 e components/VendorForm.tsx:303-309; il fermo dell'invio letto nel codice, la prova controlla solo l'errore). Contatore come lo schema; slogan già salvati oltre 80 scartati in lettura, nessuna scheda bloccata. Restano 11 tetti silenziosi, la lista dichiarata in cosa_resta è completa (solo AnnouncementEditor è alla riga 35, non 34).",
+      "nota_rimessa": "Giro 2, dalla base prima del primo commit della voce alla testa 502ba692: uscita 0 — timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 266a5540^ --file 'components/VendorForm.tsx,components/seller/site/CollectionFields.tsx,components/seller/site/SectionConfigForm.tsx' --prove tests/unit/riparazione-r10-vetrina-campi-brevi.test.tsx,tests/unit/riparazione-r10-slogan-e-social.test.ts --json (worktree a 502ba692)"
+    },
+    {
+      "id": "R10-009",
+      "chiave": "frontend-ux|il costruttore della vetrina ha ancora campi brevi che tagliano in silenzio",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 876a6196^ --file 'components/VendorForm.tsx' --prove tests/unit/riparazione-r10-slogan-e-social.test.ts --json (worktree a 876a6196)"
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Stesso commit e stessa misura di R10-008: parte nuova regge, restano esattamente gli 11 tetti silenziosi dichiarati in file non di R10.",
+      "nota_rimessa": "Giro 2, dalla base prima del primo commit della voce alla testa 502ba692: uscita 0 — timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 266a5540^ --file 'components/VendorForm.tsx,components/seller/site/CollectionFields.tsx,components/seller/site/SectionConfigForm.tsx' --prove tests/unit/riparazione-r10-vetrina-campi-brevi.test.tsx,tests/unit/riparazione-r10-slogan-e-social.test.ts --json (worktree a 502ba692)"
+    },
+    {
+      "id": "R10-010",
+      "chiave": "frontend-ux|incollare il link di instagram o scrivere il sito senza https blocca il salvataggio di tutta la vetrina con un messaggio che non dice dove",
+      "verdetto": "rompe_altro",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 718f6698^ --file 'components/VendorForm.tsx' --prove tests/unit/riparazione-r10-instagram-incollato-intero.test.ts,tests/unit/riparazione-r10-slogan-e-social.test.ts --json (worktree a 718f6698)"
+      },
+      "nota_rimessa": "Giro 2, dalla base prima del primo commit della voce alla testa 502ba692: uscita 0 — timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 56a0bbff^ --file 'lib/store-customization.ts,components/VendorForm.tsx' --prove tests/unit/riparazione-r10-instagram-incollato-intero.test.ts,tests/unit/riparazione-r10-slogan-e-social.test.ts --json (worktree a 502ba692)",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Giro 2 (718f6698): la voce ora è chiusa, provata col modulo vero in jsdom: due social sbagliati insieme salvano lo slogan, Instagram al valore di prima e Facebook vuoto com'era, ogni campo ha il suo errore e il riepilogo nomina i campi; social sbagliato nuovo resta vuoto; un errore non social (slogan oltre 80) blocca ancora tutto. Ma la correzione scrive una frase falsa: components/VendorForm.tsx:314 dice «Il resto è salvato» prima che il salvataggio parta (onSubmit a :327): se il salvataggio fallisce il negoziante legge quella frase insieme all'errore (letto nel codice, salvataggio fallito non simulato). Minori: un valore vecchio non valido scartato al caricamento fa dire «è rimasto com'era» a un campo che si salva vuoto; «Instagram, Facebook è rimasto» al singolare."
+    },
+    {
+      "id": "R10-012",
+      "chiave": "frontend-ux|tre etichette del modulo negozio e una del profilo non sono legate al loro campo",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 87b53c61^ --file 'components/VendorForm.tsx,app/seller/profile/page.tsx' --prove tests/unit/riparazione-r10-etichette-legate-al-campo.test.tsx --json (worktree a 502ba692)"
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Logo, prodotti in evidenza e casella Express del profilo legati bene, id da useId (unici anche con due moduli). Ma il campo vero del «Banner annuncio», la textarea in components/seller/AnnouncementEditor.tsx:33-40, resta senza etichetta (solo segnaposto): è stato solo avvolto in un gruppo con titolo. Minori: id fisso «announcement-until» (:45); sul profilo la zona cliccabile della casella Express si è ristretta al solo titolo più casella. Giro 2: nessun commit nuovo su questa voce; cosa_resta ora nomina la textarea di AnnouncementEditor.tsx:32-39, esatto. Rimessa rifatta alla testa 502ba692: regge."
+    },
+    {
+      "id": "R10-013",
+      "chiave": "frontend-ux|il modulo del prodotto non dice che il nome ha al massimo 120 caratteri: il negozio legge solo «il valore inserito non è valido»",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 502ba692^ --file 'lib/products/schema.ts,lib/errors.ts' --prove tests/unit/riparazione-r10-descrizione-prodotto-4000.test.ts --json (worktree a 502ba692)"
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Giro 2 (502ba692): la descrizione ha il tetto di 4000 nello schema (lib/products/schema.ts:173-178), conta come il database (spazi ai lati tolti, :220), errore sotto il campo (components/seller/ProductForm.tsx:1090) e messaggio specifico sul vincolo (lib/errors.ts:238-241); nessun prodotto esistente bloccato (migrazione 149). Minore: niente contatore n/4000. Resta, esatto come dichiarato: modifica col messaggio generico (app/api/seller/products/[id]/route.ts:80), import da file a 200 (lib/products/righe-dal-file.ts:58), rotta admin 200/8000 (app/api/admin/products/route.ts:42-43).",
+      "nota_rimessa": "Giro 2, dalla base prima del primo commit della voce alla testa 502ba692: uscita 0 — timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 403a6681^ --file 'lib/products/schema.ts,lib/errors.ts,components/seller/ProductForm.tsx' --prove tests/unit/riparazione-r10-nome-prodotto-120.test.ts,tests/unit/riparazione-r10-descrizione-prodotto-4000.test.ts --json (worktree a 502ba692)"
+    },
+    {
+      "id": "R10-014",
+      "chiave": "frontend-ux|altri percorsi di facebook non elencati possono essere salvati come nome del profilo",
+      "verdetto": "non_regge",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 233037ea^ --file 'lib/store-customization.ts' --prove tests/unit/riparazione-r10-facebook-percorsi-non-profilo.test.ts --json (worktree a 233037ea)"
+      },
+      "nota_rimessa": "Giro 2, dalla base prima del primo commit della voce alla testa 502ba692: uscita 0 — timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 6d83434d^ --file 'lib/store-customization.ts' --prove tests/unit/riparazione-r10-facebook-percorsi-non-profilo.test.ts --json (worktree a 502ba692)",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Giro 2 (233037ea): i quattro casi di K04 (home.php, /notes, /recover, /places) e ogni .php ora sono rifiutati; pagina con solo id, pg/nome e domini alternativi rifiutati col nome del campo ma senza dire perché. Ma la voce («percorsi non elencati salvati come nome») resta vera per i percorsi di un pezzo solo: 11 provati fuori lista passano tutti (find-friends, pymk, onthisday, games, latest, feeds, donate, fundraiser, business_help, watchparty, coronavirus_info; lista a lib/store-customization.ts:322). Rotto accanto (minore): sottopagine vere di un profilo, /nome/timeline, /info, /photos_by, ora rifiutate (:335), prima si salvava il nome; TikTok @live rifiutato anche con la @ (:327). Instagram live/help/business/media/search/public/t ora passano."
+    },
+    {
+      "id": "R10-015",
+      "chiave": "microcopy|se il caricamento di una storia fallisce, il negoziante legge «applica la migration 035»",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base c95e210e^ --file 'app/seller/stories/page.tsx' --prove tests/unit/riparazione-r10-storia-non-caricata.test.ts --json (worktree a c95e210e)"
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Il messaggio nuovo arriva nel toast passando da friendlyError (provato col render della pagina), il dettaglio tecnico va in logger.error; mutante rosso. Minore: il ramo scatta ancora per qualunque «not found» o «bucket» (app/seller/stories/page.tsx:165), ma il testo ora è innocuo."
+    },
+    {
+      "id": "R10-016",
+      "chiave": "performance|le pagine di prodotto, negozio e categoria non usano la cache che dichiarano, e rileggono due volte la stessa riga a ogni visita",
+      "verdetto": "non_regge",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 719d4380^ --file 'lib/supabase/lettura-per-metadati.ts,app/u/[handle]/page.tsx' --prove tests/unit/riparazione-r10-lettura-unica.test.ts --json (worktree a 719d4380)"
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Si dichiara parziale ma resta più di quanto dice cosa_resta. Le due letture in fila della voce (metadati e precarico) ci sono ancora: con il precarico vero in una richiesta la scheda prodotto legge products 2 volte e seller_public_profiles 2 volte, la vetrina seller_public_profiles 3 volte. cache() unisce solo metadati e layout, che la memoria di 2 s univa già. La prova sostituisce il precarico con un finto (tests/unit/riparazione-r10-lettura-unica.test.ts:72-75). Manca in cosa_resta lib/queries/precarico.ts:108-139; il commento in lib/supabase/lettura-per-metadati.ts:29 cita una cache di 5 minuti che non esiste."
+    }
+  ],
+  "campione": {}
+}

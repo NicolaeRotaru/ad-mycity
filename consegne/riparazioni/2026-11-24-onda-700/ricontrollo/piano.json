@@ -1,0 +1,149 @@
+{
+  "versione": 1,
+  "creato": "2026-11-24 12:15",
+  "profilo": "ricontrollo",
+  "base": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
+  "diff": null,
+  "temi_scelti": [
+    "S01"
+  ],
+  "minori_aperti": 120,
+  "soglia_minori": 100,
+  "minori_ammessi": false,
+  "gravita_cercate": [],
+  "ricontrollo": [
+    "bloccante",
+    "grave",
+    "minore"
+  ],
+  "palestra_prima": false,
+  "voci_da_ricontrollare": 141,
+  "file_perimetro": 3598,
+  "codice_fuori_profilo": 1185,
+  "lenti_fuori": [
+    "architettura",
+    "sicurezza-auth",
+    "rls-database",
+    "pagamenti-stripe",
+    "privacy-legale",
+    "performance",
+    "frontend-ux",
+    "accessibilita",
+    "qa-flussi",
+    "api-backend",
+    "ai-endpoints",
+    "dati-analytics",
+    "deploy-sre",
+    "layout-responsive",
+    "coerenza-brand",
+    "tipografia",
+    "accessibilita-visiva",
+    "stati-ui",
+    "immagini-media",
+    "mobile-pwa",
+    "flussi-conversione",
+    "microcopy",
+    "navigazione-gerarchia",
+    "performance-percepita"
+  ],
+  "angoli_fuori": [
+    "X-soldi",
+    "X-permessi-db-live",
+    "X-produzione-dal-vivo",
+    "X-sito-dal-vero",
+    "X-regole-business",
+    "X-prove-automatiche",
+    "X-flussi-utente",
+    "X-concorrenza",
+    "X-privacy-ciclo",
+    "Y-attaccante-anonimo",
+    "Y-attaccante-cliente",
+    "Y-attaccante-negozio-rider",
+    "Y-errori-silenziosi",
+    "Y-tempo-e-date",
+    "Y-promesse-vs-codice",
+    "Y-avvisi-e-notifiche",
+    "Y-dati-veri-incoerenti",
+    "Z-account-di-prova",
+    "Z-database-a-163",
+    "Z-rimborso-contanti",
+    "Z-documenti-fiscali"
+  ],
+  "sessioni": {
+    "S01": {
+      "tema": "S01",
+      "nome": "Ricontrollo dei difetti aperti",
+      "rischio": "alto",
+      "lenti": [],
+      "angoli": [],
+      "prefissi": [],
+      "tetto": 12,
+      "lotti": [
+        {
+          "id": "L01",
+          "voci": 15
+        },
+        {
+          "id": "L02",
+          "voci": 15
+        },
+        {
+          "id": "L03",
+          "voci": 15
+        },
+        {
+          "id": "L04",
+          "voci": 15
+        },
+        {
+          "id": "L05",
+          "voci": 15
+        },
+        {
+          "id": "L06",
+          "voci": 15
+        },
+        {
+          "id": "L07",
+          "voci": 15
+        },
+        {
+          "id": "L08",
+          "voci": 15
+        }
+      ],
+      "onda": 1
+    },
+    "S01b": {
+      "tema": "S01",
+      "nome": "Ricontrollo dei difetti aperti",
+      "rischio": "alto",
+      "lenti": [],
+      "angoli": [],
+      "prefissi": [],
+      "tetto": 12,
+      "lotti": [
+        {
+          "id": "L01",
+          "voci": 15
+        },
+        {
+          "id": "L02",
+          "voci": 6
+        }
+      ],
+      "onda": 1
+    }
+  },
+  "onde": [
+    [
+      "S01",
+      "S01b"
+    ]
+  ],
+  "schede": {
+    "cartella": "consegne/riparazioni/2026-11-24-onda-700/ricontrollo",
+    "ramo": "ccr-d7a54140-hak4ez",
+    "regista": "session_01R8112LxmCk5Y1BXWKNWKCY"
+  }
+}

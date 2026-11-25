@@ -1,0 +1,27 @@
+{
+  "corsia": 18,
+  "territorio": "R18",
+  "difetti": [
+    {
+      "chiave": "deploy-sre|due giri partiti insieme possono ancora mandare due volte il promemoria del carrello alla stessa persona",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r18-promemoria-carrello-una-volta.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 07871ff31cfefea5d39ab50bf7a1b9df88d162f8^ --file app/api/cron/abandoned-carts/route.ts --prove tests/unit/riparazione-r18-promemoria-carrello-una-volta.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R18-001 --base 07871ff3^ --file app/api/cron/abandoned-carts/route.ts --prove tests/unit/riparazione-r18-promemoria-carrello-una-volta.test.ts --json (worktree a 07871ff3, punta 2763712d) → uscita 0 (K06)",
+      "nota_fix": "Il giro rivendica il carrello da solo con una scrittura condizionata (update recovery_email_sent_at where user_id=… and recovery_email_sent_at is null → select → maybeSingle) e spedisce solo se ha preso la riga lui. Così due giri insieme mandano un solo promemoria, con o senza la migrazione 166 applicata; prima la risposta vuota della funzione vecchia valeva «preso». Storia sul ramo: 57f2e330 (riparazione), ffbda6c2 (ritorno in attesa della firma), 07871ff3 (ritorno annullato dopo la firma)."
+    },
+    {
+      "chiave": "deploy-sre|il commento del cron delle notifiche dice che il nuovo ordine manda la push subito, ma oggi nessun file lo fa",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r18-commento-push-nuovo-ordine.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 9f8ac9af^ --file app/api/cron/send-push/route.ts --prove tests/unit/riparazione-r18-commento-push-nuovo-ordine.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R18-002 --base 9f8ac9af^ --file app/api/cron/send-push/route.ts --prove tests/unit/riparazione-r18-commento-push-nuovo-ordine.test.ts --json (worktree a de01e1ac) → uscita 0 (K06)",
+      "nota_fix": "Due commit: 9f8ac9af corregge il commento sul nuovo ordine; de01e1ac sistema anche la nota alle righe 10-13. Oggi la push del nuovo ordine parte solo col giro del cron, entro 5 minuti, e l'aiutante mandaSubitoLaPushDelNuovoOrdine non lo chiama nessuna rotta. La prova legge tutti i commenti in cima e li confronta con i chiamanti veri in app/ e lib/."
+    },
+    {
+      "chiave": "stati-ui|un lavoro sul catalogo «in invio» incerto promette «tra poco lo vedi partire» per 24 ore, e a riga chiusa dice «puoi avviarne un altro» mentre il motivo dice di chiedere all'assistenza",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r18-testo-lavoro-incerto.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base adafa0fa^ --file lib/ai/statoLavoroCatalogo.ts --prove tests/unit/riparazione-r18-testo-lavoro-incerto.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R18-012 --base adafa0fa^ --file lib/ai/statoLavoroCatalogo.ts --prove tests/unit/riparazione-r18-testo-lavoro-incerto.test.ts --json (worktree a 83686b8f) → uscita 0 (K06)",
+      "nota_fix": "Due commit: adafa0fa, poi corretto da 83686b8f dopo il primo revisore (adafa0fa rompeva riparazione-r02-invio-incerto-senza-rotella). La riga «in invio» resta quella della base, senza createdAt né soglia. A riga chiusa «Puoi avviarne un altro» sparisce solo se il motivo dice «chiedi all'assistenza» (status/route.ts:125), non con i motivi di status/route.ts:240 o di cancel/route.ts:43. La prova controlla anche che i testi veri dei motivi ci siano ancora nelle rotte."
+    }
+  ]
+}

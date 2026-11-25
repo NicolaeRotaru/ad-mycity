@@ -1,0 +1,245 @@
+{
+  "collaudatore": "K01",
+  "riparatori": [
+    "R03",
+    "R02",
+    "R01"
+  ],
+  "aggiornato": "2026-11-24 14:05",
+  "finita": true,
+  "voci": [
+    {
+      "id": "R03-002",
+      "chiave": "architettura|email partita ma non segnata: la notte dopo riparte, e se fallisce l'allarme dice «non partita» per un'email già arrivata",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 59ddbb471eae511e43aa2a7fd96df18688a4f70a^ --file lib/privacy/avvisi-a-chi-aspetta.ts --prove tests/unit/riparazione-r03-email-partita.test.ts --json"
+      },
+      "nota": "Parziale dichiarato onesto. Provato a rompere forsePartita (righe vecchie senza segnaIlNo, scrittura «fallita» che cade, tetto dei 31 tentativi): il segnale nasce giusto e arriva alla rotta notturna (process-deletions/route.ts:501, :522), ma lì nessuno lo legge ancora, come dice cosa_resta. Revisore qa + rimessa uscita 0."
+    },
+    {
+      "id": "R03-003",
+      "chiave": "architettura|il parametro propostail di negoziopuoservire non lo passa nessuno",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base fd05bc7181e4529f5c1470de36d70bece47271ee^ --file lib/quando-arriva.ts --prove tests/unit/riparazione-r03-fascia-domani-proposta.test.ts --json"
+      },
+      "nota": "La parte dichiarata regge solo nella prova: motivoFasciaRifiutata passa propostaIl fino a negozioPuoServire, ma nessuna delle tre chiamate vere lo passa (cod/route.ts:1013, stripe/checkout:522, webhook/ordini.ts:292): sul sito non cambia niente. La ricetta lasciata in serve_file_altrui per stripe/checkout (ricavare la proposta da delivery_date del browser) non va applicata così: propostaIl non ha recinto (quando-arriva.ts:226,234; store-hours.ts:243), un sabato passato come proposta fa passare «Domani» con il negozio chiuso domani (provato). Il webhook ricontrolla e rimborsa, quindi niente soldi persi, ma alla cassa la regola diventa aggirabile."
+    },
+    {
+      "id": "R03-006",
+      "chiave": "architettura|una fascia «domani» inviata alle 23:59 e arrivata alla rotta dopo mezzanotte si giudica sul giorno dopo",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base fd05bc7181e4529f5c1470de36d70bece47271ee^ --file lib/quando-arriva.ts --prove tests/unit/riparazione-r03-fascia-domani-proposta.test.ts --json"
+      },
+      "nota": "Stessa correzione della 003, che vive solo nella prova. I contanti erano già coperti alla base (fasciaDelGiornoDellaRichiesta); resta scoperta solo la rotta che apre la pagina della carta. cosa_resta è impreciso: il webhook riporta già «Domani» a «Oggi» con session.created (webhook/ordini.ts:284-293, provato). La ricetta lasciata alla regista per il webhook è sbagliata: new Date(session.created*1000) non è l ora di Roma che negozioPuoServire si aspetta, e seguita alla lettera crea un difetto fra mezzanotte e l una (le due d estate). Non applicarla."
+    },
+    {
+      "id": "R03-012",
+      "chiave": "qa-flussi|due veloci vendute nello stesso istante con un solo fattorino passano tutte e due",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "PGHOST=/var/run/postgresql PGUSER=root timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 3ded946e720350f0c113c11663ffade486af2f64^ --file migrations/840_due_veloci_insieme_non_passano_con_un_fattorino_solo.sql --prove tests/sql/rls/riparazione-r03-veloce.test.sql --sql k01_r03_rimessa --json"
+      },
+      "nota": "Corsa vera sul Postgres locale: due psql in parallelo, la seconda aspetta il lucchetto ed esce con 23514 e hint veloce_senza_fattorino_libero; se la prima annulla, la seconda nasce. Con 20 clienti in parallelo e 1 fattorino nasce 1 ordine su 20, con 2 fattorini ne nascono 2. Regola SQL uguale al codice (etichetta identica byte per byte, 3 ore, 6 stati, conto per cliente); l esenzione per lo stesso cliente è meno severa del codice, quindi nessun 409 senza una corsa vera. Niente ordini orfani; il 409 libera la chiave. 840 si applica pulita (220/220) e non collide; suite SQL verde. Rimessa anche sulla rotta (route.ts + tests/unit/riparazione-r03-veloce.test.ts) uscita 0. Limiti dichiarati: migrazione da applicare, veloci con la carta fuori. Minore: nessuna prova lega l 840 a ETICHETTA_ADESSO."
+    },
+    {
+      "id": "R03-013",
+      "chiave": "qa-flussi|il logger oscura solo le chiavi del contesto, non il testo del messaggio né un contesto stringa",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 24b217dc^ --file lib/logger.ts --prove tests/unit/riparazione-r03-logger-testo.test.ts --json"
+      },
+      "nota": "Testo e contesto stringa ora passano dal filtro (la rimessa morde con base 24b217dc^ e con base 8defebc4^), ma la voce è chiusa solo in parte. Restano in chiaro telefoni in formati comuni: «333 123 45 67», «333/1234567», «0523/123456», «(0523) 123456», «tel:+39…» (lib/logger.ts:64); delivery_phone è testo libero. testoSenzaRecapiti (lib/analytics/filmato-senza-dati-personali.ts:185) oscura i primi cinque formati. Restano in chiaro anche chiavi sk_live_/whsec_/re_, «Bearer <opaco>» e numeri di carta, mentre il commento a :57 dice «telefono o carta». Nata rotta, latente: line() chiama oscuraTesto(msg) senza guardia (:285), quindi warn/info/spesa con un messaggio che non è testo, o un Error con message che non è testo, ora lanciano TypeError invece di scrivere; alla base non lanciavano. Oggi TypeScript impedisce quei chiamanti."
+    },
+    {
+      "id": "R02-003",
+      "chiave": "api-backend|il freno sulla rotta regge per 3 interruttori su 9: ai, newsletter, classifica e caricamento da file stanno solo nelle pagine",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Già riparato prima, guardato alla base 5b8c786c. app/api/newsletter/route.ts:52 ferma con NEWSLETTER_ACCESA. Le 21 rotte app/api/ai/*: 19 leggono AI_NEGOZI_ACCESA/TRADUCI_ACCESO; catalog-chat e copilot passano da assertSafeText/runMessage → getAnthropic, che lancia AiConfigError (lib/ai/client.ts:217) e dà 503. Il caricamento da file lo ferma import/route.ts:36. La classifica non ha una rotta: eccezione scritta e motivata in lib/funzioni-al-lancio.ts:26-28 (vista letta dal browser, nessun premio). Il referto dice 18 rotte AI, sono 21: tutte frenate."
+    },
+    {
+      "id": "R02-011",
+      "chiave": "qa-flussi|le zone del fattorino dicono «salvate» prima dell'esito",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Già riparato prima, guardato alla base: app/rider/availability/page.tsx:141-145 applica le zone solo se persist() riesce; con errore toast.error e la riga in fondo dice «Non è stato salvato». tests/unit/riparazione-r11-zone-dopo-l-esito.test.tsx alla base: 5 su 5 verdi. Sfumatura: mentre una scrittura è in volo, la riga statica in fondo dice ancora «salvate» (diceva così anche prima del clic)."
+    },
+    {
+      "id": "R02-004",
+      "chiave": "api-backend|l'invio subito delle notifiche push prende le righe guardando solo pushed_at, e può correre col giro del cron",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 83533b47^ --file lib/push/subito.ts --prove tests/unit/riparazione-r02-push-subito-e-il-giro.test.ts --json"
+      },
+      "nota": "Parziale dichiarato onesto. ridaiAlGiro ora ridà solo le righe con pushed_at = la nostra presa (.eq(pushed_at, presa)): il segno del giro non si cancella più. Il valore scritto e quello confrontato sono la stessa stringa ISO, quindi l uguaglianza regge. Alla testa subito.ts non cambia più dopo 83533b47. La presa nel giro del cron (a6bee2db, tolta da d84fe943) resta aperta, come dichiarato."
+    },
+    {
+      "id": "R02-006",
+      "chiave": "layout-responsive|la pagina 404 a 280 px col testo al 200% esce di 5 px",
+      "verdetto": "regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base a1f878c9^ --file app/not-found.tsx --prove tests/unit/riparazione-r02-404-testo-grande.test.ts --json"
+      },
+      "nota": "Solo prova rimessa e lettura del diff (text-6xl sotto sm). Non misurato nel browser: lo scorrimento chiuso a 280 px lo misura il riparatore. Il resto (i link utili che sporgono dal riquadro) è dichiarato in cosa_resta."
+    },
+    {
+      "id": "R02-015",
+      "chiave": "tipografia|otto spaziature diverse per la stessa etichetta maiuscola",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base f983ad5a^ --file components/home/HowItWorks.tsx,app/rider/availability/page.tsx --prove tests/unit/riparazione-r02-etichette-maiuscole-lotto2.test.ts --json"
+      },
+      "nota": "Parziale dichiarato onesto: quattro etichette passano a tracking-label, che esiste già alla base (tailwind.config.ts:164, 0.04em); è solo un cambio di classe, non rompe niente. Restano 52 file fuori dal lotto, come dichiarato."
+    },
+    {
+      "id": "R01-002",
+      "chiave": "ai-endpoints|due avvii insieme di un lavoro sul catalogo superano entrambi il controllo dei lavori aperti",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Già riparato prima, guardato alla base. migrations/640 chiude i doppioni e crea l indice unico parziale catalog_ai_jobs_un_lavoro_aperto_per_negozio; start/route.ts trasforma il 23505 in 409 prima di submitBatch. Alla base: tests/sql/rls/riparazione-r02-un-solo-lavoro-aperto.test.sql verde sul Postgres locale (7 controlli, 219 migrazioni applicate, nessuna fallita) e tests/unit/riparazione-r02-due-avvii-insieme.test.ts verde."
+    },
+    {
+      "id": "R01-010",
+      "chiave": "qa-flussi|la rotta del lavoro ai sul catalogo non rifiuta un secondo lavoro",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Già riparato prima, guardato alla base: catalog-batch/start/route.ts:100-121 legge i lavori aperti (submitting, processing, ready) e risponde 409 col jobId; le corse le chiude la 640 (vedi R01-002). tests/unit/riparazione-r04-lotto-aperto.test.ts verde alla base."
+    },
+    {
+      "id": "R01-007",
+      "chiave": "layout-responsive|in home a 280 px col testo al 200% la fascia «hai un negozio a piacenza?» esce di 18 px",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Già riparato prima, guardato alla base: components/home-sections/HomeSectionRenderer.tsx:380-385 ha flex min-w-0 sul contenitore e min-w-0 break-words sulla frase. La parola più lunga sta nei 248 px utili a 280 px col testo al 200%. tests/unit/riparazione-r01-home-col-testo-grande.test.tsx verde alla base. Non misurato nel browser."
+    },
+    {
+      "id": "R01-015",
+      "chiave": "stati-ui|a riga chiusa con il motivo «chiedi all'assistenza» il pulsante «avvia» resta",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01 --base 5d00555c^ --file lib/ai/statoLavoroCatalogo.ts --prove tests/unit/riparazione-r01-avvio-dopo-assistenza.test.ts --json"
+      },
+      "nota": "Parziale dichiarato onesto. puoAvviareLavoro e testoStatoLavoro usano la stessa regola vietaDiRipartire. La pagina (app/seller/products/ai-batch/page.tsx:516) passa il job con error, perché il tipo Job e la rotta di stato portano la colonna error: la correzione arriva al sito. Restano aperti, come dichiarato, la rotta di avvio che non rifiuta e il ricaricamento della pagina."
+    },
+    {
+      "id": "R01-016",
+      "chiave": "stati-ui|sotto un lavoro sul catalogo chiuso che dice di chiedere all'assistenza prima di ripartire, il pulsante «avvia sul catalogo» resta lì",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01 --base 5d00555c^ --file lib/ai/statoLavoroCatalogo.ts --prove tests/unit/riparazione-r01-avvio-dopo-assistenza.test.ts --json"
+      },
+      "nota": "Stessa correzione e stesso giudizio della 015: il pulsante «Avvia sul catalogo» sparisce sotto un lavoro chiuso col motivo «chiedi all assistenza». Resto dichiarato."
+    },
+    {
+      "id": "R01-005",
+      "chiave": "ai-endpoints|l'allarme del tetto di spesa ai può dire «non risponde da tre giorni» al primo guasto di cinque minuti",
+      "verdetto": "rompe_altro",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01 --base c6e10d31^ --file lib/ai/tettoSpesa.ts --prove tests/unit/riparazione-r01-allarme-tetto-riga-vecchia.test.ts --json"
+      },
+      "nota": "Le cancellazioni all uscita (senza tetto o con l AI spenta) chiudono il caso della voce. Ma il limite di 24 ore (lib/ai/tettoSpesa.ts:461, 507-511) riscrive «da adesso» anche la riga di un guasto vero ancora in corso: con un guasto non permanente che dura più di un giorno, i minuti ripartono da zero e l allarme tace circa un ora al giorno. Prima diceva la durata giusta. Lo scrive il riparatore stesso in cosa_resta, con la cura: togliere il limite delle 24 ore e tenere le cancellazioni. Va tolto prima di unire."
+    },
+    {
+      "id": "R01-009",
+      "chiave": "microcopy|il cliente e l'email leggono ancora «un rider passa a prenderlo», mentre il pulsante del negozio ora dice «fattorino»",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01 --base 3e57fd67^ --file app/orders/[id]/page.tsx --prove tests/unit/riparazione-r01-parola-fattorino-mappa.test.ts --json"
+      },
+      "nota": "Parziale dichiarato onesto: sulla mappa il pin dice «Fattorino». Fra 3e57fd67 e la testa 62bbaf4c la pagina non cambia: il revert della 008 non ha toccato questa riga. Resta la campanella scritta dal database (notify_buyer_on_order_status nella 321), come dichiarato; nota che R02 cambia proprio quella funzione nella 832."
+    }
+  ],
+  "parziale": true,
+  "nota_consegna": "Consegnato al 70% del tetto (17,56 $ letti con get_session, soglia 14 $). R03 collaudato tutto (5 voci, revisore qa). Fermati i revisori di R02 e R01 prima del rapporto. Restano senza giudizio pieno, con prova rimessa del collaudatore uscita 0: R02-012, R02-005 (--sql), R02-009 (--sql), R02-002, R02-001, R02-010; R01-001, R01-003, R01-011, R01-013 (--sql), R01-012 (--sql), R01-006. Alla testa: R02 207 prove su 207, R01 168 su 168. Queste voci non si chiudono da sole: servono a un altro collaudo."
+}

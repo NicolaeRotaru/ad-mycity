@@ -1,0 +1,198 @@
+{
+  "regista": "session_015BmpnXrV1Q7uJoKhhGbeQG",
+  "sha_regista": "12fa1ddef5cb9d8c5d6ccd7391b08d830a72ed21",
+  "base": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
+  "sessioni": {
+    "R01": {
+      "id": "session_015BmpnWkvMQYLF5p5EHtnqJ",
+      "ramo": "claude/settimana-700-regia-m01",
+      "onda": 1
+    },
+    "R02": {
+      "id": "session_015BmpnWSiVKgtaYczMcKG3d",
+      "ramo": "claude/settimana-700-regia-m02",
+      "onda": 1
+    },
+    "R03": {
+      "id": "session_015BmpnUqMTGeGC9aCRUeTPg",
+      "ramo": "claude/settimana-700-regia-m03",
+      "onda": 1
+    },
+    "R04": {
+      "id": "session_015BmpnVPGb6ipvazyzVqfAR",
+      "ramo": "claude/settimana-700-regia-m04",
+      "onda": 1
+    },
+    "R05": {
+      "id": "session_015BmpnW1TCN7rkCQWVHxFst",
+      "ramo": "claude/settimana-700-regia-m05",
+      "onda": 1
+    },
+    "R06": {
+      "id": "session_015BmpnWXbfzsvxZBSACnDbr",
+      "ramo": "claude/settimana-700-regia-m06",
+      "onda": 1
+    },
+    "R07": {
+      "id": "session_015BmpnVyg3NU1oMwmbApztw",
+      "ramo": "claude/settimana-700-regia-m07",
+      "onda": 1
+    },
+    "R08": {
+      "id": "session_015BmpnWJMSSTkutNsG69nME",
+      "ramo": "claude/settimana-700-regia-m08",
+      "onda": 1
+    },
+    "R09": {
+      "id": "session_015BmpnVGPMVHKEgxtzhhP3d",
+      "ramo": "claude/settimana-700-regia-m09",
+      "onda": 1
+    },
+    "R10": {
+      "id": "session_015BmpnWLNjqqj3uDd3yzzKv",
+      "ramo": "claude/settimana-700-regia-m10b",
+      "onda": 1,
+      "nota": "2026-11-22 02:02: ramo -m10 con un nodo di unione; la spinta forzata è rifiutata dalla guardia della sessione R10. La storia in fila sta su -m10b (stesso albero)."
+    },
+    "R11": {
+      "id": "session_015BmpnYQnTHU6W85TtVpymo",
+      "ramo": "claude/settimana-700-regia-m11",
+      "onda": 1
+    },
+    "R12": {
+      "id": "session_015BmpnVm5Fgqt6Ssd6toRoH",
+      "ramo": "claude/settimana-700-regia-m12",
+      "onda": 1
+    },
+    "R13": {
+      "id": "session_015BmpnZDZHzqxGNYEkWMdLD",
+      "ramo": "claude/settimana-700-regia-m13",
+      "onda": 2,
+      "base": "b57195e2f913ee3056414bfcc3594de18265d4d5"
+    },
+    "R14": {
+      "id": "session_015BmpnZ2RL2k6K5RogzvTaa",
+      "ramo": "claude/settimana-700-regia-m14",
+      "onda": 2,
+      "base": "b57195e2f913ee3056414bfcc3594de18265d4d5"
+    },
+    "R15": {
+      "id": "session_015BmpnXuN9HB3RuuzPNxppb",
+      "ramo": "claude/settimana-700-regia-m15",
+      "onda": 2,
+      "base": "b57195e2f913ee3056414bfcc3594de18265d4d5"
+    },
+    "R16": {
+      "id": "session_015BmpnXTwS2umRhCqiuAV9n",
+      "ramo": "claude/settimana-700-regia-m16",
+      "onda": 2,
+      "base": "b57195e2f913ee3056414bfcc3594de18265d4d5"
+    },
+    "R17": {
+      "id": "session_015BmpnVRsMHDE17p6GNs9Jn",
+      "ramo": "claude/settimana-700-regia-m17",
+      "onda": 2,
+      "base": "b57195e2f913ee3056414bfcc3594de18265d4d5"
+    },
+    "R18": {
+      "id": "session_015BmpnZAUzqs2xWe9zbS3e5",
+      "ramo": "claude/settimana-700-regia-m18",
+      "onda": 2,
+      "base": "b57195e2f913ee3056414bfcc3594de18265d4d5"
+    },
+    "S02": {
+      "id": "session_015BmpnWHcYCcD5EzVZ6DezR",
+      "ramo": "claude/settimana-700-regia-s02",
+      "onda": "riservata",
+      "base": "3d95d6a357e01906c501e38d3c719349e0d5a302"
+    }
+  },
+  "collaudatori": {
+    "K01": {
+      "id": "session_015BmpnZJMmhSXcaKQETZNYW",
+      "ramo": "claude/settimana-700-regia-k01",
+      "partenza": "12fa1ddef5cb9d8c5d6ccd7391b08d830a72ed21",
+      "riparatori": [
+        "R01",
+        "R06",
+        "R11"
+      ]
+    },
+    "K02": {
+      "id": "session_015BmpnYUXgLn9X8WCXzQuCh",
+      "ramo": "claude/settimana-700-regia-k02",
+      "partenza": "12fa1ddef5cb9d8c5d6ccd7391b08d830a72ed21",
+      "riparatori": [
+        "R02",
+        "R04",
+        "R05"
+      ]
+    },
+    "K03": {
+      "id": "session_015BmpnWZt6PfWs9rdjLvNP4",
+      "ramo": "claude/settimana-700-regia-k03",
+      "partenza": "12fa1ddef5cb9d8c5d6ccd7391b08d830a72ed21",
+      "riparatori": [
+        "R07",
+        "R08",
+        "R09"
+      ]
+    },
+    "K04": {
+      "id": "session_015BmpnYNfhenQ3yW7EJHG96",
+      "ramo": "claude/settimana-700-regia-k04",
+      "partenza": "12fa1ddef5cb9d8c5d6ccd7391b08d830a72ed21",
+      "riparatori": [
+        "R03",
+        "R12",
+        "R10"
+      ]
+    },
+    "K05": {
+      "id": "session_015BmpnZCBhZ71MAt3Le1zEK",
+      "ramo": "claude/settimana-700-regia-k05",
+      "partenza": "4b15fc990cb335a1378942e6491368ff894c0bab",
+      "riparatori": [
+        "R14",
+        "R15",
+        "R13"
+      ],
+      "onda": 2,
+      "secondo": "session_015BmpnZM2WbetSknti2DZyE"
+    },
+    "K06": {
+      "id": "session_015BmpnWEBueCuRDtLhJzj5z",
+      "ramo": "claude/settimana-700-regia-k06",
+      "partenza": "59b7d5ff098cf66e3ae14aa60be805d098312ec1",
+      "riparatori": [
+        "R18",
+        "R16",
+        "R17"
+      ],
+      "onda": 2,
+      "secondo": "session_015BmpnYfhP7VAro77d4143z"
+    }
+  },
+  "controllori": {
+    "C01": {
+      "id": "session_015BmpnYXWGRaEqVJVLN38Wz",
+      "ramo": "claude/settimana-700-regia-c01",
+      "onda": 1,
+      "integrazione": "f5e0abcec5f2d8b44ccc27caccd7798a09402345",
+      "sha_regista": "c247417d2542180afadbc87e5fdbff93b02be803"
+    },
+    "C02": {
+      "id": "session_015BmpnVvVo2jA9sRBbQX5ZL",
+      "ramo": "claude/settimana-700-regia-c02",
+      "partenza": "3de8737",
+      "integrazione": "77652b102914709ce07d10f66b7a442a5a069875",
+      "onda": 2,
+      "secondo": "session_015BmpnXowiBzgxVMphBdqrd",
+      "nota": "prima apertura ferma per ref_not_found (SHA corto 3de8737), vista solo alle 21:08"
+    }
+  },
+  "regie_precedenti": [
+    "session_015BmpnZW4izcN94UePb2UMg"
+  ],
+  "sha_regista_onda2": "ab2adc105f990a2b97c5db111833bfa2c524b670"
+}

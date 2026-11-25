@@ -1,0 +1,30 @@
+{
+  "controllore": "C03",
+  "onda": 3,
+  "finita": true,
+  "aggiornato": "2026-11-24 20:35",
+  "testa": "d5d84f3a31d6aa7d7fcd5cad2306a069bd63c18a",
+  "base": "e173796f6a402d02c9c1ebe748db615ce5ba8dbd",
+  "verify": {
+    "comando": "npm ci && npm run verify",
+    "esito": "verde",
+    "dettaglio": "Sulla testa d5d84f3a: npm run verify uscita 0 (typecheck senza errori, lint 0 errori e 122 avvisi; vitest 2107 file di prova verdi e 1 saltato su 2108, 12745 casi verdi). Harness SQL non lanciato: fra base e testa nessuna migrazione né file SQL cambiato."
+  },
+  "voci_rosse": [],
+  "nuovi_difetti_visti": [],
+  "note_di_controllo": [
+    "R12-001 (invio subito delle notifiche push) è tolta col revert d5d84f3a: il codice e la sua prova riparazione-r12-onda3-giro-prende-in-carico.test.ts non sono sulla testa, ma il referto R12 la dà ancora «parziale». Va trattata come non riparata, non come rossa.",
+    "R11-001 (tetto spesa AI): lib/ai/tettoSpesa.ts esce senza sonda e senza righe quando AI_NEGOZI_ACCESA è false (costante false in lib/funzioni-al-lancio.ts:69). allarmiTettoSpesaAi non ha altri chiamanti fuori dai test: nessun altro punto con lo stesso difetto.",
+    "R11-003 (ritorno indietro): scripts/prova-di-fumo.mjs ora dà indirizzo solo se il dominio dice un commit diverso da quello che esce; l'unico chiamante (riga 646) passa sempre COMMIT_CHE_ESCE. Conseguenza voluta (decisione della regia): il ritorno automatico parte solo in quel caso, altrimenti si torna a mano.",
+    "R11-004 (fattorino): nei tre file toccati non resta nessun «rider» visibile al cliente o al negozio; quelli rimasti sono nomi di campi, variabili e commenti.",
+    "R12-003 (social): «Il resto è salvato» ora compare solo all'arrivo di salvataggioRiuscito, che entrambi i chiamanti (app/seller/profile/page.tsx:160, components/seller/site/StoreDetailsEditor.tsx:102) passano; l'avviso si azzera a ogni invio. Con più social sbagliati, alcuni prima vuoti e altri pieni, la frase dice «sono rimasti com'erano» per tutti: imprecisione di parole, non un difetto."
+  ],
+  "file_toccati": 33,
+  "file_guardati": 7,
+  "conto": {
+    "subagenti": 0,
+    "token_stimati": 185000,
+    "costo_usd": 1.6
+  },
+  "buco_dichiarato": "Guardati a occhi i 7 file di codice (app, components, lib, scripts); i 24 file di prova e i 2 referti .riparazione non letti, ma le prove sono girate tutte verdi nel verify."
+}

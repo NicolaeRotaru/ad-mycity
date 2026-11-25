@@ -1,0 +1,390 @@
+{
+  "collaudatore": "K05",
+  "riparatori": [
+    "R14",
+    "R15",
+    "R13"
+  ],
+  "aggiornato": "2026-11-22 19:59",
+  "finita": true,
+  "voci": [
+    {
+      "id": "R14-002",
+      "chiave": "api-backend|il freno sulla rotta regge per 3 interruttori su 9: ai, newsletter, classifica e caricamento da file stanno solo nelle pagine",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14b --base f663d547^ --file app/api/ai/answer-qa/route.ts,app/api/ai/barcode-lookup/route.ts,app/api/ai/catalog-batch/cancel/route.ts,app/api/ai/catalog-batch/status/route.ts,app/api/ai/description/route.ts,app/api/ai/diagnose/route.ts,app/api/ai/improve-product/route.ts,app/api/ai/product-chat/route.ts,app/api/ai/reviews-summary/route.ts,app/api/ai/seo/route.ts,app/api/ai/variants/route.ts,app/api/ai/voice-product/route.ts --prove tests/unit/riparazione-r14-ai-spenta-sulla-rotta.test.ts --json (wt-R14b a f663d547, ramo claude/settimana-700-regia-m14 punta 74e75fbf)"
+      },
+      "nota": "Il pezzo fatto regge; la voce resta parziale, come dice il referto (esito parziale, copre_tutta_la_voce false). Rimessa sul ramo dopo la firma delle prove comuni (Nicola in chat 2026-11-22 19:45, onda 2 (piano.json, eccezioni_firmate; ad-mycity claude/settimana-700-regia @ ec176140)). Il commit f663d547 è identico byte per byte alle patch «rotte» e «prove_comuni» che K05 aveva giudicato complete (applicate su 3ecde09e, git diff verso f663d547 escluso .riparazione: 0 righe). Prova rimessa sul commit vero: verde (24 casi), rossa sul comportamento togliendo da sola ognuna delle 12 rotte, di nuovo verde. Verify verde sulla testa f663d547 (referto). Restano aperti: copilot e catalog-chat in app/api/ai senza interruttore (file di R13, modifica scritta in serve_file_altrui) e la classifica inviti, che vuole una migrazione (decisione di Nicola). Newsletter e caricamento da file erano già frenati sulla rotta. Giudizio di K05 sulla patch: COMPLETA. Si applica pulita sulla base (rotte + prove comuni); 40 file che chiamano le 12 rotte (235 casi) e altri 159 file su api/ai o funzioni-al-lancio (891 casi) verdi; la prova nuova morde su ognuna delle 12 rotte tolta da sola; ogni gestore delle 12 rotte ha il controllo. Dopo la patch in app/api/ai restano senza interruttore solo copilot e catalog-chat (di R13, modifica scritta in serve_file_altrui). Newsletter e caricamento da file erano già frenati sulla rotta; la classifica inviti vuole una migrazione (domanda per Nicola).",
+      "nota_rimessa": "Prima della firma: la patch applicata in un commit locale, uscita 0. Dopo la firma (K05 secondo), sul commit f663d547: uscita 0."
+    },
+    {
+      "id": "R14-008",
+      "chiave": "qa-flussi|la rotta del lotto sul catalogo, se non riceve l'elenco dei prodotti, applica ancora tutti i risultati",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 3ecde09e^ --file app/api/ai/catalog-batch/apply/route.ts --prove tests/unit/riparazione-r14-lotto-senza-elenco.test.ts --json (wt-R14 a 3ecde09e, ramo claude/settimana-700-regia-m14 punta 74e75fbf)"
+      },
+      "nota": "Regge. Rimessa sul ramo dopo la firma delle prove comuni (Nicola in chat 2026-11-22 19:45, onda 2 (piano.json, eccezioni_firmate; ad-mycity claude/settimana-700-regia @ ec176140)). Il commit 3ecde09e è identico byte per byte alla patch «diff» del giro 2 che K05 aveva giudicato completa (git apply della patch su 3ecde09e^, poi git diff verso 3ecde09e escluso .riparazione: 0 righe). Prova rimessa sul commit vero: verde (2 casi), rossa sul comportamento togliendo la correzione della rotta, di nuovo verde. Verify verde sulla testa f663d547 (referto). Giudizio di K05 sulla patch: COMPLETA. Ora dentro c'è la prova nuova tests/unit/riparazione-r14-lotto-senza-elenco.test.ts (solo jobId → 400, nessuna scrittura, lavoro «ready»; productIds ['p1'] → scrive solo p1); si applica pulita sulla base; tolta la correzione della rotta la prova nuova diventa rossa sul comportamento (rimessa 0); 11 file che chiamano la rotta o usano aiuti/finto-catalogo verdi (111 casi). L'unico chiamante (app/seller/products/ai-batch/page.tsx:445-447) manda già productIds.",
+      "nota_rimessa": "Giro 1, patch senza la prova nuova: uscita 1 (non_morde) con le 8 prove della rotta. Giro 2, patch con la prova nuova: uscita 0. Giro 3 (K05 secondo), sul commit 3ecde09e: uscita 0."
+    },
+    {
+      "id": "R14-013",
+      "chiave": "tipografia|otto spaziature diverse per la stessa etichetta maiuscola",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14d --base c1e4d046^ --file app/profile/addresses/page.tsx,components/ProductQA.tsx --prove tests/unit/riparazione-r14-etichette-maiuscole.test.ts --json"
+      },
+      "nota": "Le 3 righe fatte reggono (nessuna spaziatura vecchia resta nei 2 file; tracking-label = 0.04em in tailwind.config.ts). Ricontato sulla base b57195e2 con git grep su app, components, lib: 92 righe maiuscole con una delle otto spaziature in 54 file, come dice il riparatore; tolti i 2 file fatti, i 52 file di serve_file_altrui sono esattamente quelli rimasti e le righe elencate sono 89. Parziale onesto: la voce resta aperta per i file altrui."
+    },
+    {
+      "id": "R15-009",
+      "chiave": "architettura|tre librerie usate dalle prove non sono dichiarate in package.json",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15d --base 3af74b30^ --file package.json,package-lock.json --prove tests/unit/riparazione-r15-ci.test.ts --json"
+      },
+      "nota": "Le tre librerie della voce stanno in devDependencies alle versioni del lock; nel lock cambiano solo 3 righe dell'elenco della radice (git diff b57195e2 923bcb31). Le usano solo le prove (@testing-library/dom in 21 file, attr-accept in tests/unit/la-foto-dell-iphone…test.ts:4, esbuild in tests/unit/aiuti/compila.mjs:19), quindi devDependencies è il posto giusto. Alla testa la prova tiene solo questo blocco (il passo Chromium è stato tolto)."
+    },
+    {
+      "id": "R15-001",
+      "chiave": "architettura|la variabile che rende obbligatorie le prove col database in ci non la legge nessuno",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Alla base b57195e2 PROVE_POSTGRES_OBBLIGATORIE compare solo in tests/unit/riparazione-r05-ci-variabili.test.ts:25 come not.toContain; in .github/workflows/ci.yml:124-135 il passo «Le prove col database vero non si possono saltare» sta nel lavoro unit-tests (righe 90-141), prima di npm run test (:141), e fallisce se initdb manca o PostgreSQL non risponde. Il difetto è assente alla base."
+    },
+    {
+      "id": "R15-016",
+      "chiave": "qa-flussi|il lavoro «unit tests» della ci non installa chromium: la misura vera di r19-007 lì si salta",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Alla base nessuna prova in tests/unit apre il browser: git grep di chromium, playwright, pw-browsers, executablePath, headless trova solo commenti («misurato in Chromium») e testi della config e2e; vitest.config.ts include solo tests/unit. Il passo Chromium aggiunto in 153e1ab9 è stato tolto in 923bcb31: alla testa ci.yml è identico alla base. Il difetto è assente alla base."
+    },
+    {
+      "id": "R14-003",
+      "chiave": "api-backend|comunicare due volte l'esito di una segnalazione rimanda la mail e le notifiche, e dopo un errore il nuovo tentativo rimanda anche i canali già riusciti",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14a --base b97d6aa4^ --file app/api/segnalazioni/esito/comunica.ts --prove tests/unit/riparazione-r14-esito-una-volta.test.ts --json"
+      },
+      "nota": "Le colonne scritte in audit_logs esistono (migrations/027_growth_engagement_foundations.sql:154-164), nessun check su action, actor_id può restare vuoto; RLS solo SELECT admin (027:172): scrive solo la chiave di servizio, che è quella usata (getAdminSupabase, app/api/segnalazioni/route.ts:220-227). «Ultima riga» calcolata nel codice (comunica.ts:121). Flusso vero = quello della prova (app/admin/segnalazioni/page.tsx:117-140; dopo un 502 accogli risponde 200 e poi PATCH). 26 prove sulle segnalazioni verdi, 146 casi. Residuo fuori voce, dichiarato dal riparatore: due comunicazioni nello stesso istante mandano due mail (controlla-poi-agisce senza blocco); probabilità bassa, il pulsante è spento mentre lavora (page.tsx:219). Audit_logs letto dalle migrazioni, non provato su Postgres."
+    },
+    {
+      "id": "R14-004",
+      "chiave": "api-backend|l'esito di una segnalazione si rimanda due volte: dopo un errore parziale la pagina chiede di registrare di nuovo e tutti i canali ripartono, anche quelli già arrivati",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14a --base b97d6aa4^ --file app/api/segnalazioni/esito/comunica.ts --prove tests/unit/riparazione-r14-esito-una-volta.test.ts --json"
+      },
+      "nota": "Stesso commit e stesse righe di R14-003: dopo un errore parziale la pagina registra di nuovo e il nuovo tentativo rimanda solo il canale fallito (la memoria guarda destinatario+decisione+motivazione, non deciso_at). Stesso residuo sulla concorrenza, fuori voce."
+    },
+    {
+      "id": "R14-009",
+      "chiave": "qa-flussi|le domande dei clienti sotto i prodotti non arrivano a nessuno, ma al cliente diciamo che riceverà una notifica",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Alla base b57195e2 la promessa non c'è più (components/ProductQA.tsx:96 «la risposta del negozio comparirà qui sotto», :78 nessun avviso promesso; ProductQA è l'unico punto dove il cliente fa una domanda, nessun altro testo promette notifiche). Ma la metà «non arrivano a nessuno» è ancora vera: nessun avviso al negozio, nessun trigger su product_questions. Chiusa solo la metà della promessa; diventa «regge» se il difetto nuovo che il riparatore ha visto (nuovi_difetti_visti[0], il negozio non riceve avviso) entra nel registro.",
+      "rimessa": {
+        "uscita": 2,
+        "comando": "nessuna: la voce non ha commit (parziale senza codice, il referto l'ha portata da gia_riparato_prima a parziale), non c'è una correzione da togliere"
+      }
+    },
+    {
+      "id": "R14-011",
+      "chiave": "qa-flussi|l'aiutante di prova accendi non regge due montaggi di una pagina con use(params) dopo un invio",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14b --base c319550b^ --file tests/unit/aiuti/schermo.ts --prove tests/unit/riparazione-r14-accendi-due-volte.test.ts --json"
+      },
+      "nota": "Cercata la prova a vuoto temuta dal riparatore: fallback con un segno (data-k05-sospeso) controllato dopo il montaggio, a fine caso e allo smontaggio, su tutte le 281 prove che usano aiuti/schermo (1.713 casi, 1.978 montaggi; il controllo positivo segnala un componente sospeso per sempre). 0 casi finiscono col segno presente; 13 si sospendono solo un attimo (pagine con use(params)) e si risolvono prima delle asserzioni. Senza Suspense (base) un componente sospeso per sempre rendeva già vuoto in silenzio: il rischio non nasce da questa correzione. 281 file verdi."
+    },
+    {
+      "id": "R14-012",
+      "chiave": "stati-ui|«duplica» con la sorgente in memoria da meno di 30 secondi si apre con le taglie e la spunta di prima",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14c --base 173a21ad^ --file app/seller/products/new/page.tsx --prove tests/unit/riparazione-r14-duplica-con-sorgente-in-cache.test.tsx --json (worktree a 826984cd)"
+      },
+      "nota": "Giro 2 (826984cd): oltre alle taglie, ora anche la spunta del recesso e gli altri valori letti solo all'apertura si confrontano con quelli riletti (firmaDellaSorgente = initialValues senza le taglie, page.tsx:237, derivata solo da source); se cambiati la copia non si salva e si offre «Riapri la copia con i dati aggiornati» (page.tsx:252, 261-263, 385-392). Rifatti i 3 casi K05 sulla versione nuova: offline o con la rilettura caduta il modulo si apre ancora sui valori della memoria (non può fare altro), ma dopo il ritorno della rete il salvataggio resta bloccato e non parte nessun inserimento (inseriti 0, salvataggioBloccato true): la copia recedibile non nasce più. Il caso con la rilettura riuscita regge come al giro 1. 18 file della pagina verdi (72 casi).",
+      "nota_rimessa": "Giro 2, sul solo commit nuovo: uscita 0 — timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14c --base 826984cd^ --file app/seller/products/new/page.tsx --prove tests/unit/riparazione-r14-duplica-con-sorgente-in-cache.test.tsx --json"
+    },
+    {
+      "id": "R13-007",
+      "chiave": "mobile-pwa|il manifest blocca l'app in verticale e non ha le schermate per la finestra d'installazione",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 2,
+        "comando": "nessuna: la voce non ha commit (parziale senza codice), non c'è una correzione da togliere"
+      },
+      "nota": "Alla base b57195e2 public/manifest.json non ha orientation (il blocco in verticale non c'è), ha id «/» (:5) e display_override (:8); mancano solo gli screenshots (0 occorrenze). Nessun app/manifest.* che lo sovrascriva; il manifest si collega solo con APP_INSTALLABILE_ACCESA (app/layout.tsx:126-127). Parziale onesto: restano le schermate, che vogliono immagini vere del sito."
+    },
+    {
+      "id": "R13-010",
+      "chiave": "qa-flussi|le prove delle frasi pubbliche cercano parole nel codice: sette mutanti che rimettono i difetti restano verdi",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R13f --base 7efafdfd5d5eca4ac85f6c0fd5c0c12e8632aadb --file components/home-sections/HomeSectionRenderer.tsx,app/rider/help/page.tsx,components/seller/AttributesFields.tsx,app/cart/page.tsx --prove tests/unit/riparazione-r13-frasi-pubbliche.test.tsx --json (wt-R13f a 4482a69f, albero identico a d8c691ff; 7efafdfd = d8c691ff più 4 mutanti che rimettono i difetti della voce: HomeSectionRenderer senzaNegozio={false}, app/rider/help tel:112 → tel:+390523000000, AttributesFields checked={!!values[f.key]}, carrello con la frase del pagamento scritta a mano «Paghi in contanti alla consegna» al posto di {frasePagamento()}; 4482a69f = il revert di 7efafdfd; commit locali mai spinti; ramo claude/settimana-700-regia-m13 punta 4cc975d1)",
+        "a_mano": {
+          "comando": "in ../wt-R13f a d8c691ff, un mutante alla volta poi git checkout: HomeSectionRenderer senzaNegozio={false}; app/rider/help tel:112 → tel:+390523000000; AttributesFields checked={!!values[f.key]}; npx vitest run --reporter=dot tests/unit/riparazione-r13-frasi-pubbliche.test.tsx",
+          "uscita_senza_correzione": 1,
+          "uscita_con_correzione": 0
+        }
+      },
+      "nota": "Regge. Firma: la deroga «rimessa_a_mano» per R13-010 l'ha firmata Nicola in chat 2026-11-22 19:45, onda 2 (piano.json, eccezioni_firmate; ad-mycity claude/settimana-700-regia @ ec176140); copre la rimessa a mano del riparatore (7 mutanti su 7 rossi) e quella di K05 (3 su 3). In più, perché il programma accetta la rimessa a mano solo con prova-rimessa a uscita 3 e qui era 2 (commit di sola prova), K05 secondo l'ha fatta girare alla macchina: base = d8c691ff con i difetti rimessi, un file alla volta. Esito 0: verde con 10 casi, rossa sul comportamento togliendo da sola ognuna delle 4 correzioni (casa, aiuto fattorini, caratteristiche, carrello), di nuovo verde e file identici. Il giudizio di K05 resta: la prova nuova disegna i componenti veri (nessun readFileSync); tra d8c691ff e la punta 4cc975d1 c'è solo f042b55a (R13-013, scheda prodotto), che non tocca la prova né i 4 file.",
+      "nota_rimessa": "Giro 1 (K05): prova-rimessa con la prova stessa come --file → uscita 2 («un file non può essere insieme correzione e prova»); rimessa a mano 3 mutanti su 3 rossi. Giro 2 (K05 secondo, dopo la firma): prova-rimessa con base mutante → uscita 0."
+    },
+    {
+      "id": "R13-012",
+      "chiave": "qa-flussi|una prova col nome del collaudo",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Alla base b57195e2 tests/unit/ ha i-termini-nominano-chi-gestisce-senza-dati-inventati.test.tsx e non zz-collaudo-termini-chi.test.tsx; git grep «zz-collaudo-termini» alla base non trova niente. Il difetto è assente alla base."
+    },
+    {
+      "id": "R13-013",
+      "chiave": "tipografia|la scala delle dimensioni del testo viene scavalcata circa trecentotrenta volte",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 2,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R13g --base f042b55a^ --file tests/unit/riparazione-r13-scheda-prodotto-sulla-scala-del-testo.test.ts --prove tests/unit/riparazione-r13-scheda-prodotto-sulla-scala-del-testo.test.ts --json → «un file non può essere insieme correzione e prova» (nessun file di codice corretto)"
+      },
+      "nota": "Nessun codice cambiato: alla base components/ProductCard.tsx non ha dimensioni a mano (l'unico text-[11px] è nel commento di :239); la prova nuova la tiene ferma. Ricontato alla base con git grep su app e components: 201 dimensioni a mano in 79 file, come dice il riparatore (che scrive «dopo il mio commit», ma è il conto della base). Parziale onesto: le 201 stanno in file non suoi e vogliono una scelta di design (gradini 11 e 13 px). Buco dichiarato della prova: text-[length:…] e text-[clamp(…)] non li vede (alla base 0 occorrenze)."
+    },
+    {
+      "id": "R15-014",
+      "chiave": "frontend-ux|il cliente legge «il tuo rider» e il negozio legge «cliente» al posto dei nomi, perché le due strade nuove per i nomi non esistono nel database vero",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 3,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15a --base 1e223b94^ --file lib/queries/seller-public-profiles.ts --prove tests/unit/riparazione-r15-nomi-senza-le-funzioni-nuove.test.ts --json → rosso_strutturale (nome nuovo fetchNomiDeiClienti)",
+        "a_mano": {
+          "comando": "in ../wt-R15a a 1e223b94: `} else if (funzioneNonAncoraCreata(error)) {` → `} else if (false && funzioneNonAncoraCreata(error)) {` in lib/queries/seller-public-profiles.ts, npx vitest run tests/unit/riparazione-r15-nomi-senza-le-funzioni-nuove.test.ts, poi git checkout",
+          "uscita_senza_correzione": 1,
+          "uscita_con_correzione": 0
+        }
+      },
+      "nota": "Spento il ripiego, 3 casi su 6 rossi sull'asserzione («expected undefined to be 'Maria R.'»). Ripiego sicuro: un ordine ha un solo negozio e il negozio legge solo i suoi (regole di orders 001:96, 011:109, 012:48, 540:191); non legge profiles; il cliente non arriva mai a questa strada (controparte-della-chat.ts:76, solo dove guarda il negozio). Le tre modifiche per i file altrui si applicano sulle righe della base: tsc 0, 22/22 e 420/420 verdi su chat, recensioni e vetrina. Parziale giusto: alla testa 923bcb31 fetchNomiDeiClienti non ha chiamanti, quindi oggi sul sito non cambia niente; il nome del fattorino aspetta la 164. Limite minore: il nome è quello di consegna dell'ordine più recente (può essere un'altra persona, app/checkout/page.tsx:508)."
+    },
+    {
+      "id": "R15-007",
+      "chiave": "architettura|in home ogni sezione chiede di nuovo alla vetrina lo stesso negozio, e ogni fascia compare un giro di rete più tardi",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15b --base 2cc02585^ --file lib/queries/seller-public-profiles.ts --prove tests/unit/riparazione-r15-vetrina-stesse-colonne.test.ts --json"
+      },
+      "nota": "Sei casi provati: alias, cast e «*» restano domande separate; spazi, a capo e ordine diverso si uniscono (giusto). Unico buco, oggi irraggiungibile: due select con agganci diversi («store_name, t(a, b)» e «t(a, store_name, b)») danno la stessa chiave perché la divisione sulle virgole entra nelle parentesi (seller-public-profiles.ts:125); nessuno dei 19 chiamanti usa agganci o alias. 183 file della vetrina verdi (1672 casi). Il «resta» è onesto (r06-vetrina-una-volta-sola:59-64 vieta la memoria dopo l'arrivo; il secondo giro di rete resta)."
+    },
+    {
+      "id": "R15-013",
+      "chiave": "flussi-conversione|il cliente con la carta riceve un'email in più, quasi vuota, quando il suo carrello scade tutto nello stesso giro",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15c --base 3391e948^ --file app/api/cron/expire-stale-orders/route.ts --prove tests/unit/riparazione-r15-carrello-carta-scaduto-una-email.test.ts --json"
+      },
+      "nota": "Carta, ordine singolo: arriva «Rimborso emesso»; due ordini scaduti nello stesso giro: due rimborsi, nessun annullo vuoto; su due giri: al primo rimborso + annullo che nomina il rimasto, al secondo solo il rimborso; carta non pagata e contanti: sempre l'annullo. Carrello misto carta+contanti e carta+credito non esistono. 31 file della rotta verdi (253 casi). Fuori voce e già alla base: con rimborso impossibile (route.ts:304-305, continue) il cliente con la carta non riceve né email né campanella, lo sanno solo gli amministratori: difetto a sé da registrare."
+    },
+    {
+      "id": "R15-015",
+      "chiave": "performance|la velocità del sito vista dai clienti veri non la misura nessuno",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15e --base 24ca8692^ --file lib/analytics/posthog.tsx --prove tests/unit/riparazione-r15-velocita-clienti-veri.test.tsx --json"
+      },
+      "nota": "Niente misure prima del consenso, partono al consenso tardivo, nessun doppio con due avvisi di fila né con StrictMode, niente dopo la revoca; senza gtag nessun errore, server protetto (posthog.tsx:448); montato sempre nel layout (app/layout.tsx:306). Smontare e rimontare raddoppia le registrazioni, ma succedeva già prima e il layout non si rimonta. 39 file verdi (322 casi). Parziale onesto: senza NEXT_PUBLIC_GA_MEASUREMENT_ID e con PostHog spento le misure non vanno da nessuna parte, quindi oggi sul sito non cambia niente."
+    },
+    {
+      "id": "R13-001",
+      "chiave": "ai-endpoints|due avvii insieme di un lavoro sul catalogo superano entrambi il controllo dei lavori aperti",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R13a --base df9e27d4^ --file app/api/ai/catalog-batch/start/route.ts --prove tests/unit/riparazione-r13-avvio-durante-applicazione.test.ts --json"
+      },
+      "nota": "Il pezzo nel commit regge: senza la colonna (42703/PGRST204) l'avvio va avanti come alla base, con una lettura in più; un altro guasto dà 502 come la lettura dei lavori aperti (start/route.ts:137-140 contro 107-110); con la colonna, rifatto a mano l'intreccio prenota/avvio/rimetti pronto, nessuna finestra (409 o 23505 → 409), e i 120 s coprono i 120 s di /apply. Resta parziale perché nel ramo la colonna non c'è: oggi sul sito si comporta come alla base. Ricetta della 750 (serve_file_altrui di R13-001): COMPLETA. Applicata con R13-003 in una copia alla testa f042b55a: tsc 0, eslint 0, 61 file di prove collegate verdi (405 casi), 51 file di guardiani delle migrazioni e SQL verdi; su Postgres 16 locale passano le 217 migrazioni, la prova SQL esce 0 con la 750 e 3 senza (P0001), la 750 si rilancia; suite intera verde (2006 file, 12329 casi). Il segno lo scrive /apply a fine lavoro e lo azzera rimettiPronto; sul 23505 il negozio legge il motivo nel toast (app/seller/products/ai-batch/page.tsx:452-454). Due avvertenze per chi applica: (a) il rilascio applica le migrazioni PRIMA di pubblicare (.github/workflows/deploy-dopo-ci.yml:476-488): con tutto in un commit, per qualche minuto l'avvio vivo vede la colonna e il vecchio /apply non la scrive, quindi dopo ogni applicazione un nuovo avvio può aspettare fino a 120 s; (b) start/route.ts:131 legge la colonna dentro un template e il guardiano nessuna-colonna-che-non-esiste.test.ts:100 non la vede: la ricetta non rimette la stringa letterale dopo i tipi rigenerati."
+    },
+    {
+      "id": "R13-009",
+      "chiave": "qa-flussi|la rotta del lavoro ai sul catalogo non rifiuta un secondo lavoro",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R13a --base df9e27d4^ --file app/api/ai/catalog-batch/start/route.ts --prove tests/unit/riparazione-r13-avvio-durante-applicazione.test.ts --json"
+      },
+      "nota": "Stesso commit e stesse righe di R13-001: il secondo lavoro era già rifiutato alla base, ora anche durante un'applicazione in corso, ma solo quando la colonna della 750 esisterà. Ricetta completa (vedi R13-001, con l'aggiunta NOTIFY pgrst dopo COMMIT); stesse due avvertenze sull'ordine del rilascio e sul guardiano delle colonne."
+    },
+    {
+      "id": "R13-002",
+      "chiave": "ai-endpoints|il copilot su un sottoinsieme grande del catalogo (es. «tutti i disponibili», 150 su 200) scrive ancora gli id uno per uno e risponde «riprova»",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R13b --base 26874022^ --file app/api/ai/copilot/route.ts --prove tests/unit/riparazione-r13-copilot-filtro-col-campo-vuoto.test.ts --json"
+      },
+      "nota": "16 varianti a 26874022: un campo a null dà 150 (giusto); '' e spazi su stato o categoria danno 0 (dichiarato, route.ts:127); «tutti» più filtro dà 200 (dichiarato). Il «resta» è incompleto su route.ts:327-328: oltre al filtro vuoto, buttano gli id espliciti anche un filtro non oggetto (stringa o array → 0) e un criterio non valido; con un filtro valido gli id espliciti vengono sostituiti (50 bozze al posto dei 30 id scelti). Da aggiungere al «resta» della voce."
+    },
+    {
+      "id": "R13-004",
+      "chiave": "ai-endpoints|l'allarme del tetto di spesa ai scatta solo se la stessa copia del sito resta accesa per un'ora, e su vercel può non arrivare mai",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R13c --base 3ed83b72^ --file app/api/cron/operational-alerts/route.ts,lib/ai/tettoSpesa.ts --prove tests/unit/riparazione-r13-allarme-tetto-dal-cron.test.ts --json"
+      },
+      "nota": "Su copie nuove: tace a 55 e 60 minuti, suona a 61; sulla copia accesa invia una volta e poi resta «già notificata»; al ritorno del conto la riga si toglie e un guasto nuovo riparte da lì; conto assente (PGRST202) suona subito; tetto 0, negativo, testo o vuoto: nessuna chiamata, nessuna riga; se la funzione lancia il cron prosegue e risponde 500 SORVEGLIANTE_INCOMPLETO; l'allarme entra prima di «No anomalies» (route.ts:760 contro 790). 20 file di cron e tetto verdi (218 casi). Già alla base, fuori voce: in tettoSpesa.ts:466-476 un errore di operational_alert_log non si legge e si torna alla memoria della copia senza dire «saltato»."
+    },
+    {
+      "id": "R13-005",
+      "chiave": "frontend-ux|se il servizio degli indirizzi è giù o limitato, il negozio legge «indirizzo non trovato, prova ad essere più specifico»",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R13d --base ccc6e936^ --file app/api/geocode/route.ts,components/StoreLocationPicker.tsx --prove tests/unit/riparazione-r13-indirizzi-servizio-giu-rotta.test.ts,tests/unit/riparazione-r13-indirizzi-servizio-giu-messaggio.test.tsx --json"
+      },
+      "nota": "Gli altri chiamanti reggono il 503: app/profile/addresses/page.tsx:79-92 salva senza coordinate come la base faceva sul 200 vuoto (niente blocco, niente salvataggio nuovo); components/checkout/ShippingAddressForm.tsx:77 esce su !res.ok come prima. Il limite della rotta resta 429 rate_limited (route.ts:28), distinto dal 503. Fuori voce e invariato: col servizio giù il cliente in addresses/page.tsx:133 legge ancora «Non abbiamo trovato la posizione»."
+    },
+    {
+      "id": "R13-008",
+      "chiave": "performance|dieci punti del sito fanno rimpicciolire la stessa foto due volte, una da supabase e una da vercel",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R13e --base 84d0a765^ --file \"app/lists/[id]/page.tsx,app/seller/stories/page.tsx,app/shop-of-month/page.tsx,components/MobileAccountSheet.tsx\" --prove tests/unit/riparazione-r13-foto-una-sola-riduzione.test.ts --json"
+      },
+      "nota": "Letti col parser TS i 49 <Image> di app/ e components/: tutti hanno un loader vero, nessuno passa da Vercel; gli URL del loader sono giusti (Supabase ?width, Pexels w/h, locali invariati; quality ignorata). Confermata la debolezza dichiarata della prova: con /* loader= */ o loader={undefined} in app/lists/[id]/page.tsx resta verde 3/3. Il «resta» è incompleto: StoryViewer.tsx:230 e ShopOfMonthHero.tsx:81 e :96 tengono la src già trasformata col caricatoreFotoRemote (lo schema tolto negli altri file), e il secondo controllo della prova li salta; a :96 il logo prende height con resize=cover, ritaglio quadrato contro il commento :91-93 (già alla base; stesso ritaglio in app/orders/page.tsx:355 e components/products/SellerCard.tsx:127). next.config.js, decimo file della voce, non è toccato né spiegato."
+    }
+  ],
+  "campione": {}
+}

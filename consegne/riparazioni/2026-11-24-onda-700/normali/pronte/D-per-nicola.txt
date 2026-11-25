@@ -1,0 +1,22 @@
+# elenco D di pronte (2026-11-24 17:05): 21 voci uniche, una chiave per riga
+microcopy|il cliente e l'email leggono ancora «un rider passa a prenderlo», mentre il pulsante del negozio ora dice «fattorino»
+qa-flussi|le domande dei clienti sotto i prodotti non arrivano a nessuno, ma al cliente diciamo che riceverà una notifica
+qa-flussi|le domande dei clienti sotto i prodotti non avvisano il negozio
+api-backend|la pulizia degli allarmi tiene esattamente 24 ore, senza margine, e non ha un indice su last_sent_at
+microcopy|lo stesso invio del lotto ai rimasto senza risposta dice «scartalo e avviane un altro» a 3 minuti e «chiedi all'assistenza prima di avviarne un altro» a 24 ore
+microcopy|la campanella «ordine pronto» dice la fascia senza il giorno
+qa-flussi|il nome del negozio non ha un tetto nel database: dal modulo del negozio si salva direttamente nella tabella dei profili
+qa-flussi|una migrazione che aggiunge una colonna non si può consegnare da sola: i tipi generati vanno rigenerati nello stesso commit
+architettura|da controllare sui dati: un negozio che oggi ha salvato 7 giorni vuoti diventa chiuso sempre appena esce la modifica
+architettura|ferie salvate con l'editor di prima su 3 giorni o meno: il negozio resta aperto a qualunque ora
+architettura|gli strumenti degli sviluppatori portano altre 19 falle note, 10 alte, ma nessuna arriva al sito
+architettura|zod, resend, @sentry/nextjs, minimatch e glob, librerie che vanno nel sito, hanno 10 avvisi pubblici di npm audit (zod alto) che si chiudono solo con aggiornamenti che rompono
+qa-flussi|le prove unitarie montano i componenti con react 18.3.1, ma il sito gira con il react 19.2 di next
+immagini-media|next.config.js ammette ancora le immagini di placehold.co, che il sito non usa più
+microcopy|la campanella «ordine pronto» dice ancora «un rider passa a prenderlo a breve», mentre pagina ed email ora dicono fattorino
+deploy-sre|l'avviso «registratore degli errori acceso solo sul server» resta finché non si rifà il deploy
+deploy-sre|con il rilascio automatico acceso il ritorno indietro automatico non scatta quasi mai
+frontend-ux|il cliente legge «il tuo rider» e il negozio legge «cliente» al posto dei nomi, perché le due strade nuove per i nomi non esistono nel database vero
+frontend-ux|nel profilo del fattorino il documento risulta «verificato» appena caricato, e l'attestato haccp resta «mancante» anche dopo il caricamento
+frontend-ux|lo scheletro del negozio impedisce il 404 vero sulle pagine dei negozi anche senza lo scheletro della radice
+frontend-ux|il modulo del prodotto non dice che il nome ha al massimo 120 caratteri: il negozio legge solo «il valore inserito non è valido»

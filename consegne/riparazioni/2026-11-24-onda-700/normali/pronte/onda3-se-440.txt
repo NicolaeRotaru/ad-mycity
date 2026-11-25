@@ -1,0 +1,15 @@
+# onda 3, le 13 voci in più SOLO se Nicola dice sì al tetto di circa 440 $ (chiesto alle 17:27, risposta non ancora arrivata).
+# 4 pagamenti (R03-001 R03-003 R03-006 R03-011: sessione con /effort ultracode, due lenti al collaudo) · 4 con migrazione (R01-009 R05-008 R07-001 R07-008: migrazione scritta, mai applicata) · 5 rimandate (R02-015 R05-009 R05-010 R05-012 R03-013; R05-010 tocca account: ultracode).
+architettura|commenti delle rotte della veloce dicono ancora «un fattorino approvato e online»
+architettura|il parametro propostail di negoziopuoservire non lo passa nessuno
+architettura|una fascia «domani» inviata alle 23:59 e arrivata alla rotta dopo mezzanotte si giudica sul giorno dopo
+qa-flussi|faccine nei titoli delle notifiche scritte dal codice del sito
+microcopy|il cliente e l'email leggono ancora «un rider passa a prenderlo», mentre il pulsante del negozio ora dice «fattorino»
+microcopy|la campanella «ordine pronto» dice ancora «un rider passa a prenderlo a breve», mentre pagina ed email ora dicono fattorino
+frontend-ux|nel profilo del fattorino il documento risulta «verificato» appena caricato, e l'attestato haccp resta «mancante» anche dopo il caricamento
+frontend-ux|il modulo del prodotto non dice che il nome ha al massimo 120 caratteri: il negozio legge solo «il valore inserito non è valido»
+tipografia|otto spaziature diverse per la stessa etichetta maiuscola
+performance|zod intero nel pacchetto comune per la validazione del marchio
+qa-flussi|un cliente che esiste già non ha una strada da solo per diventare fattorino
+qa-flussi|un negoziante senza orari che preme «+ orario» e poi la x salva sette giorni vuoti, cioè chiuso sempre
+qa-flussi|il logger oscura solo le chiavi del contesto, non il testo del messaggio né un contesto stringa

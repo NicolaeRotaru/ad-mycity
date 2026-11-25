@@ -31,6 +31,50 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
+### 🟡 #262 — Guarda la radiografia a onde e dimmi due scelte prima della prima radiografia · ⏳ accodata 2026-11-24 21:58 · @ad
+
+**In parole semplici.** La radiografia del sito ora lavora come le onde della riparazione. Prima ricontrolla i difetti aperti, che è il modo più economico di chiuderli, poi cerca quelli nuovi.
+Per esempio: il 21/11 il ricontrollo ha guardato 459 voci aperte e ne ha chiuse 117, a circa 1,1 $ l'una.
+
+**Cosa cambia per te.** Nessuna radiografia parte da sola: la prima chiede il tuo «via» sul preventivo. Prima di quel via servono due tue scelte.
+
+**Cosa devi fare.**
+- Dire se tenere ultracode sulle sessioni che cercano difetti nei temi a rischio alto: soldi, accessi e dati. Costa circa il doppio per quelle sessioni.
+- Dire se vuoi il freno sul numero di agenti anche nella macchina. Va incollato a mano nelle impostazioni, e puoi farlo solo tu.
+- Unire la richiesta di unione della radiografia a onde, quando ti va bene.
+
+**Cosa non ho verificato.** Nessuna radiografia vera ha ancora usato queste regole: le hanno provate 63 prove automatiche e due collaudi.
+
+**Cosa cambia:** la radiografia si lancia con le regole delle onde: oggi un ricontrollo costerebbe circa 86 $ per circa 78 difetti chiusi.
+**Se va bene:** al tuo «via» parte il primo ricontrollo, e la sua misura vera corregge il preventivo dopo.
+
+- **Colore:** 🟡
+- **Reparto:** ad
+- **Dettagli tecnici:** `consegne/audit/2026-11-24-radiografia-a-onde/lezioni.md`, ramo `ccr-aa319319-23ibpz`.
+- **Ultracode:** si spegne con `prepara --ultracode no`.
+- **Il freno:** `cervello/riparazione/freno-subagenti.mjs`, ruolo `cercatore`. Si aggancia in `.claude/settings.json` di ad-mycity, come nel sito.
+
+### 🔴 #261 — Accendi il collegamento fra MyCity e n8n, e incolla la chiave per l'analisi del mattino · ⏳ accodata 2026-11-24 03:40 · @builder-automazioni
+
+**In parole semplici.** Hai chiesto due cose, e sono pronte su n8n. La prima: quando un'attività si iscrive su MyCity, entra da sola nella scheda Clienti col lavoro del modulo 12. La seconda: l'analisi del marketplace che fa l'AD ogni giro, senza la radiografia, ora è il flusso n8n «17 · Analisi del marketplace» e ti arriva ogni mattina alle 8:10 su Telegram.
+Esempio vero: stanotte ho provato il primo con Pane Quotidiano in modalità prova. Claude ha trovato indirizzo, telefono e orari, e la scheda è arrivata fino a «avrei scritto la riga, attivo = no». Costo 0,39 $.
+
+**Cosa cambia per te.** Le nuove attività di MyCity non vanno più inserite a mano nella scheda Clienti: arrivano con attivo = no, e tu le correggi col modulo 12. Per ognuna ti arriva anche l'analisi del suo business (flusso 18): a che punto è per il primo incasso, cosa le manca, le prossime mosse e cosa chiedere al titolare. Ogni mattina trovi su Telegram i numeri del marketplace, i segnali scattati e cosa propone l'AD.
+
+**Cosa devi fare tu.**
+- Unire le richieste del sito in quest'ordine: mycity#309, poi #310, poi #311. Sono quelle della sessione «Servizi SDG». La mia #308 va bene in qualunque momento. Poi «Migrazioni a mano» per la 706, la 707 e la 708. Poi scrivere in Vercel tre variabili: `N8N_NUOVO_CLIENTE_WEBHOOK_URL`, `N8N_NUOVO_CLIENTE_SEGRETO` e `N8N_SCHEDA_CLIENTE_SEGRETO` (24/11 08:50: n8n manda la scheda del cliente al sito, che la mostra al venditore da confermare). Il valore del segreto è nel file che ti ho indicato in chat (n8n non lo rimostra). Se lo perdi, scegline uno nuovo e scrivilo in due posti: la credenziale «MyCity - Segreto nuovo cliente» in n8n e la variabile in Vercel.
+- In n8n aprire la credenziale «Supabase MyCity - Marketplace (lettura)», incollare la chiave del database di MyCity e accendere il flusso 17.
+- Decidere sull'API di Claude a pagamento. La tua regola dell'1/11 dice «non si paga MAI un'API di IA» (registro dei fatti, ad.uso-e-crediti). La ricerca del modulo 12, e quindi del 16, usa proprio l'API a pagamento, e dal 24/11 alle 03:35 il credito è finito. Senza credito il 16 non scrive schede: avvisa e basta. Il commento di Claude nel 17 e nel 18 l'ho già spento di serie.
+
+**Cosa non ho verificato.** La chiamata vera dal sito a n8n non l'ho fatta: serve il rilascio. Il flusso 17 ha girato una volta dentro n8n alle 03:35, ma senza la chiave: i numeri veri del marketplace non li ha ancora visti. Il saldo del credito di Claude non lo vedo: so solo che alle 03:23 una chiamata è passata e alle 03:35 no.
+
+**Trovato strada facendo.** Il controllo «pronto» del sito risponde 200 ma si dice «degradato»: 11 lavori automatici su 11 fermi, fra cui payout, email e notifiche, da circa 117 giorni. Il flusso 17 ora lo segnala in giallo.
+
+Cosa cambia: ogni attività che si iscrive su MyCity entra nella scheda Clienti con attivo = no, e ogni mattina alle 8:10 arriva il giro dei numeri su Telegram.
+Se va bene: dopo il primo giro col database vero si confrontano i suoi numeri con quelli del Pannello, e si decide se salvare il riassunto anche nella card del Pannello.
+
+Dettagli: flussi n8n `xu0RPgoSNsDaP7xn` (16, acceso, MODALITA vero), `C5DH4QtG2YgKqYvK` (18, acceso, chiamato dal 16) ed `E9yH0gDDPe37fA8g` (17, spento). Il 18 usa la stessa chiave del database del 17: finché non la incolli, scrive «non misurato». Sorgenti in NicolaeRotaru/N8N, cartella `flussi/` (`LEGGIMI.md`). Sito: `lib/agenzia/flusso-n8n.ts`, `app/api/seller/apply/route.ts`. Indirizzo del webhook: `https://n8n-shdy.sliplane.app/webhook/mycity-nuovo-cliente`.
+
 ### 🟡 #260 — Unisci l'onda 5 del sito e rispondi alle sue domande quando hai tempo · ⏳ accodata 2026-11-17 13:15
 
 **In parole semplici.** L'onda 5 ha riparato i difetti del sito con quattro riparatori. Si chiudono 10 difetti nuovi, e altri 10 erano già a posto dall'onda 4. La richiesta di unione è mycity#294, fuori bozza, con tutte le prove verdi.
@@ -1910,6 +1954,12 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 > è un valore DEDOTTO dalla macchina, non fornito dal negozio; per prezzo/orari/descrizione serve prima
 > la conferma del dato dal negozio (restano «da procurare», non li scrive nessun autofill).
 <!-- SUPERVISIONE-NEGOZI:FINE -->
+
+## Manda a Ora del Gusto il preventivo di SDG e fallo iscrivere su MyCity (aggiunta 2026-11-24 02:20, corretta 03:50)
+- **Reparto:** @onboarding-negozi · **Colore:** 🔴 (preventivo a un cliente vero; iscrizione sul sito vero)
+- **Contenuto:** preventivo di SDG Agenzia `consegne/preventivi/2026-11-24-ora-del-gusto/preventivo-sdg-ora-del-gusto.pdf` (Base 300 · Business 500 consigliato · Premium 999 €/mese, primo mese a metà, nessun vincolo con 30 giorni di preavviso). Prima di mandarlo scrivi a mano email e WhatsApp di SDG e il nome del titolare. Iscrizione MyCity: il titolare da mycity-marketplace.com/sell, tipo «Bar o caffetteria».
+- **Cosa cambia:** Ora del Gusto diventa il primo cliente degli abbonamenti di SDG; col Business sono 500 euro al mese, il primo mese 250.
+- **Se va bene:** firmato il preventivo, fissi l'incontro nel locale per foto, scheda Google e primi post.
 
 ---
 

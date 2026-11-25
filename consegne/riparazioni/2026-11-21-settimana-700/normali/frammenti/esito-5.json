@@ -1,0 +1,13 @@
+{
+  "corsia": 5,
+  "territorio": "R05",
+  "difetti": [
+    {
+      "chiave": "architettura|l'email trova il collegamento cercando la stringa '/contact' dentro una frase scritta in un altro modulo",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r05-collegamento-dal-recapito.test.ts tests/unit/riparazione-r05-collegamento-salvato.test.ts",
+      "non_vacuita": "cd /home/user/mycity && timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 81425a384da024f017372b98d56169caeb192d29^ --file lib/privacy/avvisi-a-chi-aspetta.ts --prove tests/unit/riparazione-r05-collegamento-dal-recapito.test.ts,tests/unit/riparazione-r05-collegamento-salvato.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R05 --base 81425a384da024f017372b98d56169caeb192d29^ --file lib/privacy/avvisi-a-chi-aspetta.ts --prove tests/unit/riparazione-r05-collegamento-dal-recapito.test.ts,tests/unit/riparazione-r05-collegamento-salvato.test.ts  --json && timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R05 --base 89ef220ecede75291da3c8e2d020cd989617c8e7^ --file lib/privacy/avvisi-a-chi-aspetta.ts --prove tests/unit/riparazione-r05-collegamento-salvato.test.ts  --json → uscita 0 (K02)",
+      "nota_fix": "Il collegamento al modulo dei contatti non dipende più dalle parole della frase di titolare: se il testo salvato porta la pagina (costante condivisa PAGINA_DEI_CONTATTI) quella diventa l'indirizzo intero e cliccabile; se non la porta e non c'è una casella privacy, sotto si aggiunge la riga del modulo presa da recapitoPrivacy(). Così un testo salvato con «(pagina /contact)» resta cliccabile anche se la casella si configura dopo il pannello, senza parola nuda e senza la stessa strada due volte. Il giro di correzione l'ha fatto la capo squadra (tetto dei subagenti raggiunto)."
+    }
+  ]
+}

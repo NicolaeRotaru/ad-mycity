@@ -1,0 +1,12 @@
+{
+ "creato": "2026-11-24 19:45",
+ "aperti": 610,
+ "senza_nicola": 320,
+ "con_migrazione": 48,
+ "per_nicola": 77,
+ "pronte_unione": 47,
+ "in_lavoro_onda3": 11,
+ "riservate": 89,
+ "senza_percorso": 18,
+ "nota": "pronte_unione = i 47 della bozza mycity#315; in_lavoro_onda3 = le 11 di R11 e R12; riservate solo contate (binario riservato)."
+}

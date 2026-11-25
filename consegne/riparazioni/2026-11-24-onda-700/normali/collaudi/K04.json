@@ -1,0 +1,153 @@
+{
+  "collaudatore": "K04",
+  "riparatori": [
+    "R01",
+    "R02",
+    "R07"
+  ],
+  "aggiornato": "2026-11-24 17:34",
+  "finita": true,
+  "parziale": true,
+  "nota_consegna": "Collaudo parziale fermato dalla regia per il tetto di spesa (8 $). Giudicate 4 voci di R02 (3 reggono, 1 parziale). Le altre 8 voci hanno la sola prova rimessa (uscita 0; R07-014 uscita 3 con la rimessa a mano che regge) e restano senza verdetto in «fermate»: non si chiudono da questo collaudo.",
+  "voci": [
+    {
+      "id": "R02-005",
+      "chiave": "api-backend|la pulizia degli allarmi tiene esattamente 24 ore, senza margine, e non ha un indice su last_sent_at",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R02 --base eb3a949bf2343a9ed9a367218c3244d87f78305e^ --file migrations/831_la_pulizia_degli_allarmi_tiene_un_margine.sql --prove tests/sql/rls/riparazione-r02-allarmi-col-margine.test.sql --sql k04_r02_rimessa --json"
+      },
+      "nota": "Rimessa uscita 0. Funzione identica alla 660 tranne la soglia, indice usato davvero; il margine di 24h30 copre le attese di oggi (la più lunga 24 ore: app/api/cron/operational-alerts/route.ts:100, app/api/cron/expire-checkouts/route.ts:10). Parziale perché la voce dice anche «un’attesa futura più lunga si romperebbe in silenzio» e questo resta vero: nessuna prova lega le costanti del codice alla soglia di migrations/831_la_pulizia_degli_allarmi_tiene_un_margine.sql:35 (portare un’attesa a 48 ore lascia tutto verde), c’è solo un commento. Non toccato neanche «la prima scrittura dopo il rilascio cancella tutto l’arretrato». Su d000e3b0: 226 migrazioni su 226, 831 rieseguibile, 91 prove SQL e 12670 prove unit verdi."
+    },
+    {
+      "id": "R02-009",
+      "chiave": "microcopy|la campanella «ordine pronto» dice la fascia senza il giorno",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R02 --base 3cf718916f12689010815764d8cae8af5b40eebf^ --file migrations/832_l_ordine_pronto_dice_anche_il_giorno.sql --prove tests/sql/rls/riparazione-r02-ordine-pronto-col-giorno.test.sql --sql k04_r02_rimessa --json ; timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R02 --base 7ff5361d91bd4baf024da081bd806b2c0f8a1486^ --file migrations/832_l_ordine_pronto_dice_anche_il_giorno.sql --prove tests/sql/rls/riparazione-r02-ordine-pronto-col-giorno.test.sql --sql k04_r02_rimessa2 --json"
+      },
+      "nota": "Due rimesse a uscita 0 (base 3cf71891^ e 7ff5361d^). La funzione l’hanno ridefinita 086, 122, 215, 321 e 832: l’ultima prima della 832 è la 321, confermato sul database della base; fra 321 e 832 cambiano solo le righe volute, SECURITY DEFINER, search_path e permessi (solo service_role) uguali. 14 casi di confine giusti (23:59:59/00:00:01, 23:30 UTC = 00:30 a Roma, In giornata, Stasera, etichetta ignota, Domani senza orario, spazi, minuscolo, ritiro, fascia di due giorni fa, assegnato poi pronto senza doppione). Minore che resta: una fascia di oggi già finita dice ancora «oggi» (alle 17:27 «te lo porta a casa oggi nella fascia 9:00–11:00»), mentre il commento in cima alla 832 (righe 15-16) promette «fascia già passata → senza giorno». Prova 48 verde sull’integrazione (476660d6)."
+    },
+    {
+      "id": "R02-012",
+      "chiave": "qa-flussi|il nome del negozio non ha un tetto nel database: dal modulo del negozio si salva direttamente nella tabella dei profili",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R02 --base af9d3bb05ccf9a58407508b5bffa9bad3fafbdfc^ --file components/seller/site/StoreDetailsEditor.tsx --prove tests/unit/riparazione-r02-nome-negozio-con-tetto.test.ts --json ; timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R02 --base af9d3bb05ccf9a58407508b5bffa9bad3fafbdfc^ --file migrations/830_il_nome_del_negozio_ha_un_tetto_anche_nel_database.sql --prove tests/sql/rls/riparazione-r02-nome-negozio-con-tetto.test.sql --sql k04_r02_rimessa --json"
+      },
+      "nota": "Due rimesse a uscita 0 (migrazione 830 con --sql, StoreDetailsEditor con la prova unit). Nessuna funzione SQL scrive store_name; modulo e domanda d’iscrizione (.trim().max(80)) contano unità UTF-16, mai meno dei caratteri del database; profilo vecchio col nome lungo resta scrivibile sulle altre colonne e riscrivendo lo stesso nome. Minori accanto: il pannello admin non ha tetto sul campo (app/admin/users/page.tsx:1023) e oltre 80 legge solo «Il valore inserito non è valido.» (lib/errors.ts:233-242 ha la frase del 23514 solo per i prodotti); l’admin non può cambiare il telefono di un profilo vecchio con nome oltre 80 e uno spazio in coda, perché la patch manda store_name.trim() (riga 976) e il trigger risponde 23514 (provato sul Postgres locale; tocca solo dati vecchi già oltre il tetto); la funzione del trigger ha EXECUTE aperto a PUBLIC, innocuo per una funzione di trigger."
+    },
+    {
+      "id": "R02-010",
+      "chiave": "qa-flussi|in un commento del cron delle notifiche resta l'id di un'altra sessione",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R02 --base 2930b8aa172da8e443a63b839feb4481b65e2dbf^ --file app/api/cron/send-push/route.ts --prove tests/unit/riparazione-r02-commento-senza-id.test.ts --json"
+      },
+      "nota": "Rimessa uscita 0. Nel file finale d000e3b0, dopo a6bee2db e d84fe943 di R02-004, nessun id R02-xxx; restano R28-006 (riga 41) e R26-003 (riga 75), già alla base e fuori dalla voce, che nomina la riga 10."
+    }
+  ],
+  "fermate": [
+    {
+      "id": "R01-001",
+      "chiave": "ai-endpoints|con un solo lavoro aperto per negozio, il «rimetti pronto» dell applica può fallire senza che nessuno lo veda",
+      "nota": "fermato dalla regia per tetto",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R01 --base 7e791c97d41b2ca26118eaba444ea559aabba4dc^ --file app/api/ai/catalog-batch/apply/route.ts --prove tests/unit/riparazione-r01-rimetti-pronto.test.ts --json"
+      }
+    },
+    {
+      "id": "R01-006",
+      "chiave": "deploy-sre|la pulizia degli allarmi cancella la riga del tetto di spesa ai proprio mentre la funzione la controlla, e il primo errore dopo un giorno di quiete non viene detto",
+      "nota": "fermato dalla regia per tetto",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R01 --base 66226a6455108c252c16828bfe70a9c8e6b5f406^ --file lib/ai/tettoSpesa.ts --prove tests/unit/riparazione-r01-errore-tetto-dopo-la-pulizia.test.ts --json"
+      }
+    },
+    {
+      "id": "R01-011",
+      "chiave": "qa-flussi|se la lettura dei reclami fallisce, la pagina del reclamo ripropone il modulo e un secondo reclamo su uno chiuso passa",
+      "nota": "fermato dalla regia per tetto",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R01 --base bb3601100b1f2a7c6d7bac6db6b543eed284f2e1^ --file app/orders/[id]/dispute/page.tsx --prove tests/unit/riparazione-r01-reclamo-lettura-caduta.test.ts --json"
+      }
+    },
+    {
+      "id": "R01-012",
+      "chiave": "qa-flussi|le domande dei clienti sotto i prodotti non arrivano a nessuno, ma al cliente diciamo che riceverà una notifica",
+      "nota": "fermato dalla regia per tetto",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R01 --base f097c86cce5dae3558d63b4dff364258cb97dafe^ --file migrations/822_la_risposta_del_negozio_avvisa_chi_ha_chiesto.sql --prove tests/sql/rls/riparazione-r01-risposta-avvisa-chi-chiede.test.sql --sql k04_r01_rimessa --json"
+      }
+    },
+    {
+      "id": "R01-013",
+      "chiave": "qa-flussi|le domande dei clienti sotto i prodotti non avvisano il negozio",
+      "nota": "fermato dalla regia per tetto",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R01 --base e87f559f8dbd32090df1291a5550c5b4d1bae36a^ --file migrations/821_una_domanda_nuova_avvisa_il_negozio.sql --prove tests/sql/rls/riparazione-r01-domanda-avvisa-il-negozio.test.sql --sql k04_r01_rimessa --json"
+      }
+    },
+    {
+      "id": "R02-001",
+      "chiave": "api-backend|la chiusura dello «scrivile tu» gira dopo il tetto delle email e non ha un suo tetto di tempo",
+      "nota": "fermato dalla regia per tetto",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R02 --base afafbd7461ee4fe2574623a4f66d97c185306d8e^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r02-chiusura-con-tetto.test.ts --json"
+      }
+    },
+    {
+      "id": "R02-002",
+      "chiave": "api-backend|se lo stesso guasto della pulizia dei dati vecchi torna dopo essere stato letto, gli amministratori non ricevono più l'allarme",
+      "nota": "fermato dalla regia per tetto",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R02 --base 3eb95a767746e739a3e7e28deed625292caefc11^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r02-allarme-ritenzione-torna.test.ts --json"
+      }
+    },
+    {
+      "id": "R07-014",
+      "chiave": "stati-ui|senza database la categoria e la scheda prodotto mostrano «qualcosa è andato storto» invece del loro errore con «riprova»",
+      "nota": "fermato dalla regia per tetto: rimessa della macchina uscita 3 (file di convenzione Next), rimessa a mano che regge; il giudizio pieno non è finito (revisore fermato durante la prova sulla build di produzione).",
+      "rimessa": {
+        "uscita": 3,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R07 --base 9d4b57b205747c160dbe5ee1a47b03c46be88e88^ --file app/category/error.tsx,app/product/error.tsx --prove tests/unit/riparazione-r07-categoria-e-scheda-senza-database.test.tsx --json",
+        "a_mano": {
+          "comando": "in /home/user/wt-R07 (9d4b57b2): tolto da solo app/category/error.tsx, poi da solo app/product/error.tsx; npx vitest run tests/unit/riparazione-r07-categoria-e-scheda-senza-database.test.tsx --reporter=dot → uscita 1 con AssertionError sul testo («expected Qualcosa è andato storto … to contain Non riesco a caricare questa categoria» / «not to contain Qualcosa è andato storto»); file rimessi → 5 verdi, uscita 0",
+          "uscita_senza_correzione": 1,
+          "uscita_con_correzione": 0
+        }
+      }
+    }
+  ]
+}
