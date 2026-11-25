@@ -7325,6 +7325,23 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 
 - 2026-11-21 23:15 · Settimana dei 700 · Nicola dà il via alle 182 voci semplici del sito (12 sessioni, stima circa 370 $, tetto del giro 480 $), con la strategia preparata dalla regia seconda; le 281 delicate restano ferme. Sulla riservatezza dei rami lascia scegliere alla regia: cancellare i rami laterali e unire la #990 compressa.
 
+## 2026-11-24 21:32 — La radiografia del sito prende le regole delle onde della riparazione (🟡, vale con la firma di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD, 24/11: «guarda come funzionano ondate oggi, come sono andate, dove hanno sbagliato e dove hanno fatto bene, impara da esse e crea lo stesso sistema anche per la radiografia».
+- **Cosa:** `cervello/radiografia-sessioni.mjs` prende le lezioni delle onde 1-9 e della settimana dei 700. Le prende come programma, dove si può.
+  - Il primo filtro del ricontrollo (era uno script della campagna) entra in `prepara` e lo rifà `copertura-prima`.
+  - Il ricontrollo si divide fra voci gravi, con ultracode, e voci minori, senza.
+  - Il preventivo viene solo dalle misure con la stessa configurazione, scritte nel nuovo `cervello/radiografia/misure.json`.
+  - La ricerca a lotti, mai misurata, parte con un'onda pilota di due cercatrici.
+  - Il referto porta il costo in dollari, e ogni voce aperta dice se è una falla.
+  - Un grave visto di passaggio ha un posto anche nel ricontrollo.
+  - Il registro non si scrive senza la riga delle misure.
+  - La sorveglianza è muta: sveglia la regia solo con un segnale nuovo, e vede la sessione che non parte.
+  - Nel freno sugli agenti entra il ruolo «cercatore» (12, mai Workflow).
+  - Skill, LEGGIMI, COMANDI.md e una riga del manuale dell'AD aggiornati.
+- **Collaudo:** due collaudatori indipendenti, uno per lente. Hanno bocciato al primo giro per sei difetti, tutti corretti con la loro prova. Il primo filtro teneva fuori due gravi sui soldi, perché leggeva solo il primo intervallo di righe. Una misura a vuoto apriva la porta del registro. Un ramo non ancora spinto accecava la sorveglianza di tutta l'onda. Lo zero lasciato nel modello passava come costo. Una frase sugli agenti faceva scattare il guardiano dei senior. Mancava la registrazione della radiografia in corsa.
+- **Perché:** la radiografia era ferma alle regole del 12/11. Il ricontrollo del 21/11 ha chiuso 117 voci con circa 130 $, circa 1,1 $ l'una. Una chiusura con riparazione costa 4-8 $ nelle onde migliori.
+- **Scelte dell'AD da confermare:** ultracode sulle cercatrici dei temi a rischio alto (per analogia con la regola 5 del 15/11) e l'hook del freno in `ad-mycity` (lo incolla Nicola, se vuole).
+- **Colore:** 🟡 modifica alla macchina, ramo `ccr-aa319319-23ibpz`; nessuna radiografia lanciata. Analisi: `consegne/audit/2026-11-24-radiografia-a-onde/lezioni.md`.
 - 2026-11-22 16:50 · Settimana dei 700 · Nicola firma in chat «firmo le due prove e la rimessa a mano per R04». Effetto: in `normali/piano.json` l'eccezione firmata per l'onda 1 sulle regole `prove_comuni` (le prove toccate da R09 e R11 entrano nell'unione) e `rimessa_a_mano`. `applica` a vuoto passa da rosso a verde: 150 voci, 53 si chiudono dopo l'unione, 6 già riparate, 91 restano aperte, 44 difetti nati. Le tre voci di R04 (005, 009, 010) restano aperte lo stesso: K02 le ha giudicate parziali. **Colore:** 🟡, firma di Nicola; ramo `claude/settimana-700-regia`.
 
 - 2026-11-22 17:45 · Settimana dei 700 · Nicola sceglie «A» (PR subito, giro di correzione preparato a parte), fa togliere mycity#301 dalla bozza e la unisce (3d95d6a). Scritte 53 chiusure nel registro con `chiudi-sito.mjs --pr 301`; 47 nati scritti, 3 riservati tenuti fuori. Aperti nel registro da 632 a 620. Il giro di correzione R13-R18 (79 voci, circa 200 $) non parte senza il suo sì. **Colore:** 🔴 unione firmata da Nicola; ramo `claude/settimana-700-regia`.
@@ -7433,3 +7450,10 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa:** ① il piano va bene, parole sue: «sì, va bene, facciamolo in questo modo qua». Le sette scelte della lista restano da spuntare una per una: lui non ha ancora finito di leggere. ② L'AD deve pensare a tutto quello che esiste: n8n, SDG, MyCity, ogni imprenditore che aderisce, il marketplace e quello che gira intorno ai siti. Parole sue: «è un'azienda a tutti gli effetti». ③ Le figure che per ora restano umane: fotografo, videomaker, fattorino e commercialista. L'AD le organizza ma non le sostituisce. ④ Il nome «AD MyCity» non basta più, perché MyCity è solo il marketplace. Nicola chiede come chiamare l'organizzazione intera.
 - **Fatto subito:** nel documento la fase M1 diventa «La mappa dell'azienda», cioè tutto quello che esiste in una pagina che l'AD legge per prima. Il fatto `ad.uso-e-crediti` del registro ora dice «server spento per sempre».
 - **Aperto:** la scelta del nome (proposte dell'AD in chat). Il cambio di nome si fa insieme alla fase M3, così ogni file si tocca una volta sola. Se il nome diventa pubblico o il nome della società, prima va verificato il marchio (🔴).
+
+## 2026-11-25 12:15 — L'esenzione di round2-applica rinnovata di una settimana, fino al 2/12 (🟡, scelta di Nicola)
+- **Chi e quando:** Nicola, in chat alla sessione «Sistema radiografia», il 25/11 verso le 12:05. Rispondendo alla domanda sul rosso della PR #995, ha scelto «Rinnova una settimana».
+- **Cosa:** in `cervello/atti-con-porte.json` l'esenzione di `cervello/round2-applica.mjs` passa dal 21/11 al 2/12, col perché nuovo scritto accanto. In `cervello/scadenzario.json` la voce `esenzione-round2-applica` scade il 3/12 all'01:00.
+- **Perché:** dal 22/11 «le porte gemelle» era rosso per ogni richiesta di unione, comprese la #994 e la #995. La cura vera (AR-969) aspetta ancora il terzo tentativo, che è una scelta di Nicola dal 15/11.
+- **Prove:** `porte-gemelle` torna verde; `c9-governo-senza-sveglia` 17 su 17; le 16 mutazioni di AR-966 tutte rosse; `forma-json` verde.
+- **Colore:** 🟡 modifica alla macchina, nella PR ad-mycity#995 (ramo `ccr-aa319319-23ibpz`): vale con l'unione di Nicola. Il 2/12 si torna a scegliere: curare AR-969, oppure rinnovare con un perché nuovo.

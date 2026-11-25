@@ -12509,6 +12509,294 @@
    "cerca": "    else if (!u && pr.unita === undefined && !registroScrittoPerOnda(elenco, nomi)) attese.push(",
    "sostituisci": "    else if (false) attese.push(",
    "test": "cervello/test/conti-che-arrivano-in-tempo.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-a-onde",
+   "nome": "prepasso: una voce dichiarata riparata ma con le righe ferme non va più agli agenti",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "export const daGuardare = (e) => CLASSI_DA_GUARDARE.includes(e.classe) || e.dichiarata_riparata === true;",
+   "sostituisci": "export const daGuardare = (e) => CLASSI_DA_GUARDARE.includes(e.classe);",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-a-onde",
+   "nome": "prepasso: le righe toccate diventano ferme e la voce non va agli agenti",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "  if (toccati.length) return righeToccate ? \"righe_toccate\" : \"righe_ferme\";",
+   "sostituisci": "  if (toccati.length) return \"righe_ferme\";",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-a-onde",
+   "nome": "ricontrollo: voci gravi e minori tornano nella stessa sessione (ultracode su tutte)",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "    const lotti = lottiDiVoci(voci.filter((v) => GRAVI.has(v.gravita) === delicata), perLotto);",
+   "sostituisci": "    const lotti = lottiDiVoci(delicata ? voci : [], perLotto);",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-a-onde",
+   "nome": "copertura-prima non vede più gravi e minori mischiati nella stessa sessione",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "      if (gravi && gravi !== righe.length) rossi.push(",
+   "sostituisci": "      if (false) rossi.push(",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-a-onde",
+   "nome": "copertura-prima non vede più ultracode cambiato a mano",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "    if (x.ultracode !== atteso) rossi.push(",
+   "sostituisci": "    if (false) rossi.push(",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-a-onde",
+   "nome": "copertura-prima non vede più una voce tolta a mano da da-ricontrollare",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "        if (mancano.length) rossi.push(",
+   "sostituisci": "        if (false) rossi.push(",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-a-onde",
+   "nome": "preventivo: torna a prendere l'ultima misura qualunque sia l'ultracode",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "    const usati = stessi.length ? stessi : adatti;",
+   "sostituisci": "    const usati = adatti;",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-a-onde",
+   "nome": "preventivo: la sessione mai misurata con ultracode costa come senza",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "* (uc ? Number(stima.fattore_ultracode) || 1 : 1);",
+   "sostituisci": "* 1;",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-a-onde",
+   "nome": "onda pilota: la ricerca a lotti mai misurata parte tutta insieme",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "  if (pilota !== null && ordinate.some((x) => sessioni[x].tema !== \"S01\")) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-a-onde",
+   "nome": "ⓕ una voce che resta aperta non deve più dire se è una falla",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "      if (typeof k?.falla !== \"boolean\") rossi.push(",
+   "sostituisci": "      if (false) rossi.push(",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-a-onde",
+   "nome": "ⓕ una falla ancora aperta torna a portare i dettagli nel ramo pubblico",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "if (k[c] != null && k[c] !== PRIVATO) rossi.push(",
+   "sostituisci": "if (false) rossi.push(",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-a-onde",
+   "nome": "ⓕ un campo in più in un ricontrollo torna a passare",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "    if (extraK.length) rossi.push(",
+   "sostituisci": "    if (false) rossi.push(",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-a-onde",
+   "nome": "ⓕ applica non scrive più le falle scoperte in da-riservare.txt",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "      if (k.falla === true && k.esito !== \"non_piu_vero\") daRiservare.push(",
+   "sostituisci": "      if (false) daRiservare.push(",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-a-onde",
+   "nome": "ⓓ un referto finito senza il costo in dollari torna a passare",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "    if (!usdOk && String(r.conto?.usd_perche ?? \"\").trim().length < 15) rossi.push(",
+   "sostituisci": "    if (false) rossi.push(",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-a-onde",
+   "nome": "ⓜ applica scrive il registro senza la riga delle misure",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "    try { scritta = (leggiJson(fm).misure ?? []).some((m) => m?.cartella === rel(opz, opz.cartella)); } catch (e) { illeggibile = e.message; }",
+   "sostituisci": "    try { scritta = true; } catch (e) { illeggibile = e.message; }",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-a-onde",
+   "nome": "ⓜ misura riscrive due volte la riga della stessa radiografia",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "    else if (M.misure.some((m) => m?.cartella === riga.cartella)) rossi.push(",
+   "sostituisci": "    else if (false) rossi.push(",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-a-onde",
+   "nome": "ⓜ un gruppo con un costo che manca entra nelle misure come se fosse intero",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "usd: usd_noti === g.sessioni ? tonda(g.usd) : null,",
+   "sostituisci": "usd: tonda(g.usd),",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-a-onde",
+   "nome": "segnali: la sessione aperta che non parte non si vede più",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "      else if (ora - s.aperta > minutiPartenza * 60000) out.push(",
+   "sostituisci": "      else if (false) out.push(",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-a-onde",
+   "nome": "ⓝ il ricontrollo torna a non avere un posto per i gravi visti di passaggio",
+   "file": "cervello/radiografia/temi.json",
+   "cerca": "      \"gravita\": [\"bloccante\", \"grave\"],\n      \"cerca_nuovi\": false,",
+   "sostituisci": "      \"gravita\": [],\n      \"cerca_nuovi\": false,",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-a-onde",
+   "nome": "ⓓ lo 0 del modello torna a valere come costo noto, nel referto e nelle misure",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "export const costoNoto = (v) => typeof v === \"number\" && Number.isFinite(v) && v > 0;",
+   "sostituisci": "export const costoNoto = (v) => typeof v === \"number\" && Number.isFinite(v) && v >= 0;",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-a-onde",
+   "nome": "prepasso: torna a leggere solo il primo intervallo di righe di una citazione",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "(?::(\\d+(?:-\\d+)?(?:\\s*,\\s*\\d+(?:-\\d+)?)*))?/g;",
+   "sostituisci": "(?::(\\d+(?:-\\d+)?))?/g;",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-a-onde",
+   "nome": "prepasso: una chiusura proposta e mai confermata resta fuori dagli agenti",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "  if (daConfermare) return \"chiusura_da_confermare\";",
+   "sostituisci": "  if (false) return \"chiusura_da_confermare\";",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-a-onde",
+   "nome": "prepasso: un nome che porta a più file torna a non dire niente",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "  if (ambigui > 0) return \"file_ambigui\";",
+   "sostituisci": "  if (false) return \"file_ambigui\";",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-a-onde",
+   "nome": "prepasso: senza data di nascita le righe si confrontano dall'ultima conferma",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "      const rifs = nascita ? commitsAllaData(nascita.d) : [];",
+   "sostituisci": "      const rifs = nascita ? commitsAllaData(nascita.d) : commits;",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-a-onde",
+   "nome": "ⓕ una falla scoperta torna a potersi raccontare in domande, prove o copertura",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "    for (const t of falleAperte) if (altrove.some((v) => v.includes(t.slice(0, 60)))) rossi.push(",
+   "sostituisci": "    for (const t of falleAperte) if (false) rossi.push(",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-a-onde",
+   "nome": "ⓕ prova_tipo del ricontrollo torna testo libero",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "    if (k?.prova_tipo != null && !PROVE.includes(k.prova_tipo)) rossi.push(",
+   "sostituisci": "    if (false) rossi.push(",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-a-onde",
+   "nome": "ⓜ applica torna a fidarsi di un file nella cartella invece della riga nel file delle misure",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "    else if (!scritta) rossi.push(",
+   "sostituisci": "    else if (false) rossi.push(",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-a-onde",
+   "nome": "ⓜ la misura a vuoto torna a scrivere misura.json",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "  const riga = rigaMisura(piano, referti, { cartella: rel(opz, opz.cartella), data: timbroOra(), usdRegia, usdCf, gravitaDi, nota: opz.nota ?? null });",
+   "sostituisci": "  const riga = rigaMisura(piano, referti, { cartella: rel(opz, opz.cartella), data: timbroOra(), usdRegia, usdCf, gravitaDi, nota: opz.nota ?? null }); scriviJson(join(opz.cartella, \"misura.json\"), riga);",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-a-onde",
+   "nome": "segnali: un ramo non ancora spinto torna ad accecare la sorveglianza",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "    catch (e) { if (!/couldn't find remote ref|couldn.t find remote ref/i.test(",
+   "sostituisci": "    catch (e) { if (true || !/couldn't find remote ref|couldn.t find remote ref/i.test(",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-a-onde",
+   "nome": "segnali: la sessione senza ora d'apertura torna a tacere",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "      if (!Number.isFinite(s.aperta)) { if (s.ramo) out.push(",
+   "sostituisci": "      if (!Number.isFinite(s.aperta)) { if (false) out.push(",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-a-onde",
+   "nome": "preventivo: torna una quota di regia sola per tutte le sessioni",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "      r.quota = ultimo.quota_regia;",
+   "sostituisci": "      r.quota = null;",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-a-onde",
+   "nome": "ⓕ la falla scoperta torna a passare se spezzata da un a capo o scritta nel perché di un lotto",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "    const altrove = valori({ lotti: r.lotti, difetti:",
+   "sostituisci": "    const altrove = valori({ difetti:",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario.",
