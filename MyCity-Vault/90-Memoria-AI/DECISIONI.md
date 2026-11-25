@@ -1246,3 +1246,8 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Perché:** un utente collegato senza scheda poteva crearsela con ruolo amministratore approvato (provato sul database ricostruito: `admin|true|approved`). In produzione 0 utenti senza scheda su 12: oggi non sfruttato.
 - **Controlli:** prova nuova 4 rossi su 8 senza la 862, 8 verdi con; 97 file SQL verdi; `npm run verify` verde (12969 prove); collaudo a due lenti, tutte e due «regge»; controllo in produzione: proprietario della funzione di registrazione = proprietario della tabella, con INSERT diretto.
 - **Aperto:** unione della PR e migrazione 862 (card #264). Minore dal collaudo: la prova non vedrebbe una futura funzione del database che crea schede per conto dell'utente.
+
+## 2026-11-25 18:12 — La correzione che impedisce di crearsi una scheda da amministratore è in produzione (🔴 eseguito dalla regia, verificato dall'AD)
+- **Chi e quando:** la regia ha applicato la migrazione 862 insieme alla 861 il 25/11 alle 18:06 (esecuzione 45658129346 su main 35c8fcb). L'AD ha ricontrollato in sola lettura alle 18:12.
+- **Cosa si vede in produzione:** 0 regole di inserimento su `profiles`; INSERT negato ad `anon` e `authenticated` (anche per colonna); INSERT ancora a `service_role`; UPDATE ancora ad `authenticated`; 861 e 862 nel registro; 0 utenti senza scheda su 13.
+- **Chiude:** card #264 e la voce del lavoro aperto del 25/11 16:19.

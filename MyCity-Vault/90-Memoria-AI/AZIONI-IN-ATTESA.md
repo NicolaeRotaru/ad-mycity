@@ -31,7 +31,9 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
-### 🔴 #264 — Unisci la correzione che impedisce di crearsi una scheda da amministratore, poi applicala al database · ⏳ accodata 2026-11-25 16:19 · @security
+### ✅ #264 — Unisci la correzione che impedisce di crearsi una scheda da amministratore, poi applicala al database · ⏳ accodata 2026-11-25 16:19 · ✅ fatta 2026-11-25 18:06 · @security
+
+**Esito (2026-11-25 18:12).** La correzione è sul sito e nel database dal 25/11 alle 18:06: l'ha applicata la regia (esecuzione 45658129346 su main 35c8fcb), insieme alla 861. L'AD l'ha ricontrollata in sola lettura: nessuna regola di inserimento su `profiles`; `anon` e `authenticated` senza permesso INSERT, nemmeno su una colonna; `service_role` lo ha ancora; `authenticated` può ancora modificare la propria scheda; 861 e 862 nel registro; 0 utenti senza scheda su 13.
 
 **In parole semplici.** Ogni utente ha nel database una scheda che dice se è cliente, negozio, fattorino o amministratore. Chi aveva un account senza scheda poteva crearsela dal browser e scriverci «amministratore, approvato». La correzione toglie quella possibilità: la scheda la crea solo la registrazione, o il server.
 Per esempio: un cliente la cui scheda viene cancellata per sbaglio, prima poteva rientrare e diventare amministratore; adesso il database gli dice «non hai il permesso».
