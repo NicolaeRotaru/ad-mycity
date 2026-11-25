@@ -28,7 +28,7 @@
 | 6 | `risposte_automatiche` | «si» o «no»: se Claude risponde da solo ai commenti semplici | voi | no |
 | 7 | `tono_di_voce` | come scrive il locale | voi col titolare | vedi sotto |
 | 8 | `orari` | orari di apertura, cucina compresa | il titolare | Lunedì chiuso. Martedì, mercoledì, giovedì e domenica 18:30-01:00, cucina 19:00-23:00. Venerdì e sabato 18:30-02:00, cucina 19:00-23:30. |
-| 9 | `link_prenotazione` | dove si prenota | voi | https://wa.me/393395327569 |
+| 9 | `link_prenotazione` | dove si prenota | voi | https://wa.me/393312173684 |
 | 10 | `telefono` | il numero del locale | il titolare | 0523 335932 |
 | 11 | `indirizzo` | via, numero, CAP e città | il titolare | Via Giuseppe Mazzini 77/A, 29121 Piacenza |
 | 12 | `link_menu` | la pagina del menu online | voi | https://www.eltropicolatino.it/menu.html |
@@ -55,7 +55,7 @@ Caldo e diretto, frasi brevi, voce attiva, si dà del tu. Spagnolo solo nei nomi
 
 **13. `regole_risposte`**
 ```
-Per prenotare rimanda al WhatsApp 339 532 7569 o al telefono 0523 335932: la prenotazione è consigliata. Per compleanni, gruppi e cene aziendali invita a scrivere su WhatsApp. Non promettere sconti né tavoli liberi. Per i reclami: scuse e invito a scrivere in privato. Mai inviti a bere tanto.
+Per prenotare rimanda al WhatsApp 331 217 3684 o al telefono 0523 335932: la prenotazione è consigliata. Per compleanni, gruppi e cene aziendali invita a scrivere su WhatsApp. Non promettere sconti né tavoli liberi. Per i reclami: scuse e invito a scrivere in privato. Mai inviti a bere tanto.
 ```
 
 **17. `note_piano`**
