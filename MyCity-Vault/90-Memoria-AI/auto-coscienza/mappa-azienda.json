@@ -1,0 +1,6994 @@
+{
+ "generata": "2026-11-25 13:15",
+ "repo": [
+  {
+   "nome": "ad-mycity",
+   "cosa": "la macchina dell'AD: memoria, senior, programmi, Pannello",
+   "presente": true,
+   "ultimo_commit": "2026-11-25",
+   "titolo": "Riguardato il programma della mappa con la lente del rischio dopo le ultime modifiche: 0 p",
+   "file": 4199
+  },
+  {
+   "nome": "mycity",
+   "cosa": "il marketplace MyCity (sito, dashboard dei negozi, API)",
+   "presente": true,
+   "ultimo_commit": "2026-11-24",
+   "titolo": "Il blocco delle variabili n8n dell'iscrizione si sposta lontano da quello del preventivo",
+   "file": 3591
+  },
+  {
+   "nome": "SDG",
+   "cosa": "il sito dell'agenzia SDG",
+   "presente": true,
+   "ultimo_commit": "2026-11-23",
+   "titolo": "Sito SDG: cinque pagine pronte per Vercel",
+   "file": 41
+  },
+  {
+   "nome": "N8N",
+   "cosa": "i sorgenti e le prove dei flussi n8n costruiti da programma (repository pubblico)",
+   "presente": true,
+   "ultimo_commit": "2026-11-25",
+   "titolo": "Il 16 non chiama più Claude e non iscrive due volte in MyCity",
+   "file": 65
+  }
+ ],
+ "n8n": {
+  "misurato": true,
+  "totali": 47,
+  "archiviati": 19,
+  "vivi": [
+   {
+    "nome": "00 · Attiva cliente",
+    "acceso": false,
+    "nodi": 20,
+    "chiamate_claude": 0,
+    "ultima": {
+     "stato": "error",
+     "quando": "2026-11-15T09:09:39.644Z"
+    }
+   },
+   {
+    "nome": "01 · Pubblica contenuti (Instagram + Facebook)",
+    "acceso": true,
+    "nodi": 98,
+    "chiamate_claude": 1,
+    "ultima": null
+   },
+   {
+    "nome": "01b · Pubblica sulla seconda coppia",
+    "acceso": false,
+    "nodi": 113,
+    "chiamate_claude": 0,
+    "ultima": null
+   },
+   {
+    "nome": "02 · Gestione commenti Instagram e Facebook",
+    "acceso": false,
+    "nodi": 52,
+    "chiamate_claude": 1,
+    "ultima": null
+   },
+   {
+    "nome": "03 · Piano del mese (potenziato)",
+    "acceso": false,
+    "nodi": 33,
+    "chiamate_claude": 1,
+    "ultima": null
+   },
+   {
+    "nome": "04 · Scrivi i testi (AI)",
+    "acceso": true,
+    "nodi": 57,
+    "chiamate_claude": 1,
+    "ultima": {
+     "stato": "success",
+     "quando": "2026-11-21T00:06:57.629Z"
+    }
+   },
+   {
+    "nome": "05 · Nuovo contenuto (modulo)",
+    "acceso": true,
+    "nodi": 35,
+    "chiamate_claude": 0,
+    "ultima": {
+     "stato": "success",
+     "quando": "2026-11-23T13:56:48.461Z"
+    }
+   },
+   {
+    "nome": "06 Storie del giorno",
+    "acceso": false,
+    "nodi": 204,
+    "chiamate_claude": 3,
+    "ultima": {
+     "stato": "success",
+     "quando": "2026-11-22T19:47:09.294Z"
+    }
+   },
+   {
+    "nome": "07 Reel dalle clip",
+    "acceso": false,
+    "nodi": 171,
+    "chiamate_claude": 2,
+    "ultima": {
+     "stato": "success",
+     "quando": "2026-11-22T21:15:57.954Z"
+    }
+   },
+   {
+    "nome": "08 Post dalle foto",
+    "acceso": true,
+    "nodi": 123,
+    "chiamate_claude": 2,
+    "ultima": {
+     "stato": "success",
+     "quando": "2026-11-25T12:15:25.429Z"
+    }
+   },
+   {
+    "nome": "09 · Impara dai numeri",
+    "acceso": true,
+    "nodi": 27,
+    "chiamate_claude": 0,
+    "ultima": {
+     "stato": "success",
+     "quando": "2026-11-21T01:36:42.802Z"
+    }
+   },
+   {
+    "nome": "10 · Revisore",
+    "acceso": false,
+    "nodi": 36,
+    "chiamate_claude": 0,
+    "ultima": {
+     "stato": "success",
+     "quando": "2026-11-21T15:04:20.089Z"
+    }
+   },
+   {
+    "nome": "12 · Nuovo cliente (automatico)",
+    "acceso": true,
+    "nodi": 96,
+    "chiamate_claude": 3,
+    "ultima": null
+   },
+   {
+    "nome": "13 · Foto pronte",
+    "acceso": false,
+    "nodi": 31,
+    "chiamate_claude": 0,
+    "ultima": {
+     "stato": "success",
+     "quando": "2026-11-21T14:49:22.954Z"
+    }
+   },
+   {
+    "nome": "14 · Smista materiale",
+    "acceso": false,
+    "nodi": 32,
+    "chiamate_claude": 0,
+    "ultima": null
+   },
+   {
+    "nome": "15 · Approva le storie",
+    "acceso": false,
+    "nodi": 48,
+    "chiamate_claude": 0,
+    "ultima": null
+   },
+   {
+    "nome": "16 · Montatore",
+    "acceso": false,
+    "nodi": 155,
+    "chiamate_claude": 5,
+    "ultima": null
+   },
+   {
+    "nome": "16 · Nuovo cliente da MyCity",
+    "acceso": true,
+    "nodi": 106,
+    "chiamate_claude": 3,
+    "ultima": null
+   },
+   {
+    "nome": "17 · Analisi del marketplace",
+    "acceso": false,
+    "nodi": 21,
+    "chiamate_claude": 1,
+    "ultima": {
+     "stato": "success",
+     "quando": "2026-11-25T11:47:17.218Z"
+    }
+   },
+   {
+    "nome": "18 · Analisi di un'attività",
+    "acceso": true,
+    "nodi": 21,
+    "chiamate_claude": 1,
+    "ultima": {
+     "stato": "success",
+     "quando": "2026-11-25T11:15:48.461Z"
+    }
+   },
+   {
+    "nome": "19 · Bozze dei 3 abbonamenti",
+    "acceso": true,
+    "nodi": 12,
+    "chiamate_claude": 0,
+    "ultima": {
+     "stato": "success",
+     "quando": "2026-11-25T11:15:51.033Z"
+    }
+   },
+   {
+    "nome": "19 · Consegna la scheda scritta dall'AD",
+    "acceso": false,
+    "nodi": 2,
+    "chiamate_claude": 0,
+    "ultima": {
+     "stato": "success",
+     "quando": "2026-11-25T00:30:31.801Z"
+    }
+   },
+   {
+    "nome": "20 · Iscrivi il cliente in MyCity",
+    "acceso": true,
+    "nodi": 4,
+    "chiamate_claude": 0,
+    "ultima": null
+   },
+   {
+    "nome": "99 · Avvisi errori",
+    "acceso": true,
+    "nodi": 11,
+    "chiamate_claude": 0,
+    "ultima": {
+     "stato": "success",
+     "quando": "2026-11-20T11:26:11.808Z"
+    }
+   },
+   {
+    "nome": "Chiedi all'AD",
+    "acceso": true,
+    "nodi": 10,
+    "chiamate_claude": 1,
+    "ultima": {
+     "stato": "success",
+     "quando": "2026-11-25T12:12:18.747Z"
+    }
+   },
+   {
+    "nome": "MyCity · 11 Foto prodotto",
+    "acceso": false,
+    "nodi": 29,
+    "chiamate_claude": 2,
+    "ultima": null
+   },
+   {
+    "nome": "Prepara foglio (una tantum)",
+    "acceso": false,
+    "nodi": 19,
+    "chiamate_claude": 0,
+    "ultima": {
+     "stato": "success",
+     "quando": "2026-11-23T01:34:17.759Z"
+    }
+   },
+   {
+    "nome": "PROVA · padre di Chiedi all'AD (da togliere)",
+    "acceso": true,
+    "nodi": 4,
+    "chiamate_claude": 0,
+    "ultima": {
+     "stato": "success",
+     "quando": "2026-11-25T12:12:18.652Z"
+    }
+   }
+  ]
+ },
+ "negozi": {
+  "misurato": true,
+  "fonte": "file negozi.json (estratto in sola lettura)",
+  "negozi": [
+   {
+    "store_name": "Pane Quotidiano",
+    "approval_status": "approved",
+    "abbonamento": "-",
+    "visibile": true,
+    "dal": "2026-06-15",
+    "prodotti": 5,
+    "id8": "c0b240c0"
+   },
+   {
+    "store_name": "SDG Agenzia",
+    "approval_status": "approved",
+    "abbonamento": "-",
+    "visibile": true,
+    "dal": "2026-11-24",
+    "prodotti": 3,
+    "id8": "11111111"
+   },
+   {
+    "store_name": "Ora del Gusto",
+    "approval_status": null,
+    "abbonamento": "-",
+    "visibile": false,
+    "dal": "2026-11-24",
+    "prodotti": 0,
+    "id8": "0de1905e"
+   },
+   {
+    "store_name": null,
+    "approval_status": "pending",
+    "abbonamento": "-",
+    "visibile": false,
+    "dal": "2026-11-24",
+    "prodotti": 0,
+    "id8": "6d057b3c"
+   }
+  ]
+ },
+ "peso": {
+  "claude_md": 17465,
+  "manuale_ad": 23847,
+  "senior": 120,
+  "descrizioni_senior": 61974,
+  "memoria": [
+   {
+    "file": "DECISIONI.md",
+    "byte": 1227948,
+    "righe": 7518
+   },
+   {
+    "file": "LAVORO-APERTO.md",
+    "byte": 49517,
+    "righe": 232
+   },
+   {
+    "file": "STATO.md",
+    "byte": 177748,
+    "righe": 1748
+   },
+   {
+    "file": "registro-fatti.json",
+    "byte": 136069,
+    "righe": 1813
+   },
+   {
+    "file": "BACHECA-SESSIONI.md",
+    "byte": 52303,
+    "righe": 201
+   },
+   {
+    "file": "AZIONI-IN-ATTESA.md",
+    "byte": 154498,
+    "righe": 1972
+   }
+  ]
+ },
+ "codice": {
+  "riepilogo": {
+   "da_fuori": {
+    "programmi": {
+     "file": 320,
+     "righe": 98178
+    },
+    "prove": {
+     "file": 452,
+     "righe": 80783
+    }
+   },
+   "a_mano": {
+    "programmi": {
+     "file": 5,
+     "righe": 1646
+    },
+    "prove": {
+     "file": 5,
+     "righe": 1951
+    }
+   },
+   "solo_server": {
+    "programmi": {
+     "file": 2,
+     "righe": 190
+    },
+    "prove": {
+     "file": 1,
+     "righe": 226
+    }
+   },
+   "orfano": {
+    "programmi": {
+     "file": 88,
+     "righe": 7950
+    },
+    "prove": {
+     "file": 66,
+     "righe": 9555
+    }
+   },
+   "totale": {
+    "file": 939,
+    "righe": 200479
+   }
+  },
+  "voci": [
+   {
+    "file": "cervello/_scratch-q-reviews.mjs",
+    "righe": 27,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/adozione-medicine.mjs",
+    "righe": 226,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/agent-registry-check.mjs",
+    "righe": 771,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/allinea-scan-cantiere.mjs",
+    "righe": 426,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/allineamento-esito.sh",
+    "righe": 273,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/allocazione-check.mjs",
+    "righe": 689,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-22"
+   },
+   {
+    "file": "cervello/ambiente-prova.mjs",
+    "righe": 158,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/ancora-rotti.mjs",
+    "righe": 219,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/apprendimento-guardiano.mjs",
+    "righe": 312,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/archivio-memoria.mjs",
+    "righe": 185,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/attesa-senza-fine.mjs",
+    "righe": 195,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/atti-veri.mjs",
+    "righe": 141,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/atti-veri.sh",
+    "righe": 16,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/auto-fix.mjs",
+    "righe": 638,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/autopilot.mjs",
+    "righe": 295,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/avviso-telegram.mjs",
+    "righe": 95,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/banco-a-corsie.mjs",
+    "righe": 418,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-13"
+   },
+   {
+    "file": "cervello/banco-ai.mjs",
+    "righe": 144,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/battito-esterno.mjs",
+    "righe": 156,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/bilancio-vivo.mjs",
+    "righe": 88,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/bootstrap-quaderni.mjs",
+    "righe": 46,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/bottega/corsie.mjs",
+    "righe": 189,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/bottega/guardia-esecuzione.mjs",
+    "righe": 78,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/bottega/lavoro.mjs",
+    "righe": 248,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/bottega/scelta-worker.mjs",
+    "righe": 259,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/bottega/testo-lavoro.mjs",
+    "righe": 145,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/c4-askpass.sh",
+    "righe": 15,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/c4-cancelli.mjs",
+    "righe": 637,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/c4-segreti.sh",
+    "righe": 86,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/calibrazione.mjs",
+    "righe": 981,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/campi-permessi.mjs",
+    "righe": 82,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/campo-visivo-memoria.mjs",
+    "righe": 186,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/cancelli-commit.mjs",
+    "righe": 292,
+    "prova": false,
+    "categoria": "a_mano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/cancello-lotto.mjs",
+    "righe": 1546,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-13"
+   },
+   {
+    "file": "cervello/cancello-senior.mjs",
+    "righe": 252,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/cancello-stop.mjs",
+    "righe": 1504,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-22"
+   },
+   {
+    "file": "cervello/cantiere-integrita.mjs",
+    "righe": 361,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/cantiere-owner-check.mjs",
+    "righe": 219,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/cantiere-prove.mjs",
+    "righe": 623,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/capacita/cap-01-il-gemello-digitale.mjs",
+    "righe": 40,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/capacita/cap-02-un-mini-ad-per-ogni-negoziante.mjs",
+    "righe": 41,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/capacita/cap-03-il-concierge-di-spesa.mjs",
+    "righe": 41,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/capacita/cap-05-lanticipo-predittivo.mjs",
+    "righe": 40,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/capacita/cap-06-lauto-espansione-dellorganico.mjs",
+    "righe": 41,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/capacita/cap-07-il-genoma-replicabile.mjs",
+    "righe": 38,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/capacita/cap-08-i-micro-esperimenti-a-bandito.mjs",
+    "righe": 41,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/capacita/cap-09-il-catasto-vivo-della-domanda.mjs",
+    "righe": 41,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/capacita/cap-10-la-camera-di-negoziazione-delle-botteghe.mjs",
+    "righe": 41,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/capacita/cap-11-la-spesa-che-si-riordina-da-sola.mjs",
+    "righe": 41,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/capacita/cap-14-il-tuo-doppio.mjs",
+    "righe": 41,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/capacita/cap-15-le-squadre-lampo.mjs",
+    "righe": 41,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/capacita/cap-16-la-macchina-che-insegna.mjs",
+    "righe": 41,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/capacita/cap-17-il-prezzo-onesto-dinamico.mjs",
+    "righe": 41,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/capacita/cap-18-il-registro-civico-della-fiducia.mjs",
+    "righe": 41,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/capacita/cap-19-lorecchio-della-citta.mjs",
+    "righe": 41,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/capacita/cap-20-il-sismografo.mjs",
+    "righe": 41,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/capacita/cap-21-lalmanacco.mjs",
+    "righe": 41,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/capacita/cap-22-il-consiglio-dei-piacentini.mjs",
+    "righe": 41,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/capacita/cap-24-il-catalogo-che-si-scrive-da-solo.mjs",
+    "righe": 41,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/capacita/cap-25-il-magazzino-diffuso.mjs",
+    "righe": 41,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/capacita/cap-26-la-staffetta.mjs",
+    "righe": 41,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/capacita/cap-27-la-tesoreria-di-rete.mjs",
+    "righe": 41,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/capacita/cap-28-il-gruppo-dacquisto-autonomo.mjs",
+    "righe": 41,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/capacita/cap-29-il-dividendo-del-volano.mjs",
+    "righe": 41,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/capacita/cap-31-il-passaporto-del-prodotto.mjs",
+    "righe": 41,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/capacita/cap-32-il-quotidiano-del-commercio.mjs",
+    "righe": 41,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/capacita/cap-33-langelo-custode-normativo.mjs",
+    "righe": 41,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/capacita/cap-34-la-memoria-delle-botteghe.mjs",
+    "righe": 41,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/capacita/cap-35-la-rete-di-mutuo-soccorso.mjs",
+    "righe": 41,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/capacita/cap-36-levoluzione-in-ombra.mjs",
+    "righe": 40,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/capacita/cap-39-il-modello-del-mondo.mjs",
+    "righe": 40,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/capacita/cap-40-lo-scienziato.mjs",
+    "righe": 40,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/capacita/cap-41-la-sala-dei-mille-futuri.mjs",
+    "righe": 40,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/capacita/cap-42-il-protocollo.mjs",
+    "righe": 41,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/capacita/cap-43-il-circuito-del-credito.mjs",
+    "righe": 41,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/capacita/cap-44-la-mutua-algoritmica.mjs",
+    "righe": 41,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/capacita/cap-45-la-produzione-a-domanda.mjs",
+    "righe": 41,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/capacita/cap-46-il-sistema-nervoso-fisico.mjs",
+    "righe": 41,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/capacita/cap-47-sapere-senza-guardare.mjs",
+    "righe": 41,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/capacita/cap-48-lonesta-dimostrabile.mjs",
+    "righe": 41,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/capacita/cap-49-un-agente-per-ogni-cittadino.mjs",
+    "righe": 41,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/capacita/cap-50-la-macchina-che-fa-ricerca-su-se-stessa.mjs",
+    "righe": 40,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/capacita/cap-51-la-costituzione-vivente.mjs",
+    "righe": 38,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/capacita/cap-52-la-pianificazione-generazionale.mjs",
+    "righe": 38,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/capacita/cap-53-il-compilatore-dimpresa.mjs",
+    "righe": 38,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/capacita.mjs",
+    "righe": 81,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/casa-memoria.mjs",
+    "righe": 204,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/cecita-curabile.mjs",
+    "righe": 153,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/censimento-guardiani.mjs",
+    "righe": 529,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-15"
+   },
+   {
+    "file": "cervello/censimento-macchina.mjs",
+    "righe": 805,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-13"
+   },
+   {
+    "file": "cervello/chiudi-sito.mjs",
+    "righe": 290,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/chiusura-dichiarata.mjs",
+    "righe": 205,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/chiusura-loop.mjs",
+    "righe": 646,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/chiusure-audit.mjs",
+    "righe": 138,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/ci-lettura.mjs",
+    "righe": 293,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/ci-stato.mjs",
+    "righe": 318,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/coda-cabina.mjs",
+    "righe": 104,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/coda-e-archivio.mjs",
+    "righe": 74,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/coerenza-fatti.mjs",
+    "righe": 596,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-22"
+   },
+   {
+    "file": "cervello/coerenza-rischi.mjs",
+    "righe": 167,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/collaudo.mjs",
+    "righe": 342,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/collega-marketplace.mjs",
+    "righe": 181,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/comandi-senza-casa.mjs",
+    "righe": 113,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/conflitti-memoria.mjs",
+    "righe": 287,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/consegna-allerta.mjs",
+    "righe": 136,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/consenso-azione.mjs",
+    "righe": 529,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/conta-blocco-mancante.mjs",
+    "righe": 325,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/conta-verdetti-muti.mjs",
+    "righe": 426,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/content-factory/ai/ai-video.mjs",
+    "righe": 72,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/content-factory/ai/canva.mjs",
+    "righe": 64,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/content-factory/ai/gemini-image.mjs",
+    "righe": 68,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/content-factory/index.mjs",
+    "righe": 105,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/content-factory/reel.mjs",
+    "righe": 182,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/content-factory/render-contatore.mjs",
+    "righe": 29,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/content-factory/render-domenica-settimana.mjs",
+    "righe": 44,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/content-factory/render-pov.mjs",
+    "righe": 74,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/content-factory/render-prodotto-dop.mjs",
+    "righe": 55,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/content-factory/render-ricetta-cover.mjs",
+    "righe": 191,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/content-factory/render.mjs",
+    "righe": 141,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/contesto-lezioni.mjs",
+    "righe": 480,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/conto-motore.mjs",
+    "righe": 338,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/conto-token.mjs",
+    "righe": 380,
+    "prova": false,
+    "categoria": "a_mano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/contratto-prova.mjs",
+    "righe": 412,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/contratto-scheda.mjs",
+    "righe": 585,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/contratto-workflow.mjs",
+    "righe": 226,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/correzione-nicola-gate.mjs",
+    "righe": 125,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/costo-ai.mjs",
+    "righe": 297,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/credenziali-git.mjs",
+    "righe": 114,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/cristallizza-apprendimento.mjs",
+    "righe": 242,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/cronicita-allarmi.mjs",
+    "righe": 265,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/debito-prove-bash.mjs",
+    "righe": 253,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/deferral-agenti.mjs",
+    "righe": 210,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/delta-gate.mjs",
+    "righe": 308,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/documenti-di-governo.mjs",
+    "righe": 131,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-15"
+   },
+   {
+    "file": "cervello/due-case.mjs",
+    "righe": 1282,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-12"
+   },
+   {
+    "file": "cervello/entrate-senza-cancello.mjs",
+    "righe": 245,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/errore-motore.mjs",
+    "righe": 208,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/esecuzione-prova.mjs",
+    "righe": 433,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/esegui-azione.mjs",
+    "righe": 145,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/esito-cadenza.mjs",
+    "righe": 438,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/esito-claim.mjs",
+    "righe": 154,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/esito-guardiano.mjs",
+    "righe": 151,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/esito-scrittura.mjs",
+    "righe": 384,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/esperimenti-check.mjs",
+    "righe": 191,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/esperimenti-regole.mjs",
+    "righe": 151,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/eta-referto.mjs",
+    "righe": 520,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/fette-ci.mjs",
+    "righe": 266,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-13"
+   },
+   {
+    "file": "cervello/file-della-macchina.mjs",
+    "righe": 67,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/finestra-misura.mjs",
+    "righe": 398,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/firma-check.mjs",
+    "righe": 89,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/firma-riservata.mjs",
+    "righe": 156,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/fonte-numero.mjs",
+    "righe": 308,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/forma-json.mjs",
+    "righe": 326,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/forma-prova.mjs",
+    "righe": 80,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/foto-pagine-vere.mjs",
+    "righe": 271,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/foto-radiografia.mjs",
+    "righe": 158,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/freno-costi.mjs",
+    "righe": 91,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/freno-scattato.mjs",
+    "righe": 239,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/freschezza-cadenze.mjs",
+    "righe": 74,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/freschezza-checklist.mjs",
+    "righe": 50,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/freschezza-intelligence.mjs",
+    "righe": 205,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/freschezza-okr.mjs",
+    "righe": 126,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/freschezza-rischi.mjs",
+    "righe": 125,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/freschezza-segnali.mjs",
+    "righe": 148,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/gate-in-attesa.mjs",
+    "righe": 103,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/gate-pubblicazione.sh",
+    "righe": 357,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/gate-veri.mjs",
+    "righe": 294,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/genera-capacita.mjs",
+    "righe": 158,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/genera-grafo.mjs",
+    "righe": 49,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/giro-esito.sh",
+    "righe": 202,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/giro.ps1",
+    "righe": 63,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/giro.sh",
+    "righe": 2172,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-15"
+   },
+   {
+    "file": "cervello/git-github.mjs",
+    "righe": 352,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/git-merge.mjs",
+    "righe": 247,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/git-pr.mjs",
+    "righe": 1016,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/glossario-kpi-check.mjs",
+    "righe": 459,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-15"
+   },
+   {
+    "file": "cervello/glossario-kpi.mjs",
+    "righe": 199,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-15"
+   },
+   {
+    "file": "cervello/guardia-viva-check.mjs",
+    "righe": 247,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/guardia-viva.mjs",
+    "righe": 463,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/guardiani-check.mjs",
+    "righe": 136,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/guardiano-capacita.mjs",
+    "righe": 275,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/guardiano-tempo.mjs",
+    "righe": 241,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/hooks-check.mjs",
+    "righe": 316,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/housekeeping-azioni.mjs",
+    "righe": 315,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/housekeeping-stato.mjs",
+    "righe": 214,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/import-che-esegue.mjs",
+    "righe": 250,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/indentazione-fissa.mjs",
+    "righe": 163,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/indentazione-guardia.mjs",
+    "righe": 128,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/installa-bats.sh",
+    "righe": 54,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/installa-giro.ps1",
+    "righe": 60,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/installa-hooks.sh",
+    "righe": 60,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/intelligence-agenda.mjs",
+    "righe": 162,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/intento-turno.mjs",
+    "righe": 253,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/istante-cancello.mjs",
+    "righe": 229,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/keyword-owner-check.mjs",
+    "righe": 104,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/kill-switch.sh",
+    "righe": 125,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/lavori-hanno-la-corsia.mjs",
+    "righe": 166,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/letargo.mjs",
+    "righe": 225,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/lettura-a-blocchi.mjs",
+    "righe": 127,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/lezione-nuova.mjs",
+    "righe": 249,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/lezione-viva.mjs",
+    "righe": 39,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/lib-cadenza.sh",
+    "righe": 518,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/lib-esito-lavoro.sh",
+    "righe": 252,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/lib-recupero.sh",
+    "righe": 36,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/lib-sensori-verdetto.mjs",
+    "righe": 144,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/libro-mastro.mjs",
+    "righe": 312,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/lucchetto-git.mjs",
+    "righe": 202,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/macchina-del-tempo.mjs",
+    "righe": 108,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/malattie-mancanti.mjs",
+    "righe": 166,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/mandato-owner.mjs",
+    "righe": 300,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/mano-fermata.mjs",
+    "righe": 328,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/mansionario-misure.mjs",
+    "righe": 341,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/mappa-azienda.mjs",
+    "righe": 420,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-25"
+   },
+   {
+    "file": "cervello/mappa-copertura.mjs",
+    "righe": 478,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-24"
+   },
+   {
+    "file": "cervello/mappa-macchina.mjs",
+    "righe": 194,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/marketplace-repo.mjs",
+    "righe": 55,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/marketplace.mjs",
+    "righe": 154,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/materiale-in-mano.mjs",
+    "righe": 201,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/memoria-guardia.mjs",
+    "righe": 263,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/memoria-senza-perdite.mjs",
+    "righe": 133,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/metabolismo.mjs",
+    "righe": 172,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/midollo-spinale.mjs",
+    "righe": 92,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/misura-cieca.mjs",
+    "righe": 242,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/misura-o-cieco.mjs",
+    "righe": 353,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/misura-parziale.mjs",
+    "righe": 389,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/monitora.sh",
+    "righe": 217,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/motore-ai.sh",
+    "righe": 535,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/mutazione-vagante.mjs",
+    "righe": 199,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/mutazioni-orfane.mjs",
+    "righe": 198,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/mutazioni-senza-esecutore.mjs",
+    "righe": 384,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/nascita-difetti.mjs",
+    "righe": 256,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/no-path-cablati-check.mjs",
+    "righe": 117,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/non-vacuita.mjs",
+    "righe": 965,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/north-star-check.mjs",
+    "righe": 214,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/notifica-approvazioni.mjs",
+    "righe": 289,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/onesta-ambito.mjs",
+    "righe": 265,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/onesta-check.mjs",
+    "righe": 597,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/ora-piacenza.mjs",
+    "righe": 146,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/ordini-in-ritardo.mjs",
+    "righe": 48,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/pacchetti-lotto.mjs",
+    "righe": 266,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/pagella-intelligenza.mjs",
+    "righe": 560,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/pausa-check.mjs",
+    "righe": 338,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/pausa-coda.mjs",
+    "righe": 356,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/percorsi-git.mjs",
+    "righe": 180,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/perimetro-conteggi.mjs",
+    "righe": 128,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/perimetro-mutazioni.mjs",
+    "righe": 138,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/perimetro.mjs",
+    "righe": 156,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/permessi-check.mjs",
+    "righe": 361,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/permessi-elenco.mjs",
+    "righe": 533,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/permessi-strumenti.mjs",
+    "righe": 105,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/peso-contesto.mjs",
+    "righe": 220,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/peso-file-cabina.mjs",
+    "righe": 135,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-12"
+   },
+   {
+    "file": "cervello/piani-data.mjs",
+    "righe": 384,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/piani-verita.mjs",
+    "righe": 423,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/plugin-acceso.mjs",
+    "righe": 104,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/porte-check.mjs",
+    "righe": 67,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/porte-gemelle.mjs",
+    "righe": 1006,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/porte-pannello.mjs",
+    "righe": 168,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/porte-pubblicazione.mjs",
+    "righe": 132,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/posto-o-contenuto.mjs",
+    "righe": 382,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/pota-apprendimento.mjs",
+    "righe": 237,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/pota-memoria.mjs",
+    "righe": 118,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/pre-scrittura.mjs",
+    "righe": 319,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-18"
+   },
+   {
+    "file": "cervello/prediagnosi.mjs",
+    "righe": 1136,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/prepara-giro.mjs",
+    "righe": 69,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/presa-in-carico.mjs",
+    "righe": 230,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/previsione-verificabile.mjs",
+    "righe": 246,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/programma-correzione-ar114.mjs",
+    "righe": 187,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/programma-intelligenza-memoria.mjs",
+    "righe": 102,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/prompt-senior.mjs",
+    "righe": 527,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/prossima-card.mjs",
+    "righe": 56,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/prossimo-ar.mjs",
+    "righe": 308,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/prova-ammissibile.mjs",
+    "righe": 347,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/prova-perimetro.mjs",
+    "righe": 2,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/prova-rimessa.mjs",
+    "righe": 439,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-13"
+   },
+   {
+    "file": "cervello/prova-sito.mjs",
+    "righe": 244,
+    "prova": false,
+    "categoria": "a_mano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/prova-trigger.mjs",
+    "righe": 348,
+    "prova": false,
+    "categoria": "a_mano",
+    "ultima_modifica": "2026-11-07"
+   },
+   {
+    "file": "cervello/prove-difetti.mjs",
+    "righe": 859,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/prove-non-eseguite.mjs",
+    "righe": 124,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/prove-oneste.mjs",
+    "righe": 150,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/prove-regole.mjs",
+    "righe": 253,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/prove-runtime-senza-mutazione.mjs",
+    "righe": 159,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/publishers/_comune.mjs",
+    "righe": 75,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/publishers/email.mjs",
+    "righe": 55,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/publishers/facebook.mjs",
+    "righe": 57,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/publishers/gbp.mjs",
+    "righe": 65,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/publishers/index.mjs",
+    "righe": 69,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/publishers/instagram.mjs",
+    "righe": 69,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/publishers/telegram.mjs",
+    "righe": 47,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/pulisci-coda.mjs",
+    "righe": 96,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/puntatori-scollegati.mjs",
+    "righe": 1074,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/quadro.mjs",
+    "righe": 382,
+    "prova": false,
+    "categoria": "a_mano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/radiografia-in-corsa.mjs",
+    "righe": 576,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/radiografia-marketplace-conti.mjs",
+    "righe": 330,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/radiografia-marketplace-digest.mjs",
+    "righe": 278,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/radiografia-sessioni.mjs",
+    "righe": 1912,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-25"
+   },
+   {
+    "file": "cervello/ramo-pulito.mjs",
+    "righe": 218,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/rapporto-radiografia.mjs",
+    "righe": 274,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/recupero-memoria.mjs",
+    "righe": 152,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/redattore-segreti.mjs",
+    "righe": 62,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/referti-sito.mjs",
+    "righe": 588,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/registra-cadenza.mjs",
+    "righe": 205,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/registra-programma-intelligenza.mjs",
+    "righe": 89,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/registra-riverifica-programma.mjs",
+    "righe": 74,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/registro-scelte-check.mjs",
+    "righe": 136,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/retry-policy.mjs",
+    "righe": 455,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/riconcilia-perimetro.mjs",
+    "righe": 93,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/ricuci-corsie.mjs",
+    "righe": 334,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/riga-prossima-card.sh",
+    "righe": 29,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/riparazione/freno-subagenti.mjs",
+    "righe": 155,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-25"
+   },
+   {
+    "file": "cervello/riparazione/sorveglia.sh",
+    "righe": 131,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-15"
+   },
+   {
+    "file": "cervello/riparazione-sessioni.mjs",
+    "righe": 2353,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-21"
+   },
+   {
+    "file": "cervello/riparazioni/B-backfill-date.mjs",
+    "righe": 150,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/riparazioni/B-dedup-lezioni.mjs",
+    "righe": 123,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/riparazioni/B-impatto.mjs",
+    "righe": 137,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/ritmo-run.sh",
+    "righe": 4,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/ritmo.sh",
+    "righe": 340,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/rivedi-lezione.mjs",
+    "righe": 144,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/rotte-scriventi-check.mjs",
+    "righe": 111,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/round2-applica.mjs",
+    "righe": 147,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/round3-memoria.mjs",
+    "righe": 71,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/round3-verifica.mjs",
+    "righe": 197,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/round4-applica.mjs",
+    "righe": 152,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/round5-applica.mjs",
+    "righe": 141,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/round6-applica.mjs",
+    "righe": 356,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/sala-regole.mjs",
+    "righe": 113,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/salute-onesta.mjs",
+    "righe": 251,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/salute.mjs",
+    "righe": 1912,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/sblocco-capacita.mjs",
+    "righe": 108,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/scadenzario-check.mjs",
+    "righe": 158,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/scadenze-del-cancello.mjs",
+    "righe": 126,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/scadenze-regole.mjs",
+    "righe": 132,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/scan-segreti.mjs",
+    "righe": 330,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/schede-pacchetto.mjs",
+    "righe": 635,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/scorecard-rubrica.mjs",
+    "righe": 129,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/scrittura-misura.mjs",
+    "righe": 313,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/scritture-a-rischio.mjs",
+    "righe": 107,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/scrivi-json.mjs",
+    "righe": 184,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/segnali-attesi.mjs",
+    "righe": 68,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/segreti-pattern.mjs",
+    "righe": 109,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/senior-sola-lettura.mjs",
+    "righe": 174,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/sensore-cassa.mjs",
+    "righe": 374,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-15"
+   },
+   {
+    "file": "cervello/sensore-spento.mjs",
+    "righe": 124,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/sensori-spenti-check.mjs",
+    "righe": 210,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/sentinella-budget.mjs",
+    "righe": 120,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/sentinella-dati.mjs",
+    "righe": 1137,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/sentinella-fonti.mjs",
+    "righe": 160,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/sentinella-lavori.mjs",
+    "righe": 304,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/sentinella-motore.mjs",
+    "righe": 287,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/serratura-ramo.mjs",
+    "righe": 282,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/si-capisce.mjs",
+    "righe": 1363,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-13"
+   },
+   {
+    "file": "cervello/sicurezza-supabase.mjs",
+    "righe": 155,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/sincronizza-proposte.mjs",
+    "righe": 172,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/sintomo.mjs",
+    "righe": 331,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/sistema-immunitario.mjs",
+    "righe": 110,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/sonda-volano.mjs",
+    "righe": 452,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/sorvegliante.mjs",
+    "righe": 2309,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/spazza-temporanei.mjs",
+    "righe": 309,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/spazzata-frase.mjs",
+    "righe": 199,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/spazzata-fratelli.mjs",
+    "righe": 491,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/stampo-check.mjs",
+    "righe": 285,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/stampo-metro.mjs",
+    "righe": 459,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/stash-dimenticate.mjs",
+    "righe": 216,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/stati-cantiere.mjs",
+    "righe": 309,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/stati-che-nessuno-capisce.mjs",
+    "righe": 106,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/stato-sensori.mjs",
+    "righe": 137,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/storia-git.mjs",
+    "righe": 432,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-12"
+   },
+   {
+    "file": "cervello/supervisione-negozi.mjs",
+    "righe": 555,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/sync-worker-plugins.mjs",
+    "righe": 264,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/tasso-chiusura.mjs",
+    "righe": 257,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/tasso-lezioni.mjs",
+    "righe": 280,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/tasso-regole.mjs",
+    "righe": 305,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/taste-file.mjs",
+    "righe": 106,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/aiuto-pannello.mjs",
+    "righe": 156,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/allarme-cronico.test.mjs",
+    "righe": 148,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/allegati-chat.bats",
+    "righe": 27,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/allerta-emessa-non-e-consegnata.test.mjs",
+    "righe": 156,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/allineamento-codice-anche-senza-push.test.mjs",
+    "righe": 127,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/allineamento-esito.test.mjs",
+    "righe": 232,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/allineamento-rinvio-che-non-scade.test.mjs",
+    "righe": 154,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/allocazione-attribuzione.mjs",
+    "righe": 45,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/allocazione-macchina.test.mjs",
+    "righe": 74,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/altra-porta-lasciata-aperta.test.mjs",
+    "righe": 659,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/ambiente-non-pronto-non-e-rosso.test.mjs",
+    "righe": 57,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/annuncio-cadenza.test.mjs",
+    "righe": 182,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/ar123-parla-casella.mjs",
+    "righe": 136,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/archivi-senza-tetto.test.mjs",
+    "righe": 640,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/asticella-prova-che-gira.test.mjs",
+    "righe": 119,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/attesa-con-una-data.test.mjs",
+    "righe": 159,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/atto-che-parte-due-volte.test.mjs",
+    "righe": 140,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/auto-fix-salute.test.mjs",
+    "righe": 55,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/automazione-verde-senza-guardare.test.mjs",
+    "righe": 110,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/autopilot-colore.test.mjs",
+    "righe": 147,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/bacheca-congelata.test.mjs",
+    "righe": 74,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/badge-che-compra-il-verde.test.mjs",
+    "righe": 70,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/bagaglio-senza-organigramma.test.mjs",
+    "righe": 84,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/banco-mail-onesta.test.mjs",
+    "righe": 270,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/battito-esterno.test.mjs",
+    "righe": 129,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/burn-down-che-migliora-da-solo.test.mjs",
+    "righe": 117,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c1-atto-una-volta-sola.test.mjs",
+    "righe": 450,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c1-firma-revocata-davvero.test.mjs",
+    "righe": 131,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c1-lettura-cieca-non-e-zero.test.mjs",
+    "righe": 116,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c1-porta-aperta-per-default.test.mjs",
+    "righe": 175,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c2-cassetto.test.mjs",
+    "righe": 116,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c2-indirizzo.test.mjs",
+    "righe": 131,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c2-salvataggio-chat.test.mjs",
+    "righe": 132,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c2-schermo.test.mjs",
+    "righe": 245,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c3-casella-conversazione.test.mjs",
+    "righe": 172,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c3-casella-ricarica.test.mjs",
+    "righe": 146,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c3-strati-censimento.test.mjs",
+    "righe": 84,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c3-tocco-bersaglio.test.mjs",
+    "righe": 179,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c4-banco.mjs",
+    "righe": 154,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c4-decisione-fuori-da-react.test.mjs",
+    "righe": 305,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c4-effetti-fuori-dagli-updater.test.mjs",
+    "righe": 146,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c4-freno-su-ogni-corsia.test.mjs",
+    "righe": 182,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c4-igiene-per-lavoro.test.mjs",
+    "righe": 80,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c4-parita-worker-windows.test.mjs",
+    "righe": 83,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c4-recupero-thread.test.mjs",
+    "righe": 298,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c4-riverifica-vincoli.test.mjs",
+    "righe": 103,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c4-schermo-coda.test.mjs",
+    "righe": 224,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c4-segreti-fuori-dagli-argomenti.test.mjs",
+    "righe": 164,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c4-soglie-in-vigore.test.mjs",
+    "righe": 96,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c4-tetto-non-si-spegne-con-la-coda.test.mjs",
+    "righe": 99,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c4-typecheck-del-pannello.test.mjs",
+    "righe": 137,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c4-vincolo-esperimenti.test.mjs",
+    "righe": 65,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c4-voce-senza-vista.test.mjs",
+    "righe": 143,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c5-canale-di-pubblicazione.test.mjs",
+    "righe": 91,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c5-canale-dichiarato.test.mjs",
+    "righe": 143,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c5-chat-mute-nell-elenco.test.mjs",
+    "righe": 239,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c5-finestra-del-numero.test.mjs",
+    "righe": 206,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c5-metro-che-boccia-tutto.test.mjs",
+    "righe": 112,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c5-perimetro-e-ritmo.test.mjs",
+    "righe": 139,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c5-quaderni-senza-rete.test.mjs",
+    "righe": 194,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c6-battito-ricaduta.test.mjs",
+    "righe": 120,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c6-checkup-fermo.test.mjs",
+    "righe": 75,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c6-compiti-del-venerdi.test.mjs",
+    "righe": 84,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c6-giro-andato-male.test.mjs",
+    "righe": 133,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c6-pezzi-senza-lettore.test.mjs",
+    "righe": 64,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c6-quaderni-fermi.test.mjs",
+    "righe": 75,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c6-referto-vecchio-non-e-verde.test.mjs",
+    "righe": 94,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c6-senior-mai-usati.test.mjs",
+    "righe": 88,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c6-timbro-di-provenienza.test.mjs",
+    "righe": 86,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c7-cancelli-che-fermano.test.mjs",
+    "righe": 154,
+    "prova": true,
+    "categoria": "a_mano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c7-freni-che-fermano-davvero.test.mjs",
+    "righe": 225,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c7-il-canale-alza-il-colore.test.mjs",
+    "righe": 128,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c9-allarme-che-si-puo-chiudere.test.mjs",
+    "righe": 97,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c9-attesa-senza-fine.test.mjs",
+    "righe": 85,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c9-cassa-incompleta-non-e-rossa.test.mjs",
+    "righe": 72,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c9-firma-che-non-arriva.test.mjs",
+    "righe": 96,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c9-governo-senza-sveglia.test.mjs",
+    "righe": 274,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c9-il-pavimento-della-stima.test.mjs",
+    "righe": 150,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c9-quanto-rende-un-giro.test.mjs",
+    "righe": 91,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/c9-scala-di-sforzo.test.mjs",
+    "righe": 102,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/cabina-indirizzo.test.mjs",
+    "righe": 221,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/caccia-cieca-non-e-un-elenco-vuoto.test.mjs",
+    "righe": 101,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/cadenza-registro.test.mjs",
+    "righe": 321,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/cadenze-e-chiavi.test.mjs",
+    "righe": 175,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/calibrazione.test.mjs",
+    "righe": 125,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/calo-non-e-guarigione.test.mjs",
+    "righe": 162,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/campo-commit-e-turno.test.mjs",
+    "righe": 472,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/campo-illeggibile-non-e-un-no.test.mjs",
+    "righe": 187,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/canale-allargato.test.mjs",
+    "righe": 120,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/cancelli-ciechi-cancello-stop.test.mjs",
+    "righe": 96,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/cancelli-ciechi-coerenza.test.mjs",
+    "righe": 107,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/cancelli-ciechi-gate-pubblicazione.test.mjs",
+    "righe": 123,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/cancelli-spenti-nel-clone.test.mjs",
+    "righe": 93,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/cancello-che-accusa-di-cose-non-tue.test.mjs",
+    "righe": 223,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/cancello-nell-istante-giusto.bats",
+    "righe": 194,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/cancello-rosso-per-costruzione.test.mjs",
+    "righe": 174,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/cancello-senior.test.mjs",
+    "righe": 88,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/cancello-stop.test.mjs",
+    "righe": 933,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/cancello-verde-senza-misurare.test.mjs",
+    "righe": 283,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/cantiere-che-non-si-apre-non-e-un-cantiere-sporco.test.mjs",
+    "righe": 125,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/cantiere-integrita.test.mjs",
+    "righe": 113,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/cantiere-snello.test.mjs",
+    "righe": 135,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/capacita-dal-repo-non-dal-disco.test.mjs",
+    "righe": 115,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/capacita-non-guardate-non-sono-verdi.test.mjs",
+    "righe": 67,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/carte-numerate.test.mjs",
+    "righe": 212,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/cecita-curabile.test.mjs",
+    "righe": 579,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/censimento-che-non-scende.test.mjs",
+    "righe": 163,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/chat-pending.test.mjs",
+    "righe": 77,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/checkout-che-butta-la-memoria.test.mjs",
+    "righe": 206,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/chi-esegue-non-firma.test.mjs",
+    "righe": 160,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/chi-legge-il-verdetto-e-chi-lo-stampa.test.mjs",
+    "righe": 297,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/chi-va-in-turno.test.mjs",
+    "righe": 333,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/chiudi-sito.test.mjs",
+    "righe": 284,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/chiusi-richiudibili.test.mjs",
+    "righe": 57,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/chiusure-audit.test.mjs",
+    "righe": 62,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/chiusure-dopo-l-onda-2.test.mjs",
+    "righe": 99,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-15"
+   },
+   {
+    "file": "cervello/test/ci-rossa-di-chi.test.mjs",
+    "righe": 198,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/cieco-che-esce-come-un-errore.test.mjs",
+    "righe": 171,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/cieco-di-ambiente-non-e-rosso.test.mjs",
+    "righe": 223,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/cieco-dichiarato-verde.test.mjs",
+    "righe": 97,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/cieco-non-e-rotto.test.mjs",
+    "righe": 70,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/cieco-venduto-per-verde.test.mjs",
+    "righe": 181,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/coda-azioni.test.mjs",
+    "righe": 97,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/coda-illeggibile-non-e-assente.test.mjs",
+    "righe": 146,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/coda-senza-doppioni.test.mjs",
+    "righe": 250,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/coda-vista-come-la-vede-nicola.test.mjs",
+    "righe": 205,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/coerenza-fatti-registra.bats",
+    "righe": 68,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/collaudi-guardati-insieme.test.mjs",
+    "righe": 265,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-17"
+   },
+   {
+    "file": "cervello/test/collaudo.test.mjs",
+    "righe": 173,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/comandi-senza-casa.test.mjs",
+    "righe": 75,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/commit-che-porta-piu-di-quel-che-dice.test.mjs",
+    "righe": 151,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/conflitti-memoria-che-nessuno-risolve.test.mjs",
+    "righe": 369,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/conflitto-con-l-accento.test.mjs",
+    "righe": 136,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/consenso-azione.bats",
+    "righe": 60,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/consenso-azione.test.mjs",
+    "righe": 114,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/consenso-firma-pannello.test.mjs",
+    "righe": 187,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/conta-verdetti-muti.test.mjs",
+    "righe": 197,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-13"
+   },
+   {
+    "file": "cervello/test/contabilita-chiusure.test.mjs",
+    "righe": 134,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/contabilita-lezioni.test.mjs",
+    "righe": 113,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/contabilita-registro-agenti.test.mjs",
+    "righe": 67,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/contabilita-schede.test.mjs",
+    "righe": 103,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/contatore-piu-vecchio-dei-difetti.test.mjs",
+    "righe": 184,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/contesto-chat.bats",
+    "righe": 84,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/conti-che-arrivano-in-tempo.test.mjs",
+    "righe": 123,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-17"
+   },
+   {
+    "file": "cervello/test/conto-che-guarda-il-campo-sbagliato.test.mjs",
+    "righe": 75,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/conto-token.test.mjs",
+    "righe": 287,
+    "prova": true,
+    "categoria": "a_mano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/contratto-valori.test.mjs",
+    "righe": 144,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/contratto-workflow.test.mjs",
+    "righe": 135,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/copione-che-sparisce-mentre-gira.test.mjs",
+    "righe": 148,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/correzione-nicola-gate.test.mjs",
+    "righe": 95,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/deferral-non-e-una-collisione.test.mjs",
+    "righe": 78,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/dichiarato-aperto-si-richiude.test.mjs",
+    "righe": 134,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/dipendenze-prima-delle-prove.test.mjs",
+    "righe": 135,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/due-case.test.mjs",
+    "righe": 932,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-12"
+   },
+   {
+    "file": "cervello/test/due-difetti-uno-solo-numero.test.mjs",
+    "righe": 75,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/due-elenchi-un-solo-metro.test.mjs",
+    "righe": 454,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/due-famiglie-un-nome-solo.test.mjs",
+    "righe": 75,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/due-metri-una-regola.test.mjs",
+    "righe": 251,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/due-numeri-per-la-stessa-domanda.test.mjs",
+    "righe": 97,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/due-porte-due-altezze.test.mjs",
+    "righe": 204,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/due-worker.bats",
+    "righe": 153,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/efficienza.bats",
+    "righe": 75,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/entrate-senza-cancello.test.mjs",
+    "righe": 163,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/errore-di-git-crudo-nel-verdetto.test.mjs",
+    "righe": 85,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/errore-ingoiato.test.mjs",
+    "righe": 254,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/esenzione-con-un-motivo-vero.test.mjs",
+    "righe": 134,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/esito-cadenza.test.mjs",
+    "righe": 229,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/esito-lavoro-ricovero.test.mjs",
+    "righe": 249,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/esperimento-smentito-si-corregge.test.mjs",
+    "righe": 132,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/estrai-stream.bats",
+    "righe": 223,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/fette-della-ci.test.mjs",
+    "righe": 244,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-13"
+   },
+   {
+    "file": "cervello/test/file-oltre-il-tetto-di-github.test.mjs",
+    "righe": 136,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/fonte-parziale.test.mjs",
+    "righe": 159,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/fonte-umana-verificabile.test.mjs",
+    "righe": 91,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/freni-senza-fonte.test.mjs",
+    "righe": 529,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/freno-subagenti.test.mjs",
+    "righe": 116,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-25"
+   },
+   {
+    "file": "cervello/test/freschezza-che-mente.test.mjs",
+    "righe": 141,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/freschezza-intelligence.test.mjs",
+    "righe": 128,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/freschezza-okr.mjs",
+    "righe": 21,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/gate-che-non-puo-scattare.test.mjs",
+    "righe": 142,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/gate-coerenza-vault-pre-push.bats",
+    "righe": 168,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/gate-pubblicazione.test.mjs",
+    "righe": 220,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/gate-veri-in-attesa.test.mjs",
+    "righe": 174,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/giro-esito.test.mjs",
+    "righe": 247,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/glossario-kpi.test.mjs",
+    "righe": 506,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-15"
+   },
+   {
+    "file": "cervello/test/guardia-che-non-si-pianta.test.mjs",
+    "righe": 76,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/guardiani-in-bacheca.test.mjs",
+    "righe": 269,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/guardiano-mai-messo-di-guardia.test.mjs",
+    "righe": 296,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/hook-ts.mjs",
+    "righe": 6,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/hooks-check.test.mjs",
+    "righe": 159,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/i-carrelli-della-cabina-si-leggono-dalle-colonne-che-esistono.test.mjs",
+    "righe": 216,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/i-freni-di-spesa-scollegati.test.mjs",
+    "righe": 142,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/i-nati-della-riparazione-alzano-il-totale.test.mjs",
+    "righe": 86,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-13"
+   },
+   {
+    "file": "cervello/test/i-principi-che-non-arrivano-mai.test.mjs",
+    "righe": 149,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/i-workflow-che-non-partono.test.mjs",
+    "righe": 213,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/il-banco-che-non-diceva-chi-restava-fuori.test.mjs",
+    "righe": 95,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/il-banco-che-provava-una-difesa-su-sei.test.mjs",
+    "righe": 231,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/il-banco-non-scrive-fuori-da-casa.test.mjs",
+    "righe": 151,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/il-blocco-che-sparisce-sempre.test.mjs",
+    "righe": 155,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/il-budget-che-non-entrava-nel-tetto.test.mjs",
+    "righe": 91,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/il-cancello-all-ingresso-del-registro.test.mjs",
+    "righe": 175,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/il-cancello-che-taceva-per-settantacinque-minuti.test.mjs",
+    "righe": 78,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/il-cancello-non-guardava-il-pannello.test.mjs",
+    "righe": 90,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/il-conto-degli-usi-non-si-gonfia.test.mjs",
+    "righe": 97,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/il-conto-del-sito-che-dice-zero.test.mjs",
+    "righe": 320,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/il-costo-della-memoria.test.mjs",
+    "righe": 247,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/il-cronometro-piu-corto-della-prova.test.mjs",
+    "righe": 77,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/il-digest-tiene-il-lavoro-della-casa.test.mjs",
+    "righe": 516,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/il-freno-che-non-arriva-al-lavoro.test.mjs",
+    "righe": 229,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/il-freno-che-scatta.test.mjs",
+    "righe": 84,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/il-freno-non-era-sulla-strada.test.mjs",
+    "righe": 364,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/il-funnel-non-scrive-zero-carrelli-che-non-ha-contato.test.mjs",
+    "righe": 158,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/il-gate-che-non-ha-aperto-la-sala.test.mjs",
+    "righe": 124,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/il-guardiano-agganciato-ferma-il-cancello.test.mjs",
+    "righe": 239,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/il-guardiano-della-forma-guardava-solo-l-indentazione.test.mjs",
+    "righe": 138,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/il-lavoro-dell-altro-cancellato.test.mjs",
+    "righe": 127,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/il-motore-giudicato-dai-morti.test.mjs",
+    "righe": 203,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/il-muro-arriva-prima-della-porta.test.mjs",
+    "righe": 106,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/il-negozio-lento-non-ferma-gli-altri.test.mjs",
+    "righe": 249,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/il-numero-della-card-nuova-arriva-all-ad.bats",
+    "righe": 105,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/il-numero-di-una-card-archiviata-resta-speso.test.mjs",
+    "righe": 385,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/il-numero-libero-non-guardava-gli-altri-rami.test.mjs",
+    "righe": 243,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/il-posto-che-non-ce-non-e-un-reperto.test.mjs",
+    "righe": 209,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/il-quaderno-che-nessuno-firma.test.mjs",
+    "righe": 266,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/il-referto-che-nessuno-legge.test.mjs",
+    "righe": 256,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/il-semaforo-che-lascia-passare.test.mjs",
+    "righe": 227,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/il-senior-dichiara-il-modello.test.mjs",
+    "righe": 95,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/il-tempo-massimo-che-si-poteva-rifiutare.test.mjs",
+    "righe": 204,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/il-tempo-non-e-una-regressione.test.mjs",
+    "righe": 244,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/il-temporaneo-non-si-fa-indovinare.test.mjs",
+    "righe": 180,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/il-testo-di-bottega-non-porta-l-altro-negozio.test.mjs",
+    "righe": 286,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/il-tetto-dei-ciechi-non-e-un-accusa.test.mjs",
+    "righe": 103,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/il-tetto-del-cancello-che-si-poteva-rifiutare.test.mjs",
+    "righe": 67,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/il-tetto-del-tempo-scritto-in-quattro-posti.test.mjs",
+    "righe": 183,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/il-tetto-di-spesa-ha-chi-lo-alimenta.test.mjs",
+    "righe": 222,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/il-verdetto-che-non-arriva-al-motore.test.mjs",
+    "righe": 120,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/il-volano-i-sensori-e-la-stella.test.mjs",
+    "righe": 272,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/il-voto-del-volano-con-due-metri.test.mjs",
+    "righe": 209,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/import-che-esegue.test.mjs",
+    "righe": 170,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/importare-un-guardiano-non-lo-esegue.test.mjs",
+    "righe": 116,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/indentazione-che-blocca-tutto.test.mjs",
+    "righe": 83,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/indietro-dopo-chiusura-col-dito.test.mjs",
+    "righe": 219,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/intelligence-agenda.bats",
+    "righe": 15,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/intento-turno.test.mjs",
+    "righe": 87,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/irrobustimenti.bats",
+    "righe": 102,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/istante-cancello.test.mjs",
+    "righe": 202,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/json-riscritto-tutto.test.mjs",
+    "righe": 60,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/kit-fotocopia.test.mjs",
+    "righe": 104,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/l-archivio-dentro-il-file-che-doveva-alleggerire.test.mjs",
+    "righe": 164,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs",
+    "righe": 408,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/la-chat-senza-freni.test.mjs",
+    "righe": 96,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/la-coda-scritta-da-quattro-mani.test.mjs",
+    "righe": 172,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/la-correzione-tolta-deve-far-cadere-la-prova.test.mjs",
+    "righe": 357,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-13"
+   },
+   {
+    "file": "cervello/test/la-fotocopia-del-registro-non-e-una-pagina-viva.test.mjs",
+    "righe": 70,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-22"
+   },
+   {
+    "file": "cervello/test/la-penna-che-si-poteva-scegliere.test.mjs",
+    "righe": 223,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-13"
+   },
+   {
+    "file": "cervello/test/la-prova-attraversa-la-porta-della-casa.test.mjs",
+    "righe": 97,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/la-prova-typescript-non-dipende-dal-node.test.mjs",
+    "righe": 140,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/la-scheda-del-risolutore-non-e-un-allarme.test.mjs",
+    "righe": 51,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-22"
+   },
+   {
+    "file": "cervello/test/la-sola-lettura-che-scrive.test.mjs",
+    "righe": 299,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/lavoro-intrappolato-senza-uscita.test.mjs",
+    "righe": 206,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/le-tasche-vuote-e-il-tempo-che-esplode.test.mjs",
+    "righe": 108,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/lease-dopo-rebase-ripetuto.test.mjs",
+    "righe": 241,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/letargo-dati.test.mjs",
+    "righe": 88,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/lettore-che-dice-mai-fatto.test.mjs",
+    "righe": 204,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/lezioni-contate-in-tre-modi.test.mjs",
+    "righe": 185,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/lezioni-su-misura.test.mjs",
+    "righe": 51,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/lib-cadenza.test.mjs",
+    "righe": 310,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/libro-mastro.test.mjs",
+    "righe": 106,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/limite-settimanale-riparte.test.mjs",
+    "righe": 338,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/link-che-atterra.test.mjs",
+    "righe": 134,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/lo-strumento-che-alleggerisce-appesantiva.test.mjs",
+    "righe": 254,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/lotto-a-pacchetti-conto.test.mjs",
+    "righe": 186,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/lucchetto-che-non-si-libera.test.mjs",
+    "righe": 284,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/lucchetto-git.test.mjs",
+    "righe": 125,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/lucchetto-per-corsia.test.mjs",
+    "righe": 138,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/malattie-mancanti.test.mjs",
+    "righe": 102,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/mancata-senza-causa.test.mjs",
+    "righe": 85,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/mandato-senza-padrone.test.mjs",
+    "righe": 142,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/mano-fermata.test.mjs",
+    "righe": 105,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/mansionario-percorsi-e-canali.test.mjs",
+    "righe": 129,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/mappa-copertura.test.mjs",
+    "righe": 202,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/mappa-in-bacheca.test.mjs",
+    "righe": 221,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/materiale-in-mano.test.mjs",
+    "righe": 145,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/memoria-che-mente.test.mjs",
+    "righe": 190,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/memoria-di-se-e-misura-di-fuori.test.mjs",
+    "righe": 181,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/memoria-guardia.test.mjs",
+    "righe": 97,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/memoria-json.test.mjs",
+    "righe": 126,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/messaggi-uguali.test.mjs",
+    "righe": 77,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/metro-che-non-giudica.test.mjs",
+    "righe": 221,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/metro-mansionari-puo-bocciare.test.mjs",
+    "righe": 323,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/misura-che-non-scade-mai.test.mjs",
+    "righe": 120,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/misura-che-non-sporca.test.mjs",
+    "righe": 457,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/misura-cieca.test.mjs",
+    "righe": 164,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/misura-firmata-e-sola-lettura.test.mjs",
+    "righe": 128,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/misura-o-cieco.test.mjs",
+    "righe": 118,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/motivo-che-non-dice-niente.test.mjs",
+    "righe": 58,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/motore-ai-allowedtools.bats",
+    "righe": 52,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/motore-ai-claude-auth.bats",
+    "righe": 105,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/motore-ai-cursor-auth.bats",
+    "righe": 100,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/mutazione-mancante.test.mjs",
+    "righe": 289,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/mutazioni-orfane.test.mjs",
+    "righe": 94,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/mutazioni-provate-dal-cancello.test.mjs",
+    "righe": 132,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/n8n-placeholder.bats",
+    "righe": 37,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/nascita-difetti.test.mjs",
+    "righe": 103,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/non-misurato-non-e-rotto.test.mjs",
+    "righe": 180,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/non-vacuita-foglietto.test.mjs",
+    "righe": 230,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/non-vacuita-ripristino.test.mjs",
+    "righe": 43,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/non-vacuita-tre-esiti.test.mjs",
+    "righe": 103,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/north-star-gate.mjs",
+    "righe": 17,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/numeri-prima-delle-risposte.test.mjs",
+    "righe": 219,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/numero-di-card-gia-speso.test.mjs",
+    "righe": 84,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/occhi-sulla-cabina.test.mjs",
+    "righe": 94,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/officina-minima.test.mjs",
+    "righe": 12,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-15"
+   },
+   {
+    "file": "cervello/test/ogni-workflow-ha-la-sua-porta.test.mjs",
+    "righe": 121,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/ondata-sito.test.mjs",
+    "righe": 1128,
+    "prova": true,
+    "categoria": "a_mano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/ondata-snella.test.mjs",
+    "righe": 216,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/ora-di-piacenza.test.mjs",
+    "righe": 283,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/ora-scritta-a-mano-nel-cervello.test.mjs",
+    "righe": 418,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/organi-verdi-per-costante.test.mjs",
+    "righe": 139,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/orologi-inchiodati-allora-legale.test.mjs",
+    "righe": 250,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/overlay-chiusura.test.mjs",
+    "righe": 77,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/pacchetti-che-si-pestano.test.mjs",
+    "righe": 161,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/pagella-che-perde-righe.test.mjs",
+    "righe": 116,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/pagella-metro.test.mjs",
+    "righe": 103,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/panel-sync.test.mjs",
+    "righe": 81,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/pannello-cabina-viva.test.mjs",
+    "righe": 129,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/pannello-serratura.test.mjs",
+    "righe": 170,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/pannello-testo-non-stringa.test.mjs",
+    "righe": 90,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/parcheggiato-non-e-scaduto.test.mjs",
+    "righe": 118,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/parola-senza-padrone.test.mjs",
+    "righe": 306,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/pausa-che-non-ferma.test.mjs",
+    "righe": 174,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/pausa-cieca-che-non-si-vede.test.mjs",
+    "righe": 99,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/pausa-fail-closed.bats",
+    "righe": 73,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/pausa-senza-risveglio.test.mjs",
+    "righe": 273,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/percorso-cablato-che-rientra.test.mjs",
+    "righe": 103,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/perimetro-applicato.test.mjs",
+    "righe": 341,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/perimetro-conteggi.test.mjs",
+    "righe": 86,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/perimetro-derivato.test.mjs",
+    "righe": 129,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/perimetro-main.test.mjs",
+    "righe": 167,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/perimetro-mutazioni.test.mjs",
+    "righe": 113,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/permessi-check.test.mjs",
+    "righe": 232,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/permessi-di-guardia.test.mjs",
+    "righe": 114,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/permessi-guardrail.bats",
+    "righe": 101,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/permessi-strumenti.test.mjs",
+    "righe": 91,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/peso-file-cabina.test.mjs",
+    "righe": 224,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-12"
+   },
+   {
+    "file": "cervello/test/piani-data.test.mjs",
+    "righe": 134,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/piani-verita.test.mjs",
+    "righe": 231,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/plancia-cieca.test.mjs",
+    "righe": 186,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/plugin-acceso.test.mjs",
+    "righe": 93,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/ponte-che-diventa-copia.test.mjs",
+    "righe": 148,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/porta-automatica-indentazione.test.mjs",
+    "righe": 131,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/porta-dei-senior.test.mjs",
+    "righe": 269,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/porta-delle-lezioni.test.mjs",
+    "righe": 278,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/porta-di-servizio-della-firma.test.mjs",
+    "righe": 143,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/porte-di-pubblicazione.test.mjs",
+    "righe": 152,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/porte-pannello.test.mjs",
+    "righe": 109,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/pre-scrittura.test.mjs",
+    "righe": 161,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-18"
+   },
+   {
+    "file": "cervello/test/prediagnosi.test.mjs",
+    "righe": 535,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/presa-in-carico-senza-risposta.test.mjs",
+    "righe": 192,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/previsione-aperta-prima.test.mjs",
+    "righe": 193,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/previsione-banale-dai-dati.test.mjs",
+    "righe": 150,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/previsione-fuori-finestra.test.mjs",
+    "righe": 78,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/prezzo-a-bordo-di-un-altra-firma.test.mjs",
+    "righe": 111,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/promessa-ritirata.test.mjs",
+    "righe": 156,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/prossimo-ar.test.mjs",
+    "righe": 157,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/prova-accecata-sul-file.test.mjs",
+    "righe": 178,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/prova-che-non-puo-fallire.test.mjs",
+    "righe": 398,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/prova-debole-non-chiude.test.mjs",
+    "righe": 267,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/prova-migliore-contata-come-assente.test.mjs",
+    "righe": 136,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/prova-misurata-non-dichiarata.test.mjs",
+    "righe": 86,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/prova-piantata-non-e-un-verde.test.mjs",
+    "righe": 79,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/prova-sito.test.mjs",
+    "righe": 239,
+    "prova": true,
+    "categoria": "a_mano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/prova-trigger-cieca.test.mjs",
+    "righe": 143,
+    "prova": true,
+    "categoria": "a_mano",
+    "ultima_modifica": "2026-11-07"
+   },
+   {
+    "file": "cervello/test/prove-a-due-versi.test.mjs",
+    "righe": 389,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/prove-che-nessuno-esegue.test.mjs",
+    "righe": 232,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/prove-costose-in-fila.test.mjs",
+    "righe": 161,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/prove-oneste.test.mjs",
+    "righe": 192,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/prove-senza-esecutore-e-senza-mutazione.test.mjs",
+    "righe": 193,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/puntatori-scollegati.test.mjs",
+    "righe": 890,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/push-albero-sporco.test.mjs",
+    "righe": 235,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/pw-corsia-cieco.mjs",
+    "righe": 59,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/pw-driver.mjs",
+    "righe": 35,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/pw-finestra-skill.mjs",
+    "righe": 116,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/pw-nomi-lavori.mjs",
+    "righe": 100,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/quaderno-vuoto-non-e-completo.test.mjs",
+    "righe": 209,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/quadro.test.mjs",
+    "righe": 246,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/quanti-senior-dice-di-avere.test.mjs",
+    "righe": 133,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/quarto-controllo-promesso.test.mjs",
+    "righe": 253,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/quota-che-non-vede-i-quaderni.test.mjs",
+    "righe": 186,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/quota-e-patch-a-vuoto.test.mjs",
+    "righe": 192,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/radiografia-mentre-riparo.test.mjs",
+    "righe": 307,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/radiografia-sessioni.test.mjs",
+    "righe": 839,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-25"
+   },
+   {
+    "file": "cervello/test/radiografia-snella.test.mjs",
+    "righe": 195,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/ramo-che-porta-il-diario.test.mjs",
+    "righe": 162,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/ramo-staccato-dopo-il-controllo.bats",
+    "righe": 84,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/ramo-staccato-prima-del-push.test.mjs",
+    "righe": 118,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/rebase-che-non-parte.test.mjs",
+    "righe": 286,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/recupero-cancello-prima-del-commit.test.mjs",
+    "righe": 112,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/recupero-due-porte.test.mjs",
+    "righe": 206,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/referto-che-non-si-ripete.test.mjs",
+    "righe": 131,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/referto-cieco-parla-la-stessa-lingua.test.mjs",
+    "righe": 129,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/referto-con-la-sua-misura.test.mjs",
+    "righe": 45,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-15"
+   },
+   {
+    "file": "cervello/test/referto-troncato-dalla-pipe.test.mjs",
+    "righe": 120,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/referto-visita-leggibile.test.mjs",
+    "righe": 71,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/registri-ora-di-piacenza.test.mjs",
+    "righe": 140,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/registro-due-lettori.test.mjs",
+    "righe": 70,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/regola-scrittura-nei-senior.test.mjs",
+    "righe": 164,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/riaprire-un-difetto-e-lavorarci.test.mjs",
+    "righe": 125,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/riconcilia-memoria.test.mjs",
+    "righe": 226,
+    "prova": true,
+    "categoria": "solo_server",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/ricucitura-non-richiude-da-sola.test.mjs",
+    "righe": 179,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/riparazione-collaudo-12-11-guardia.test.mjs",
+    "righe": 81,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-13"
+   },
+   {
+    "file": "cervello/test/riparazione-collaudo-12-11-rimessa.test.mjs",
+    "righe": 66,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-13"
+   },
+   {
+    "file": "cervello/test/riparazione-sessioni.test.mjs",
+    "righe": 1307,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-21"
+   },
+   {
+    "file": "cervello/test/riparazione-sorveglia.test.mjs",
+    "righe": 93,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-13"
+   },
+   {
+    "file": "cervello/test/risolvi-ts.mjs",
+    "righe": 46,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/risposta-senza-rumore.test.mjs",
+    "righe": 112,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/ritentativo-cieco-sul-reset.test.mjs",
+    "righe": 142,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/ritmo-non-distruttivo.bats",
+    "righe": 69,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/rivedi-lezione.test.mjs",
+    "righe": 69,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/rosso-che-non-dice-perche.test.mjs",
+    "righe": 238,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/rosso-confermato-prima-di-crederci.test.mjs",
+    "righe": 88,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/round6-applica.test.mjs",
+    "righe": 166,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/salto-all-azione-da-firmare.test.mjs",
+    "righe": 136,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/salute-onesta-e-cablata.test.mjs",
+    "righe": 237,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/salute-per-organo.test.mjs",
+    "righe": 82,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/salute-voce-cadenze.test.mjs",
+    "righe": 139,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/salute.test.mjs",
+    "righe": 344,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/scadenza-ignorata-in-silenzio.test.mjs",
+    "righe": 213,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/scadenze-calcolate.test.mjs",
+    "righe": 323,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/scheda-gia-aperta-non-timbra.test.mjs",
+    "righe": 96,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/scheda-mal-formata-chiude-da-sola.test.mjs",
+    "righe": 355,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/schede-pacchetto.test.mjs",
+    "righe": 364,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/scrittura-non-confermata.test.mjs",
+    "righe": 140,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/scritture-e-riaccodi.test.mjs",
+    "righe": 219,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/secondo-parere-sul-contenuto.test.mjs",
+    "righe": 195,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/segreti-file-grosso.test.mjs",
+    "righe": 201,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/segreti-pattern.test.mjs",
+    "righe": 12,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/segreto-in-un-nome-con-l-accento.test.mjs",
+    "righe": 223,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/sensore-cieco-non-resta-zitto.test.mjs",
+    "righe": 129,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/sensore-fonti-cieco-non-e-silenzio.test.mjs",
+    "righe": 135,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/sensore-ordini-leggibilita.test.mjs",
+    "righe": 129,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/sensore-stash-che-non-suona.test.mjs",
+    "righe": 167,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/sensori-non-calpestati.test.mjs",
+    "righe": 225,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/sensori-non-clobber.bats",
+    "righe": 61,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/sensori-verita.test.mjs",
+    "righe": 215,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/serratura-ramo.test.mjs",
+    "righe": 170,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/server-che-non-puo-ricevere-riparazioni.test.mjs",
+    "righe": 256,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/sessione-chat.bats",
+    "righe": 140,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/si-capisce.test.mjs",
+    "righe": 713,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-13"
+   },
+   {
+    "file": "cervello/test/sicurezza-prompt.bats",
+    "righe": 49,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/sicurezza-supabase.test.mjs",
+    "righe": 101,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/sintomo.test.mjs",
+    "righe": 204,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/soglia-che-non-puo-bocciare.test.mjs",
+    "righe": 90,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/soglie-non-abbassabili.test.mjs",
+    "righe": 117,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/sorvegliante.test.mjs",
+    "righe": 1622,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/sorveglianza-muta.test.mjs",
+    "righe": 141,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-15"
+   },
+   {
+    "file": "cervello/test/spazza-temporanei.test.mjs",
+    "righe": 384,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/spazzata-che-non-lo-dice-a-git.test.mjs",
+    "righe": 146,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/spazzata-esenti.test.mjs",
+    "righe": 124,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/spazzata-frase.test.mjs",
+    "righe": 251,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/specchia-skills.bats",
+    "righe": 42,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/specchio-senza-doppioni.test.mjs",
+    "righe": 102,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/spento-per-scelta-o-per-inerzia.test.mjs",
+    "righe": 104,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/stash-che-nessuno-riprende.test.mjs",
+    "righe": 284,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/stato-che-cresce-in-silenzio.test.mjs",
+    "righe": 251,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/stato-vivo-calpestato.test.mjs",
+    "righe": 182,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/storia-tagliata-non-e-un-numero.test.mjs",
+    "righe": 105,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/storia-troncata.test.mjs",
+    "righe": 270,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-12"
+   },
+   {
+    "file": "cervello/test/storico-due-lettori.test.mjs",
+    "righe": 134,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/strati.test.mjs",
+    "righe": 131,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/su-main-va-solo-la-memoria.test.mjs",
+    "righe": 119,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/superficie-che-mente.test.mjs",
+    "righe": 121,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/sveglia-che-nessuno-installa.test.mjs",
+    "righe": 86,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/sync-pendente.test.mjs",
+    "righe": 187,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/tasso-di-chiusura.test.mjs",
+    "righe": 172,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/tasso-regole.test.mjs",
+    "righe": 189,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/test-a-corsie.test.mjs",
+    "righe": 98,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/test-cervello.test.mjs",
+    "righe": 142,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/test-pannello.test.mjs",
+    "righe": 44,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/testa-staccata-non-perde-memoria.test.mjs",
+    "righe": 143,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/un-alias-dentro-un-altra-parola.test.mjs",
+    "righe": 72,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/un-elenco-vuoto-non-vale-tutto-risolto.test.mjs",
+    "righe": 123,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/un-freno-con-piu-copie.test.mjs",
+    "righe": 182,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/un-negozio-non-vede-l-altro.test.mjs",
+    "righe": 195,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/un-punto-cieco-che-si-scopre-di-rimbalzo.test.mjs",
+    "righe": 225,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/un-quaderno-una-casa.test.mjs",
+    "righe": 245,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/un-rischio-che-nessuno-vedra-arrivare.test.mjs",
+    "righe": 108,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/un-rosso-senza-il-suo-perche.test.mjs",
+    "righe": 82,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/un-totale-che-salta-uno-stato.test.mjs",
+    "righe": 262,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/un-vincolo-che-non-sa-dire-non-lo-so.test.mjs",
+    "righe": 166,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/una-card-una-volta-sola.test.mjs",
+    "righe": 200,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/una-chiusura-senza-data-sparisce-da-ogni-mese.test.mjs",
+    "righe": 181,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/una-corsia-piena-non-ferma-le-altre.test.mjs",
+    "righe": 200,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/una-data-storta-non-spegne-la-cabina.test.mjs",
+    "righe": 141,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/una-mutazione-che-nessuno-puo-eseguire.test.mjs",
+    "righe": 174,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/una-mutazione-che-non-morde.test.mjs",
+    "righe": 167,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/una-mutazione-lasciata-in-giro.test.mjs",
+    "righe": 107,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/una-parola-con-due-padroni.test.mjs",
+    "righe": 170,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/una-prova-che-cancella-la-casa.test.mjs",
+    "righe": 106,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/una-prova-che-punta-al-vuoto.test.mjs",
+    "righe": 180,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/una-prova-che-sporca-la-casa-degli-altri.test.mjs",
+    "righe": 113,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/una-prova-lanciata-nel-modo-sbagliato.test.mjs",
+    "righe": 320,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/una-prova-morta-non-e-una-prova-passata.test.mjs",
+    "righe": 131,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/una-prova-non-e-una-porta-per-eseguire-altro.test.mjs",
+    "righe": 318,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/uno-stato-che-nessuno-capisce.test.mjs",
+    "righe": 95,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/uscite-verso-il-mondo.test.mjs",
+    "righe": 173,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/validazione-congelata.test.mjs",
+    "righe": 180,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/verde-che-esce-di-casa.test.mjs",
+    "righe": 127,
+    "prova": true,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/verde-comprato-senza-guardare.test.mjs",
+    "righe": 89,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/verde-senza-aver-misurato.test.mjs",
+    "righe": 89,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/verdetto-che-arriva-al-motore.test.mjs",
+    "righe": 120,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/vincolo-cronico.test.mjs",
+    "righe": 218,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/voci-pronte-per-il-giro.test.mjs",
+    "righe": 125,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-15"
+   },
+   {
+    "file": "cervello/test/volano-regole.test.mjs",
+    "righe": 125,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/voto-che-sale-peggiorando.test.mjs",
+    "righe": 142,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/voto-che-se-lo-da-da-sola.test.mjs",
+    "righe": 170,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/watch-main-reload-grazioso.bats",
+    "righe": 48,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/watch-main-solo-memoria.bats",
+    "righe": 56,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/worker-claim-pausa.bats",
+    "righe": 98,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/worker-doppio-invio.bats",
+    "righe": 106,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/worker-orfani.bats",
+    "righe": 64,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/worker-titolo-commit.bats",
+    "righe": 111,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/workflow-che-non-partono.test.mjs",
+    "righe": 41,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test/workflow-dal-repo-non-dal-disco.test.mjs",
+    "righe": 139,
+    "prova": true,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/test-cervello.mjs",
+    "righe": 1371,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-13"
+   },
+   {
+    "file": "cervello/test-pannello.mjs",
+    "righe": 98,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/tetti-archivio.mjs",
+    "righe": 133,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/tetto-guardiano.mjs",
+    "righe": 259,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/tick-auto-coscienza-leggero.mjs",
+    "righe": 109,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/titolo-commit.sh",
+    "righe": 45,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/tmp-metabolizza-append.mjs",
+    "righe": 17,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/traccia-decisione.mjs",
+    "righe": 111,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/turno-senior.mjs",
+    "righe": 418,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/uscite-check.mjs",
+    "righe": 165,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/utilizzo-senior.mjs",
+    "righe": 90,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/valida-contratti.mjs",
+    "righe": 436,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/vault-sanita.mjs",
+    "righe": 127,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/verdetti-guardiani.mjs",
+    "righe": 64,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/verdetto-burn-down.mjs",
+    "righe": 98,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/verifica-automazione.mjs",
+    "righe": 366,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/verifica-avversariale.mjs",
+    "righe": 102,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/verifica-sensori.mjs",
+    "righe": 871,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/verify-marge-pannello.mjs",
+    "righe": 80,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/verify-marge.sh",
+    "righe": 8,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/vincoli-senza-cieco.mjs",
+    "righe": 239,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/volano-numeri.mjs",
+    "righe": 109,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/volano-regole.mjs",
+    "righe": 84,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/vps/aggiorna-cervello.sh",
+    "righe": 606,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/vps/collega-claude.sh",
+    "righe": 159,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/vps/collega-cursor.sh",
+    "righe": 137,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/vps/diagnostica-completa.sh",
+    "righe": 180,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/vps/giro-ora.sh",
+    "righe": 23,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/vps/install-ritmo-timers.sh",
+    "righe": 50,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/vps/recupera-lavori-orfani.sh",
+    "righe": 58,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/vps/riconcilia-memoria.sh",
+    "righe": 165,
+    "prova": false,
+    "categoria": "solo_server",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/vps/ritmo-ora.sh",
+    "righe": 27,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/vps/setup.sh",
+    "righe": 175,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/vps/test-agent.sh",
+    "righe": 82,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/vps/test-giro-prompt.sh",
+    "righe": 25,
+    "prova": false,
+    "categoria": "solo_server",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/vps/watch-main.sh",
+    "righe": 253,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/worker-bottega.sh",
+    "righe": 99,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/worker-coda.sh",
+    "righe": 147,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/worker-router.sh",
+    "righe": 24,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/worker.ps1",
+    "righe": 140,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/worker.sh",
+    "righe": 2017,
+    "prova": false,
+    "categoria": "da_fuori",
+    "ultima_modifica": "2026-11-06"
+   },
+   {
+    "file": "cervello/workflow-partono.mjs",
+    "righe": 185,
+    "prova": false,
+    "categoria": "orfano",
+    "ultima_modifica": "2026-11-06"
+   }
+  ]
+ }
+}
