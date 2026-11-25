@@ -1,0 +1,46 @@
+{
+  "tipo": "scheda-cliente",
+  "origine": "ad-mycity",
+  "inviato_il": "2026-11-25T00:00:00+01:00",
+  "id_attivita": "0de1905e-7000-4000-8000-000000000001",
+  "campi": {
+    "indirizzo": { "valore": "Viale Sant'Ambrogio 6/B, 29121 Piacenza", "stato": "da_confermare", "fonte": "https://www.tripadvisor.com/Restaurant_Review-g187805-d21228132-Reviews-Ora_del_Gusto-Piacenza_Province_of_Piacenza_Emilia_Romagna.html" },
+    "telefono": { "valore": "0523 337635", "stato": "da_confermare", "fonte": "https://app.wanderlog.com/place/details/2856569" },
+    "orari": { "valore": "Gli elenchi non concordano: uno dice tutti i giorni 5:30-20:30, un altro apertura alle 4:50 con chiusura alle 15 il lunedì, un altro lunedì chiuso e venerdì-sabato fino all'una. Da chiedere al titolare.", "stato": "frammento", "fonte": "https://negozi.sisal.com/my-sisal/piacenza-viale-sant-ambrogio-6-b-ora-del-gusto" },
+    "sito_ufficiale": { "valore": "https://oradelgustovialesantambrogiopiacenzapcitalia.eatbu.com/", "stato": "da_confermare", "fonte": "https://oradelgustovialesantambrogiopiacenzapcitalia.eatbu.com/?lang=en" },
+    "facebook": { "valore": "https://www.facebook.com/Oradelgustopiacenza/", "stato": "da_confermare", "fonte": "https://www.facebook.com/Oradelgustopiacenza/mentions/" },
+    "instagram": { "valore": "@ora.delgusto", "stato": "da_confermare", "fonte": "https://restaurantguru.com/Golosia-Piacenza-2" },
+    "menu_testo": { "valore": "Caffetteria e colazioni a buffet, brioche anche vegane, pasticceria, aperitivi con vino locale (Ortrugo), piccola cucina e cocktail.", "stato": "frammento", "fonte": "https://oradelgustovialesantambrogiopiacenzapcitalia.eatbu.com/?lang=en" },
+    "nome_precedente": { "valore": "Golosia (la pagina Facebook ha ancora l'indirizzo bargolosia2.0)", "stato": "frammento", "fonte": "https://www.facebook.com/bargolosia2.0/" },
+    "servizi_extra": { "valore": "Punto Sisal", "stato": "da_confermare", "fonte": "https://negozi.sisal.com/my-sisal/piacenza-viale-sant-ambrogio-6-b-ora-del-gusto" }
+  },
+  "analisi": {
+    "tipo_di_locale": "Bar caffetteria e pasticceria di quartiere in Viale Sant'Ambrogio, con apertura all'alba, colazioni a buffet e aperitivo la sera.",
+    "pubblico": "Chi passa presto la mattina per lavoro, residenti del quartiere per colazione e aperitivo, e chi cerca brioche vegane.",
+    "punti_di_forza": [
+      "Apre prestissimo, prima delle 6 secondo più elenchi: copre chi lavora di mattina presto.",
+      "Colazione a buffet con brioche anche vegane, citata con favore nelle recensioni.",
+      "Molte recensioni su Google per un bar di quartiere: oltre quattro stelle su cinque, con più di 600 recensioni.",
+      "Pagina Facebook con circa 3.500 follower: un pubblico locale già raccolto."
+    ],
+    "idee_contenuti": [
+      "Il buffet della colazione alle 6 del mattino, in un video breve girato all'apertura.",
+      "La brioche vegana del giorno, una foto fissa ogni mattina.",
+      "L'aperitivo con l'Ortrugo dei colli piacentini.",
+      "Le facce dei clienti abituali del mattino, con il loro permesso."
+    ],
+    "cosa_chiedere_al_titolare": [
+      "Quali sono gli orari veri, giorno per giorno?",
+      "La pasticceria è fatta da voi o arriva da un laboratorio?",
+      "L'account Instagram @ora.delgusto è vostro ed è attivo?",
+      "Il nome Golosia è ancora usato da qualche parte, per esempio su Google?",
+      "Cosa vorreste vendere su MyCity: colazioni da portare via, vassoi di pasticceria, torte su ordinazione?"
+    ],
+    "dubbi": [
+      "Gli orari cambiano molto da un elenco all'altro.",
+      "Una recensione segnala il servizio da migliorare.",
+      "Le pagine dei siti di recensioni non si sono aperte da qui: i dati vengono dai riassunti della ricerca."
+    ]
+  },
+  "da_confermare": ["indirizzo", "telefono", "orari", "sito_ufficiale", "facebook", "instagram", "servizi_extra"]
+}
