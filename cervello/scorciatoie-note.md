@@ -204,3 +204,9 @@ del sito (`cervello/prediagnosi.mjs`), dove un testo pubblicato per sbaglio non 
     al nodo un input scritto a mano, con il campo vuoto, e restavano verdi. *Cura: quando «vuoto» ha
     un significato, si verifica cosa manda DAVVERO la piattaforma per un campo vuoto (form, foglio,
     webhook); nel dubbio campo di testo, e una prova sul tipo del campo nel workflow generato.*
+37. **Il nodo che non usa la sua uscita di errore.** In n8n un nodo Data table con «uscita di errore» manda lì solo
+    alcuni errori: la tabella piena o una colonna che manca escono sull'uscita BUONA, con gli elementi di prima e senza
+    l'id della riga. Il flusso contava gli elementi usciti e faceva partire la routine con allegati che non esistevano.
+    Lo ha trovato solo un collaudo in un n8n vero con il tetto di spazio abbassato. *Cura: dopo una scrittura si
+    controlla la prova che la scrittura è avvenuta (l'id restituito), mai il numero di elementi; e i guasti si provano
+    nell'n8n vero, non nell'imitazione dei nodi Code.*
