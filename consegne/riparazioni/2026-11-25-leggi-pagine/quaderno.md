@@ -30,7 +30,7 @@ Quando il flusso del sito verrà ripubblicato con le modifiche del flusso 16, va
 ## I collaudi
 Il primo collaudo della sicurezza ha bocciato per 4 difetti. Il secondo, sulla catena dei dati, ha retto con 3 difetti.
 Il terzo, di nuovo sulla sicurezza, ha bocciato per 4 difetti. Sono stati corretti tutti e 11, ognuno con la sua prova.
-Il quarto, l'ultimo ammesso, è in corso. Il referto andrà in `collaudo-3-sicurezza.md`, in questa cartella.
+Il quarto è il terzo sulla sicurezza, l'ultimo ammesso, ed è in corso. Per questo il referto si chiamerà `collaudo-3-sicurezza.md`, in questa cartella.
 
 ## Prossimi passi
 1. Leggere l'esito del collaudo e portarlo a Nicola.
