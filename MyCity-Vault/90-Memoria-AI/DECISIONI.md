@@ -1165,6 +1165,14 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa:** resta la regola entrata con mycity#320 (unita il 25/11 alle 12:04). Lo staff non approva un negozio finché mancano nome, cognome, codice fiscale e data di nascita del titolare. Chiude la voce «La scelta dell'AD, da confermare» del 25/11 alle 00:20.
 - **Aperto:** la frase dei Termini sulla «verifica KYC (documento, codice fiscale, IBAN)», da far rivedere a legale-privacy.
 
+## 2026-11-25 17:38 — I messaggi Telegram divisi per gruppo, e per ogni negozio un argomento (🟡, fatto e avvisato)
+- **Chi e quando:** Nicola, in chat all'AD, 25/11. Prima «voglio avere una chat telegram per funzioni diverse», poi «fai la B, un solo posto per attività», «errori in un gruppo Tecnica; solo io», «1 Officina».
+- **Cosa:** tre gruppi Telegram con dentro solo Nicola e il bot: «Attività» con un argomento per negozio, «Marketplace» per il giro del mattino, «Tecnica» per scarti ed errori. Il flusso nuovo «97 · Scrivi nell'argomento dell'attività» è acceso su n8n. Cerca l'argomento nella tabella «Argomenti delle attività». Se non c'è, lo fa aprire all'Officina con `POST /telegram/argomento` (versione 1.2.0), dove sta la chiave del bot. L'analisi di un'attività (28) e le bozze (15) scrivono passando dal 97.
+- **Perché l'Officina:** la richiesta HTTP di n8n non sa usare la credenziale del bot nell'indirizzo di Telegram. Provato il 25/11 con una chiamata innocua: «Not Found».
+- **Finché i gruppi non ci sono non cambia niente:** con CHAT_ATTIVITA, CHAT_MARKETPLACE e CHAT_TECNICA vuoti si va nella chat privata.
+- **Aspetta Nicola:** unire NicolaeRotaru/N8N#9; ripubblicare l'Officina su Sliplane con `TELEGRAM_BOT_TOKEN`; creare i tre gruppi e mandare i numeri.
+- **Colore:** 🟡 (macchina n8n e Officina, reversibile, scrive solo a Nicola).
+
 
 ## 2026-11-25 14:03 — Nicola delega alla regia il consenso dentro le sessioni del piano; la mappa corregge il conto degli orfani (🔴 delega, 🟡 correzione)
 - **Delega:** Nicola, 25/11 alle 13:35, nella chat della regia «n8n workflow per MyCity»: «acconsenti tu per me nelle sotto sessioni». La regia decide al suo posto, dentro il piano approvato, le domande delle sessioni A, B, C, D ed E. Restano a Nicola: le chiavi e i segreti, la visibilità dei repository, i soldi, i messaggi a persone vere, il nome nuovo e l'unione delle PR. La sessione che unisce le PR ha voluto il via di Nicola scritto nella sua chat, e così il controllo dei permessi della sessione D per accendere i flussi.
@@ -1238,3 +1246,28 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Perché:** un utente collegato senza scheda poteva crearsela con ruolo amministratore approvato (provato sul database ricostruito: `admin|true|approved`). In produzione 0 utenti senza scheda su 12: oggi non sfruttato.
 - **Controlli:** prova nuova 4 rossi su 8 senza la 862, 8 verdi con; 97 file SQL verdi; `npm run verify` verde (12969 prove); collaudo a due lenti, tutte e due «regge»; controllo in produzione: proprietario della funzione di registrazione = proprietario della tabella, con INSERT diretto.
 - **Aperto:** unione della PR e migrazione 862 (card #264). Minore dal collaudo: la prova non vedrebbe una futura funzione del database che crea schede per conto dell'utente.
+
+## 2026-11-25 17:52 — Nicola conferma le quattro scelte su analisi, scheda e pagella (🟡, decisione di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD, 25/11 verso le 17:52. Parole sue: «ok alle quattro scelte».
+- **Cosa:** confermate le scelte dell'AD della voce delle 17:40. ① «Abbonamento fatto» vuol dire primo pagamento riuscito, quando finisce la demo. ② Fuori dalla demo la pagella resta com'è. ③ Le schede già salvate restano, ma non si usano prima dell'abbonamento. ④ Le domande per il titolare e le idee per i post stanno nell'analisi, che parte subito.
+- **Dove:** aggiunte al fatto `agenzia.analisi-e-scheda` (coerenza verde) e al brief. Dette alla sessione «Analisi subito, scheda e pagella dopo l'abbonamento» (`session_01R8112N9acTBU46fC5YpxTg`).
+
+## 2026-11-25 17:55 — Nel preventivo anche l'analisi del business dell'attività, come l'AD fa su MyCity azienda (🟡, decisione di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD, 25/11 verso le 17:55. Parole sue: «vorrei che li fai il preventivo anche sulla parte di analisi sul suo business come fa AD su MyCity (non MyCity marketplace ma azienda)».
+- **Cosa:** il preventivo mostra anche un'analisi del business dell'attività, fatta col metodo con cui l'AD guarda MyCity come azienda. Dice com'è messa, mercato e concorrenti vicini, clienti e reputazione, opportunità, rischi e prime mosse. Ha una parte generale e una specifica. Prima dell'abbonamento usa solo fonti pubbliche e gratuite.
+- **Dove:** fatto `agenzia.analisi-e-scheda` (coerenza verde), regola 4 del brief, detta alla sessione `session_01R8112N9acTBU46fC5YpxTg`.
+## 2026-11-25 18:12 — Le migrazioni 861 e 862 sono in produzione: le ha applicate l'AD su richiesta di Nicola (🔴, firmato da Nicola in chat)
+- **Chi e quando:** l'AD, dopo il messaggio di Nicola del 25/11 «fai tu le migrazioni 861 e 862». Le due correzioni erano già su main con la PR unica del sito (mycity#329).
+- **Cosa:** un solo giro di «Migrazioni a mano» su main, con conferma APPLICA, 2 migrazioni, ultima la 862. È finito alle 18:06, tutto verde. Prima erano partiti due giri per la sola 861, uno dell'AD e uno della sessione dei dati di chi firma. Si sono fermati da soli senza scrivere niente, perché nel frattempo main era cambiato.
+- **Perché un giro solo:** la 861 (i dati di chi firma si cambiano solo dal server) e la 862 (la scheda la crea solo la registrazione) toccano tutte e due la tabella dei profili. Applicarle insieme evita un momento in cui c'è una sola delle due.
+- **Controllo dopo, in sola lettura:** il registro delle migrazioni ha 860, 861 e 862. Su `profiles` le regole di inserimento sono 0, e chi è anonimo o collegato non ha il permesso INSERT. La funzione di guardia è la versione nuova, con l'elenco dei campi consentiti. Card #264 chiusa.
+
+## 2026-11-25 18:20 — L'analisi del business anche nella pagina «Analisi» della demo (🟡, decisione di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD, 25/11 verso le 18:20. Parole sue: «voglio che aggiungi nella pagina analisi dentro la demo anche i dati di analisi di business».
+- **Cosa:** la pagina «Analisi del business» che il negozio vede in demo mostra l'analisi del business dell'attività (quella delle 17:55), insieme a canali e sito, al posto della pagella del marketplace.
+- **Dove:** fatto `agenzia.analisi-e-scheda` (coerenza verde), regola 5 del brief, detta alla sessione `session_01R8112N9acTBU46fC5YpxTg`.
+
+## 2026-11-25 18:30 — Nel preventivo i servizi si descrivono corti, con lo stretto necessario (🟡, decisione di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD, 25/11 verso le 18:30. Parole sue: «dentro il preventivo la descrizione dei servizi deve essere corta e con lo stretto necessario che gli interessa».
+- **Cosa:** ogni servizio del preventivo si legge in poche righe, solo con quello che interessa a quell'attività. Vale anche per l'analisi del business nel preventivo, il cui dettaglio sta nella pagina «Analisi» della demo.
+- **Dove:** fatto `agenzia.analisi-e-scheda` (coerenza verde), regola 6 del brief, detta alla sessione `session_01R8112N9acTBU46fC5YpxTg`.

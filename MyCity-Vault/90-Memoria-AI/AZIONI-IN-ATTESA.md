@@ -33,6 +33,8 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ### 🔴 #264 — Unisci la correzione che impedisce di crearsi una scheda da amministratore, poi applicala al database · ⏳ accodata 2026-11-25 16:19 · @security
 
+**Stato:** ✅ FATTO 2026-11-25 18:06. Nicola ha unito la correzione dentro la PR unica del sito e ha scritto «fai tu le migrazioni 861 e 862». L'AD ha applicato la 862 insieme alla 861 col pulsante «Migrazioni a mano», alle 18:06. Le due prove qui sotto, rilanciate in sola lettura alle 18:12, danno 0 e false.
+
 **In parole semplici.** Ogni utente ha nel database una scheda che dice se è cliente, negozio, fattorino o amministratore. Chi aveva un account senza scheda poteva crearsela dal browser e scriverci «amministratore, approvato». La correzione toglie quella possibilità: la scheda la crea solo la registrazione, o il server.
 Per esempio: un cliente la cui scheda viene cancellata per sbaglio, prima poteva rientrare e diventare amministratore; adesso il database gli dice «non hai il permesso».
 
