@@ -1256,3 +1256,8 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Chi e quando:** Nicola, in chat all'AD, 25/11 verso le 17:55. Parole sue: «vorrei che li fai il preventivo anche sulla parte di analisi sul suo business come fa AD su MyCity (non MyCity marketplace ma azienda)».
 - **Cosa:** il preventivo mostra anche un'analisi del business dell'attività, fatta col metodo con cui l'AD guarda MyCity come azienda. Dice com'è messa, mercato e concorrenti vicini, clienti e reputazione, opportunità, rischi e prime mosse. Ha una parte generale e una specifica. Prima dell'abbonamento usa solo fonti pubbliche e gratuite.
 - **Dove:** fatto `agenzia.analisi-e-scheda` (coerenza verde), regola 4 del brief, detta alla sessione `session_01R8112N9acTBU46fC5YpxTg`.
+
+## 2026-11-25 18:20 — L'analisi del business anche nella pagina «Analisi» della demo (🟡, decisione di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD, 25/11 verso le 18:20. Parole sue: «voglio che aggiungi nella pagina analisi dentro la demo anche i dati di analisi di business».
+- **Cosa:** la pagina «Analisi del business» che il negozio vede in demo mostra l'analisi del business dell'attività (quella delle 17:55), insieme a canali e sito, al posto della pagella del marketplace.
+- **Dove:** fatto `agenzia.analisi-e-scheda` (coerenza verde), regola 5 del brief, detta alla sessione `session_01R8112N9acTBU46fC5YpxTg`.
