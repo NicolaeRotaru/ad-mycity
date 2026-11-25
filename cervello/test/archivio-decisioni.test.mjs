@@ -40,6 +40,12 @@ test("archivia: scrive l'archivio, accorcia il vivo, il secondo giro non sposta 
   assert.deepEqual(r.mesi, ["2026-09", "2026-10"]);
   assert.deepEqual(readdirSync(join(radice, CARTELLA_ARCHIVIO)).sort(), ["2026-09.md", "2026-10.md"]);
   assert.doesNotMatch(readFileSync(pVivo, "utf8"), /ottobre/);
+  // Integrità su quello che archivia SCRIVE davvero: rilette dal disco, le righe (contate una per
+  // una) sono quelle di partenza, né una di meno né una doppia. L'intestazione dell'archivio è nuova.
+  const conta = (righe) => righe.filter((r) => r.trim()).reduce((m, r) => m.set(r, (m.get(r) || 0) + 1), new Map());
+  const scritte = [readFileSync(pVivo, "utf8")];
+  for (const f of readdirSync(join(radice, CARTELLA_ARCHIVIO))) scritte.push(readFileSync(join(radice, CARTELLA_ARCHIVIO, f), "utf8").split("\n---\n").slice(1).join("\n---\n").replace(/^\n> Archivio[^\n]*\n> [^\n]*\n/, ""));
+  assert.deepEqual([...conta(scritte.join("\n").split("\n"))].sort(), [...conta(ESEMPIO.split("\n"))].sort(), "archivio + vivo = file di partenza, riga per riga");
   assert.equal(archivia({ radice, mese: "2026-11" }).spostate, 0, "idempotente");
   const storia = leggiDecisioniTutte(pVivo);
   for (const parola of ["settembre", "ottobre scritta tardi", "Blocco di novembre"]) assert.match(storia, new RegExp(parola));
@@ -55,7 +61,8 @@ test("archivia: scrive l'archivio, accorcia il vivo, il secondo giro non sposta 
 test("il file vivo vero tiene solo il mese in corso, e l'archivio è storia esente per coerenza-fatti", () => {
   const vero = readFileSync(new URL("../../" + FILE_VIVO, import.meta.url), "utf8");
   const { archivi } = dividiPerMese(vero, meseInCorso());
-  // Tollera il mese appena chiuso (la rotazione la fa il primo giro del mese), non di più.
+  // Tollera il mese appena chiuso: la rotazione la lancia a mano chi lavora a inizio mese
+  // (non è agganciata a nessun giro automatico), e il primo giorno del mese è normale non averla ancora fatta.
   assert.ok(archivi.size <= 1, `DECISIONI.md tiene ${archivi.size} mesi chiusi: lancia node cervello/archivio-decisioni.mjs`);
   assert.equal(esente(`${CARTELLA_ARCHIVIO}/2026-10.md`, []), true);
 });
