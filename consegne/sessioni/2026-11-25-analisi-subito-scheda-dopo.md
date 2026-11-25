@@ -14,7 +14,7 @@ Per esempio: La Ragazzetta, iscritta il 25/11, deve ricevere subito una proposta
 Questa sessione possiede il lavoro dall'inizio alla fine. Lavora su due repository: `mycity` per il sito e `N8N` per i flussi.
 
 ## Cosa devi fare
-Prima le scelte, poi il codice: leggi le «Scelte dell'AD», e se una non regge chiedi a Nicola prima di costruire.
+Prima le scelte, poi il codice. Le quattro «Scelte dell'AD» le ha confermate Nicola: si costruisce su quelle.
 
 ## Cosa non ho verificato
 Non ho letto per intero `offerta-su-misura.ts`, il webhook Stripe degli abbonamenti e il codice del flusso 16. Le righe sotto sono una mappa, non una diagnosi.
@@ -28,6 +28,7 @@ Nicola, 25/11 verso le 17:40 e le 17:45:
 1. **Subito, all'iscrizione:** l'analisi dell'attività con tutte le analisi a disposizione: fonti pubbliche (ricerca via «Chiedi all'AD»), social, scheda Google, sito (PageSpeed). Scopo: personalizzare i servizi. Ogni proposta ha una **parte generale** (cosa comprende la fascia, `FASCE`) e una **parte specifica** per le esigenze di quell'attività.
 2. **Solo dopo l'abbonamento:** la scheda del cliente (i campi: indirizzo, telefono, orari, menu, link; quella che riempie la vetrina).
 3. **Solo dopo l'abbonamento:** la pagella sul marketplace (flusso 18 e `lib/agenzia/pagella.ts`). Va **tolta dalla demo e dal preventivo**.
+4. **Aggiunta delle 17:55:** nel preventivo c'è anche l'**analisi del business** dell'attività. Si fa come l'AD analizza MyCity come azienda, non il marketplace. Dice com'è messa, mercato e concorrenti vicini, clienti e reputazione, opportunità, rischi e le prime mosse. Anche qui c'è una parte generale (cosa comprende il servizio di analisi in ogni fascia) e una parte specifica per quell'attività. Prima dell'abbonamento usa solo fonti pubbliche e gratuite; i numeri interni arrivano dopo. Il metodo da imitare: `cervello/giro.md` (situazione, opportunità, mosse) e il mansionario del senior `intelligence`. Parole di Nicola: «fai il preventivo anche sulla parte di analisi sul suo business come fa AD su MyCity (non MyCity marketplace ma azienda)».
 
 ### Com'è oggi (mappa)
 - Sito, `mycity`:
@@ -46,7 +47,7 @@ Nicola, 25/11 verso le 17:40 e le 17:45:
 - **Al primo pagamento dell'abbonamento:** il sito avvisa n8n (webhook nuovo; la variabile su Vercel la mette Nicola) → nasce la scheda del cliente → parte il 18 → la pagella compare nella pagina del negozio.
 - **Demo e preventivo:** nessuna pagella e nessuna frase sull'analisi del negozio sul marketplace, né in dashboard né in `/preventivo/<codice>`.
 
-### Scelte dell'AD (da confermare con Nicola se dubiti)
+### Scelte dell'AD (confermate da Nicola il 25/11 verso le 17:52: «ok alle quattro scelte»)
 1. «Abbonamento fatto» = primo pagamento riuscito: lo stesso momento in cui finisce la demo, prima dell'approvazione dell'admin.
 2. Fuori dalla demo (Pane Quotidiano, negozi di sistema) la pagella resta com'è.
 3. Le schede già salvate (per esempio Ora del Gusto) restano nel database, ma non si usano finché l'attività non si abbona.
@@ -55,6 +56,7 @@ Nicola, 25/11 verso le 17:40 e le 17:45:
 ### Casi da provare (dato → atteso)
 - Attività in demo apre «Analisi del business» → nessun blocco pagella; `/api/seller/pagella` non dà la pagella.
 - Attività in demo, `/preventivo/<codice>` → parte generale + parte specifica, nessuna voce sul marketplace.
+- Attività in demo, `/preventivo/<codice>` → c'è l'analisi del business (situazione, concorrenti vicini, opportunità, prime mosse), ogni frase con la sua fonte pubblica; dove una fonte manca, lo dice e non inventa.
 - Il flusso 16 su un'iscrizione nuova → analisi salvata, scheda NON salvata, 18 non parte, 19 parte.
 - Il flusso 20 dal modulo 12 → stessa cosa del 16.
 - Primo pagamento → avviso a n8n → scheda salvata, 18 parte, pagella visibile.

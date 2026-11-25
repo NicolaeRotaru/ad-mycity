@@ -1238,3 +1238,13 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Perché:** un utente collegato senza scheda poteva crearsela con ruolo amministratore approvato (provato sul database ricostruito: `admin|true|approved`). In produzione 0 utenti senza scheda su 12: oggi non sfruttato.
 - **Controlli:** prova nuova 4 rossi su 8 senza la 862, 8 verdi con; 97 file SQL verdi; `npm run verify` verde (12969 prove); collaudo a due lenti, tutte e due «regge»; controllo in produzione: proprietario della funzione di registrazione = proprietario della tabella, con INSERT diretto.
 - **Aperto:** unione della PR e migrazione 862 (card #264). Minore dal collaudo: la prova non vedrebbe una futura funzione del database che crea schede per conto dell'utente.
+
+## 2026-11-25 17:52 — Nicola conferma le quattro scelte su analisi, scheda e pagella (🟡, decisione di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD, 25/11 verso le 17:52. Parole sue: «ok alle quattro scelte».
+- **Cosa:** confermate le scelte dell'AD della voce delle 17:40. ① «Abbonamento fatto» vuol dire primo pagamento riuscito, quando finisce la demo. ② Fuori dalla demo la pagella resta com'è. ③ Le schede già salvate restano, ma non si usano prima dell'abbonamento. ④ Le domande per il titolare e le idee per i post stanno nell'analisi, che parte subito.
+- **Dove:** aggiunte al fatto `agenzia.analisi-e-scheda` (coerenza verde) e al brief. Dette alla sessione «Analisi subito, scheda e pagella dopo l'abbonamento» (`session_01R8112N9acTBU46fC5YpxTg`).
+
+## 2026-11-25 17:55 — Nel preventivo anche l'analisi del business dell'attività, come l'AD fa su MyCity azienda (🟡, decisione di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD, 25/11 verso le 17:55. Parole sue: «vorrei che li fai il preventivo anche sulla parte di analisi sul suo business come fa AD su MyCity (non MyCity marketplace ma azienda)».
+- **Cosa:** il preventivo mostra anche un'analisi del business dell'attività, fatta col metodo con cui l'AD guarda MyCity come azienda. Dice com'è messa, mercato e concorrenti vicini, clienti e reputazione, opportunità, rischi e prime mosse. Ha una parte generale e una specifica. Prima dell'abbonamento usa solo fonti pubbliche e gratuite.
+- **Dove:** fatto `agenzia.analisi-e-scheda` (coerenza verde), regola 4 del brief, detta alla sessione `session_01R8112N9acTBU46fC5YpxTg`.
