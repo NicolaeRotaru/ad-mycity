@@ -7697,6 +7697,35 @@
       }
     },
     {
+      "quando": "2026-11-24 22:50",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/radiografia-sessioni.mjs": "67c80b640402",
+        "cervello/riparazione/freno-subagenti.mjs": "f7121ba59eae"
+      }
+    },
+    {
+      "quando": "2026-11-24 22:50",
+      "casa": "macchina",
+      "dimensione": "cadenza-esecuzione",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        ".claude/skills/radiografia-sessioni/SKILL.md": "4d3df050697c"
+      }
+    },
+    {
       "quando": "2026-11-24 23:59",
       "casa": "macchina",
       "dimensione": "rischio-sicurezza-se",

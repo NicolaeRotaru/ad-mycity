@@ -1,8 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-11-21 13:55
+aggiornato: 2026-11-24 22:57
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🟡 **2026-11-24 22:57 — La radiografia del sito lavora a onde, come la riparazione. È costruita e collaudata, ma non ancora lanciata.**
+>
+> Prima ricontrolla le voci aperte, poi cerca quelle nuove. Il ricontrollo è il modo più economico di chiudere: il 21/11 ha chiuso 117 voci su 459 guardate, circa 1,1 $ l'una. Oggi un ricontrollo costerebbe circa 86 $ in tutto, per circa 78 voci chiuse su 305 guardate. Due collaudi indipendenti dicono che regge. Restano a Nicola le due scelte della carta #262 e l'unione della PR. Dettagli: `consegne/audit/2026-11-24-radiografia-a-onde/lezioni.md`.
 
 > ✅ **2026-11-21 13:55 — I giri 4 e 5 dell'onda 9 sono sul sito e nel registro.**
 >

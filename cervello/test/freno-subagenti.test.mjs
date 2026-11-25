@@ -104,3 +104,12 @@ test("AR-1180 · dieci lanci nello stesso istante con tetto 6: ne passano esatta
   assert.equal(codici.filter((c) => c === 0).length, 6);
   assert.equal(codici.filter((c) => c === 2).length, 4);
 });
+
+test("il cercatore della radiografia: il ruolo si legge dal prompt, il tredicesimo lancio è bloccato, Workflow mai", async () => {
+  const { ruoloDalPrompt, decidiFreno, TETTI_FRENO } = await import(HOOK);
+  assert.equal(ruoloDalPrompt("ruolo-freno: cercatore\nSei la sessione S02 della radiografia."), "cercatore");
+  assert.equal(TETTI_FRENO.cercatore, 12);
+  assert.equal(decidiFreno({ sessionId: "s1", strumento: "Agent", ruolo: "cercatore", posizione: 12 }).esito, "passa");
+  assert.equal(decidiFreno({ sessionId: "s1", strumento: "Agent", ruolo: "cercatore", posizione: 13 }).esito, "blocca");
+  assert.equal(decidiFreno({ sessionId: "s1", strumento: "Workflow", ruolo: "cercatore", posizione: 1 }).esito, "blocca");
+});
