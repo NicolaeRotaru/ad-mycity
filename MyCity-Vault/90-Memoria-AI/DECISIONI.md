@@ -1217,3 +1217,9 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Fuori da questo lavoro:** la scheda Clienti dell'agenzia e la cartella su Drive le scrive solo il modulo 12. Se Nicola lo compila con lo stesso nome e la stessa città, MyCity risponde «era già in MyCity» e non crea un doppione.
 - **Come si torna indietro:** si cancella l'utente `b8d328ab-…` da Supabase Auth (profilo e link vanno con lui). È 🔴: solo con la firma di Nicola.
 - **Colore:** 🟡. Scrittura sul database vero, chiesta in modo esplicito da Nicola, reversibile, nessun contatto col locale. La Ragazzetta resta una scelta ragionata: non ha firmato niente, quindi niente materiali pesanti a suo nome finché non accetta.
+## 2026-11-25 16:19 — Chiusa dal browser la creazione della scheda personale: la fa solo la registrazione (🟡, lavoro dell'AD; la migrazione in produzione resta a Nicola 🔴)
+- **Chi e quando:** l'AD, su richiesta di Nicola in chat il 25/11, dopo il collaudo di sicurezza dello stesso giorno.
+- **Cosa:** migrazione 862 nella mycity#328. Toglie la regola di inserimento «Profile is created on signup» e il permesso INSERT su `profiles` ad anon e authenticated. Tutti e due gli strati, perché con uno solo la prova 14 del sito o una regola larga lasciano la porta socchiusa.
+- **Perché:** un utente collegato senza scheda poteva crearsela con ruolo amministratore approvato (provato sul database ricostruito: `admin|true|approved`). In produzione 0 utenti senza scheda su 12: oggi non sfruttato.
+- **Controlli:** prova nuova 4 rossi su 8 senza la 862, 8 verdi con; 97 file SQL verdi; `npm run verify` verde (12969 prove); collaudo a due lenti, tutte e due «regge»; controllo in produzione: proprietario della funzione di registrazione = proprietario della tabella, con INSERT diretto.
+- **Aperto:** unione della PR e migrazione 862 (card #263). Minore dal collaudo: la prova non vedrebbe una futura funzione del database che crea schede per conto dell'utente.
