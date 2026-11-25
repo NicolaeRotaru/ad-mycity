@@ -7464,3 +7464,9 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Perché:** dal 22/11 «le porte gemelle» era rosso per ogni richiesta di unione, comprese la #994 e la #995. La cura vera (AR-969) aspetta ancora il terzo tentativo, che è una scelta di Nicola dal 15/11.
 - **Prove:** `porte-gemelle` torna verde; `c9-governo-senza-sveglia` 17 su 17; le 16 mutazioni di AR-966 tutte rosse; `forma-json` verde.
 - **Colore:** 🟡 modifica alla macchina, nella PR ad-mycity#995 (ramo `ccr-aa319319-23ibpz`): vale con l'unione di Nicola. Il 2/12 si torna a scegliere: curare AR-969, oppure rinnovare con un perché nuovo.
+
+## 2026-11-25 12:57 — Nicola conferma il freno: niente approvazione di un negozio senza i dati di chi firma (🟡, decisione di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD («Pagina troppo lunga»), 25/11 verso le 12:57. Parole sue: «sì, tieni il freno sui dati del titolare».
+- **Cosa:** resta la regola entrata con mycity#320 (unita il 25/11 alle 12:04). Lo staff non approva un negozio finché mancano nome, cognome, codice fiscale e data di nascita del titolare. Chiude la voce «La scelta dell'AD, da confermare» del 25/11 alle 00:20.
+- **Aperto:** la frase dei Termini sulla «verifica KYC (documento, codice fiscale, IBAN)», da far rivedere a legale-privacy.
+
