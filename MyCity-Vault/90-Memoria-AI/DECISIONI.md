@@ -7542,3 +7542,4 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Fatto da B, verso le 14:08:** sotto-flusso `fRtCLoVmjbbWo9uB` in «vero», con la routine `trig_01BwYC2cBXdf2TeiKuQw3zis` e la credenziale `yjiPYh9lMR06Z6xp`. Lo ha acceso con il proprio programma, così ricostruirlo non lo rimette in «prova».
 - **Corse vere alle 14:23:** 0. Partono solo quando 04, 12 o 16 hanno un lavoro vero. B segue le esecuzioni e riferisce tempo ed esito della prima.
 - **Resta:** la scelta del modello della routine (oggi Opus).
+- 2026-11-25 14:30 · Nicola ha attivato «Available in MCP» sul sotto-flusso «Chiedi all'AD» (versione delle 14:24). L'AD l'ha letto senza modificarlo: acceso, MODALITA = vero, ROUTINE_ID `trig_01BwYC2cBXdf2TeiKuQw3zis`, credenziale `yjiPYh9lMR06Z6xp`, versione attiva uguale alla bozza. B, che lo possiede, è stato avvisato che quel salvataggio è di Nicola.

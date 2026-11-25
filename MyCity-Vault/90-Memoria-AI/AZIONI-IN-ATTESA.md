@@ -71,7 +71,9 @@ Esempio vero: il flusso 04 scrive le didascalie dei post. Oggi è collegato alla
 
 **Aggiornamento 2026-11-25 14:23.** Nicola ha scritto «Accendi chiedi ad». La sessione che possiede il sotto-flusso l'ha passato a «vero» verso le 14:08, con la routine e la chiave giuste. Corse vere alle 14:23: 0, perché i flussi partono solo quando arriva un lavoro vero. Di questa card resta solo la scelta del modello.
 
-**Cosa non ho verificato.** Non ho letto da dentro il sotto-flusso su n8n, perché non è aperto al collegamento dell'AD: ho letto il suo codice nel repository.
+**Aggiornamento 2026-11-25 14:30.** Nicola ha aperto il sotto-flusso al collegamento dell'AD. L'AD l'ha letto senza toccarlo: acceso, in «vero», con l'id della routine e la chiave giusti; la versione accesa è quella salvata.
+
+**Cosa non ho verificato.** Una corsa con un lavoro vero non è ancora partita: il sotto-flusso lo avviano solo gli altri flussi.
 
 Cosa cambia: i lavori di n8n con l'IA passano sul piano Max invece dell'API a pagamento, e il flusso dei testi riparte.
 Se va bene: l'AD accende il sotto-flusso in modalità vera e prova un giro intero dei testi.
