@@ -32,9 +32,12 @@
 // Per le prove: GOKU_ORA=<ISO> finge l'ora, GOKU_STATO e GOKU_RESOCONTI spostano i file in una
 // cartella temporanea (scorciatoia 35: una prova non scrive mai nei file veri).
 
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
+// ✍️ La penna condivisa, non `writeFileSync` crudo (AR-639): il freno della memoria vive lì dentro, e uno
+// scrittore crudo del vault è una porta che nessun guardiano attraversa. La CI l'ha detto al primo push.
+import { scriviJsonAtomico, scriviTestoAtomico } from "./scrivi-json.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = dirname(QUI);
@@ -185,8 +188,7 @@ export function leggiStato(file = FILE_STATO) {
 }
 
 export function scriviStato(stato, file = FILE_STATO) {
-  mkdirSync(dirname(file), { recursive: true });
-  writeFileSync(file, JSON.stringify(stato, null, 2) + "\n");
+  scriviJsonAtomico(file, stato);
 }
 
 /**
@@ -390,10 +392,13 @@ function chiudi(stato, ora, { fermato = false } = {}) {
   const c = conti(stato);
   const out = [`🐉 GOKU · turno ${stato.turno} chiuso alle ${hhmm(ora)}${fermato ? " (fermato da Nicola)" : ""}`];
   if (stato.note.length) {
-    mkdirSync(CARTELLA_RESOCONTI, { recursive: true });
     const file = join(CARTELLA_RESOCONTI, `${dataOra(stato.inizio).replace(" ", "-").replace(":", "")}.md`);
-    writeFileSync(file, resoconto(stato, ora));
-    out.push(`resoconto: ${relative(REPO, file).startsWith("..") ? file : relative(REPO, file)}`);
+    const scritto = scriviTestoAtomico(file, resoconto(stato, ora));
+    out.push(
+      scritto
+        ? `resoconto: ${relative(REPO, scritto).startsWith("..") ? scritto : relative(REPO, scritto)}`
+        : "resoconto: NON scritto, la memoria è in sola lettura: copialo in chat da `node cervello/goku.mjs stato`.",
+    );
   } else out.push("resoconto: nessuno, il diario è vuoto (turno tranquillo: niente da scrivere, niente PR).");
   const problemi = c.risolto + c["tocca-a-te"] + c["in-corso"];
   out.push(
