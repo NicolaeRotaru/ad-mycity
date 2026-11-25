@@ -7325,6 +7325,10 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 
 - 2026-11-21 23:15 · Settimana dei 700 · Nicola dà il via alle 182 voci semplici del sito (12 sessioni, stima circa 370 $, tetto del giro 480 $), con la strategia preparata dalla regia seconda; le 281 delicate restano ferme. Sulla riservatezza dei rami lascia scegliere alla regia: cancellare i rami laterali e unire la #990 compressa.
 
+- 2026-11-24 23:05 · Pannello venditore · Nicola: «vedi l'abbonamento a sinistra? usa la tecnica di Claude, lo metti nelle impostazioni però è sempre visibile e ricorda con quale abbonamento sei».
+- **Cosa:** «Abbonamento» esce dal menu Servizi. In fondo al menu c'è il negozio col piano sotto il nome («Piano Business»); un clic apre abbonamento, profilo e impostazioni, marketplace, esci. Il Profilo dice in cima il piano e il rinnovo.
+- **Perché:** come su Claude, il piano si ricorda a ogni pagina senza occupare una voce del menu.
+- **Colore:** 🟡 codice in un ramo; PR NicolaeRotaru/mycity#318, la firma sull'unione è di Nicola.
 ## 2026-11-24 21:32 — La radiografia del sito prende le regole delle onde della riparazione (🟡, vale con la firma di Nicola)
 - **Chi e quando:** Nicola, in chat all'AD, 24/11: «guarda come funzionano ondate oggi, come sono andate, dove hanno sbagliato e dove hanno fatto bene, impara da esse e crea lo stesso sistema anche per la radiografia».
 - **Cosa:** `cervello/radiografia-sessioni.mjs` prende le lezioni delle onde 1-9 e della settimana dei 700. Le prende come programma, dove si può.
