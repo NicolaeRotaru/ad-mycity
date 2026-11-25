@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-11-25 19:16",
+  "aggiornato": "2026-11-25 19:52",
   "fatti": [
     {
       "id": "ad.uso-e-crediti",
@@ -126,6 +126,16 @@
           "dal": "2026-11-25 19:16"
         }
       ],
+      "esenzioni": []
+    },
+    {
+      "id": "agenzia.social-come-il-sito",
+      "nome": "I social si analizzano e si offrono come il sito",
+      "valore": "L'analisi dei social dell'attività si fa come quella del sito, in tutto il lavoro: analisi, preventivo, pagina «Analisi» della demo (Nicola, 25/11/2026 verso le 19:58: «in tutto il lavoro che stai facendo bisogna inserire anche l'analisi dei social dell'azienda come quella del sito web»). Si guarda cosa c'è già: quali profili (Instagram, Facebook, TikTok, scheda Google Maps), quanti post al mese, se ci sono video, com'è la cura, se si risponde alle recensioni. Il servizio social si offre solo negli abbonamenti che danno di più di quello che l'attività fa già (8 post al mese nel Base, 12 con 2 video nel Business, 20 con 4 video e le storie nel Premium). Proposta dell'AD, applicata in attesa di correzioni di Nicola: nessun profilo → gestione dal Base; debole (meno di 8 post al mese, niente video) → gestione dal Base; attivo (da 8 a 12 post al mese, curato) → nel Base si tiene e si collega alla vetrina, gestione dalla prima fascia che fa più post o video di oggi; forte (più di 12 post al mese con video regolari) → nel Base e nel Business si tiene e si collega, gestione solo nel Premium e solo se l'AD scrive cosa aggiungiamo. Risposte alle recensioni dal Business solo se oggi non si risponde. Se l'analisi manca, niente frasi sui social oltre la parte generale, e mai «non hai social» se un profilo è stato trovato. Solo fonti pubbliche e gratuite, col piano Max, mai l'API a pagamento.",
+      "fonte": "Nicola in chat all'AD, 25/11/2026 verso le 19:58",
+      "aggiornato": "2026-11-25 19:52",
+      "storia": [],
+      "caccia": [],
       "esenzioni": []
     },
     {
