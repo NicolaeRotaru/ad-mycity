@@ -12,7 +12,12 @@
 // con cui apre la sessione, `ruolo-freno: <ruolo>` (la riga la stampa la scheda), oppure lo dà l'ambiente
 // (FRENO_RUOLO). Si legge UNA volta, al primo lancio, e resta fissato per tutta la sessione: un file letto dopo
 // non lo può cambiare. Una sessione senza ruolo (l'AD, il giro) non ha tetto da qui.
-//   riparatore-minori 6 · riparatore-gravi 8 · collaudatore 4 · controllore 4 · regia 2
+//   riparatore-minori 6 · riparatore-gravi 8 · collaudatore 4 · controllore 4 · regia 2 · cercatore 12
+// Il cercatore è la sessione della radiografia (24/11): otto lotti e fino a quattro verificatori, cioè il tetto
+// della sua scheda. Il 21/11 le quattro sessioni del ricontrollo hanno lanciato i lotti con Workflow (8-12 subagenti per
+// lancio): da qui anche per loro Workflow è bloccato, e i lotti partono con Agent, tutti nello stesso messaggio.
+// Il freno lavora dove l'hook è incollato: nel sito c'è, in ad-mycity (dove lavorano le sessioni della
+// radiografia) lo incolla Nicola, se vuole, in .claude/settings.json.
 // Lo strumento Workflow apre molti agenti con un lancio solo (R16 e R22 ne hanno aperti 4-5): per riparatori e
 // collaudatori è bloccato del tutto.
 //
@@ -34,8 +39,9 @@ export const TETTI_FRENO = Object.freeze({
   collaudatore: 4,
   controllore: 4,
   regia: 2,
+  cercatore: 12,
 });
-export const SENZA_WORKFLOW = new Set(["riparatore-minori", "riparatore-gravi", "collaudatore"]);
+export const SENZA_WORKFLOW = new Set(["riparatore-minori", "riparatore-gravi", "collaudatore", "cercatore"]);
 export const STRUMENTI = new Set(["Agent", "Task", "Workflow"]);
 const ID_VALIDO = /^[A-Za-z0-9_-]{1,128}$/;
 const RIGA_RUOLO = /^[ \t>*-]*ruolo-freno:\s*([a-z-]+)\s*$/m;
