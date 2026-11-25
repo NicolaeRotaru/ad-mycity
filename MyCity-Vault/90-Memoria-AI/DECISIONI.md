@@ -1246,8 +1246,28 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Perché:** un utente collegato senza scheda poteva crearsela con ruolo amministratore approvato (provato sul database ricostruito: `admin|true|approved`). In produzione 0 utenti senza scheda su 12: oggi non sfruttato.
 - **Controlli:** prova nuova 4 rossi su 8 senza la 862, 8 verdi con; 97 file SQL verdi; `npm run verify` verde (12969 prove); collaudo a due lenti, tutte e due «regge»; controllo in produzione: proprietario della funzione di registrazione = proprietario della tabella, con INSERT diretto.
 - **Aperto:** unione della PR e migrazione 862 (card #264). Minore dal collaudo: la prova non vedrebbe una futura funzione del database che crea schede per conto dell'utente.
+
+## 2026-11-25 17:52 — Nicola conferma le quattro scelte su analisi, scheda e pagella (🟡, decisione di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD, 25/11 verso le 17:52. Parole sue: «ok alle quattro scelte».
+- **Cosa:** confermate le scelte dell'AD della voce delle 17:40. ① «Abbonamento fatto» vuol dire primo pagamento riuscito, quando finisce la demo. ② Fuori dalla demo la pagella resta com'è. ③ Le schede già salvate restano, ma non si usano prima dell'abbonamento. ④ Le domande per il titolare e le idee per i post stanno nell'analisi, che parte subito.
+- **Dove:** aggiunte al fatto `agenzia.analisi-e-scheda` (coerenza verde) e al brief. Dette alla sessione «Analisi subito, scheda e pagella dopo l'abbonamento» (`session_01R8112N9acTBU46fC5YpxTg`).
+
+## 2026-11-25 17:55 — Nel preventivo anche l'analisi del business dell'attività, come l'AD fa su MyCity azienda (🟡, decisione di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD, 25/11 verso le 17:55. Parole sue: «vorrei che li fai il preventivo anche sulla parte di analisi sul suo business come fa AD su MyCity (non MyCity marketplace ma azienda)».
+- **Cosa:** il preventivo mostra anche un'analisi del business dell'attività, fatta col metodo con cui l'AD guarda MyCity come azienda. Dice com'è messa, mercato e concorrenti vicini, clienti e reputazione, opportunità, rischi e prime mosse. Ha una parte generale e una specifica. Prima dell'abbonamento usa solo fonti pubbliche e gratuite.
+- **Dove:** fatto `agenzia.analisi-e-scheda` (coerenza verde), regola 4 del brief, detta alla sessione `session_01R8112N9acTBU46fC5YpxTg`.
 ## 2026-11-25 18:12 — Le migrazioni 861 e 862 sono in produzione: le ha applicate l'AD su richiesta di Nicola (🔴, firmato da Nicola in chat)
 - **Chi e quando:** l'AD, dopo il messaggio di Nicola del 25/11 «fai tu le migrazioni 861 e 862». Le due correzioni erano già su main con la PR unica del sito (mycity#329).
 - **Cosa:** un solo giro di «Migrazioni a mano» su main, con conferma APPLICA, 2 migrazioni, ultima la 862. È finito alle 18:06, tutto verde. Prima erano partiti due giri per la sola 861, uno dell'AD e uno della sessione dei dati di chi firma. Si sono fermati da soli senza scrivere niente, perché nel frattempo main era cambiato.
 - **Perché un giro solo:** la 861 (i dati di chi firma si cambiano solo dal server) e la 862 (la scheda la crea solo la registrazione) toccano tutte e due la tabella dei profili. Applicarle insieme evita un momento in cui c'è una sola delle due.
 - **Controllo dopo, in sola lettura:** il registro delle migrazioni ha 860, 861 e 862. Su `profiles` le regole di inserimento sono 0, e chi è anonimo o collegato non ha il permesso INSERT. La funzione di guardia è la versione nuova, con l'elenco dei campi consentiti. Card #264 chiusa.
+
+## 2026-11-25 18:20 — L'analisi del business anche nella pagina «Analisi» della demo (🟡, decisione di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD, 25/11 verso le 18:20. Parole sue: «voglio che aggiungi nella pagina analisi dentro la demo anche i dati di analisi di business».
+- **Cosa:** la pagina «Analisi del business» che il negozio vede in demo mostra l'analisi del business dell'attività (quella delle 17:55), insieme a canali e sito, al posto della pagella del marketplace.
+- **Dove:** fatto `agenzia.analisi-e-scheda` (coerenza verde), regola 5 del brief, detta alla sessione `session_01R8112N9acTBU46fC5YpxTg`.
+
+## 2026-11-25 18:30 — Nel preventivo i servizi si descrivono corti, con lo stretto necessario (🟡, decisione di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD, 25/11 verso le 18:30. Parole sue: «dentro il preventivo la descrizione dei servizi deve essere corta e con lo stretto necessario che gli interessa».
+- **Cosa:** ogni servizio del preventivo si legge in poche righe, solo con quello che interessa a quell'attività. Vale anche per l'analisi del business nel preventivo, il cui dettaglio sta nella pagina «Analisi» della demo.
+- **Dove:** fatto `agenzia.analisi-e-scheda` (coerenza verde), regola 6 del brief, detta alla sessione `session_01R8112N9acTBU46fC5YpxTg`.
