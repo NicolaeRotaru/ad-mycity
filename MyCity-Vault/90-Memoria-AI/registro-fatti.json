@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-11-25 18:23",
+  "aggiornato": "2026-11-25 18:59",
   "fatti": [
     {
       "id": "ad.uso-e-crediti",
@@ -102,6 +102,16 @@
           "dal": "2026-11-23 02:47"
         }
       ],
+      "esenzioni": []
+    },
+    {
+      "id": "agenzia.sito-solo-dove-vale-di-piu",
+      "nome": "Il sito si offre solo nelle fasce che valgono di più",
+      "valore": "Il sito nel preventivo si offre solo dove vale di più di quello che il cliente ha già (Nicola, 25/11/2026 verso le 18:58). Prima si controlla se il sito c'è, quanto è fatto bene e quanto è complesso. Poi la bozza o il rifacimento del sito entra solo nelle fasce in cui possiamo dare un valore più grande del sito di oggi. Esempio di Nicola: un sito fatto molto bene, pagato 10.000 euro, non lo battono né il Base né il Business; forse il Premium. Nelle fasce che non vincono, il sito di oggi si tiene e si collega alla vetrina. Come si misura il valore del sito e quale fascia vince per ogni livello: proposta dell'AD, da confermare con Nicola.",
+      "fonte": "Nicola in chat all'AD, 25/11/2026 verso le 19:20",
+      "aggiornato": "2026-11-25 18:59",
+      "storia": [],
+      "caccia": [],
       "esenzioni": []
     },
     {
