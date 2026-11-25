@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { readVaultFile } from "@/lib/vault";
+import { listVaultDir, readVaultFile } from "@/lib/vault";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -47,8 +47,20 @@ function parse(md: string): Decisione[] {
   return out.reverse(); // più recenti in cima
 }
 
+// Il file vivo tiene solo il mese in corso; i mesi chiusi stanno in Archivio/DECISIONI/AAAA-MM.md
+// (cervello/archivio-decisioni.mjs, 25/11). Lo storico li legge tutti: archivio in ordine di mese,
+// poi il file vivo, così «più recenti in cima» resta vero dopo il reverse.
+const ARCHIVIO = "90-Memoria-AI/Archivio/DECISIONI";
+
 export async function GET() {
-  const md = await readVaultFile("90-Memoria-AI/DECISIONI.md");
+  const [md, mesi] = await Promise.all([
+    readVaultFile("90-Memoria-AI/DECISIONI.md"),
+    listVaultDir(ARCHIVIO).catch(() => [] as string[]),
+  ]);
   if (md == null) return NextResponse.json({ collegato: false, decisioni: [] });
-  return NextResponse.json({ collegato: true, decisioni: parse(md) });
+  const archivio = await Promise.all(
+    mesi.filter((f) => /^\d{4}-\d{2}\.md$/.test(f)).sort().map((f) => readVaultFile(`${ARCHIVIO}/${f}`))
+  );
+  const tutto = [...archivio.filter((t): t is string => t != null), md].join("\n");
+  return NextResponse.json({ collegato: true, decisioni: parse(tutto) });
 }

@@ -31,6 +31,7 @@ import { scriviJsonAtomico } from "./scrivi-json.mjs";
 // sonda del volano ne usava un'altra: stesso dato, due metri, e la Cabina scriveva «il loop chiude»
 // mentre questo stesso programma suonava l'allarme. Una regola, una casa.
 import { SOGLIA_APPLICAZIONE, esitoTasso, sopraSoglia, tassoApplicazione } from "./volano-numeri.mjs";
+import { leggiDecisioniTutte } from "./archivio-decisioni.mjs";
 
 const DRY = process.argv.includes("--dry");
 const JSON_MODE = process.argv.includes("--json");
@@ -132,7 +133,8 @@ function appendConsegneRecenti(blob) {
 
 function testoRecente(appr) {
   let blob = "";
-  blob = appendFile(DECISIONI_PATH, blob);
+  // Tutta la storia: i mesi chiusi stanno in Archivio/DECISIONI (cervello/archivio-decisioni.mjs).
+  if (existsSync(DECISIONI_PATH)) blob += leggiDecisioniTutte(DECISIONI_PATH);
   blob = appendFile(SALA_PATH, blob);
   blob = appendFile(AZIONI_PATH, blob);
   blob = appendFile(LEZIONI_CHAT_PATH, blob);

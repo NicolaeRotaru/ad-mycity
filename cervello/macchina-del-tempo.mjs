@@ -15,6 +15,7 @@
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
+import { leggiDecisioniTutte } from "./archivio-decisioni.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const iData = process.argv.indexOf("--data");
@@ -49,7 +50,7 @@ function raccogliBriefing() {
 function raccogliDecisioni() {
   if (!existsSync(DECISIONI)) return [];
   const out = [];
-  for (const line of readFileSync(DECISIONI, "utf8").split("\n")) {
+  for (const line of leggiDecisioniTutte(DECISIONI).split("\n")) {
     const m = line.match(/^-\s*(\d{4}-\d{2}-\d{2})[ T](\d{2}:\d{2})\s*·\s*(\S+)\s*·\s*(\[[^\]]*\])?\s*·?\s*(.*)/);
     if (!m) continue;
     const cosa = (m[5] || "").split(" · ")[0].replace(/\*/g, "").trim();
