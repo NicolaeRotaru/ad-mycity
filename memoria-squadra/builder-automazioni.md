@@ -8,6 +8,7 @@ reparto: builder-automazioni
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-11-25 20:30 · Demo e preventivo per i clienti del modulo 12 di n8n: flussi 16, 18 e 20 ripubblicati, prova vera con La Ragazzetta · V4 C4 A4 K5 I3 M4 E3 (media 3.86) · atteso analisi e preventivo cucito in pochi minuti → reale catena completa in 2 minuti; analisi vuota senza fonti pubbliche; il link diceva per sempre la stiamo preparando · #preventivo
 - 2026-11-25 17:38 · Telegram per gruppi: flusso 97 e porta dell'Officina per gli argomenti · V4 C5 A4 K5 I2 M4 E3 (media 3.86) · atteso argomenti aperti da soli e messaggi nel posto giusto → reale costruito e provato con dati finti; aspetta gruppi e Officina ripubblicata · #n8n #telegram
 - 2026-11-25 12:41 · Routine Chiedi all'AD: n8n fa lavorare l'AD sul piano Max, prova vera n8n→routine→n8n · V5 C5 A4 K5 I3 M4 E4 (media 4.29) · atteso risposta a n8n in meno di 60 secondi, trappola nei dati rifiutata → reale risposta in 31 secondi, trappola rifiutata e segnalata negli avvisi; modello Opus di serie, non ancora collegata ai flussi veri · #n8n #piano-max #routine
 - 2026-11-25 11:29 · Flusso n8n 19: bozze dei 3 abbonamenti per ogni attività nuova · V4 C5 A5 K5 I2 M4 E3 (media 4) · atteso flusso acceso, agganciato al 18, bozze coi dati veri → reale acceso e agganciato; provato con dati finti, nessuna corsa vera ancora · #n8n #abbonamenti

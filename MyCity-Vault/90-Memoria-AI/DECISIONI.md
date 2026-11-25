@@ -1298,3 +1298,14 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Il conto dei collaudi:** cinque giri sui più account. Ogni giro trovava una strada nuova finché le protezioni dipendevano dal percorso «Aggiungi»; con la regola unica il quinto non ne ha trovate.
 - **Cosa resta a Nicola:** togliere la #333 dalla bozza e unirla.
 
+## 2026-11-25 19:58 — L'analisi dei social si fa come quella del sito, in tutto il lavoro (🟡, decisione di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD (`session_01R8112NUV9py61BAPkYSVQ6`), 25/11 verso le 19:58. Parole sue: «in tutto il lavoro che stai facendo bisogna inserire anche l'analisi dei social dell'azienda come quella del sito web».
+- **Cosa:** si guardano i profili che l'attività ha già: Instagram, Facebook, TikTok e scheda Google. Si contano i post al mese e si guarda se ci sono video, com'è la cura e se si risponde alle recensioni. Il servizio social si offre solo negli abbonamenti che fanno di più. La tabella dei livelli (debole, attivo, forte) è dell'AD, applicata in attesa di correzioni.
+- **Cosa ha trovato l'AD:** nel sito la porta per l'analisi dei social c'era già, ma nessun flusso la usava. Nel database nessuna analisi dei social, e nel link pubblico i social erano tolti.
+- **Dove:** fatto `agenzia.social-come-il-sito`. Il flusso 16 lo fa la N8N#16 (sessione `session_01R8112NXCcdccwqXhFqm6UF`), il sito la sessione `session_01R8112KeFSzdfkSbQC7Aq3v`.
+- **Aperto per Nicola:** una sessione del 24/11 aveva scritto che le pagine di Meta e Google non si leggono mai in automatico. L'AD propone due strade. A: prima dell'abbonamento solo quello che chiunque vede senza fare l'accesso, una volta per cliente. B: solo le API ufficiali, dopo l'abbonamento. Nessun legale l'ha guardato.
+
+## 2026-11-25 20:10 — La prova vera con La Ragazzetta sui flussi nuovi (🟢, lavoro dell'AD dopo «ok ripubblica»)
+- **Cosa:** l'AD ha pubblicato su n8n il 16, il 18 e il messaggio nuovo del 20 tra le 19:36 e le 19:39, dopo una copia di sicurezza di 63 flussi. Alle 19:38 ha lanciato il 16 per La Ragazzetta.
+- **Esito:** ricerca, analisi del business e scheda al sito sono arrivate alle 19:39. L'analisi del business è vuota perché in rete non c'è niente sul locale, e l'AD non ha inventato. Il preventivo si apre. Il link mostrava per sempre «la stiamo preparando»: difetto passato alla sessione del sito.
+- **Non verificato:** le bozze del 19 su Telegram, perché il 19 non conserva le esecuzioni riuscite. Le deve confermare Nicola.
