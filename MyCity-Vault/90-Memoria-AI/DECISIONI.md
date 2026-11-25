@@ -7522,3 +7522,9 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa:** resta la regola entrata con mycity#320 (unita il 25/11 alle 12:04). Lo staff non approva un negozio finché mancano nome, cognome, codice fiscale e data di nascita del titolare. Chiude la voce «La scelta dell'AD, da confermare» del 25/11 alle 00:20.
 - **Aperto:** la frase dei Termini sulla «verifica KYC (documento, codice fiscale, IBAN)», da far rivedere a legale-privacy.
 
+## 2026-11-25 13:30 — La frase dei Termini sulla verifica dei venditori si corregge nella prossima versione, non adesso (🔴 legale, decisione di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD («Pagina troppo lunga»), 25/11 verso le 13:30, rispondendo alla domanda «Aspetta / Correggi subito».
+- **Cosa:** la frase dei Termini (sezione 3) dice che al venditore chiediamo documento d'identità, codice fiscale, partita IVA e IBAN. Il documento non lo chiediamo, e l'IBAN arriva dopo l'approvazione. La frase non si cambia adesso. Ogni cambio dei Termini alza la versione, e per il fatto `legale.termini-riaccettazione` tutti gli iscritti, clienti compresi, devono riaccettarli prima del prossimo ordine. Nicola ha scelto di non chiederlo per una frase che riguarda solo venditori e fattorini.
+- **Fatto:** il reparto legale ha scritto la frase corretta e ha aperto la lista della prossima versione: `consegne/legale/termini-prossima-versione.md`. Per il reparto è una correzione di errori materiali, non sostanziale. Consiglia lo stesso di avvisare i negozi per email 30 giorni prima. Nella stessa versione propone due correzioni all'informativa privacy: la data di nascita e il codice fiscale dei fattorini.
+- **Nello stesso messaggio:** ① la città verso n8n si ricava dall'indirizzo del negozio (PR del sito sul ramo `ccr-db36d86f-4drspn`); ② la scrittura dei dati del titolare dal browser la chiude la sessione «Chiudi la scrittura dei dati del titolare dal browser», aperta da Nicola alle 13:28.
+
