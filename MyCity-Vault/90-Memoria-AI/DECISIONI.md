@@ -1165,7 +1165,6 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa:** resta la regola entrata con mycity#320 (unita il 25/11 alle 12:04). Lo staff non approva un negozio finché mancano nome, cognome, codice fiscale e data di nascita del titolare. Chiude la voce «La scelta dell'AD, da confermare» del 25/11 alle 00:20.
 - **Aperto:** la frase dei Termini sulla «verifica KYC (documento, codice fiscale, IBAN)», da far rivedere a legale-privacy.
 
-
 ## 2026-11-25 17:38 — I messaggi Telegram divisi per gruppo, e per ogni negozio un argomento (🟡, fatto e avvisato)
 - **Chi e quando:** Nicola, in chat all'AD, 25/11. Prima «voglio avere una chat telegram per funzioni diverse», poi «fai la B, un solo posto per attività», «errori in un gruppo Tecnica; solo io», «1 Officina».
 - **Cosa:** tre gruppi Telegram con dentro solo Nicola e il bot: «Attività» con un argomento per negozio, «Marketplace» per il giro del mattino, «Tecnica» per scarti ed errori. Il flusso nuovo «97 · Scrivi nell'argomento dell'attività» è acceso su n8n. Cerca l'argomento nella tabella «Argomenti delle attività». Se non c'è, lo fa aprire all'Officina con `POST /telegram/argomento` (versione 1.2.0), dove sta la chiave del bot. L'analisi di un'attività (28) e le bozze (15) scrivono passando dal 97.
@@ -1246,5 +1245,4 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa:** migrazione 862 nella mycity#328. Toglie la regola di inserimento «Profile is created on signup» e il permesso INSERT su `profiles` ad anon e authenticated. Tutti e due gli strati, perché con uno solo la prova 14 del sito o una regola larga lasciano la porta socchiusa.
 - **Perché:** un utente collegato senza scheda poteva crearsela con ruolo amministratore approvato (provato sul database ricostruito: `admin|true|approved`). In produzione 0 utenti senza scheda su 12: oggi non sfruttato.
 - **Controlli:** prova nuova 4 rossi su 8 senza la 862, 8 verdi con; 97 file SQL verdi; `npm run verify` verde (12969 prove); collaudo a due lenti, tutte e due «regge»; controllo in produzione: proprietario della funzione di registrazione = proprietario della tabella, con INSERT diretto.
-- **Aperto:** unione della PR e migrazione 862 (card #263). Minore dal collaudo: la prova non vedrebbe una futura funzione del database che crea schede per conto dell'utente.
 - **Aperto:** unione della PR e migrazione 862 (card #264). Minore dal collaudo: la prova non vedrebbe una futura funzione del database che crea schede per conto dell'utente.
