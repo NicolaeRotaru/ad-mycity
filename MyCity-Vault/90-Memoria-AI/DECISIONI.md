@@ -7451,6 +7451,13 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Fatto subito:** nel documento la fase M1 diventa «La mappa dell'azienda», cioè tutto quello che esiste in una pagina che l'AD legge per prima. Il fatto `ad.uso-e-crediti` del registro ora dice «server spento per sempre».
 - **Aperto:** la scelta del nome (proposte dell'AD in chat). Il cambio di nome si fa insieme alla fase M3, così ogni file si tocca una volta sola. Se il nome diventa pubblico o il nome della società, prima va verificato il marchio (🔴).
 
+## 2026-11-25 00:20 — Il modulo di iscrizione dei negozi diventa corto; i dati di chi firma si chiedono subito dopo (🟡, richiesta di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD («Pagina troppo lunga»), 24/11 verso le 23:40: «Questa pagina è troppo lunga, lascia il minimo indispensabile per identificare quella attività facilmente». Alla domanda «quale pagina?» ha scelto «Modulo di iscrizione» (/sell).
+- **Cosa:** /sell chiede cinque cose: che attività è, nome, indirizzo sulla mappa, partita IVA, telefono, più le spunte legali. Erano 7 riquadri e 23 campi; su telefono il modulo passa da 4.782 a 1.968 pixel di altezza. La partita IVA resta perché è l'unico dato che serve per approvare. Ragione sociale, sede, PEC, SDI e IBAN vanno nel Profilo («Dati per i bonifici», c'era già). Logo, foto e descrizione vanno nella vetrina. Il server scrive solo i dati che arrivano, così chi corregge la richiesta non perde quelli già salvati.
+- **La scelta dell'AD, da confermare:** il collaudo ha trovato un difetto grave. Senza la data di nascita all'invio, lo staff poteva approvare un negozio senza sapere chi firma, e un quindicenne passava con la sola spunta. Correzione: i dati del titolare (nome, cognome, codice fiscale, data di nascita, residenza) si chiedono subito dopo l'invio, nella pagina «Richiesta in valutazione», e lo staff non approva finché mancano. La spunta dei dati ora dice anche «ho almeno 18 anni». Se Nicola preferisce approvare anche senza titolare, si toglie una regola sola (`lib/admin/regole-approvazione.ts`).
+- **Dove:** ramo `ccr-db36d86f-4drspn` del sito, PR su main da unire. Batteria completa verde, collaudo fatto da un agente separato.
+- **Aperto per Nicola:** ① unire la PR; ② i Termini (punto sui venditori) parlano ancora di «verifica KYC (documento, codice fiscale, IBAN)» prima dell'attivazione: testo legale, non l'ho toccato; ③ al flusso n8n «16 · Nuovo cliente» la città ora arriva vuota (stava nella sede legale, non più chiesta): l'indirizzo del negozio arriva lo stesso.
+
 ## 2026-11-25 12:41 — Nasce la routine «Chiedi all'AD»: n8n potrà far lavorare l'AD sul piano Max invece di pagare l'API (🟡, scelta B di Nicola)
 - **Chi e quando:** Nicola, in chat all'AD, 25/11 verso le 12:25. Parole sue: «B, crea la routine Chiedi all'AD». Prima l'AD gli aveva mostrato che oggi n8n chiama Claude solo con la chiave «Anthropic API», cioè l'API a consumo, e mai col piano Max.
 - **Cosa c'era su n8n:** 12 nodi in 7 flussi usano la chiave API. Quattro flussi possono ancora spendere, tutti col modello più caro: 01 (controllo finale), 04 (testi), 08 (foto) e 99 (errori). Spenti da interruttore: 12, 16 e 18.
@@ -7478,3 +7485,9 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Perché:** dal 22/11 «le porte gemelle» era rosso per ogni richiesta di unione, comprese la #994 e la #995. La cura vera (AR-969) aspetta ancora il terzo tentativo, che è una scelta di Nicola dal 15/11.
 - **Prove:** `porte-gemelle` torna verde; `c9-governo-senza-sveglia` 17 su 17; le 16 mutazioni di AR-966 tutte rosse; `forma-json` verde.
 - **Colore:** 🟡 modifica alla macchina, nella PR ad-mycity#995 (ramo `ccr-aa319319-23ibpz`): vale con l'unione di Nicola. Il 2/12 si torna a scegliere: curare AR-969, oppure rinnovare con un perché nuovo.
+
+## 2026-11-25 12:57 — Nicola conferma il freno: niente approvazione di un negozio senza i dati di chi firma (🟡, decisione di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD («Pagina troppo lunga»), 25/11 verso le 12:57. Parole sue: «sì, tieni il freno sui dati del titolare».
+- **Cosa:** resta la regola entrata con mycity#320 (unita il 25/11 alle 12:04). Lo staff non approva un negozio finché mancano nome, cognome, codice fiscale e data di nascita del titolare. Chiude la voce «La scelta dell'AD, da confermare» del 25/11 alle 00:20.
+- **Aperto:** la frase dei Termini sulla «verifica KYC (documento, codice fiscale, IBAN)», da far rivedere a legale-privacy.
+
