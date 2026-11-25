@@ -7324,3 +7324,9 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Colore:** 🔴 spesa firmata da Nicola; ramo `claude/settimana-700-regia`.
 
 - 2026-11-21 23:15 · Settimana dei 700 · Nicola dà il via alle 182 voci semplici del sito (12 sessioni, stima circa 370 $, tetto del giro 480 $), con la strategia preparata dalla regia seconda; le 281 delicate restano ferme. Sulla riservatezza dei rami lascia scegliere alla regia: cancellare i rami laterali e unire la #990 compressa.
+
+- 2026-11-25 20:30 · Scatti di G (agenzia, non MyCity) · Nicola risponde «Fai te!» alle due domande aperte: la scelta A/B/C sulle idee del workflow 03 e il «pubblica» dell'officina.
+  - **Cosa ho deciso e fatto:** strada A — il montatore (16) legge le idee del 03 come traccia e non le tocca più (tolti 5 nodi, commit `3515c78`); officina 1.5.0 pubblicata con la PR NicolaeRotaru/N8N#17, unita alle 20:29 (merge `7110949`).
+  - **Perché:** la A toglie ogni scrittura automatica sulle righe del 03 dopo tre collaudi bocciati sul segno «sostituito»; l'officina era collaudata e aspettava solo la firma.
+  - **Verifica:** alle 20:36 `/salute` dal server dice versione 1.5.0, `filtri.ok: true` sull'FFmpeg 5.1.9 di Debian, whisper presente, coda 0.
+  - **Colore:** 🔴 deploy in produzione, firmato da Nicola («Fai te!»).

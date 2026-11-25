@@ -6,6 +6,8 @@ da: la sessione dell'editor di Scatti di G
 
 # Allegati di «Chiedi all'AD»: reggono al terzo collaudo
 
+> **Aggiornamento 2026-11-25 20:40.** Nicola ha autorizzato la pubblicazione («Fai te!»): gli allegati sono entrati in main con la PR N8N#17 (merge `7110949`), insieme all'officina 1.5.0 e al montatore. La #17 contiene tutti i commit della #14 più le quattro correzioni qui sotto: la #14 si può chiudere. Restano da fare su n8n i passi della sezione «Cosa devi fare».
+
 **In parole semplici.** Gli allegati servono a passare all'AD testi lunghi e immagini, che non stanno nei 64 KB della
 sua routine. Tre collaudi indipendenti in un n8n 2.49.5 vero: il primo e il secondo li hanno bocciati, il terzo dice
 che reggono. Restano solo difetti minori, scritti nella guida.

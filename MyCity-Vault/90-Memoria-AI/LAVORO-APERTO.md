@@ -30,20 +30,16 @@ La pagina dice com'era il lavoro il 31 ottobre alle 01:45. Ogni voce va riletta 
 
 ## 1 · Cose che toccano a te
 
-**Scatti di G: l'editor video automatico aspetta due risposte di Nicola (aggiornato 2026-11-25 19:15).** È un lavoro per l'agenzia, non per MyCity: officina 1.4.0 e workflow n8n «16 · Montatore».
-- **Cosa fa:** monta reel e storie nello stile della moodboard, parte da solo quando un servizio compare nella cartella Drive del cliente, e chiede ✅ Approva / ✏️ Correggi su Telegram. Un servizio al mese per cliente; le quantità vengono dalle colonne `reel_mese`, `post_mese`, `storie_mese` del foglio Clienti.
-- **Dove sta:** ramo `claude/affectionate-thompson-j841pj` di NicolaeRotaru/N8N (workflow fino a `7de1e46`, officina 1.5.0 = 1.4.0 + la porta Telegram della 1.2.0 di main, unite il 25/11 alle 18:30), non unito. In n8n il 16 è identico al ramo e spento. Sul server gira ancora l'officina 1.1.1.
-- **I collaudi:** officina ricollaudata e passata; il modulo del 16 (campo vuoto = 0) corretto e passato. Il segno «sostituito» sulle idee del workflow 03 è stato bocciato tre volte: per la regola del terzo rosso decide Nicola (strade A/B/C, consigliata A = il 16 non scrive più sulle righe del 03). Il controllo dei filtri all'avvio dell'officina: bocciato una volta, corretto, ricollaudato e passato (17:30), con quattro difetti medi corretti subito.
-- **Blocco nuovo (17:50):** la regola di Nicola del 24/11 dice che nessun flusso n8n acceso chiama l'API di Claude a pagamento. Il 16 la chiama in 5 nodi: 3 di solo testo (piano, correzione, ritocco) e 2 con immagini base64 (guarda il materiale, controlla il video), che «Chiedi all'AD» non riceve. La regia ha confermato (17:15) che vale la decisione di Nicola del 24/11: tutto all'AD, i due nodi con le immagini restano fermi. Limite trovato alle 18:10: la routine accetta lavori fino a circa 64 KB, mentre piano e ritocco del montatore mandano il catalogo del girato (un servizio di 2 ore ≈ 110 KB). Proposta mandata alla regia: «Chiedi all'AD» con allegati serviti da un webhook n8n con un gettone a tempo (risolve anche le foto del 08 e del 12). La regia ha detto sì (17:22). Gli allegati sono costruiti e REGGONO al terzo collaudo in n8n vero (19:10): quattro commit da prendere sopra la PR N8N#14 (3e9108a, 2d2e183, 65239f2, 5fcce0e). Il messaggio alla regia non è arrivato perché la sessione era inattiva: il testo è in `consegne/sdg/2026-11-25-allegati-per-la-regia.md`. Prossimo passo: collegare i 5 nodi del montatore a «90 · Chiedi all'AD» con gli allegati. Il montatore resta spento e invariato su n8n. La sessione «n8n in ordine» (session_01R8112KD5sQ3R9yiXLQe7T2) lascia il flusso a questa sessione. Dopo le decisioni lo faccio io: nome «31 · Montatore» (NOMI.montatore in flussi/nomi.mjs, PR N8N#11; caricare con trovaFlusso, che trova anche il nome vecchio), snellimento degli aiuti copiati nei nodi Code (flussi/snellisci-aiuti.mjs o direttamente in genera.mjs), e valutare il sotto-flusso «92 · Logo del cliente» al posto dei nodi del logo. Poi avviso C.
-- **Tocca a Nicola:**
-  0. (deciso il 24/11: tutto all'AD) — resta da sciogliere con la regia il limite dei 64 KB;
-  1. scegliere A, B o C sulle idee del 03;
-  2. scrivere «pubblica» per unire il ramo e mettere l'officina 1.4.0 su Sliplane (poi `/salute` deve dire 1.4.0 e `filtri.ok: true`);
-  3. mandare le pagine 04-07 della moodboard, i codici esatti dei colori e il logo nuovo, e dire dove va il logo di Scatti di G;
-  4. dire camera e profilo log, e mandare il file .cube;
-  5. preparare il servizio pilota di El Tropico (5-10 file) e le colonne del foglio Clienti;
-  6. dire quanto è grande il disco su Sliplane;
-  7. dopo la prova, premere Publish sul 16.
+**Scatti di G: officina 1.5.0 pubblicata; il montatore aspetta il collegamento all'AD (aggiornato 2026-11-25 20:40).** È un lavoro per l'agenzia, non per MyCity.
+- **Fatto:** Nicola ha detto «Fai te!». Officina 1.5.0 in produzione (PR N8N#17, unita alle 20:29): `/salute` dice 1.5.0, `filtri.ok: true` sull'FFmpeg 5.1.9 del server, whisper presente. Idee del workflow 03: strada A, il 16 le legge e non le tocca più.
+- **Allegati di «Chiedi all'AD»:** reggono al terzo collaudo e ora sono su main (dentro la #17, che contiene anche i commit della PR N8N#14: la #14 non serve più). Restano alla regia: Data table «Allegati per l'AD», `--manda` di `allegati.mjs` e `costruisci.mjs`, accendere l'89, regola nella routine, prova vera. Dettagli: `consegne/sdg/2026-11-25-allegati-per-la-regia.md`.
+- **Montatore (16, futuro «31 · Montatore»):** spento su n8n (152 nodi, uguale al ramo). Non si può accendere finché i suoi 5 nodi verso l'API di Claude a pagamento non passano a «90 · Chiedi all'AD» con gli allegati (regola di Nicola del 24/11). È il prossimo lavoro di questa sessione; dopo: nome 31 e snellimento, poi avvisare la sessione «n8n in ordine».
+- **Nota:** `/salute` dice `telegram: false`: sul server manca `TELEGRAM_BOT_TOKEN`, quindi la porta Telegram della 1.2.0 (flusso 97) risponde 503. Non dipende da questa pubblicazione.
+- **Tocca a Nicola, quando vuole:**
+  1. le pagine 04-07 della moodboard, i codici esatti dei colori e il logo nuovo, e dove va il logo di Scatti di G;
+  2. camera, profilo log e file .cube;
+  3. il servizio pilota di El Tropico (5-10 file) e le colonne `reel_mese`, `post_mese`, `storie_mese` (e `anteprime_con_persone` se c'è il consenso) nel foglio Clienti;
+  4. quanto è grande il disco su Sliplane.
 
 **La settimana dei 700: il ricontrollo ha chiuso 117 difetti già spariti (21/11 16:35).** Gli aperti nel registro scendono da 749 a 632: 559 minori, 68 gravi, 5 bloccanti. Nicola ha dato il tetto di 1.200 $, le firme a e b e il sì al ricontrollo. Il ricontrollo è costato circa 105 $ più il controllore finale. Resta da fare: dire a Nicola dei dettagli di alcune falle finiti nei referti sui rami pubblici (decide lui se riscriverli). Poi registrare il difetto nuovo del rimborso, dove «1.250,00» diventa 1,25 €. Poi le riparazioni sulle voci ancora vere. Quaderno: `consegne/riparazioni/2026-11-21-settimana-700/REGIA.md`; PR ad-mycity#990. (aggiornato 2026-11-21 16:35)
 
