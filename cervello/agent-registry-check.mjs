@@ -498,6 +498,9 @@ async function main() {
   const nomi = analizzaNomi(schedePerNome); // AR-619: name ≠ filename, name mancante, name doppio
   const modelli = analizzaModelli(schedePerNome); // 5/11: ogni senior dichiara il suo modello
   const nCollisioni = collisioniCoppie.length + deferralMancante.length;
+  // 25/11: lo smistamento sta nel corpo, sotto «## 🚪 Quando chiamarmi». Se il paragrafo sparisce,
+  // estraiDescription ripiega sulla riga corta e i confini non si vedono più: è un rosso, non un ripiego.
+  const senzaPorta = schedePerNome.filter((s) => !portaDi(s.testo)).map((s) => s.file);
 
   // 7. Copertura KPI: ogni agente deve possiedere un KPI in OKR-Squadra (o deroga esplicita).
   const okr = leggiTesto("MyCity-Vault/05-Soldi-Rischi/OKR-Squadra.md");
@@ -600,6 +603,7 @@ async function main() {
     senzaKpi.length +
     conteggiOltreIlTetto +
     nomi.problemi + // AR-619: un name incoerente rompe il routing anche con 120 file = 120 dichiarati
+    senzaPorta.length + // 25/11: senior senza il paragrafo di smistamento nel corpo
     modelli.problemi + // 5/11: senza `model:` il senior gira sempre sul modello più grande
     percorsiRotti.length + // AR-349
     canaliOrfani.length + // AR-188 / AR-585
@@ -746,6 +750,9 @@ async function main() {
         for (const x of nomi.nameDoppi) console.log(`  • name "${x.name}" DOPPIO in: ${x.files.map((f) => `${f}.md`).join(", ")}`);
       }
 
+      if (senzaPorta.length) {
+        console.log(`\n🚪 ${senzaPorta.length} senior senza il paragrafo di smistamento («## 🚪 Quando chiamarmi»): ${senzaPorta.join(", ")}`);
+      }
       if (modelli.problemi) {
         console.log(`\n🧮 ${modelli.problemi} senior senza un modello valido (senza, girano sempre sul più grande):`);
         for (const f of modelli.senzaModel) console.log(`  • ${f}.md: model MANCANTE — scrivi sonnet o opus (regola in analizzaModelli)`);
