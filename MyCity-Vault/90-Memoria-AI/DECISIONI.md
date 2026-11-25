@@ -1290,3 +1290,11 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa:** la tabella dei livelli del sito vale com'è, senza correzioni. Via libera a pubblicare su n8n i flussi 16 e 18 (da N8N#15, unita) e il messaggio nuovo del flusso 20. Vale anche per la domanda all'AD sul giudizio del sito dentro il 16, dopo le prove nel repository.
 - **Chi esegue:** la sessione «Preventivo corto, avviso del flusso 20 e prova vera» (`session_01R8112MqhKbmR4t3eb8SGPV`), che l'AD ha avvisato verso le 19:15. Ordine: prima la ripubblicazione e la prova vera con La Ragazzetta e Ora del Gusto, poi in PR le descrizioni corte e i livelli del sito. Nessun messaggio ai locali.
 - **Come si torna indietro:** su n8n si rimette la versione precedente di ogni flusso dalla sua cronologia.
+
+## 2026-11-25 20:20 — Più account: separati, quarto giro, base rifatta (🟡, decisioni di Nicola)
+- **Chi e quando:** Nicola, in chat alla sessione «Notifiche nella finestra», 25/11 fra le 19:30 e le 20:05, rispondendo a tre domande. Le regole dicono che dopo due giri di correzioni sulla stessa funzione ci si ferma e si chiede.
+- **Le sue scelte:** separare i più account dalla PR #331, che così è entrata sul sito con campanella, demo e preventivo per fascia; fare un quarto giro con la PR in bozza; dopo il quarto collaudo, rifare la base invece di tappare un altro buco.
+- **Cosa è stato fatto:** la base nuova dice che il carrello e le bozze del browser sono dell'account che c'è; quando ne entra un altro, per qualunque strada, quelli di prima vanno da parte. Il quinto collaudo è pulito: due difetti minori, corretti. PR in bozza NicolaeRotaru/mycity#333.
+- **Il conto dei collaudi:** cinque giri sui più account. Ogni giro trovava una strada nuova finché le protezioni dipendevano dal percorso «Aggiungi»; con la regola unica il quinto non ne ha trovate.
+- **Cosa resta a Nicola:** togliere la #333 dalla bozza e unirla.
+
