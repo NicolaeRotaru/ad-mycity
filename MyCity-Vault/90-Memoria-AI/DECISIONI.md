@@ -7530,3 +7530,9 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Correzione:** alle 12:41 avevo scritto che 01, 04, 08 e 99 «possono ancora spendere sull'API». Non è più vero: i nodi a pagamento sono stati tolti. E la card #261 diceva già che il credito dell'API era finito dal 24/11 alle 03:35.
 - **Cosa succede senza la routine:** il 01 pubblica le righe già approvate da una persona senza il controllo finale; il 08 sceglie foto e copertina a regole; il 04 non scrive testi e avvisa su Telegram.
 - **Da sapere per il 08:** le foto non arrivano alla routine finché la sua rete raggiunge solo n8n. Aprire gli indirizzi delle foto è una scelta di Nicola.
+
+## 2026-11-25 13:58 — La chiave della routine «Chiedi all'AD» è in n8n e funziona (🟡, gesto di Nicola)
+- **Fatto da Nicola:** ha generato la chiave dalla pagina della routine alle 13:50 e l'ha messa nella credenziale n8n «Chiedi all'AD - chiave della routine».
+- **Provato:** alle 13:52 la prima prova è stata rifiutata con «chiave non valida»: la chiave era stata generata due volte, e valeva solo l'ultima. Nicola ha rimesso quella giusta. Alle 13:58 un flusso di prova su n8n ha chiamato la routine con la sua chiave: partita al primo colpo, risposta tornata a n8n in 17 secondi. Il flusso di prova è archiviato.
+- **Visto alla prova:** il compito chiedeva i secondi fra due ore, ma nei dati ce n'era una sola. La routine non ha inventato il numero e lo ha scritto negli avvisi.
+- **Resta:** la scelta del modello (oggi Opus) e il passaggio del sotto-flusso «Chiedi all'AD» da «prova» a «vero». Quel flusso è chiuso al collegamento dell'AD: serve che Nicola lo apra, oppure cambi a mano due valori.

@@ -67,7 +67,9 @@ Esempio vero: il flusso 04 scrive le didascalie dei post. Oggi è collegato alla
 - Scegli il modello della routine: «Sonnet» consuma meno quota, «Opus» è quello di adesso.
 - Poi di' all'AD «chiave messa»: accende il sotto-flusso in modalità vera, con l'id della routine, e fa una prova vera.
 
-**Cosa non ho verificato.** La chiamata da n8n con la chiave vera: finora la routine l'ho fatta partire solo da una sessione. Non ho letto da dentro il sotto-flusso su n8n, perché non è aperto al collegamento dell'AD: ho letto il suo codice nel repository.
+**Aggiornamento 2026-11-25 13:58.** La chiave c'è: Nicola l'ha generata e messa in n8n. Prova vera da n8n con la sua chiave: la routine è partita e la risposta è tornata a n8n in 17 secondi. Restano la scelta del modello (oggi Opus) e il passaggio del sotto-flusso a «vero».
+
+**Cosa non ho verificato.** Non ho letto da dentro il sotto-flusso su n8n, perché non è aperto al collegamento dell'AD: ho letto il suo codice nel repository.
 
 Cosa cambia: i lavori di n8n con l'IA passano sul piano Max invece dell'API a pagamento, e il flusso dei testi riparte.
 Se va bene: l'AD accende il sotto-flusso in modalità vera e prova un giro intero dei testi.
