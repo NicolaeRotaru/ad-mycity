@@ -8,6 +8,7 @@ reparto: tech
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-11-25 13:36 · 2026-11-25 13:40 · collaudo 16 servizio mensile · V3 C4 A4 K3 I3 M4 E4 (media 3.57) · atteso regge al primo collaudo → reale bocciato: un campo number vuoto del modulo n8n arriva come 0 (piano da zero contenuti); idee del 03 perse con la data formattata; segnate sostituite anche a montaggio fallito. Corretto in 39209b7, ricollaudo in corso · #n8n #collaudo #sdg
 - 2026-11-25 02:47 · ricollaudo A officina 1.4.0 93003a0 (editor Scatti di G: rallenty, 16:9, millesimo di volto) · V4 C5 A5 K5 I3 M4 E3 (media 4.14) · atteso i nove motivi della bocciatura chiusi → reale regge: 0 su 36.000 piani con difetti di sincrono o fotogrammi; 5 minori corretti in c6ee264 (voce in ritardo di 25 ms compensata) · #collaudo #officina #mutazioni
 - 2026-11-25 01:22 · collaudo B3 workflow 16 dd8cf00 (editor Scatti di G, segno su Drive contro il doppio avvio) · V4 C5 A5 K5 I3 M4 E3 (media 4.14) · atteso nessun doppio avvio nelle varianti scomode → reale 3 avvii su 3 servizi, 0 con memoria azzerata; regge al terzo giro dopo due bocciature · #collaudo #n8n #idempotenza
 - 2026-11-21 16:27 · Settimana dei 700: ricontrollo del registro del sito in 4 sessioni più controllore finale · V5 C4 A5 K4 I4 M4 E4 (media 4.29) · atteso circa 150 $ e voci chiuse da scoprire → reale circa 105 $ (più il CF), 117 chiusure su 459, 6+3 gravi confermati · #ricontrollo #settimana-700

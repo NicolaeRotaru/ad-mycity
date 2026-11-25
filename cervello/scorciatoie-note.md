@@ -198,3 +198,9 @@ del sito (`cervello/prediagnosi.mjs`), dove un testo pubblicato per sbaglio non 
     VPS. *Cura: un programma che ricava i suoi percorsi da dove sta si prova da una COPIA in una
     cartella temporanea; e chi lancia le mutazioni controlla, dopo ognuna, che i file veri siano
     intatti.*
+36. **La piattaforma che riscrive il vuoto.** Nel modulo del workflow 16 (n8n) i campi Reel, Post e
+    Storie erano di tipo «number», con la regola «vuoto = il pacchetto del cliente». Ma n8n un campo
+    numero lasciato vuoto lo manda come 0: il piano sarebbe uscito da zero contenuti. Le prove davano
+    al nodo un input scritto a mano, con il campo vuoto, e restavano verdi. *Cura: quando «vuoto» ha
+    un significato, si verifica cosa manda DAVVERO la piattaforma per un campo vuoto (form, foglio,
+    webhook); nel dubbio campo di testo, e una prova sul tipo del campo nel workflow generato.*
