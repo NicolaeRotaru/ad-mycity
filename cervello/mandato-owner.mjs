@@ -24,6 +24,7 @@
 // dichiarazione che l'owner è il vicino, ed è quello che spegne l'ambiguità.
 
 /** Frasi che dichiarano un limite (chi firma) e non una rivendicazione di mandato: non contano come tema. */
+import { portaDi } from "./porta-senior.mjs";
 const RE_FRASE_LIMITE = /firma|nicola|🔴|umano abilitat|abilitato/i;
 
 /** Parole vuote (già ridotte a radice dove serve): non fondano un tema. */
@@ -45,6 +46,8 @@ export const MIN_RADICI_CONDIVISE = 2;
 
 /** Estrae il campo `description:` dal frontmatter YAML di un mansionario. "" se manca. */
 export function estraiDescription(testo) {
+  const porta = portaDi(testo);
+  if (porta) return porta;
   const m = String(testo || "").match(/^---\s*[\r\n]([\s\S]*?)[\r\n]---/);
   const fm = m ? m[1] : String(testo || "");
   const d = fm.match(/description:\s*([\s\S]*?)(?:[\r\n]\w[\w-]*:\s|$)/);

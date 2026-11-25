@@ -1,9 +1,9 @@
 "use client";
 
+import MarkdownPigro from "@/components/MarkdownPigro";
 import { useCallback, useEffect, useState } from "react";
 import { Pin, ChevronDown } from "lucide-react";
-import ReactMarkdown, { type Components } from "react-markdown";
-import remarkGfm from "remark-gfm";
+import type { Components } from "react-markdown";
 import HomeSezione from "@/components/HomeSezione";
 import ParlaCasella from "@/components/ParlaCasella";
 import { dataVault } from "@/lib/format";
@@ -48,6 +48,12 @@ const MD: Components = {
 
 export default function Bacheca() {
   const [avvisi, setAvvisi] = useState<Avviso[]>([]);
+  // Gli avvisi aperti almeno una volta: solo per loro si prepara il testo formattato (perf home).
+  // Una volta aperto resta preparato anche se lo richiudi, come prima.
+  const [aperti, setAperti] = useState<Set<string>>(() => new Set());
+  const segnaAperto = useCallback((k: string) => {
+    setAperti((p) => (p.has(k) ? p : new Set(p).add(k)));
+  }, []);
   // AR-401 — prima: `.catch(() => {})` e poi `if (avvisi.length === 0) return null`. Con GitHub giù
   // la Bacheca SPARIVA dalla home, indistinguibile da «non c'è niente da sapere». Adesso il verdetto
   // arriva dal confine unico e la scheda resta a schermo per dire che non ha potuto leggere.
@@ -101,7 +107,13 @@ export default function Bacheca() {
           <p className="t-eti text-[12px] text-amber-600">{fraseVuoto(verdetto, { vuoto: "" })}</p>
         )}
         {avvisi.map((a) => (
-          <details key={`${a.data}|${a.titolo}`} className="rounded-xl border border-black/[0.07] bg-paper/30 group">
+          <details
+            key={`${a.data}|${a.titolo}`}
+            className="rounded-xl border border-black/[0.07] bg-paper/30 group"
+            onToggle={(e) => {
+              if (e.currentTarget.open) segnaAperto(`${a.data}|${a.titolo}`);
+            }}
+          >
             <summary className="flex items-start gap-2 px-3 py-2 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
               <div className="min-w-0 flex-1">
                 <span className="block text-[13px] font-medium leading-snug" style={{ color: "var(--text-primary)" }}>
@@ -113,9 +125,9 @@ export default function Bacheca() {
             </summary>
             <div className="px-3 pb-3 pt-1 border-t border-black/[0.05]">
               <div className="md-chat text-[13px] leading-relaxed [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">
-                <ReactMarkdown remarkPlugins={[remarkGfm]} components={MD}>
-                  {a.testo}
-                </ReactMarkdown>
+                {/* Velocità (perf home): il testo formattato si prepara la prima volta che apri l'avviso,
+                    non all'apertura della home per tutti gli avvisi chiusi (~100 KB di Markdown). */}
+                {aperti.has(`${a.data}|${a.titolo}`) ? <MarkdownPigro components={MD}>{a.testo}</MarkdownPigro> : null}
               </div>
               <ParlaCasella idCasella={`bacheca:${a.data}|${a.titolo}`} titolo={`Bacheca: ${a.titolo}`} contesto={a.testo.slice(0, 800)} />
             </div>

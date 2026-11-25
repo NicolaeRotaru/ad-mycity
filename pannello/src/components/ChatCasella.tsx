@@ -1,9 +1,8 @@
 "use client";
 
+import MarkdownPigro from "@/components/MarkdownPigro";
 import { useEffect, useRef, useState } from "react";
 import { Send, Loader2, X } from "lucide-react";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 import FinestraComandiSkill, { BottoneSkill } from "@/components/FinestraComandiSkill";
 import BottoneAllegatiChat from "@/components/BottoneAllegatiChat";
 import BottoneFotoChat from "@/components/BottoneFotoChat";
@@ -221,15 +220,14 @@ export default function ChatCasella({
                 }`}
               >
                 {m.role === "user" ? m.content : (
-                  <ReactMarkdown
-                    remarkPlugins={[remarkGfm]}
+                  <MarkdownPigro
                     components={{
                       p: ({node, ...props}) => <p className="my-0.5" {...props} />,
                       ul: ({node, ...props}) => <ul className="my-0.5 pl-4" {...props} />,
                       ol: ({node, ...props}) => <ol className="my-0.5 pl-4" {...props} />,
                       li: ({node, ...props}) => <li className="my-0" {...props} />,
                     }}
-                  >{m.content}</ReactMarkdown>
+                  >{m.content}</MarkdownPigro>
                 )}
               </span>
             </div>
@@ -239,15 +237,14 @@ export default function ChatCasella({
           {inviando && streamingText && (
             <div className="text-left">
               <span className="inline-block text-[12.5px] leading-relaxed rounded-lg px-2.5 py-1.5 whitespace-pre-wrap break-words max-w-[92%] text-left chat-bubble-assistant prose-sm dark:prose-invert max-w-none">
-                <ReactMarkdown
-                  remarkPlugins={[remarkGfm]}
+                <MarkdownPigro
                   components={{
                     p: ({node, ...props}) => <p className="my-0.5" {...props} />,
                     ul: ({node, ...props}) => <ul className="my-0.5 pl-4" {...props} />,
                     ol: ({node, ...props}) => <ol className="my-0.5 pl-4" {...props} />,
                     li: ({node, ...props}) => <li className="my-0" {...props} />,
                   }}
-                >{streamingText}</ReactMarkdown>
+                >{streamingText}</MarkdownPigro>
                 <span className="ml-0.5 animate-pulse">▍</span>
               </span>
             </div>

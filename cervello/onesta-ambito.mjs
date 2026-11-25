@@ -44,6 +44,10 @@ const STORICI = [
     motivo: "log append-only per contratto (CLAUDE.md: «Non riscrivere mai le righe vecchie») — una riga di giugno non è correggibile oggi",
   },
   {
+    quando: /(^|\/)MyCity-Vault\/90-Memoria-AI\/Archivio\//i,
+    motivo: "archivio per mese dei registri append-only (cervello/archivio-decisioni.mjs): righe spostate identiche, storia",
+  },
+  {
     quando: /(^|\/)MyCity-Vault\/90-Memoria-AI\/SALA-OPERATIVA\.md$/i,
     motivo: "canale condiviso append-only: AR-102 lo elenca fra i file di storia esenti dalla riscrittura",
   },

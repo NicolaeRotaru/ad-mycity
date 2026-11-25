@@ -19,6 +19,7 @@ import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { spawnSync } from "node:child_process";
 import { AD_ROOT } from "./git-github.mjs";
+import { leggiDecisioniTutte } from "./archivio-decisioni.mjs";
 
 const DRY = process.argv.includes("--dry");
 const V = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI");
@@ -40,7 +41,7 @@ const fatto = [], saltato = [];
 // ① DECISIONI — append-only, mai riscrivere le righe vecchie
 const pDec = join(V, "DECISIONI.md");
 if (!existsSync(pDec)) saltato.push("DECISIONI.md non trovato");
-else if (readFileSync(pDec, "utf8").includes(MARCA_DEC)) saltato.push("DECISIONI: già registrate");
+else if (leggiDecisioniTutte(pDec).includes(MARCA_DEC)) saltato.push("DECISIONI: già registrate");
 else {
   if (!DRY) writeFileSync(pDec, readFileSync(pDec, "utf8") + "\n" + DECISIONI, "utf8");
   fatto.push("DECISIONI: 3 voci appese (nascita programma, round 2, autocritica)");
