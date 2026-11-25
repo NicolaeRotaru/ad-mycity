@@ -31,29 +31,6 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
-### 🟡 #262 — Guarda la radiografia a onde e dimmi due scelte prima della prima radiografia · ⏳ accodata 2026-11-24 21:58 · @ad
-
-**In parole semplici.** La radiografia del sito ora lavora come le onde della riparazione. Prima ricontrolla i difetti aperti, che è il modo più economico di chiuderli, poi cerca quelli nuovi.
-Per esempio: il 21/11 il ricontrollo ha guardato 459 voci aperte e ne ha chiuse 117, a circa 1,1 $ l'una.
-
-**Cosa cambia per te.** Nessuna radiografia parte da sola: la prima chiede il tuo «via» sul preventivo. Prima di quel via servono due tue scelte.
-
-**Cosa devi fare.**
-- Dire se tenere ultracode sulle sessioni che cercano difetti nei temi a rischio alto: soldi, accessi e dati. Costa circa il doppio per quelle sessioni.
-- Dire se vuoi il freno sul numero di agenti anche nella macchina. Va incollato a mano nelle impostazioni, e puoi farlo solo tu.
-- Unire la richiesta di unione della radiografia a onde, quando ti va bene.
-
-**Cosa non ho verificato.** Nessuna radiografia vera ha ancora usato queste regole: le hanno provate 63 prove automatiche e due collaudi.
-
-**Cosa cambia:** la radiografia si lancia con le regole delle onde: oggi un ricontrollo costerebbe circa 86 $ per circa 78 difetti chiusi.
-**Se va bene:** al tuo «via» parte il primo ricontrollo, e la sua misura vera corregge il preventivo dopo.
-
-- **Colore:** 🟡
-- **Reparto:** ad
-- **Dettagli tecnici:** `consegne/audit/2026-11-24-radiografia-a-onde/lezioni.md`, ramo `ccr-aa319319-23ibpz`.
-- **Ultracode:** si spegne con `prepara --ultracode no`.
-- **Il freno:** `cervello/riparazione/freno-subagenti.mjs`, ruolo `cercatore`. Si aggancia in `.claude/settings.json` di ad-mycity, come nel sito.
-
 ### 🟡 #263 — Genera la chiave della routine «Chiedi all'AD» e scegli il modello · ⏳ accodata 2026-11-25 13:35 · @builder-automazioni
 
 **In parole semplici.** La routine «Chiedi all'AD» fa fare all'AD, col piano Max, i lavori di n8n che prima pagavano l'API di Claude. Esiste e funziona: oggi alle 12:35 ha risposto a n8n in 31 secondi. n8n però non può ancora chiamarla, perché manca la sua chiave. La chiave la può creare solo tu.
@@ -79,6 +56,29 @@ Cosa cambia: i lavori di n8n con l'IA passano sul piano Max invece dell'API a pa
 Se va bene: l'AD accende il sotto-flusso in modalità vera e prova un giro intero dei testi.
 
 ---
+
+### 🟡 #262 — Guarda la radiografia a onde e dimmi due scelte prima della prima radiografia · ⏳ accodata 2026-11-24 21:58 · @ad
+
+**In parole semplici.** La radiografia del sito ora lavora come le onde della riparazione. Prima ricontrolla i difetti aperti, che è il modo più economico di chiuderli, poi cerca quelli nuovi.
+Per esempio: il 21/11 il ricontrollo ha guardato 459 voci aperte e ne ha chiuse 117, a circa 1,1 $ l'una.
+
+**Cosa cambia per te.** Nessuna radiografia parte da sola: la prima chiede il tuo «via» sul preventivo. Prima di quel via servono due tue scelte.
+
+**Cosa devi fare.**
+- Dire se tenere ultracode sulle sessioni che cercano difetti nei temi a rischio alto: soldi, accessi e dati. Costa circa il doppio per quelle sessioni.
+- Dire se vuoi il freno sul numero di agenti anche nella macchina. Va incollato a mano nelle impostazioni, e puoi farlo solo tu.
+- Unire la richiesta di unione della radiografia a onde, quando ti va bene.
+
+**Cosa non ho verificato.** Nessuna radiografia vera ha ancora usato queste regole: le hanno provate 63 prove automatiche e due collaudi.
+
+**Cosa cambia:** la radiografia si lancia con le regole delle onde: oggi un ricontrollo costerebbe circa 86 $ per circa 78 difetti chiusi.
+**Se va bene:** al tuo «via» parte il primo ricontrollo, e la sua misura vera corregge il preventivo dopo.
+
+- **Colore:** 🟡
+- **Reparto:** ad
+- **Dettagli tecnici:** `consegne/audit/2026-11-24-radiografia-a-onde/lezioni.md`, ramo `ccr-aa319319-23ibpz`.
+- **Ultracode:** si spegne con `prepara --ultracode no`.
+- **Il freno:** `cervello/riparazione/freno-subagenti.mjs`, ruolo `cercatore`. Si aggancia in `.claude/settings.json` di ad-mycity, come nel sito.
 
 ### 🔴 #261 — Accendi il collegamento fra MyCity e n8n, e incolla la chiave per l'analisi del mattino · ⏳ accodata 2026-11-24 03:40 · @builder-automazioni
 
