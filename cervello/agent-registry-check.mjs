@@ -20,6 +20,7 @@
 //
 // Exit: 0 = nessun drift · 1 = drift presente (così può fare da gate in CI o nel giro)
 
+import { portaDi } from "./porta-senior.mjs";
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { join, basename } from "node:path";
@@ -235,6 +236,8 @@ export function rimandiAlVecchioRoster(testi = {}) {
 
 /** Estrae `description:` dal frontmatter YAML di un mansionario. */
 function estraiDescription(testo) {
+  const porta = portaDi(testo);
+  if (porta) return porta;
   const m = testo.match(/^---\s*[\r\n]([\s\S]*?)[\r\n]---/);
   const fm = m ? m[1] : testo;
   const d = fm.match(/description:\s*([\s\S]*?)(?:[\r\n]\w[\w-]*:\s|$)/);
