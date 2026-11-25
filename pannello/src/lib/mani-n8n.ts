@@ -71,6 +71,8 @@ export async function mandaAN8n(a: AzionePerN8n): Promise<EsitoN8n> {
     const corpo = await res.json().catch(() => null);
     return leggiRispostaN8n(res.status, corpo);
   } catch (e: any) {
-    return { stato: "coda", dettaglio: `n8n non raggiungibile (${e?.message || "errore di rete"}): resta in coda.` };
+    // Resta «coda» (mai rimandata da qui: niente doppio invio), ma se la richiesta è partita n8n può
+    // averla eseguita lo stesso: lo si dice, così nessuno legge «non è successo niente».
+    return { stato: "coda", dettaglio: `n8n non ha risposto in tempo (${e?.message || "errore di rete"}): potrebbe essere partita lo stesso, controlla l'esecuzione del flusso «23 · Mani del Pannello» prima di riprovare.` };
   }
 }
