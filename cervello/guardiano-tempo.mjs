@@ -17,6 +17,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
 import { azioniDellaCoda, aspettaLaFirma } from "./coda-cabina.mjs";
+import { leggiDecisioniTutte } from "./archivio-decisioni.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const SOGLIA_STALLO_GG = 7; // oltre questa attesa una firma è "ferma da troppo"
@@ -150,7 +151,8 @@ async function main() {
   let decisioni7gg = 0;
   let coinvolgonoNicola7gg = 0;
   if (existsSync(DECISIONI)) {
-    for (const line of readFileSync(DECISIONI, "utf8").split("\n")) {
+    // A inizio mese la settimana scorsa sta già nell'archivio del mese prima: si legge anche quello.
+    for (const line of leggiDecisioniTutte(DECISIONI, { mesi: 1 }).split("\n")) {
       const m = line.match(/^-\s*(\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2})/);
       if (!m) continue;
       const d = parseData(m[1]);

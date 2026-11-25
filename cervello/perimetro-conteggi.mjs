@@ -44,6 +44,7 @@ export const DENTRO = [
 export const FUORI = [
   { prefisso: "MyCity-Vault/90-Memoria-AI/Briefing/", perche: "verbali di giornata: erano veri quel giorno" },
   { prefisso: "MyCity-Vault/90-Memoria-AI/DECISIONI.md", perche: "registro append-only: le righe vecchie non si riscrivono" },
+  { prefisso: "MyCity-Vault/90-Memoria-AI/Archivio/", perche: "archivio dei mesi chiusi (DECISIONI, STATO, AZIONI, SALA): storia spostata, non riscritta" },
   { prefisso: "MyCity-Vault/90-Memoria-AI/SALA-OPERATIVA.md", perche: "canale di lavoro, non una dichiarazione" },
   { prefisso: "MyCity-Vault/90-Memoria-AI/auto-coscienza/", perche: "referti generati: fotografano un momento passato" },
   { prefisso: "memoria-squadra/", perche: "quaderni dei reparti: storia degli esiti" },

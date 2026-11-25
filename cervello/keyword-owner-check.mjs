@@ -6,7 +6,7 @@
 //
 // Perché (AR-027): la deconfliction "un mandato = un owner" vive nel roster (oggi in
 // MyCity-Vault/07-Agenti/ORGANIGRAMMA.md, fino al 25/10/2026 dentro CLAUDE.md) ma NON
-// nelle description. Il router instrada sulle description, quindi keyword duplicate senza deferral
+// nelle description (dal 25/11: il paragrafo di smistamento nel corpo, vedi porta-senior.mjs). Il router instrada sulle description, quindi keyword duplicate senza deferral
 // (es. marketing↔crm-lifecycle, trust-safety↔dispute) creano doppioni invisibili. Questo check
 // misura il drift a ogni giro, come agent-registry-check per il registro agenti.
 //
