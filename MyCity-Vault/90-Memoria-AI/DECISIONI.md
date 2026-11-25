@@ -7522,3 +7522,12 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa:** resta la regola entrata con mycity#320 (unita il 25/11 alle 12:04). Lo staff non approva un negozio finché mancano nome, cognome, codice fiscale e data di nascita del titolare. Chiude la voce «La scelta dell'AD, da confermare» del 25/11 alle 00:20.
 - **Aperto:** la frase dei Termini sulla «verifica KYC (documento, codice fiscale, IBAN)», da far rivedere a legale-privacy.
 
+
+## 2026-11-25 16:17 — La Ragazzetta iscritta in MyCity, nascosta e senza accesso (🟡, su richiesta di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD, 25/11 verso le 16:10. Parole sue: «inscrivi la ragazzetta, Piacenza».
+- **Cosa:** La Ragazzetta (bar, Piacenza) è entrata in MyCity come Ora del Gusto. Non è approvata, non si vede in vetrina, ha l'accesso chiuso e una email finta. Ha il suo link col preventivo in Admin → Preventivi col link. Nessun messaggio è partito verso il locale. Nicola ha ricevuto l'avviso su Telegram alle 16:17.
+- **Come:** il flusso 20 di n8n («Iscrivi il cliente in MyCity») si avvia solo da un altro flusso, e il modulo 12 chiede quattro pagine da compilare a mano. L'AD ha creato un lanciatore una tantum (n8n `Y07tsoSng4Ux7R5z`), l'ha avviato una volta (esecuzione 2354 → flusso 20, esecuzione 2355, risposta 201) e l'ha archiviato subito. Dati inviati: nome «La Ragazzetta», città «Piacenza», tipo «bar». Indirizzo e sito vuoti: due ricerche web non li hanno trovati.
+- **Prova:** letto in sola lettura sul database vero alle 16:18. Profilo `b8d328ab-1955-4820-9c64-c6626d449b4a`: venditore, `is_approved` falso, `approval_status` vuoto, accesso bloccato, email `@mycity-system.local`, 1 link col codice. Venditori in tutto: 6.
+- **Fuori da questo lavoro:** la scheda Clienti dell'agenzia e la cartella su Drive le scrive solo il modulo 12. Se Nicola lo compila con lo stesso nome e la stessa città, MyCity risponde «era già in MyCity» e non crea un doppione.
+- **Come si torna indietro:** si cancella l'utente `b8d328ab-…` da Supabase Auth (profilo e link vanno con lui). È 🔴: solo con la firma di Nicola.
+- **Colore:** 🟡. Scrittura sul database vero, chiesta in modo esplicito da Nicola, reversibile, nessun contatto col locale. La Ragazzetta resta una scelta ragionata: non ha firmato niente, quindi niente materiali pesanti a suo nome finché non accetta.
