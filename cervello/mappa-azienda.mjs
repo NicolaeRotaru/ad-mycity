@@ -22,12 +22,14 @@
 //   · MyCity-Vault/90-Memoria-AI/auto-coscienza/mappa-azienda.json
 //
 // Uso: node cervello/mappa-azienda.mjs [--negozi file.json] [--senza-n8n] [--stdout]
-// Exit: 0 = mappa scritta · 2 = non riesco a leggere il repository
+// Non è un guardiano: non dice sì o no, scrive una mappa. Senza il repository si ferma con un messaggio.
+// Scrive con la penna condivisa (scrivi-json.mjs) e legge git con l'esecutore unico (git-github.mjs).
 
-import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { basename, dirname, join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { execFileSync } from 'node:child_process';
+import { gitLetto } from './git-github.mjs';
+import { scriviJsonAtomico, scriviTestoAtomico } from './scrivi-json.mjs';
 
 const RADICE = join(dirname(fileURLToPath(import.meta.url)), '..');
 const MEMORIA = join(RADICE, 'MyCity-Vault', '90-Memoria-AI');
@@ -36,15 +38,13 @@ const opz = (n) => { const i = argv.indexOf(n); return i >= 0 ? argv[i + 1] : un
 const ora = new Date();
 const quando = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Rome', dateStyle: 'short', timeStyle: 'short' }).format(ora);
 const fmt = (n) => Number(n).toLocaleString('it-IT');
-const tok = (byte) => Math.round(byte / 4); // stima: circa 4 byte per token
+const tok = (byte) => (byte === null ? null : Math.round(byte / 4)); // stima: circa 4 byte per token
 const PAROLE = { approved: 'approvato', pending: 'in attesa', rejected: 'rifiutato', success: 'riuscita', error: 'errore', waiting: 'in attesa', running: 'in corso', canceled: 'annullata', crashed: 'caduta' };
 const it = (x) => PAROLE[x] || x;
 const giorni = (data) => (data ? Math.floor((ora - new Date(data)) / 864e5) : null);
 
-function git(dir, ...args) {
-  try { return execFileSync('git', ['-C', dir, ...args], { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 }).trim(); }
-  catch { return ''; }
-}
+// null = git non ha risposto: si scrive «non misurato», non si indovina un valore.
+const git = (dir, ...args) => gitLetto(args, dir);
 
 function elencaFile(dir, filtro, esclusi = ['node_modules', '.git', '.next']) {
   const out = [];
@@ -61,8 +61,10 @@ function elencaFile(dir, filtro, esclusi = ['node_modules', '.git', '.next']) {
   giro(dir);
   return out;
 }
-const leggi = (p) => { try { return readFileSync(p, 'utf8'); } catch { return ''; } };
-const righe = (testo) => (testo ? testo.split('\n').length : 0);
+// null = file illeggibile: chi lo usa decide cosa farne, non arriva uno zero travestito da misura.
+const leggi = (p) => { try { return readFileSync(p, 'utf8'); } catch { return null; } };
+const righe = (testo) => (testo === null ? null : testo.split('\n').length);
+const fmtMisura = (n) => (n === null || n === undefined ? 'non misurato' : fmt(n));
 
 // ── ① I repository ─────────────────────────────────────────────────────────────────────────────
 const REPO = [
@@ -74,8 +76,9 @@ const REPO = [
 const repo = REPO.map((r) => {
   if (!existsSync(join(r.dir, '.git'))) return { ...r, presente: false };
   const ultimo = git(r.dir, 'log', '-1', '--format=%cs|%s');
-  const [data, ...titolo] = ultimo.split('|');
-  const file = git(r.dir, 'ls-files').split('\n').filter(Boolean).length;
+  const elenco = git(r.dir, 'ls-files');
+  const [data, ...titolo] = ultimo === null ? [null] : ultimo.split('|');
+  const file = elenco === null ? null : elenco.split('\n').filter(Boolean).length;
   return { nome: r.nome, cosa: r.cosa, presente: true, ultimo_commit: data, titolo: titolo.join('|').slice(0, 90), file };
 });
 
@@ -167,8 +170,9 @@ function inventarioCodice() {
   const info = new Map();
   for (const p of file) {
     const rel = relative(RADICE, p);
-    const testo = leggi(p);
-    info.set(rel, { rel, nome: basename(p), testo, righe: righe(testo), prova: eProva(rel) });
+    const letto = leggi(p);
+    const testo = letto ?? ''; // un file illeggibile non nomina nessuno: lo si conta, ma non fa vivere niente
+    info.set(rel, { rel, nome: basename(p), testo, righe: righe(letto) ?? 0, illeggibile: letto === null, prova: eProva(rel) });
   }
   // Un nome troppo corto o generico darebbe collegamenti finti: si usano solo i nomi lunghi almeno 6.
   const perNome = new Map();
@@ -184,7 +188,7 @@ function inventarioCodice() {
   };
 
   // Gli ingressi veri, dal più forte al più debole.
-  const testi = (lista) => lista.map((p) => leggi(p)).join('\n');
+  const testi = (lista) => lista.map((p) => leggi(p)).filter((t) => t !== null).join('\n');
   const daFuori = testi([
     ...elencaFile(join(RADICE, '.github', 'workflows'), (p) => /\.ya?ml$/.test(p)),
     ...elencaFile(join(RADICE, 'pannello'), (p) => /\.(ts|tsx|js|mjs|json)$/.test(p)),
@@ -230,7 +234,7 @@ function inventarioCodice() {
   // Ultima modifica di ogni file: una sola passata su git.
   const ultima = new Map();
   let data = '';
-  for (const r of git(RADICE, 'log', '--format=@%cs', '--name-only', '--', 'cervello').split('\n')) {
+  for (const r of (git(RADICE, 'log', '--format=@%cs', '--name-only', '--', 'cervello') ?? '').split('\n')) {
     if (r.startsWith('@')) data = r.slice(1);
     else if (r && !ultima.has(r)) ultima.set(r, data);
   }
@@ -251,11 +255,11 @@ function inventarioCodice() {
 
 // ── ⑤ Il peso fisso di ogni sessione ──────────────────────────────────────────────────────────────
 function pesoFisso() {
-  const byte = (p) => { try { return statSync(p).size; } catch { return 0; } };
+  const byte = (p) => { try { return statSync(p).size; } catch { return null; } };
   const agenti = elencaFile(join(RADICE, '.claude', 'agents'), (p) => p.endsWith('.md'));
   let descrizioni = 0;
   for (const p of agenti) {
-    const m = leggi(p).match(/^---\n([\s\S]*?)\n---/);
+    const m = (leggi(p) ?? '').match(/^---\n([\s\S]*?)\n---/);
     const d = m && m[1].match(/^description:\s*([\s\S]*?)(?=\n[a-zA-Z_-]+:|$)/m);
     if (d) descrizioni += Buffer.byteLength(d[1]);
   }
@@ -312,7 +316,7 @@ function pagina({ n8n, negozi, codice, peso }) {
   L.push('');
   L.push('| Repository | Cos\'è | Ultimo commit | File |');
   L.push('| --- | --- | --- | --- |');
-  for (const x of repo) L.push(x.presente ? `| ${x.nome} | ${x.cosa} | ${x.ultimo_commit} | ${fmt(x.file)} |` : `| ${x.nome} | ${x.cosa} | non misurato (non c'è qui accanto) | — |`);
+  for (const x of repo) L.push(x.presente ? `| ${x.nome} | ${x.cosa} | ${x.ultimo_commit || 'non misurato'} | ${fmtMisura(x.file)} |` : `| ${x.nome} | ${x.cosa} | non misurato (non c'è qui accanto) | — |`);
   L.push('');
 
   L.push('## I flussi di n8n', '');
@@ -383,10 +387,10 @@ function pagina({ n8n, negozi, codice, peso }) {
   L.push(`Ogni sessione dell'AD rilegge le stesse cose prima di fare qualsiasi lavoro. Stima: circa 4 byte per token.`, '');
   L.push('| Cosa | Byte | Token, circa |');
   L.push('| --- | --- | --- |');
-  L.push(`| Regole per tutti (CLAUDE.md) | ${fmt(peso.claude_md)} | ${fmt(tok(peso.claude_md))} |`);
+  L.push(`| Regole per tutti (CLAUDE.md) | ${fmtMisura(peso.claude_md)} | ${fmtMisura(tok(peso.claude_md))} |`);
   L.push(`| Le descrizioni dei ${peso.senior} senior, nella lista degli agenti | ${fmt(peso.descrizioni_senior)} | ${fmt(tok(peso.descrizioni_senior))} |`);
-  L.push(`| Manuale dell'AD, una volta per sessione | ${fmt(peso.manuale_ad)} | ${fmt(tok(peso.manuale_ad))} |`);
-  for (const m of peso.memoria) L.push(`| Memoria: ${m.file} (${fmt(m.righe)} righe), se si legge intera | ${fmt(m.byte)} | ${fmt(tok(m.byte))} |`);
+  L.push(`| Manuale dell'AD, una volta per sessione | ${fmtMisura(peso.manuale_ad)} | ${fmtMisura(tok(peso.manuale_ad))} |`);
+  for (const m of peso.memoria) L.push(`| Memoria: ${m.file} (${fmtMisura(m.righe)} righe), se si legge intera | ${fmtMisura(m.byte)} | ${fmtMisura(tok(m.byte))} |`);
   L.push('');
 
   L.push('## Cosa non è misurato', '');
@@ -406,10 +410,10 @@ const peso = pesoFisso();
 const testo = pagina({ n8n, negozi, codice, peso });
 if (argv.includes('--stdout')) process.stdout.write(testo);
 else {
-  writeFileSync(join(MEMORIA, 'MAPPA-AZIENDA.md'), testo);
-  writeFileSync(join(MEMORIA, 'auto-coscienza', 'mappa-azienda.json'), JSON.stringify({
+  scriviTestoAtomico(join(MEMORIA, 'MAPPA-AZIENDA.md'), testo);
+  scriviJsonAtomico(join(MEMORIA, 'auto-coscienza', 'mappa-azienda.json'), {
     generata: quando, repo, n8n, negozi, peso, codice: { riepilogo: codice.riepilogo, voci: codice.voci },
-  }, null, 1));
+  });
   const r = codice.riepilogo;
   console.log(`🗺️  Mappa scritta (${quando}). n8n: ${n8n.misurato ? `${n8n.vivi.length} vivi` : 'non misurato'} · negozi: ${negozi.misurato ? negozi.negozi.length : 'non misurato'} · codice: ${r.totale.file} file, orfani ${r.orfano.programmi.file + r.orfano.prove.file}, solo server ${r.solo_server.programmi.file + r.solo_server.prove.file}.`);
 }

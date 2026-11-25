@@ -1,13 +1,13 @@
 ---
-data: 2026-11-25 12:59
+data: 2026-11-25 13:15
 generata_da: cervello/mappa-azienda.mjs
 ---
 
 # La mappa dell'azienda
 
-**In breve.** n8n ha 26 flussi vivi, e 11 sono accesi. Nel marketplace ci sono 4 venditori. Nella macchina, 154 file di codice su 939 non li fa partire nessuno.
+**In breve.** n8n ha 28 flussi vivi, e 13 sono accesi. Nel marketplace ci sono 4 venditori. Nella macchina, 154 file di codice su 939 non li fa partire nessuno.
 
-> Rifatta da un programma il 2026-11-25 12:59, a 0 token: `node cervello/mappa-azienda.mjs`. Non si corregge a mano.
+> Rifatta da un programma il 2026-11-25 13:15, a 0 token: `node cervello/mappa-azienda.mjs`. Non si corregge a mano.
 > È la pagina che l'AD legge per prima: invece di esplorare quattro repository e n8n, legge questa.
 
 ## In parole semplici
@@ -54,15 +54,15 @@ Com'è fatta dentro la macchina dell'AD (le sue 9 parti): `MAPPA-MACCHINA.md`.
 
 | Repository | Cos'è | Ultimo commit | File |
 | --- | --- | --- | --- |
-| ad-mycity | la macchina dell'AD: memoria, senior, programmi, Pannello | 2026-11-25 | 4198 |
+| ad-mycity | la macchina dell'AD: memoria, senior, programmi, Pannello | 2026-11-25 | 4199 |
 | mycity | il marketplace MyCity (sito, dashboard dei negozi, API) | 2026-11-24 | 3591 |
 | SDG | il sito dell'agenzia SDG | 2026-11-23 | 41 |
 | N8N | i sorgenti e le prove dei flussi n8n costruiti da programma (repository pubblico) | 2026-11-25 | 65 |
 
 ## I flussi di n8n
 
-45 flussi: 26 vivi, 19 archiviati. Accesi: 11. Nodi nei flussi vivi: 1555.
-Accesi con almeno un nodo che chiama l'API di Claude: 7 (01 · Pubblica contenuti (Instagram + Facebook), 04 · Scrivi i testi (AI), 08 Post dalle foto, 12 · Nuovo cliente (automatico), 16 · Nuovo cliente da MyCity, 18 · Analisi di un'attività, 99 · Avvisi errori). Un nodo presente non vuol dire che venga chiamato: dipende dai bivi.
+47 flussi: 28 vivi, 19 archiviati. Accesi: 13. Nodi nei flussi vivi: 1570.
+Accesi con almeno un nodo che chiama l'API di Claude: 7 (01 · Pubblica contenuti (Instagram + Facebook), 04 · Scrivi i testi (AI), 08 Post dalle foto, 12 · Nuovo cliente (automatico), 16 · Nuovo cliente da MyCity, 18 · Analisi di un'attività, Chiedi all'AD). Un nodo presente non vuol dire che venga chiamato: dipende dai bivi.
 
 | Flusso | Acceso | Nodi | Nodi Claude | Ultima corsa |
 | --- | --- | --- | --- | --- |
@@ -82,16 +82,18 @@ Accesi con almeno un nodo che chiama l'API di Claude: 7 (01 · Pubblica contenut
 | 13 · Foto pronte | no | 31 | — | riuscita, 2026-11-21 |
 | 14 · Smista materiale | no | 32 | — | mai, o non salvata |
 | 15 · Approva le storie | no | 48 | — | mai, o non salvata |
-| 16 · Montatore | no | 151 | 5 | mai, o non salvata |
+| 16 · Montatore | no | 155 | 5 | mai, o non salvata |
 | 16 · Nuovo cliente da MyCity | sì | 106 | 3 | mai, o non salvata |
 | 17 · Analisi del marketplace | no | 21 | 1 | riuscita, 2026-11-25 |
 | 18 · Analisi di un'attività | sì | 21 | 1 | riuscita, 2026-11-25 |
 | 19 · Bozze dei 3 abbonamenti | sì | 12 | — | riuscita, 2026-11-25 |
 | 19 · Consegna la scheda scritta dall'AD | no | 2 | — | riuscita, 2026-11-25 |
 | 20 · Iscrivi il cliente in MyCity | sì | 4 | — | mai, o non salvata |
-| 99 · Avvisi errori | sì | 14 | 1 | riuscita, 2026-11-20 |
+| 99 · Avvisi errori | sì | 11 | — | riuscita, 2026-11-20 |
+| Chiedi all'AD | sì | 10 | 1 | riuscita, 2026-11-25 |
 | MyCity · 11 Foto prodotto | no | 29 | 2 | mai, o non salvata |
 | Prepara foglio (una tantum) | no | 19 | — | riuscita, 2026-11-23 |
+| PROVA · padre di Chiedi all'AD (da togliere) | sì | 4 | — | riuscita, 2026-11-25 |
 
 ## I negozi e gli imprenditori
 
@@ -127,7 +129,7 @@ Fonte: file negozi.json (estratto in sola lettura). Venditori registrati: 4, di 
 
 Il programma parte dagli ingressi veri e segue chi nomina chi. Gli ingressi sono di tre tipi.
 Da fuori: GitHub e il Pannello. A mano: i manuali, le skill e i senior. Solo server: il server del worker.
-Un file che nessuno nomina è orfano. In `cervello/` ci sono 939 file di programma, con 200.475 righe.
+Un file che nessuno nomina è orfano. In `cervello/` ci sono 939 file di programma, con 200.479 righe.
 
 Le prove stanno nella riga del codice che provano: una prova di un file orfano è orfana anche lei.
 
@@ -136,12 +138,12 @@ Le prove stanno nella riga del codice che provano: una prova di un file orfano �
 | Da fuori (GitHub, Pannello, hook) | 320 | 98.178 | 452 | 80.783 |
 | A mano (manuali, skill, senior) | 5 | 1646 | 5 | 1951 |
 | Solo il server, spento per sempre | 2 | 190 | 1 | 226 |
-| Nessuno: orfano | 88 | 7946 | 66 | 9555 |
+| Nessuno: orfano | 88 | 7950 | 66 | 9555 |
 
 Gli orfani più grandi, primi candidati da togliere dopo un controllo uno per uno:
 
 - `cervello/permessi-elenco.mjs`: 533 righe, ultima modifica 2026-11-06
-- `cervello/mappa-azienda.mjs`: 416 righe, ultima modifica 2026-11-25
+- `cervello/mappa-azienda.mjs`: 420 righe, ultima modifica 2026-11-25
 - `cervello/round6-applica.mjs`: 356 righe, ultima modifica 2026-11-06
 - `cervello/ricuci-corsie.mjs`: 334 righe, ultima modifica 2026-11-06
 - `cervello/sintomo.mjs`: 331 righe, ultima modifica 2026-11-06
@@ -172,11 +174,11 @@ Ogni sessione dell'AD rilegge le stesse cose prima di fare qualsiasi lavoro. Sti
 | Regole per tutti (CLAUDE.md) | 17.465 | 4366 |
 | Le descrizioni dei 120 senior, nella lista degli agenti | 61.974 | 15.494 |
 | Manuale dell'AD, una volta per sessione | 23.847 | 5962 |
-| Memoria: DECISIONI.md (7472 righe), se si legge intera | 1.218.127 | 304.532 |
-| Memoria: LAVORO-APERTO.md (226 righe), se si legge intera | 47.280 | 11.820 |
+| Memoria: DECISIONI.md (7518 righe), se si legge intera | 1.227.948 | 306.987 |
+| Memoria: LAVORO-APERTO.md (232 righe), se si legge intera | 49.517 | 12.379 |
 | Memoria: STATO.md (1748 righe), se si legge intera | 177.748 | 44.437 |
 | Memoria: registro-fatti.json (1813 righe), se si legge intera | 136.069 | 34.017 |
-| Memoria: BACHECA-SESSIONI.md (199 righe), se si legge intera | 51.604 | 12.901 |
+| Memoria: BACHECA-SESSIONI.md (201 righe), se si legge intera | 52.303 | 13.076 |
 | Memoria: AZIONI-IN-ATTESA.md (1972 righe), se si legge intera | 154.498 | 38.625 |
 
 ## Cosa non è misurato

@@ -1,13 +1,13 @@
 {
- "generata": "2026-11-25 12:59",
+ "generata": "2026-11-25 13:15",
  "repo": [
   {
    "nome": "ad-mycity",
    "cosa": "la macchina dell'AD: memoria, senior, programmi, Pannello",
    "presente": true,
    "ultimo_commit": "2026-11-25",
-   "titolo": "Prendo main con la #995 (cancello di nuovo verde); nel registro della radiografia tengo le",
-   "file": 4198
+   "titolo": "Riguardato il programma della mappa con la lente del rischio dopo le ultime modifiche: 0 p",
+   "file": 4199
   },
   {
    "nome": "mycity",
@@ -36,7 +36,7 @@
  ],
  "n8n": {
   "misurato": true,
-  "totali": 45,
+  "totali": 47,
   "archiviati": 19,
   "vivi": [
    {
@@ -124,7 +124,7 @@
     "chiamate_claude": 2,
     "ultima": {
      "stato": "success",
-     "quando": "2026-11-25T11:45:25.134Z"
+     "quando": "2026-11-25T12:15:25.429Z"
     }
    },
    {
@@ -181,7 +181,7 @@
    {
     "nome": "16 · Montatore",
     "acceso": false,
-    "nodi": 151,
+    "nodi": 155,
     "chiamate_claude": 5,
     "ultima": null
    },
@@ -242,11 +242,21 @@
    {
     "nome": "99 · Avvisi errori",
     "acceso": true,
-    "nodi": 14,
-    "chiamate_claude": 1,
+    "nodi": 11,
+    "chiamate_claude": 0,
     "ultima": {
      "stato": "success",
      "quando": "2026-11-20T11:26:11.808Z"
+    }
+   },
+   {
+    "nome": "Chiedi all'AD",
+    "acceso": true,
+    "nodi": 10,
+    "chiamate_claude": 1,
+    "ultima": {
+     "stato": "success",
+     "quando": "2026-11-25T12:12:18.747Z"
     }
    },
    {
@@ -264,6 +274,16 @@
     "ultima": {
      "stato": "success",
      "quando": "2026-11-23T01:34:17.759Z"
+    }
+   },
+   {
+    "nome": "PROVA · padre di Chiedi all'AD (da togliere)",
+    "acceso": true,
+    "nodi": 4,
+    "chiamate_claude": 0,
+    "ultima": {
+     "stato": "success",
+     "quando": "2026-11-25T12:12:18.652Z"
     }
    }
   ]
@@ -318,13 +338,13 @@
   "memoria": [
    {
     "file": "DECISIONI.md",
-    "byte": 1218127,
-    "righe": 7472
+    "byte": 1227948,
+    "righe": 7518
    },
    {
     "file": "LAVORO-APERTO.md",
-    "byte": 47280,
-    "righe": 226
+    "byte": 49517,
+    "righe": 232
    },
    {
     "file": "STATO.md",
@@ -338,8 +358,8 @@
    },
    {
     "file": "BACHECA-SESSIONI.md",
-    "byte": 51604,
-    "righe": 199
+    "byte": 52303,
+    "righe": 201
    },
    {
     "file": "AZIONI-IN-ATTESA.md",
@@ -383,7 +403,7 @@
    "orfano": {
     "programmi": {
      "file": 88,
-     "righe": 7946
+     "righe": 7950
     },
     "prove": {
      "file": 66,
@@ -392,7 +412,7 @@
    },
    "totale": {
     "file": 939,
-    "righe": 200475
+    "righe": 200479
    }
   },
   "voci": [
@@ -1882,7 +1902,7 @@
    },
    {
     "file": "cervello/mappa-azienda.mjs",
-    "righe": 416,
+    "righe": 420,
     "prova": false,
     "categoria": "orfano",
     "ultima_modifica": "2026-11-25"
