@@ -50,14 +50,15 @@ Per esempio: un cliente la cui scheda viene cancellata per sbaglio, prima poteva
 - **Colore:** 🔴 (migrazione sul database di produzione)
 - **Reparto:** security
 - **Dettagli tecnici:** https://github.com/NicolaeRotaru/mycity/pull/328, ramo `claude/il-profilo-lo-crea-solo-la-registrazione`. Migrazione `migrations/862_il_profilo_lo_crea_solo_la_registrazione.sql`: `DROP POLICY "Profile is created on signup"` + `REVOKE INSERT ON public.profiles FROM anon, authenticated`. Prova `tests/sql/rls/il-profilo-lo-crea-solo-la-registrazione.test.sql` (senza 862: 4 rossi su 8; con 862: 8 verdi). Controllo in produzione del 25/11 16:10: `profiles` e `handle_new_user()` di `postgres`, INSERT diretto del proprietario, `service_role` con INSERT: la registrazione non si ferma.
-- **Verifica dopo:** `select count(*) from pg_policies where schemaname='public' and tablename='profiles' and cmd='INSERT'` → 0; `has_table_privilege('authenticated','public.profiles','INSERT')` → false.
+- **Verifica dopo, prima prova:** `select count(*) from pg_policies where schemaname='public' and tablename='profiles' and cmd='INSERT'` deve dare 0.
+- **Verifica dopo, seconda prova:** `has_table_privilege('authenticated','public.profiles','INSERT')` deve dare false.
 
 ### 🟡 #263 — Genera la chiave della routine «Chiedi all'AD» e scegli il modello · ⏳ accodata 2026-11-25 13:35 · @builder-automazioni
 
 **In parole semplici.** La routine «Chiedi all'AD» fa fare all'AD, col piano Max, i lavori di n8n che prima pagavano l'API di Claude. Esiste e funziona: oggi alle 12:35 ha risposto a n8n in 31 secondi. n8n però non può ancora chiamarla, perché manca la sua chiave. La chiave la può creare solo tu.
 Esempio vero: il flusso 04 scrive le didascalie dei post. Oggi è collegato alla routine, ma senza chiave non scrive niente.
 
-**Cosa cambia per te.** Con la chiave i testi dei post, il controllo finale prima di pubblicare e la scelta delle foto tornano a funzionare, sul piano Max e senza spese a consumo.
+**Cosa cambia per te.** Con la chiave tornano a funzionare tre cose: i testi dei post, il controllo finale prima di pubblicare e la scelta delle foto. Lavorano sul piano Max, senza spese a consumo.
 
 **Cosa devi fare tu.**
 - Apri claude.ai/code/routines, poi «Chiedi all'AD» → Edit → Trigger → API → Generate token. La chiave si vede una volta sola.
@@ -74,7 +75,7 @@ Esempio vero: il flusso 04 scrive le didascalie dei post. Oggi è collegato alla
 **Cosa non ho verificato.** Una corsa con un lavoro vero non è ancora partita: il sotto-flusso lo avviano solo gli altri flussi.
 
 Cosa cambia: i lavori di n8n con l'IA passano sul piano Max invece dell'API a pagamento, e il flusso dei testi riparte.
-Se va bene: l'AD accende il sotto-flusso in modalità vera e prova un giro intero dei testi.
+Se va bene: si prova un giro intero dei testi, dall'inizio alla fine.
 
 ---
 ### 🟡 #262 — Guarda la radiografia a onde e dimmi due scelte prima della prima radiografia · ⏳ accodata 2026-11-24 21:58 · @ad
