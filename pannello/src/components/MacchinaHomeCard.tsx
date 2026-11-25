@@ -1,5 +1,6 @@
 "use client";
 
+import { jsonCondiviso } from "@/lib/json-condiviso";
 import { useCallback, useEffect, useState } from "react";
 import { Activity, ChevronDown, HeartPulse } from "lucide-react";
 import { istante } from "@/lib/format";
@@ -62,7 +63,8 @@ export default function MacchinaHomeCard() {
     fetch("/api/diagnosi", { cache: "no-store" }).then((r) => r.json()).then(setDiag).catch(() => {});
     fetch("/api/metriche", { cache: "no-store" }).then((r) => r.json()).then(setM).catch(() => {});
     Promise.all([
-      fetch("/api/memoria/auto-radiografia", { cache: "no-store" }).then((r) => r.json()).catch(() => null),
+      // Condivisa con LetteraAdCard, che chiede lo stesso file nello stesso momento (perf home).
+      jsonCondiviso<any>("/api/memoria/auto-radiografia").catch(() => null),
       fetch("/api/memoria/auto-coscienza", { cache: "no-store" }).then((r) => r.json()).catch(() => null),
       fetch("/api/memoria/radiografia-marketplace", { cache: "no-store" }).then((r) => r.json()).catch(() => null),
     ]).then(([rad, ac, sito]) => {

@@ -549,3 +549,16 @@ body {
 .dark .border-brand\/30 {
   border-color: rgba(224, 172, 154, 0.22) !important;
 }
+
+/* Banner demo disegnato dal server prima di sapere se la demo è accesa (DemoBanner.tsx): ne
+   mostra una sola versione. La classe `demo-on` la mette lo script in testa a <body> (layout.tsx)
+   leggendo il cookie `mycity_demo`, prima del primo disegno: niente salto quando arriva /api/demo. */
+.demo-solo-on {
+  display: none;
+}
+html.demo-on .demo-solo-on {
+  display: block;
+}
+html.demo-on .demo-solo-off {
+  display: none;
+}

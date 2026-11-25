@@ -7,6 +7,7 @@ reparto: onboarding-negozi
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-11-25 16:19 · Nicola: «inscrivi la ragazzetta, Piacenza» — iscrizione in MyCity col flusso 20 di n8n · V5 C5 A5 K4 I4 M4 E4 (media 4.43) · atteso La Ragazzetta in MyCity non approvata, fuori vetrina, col link, avviso a Nicola → reale risposta 201, profilo b8d328ab non approvato, accesso bloccato, 1 link, Telegram consegnato; indirizzo non trovato sul web · #iscrizione #n8n #flusso20
 - 2026-11-25 00:27 · Modulo di iscrizione /sell accorciato al minimo per riconoscere l'attività (richiesta di Nicola, 24/11) · V4 C5 A4 K4 I3 M4 E3 (media 3.86) · atteso un'attività si iscrive in pochi minuti senza perdere dati → reale fatto sul ramo, da unire; freno sui dati del titolare da confermare · #iscrizione #modulo-corto
 - 2026-07-14 02:47 · Supervisione 14/7 — 494 autofill · completezza:5 prontezza:5 reversibilita:5 · atteso 2 proposte batch in coda → reale 2 proposte accodate condition+unit · #supervisione
 - 2026-07-01 01:05 · Nicola annuncia batch negozi **6/7** — presidio VP 3/7 rimandato · lezione: quando Nicola entra in modalità inserimento, preparare checklist per negozio (catalogo, payout, foto, test ordine) e chiedere subito nomi/quantità — non spingere eventi paralleli · #onboarding #batch #priorita

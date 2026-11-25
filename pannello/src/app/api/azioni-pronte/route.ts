@@ -267,7 +267,7 @@ export async function POST(req: Request) {
   const svolgimento = await attoUnaVoltaSola({
     letture: [{ nome: "lo stato salvato delle azioni", vivo: tabella }],
     prenota: () => prenotaAzione(id, "nicola"),
-    atto: () => eseguiAzione({ titolo: azione.titolo, canale: azione.canale, destinatario: azione.destinatario, testo: azione.testo }),
+    atto: () => eseguiAzione({ id, titolo: azione.titolo, canale: azione.canale, destinatario: azione.destinatario, testo: azione.testo, livello: azione.livello, firmataDa: "nicola" }),
     registra: async (esito) => [
       // Il sigillo per primo: dichiara che l'atto È avvenuto anche se le due scritture qui sotto
       // falliscono. Senza, un atto eseguito con lo stato non salvato tornerebbe eseguibile appena

@@ -1,5 +1,7 @@
 "use client";
 
+import { importConRiprova, ePezzoMancante } from "@/lib/import-con-riprova";
+import MarkdownPigro from "@/components/MarkdownPigro";
 import { useState, useRef, useEffect, useCallback, useMemo, memo, Component, Fragment, type ReactNode } from "react";
 import {
   Send,
@@ -100,22 +102,10 @@ import {
   LineChart,
   Telescope,
 } from "lucide-react";
-import ReactMarkdown, { type Components } from "react-markdown";
-import remarkGfm from "remark-gfm";
-import remarkBreaks from "remark-breaks";
-import Memoria from "@/components/aree/Memoria";
-import RadiografiaMacchinaArea from "@/components/aree/RadiografiaMacchinaArea";
-import SaluteSitoArea from "@/components/aree/SaluteSitoArea";
-import AutoCoscienzaArea from "@/components/aree/AutoCoscienzaArea";
-import Lavori from "@/components/aree/Lavori";
-import RicercaGlobale from "@/components/RicercaGlobale";
-import Intelligence from "@/components/Intelligence";
-import NumeriArea from "@/components/aree/NumeriArea";
-import NumeriReport from "@/components/NumeriReport";
+import type { Components } from "react-markdown";
+import dynamic from "next/dynamic";
 import Plancia from "@/components/aree/Plancia";
-import AreaModuli from "@/components/aree/AreaModuli";
-import Azioni from "@/components/aree/Azioni";
-import DirettaContenuti from "@/components/DirettaContenuti";
+import RicercaGlobale from "@/components/RicercaGlobale";
 import { vaultToIso } from "@/lib/format";
 import { leggiDato, piuRecente } from "@/lib/verdetto-dato";
 import { hintInvioChat } from "@/lib/chat-input";
@@ -180,6 +170,22 @@ import {
   messaggioAttesaScaduta,
   deveSpostareLaVista,
 } from "@/lib/chat-pending";
+
+// Velocità (perf home, 25/11/2026): le aree che NON sono la home arrivano in pezzi separati, scaricati
+// solo quando le apri. Prima stavano tutte nel pezzo della home (page-*.js, 552 KB prima della
+// compressione): Lighthouse ne contava 105 KB mai usati, e il telefono li doveva leggere e compilare
+// prima di rendere la home toccabile. Il Markdown della chat passa da MarkdownPigro, per lo stesso motivo.
+const Memoria = dynamic(() => importConRiprova(() => import("@/components/aree/Memoria")));
+const RadiografiaMacchinaArea = dynamic(() => importConRiprova(() => import("@/components/aree/RadiografiaMacchinaArea")));
+const SaluteSitoArea = dynamic(() => importConRiprova(() => import("@/components/aree/SaluteSitoArea")));
+const AutoCoscienzaArea = dynamic(() => importConRiprova(() => import("@/components/aree/AutoCoscienzaArea")));
+const Lavori = dynamic(() => importConRiprova(() => import("@/components/aree/Lavori")));
+const Intelligence = dynamic(() => importConRiprova(() => import("@/components/Intelligence")));
+const NumeriArea = dynamic(() => importConRiprova(() => import("@/components/aree/NumeriArea")));
+const NumeriReport = dynamic(() => importConRiprova(() => import("@/components/NumeriReport")));
+const AreaModuli = dynamic(() => importConRiprova(() => import("@/components/aree/AreaModuli")));
+const Azioni = dynamic(() => importConRiprova(() => import("@/components/aree/Azioni")));
+const DirettaContenuti = dynamic(() => importConRiprova(() => import("@/components/DirettaContenuti")));
 
 // Id stabile per un messaggio di chat: la lista dei messaggi usa `m.id` come key React
 // (non più l'indice), così durante il polling/il passaggio "pending → risposta" le bolle
@@ -921,13 +927,15 @@ type Vista =
  * Il testo non è scritto qui: lo decide `messaggioGuasto` in lib/stato-card.ts, dove una prova
  * verifica che una promessa non possa mai essere più larga dell'ambito. Qui restano solo le mani.
  */
-class ReteArea extends Component<{ nome: string; children: ReactNode }, { caduta: boolean }> {
+class ReteArea extends Component<{ nome: string; children: ReactNode }, { caduta: boolean; pezzoMancante: boolean }> {
   constructor(p: { nome: string; children: ReactNode }) {
     super(p);
-    this.state = { caduta: false };
+    this.state = { caduta: false, pezzoMancante: false };
   }
-  static getDerivedStateFromError() {
-    return { caduta: true };
+  static getDerivedStateFromError(errore: unknown) {
+    // Se a cadere è il download del pezzo dell'area (non il suo codice), rimontarla non basta:
+    // `next/dynamic` si ricorda il fallimento. «Riprova» allora ricarica la pagina (vedi sotto).
+    return { caduta: true, pezzoMancante: ePezzoMancante(errore) };
   }
   componentDidCatch(errore: unknown) {
     // In console resta tutto, per quando serve capire davvero.
@@ -942,7 +950,10 @@ class ReteArea extends Component<{ nome: string; children: ReactNode }, { caduta
         <h2 className="t-sez">{g.titolo}</h2>
         <p className="t-corpo">{g.promessa}</p>
         <button
-          onClick={() => this.setState({ caduta: false })}
+          onClick={() => {
+            if (this.state.pezzoMancante) window.location.reload();
+            else this.setState({ caduta: false, pezzoMancante: false });
+          }}
           className="inline-flex items-center gap-1.5 min-h-[44px] bg-brand text-white text-[13px] font-medium px-3.5 py-2 rounded-xl shadow-card hover:bg-brand-dark transition"
         >
           Riprova
@@ -963,9 +974,16 @@ export default function Dashboard() {
   // chiuderla col tasto indietro sarebbe una sorpresa. Va ricalcolato al ridimensionamento: la
   // finestra cambia, e un valore letto una volta sola al mount mentirebbe da lì in poi.
   const [sottoLg, setSottoLg] = useState(false);
+  // Velocità (perf home, 25/11/2026): finché il browser non ha misurato la finestra, la posizione
+  // del menù la decide il CSS (chiuso sotto lg, aperto da lg in su) invece di `navAperta`, che parte
+  // `true`. Prima sul telefono l'HTML del server arrivava col menù APERTO sopra la home e il velo
+  // scuro, che si chiudevano solo dopo il caricamento del JavaScript: un lampo visibile, e il menù
+  // fisso che cambiava altezza era il salto più grande che Lighthouse contava (0,06).
+  const [navMisurata, setNavMisurata] = useState(false);
   useEffect(() => {
     if (typeof window === "undefined") return;
     setNavAperta(window.innerWidth >= 1024);
+    setNavMisurata(true);
     const mq = window.matchMedia("(max-width: 1023.98px)");
     const applica = () => setSottoLg(mq.matches);
     applica();
@@ -3181,7 +3199,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           La sidebar è BLOCCATA: parte sotto la testata (mai coperta) e segue lo scroll
           per tutta la pagina — sticky su desktop, drawer fisso su telefono. */}
       <div className="flex flex-1 min-h-0 items-stretch">
-        {navAperta && (
+        {navAperta && navMisurata && (
           <button
             className={`fixed inset-x-0 bottom-0 top-[var(--altezza-testata)] bg-black/40 lg:hidden ${navSopraWorker ? "z-[55]" : "z-30"}`}
             onClick={() => setNavAperta(false)}
@@ -3193,7 +3211,11 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           className={`fixed lg:sticky top-[var(--altezza-testata)] left-0 h-[calc(100dvh-var(--altezza-testata))] lg:self-start shrink-0 overflow-hidden transition-[width,transform] duration-200 ${
             navSopraWorker ? "z-[60]" : "z-40"
           } ${
-            navAperta ? "w-64 translate-x-0" : "w-64 -translate-x-full lg:w-0"
+            !navMisurata
+              ? "w-64 -translate-x-full lg:translate-x-0"
+              : navAperta
+                ? "w-64 translate-x-0"
+                : "w-64 -translate-x-full lg:w-0"
           }`}
           style={{ background: "var(--bg-surface)", borderRight: "1px solid var(--border)" }}
         >
@@ -3278,6 +3300,14 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         {vista !== "assistente" && datiAggiornatiAt && (
           <div className="-mt-1">
             <Aggiornato dataDato={datiAl} at={datiAggiornatiAt} />
+          </div>
+        )}
+        {/* Velocità (perf home, 25/11/2026): finché il primo dato non arriva, la riga del timbro
+            resta riservata (vuota e invisibile) invece di non esserci. Prima compariva dopo e
+            spingeva giù tutta la home «Cosa conta ora» (uno dei salti che Lighthouse contava). */}
+        {vista !== "assistente" && !datiAggiornatiAt && (
+          <div className="-mt-1" aria-hidden="true">
+            <span className="t-aggiornato invisible">🕗</span>
           </div>
         )}
 
@@ -3972,9 +4002,10 @@ const MD_COMPONENTS: Components = {
 const Markdown = memo(function Markdown({ children }: { children: string }) {
   return (
     <div className="md-chat text-sm leading-relaxed [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">
-      <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]} components={MD_COMPONENTS}>
+      {/* Il Markdown arriva in un pezzo a parte, la prima volta che una bolla è a schermo. */}
+      <MarkdownPigro components={MD_COMPONENTS} aCapo>
         {children}
-      </ReactMarkdown>
+      </MarkdownPigro>
     </div>
   );
 });
