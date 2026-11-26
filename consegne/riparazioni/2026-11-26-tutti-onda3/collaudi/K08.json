@@ -5,8 +5,8 @@
     "R25",
     "R26"
   ],
-  "aggiornato": "2026-11-26 23:55",
-  "finita": false,
+  "aggiornato": "2026-11-26 23:28",
+  "finita": true,
   "voci": [
     {
       "id": "R23-004",
@@ -327,5 +327,24 @@
       "nota": "La parte dichiarata (rotte d'ordine, cassa, scheda pubblica) regge. Nasce un difetto: il bottone «Finito per oggi» (components/seller/StoreHoursEditor.tsx:133-140) non mostra nessuno stato e non ha un modo per annullarlo. Il negoziante che lo preme per sbaglio e salva resta chiuso agli ordini fino a mezzanotte senza saperlo e senza poter riaprire dall'editor; il segno vale solo dopo «Salva» e il bottone non lo dice. Minori: la funzione SQL dei negozi aperti adesso ignora la sospensione (migrations/127, rientra nelle viste dichiarate); SellerOnboardingChecklist.tsx:95 dà gli orari per fatti col solo segno."
     }
   ],
-  "campione": {}
+  "campione": {
+    "R23": {
+      "accettato": true
+    },
+    "R25": {
+      "accettato": true
+    },
+    "R26": {
+      "accettato": false
+    }
+  },
+  "verify_ripetuto": {
+    "R23": {
+      "testa": "c90ef7ffd3195d13f7709f46bfafc90deea35d95",
+      "punta": "7082bc6579ac1781389c9b0ee86537b590f4cc9c",
+      "comando": "npm run verify",
+      "esito": "verde",
+      "nota": "rifatto dal collaudatore sulla testa nuova: typecheck pulito, lint 0 errori (121 avvisi), vitest 2242 file passati 1 saltato, 13719 prove passate 1 saltata"
+    }
+  }
 }
