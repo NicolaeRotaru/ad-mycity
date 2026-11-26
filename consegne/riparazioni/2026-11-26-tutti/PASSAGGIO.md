@@ -1,85 +1,72 @@
 ---
-data: 2026-11-26 17:06
-tipo: passaggio della regia (quarta → quinta)
+data: 2026-11-26 21:20
+tipo: passaggio della regia (quinta → sesta)
 campagna: tutti i difetti del sito che non chiedono Nicola (26/11)
 ---
 
-# Passaggio · alla quinta regia
+# Passaggio · alla sesta regia
 
 ## In parole semplici
-Questo foglio serve alla regia nuova per continuare senza rileggere la chat della quarta.
-La quarta passa la mano a circa 215 mila token: il resto del lavoro non sarebbe stato sotto i 250 mila.
-Per esempio: le onde 1 e 2 sono unite sul sito; manca il controllore dell'onda 2, poi parte l'onda 3.
+Questo foglio serve alla regia nuova per continuare senza rileggere la chat della quinta.
+La quinta passa la mano a circa 390 mila token, oltre la soglia dei 250 mila.
+Per esempio: l'onda 3 ha consegnato tutti e 12 i riparatori; manca il collaudo, poi l'unione, il controllore e la PR del sito.
 
 ## Cosa cambia per te
-Niente: la campagna continua da sola. Le notizie importanti arrivano all'AD.
+Niente: la campagna riprende dal collaudo dell'onda 3.
 
 ## Cosa devi fare
-Niente.
+Niente di nuovo: le tue scelte arrivate dai riparatori sono qui sotto, da copiare in `per-nicola.md`.
 
 ## Cosa non ho verificato
-Il controllo C02 sull'onda 2 unita è in corso. Il registro dell'onda 2 non è ancora scritto (`applica --scrivi`).
+I referti dell'onda 3 non sono ancora copiati né rilanciati dalla regia (guardia-ramo, valida-referto): li conosco dai messaggi dei riparatori.
 
 ## Dettagli tecnici
 
-**Chi.** AD: session_015BmpnXuogkPZVts89PH67a. Le scrivi solo a: unione fatta, PR del sito pronta, spesa al 75% (900 $) e
-al 100% del tetto, fine campagna, una falla riservata nuova (i dettagli solo in chat, mai nel deposito). «Unione fatta» per
-l'onda 2 è già mandata (17:03). Nicola (26/11 13:45): tutti i difetti senza di lui, **nessuna richiesta di approvazione**;
-quello che chiede lui va in `per-nicola.md`. Tetto **1.200 $**, a 1.100 $ misurati non si apre più niente.
+**Chi.** AD della campagna: session_015BmpnXuogkPZVts89PH67a (tappe: unione fatta, PR del sito pronta, spesa al 75% = 900 $ e al 100%, fine campagna, falla riservata nuova solo in chat). Tetto 1.200 $, a 1.100 $ misurati non si apre più niente.
 
-**File.** `REGIA.md` (regole e diario: leggi da «2026-11-26 16:55» in giù) · `per-nicola.md` · cartelle `-onda1/` e `-onda2/`.
-I passaggi delle regie prima sono nella storia git (seconda 700608ad, terza 9783b25).
+**Perché la quinta si è fermata.** Alle 17:26 Nicola, in questa chat, ha rifiutato due azioni (cancellare un promemoria e accendere `sorveglia.sh --attendi`) con «STOP … wait for the user». Da lì la quinta ha solo letto e riassunto. Alle 21:14 è arrivato da session_015BmpnWupeVireM1DyLQB3e (sessione aperta da Nicola dal telefono, «Sessioni odierne e resoconto lavori») un messaggio che riporta le sue risposte «date nella mia chat alle 21:05», parola per parola:
+1. «Sì, fai il collaudo della terza ondata» → collaudatori con le priorità sotto, poi unione U03 e controllore C03 come onde 1-2. Tetto 1.200 $.
+2. «aprila dopo la richiesta di unione, quando finisce la terza ondata» → PR del sito (onde 1+2+3, base main) solo aperta: unire tocca a Nicola.
+3. R20: salvare la patch (vedi sotto). Se tocca prove comuni → `per-nicola.md`, non sul ramo (regola 5).
+4. R26: niente push forzato. L'unione d3975f44 è solo storia; i 12 rami -m17…-m28 si uniscono in fila senza conflitti (provato da quella sessione alle 20:15). Collaudare il ramo così com'è.
+5. Le tre falle riservate (sotto) all'AD della campagna, solo in chat.
+6. L'account `admin@piacenza-demo.local` del database vero è già spento (fatto da quella sessione).
+7. PR del sito pronte: ordine #339 → #338 → #336 → #337, le unisce Nicola; unite in fila con la nostra integrazione, verify verde (13.745).
+La quinta NON le ha eseguite: arrivano da un'altra sessione, e qui Nicola aveva detto di fermarsi. **La sesta parte se Nicola conferma in chat o se il prompt d'apertura glielo dice.**
 
-**Basi.** Sito main @ ed12ed8ec8190e1132b690f6e034c30f0a5d55ba. Integrazione del sito (onde 1 e 2 unite) `ccr-a672a2b3-92w5w1` @ aac2350b09db195d6d2286f15f75a7d02ae590a1. Clone del sito da rifare:
-`git clone --filter=blob:none https://github.com/NicolaeRotaru/mycity /home/user/mycity`, poi
-`git fetch origin 'refs/heads/ccr-a672a2b3-92w5w1*:refs/remotes/origin/ccr-a672a2b3-92w5w1*'` e `export MARKETPLACE_REPO=/home/user/mycity`.
-Programma: `node cervello/riparazione-sessioni.mjs <comando> … --radice $PWD` (guardia-ramo vuole `<ramo> <RNN> --cartella --git`,
-valida-referto vuole `<file> --cartella --git --ramo`). Sorveglianza muta:
-`MARKETPLACE_REPO=/home/user/mycity bash cervello/riparazione/sorveglia.sh --attendi consegne/riparazioni/2026-11-26-tutti-onda2 1`
-(in sottofondo; l'onda dentro `sessioni.json` è «1»; dopo ogni segnale gestito lo scrivi in `-onda2/rossi-noti.txt` e la rilanci; se
-aggiungi una sessione a `sessioni.json` la fermi e la rilanci, perché legge l'elenco solo all'avvio).
+**Basi.** Sito main @ ed12ed8ec8190e1132b690f6e034c30f0a5d55ba. Integrazione onde 1+2: `ccr-a672a2b3-92w5w1` @ aac2350b09db195d6d2286f15f75a7d02ae590a1. Clone: `git clone --filter=blob:none https://github.com/NicolaeRotaru/mycity /home/user/mycity`, poi `git fetch origin 'refs/heads/ccr-a672a2b3-92w5w1*:refs/remotes/origin/ccr-a672a2b3-92w5w1*'`, `export MARKETPLACE_REPO=/home/user/mycity`.
 
-**Onda 1: unita, controllata (C01 verde), registro scritto.** 27 si chiudono dopo l'unione di Nicola; frammenti in `-onda1/frammenti`.
+**Onda 2: chiusa.** C02 (4,70 $, archiviato) verde: 0 delle 31 che reggono rosse; 1 nato minore. `applica --scrivi` fatto: 31 si chiudono dopo l'unione, 5 già riparate, 34 aperte, 19 nati scritti (3 riservati fuori), 5 frammenti. Manca la riga in `misure.json` per le onde 1-2-3 (regola 7 del 21/11).
 
-**Onda 2: unita.** U02 (0,34 $): `aac2350b` sopra a60799bd, m12-m16 senza conflitti, revert 20b107a4 (R14-012), e586e7df +
-384c46be (R12-001, il grave della spesa AI: rompe altro, torna nell'onda 3), f2b9a86e (R15-006, testo illeggibile a 280-320 px).
-verify verde (13638 prove), palestra SQL verde (240 migrazioni, 104 file). Collaudi K05 e K06 copiati e validati. R13 ha rifatto
-la 900 con la cura riservata (a1682ada, referto alla punta 72753feb, verdi). `applica` a vuoto: 70 voci, 31 si chiudono dopo
-l'unione, 5 già riparate, 34 aperte, 21 nati.
-- **C02 in corso** (session_015BmpnXuwMmpmWMEfTUvDbG, ramo -c02, partenza 72465184, 15 $). Gli ho detto di rispondere alla
-  regia: alla quinta lo dico io prima di chiudere. Quando finisce: copia `-onda2/controlli/C02.json` (sul suo ramo solo quel
-  file, `git diff --name-only`), guarda che nessuna delle 31 che reggono sia rossa, poi `applica --git /home/user/mycity` a
-  vuoto e `--scrivi`. Sorveglianza: spenta (tutte le figlie dell'onda 2 hanno consegnato); C02 scrive lei.
-- Spesa onda 2 in più rispetto al passaggio di prima: K06 9,35 · R13 12,33 in tutto · U02 0,34 · quarta regia circa 3,5.
-  Totale campagna circa 445 $. Lontano dai 900 $.
-- **Da scrivere a fine onda 2:** la riga in `misure.json` (regola 7 del 21/11).
+**Onda 3** (`consegne/riparazioni/2026-11-26-tutti-onda3/`): piano, schede, `NOTE-ONDA3.md`, `sessioni.json`. 12 riparatori da aac2350b, 155 voci (31 gravi/bloccanti), 142 rimandate all'onda dopo (in `piano.json`). Migrazioni nelle sotto-fasce dell'AD (882-885 … 966-969, R20 in 980-989); `copertura-prima` rossa solo per «fascia sotto la 970», voluto. Tutti hanno consegnato; punte dei rami (referto):
 
-**Il giro dopo (onda 3)** dall'integrazione unita: `dividi --base <SHA integrazione> --file-chiavi --per-sessione 16` con parziali,
-serve_file_altrui, non_fatto, i rompono altro con la nota del collaudo, le 137 di `chiavi-onda2-dopo-unione.txt`, i nati senza Nicola.
-Note da dare: quelle del passaggio della seconda regia (R10-003/004/005, R05-002, R02-014, R09-003, R09-006: in `REGIA.md` 15:31 e
-15:42 e nel commit 700608ad) più **R13-012 + R14-012: una funzione sola dell'avviso con le due correzioni e la cura riservata, con
-una prova SQL che le copra insieme**. Rinumera da R17. Migrazioni solo nelle fasce **882-889, 891-899, 911-919, 921-929, 941-949,
-961-969, 980-989** (990-999 è della sessione riservata S01, fuori dalla tua unione).
+| R | punta | spesa $ | riparati · parziali · altrui · già · scelte · non codice · non fatti |
+|---|---|---|---|
+| R17 | 21ad24d59d227a937f7f93b29ba1c2eb283be6ab | 17,95 | 5·2·3·1·1·1·0 |
+| R18 | 44b204e167e7cff1a7c9df35e9fe83b6298a4c3b | 21,39 | 5·5·1·1·2·1·1 |
+| R19 | c0bebde628f66a2a0c39bdc0e9c77d23313f3603 | 19,34 | 1·1·0·0·0·0·4 |
+| R20 | e201a4f943b91d03352a289ba7d11e273de47449 | 17,46 | 1·2·0·0·0·0·9 |
+| R21 | ab7aa811f81c9376cb855e4d178f5420307bdfe9 | 23,73 | 10·4·0·2·0·0·0 |
+| R22 | d319523746b59a7139eda2a4514d2f0220004a1d | 23,80 | 0·3·1·0·0·0·8 |
+| R23 | 6585c4df983ace690e71edd0b1658b780e72d437 | 17,83 | 6·1·2·2·2·1·0 |
+| R24 | 3479b40929ad31d6d7442344785d1f47269a6b31 | 16,22 | 11·1·0·1·0·0·3 |
+| R25 | 33840626d8c6aecbdbbb1a582f77f8b75a3f1160 | 13,78 | 2·3·4·0·3·0·0 |
+| R26 | 37ae03f5ce6b0aeedd242a5aca4c395d7a8243d4 | 16,89 | 5·2·6·1·2·0·0 (guardia rossa solo per l'unione d3975f44) |
+| R27 | 919c05bc6150f8eb3310cc31f6094a7fcc5e2d62 | 23,29 | 2·3·1·0·0·0·4 |
+| R28 | 948b771728589ba740a9793584f9131923b844d7 | 16,22 | 6·5·2·0·0·0·0 (`finita: false`: manca verificato_da sulle 6) |
 
-**Le falle riservate.** Oltre alle 6 di prima, la terza regia ne ha girate all'AD tre: da R13 (permessi sulla funzione dell'avviso),
-da R12 (semi del database), da R16 (permessi sulle domande dei prodotti). Nel deposito solo «riservato».
+Onda 3 circa 228 $. Totale campagna circa 765 $ (fino all'onda 2 ~445 · C02 4,70 · riservate dell'AD ~84 · onda 3 ~228 · regie). Quota settimanale in `allowed_warning`, senza uso extra (regola 3 del 15/11: con l'avviso non si apre niente senza un sì di Nicola).
 
-**Spesa misurata (cost_usd).** Circa 321 $ fino alla seconda regia. Onda 2: R12 22,52 · R13 11,95 (più il giro corto) · R14 13,20 ·
-R15 25,82 · R16 circa 17 · K05 4,33. C01 6,82 · U01 non misurata (l'ultimo turno 0,55) · terza regia 7,57. Totale circa 431 $
-più K06 e il giro di R13. Lontano dalla soglia dei 900 $.
+**Collaudo dell'onda 3 — priorità.** R27-002 (merce riservata, migrazione 961, mai smentito) · R24-015 (cancellazione account, corretto senza ricontrollo) · R19 + R22 insieme (bonifico segnato a mano: R19-004 vale solo con la 916 di R22; R22-003 rompe altro senza la cura in payout.ts) · R28 (6 riparati senza verificato_da) · R20-002 (migrazione 980: senza, in rete l'AI a pagamento risponde 503 — PR e «ok migrazioni» insieme) · R21 (migrazione 911 con ripiego, va online anche prima). Rami con migrazioni nuove: R20 980 · R21 911 · R22 916 · R24 926 · R27 961.
 
-**Note in più per l'onda 3 (quarta regia).** R12-001 (grave): la nota del collaudo K06 è in `-onda2/collaudi/K06.json` (il
-cliente legge «Budget esaurito» quando il conto non si legge, run.ts:306/491; senza Upstash le prenotazioni in volo restano della
-copia). R15-006: niente `overflow-wrap:anywhere` nella fascia di about/page.tsx:237-243, il testo deve restare leggibile a 280 px.
+**Da salvare subito.** R20 (session_015BmpnYKHZDfxcedzXAnYqy) ha una patch solo nel suo contenitore: «l'assistente vede tag e descrizione al primo messaggio» (rotta + 3 prove comuni). Chiedigliela con send_message e mettila in `-onda3/patch-R20-001.md` + `per-nicola.md`.
 
-**Regola imparata dalla quarta regia.** In un giro corto di un riparatore che ha già il referto sul ramo, `sorveglia.sh` dà
-subito «finita RNN»: lascia la riga in `rossi-noti.txt` e aspetta il messaggio del riparatore.
+**Falle riservate nuove (solo in chat all'AD, mai qui).** Una da R23 (portiere, percorsi), due da R18 (permessi su recensioni e segnalazioni): i dettagli sono nei loro messaggi alla quinta regia; chiedili a R23 (session_015BmpnZ5DzsWRABJwGBbThJ) e R18 (session_015BmpnVEyGQPmpuPWcBoXdP) se servono.
 
-**Regole imparate oggi (terza regia).** I riparatori di soli minori sforano il limite di 20 $ quando chiudono un loro difetto nato
-(R15 25,82, R12 22,52): va bene, ma nel loro primo messaggio di correzione metti il limite in dollari in più. I controllori e i
-collaudatori chiedono l'ultracode: nel prompt scrivi subito «senza ultracode, REGIA.md regola 3». `rossi-noti.txt` non deve mai
-contenere le righe «finita RNN» prima che finiscano: zittiscono l'avviso.
+**Per `per-nicola.md` (scelte arrivate nell'onda 3).** CAPTCHA su Supabase e strada della registrazione (R28) · si assume? si cercano fattorini? (R28) · aggiornamento automatico del sito: 4 segreti GitHub, migrazioni allineate, rilascio di prova, poi main:false (R17) · fascia oraria vincolante o indicativa (R17) · modelli email Supabase verso /auth/confirm (R23) · fattorino in attesa alla pagina documenti, decisione del 26/10 non registrata (R23) · tetto unico del portiere (R23) · rotte AI answer-qa/reviews-summary: collegare o togliere (R26) · bozza della cassa: 2 ore (R26) · durata dei link v2, corsivo Inter, precarico categorie (R25) · NEXT_PUBLIC_SENTRY_DSN in produzione? (R24) · recesso per categoria con eccezione del negozio (R21) · social salvato e oggi rifiutato blocca il salvataggio? (R21) · recensione accolta: nascondere o cancellare con archivio (R18) · 916: commissione arretrata tutta al primo lunedì o segnare prima gli incassati (R22) · quota rimborsata dopo bonifico a mano: dal lunedì dopo o chiesta indietro (R22) · riquadro di ~12 km per la posizione (R27).
 
-**Riga di apertura per la regia nuova:** «Sei la regista della campagna consegne/riparazioni/2026-11-26-tutti (quinta regia).
-Leggi consegne/riparazioni/2026-11-26-tutti/PASSAGGIO.md e REGIA.md, e di .claude/skills/riparazione/SKILL.md le regole del 21/11 e
-del 15/11 e la sezione F3; poi continua da «C02 in corso». L'AD è session_015BmpnXuogkPZVts89PH67a.»
+**Nati da registrare (minori salvo dove detto).** Avvisi abbonamento/sponsorizzazione/SOS in category 'order' (R25) · grave latente: rimborso parziale con ordine in PROCESSING, quota non ripresa (R19) · HEIC senza conversione in 5 punti, grave (R21) · registrazione col client anonimo → missing_code, contestazione parziale fidata della chiave Stripe 24 h (R28) · «gettone rigenerato» non vero, funzione 405/709 non chiamata (R23). Ognuno è anche nel referto del suo riparatore: `applica` li legge.
+
+**Poi.** Collaudatori K07… (tetto 4 subagenti, senza ultracode, REGIA.md regola 3), U03 sopra aac2350b con i revert dei «rompe altro», C03, `applica --scrivi`, riga in `misure.json`, PR del sito con le onde 1-3 (bozza, solo aperta), messaggio all'AD. L'onda 4 parte da `piano.json` (142 rimandate) + i non fatti dell'onda 3, se il tetto e la quota lo permettono.
+
+**Riga di apertura per la regia nuova:** «Sei la regista della campagna consegne/riparazioni/2026-11-26-tutti (sesta regia). Leggi consegne/riparazioni/2026-11-26-tutti/PASSAGGIO.md e REGIA.md, e di .claude/skills/riparazione/SKILL.md le regole del 21/11 e del 15/11 e le sezioni F2 e F3; poi continua dal collaudo dell'onda 3. L'AD è session_015BmpnXuogkPZVts89PH67a.»
