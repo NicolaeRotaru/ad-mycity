@@ -9,7 +9,8 @@ import { cercaOsm } from '../../../lib/osm.ts';
 import { misuraSito, indovinaSito, NON_E_UN_SITO } from '../../../lib/sito.ts';
 import { primaScheda } from '../../../lib/scheda.ts';
 import { COMPITO, SCHEMA, FLUSSO, datiPerAd } from '../../../lib/compito.ts';
-import { avviaLavoro } from '../../../lib/n8n.ts';
+import { avviaLavoro, chiediVenditori } from '../../../lib/n8n.ts';
+import { venditoreDa } from '../../../lib/chi.ts';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -23,9 +24,14 @@ const adesso = () => {
 
 export async function POST(req: Request) {
   const inizio = Date.now();
+  const venditore = await venditoreDa(req);
+  if (!venditore) return NextResponse.json({ errore: 'Entra col tuo account.' }, { status: 401 });
   let testo = '';
   try { testo = String((await req.json())?.testo ?? ''); } catch { /* vuoto */ }
-  const letto = await risolviLink(testo);
+  // L'account sospeso da Nicola non fa partire l'AD: lo si controlla mentre si legge il link.
+  const [letto, account] = await Promise.all([risolviLink(testo), chiediVenditori('leggi', { email: venditore })]);
+  const stato = account?.corpo?.trovato ? String(account.corpo.stato || 'attivo') : 'sconosciuto';
+  if (stato !== 'attivo') return NextResponse.json({ errore: stato === 'sconosciuto' ? 'Non riesco a controllare il tuo account: riprova fra un minuto.' : 'Il tuo account è sospeso: chiedi a Nicola.' }, { status: 403 });
   if (letto.errore && !letto.nome && letto.lat === null) return NextResponse.json({ errore: letto.errore }, { status: 422 });
   const citta = cittaDa(letto.indirizzo);
   // La mappa libera e la ricerca del sito (gli indirizzi più probabili) partono insieme: 3-4 secondi in tutto.
@@ -42,7 +48,7 @@ export async function POST(req: Request) {
   if (letto.errore) prima.avvisi.push(letto.errore);
   const lavoro = randomUUID();
   const job = { flusso: FLUSSO, compito: COMPITO, schema: SCHEMA, dati: datiPerAd({ prima, osm, misura, giorno }) };
-  const partito = await avviaLavoro(lavoro, prima.nome, prima, job);
+  const partito = await avviaLavoro(lavoro, venditore, prima.nome, prima, job);
   if (!partito.ok) prima.avvisi.push(`L’AD non è partito: ${partito.errore}. Hai solo la prima scheda; riprova fra poco.`);
   return NextResponse.json({ lavoro: partito.ok ? lavoro : null, scheda: prima, ms: Date.now() - inizio });
 }

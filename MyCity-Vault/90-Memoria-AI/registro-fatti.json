@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-11-26 16:31",
+  "aggiornato": "2026-11-26 20:42",
   "fatti": [
     {
       "id": "ad.uso-e-crediti",
@@ -1985,6 +1985,16 @@
       "valore": "Per ora l’abbonamento si paga in contanti, di persona: il pagamento online sul sito arriva più avanti.",
       "fonte": "Nicola, chat all'AD session_01R8112KveB4Fq8Lg47R6KMu, 26/11/2026: «paga con i contanti per il momento finché non è pronta la piattaforma per i pagamenti». Sul sito l'interruttore è lib/agenzia/pagamento-servizi.ts (spento).",
       "aggiornato": "2026-11-26 16:23",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
+      "id": "agenzia.sito-venditore",
+      "nome": "Il sito del venditore e la scheda del cliente",
+      "valore": "Il sito del venditore (cartella venditore/ del repo ad-mycity, progetto Vercel scheda-venditore): il venditore entra col suo account (email e password; per iscriversi serve il codice d'invito di Nicola), incolla il link di Google Maps dell'attività, preme Analizza e riceve la scheda del cliente. La prima parte arriva in pochi secondi dal programma; ricerca e giudizio li fa l'AD col piano Max (flussi n8n 14, 14b, 14c e 90 · Chiedi all'AD), circa 40 secondi. La proposta per il titolare non sta nel sito: tutto quello che serve al titolare va nel preventivo.",
+      "fonte": "Nicola in chat all'AD, 26/11/2026 verso le 19:00 («aprire su Vercel questo nuovo sito… pulsante Analizza… scheda del cliente… velocissima»), alle 20:30 («la proposta per il cliente non serve più, verrà messa dentro il preventivo») e alle 20:35 («ogni venditore ha il suo account, con email e password»)",
+      "aggiornato": "2026-11-26 20:42",
       "storia": [],
       "caccia": [],
       "esenzioni": []

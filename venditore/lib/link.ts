@@ -33,17 +33,50 @@ const numero = (s: string | undefined) => {
 const coordinateValide = (lat: number | null, lon: number | null) =>
   lat !== null && lon !== null && Math.abs(lat) <= 90 && Math.abs(lon) <= 180 && !(lat === 0 && lon === 0);
 
-/** «Nome, Via Roma 3, 29121 Piacenza PC» → nome e indirizzo. Un testo senza via né numeri resta tutto nome. */
+/** I comuni della provincia di Piacenza più probabili: un nome che finisce con uno di questi ha la città dentro. */
+export const COMUNI = ['Piacenza', "Fiorenzuola d'Arda", 'Fiorenzuola', 'Castel San Giovanni', 'Rottofreno', 'Podenzano', 'Pontenure', 'Gossolengo',
+  'Gragnano Trebbiense', 'Calendasco', 'Caorso', 'Cortemaggiore', 'Carpaneto Piacentino', 'Borgonovo Val Tidone', 'Bobbio', 'Rivergaro',
+  'San Giorgio Piacentino', "Monticelli d'Ongina", "Castell'Arquato", "Lugagnano Val d'Arda", 'Vigolzone', 'Agazzano', "Ponte dell'Olio", 'Sarmato', 'Alseno'];
+const comuneEsatto = (t: string) => COMUNI.find((c) => c.toLowerCase() === t.trim().toLowerCase().replace(/\s+(pc|italia|italy)$/i, '')) ?? null;
+
+/** Coordinate scritte nel testo: «45.05, 9.69», «45.0526,+9.6930» o in gradi «45°03'09.0"N 9°41'29.0"E». */
+export function coordinateDaTesto(t: string): { lat: number; lon: number } | null {
+  const s = t.trim().replace(/\+/g, ' ');
+  const dec = s.match(/^(-?\d{1,2}(?:\.\d+)?)\s*,\s*(-?\d{1,3}(?:\.\d+)?)$/);
+  if (dec) return coordinateValide(Number(dec[1]), Number(dec[2])) ? { lat: Number(dec[1]), lon: Number(dec[2]) } : null;
+  const g = s.match(/^(\d{1,2})°\s*(\d{1,2})['’′]\s*(\d{1,2}(?:[.,]\d+)?)["”″]?\s*([NS])\s*,?\s*(\d{1,3})°\s*(\d{1,2})['’′]\s*(\d{1,2}(?:[.,]\d+)?)["”″]?\s*([EOW])$/i);
+  if (!g) return null;
+  const gradi = (d: string, m: string, x: string) => Number(d) + Number(m) / 60 + Number(x.replace(',', '.')) / 3600;
+  const lat = gradi(g[1], g[2], g[3]) * (g[4].toUpperCase() === 'S' ? -1 : 1);
+  const lon = gradi(g[5], g[6], g[7]) * (g[8].toUpperCase() === 'W' ? -1 : 1);
+  return coordinateValide(lat, lon) ? { lat: Math.round(lat * 1e6) / 1e6, lon: Math.round(lon * 1e6) / 1e6 } : null;
+}
+
+/**
+ * «Nome, Via Roma 3, 29121 Piacenza PC» → nome e indirizzo. Un testo senza via né numeri resta tutto nome, ma la
+ * città in coda («Bar Roma, Piacenza», «Bar Roma Piacenza») esce dal nome e diventa l'indirizzo.
+ */
 export function separaNomeIndirizzo(testo: string): { nome: string | null; indirizzo: string | null } {
   const t = pulisci(testo);
   if (!t) return { nome: null, indirizzo: null };
-  // Un testo che è solo «lat,lon» non è un nome.
-  if (/^-?\d+(\.\d+)?\s*,\s*-?\d+(\.\d+)?$/.test(t)) return { nome: null, indirizzo: null };
+  // Un testo che è solo coordinate non è un nome.
+  if (coordinateDaTesto(t)) return { nome: null, indirizzo: null };
   const parti = t.split(/\s*,\s*/);
-  if (parti.length < 2) return { nome: t, indirizzo: null };
-  const resto = parti.slice(1).join(', ');
-  const sembraIndirizzo = /\d|\b(via|viale|v\.le|piazza|p\.za|piazzale|corso|c\.so|strada|largo|vicolo|borgo|stradone|galleria|località|loc\.)\b/i.test(resto);
-  return sembraIndirizzo ? { nome: parti[0] || null, indirizzo: resto.replace(/,?\s*Ital(ia|y)$/i, '') || null } : { nome: t, indirizzo: null };
+  if (parti.length >= 2) {
+    const resto = parti.slice(1).join(', ');
+    const sembraIndirizzo = /\d|\b(via|viale|v\.le|piazza|p\.za|piazzale|corso|c\.so|strada|largo|vicolo|borgo|stradone|galleria|località|loc\.)\b/i.test(resto);
+    if (sembraIndirizzo) return { nome: parti[0] || null, indirizzo: resto.replace(/,?\s*Ital(ia|y)$/i, '') || null };
+    const comune = comuneEsatto(resto);
+    if (comune && parti[0]) return { nome: parti[0], indirizzo: comune };
+    return { nome: t, indirizzo: null };
+  }
+  // «Bar Roma Piacenza»: la città in coda al nome.
+  for (const c of [...COMUNI].sort((a, b) => b.length - a.length)) {
+    const re = new RegExp(`^(.{3,}?)\\s+${c.replace(/[.*+?^${}()|[\]\\']/g, (x) => (x === "'" ? "['’]" : `\\${x}`))}(?:\\s+pc)?$`, 'i');
+    const m = t.match(re);
+    if (m) return { nome: m[1].trim(), indirizzo: c };
+  }
+  return { nome: t, indirizzo: null };
 }
 
 /** Legge un indirizzo di Google (maps o search) senza aprirlo. */
@@ -58,18 +91,18 @@ export function leggiIndirizzoGoogle(indirizzo: string): LettoDalLink {
 
   // Il nome: /maps/place/<nome>/… oppure /maps/search/<testo>/…
   const posto = percorso.match(/\/maps\/(?:place|search)\/([^/]+)/);
-  if (posto && !/^@/.test(posto[1])) Object.assign(fuori, separaNomeIndirizzo(decodifica(posto[1])));
+  if (posto && !/^@/.test(posto[1])) {
+    const testoPosto = decodifica(posto[1]);
+    const punto = coordinateDaTesto(testoPosto);
+    if (punto) { fuori.lat = punto.lat; fuori.lon = punto.lon; } else Object.assign(fuori, separaNomeIndirizzo(testoPosto));
+  }
   // Oppure ?q= / ?query= (i link condivisi dall'app del telefono: «Nome, via, CAP città»).
   if (!fuori.nome) {
     const q = u.searchParams.get('q') || u.searchParams.get('query') || '';
     const senzaPrefisso = q.replace(/^place_id:\S+/, '').trim();
     if (senzaPrefisso) {
-      const letto = separaNomeIndirizzo(senzaPrefisso);
-      if (letto.nome) Object.assign(fuori, letto);
-      else {
-        const m = senzaPrefisso.match(/^(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)$/);
-        if (m) { fuori.lat = numero(m[1]); fuori.lon = numero(m[2]); }
-      }
+      const punto = coordinateDaTesto(senzaPrefisso);
+      if (punto) { fuori.lat = punto.lat; fuori.lon = punto.lon; } else Object.assign(fuori, separaNomeIndirizzo(senzaPrefisso));
     }
   }
 
@@ -102,7 +135,7 @@ export async function risolviLink(testo: string, { fetchFn = fetch as Fetch, att
   const t = String(testo ?? '').trim().slice(0, 2000);
   const vuoto: LettoDalLink = { nome: null, indirizzo: null, lat: null, lon: null, idLuogo: null, link: null };
   if (!t) return { ...vuoto, errore: 'La casella è vuota: incolla il link di Google Maps dell’attività.' };
-  const dentro = t.match(/https?:\/\/\S+/)?.[0];
+  const dentro = t.match(/https?:\/\/\S+/i)?.[0];
   if (!dentro) {
     // Niente link: il venditore ha scritto il nome. Va bene lo stesso.
     if (t.length < 3) return { ...vuoto, errore: 'Scrivi almeno il nome dell’attività, oppure incolla il link di Google Maps.' };
@@ -148,6 +181,7 @@ export async function risolviLink(testo: string, { fetchFn = fetch as Fetch, att
 
 /** La città dall'indirizzo («…, 29122 Piacenza PC» → Piacenza); di serie Piacenza. */
 export function cittaDa(indirizzo: string | null) {
-  const m = String(indirizzo ?? '').match(/\b\d{5}\s+([A-Za-zÀ-ÿ' ]+?)(?:\s+[A-Z]{2})?\s*(?:,|$)/);
-  return m?.[1]?.trim() || 'Piacenza';
+  const t = String(indirizzo ?? '');
+  const m = t.match(/\b\d{5}\s+([A-Za-zÀ-ÿ'’ ]+?)(?:\s+[A-Z]{2})?\s*(?:,|$)/);
+  return m?.[1]?.trim() || comuneEsatto(t) || 'Piacenza';
 }

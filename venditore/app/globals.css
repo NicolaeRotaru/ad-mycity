@@ -64,3 +64,10 @@ th{font-size:.74rem;letter-spacing:.07em;text-transform:uppercase;color:var(--te
 .fascia b{font-family:var(--display);font-size:1.3rem}
 .piede{font-size:.8rem;color:var(--tenue);border-top:1px solid var(--riga);padding-top:1rem}
 .salta{position:absolute;left:-999px}.salta:focus{left:1rem;top:1rem;background:var(--carta);padding:.5rem;z-index:9}
+.barra-alta{display:flex;justify-content:space-between;align-items:center;gap:.6rem;flex-wrap:wrap}
+.chi{padding-top:1rem;word-break:break-all}
+.link{font:inherit;color:var(--cotto);background:none;border:0;padding:0;text-decoration:underline;cursor:pointer}
+.schede-accesso{display:flex;gap:.4rem;background:var(--chip);border-radius:12px;padding:.3rem}
+.schede-accesso button{flex:1;font:inherit;font-weight:600;border:0;border-radius:9px;padding:.6rem;background:transparent;color:var(--tenue);cursor:pointer}
+.schede-accesso button.attiva{background:var(--carta);color:var(--inchiostro);box-shadow:0 1px 3px #0001}
+.ultime{align-items:center}

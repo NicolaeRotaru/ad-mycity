@@ -8,7 +8,7 @@ import { STATI, type Scheda as TScheda } from '../lib/scheda.ts';
 const dominio = (u: string) => { try { return new URL(u).hostname.replace(/^www\./, ''); } catch { return u; } };
 
 function Fonte({ url }: { url: string | null }) {
-  if (url && url.startsWith('https://')) return <a className="fonte" href={url} target="_blank" rel="noopener noreferrer">{dominio(url)}</a>;
+  if (url && /^https?:\/\//.test(url)) return <a className="fonte" href={url} target="_blank" rel="noopener noreferrer">{dominio(url)}</a>;
   return <span className="fonte nessuna">nessuna fonte</span>;
 }
 

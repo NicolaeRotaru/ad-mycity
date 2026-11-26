@@ -8,17 +8,19 @@ import Scheda from '../components/Scheda.tsx';
 import type { Scheda as TScheda } from '../lib/scheda.ts';
 
 type Fase = 'pronto' | 'leggo' | 'cerca' | 'fatto' | 'errore';
-type Ultima = { lavoro: string; nome: string; data: string };
+type Ultima = { lavoro: string; nome: string; stato?: string; iniziato?: number | null };
 
 const OGNI_MS = 3000;
 const PAZIENZA_S = 600; // poi si smette di chiedere (la routine aspetta al massimo 15 minuti)
-const CHIAVE = 'scheda-venditore:ultime';
 
-function leggiUltime(): Ultima[] {
-  try { const v = JSON.parse(localStorage.getItem(CHIAVE) || '[]'); return Array.isArray(v) ? v.slice(0, 8) : []; } catch { return []; }
-}
-function salvaUltima(u: Ultima) {
-  try { localStorage.setItem(CHIAVE, JSON.stringify([u, ...leggiUltime().filter((x) => x.lavoro !== u.lavoro)].slice(0, 8))); } catch { /* niente */ }
+/** Le mie ultime schede e chi sono, dal server (le schede stanno nella tabella n8n, legate al mio account). */
+async function chiediLeMie(): Promise<{ email: string | null; schede: Ultima[] }> {
+  try {
+    const r = await fetch('/api/schede', { cache: 'no-store' });
+    if (r.status === 401) { location.href = '/accesso'; return { email: null, schede: [] }; }
+    const d = await r.json();
+    return { email: typeof d.email === 'string' ? d.email : null, schede: Array.isArray(d.schede) ? d.schede.slice(0, 8) : [] };
+  } catch { return { email: null, schede: [] }; }
 }
 
 export default function Pagina() {
@@ -29,6 +31,7 @@ export default function Pagina() {
   const [lavoro, setLavoro] = useState<string | null>(null);
   const [secondi, setSecondi] = useState(0);
   const [ultime, setUltime] = useState<Ultima[]>([]);
+  const [email, setEmail] = useState<string | null>(null);
   const inizio = useRef(0);
   const giro = useRef(0);
 
@@ -36,6 +39,7 @@ export default function Pagina() {
 
   const segui = useCallback((id: string, dalPrincipio: number) => {
     const mio = ++giro.current;
+    let sconosciuti = 0;
     inizio.current = dalPrincipio;
     const chiedi = async () => {
       if (mio !== giro.current) return;
@@ -48,12 +52,13 @@ export default function Pagina() {
         if (d.scheda) setScheda(d.scheda);
         if (d.stato === 'pronta') {
           setFase('fatto');
-          salvaUltima({ lavoro: id, nome: d.scheda?.nome ?? 'Scheda', data: d.scheda?.data ?? '' });
-          setUltime(leggiUltime());
+          chiediLeMie().then((x) => setUltime(x.schede));
           return;
         }
         if (d.stato === 'errore') { setFase('errore'); setErrore(`L’AD non è riuscito a finire: ${d.errore}. La prima scheda resta valida.`); return; }
         if (r.status === 401) { location.href = '/accesso'; return; }
+        // Un lavoro che non c'è (o non è mio) non diventerà mai pronto: tre risposte così e ci si ferma.
+        if (d.stato === 'sconosciuto') { sconosciuti += 1; if (sconosciuti >= 3) { setFase('errore'); setErrore(d.errore ?? 'Questa scheda non si trova.'); return; } }
       } catch { /* rete ballerina: si riprova al prossimo giro */ }
       setTimeout(chiedi, OGNI_MS);
     };
@@ -68,7 +73,7 @@ export default function Pagina() {
   }, [segui]);
 
   useEffect(() => {
-    setUltime(leggiUltime());
+    chiediLeMie().then((x) => { setUltime(x.schede); setEmail(x.email); });
     const id = new URLSearchParams(location.search).get('lavoro');
     if (id && /^[0-9a-f-]{36}$/i.test(id)) riapri(id);
   }, [riapri]);
@@ -100,6 +105,10 @@ export default function Pagina() {
     }
   }
 
+  async function esci() {
+    try { await fetch('/api/esci', { method: 'POST' }); } finally { location.href = '/accesso'; }
+  }
+
   async function incolla() {
     try { const t = await navigator.clipboard.readText(); if (t) setTesto(t.trim()); } catch { /* il telefono non lo permette: si incolla a mano */ }
   }
@@ -111,7 +120,10 @@ export default function Pagina() {
     <main className="pagina">
       <a className="salta" href="#scheda">Vai alla scheda</a>
       <div className="testata">
-        <span className="marchio"><b>MyCity</b> · SDG Agenzia</span>
+        <div className="barra-alta">
+          <span className="marchio"><b>MyCity</b> · SDG Agenzia</span>
+          {email && <span className="nota chi">{email} · <button type="button" className="link" onClick={esci}>Esci</button></span>}
+        </div>
         <h1>Scheda del cliente</h1>
         <p className="nota">Incolla il link di Google Maps dell’attività in cui stai per entrare e premi «Analizza». La prima parte arriva in pochi secondi, la scheda intera in circa un minuto.</p>
       </div>
@@ -127,7 +139,7 @@ export default function Pagina() {
         <p className="nota">Su Google Maps: apri l’attività → «Condividi» → «Copia link». Va bene anche scrivere il nome e la città.</p>
         {errore && <p className="errore" role="alert">{errore}</p>}
         {ultime.length > 0 && fase === 'pronto' && (
-          <div className="ultime" aria-label="Le ultime schede">{ultime.map((u) => <button type="button" key={u.lavoro} onClick={() => riapri(u.lavoro)}>{u.nome}</button>)}</div>
+          <div className="ultime" aria-label="Le tue ultime schede"><span className="nota">Le tue ultime schede:</span>{ultime.map((u) => <button type="button" key={u.lavoro} onClick={() => riapri(u.lavoro)}>{u.nome}</button>)}</div>
         )}
       </form>
 
@@ -144,7 +156,7 @@ export default function Pagina() {
       )}
 
       <div id="scheda">{scheda && <Scheda s={scheda} />}</div>
-      {fase === 'fatto' && lavoro && <p className="nota">Questa scheda si riapre dal link della pagina, anche da un altro telefono del gruppo.</p>}
+      {fase === 'fatto' && lavoro && <p className="nota">La trovi fra «Le tue ultime schede», anche da un altro telefono dove entri col tuo account.</p>}
     </main>
   );
 }
