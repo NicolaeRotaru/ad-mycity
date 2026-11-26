@@ -30,10 +30,11 @@ La pagina dice com'era il lavoro il 31 ottobre alle 01:45. Ogni voce va riletta 
 
 ## 1 · Cose che toccano a te
 
-**Scatti di G: officina 1.5.0 pubblicata; il montatore aspetta il collegamento all'AD (aggiornato 2026-11-25 20:40).** È un lavoro per l'agenzia, non per MyCity.
+**Scatti di G: officina 1.5.0 pubblicata; montatore collegato all'AD e officina 1.6.0 in collaudo (aggiornato 2026-11-26 10:30).** È un lavoro per l'agenzia, non per MyCity.
+- **In corso (26/11, «Vai fai tutto!» di Nicola):** il montatore ora chiede l'IA a «90 · Chiedi all'AD» (niente API a pagamento), si chiama «31 · Montatore», nodi snelliti, caricato spento (commit N8N 661bd8f): collaudo indipendente in corso. Officina 1.6.0 sul ramo (taglio sul battito, verticale che segue il soggetto, stabilizzazione, colori uguali, misura dei reel di riferimento `POST /riferimento`): collaudo indipendente in corso; dopo il verde si pubblica come la 1.5.0.
 - **Fatto:** Nicola ha detto «Fai te!». Officina 1.5.0 in produzione (PR N8N#17, unita alle 20:29): `/salute` dice 1.5.0, `filtri.ok: true` sull'FFmpeg 5.1.9 del server, whisper presente. Idee del workflow 03: strada A, il 16 le legge e non le tocca più.
 - **Allegati di «Chiedi all'AD»:** reggono al terzo collaudo e ora sono su main (dentro la #17, che contiene anche i commit della PR N8N#14: la #14 non serve più). Restano alla regia: Data table «Allegati per l'AD», `--manda` di `allegati.mjs` e `costruisci.mjs`, accendere l'89, regola nella routine, prova vera. Dettagli: `consegne/sdg/2026-11-25-allegati-per-la-regia.md`.
-- **Montatore (16, futuro «31 · Montatore»):** spento su n8n (152 nodi, uguale al ramo). Non si può accendere finché i suoi 5 nodi verso l'API di Claude a pagamento non passano a «90 · Chiedi all'AD» con gli allegati (regola di Nicola del 24/11). È il prossimo lavoro di questa sessione; dopo: nome 31 e snellimento, poi avvisare la sessione «n8n in ordine».
+- **Montatore «31 · Montatore»:** resta spento finché la regia non ha messo in produzione gli allegati (sotto) e il collaudo non è verde. La sessione «n8n in ordine» va avvisata: nome 31 e snellimento fatti (la sua sessione era ferma il 25/11).
 - **Nota:** `/salute` dice `telegram: false`: sul server manca `TELEGRAM_BOT_TOKEN`, quindi la porta Telegram della 1.2.0 (flusso 97) risponde 503. Non dipende da questa pubblicazione.
 - **Tocca a Nicola, quando vuole:**
   1. le pagine 04-07 della moodboard, i codici esatti dei colori e il logo nuovo, e dove va il logo di Scatti di G;
