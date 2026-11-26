@@ -1,10 +1,11 @@
 {
   "collaudatore": "K04",
   "riparatori": [
-    "R01"
+    "R01",
+    "R02"
   ],
-  "aggiornato": "2026-11-26 15:19",
-  "finita": false,
+  "aggiornato": "2026-11-26 15:40",
+  "finita": true,
   "voci": [
     {
       "id": "R01-003",
@@ -50,11 +51,160 @@
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-0f664938 --base 0f6649381d4399b3e0f43443a11d15a73ef06973^ --file .github/workflows/ci.yml --prove tests/unit/riparazione-r01-prove-sul-telefono.test.ts --json"
       },
       "nota": "Un subagente qa con le due lenti, testa fdbbd90c369db7102e564fabb5f5c1347e099c75. Parte fatta vera: mobile-safari è iPhone 14 (isMobile, webkit), 76 prove su 12 file; il lavoro e2e-telefono le lancia (ci.yml:862) e Main lo aspetta (ci.yml:1053); YAML valido, permessi ereditati contents: read, nessun secrets., nessuna collisione di nomi; 142/142 prove che leggono ci.yml verdi; prova del riparatore 3/4 rosse con ci.yml della base. Buchi NON nominati nel cosa_resta: (1) timeout-minutes: 30 (ci.yml:811): se il lavoro sfora o WebKit non si installa (ci.yml:827) l'esito è failure/cancelled, continue-on-error del passo non lo copre, Main diventa rosso e si ferma anche il rilascio (deploy-dopo-ci.yml:228 parte solo con CI success); la durata di 76 prove su WebKit con 1 worker e 2 ritentativi non è misurata; (2) la prova è debole: un mutante con continue-on-error sull'intero lavoro e il lancio di Playwright sostituito da un echo resta 4/4 verde (cerca solo il testo LANCIA_PLAYWRIGHT, riga 32 del test, e non guarda continue-on-error); (3) nessuna prova obbliga a togliere continue-on-error (ci.yml:839) quando lo spec 03 sarà riparato; (4) build e dipendenze di WebKit rifatte a ogni push. Non verificato: WebKit vero (non installabile qui), quindi lo spec 03 rosso sul telefono resta dedotto. Verdetto parziale: la voce resta aperta."
+    },
+    {
+      "id": "R02-001",
+      "chiave": "privacy-legale|il sito non dice chi c'è dietro: niente nome, sede, partita iva né pec, il titolare risulta solo «mycity»",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r02-001 --base f3517e446c755fce99e4daa8a59427fe427b624b^ --file app/privacy/page.tsx --prove tests/unit/riparazione-r02-titolare-pec-informativa.test.tsx --json"
+      },
+      "nota": "Bloccante, legale: un subagente qa con le due lenti, testa 23c3eb6f0a0f0445c93bac67b9a688457d64ba13. Parte fatta vera: con le quattro variabili NEXT_PUBLIC_TITOLARE_* finte informativa, termini, piede e contatti stampano nome, sede, P.IVA e PEC; senza variabili niente dati inventati; PEC vuota o di soli spazi non si stampa; 31 file e 144 prove esistenti verdi. Residuo NON scritto nel cosa_resta: (1) lib/legal/titolare.ts:101-109, l'elenco dei segnaposto non scarta example.com né i vecchi dati inventati citati a :191: con PEC «pec@example.com» o «mycity@pec.it» e sede «Via Roma 1» informativa (app/privacy/page.tsx:76-82) e piede li ripubblicano; (2) lib/email/templates.ts:91-96, il piede di tutte le email porta solo il marchio, nessuna identità del titolare, nemmeno nelle email commerciali (peso legale da sentire con legale-privacy); (3) app/cookies/page.tsx:185, la pagina cookie non dice chi è il titolare. Confermato il residuo dichiarato: titolare.ts:133-134 non filtra NOME uguale al marchio o «Da definire». Verdetto parziale: la voce resta aperta."
+    },
+    {
+      "id": "R02-002",
+      "chiave": "privacy-legale|lo sconto scritto su un evento appare ai clienti come «-20%», ma la cassa non lo applica mai",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "PGHOST=/var/run/postgresql PGUSER=root timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r02-002 --base fab609697038ddebc3318657684d5693cc791cc6^ --file migrations/880_un_evento_non_promette_uno_sconto_che_la_cassa_non_applica.sql --prove tests/sql/rls/riparazione-r02-niente-sconto-sugli-eventi.test.sql --sql k04_r02_002_rimessa --json"
+      },
+      "nota": "Grave, dati e soldi: due subagenti qa, una lente ciascuno, database locali k04_s3_prova e k04_s4_prova, testa 23c3eb6f0a0f0445c93bac67b9a688457d64ba13. chiude_tutta: la 880 azzera e blocca davvero (apply.sh 237/0, prova 5/5; tolto il vincolo 3/5 rosse; simulati eventi con sconto 20/35/0 → 0, rieseguita UPDATE 0, INSERT e UPDATE da service_role respinti con 23514); il campo lo leggono solo app/events/page.tsx:270-274 (badge, già nel cosa_resta), components/home/HomeEvents.tsx:35 (non lo mostra) e app/admin/events/page.tsx:109 (scrive null); nessuno sconto evento in email, push, API, opengraph, JSON-LD, cache del service worker; la cassa non applica mai lo sconto evento, quindi azzerarlo non cambia prezzi. cosa_resta completo. nata_rotta: nessuna scrittura con un numero rimasta, nessuna vista/funzione/RLS sulla colonna, trigger di attività con EXCEPTION, rieseguibile su database pieno, nessun numero doppio nella fascia 870-889, run.sh tutto verde, 21+5 file vitest verdi. Confermato il danno dichiarato al punto 1: il registro attività scrive l'azzeramento come «***» (activity_key_sensibile, migrations/155:68) e non c'è archivio. Verdetto parziale."
+    },
+    {
+      "id": "R02-003",
+      "chiave": "privacy-legale|la consegna è un incasso di mycity, ma per quei soldi non nasce nessun documento fiscale e i termini mandano il cliente a chiedere la fattura al negozio",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r02-003 --base 39cf874a2642d78fd7bada3ca1601e4010aa55ef^ --file app/terms/page.tsx --prove tests/unit/riparazione-r02-termini-chi-documenta-la-consegna.test.tsx --json"
+      },
+      "nota": "Grave: un subagente qa con le due lenti, testa 23c3eb6f0a0f0445c93bac67b9a688457d64ba13. Il §5 cambiato (app/terms/page.tsx:200-208) è vero: la consegna la incassa MyCity (lib/stripe/client.ts:227-229 riga «Consegna MyCity», webhook/ordini.ts:330 delivery_fee_cents a parte, payout.ts:976); nessun altro punto (FAQ, aiuto, pagine ordine) manda il cliente al negozio per la fattura della consegna; nessuna contraddizione con terms:167 e :315; 13 file e 64 prove sui Termini verdi. Debolezza: «rivolgiti a MyCity» senza canale né documento (terms:207-208). Non guardati i modelli delle email. Il documento fiscale resta scelta di Nicola: parziale."
+    },
+    {
+      "id": "R02-006",
+      "chiave": "privacy-legale|il conto fatto prima di accendere le cancellazioni non mostra le foto di consegna che la notte toglierà",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r02-006 --base 1ae51e708012e0ddb29b1da9a2d391e99faad261^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r02-conto-prove-orfane.test.ts --json"
+      },
+      "nota": "Un subagente qa con le due lenti (solo conteggi, nessuna cancellazione), testa 23c3eb6f0a0f0445c93bac67b9a688457d64ba13. Conta senza togliere niente dal calendario a cancellazioni spente, con ?a_mano=1 e con solo_conta (app/api/cron/process-deletions/route.ts:136-139); remove rifiuta sempre (lib/privacy/potature-ritenzione.ts:764-777); il numero arriva in fileDaTogliere e in nonContati (route.ts:154-157). Rischio non bloccante, segnato fra i nuovi difetti: il conto non ha un tetto di tempo (una list per cartella d'ordine, potature-ritenzione.ts:661-672) contro i 300 s della rotta. 44 file e 177 prove verdi."
+    },
+    {
+      "id": "R02-007",
+      "chiave": "privacy-legale|il giro a mano delle cancellazioni non conta le foto di consegna orfane che la notte toglierà",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r02-007 --base cee124c2f03d26a1627b4b2d74975034efb88d9c --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r02-giro-a-mano-e-a-orario-prove-orfane.test.ts,tests/unit/riparazione-r02-conto-prove-orfane.test.ts --json"
+      },
+      "nota": "Stessa funzione e stesso subagente di R02-006. La correzione sta nel commit 1ae51e708012e0ddb29b1da9a2d391e99faad261; il commit della voce (31418c31e2e9852f7bdc25e0c26e6352d8bd3c3d) aggiunge solo la prova: per questo la rimessa usa come base cee124c2f03d26a1627b4b2d74975034efb88d9c, il genitore della correzione, come il riparatore (con C^ la correzione sarebbe già dentro). Giro a mano e a orario: 2 foto contate, 0 tolte."
+    },
+    {
+      "id": "R02-010",
+      "chiave": "privacy-legale|chi segnala un contenuto illecito lasciando l'email non riceve nessuna conferma che la segnalazione è arrivata",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r02-010 --base ac62569ce25abe430d12ba74ca55c52caa9fac09^ --file app/api/segnalazioni/route.ts,components/Segnala.tsx --prove tests/unit/riparazione-r02-segnalazione-ricevuta.test.ts,tests/unit/riparazione-r02-segnalazione-ricevuta-modulo.test.tsx --json"
+      },
+      "nota": "Dati (email a chi segnala): due subagenti qa, una lente ciascuno, testa 23c3eb6f0a0f0445c93bac67b9a688457d64ba13. chiude_tutta: tutti i moduli passano da /api/segnalazioni (components/Segnala.tsx su negozio, prodotto, recensioni, più la pagina admin); con invio spento o fallito la segnalazione resta registrata e il modulo mostra il numero. nata_rotta: oggetto e corpo fissi, numero/tipo/motivo da elenchi chiusi, tutto escapato; nei log solo l'id; invio fallito → 201 con conferma «fallita»; limitatore che non lancia errori; maiuscole, +alias e punti Gmail normalizzati (route.ts:112-120). Minori: il modulo non dice che l'email non è partita (Segnala.tsx:128-131); una ricevuta «rinviata» non viene mai rimandata; nessun tetto globale (segnato fra i nuovi difetti)."
+    },
+    {
+      "id": "R02-013",
+      "chiave": "privacy-legale|la pagina «sono assicurato?» del fattorino parla solo di rc e non nomina l'inail, che è la condizione decisa",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Già riparato prima: un subagente qa con le due lenti. Alla BASE ed12ed8ec8190e1132b690f6e034c30f0a5d55ba app/rider/help/page.tsx:80-83 nomina già la copertura INAIL contro gli infortuni, e il file è identico alla testa 23c3eb6f0a0f0445c93bac67b9a688457d64ba13; tests/unit/minori-s02-aiuto-fattorini.test.tsx verde; nessun'altra pagina dei fattorini risponde a «sono assicurato?». Fuori dalla voce, segnato fra i nuovi difetti: app/faq/page.tsx:201 non nomina l'INAIL."
+    },
+    {
+      "id": "R02-014",
+      "chiave": "privacy-legale|il venditore può rimettere in vendita da solo un prodotto tolto dopo una segnalazione accolta",
+      "verdetto": "rompe_altro",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "PGHOST=/var/run/postgresql PGUSER=root timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r02-014 --base dc4dad457b2647d42012a549d4c9ffe8856a7e13^ --file migrations/881_un_prodotto_tolto_per_segnalazione_non_torna_in_vendita_da_solo.sql --prove tests/sql/rls/riparazione-r02-prodotto-tolto-resta-fuori.test.sql --sql k04_r02_014_rimessa --json"
+      },
+      "nota": "Permessi: due subagenti qa, una lente ciascuno, database locali k04_s5_prova e k04_s6_prova, testa 23c3eb6f0a0f0445c93bac67b9a688457d64ba13; la prova del riparatore è verde 7/7 e la rimessa morde, ma la voce non è chiusa E la correzione rompe un caso accanto. NON CHIUDE (verificato anche da me sul codice): la 881 esenta service_role (migrations/881_…sql:56-57) e le rotte AI del venditore scrivono con la chiave di servizio lo stato chiesto dal venditore — app/api/ai/catalog-apply/route.ts:65 e :164-170, lib/products/aiPatch.ts:1311-1312 (SELLER_STATUSES comprende available), lo stesso in app/api/ai/catalog-apply-bulk/route.ts:127 e :284-288: «pubblica» in chat e il prodotto torna in vetrina (caso SQL A7/H: righe=1); il venditore con la sua sessione cambia l'id e attiva insieme (881:62 guarda NEW.id: A3 righe=1); il trigger è solo BEFORE UPDATE (881:86): una copia INSERT available passa (A4), come la Duplica (app/seller/products/new/page.tsx:129-150, :290-294) e l'import in blocco. Il controllo ⑦ della prova del riparatore certifica come giusta proprio la strada della chiave di servizio. ROMPE: l'uscita «lo staff rimette in vendita» (881:24) non dura — un prodotto rimesso dallo staff (o già in vendita prima della migrazione) con segnalazione accolta, se il venditore fa Disattiva e poi Attiva (app/seller/products/page.tsx:176), riceve 23514 per sempre, e se si esaurisce e torna la merce resta fuori in silenzio (881:70); un'attivazione in blocco con un solo prodotto tolto fallisce intera. Reggono: prezzo e scorte, restore_stock, prodotto pulito o con segnalazione respinta, admin, is_admin() dentro SECURITY DEFINER, search_path fissato, messaggio 23514 leggibile nella pagina."
+    },
+    {
+      "id": "R02-015",
+      "chiave": "privacy-legale|le mappe mandano a openstreetmap e a google la zona di casa del cliente, ma l'informativa nomina openstreetmap solo per cercare gli indirizzi",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r02-015 --base cee124c2f03d26a1627b4b2d74975034efb88d9c^ --file app/privacy/page.tsx --prove tests/unit/riparazione-r02-informativa-mappe.test.tsx --json"
+      },
+      "nota": "Un subagente qa con le due lenti, testa 23c3eb6f0a0f0445c93bac67b9a688457d64ba13. Il testo nuovo corrisponde al codice: tessere da tile.openstreetmap.org (DeliveryMap:115, NearbyStoresMap:73, StoreLocationPicker:107), Nominatim solo dal server (app/api/geocode/route.ts:40, lib/geocodifica.ts:32), icone locali, nessuna CDN; Naviga del fattorino (app/rider/orders/[id]:444-451) e link della vetrina (store-sections/ContactSection.tsx:33) nominati; prove privacy verdi. Il revisore proponeva non_regge per un caso Google non elencato: app/admin/sos/page.tsx:185 apre google.com/maps con la posizione SOS del fattorino, che l'informativa (app/privacy/page.tsx:285) non nomina. Lo giudico fuori dalla voce, che parla della zona di casa del cliente, e lo segno fra i nuovi difetti invece di tenere aperta questa."
+    },
+    {
+      "id": "R02-016",
+      "chiave": "privacy-legale|il modulo di segnalazione non permette di dare il nome di chi segnala né di dichiarare la buona fede",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r02-016 --base b9e4b39841c668e9568b28b9802b01d7d1d11ad9^ --file app/api/segnalazioni/route.ts,components/Segnala.tsx,app/privacy/page.tsx --prove tests/unit/riparazione-r02-segnalazione-nome-buona-fede.test.ts,tests/unit/riparazione-r02-segnalazione-nome-buona-fede-modulo.test.tsx --json"
+      },
+      "nota": "Un subagente qa con le due lenti, testa 23c3eb6f0a0f0445c93bac67b9a688457d64ba13. Nome e dichiarazione arrivano a chi decide (app/admin/segnalazioni/page.tsx:194 mostra dettaglio con gli a capo); il venditore non li legge (lettura solo a chi ha segnalato e all'admin); senza i due campi il testo è identico (route.ts:87); oltre 2000 caratteri → 400 «accorcialo di N»; a capo e caratteri di controllo tolti dal nome. Minori: caratteri invisibili e di direzione (U+202E, U+200B) non tolti (route.ts:74); la frase di buona fede scritta a mano non si distingue dalla casella."
     }
   ],
   "campione": {
     "R01": {
       "accettato": true
+    },
+    "R02": {
+      "accettato": false
     }
   },
   "revert_R01_007": {
@@ -79,7 +229,54 @@
       "file": "tests/e2e/12-la-cassa-dal-carrello-al-pagamento.spec.ts:271 · .github/workflows/ci.yml:591 · .github/workflows/ci.yml:573",
       "descrizione": "Il filtro -g del lavoro e2e-cassa-vera la esclude ed E2E_DATI_DI_PROVA è acceso solo in quel lavoro: la prova esiste ma non la lancia nessuno.",
       "visto_da": "K04, lente chiude_tutta su R01-003"
+    },
+    {
+      "titolo": "la pagina SOS dell'amministratore manda a Google Maps la posizione del fattorino, e l'informativa non lo dice",
+      "dimensione": "privacy-legale",
+      "severita": "minore",
+      "file": "app/admin/sos/page.tsx:185 · app/privacy/page.tsx:285",
+      "descrizione": "Il link apre google.com/maps?q=lat,lng con la posizione SOS; la voce Google Maps dell'informativa scritta da R02-015 elenca solo Naviga e la vetrina.",
+      "visto_da": "K04, lente chiude_tutta su R02-015"
+    },
+    {
+      "titolo": "le FAQ dicono al fattorino che può consegnare appena finita la verifica, senza nominare l'INAIL",
+      "dimensione": "privacy-legale",
+      "severita": "minore",
+      "file": "app/faq/page.tsx:201",
+      "descrizione": "La pagina d'aiuto del fattorino nomina l'INAIL come condizione (app/rider/help/page.tsx:80-83), la FAQ no.",
+      "visto_da": "K04, lenti su R02-013"
+    },
+    {
+      "titolo": "il conto delle foto di consegna da togliere non ha un tetto di tempo e può far scadere la rotta notturna",
+      "dimensione": "deploy-sre",
+      "severita": "minore",
+      "file": "lib/privacy/potature-ritenzione.ts:661-672 · vercel.json:13",
+      "descrizione": "Una list in fila per ogni cartella d'ordine più il giro dei documenti: con circa 2.000 cartelle a 150 ms supera i 300 s, la piattaforma ferma la rotta e il battito manca (falso allarme «fermo»). Stima, non misurata.",
+      "visto_da": "K04, lenti su R02-006"
+    },
+    {
+      "titolo": "le ricevute delle segnalazioni non hanno un tetto globale: un indirizzo IP può farne partire circa 240 al giorno verso indirizzi altrui",
+      "dimensione": "sicurezza-auth",
+      "severita": "minore",
+      "file": "app/api/segnalazioni/route.ts:112-120",
+      "descrizione": "Tetto 3 al giorno per indirizzo e 10 segnalazioni l'ora per IP: il testo è fisso (nessun contenuto dell'estraneo), ma cambiando IP gli indirizzi diventano illimitati; gli alias Yahoo con «-» non sono normalizzati.",
+      "visto_da": "K04, lente nata_rotta su R02-010"
+    },
+    {
+      "titolo": "l'amministratore può ancora scrivere «-20%» nel titolo o nel pulsante di un evento",
+      "dimensione": "privacy-legale",
+      "severita": "minore",
+      "file": "app/admin/events/page.tsx:352-353",
+      "descrizione": "Dopo la 880 lo sconto nel campo è bloccato, ma UPDATE di title e cta_label con «-20%» passa: lo frena solo l'avviso del modulo.",
+      "visto_da": "K04, lente chiude_tutta su R02-002"
     }
   ],
-  "nota": "Ultracode non acceso (regola della regista del 26/11): lavorato senza. 3 subagenti qa (R01-003 da solo; R01-006 una lente ciascuno; R01-006 nata_rotta + R01-008). Nessun database, Supabase, Vercel, Stripe o GitHub veri. R02 arriva dopo: collaudo non finito."
+  "nota": "Ultracode non acceso (regola della regista del 26/11): lavorato senza. 9 subagenti qa in tutto: R01 3 (R01-003 da solo; R01-006 una lente ciascuno; R01-006 nata_rotta + R01-008); R02 6 (R02-001 da solo; R02-003 da solo; R02-002 una lente ciascuno; chiude_tutta di R02-014 e R02-010 con R02-013 e R02-015; nata_rotta di R02-014 e R02-010 con R02-006, R02-007 e R02-016). Doppia lente su R01-006, R02-002, R02-010, R02-014. Nessun database, Supabase, Vercel, Stripe o GitHub veri: Postgres 16 locale, database k04_*.",
+  "controlli_R02": {
+    "testa": "23c3eb6f0a0f0445c93bac67b9a688457d64ba13",
+    "punta": "d80630b8c67bde2acc1dc9a8c10d42fb80223b23",
+    "revert_R02_011": "23c3eb6f0a0f0445c93bac67b9a688457d64ba13 è l'inverso esatto di daecd9af793aa71b0655aec190ce77305186bb08: alla testa tests/unit/riparazione-r02-segnalazione-esito-solo-se-tolto.test.ts (la prova comune che quel commit cambiava) e tests/unit/riparazione-r02-recensione-accolta.test.ts sono identici alla base; app/api/segnalazioni/route.ts differisce dalla base solo per R02-010 e R02-016.",
+    "serve_file_altrui_R02_008": "tests/unit/le-porte-pubbliche-che-scrivono-hanno-un-freno.test.ts, tests/unit/riparazione-r32-newsletter-riscritto-dopo-disiscrizione.test.ts, app/api/newsletter/confirm/route.ts e lib/funzioni-al-lancio.ts identici alla base.",
+    "prove_comuni": "Alla testa nessuna prova esistente è modificata: tutti i file di prova del ramo sono nuovi. Le migrazioni 880 e 881 stanno nella fascia di R02."
+  }
 }
