@@ -5,9 +5,242 @@
     "R08",
     "R04"
   ],
-  "aggiornato": "2026-11-26 15:25",
-  "finita": false,
+  "aggiornato": "2026-11-26 15:58",
+  "finita": true,
   "voci": [
+    {
+      "id": "R10-001",
+      "chiave": "flussi-conversione|chi è amministratore, negozio o fattorino perde il ritorno dopo l'accesso, e col pulsante google il ritorno si perde per tutti",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r10 --base db202f251ca5e2d3709fe75afeb0476df25d80f5^ --file app/sign-in/page.tsx --prove tests/unit/riparazione-r10-ritorno-dopo-l-accesso.test.ts --json"
+      },
+      "altre_rimesse": [
+        {
+          "uscita": 0,
+          "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r10 --base ed12ed8ec8190e1132b690f6e034c30f0a5d55ba --file app/sign-in/page.tsx --prove tests/unit/riparazione-r10-ritorno-dopo-l-accesso.test.ts --json"
+        }
+      ],
+      "nota": "Due lenti (permessi; qa grande ciascuna). nata_rotta: regge — nessuna strada verso l'esterno (35 ritorni ostili su 8 profili restano nel sito), le aree altrui scritte storte le ferma il portiere (middleware.ts:68-71,105), nessun ciclo, 34 file di prove su sign-in verdi (298), tsc pulito. chiude_tutta: PARZIALE, dimostrato con una prova sul banco del riparatore: un AMMINISTRATORE con ritorno verso /seller/orders o /rider perde ancora il ritorno e finisce su /admin (2 rosse), anche se il portiere e le pagine lo lasciano entrare (middleware.ts:68-72 allowed seller+admin e rider+admin, app/seller/layout.tsx:45, app/rider/layout.tsx:13): la correzione tratta quelle aree come «di un altro ruolo» (app/sign-in/page.tsx:63, :273-276) e il commento a :61 dice di seguire ROLE_PROTECTED ma ignora gli elenchi allowed. La voce dice «chi è amministratore … perde il ritorno»: per questo caso resta vero. Parte Google: chiusa sulla base per la pagina di accesso (AuthShell.tsx:154 → auth/callback), ma il pulsante Google della REGISTRAZIONE perde ancora il ritorno per tutti (app/sign-up/page.tsx:367 senza returnTo; prova del collaudatore: /sign-up?returnTo=/checkout → Google → next vuoto, rossa). Il riparatore l'ha portato fra i nuovi difetti; la voce dice «col pulsante Google il ritorno si perde per tutti». Vince il verdetto peggiore delle due lenti."
+    },
+    {
+      "id": "R10-002",
+      "chiave": "flussi-conversione|il copilot del catalogo in blocco dice «rimandalo» per le voci rimaste fuori, ma la scheda non ha un modo per rimandare solo quelle",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r10 --base 9f7bcffe39c11f296ffe08f362c29c058d179c16^ --file components/seller/CatalogCopilot.tsx --prove tests/unit/riparazione-r10-rimanda-le-rimaste.test.ts --json"
+      },
+      "nota": "Due lenti (qa grande). rimaste della rotta app/api/ai/catalog-apply-bulk/route.ts sono gli stessi productId mandati (righe 202, 251, 281, 327), arrivano solo con 200; il rimando passa dalla stessa rotta che legge e scrive solo prodotti del negozio (vincolo seller_id, :139 e :288), le voci scritte non ripartono, doppio clic una richiesta; 429, rete caduta, id estranei o doppioni, 503: comportamento giusto (prova temporanea 5 su 5). Testo coerente col pulsante. 25 file di prove del Copilot verdi (127). Nota minore: ogni rimando consuma una delle 10 chiamate all'ora (:108) e per «non salvato in tempo» rifà il controllo di conformità."
+    },
+    {
+      "id": "R10-003",
+      "chiave": "flussi-conversione|il filtro «prezzo minimo» taglia sul prezzo pieno, non su quello che il cliente paga",
+      "verdetto": "rompe_altro",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r10 --base e39bfa931334c169a107658ca1024d7463b15560^ --file lib/queries/griglia-prodotti.ts --prove tests/unit/riparazione-r10-prezzo-minimo.test.ts --json && timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r10 --base f00538d48a1cf3a39a75abc9ccab88bbc522c88b^ --file migrations/960_il_prezzo_che_si_paga_lo_calcola_il_database.sql --prove tests/sql/rls/riparazione-r10-prezzo-pagato.test.sql --sql k02_r10_rimessa --json"
+      },
+      "altre_rimesse": [
+        {
+          "uscita": 0,
+          "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r10 --base ed12ed8ec8190e1132b690f6e034c30f0a5d55ba --file migrations/960_il_prezzo_che_si_paga_lo_calcola_il_database.sql --prove tests/sql/rls/riparazione-r10-prezzo-pagato.test.sql --sql k02_r10_rimessa --json"
+        },
+        {
+          "uscita": 0,
+          "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r10 --base ed12ed8ec8190e1132b690f6e034c30f0a5d55ba --file lib/queries/griglia-prodotti.ts --prove tests/unit/riparazione-r10-prezzo-minimo.test.ts,tests/unit/riparazione-r10-prezzo-ordine.test.ts,tests/unit/riparazione-r10-riordino-a-blocchi.test.ts --json"
+        }
+      ],
+      "nota": "Due lenti (soldi e dati; qa grande ciascuna). chiude_tutta: la voce è chiusa — il prezzo minimo taglia su prezzo_pagato (griglia-prodotti.ts:190) e il conteggio usa lo stesso filtro (applicaFiltriComuni, :469). Migrazione 960 provata sul Postgres locale: apply.sh 236 su 236, riapplicata due volte con uscita 0, INVOKER/STABLE/search_path fisso, prova SQL 10 su 10, run.sh 99 file verdi, 37-39 file di prove sulle migrazioni verdi, db:types e db:check-drift senza differenze. Permessi: visitatore e cliente vedono lo stesso sconto della griglia (12 € al -25% → 9,00), nessuna fuga di promozioni in bozza o di negozi in demo. Prezzo mostrato = prezzo_pagato: stessa regola di product_active_discounts (709:315), 0 differenze contro la vera discountedUnitCents su casi seminati e su 1.650.000 combinazioni di bordo. ROMPE ALTRO al rilascio, dimostrato da tutte e due le lenti con una prova che imita PostgREST senza la migrazione 960 (errore 42703): lib/queries/griglia-prodotti.ts chiede prezzo_pagato a :190 (filtro), :323 (select) e :328-329 (ordine), e a :426 fa «if (error) throw error» senza ripiego (altre letture dello stesso file ce l'hanno). Se il codice va online prima della 960 vanno in errore ordinare per prezzo e il prezzo minimo su tutte le griglie, e due pagine già all'apertura: /piccoli-prezzi (ordine crescente di default, app/piccoli-prezzi/page.tsx:14) e /regali (filtra sempre col minimo). Sulla base passavano. Il rilascio scritto fa proprio così: vercel.json pubblica main a ogni unione, le migrazioni si applicano a mano dopo l'unione (LAVORO-APERTO, 861 del 25/11). Il riparatore l'ha portato come domanda a Nicola ma non ha messo il ripiego; R08 nella stessa onda l'ha messo (PGRST202). Cura: ripiego su price con 42703, oppure la 960 applicata prima dell'unione. Fuori voce: il prezzo massimo taglia ancora sul pieno (:186), già fra i nuovi difetti del riparatore."
+    },
+    {
+      "id": "R10-004",
+      "chiave": "flussi-conversione|l'ordine «prezzo crescente» ordina sul prezzo pieno, mentre la griglia mostra il prezzo scontato",
+      "verdetto": "rompe_altro",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r10 --base 9c56fe9375e24d7f9b6dee26a8ee1d48817a07fd^ --file lib/queries/griglia-prodotti.ts --prove tests/unit/riparazione-r10-prezzo-ordine.test.ts --json && timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r10 --base 9c56fe9375e24d7f9b6dee26a8ee1d48817a07fd^ --file lib/queries/griglia-prodotti.ts --prove tests/unit/riparazione-r10-riordino-a-blocchi.test.ts --json"
+      },
+      "altre_rimesse": [
+        {
+          "uscita": 0,
+          "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r10 --base ed12ed8ec8190e1132b690f6e034c30f0a5d55ba --file migrations/960_il_prezzo_che_si_paga_lo_calcola_il_database.sql --prove tests/sql/rls/riparazione-r10-prezzo-pagato.test.sql --sql k02_r10_rimessa --json"
+        },
+        {
+          "uscita": 0,
+          "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r10 --base ed12ed8ec8190e1132b690f6e034c30f0a5d55ba --file lib/queries/griglia-prodotti.ts --prove tests/unit/riparazione-r10-prezzo-minimo.test.ts,tests/unit/riparazione-r10-prezzo-ordine.test.ts,tests/unit/riparazione-r10-riordino-a-blocchi.test.ts --json"
+        }
+      ],
+      "nota": "Due lenti (soldi e dati; qa grande ciascuna). chiude_tutta: la voce è chiusa — ordine prezzo_pagato, poi price, poi id (:328-329), ordine totale senza salti fra le pagine; il riordino a blocchi in memoria segue lo stesso ordine (:245-250). Migrazione 960 provata sul Postgres locale: apply.sh 236 su 236, riapplicata due volte con uscita 0, INVOKER/STABLE/search_path fisso, prova SQL 10 su 10, run.sh 99 file verdi, 37-39 file di prove sulle migrazioni verdi, db:types e db:check-drift senza differenze. Permessi: visitatore e cliente vedono lo stesso sconto della griglia (12 € al -25% → 9,00), nessuna fuga di promozioni in bozza o di negozi in demo. Prezzo mostrato = prezzo_pagato: stessa regola di product_active_discounts (709:315), 0 differenze contro la vera discountedUnitCents su casi seminati e su 1.650.000 combinazioni di bordo. ROMPE ALTRO al rilascio, dimostrato da tutte e due le lenti con una prova che imita PostgREST senza la migrazione 960 (errore 42703): lib/queries/griglia-prodotti.ts chiede prezzo_pagato a :190 (filtro), :323 (select) e :328-329 (ordine), e a :426 fa «if (error) throw error» senza ripiego (altre letture dello stesso file ce l'hanno). Se il codice va online prima della 960 vanno in errore ordinare per prezzo e il prezzo minimo su tutte le griglie, e due pagine già all'apertura: /piccoli-prezzi (ordine crescente di default, app/piccoli-prezzi/page.tsx:14) e /regali (filtra sempre col minimo). Sulla base passavano. Il rilascio scritto fa proprio così: vercel.json pubblica main a ogni unione, le migrazioni si applicano a mano dopo l'unione (LAVORO-APERTO, 861 del 25/11). Il riparatore l'ha portato come domanda a Nicola ma non ha messo il ripiego; R08 nella stessa onda l'ha messo (PGRST202). Cura: ripiego su price con 42703, oppure la 960 applicata prima dell'unione. Nota minore: l'ordine dipende dall'ora (una promozione che inizia fra due pagine può far saltare un prodotto; i doppioni li toglie unisciPagine)."
+    },
+    {
+      "id": "R10-005",
+      "chiave": "frontend-ux|ordinando per prezzo, le griglie guardano il prezzo pieno e non quello che si paga",
+      "verdetto": "rompe_altro",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r10 --base 9c56fe9375e24d7f9b6dee26a8ee1d48817a07fd^ --file lib/queries/griglia-prodotti.ts --prove tests/unit/riparazione-r10-prezzo-ordine.test.ts --json && timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r10 --base 9c56fe9375e24d7f9b6dee26a8ee1d48817a07fd^ --file lib/queries/griglia-prodotti.ts --prove tests/unit/riparazione-r10-riordino-a-blocchi.test.ts --json"
+      },
+      "altre_rimesse": [
+        {
+          "uscita": 0,
+          "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r10 --base ed12ed8ec8190e1132b690f6e034c30f0a5d55ba --file migrations/960_il_prezzo_che_si_paga_lo_calcola_il_database.sql --prove tests/sql/rls/riparazione-r10-prezzo-pagato.test.sql --sql k02_r10_rimessa --json"
+        },
+        {
+          "uscita": 0,
+          "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r10 --base ed12ed8ec8190e1132b690f6e034c30f0a5d55ba --file lib/queries/griglia-prodotti.ts --prove tests/unit/riparazione-r10-prezzo-minimo.test.ts,tests/unit/riparazione-r10-prezzo-ordine.test.ts,tests/unit/riparazione-r10-riordino-a-blocchi.test.ts --json"
+        }
+      ],
+      "nota": "Stesso commit di R10-004. Due lenti (soldi e dati). chiude_tutta: nessuna griglia dimenticata — ricerca, categoria, vetrina del negozio, piccoli-prezzi, più venduti, regali e novità passano da ProductGrid → leggiProdottiDellaGriglia; /promozioni ordina già in memoria sul prezzo mostrato (app/promozioni/page.tsx:67); nessun altro order('price') né ordinamento in memoria su price. Migrazione 960 provata sul Postgres locale: apply.sh 236 su 236, riapplicata due volte con uscita 0, INVOKER/STABLE/search_path fisso, prova SQL 10 su 10, run.sh 99 file verdi, 37-39 file di prove sulle migrazioni verdi, db:types e db:check-drift senza differenze. Permessi: visitatore e cliente vedono lo stesso sconto della griglia (12 € al -25% → 9,00), nessuna fuga di promozioni in bozza o di negozi in demo. Prezzo mostrato = prezzo_pagato: stessa regola di product_active_discounts (709:315), 0 differenze contro la vera discountedUnitCents su casi seminati e su 1.650.000 combinazioni di bordo. ROMPE ALTRO al rilascio, dimostrato da tutte e due le lenti con una prova che imita PostgREST senza la migrazione 960 (errore 42703): lib/queries/griglia-prodotti.ts chiede prezzo_pagato a :190 (filtro), :323 (select) e :328-329 (ordine), e a :426 fa «if (error) throw error» senza ripiego (altre letture dello stesso file ce l'hanno). Se il codice va online prima della 960 vanno in errore ordinare per prezzo e il prezzo minimo su tutte le griglie, e due pagine già all'apertura: /piccoli-prezzi (ordine crescente di default, app/piccoli-prezzi/page.tsx:14) e /regali (filtra sempre col minimo). Sulla base passavano. Il rilascio scritto fa proprio così: vercel.json pubblica main a ogni unione, le migrazioni si applicano a mano dopo l'unione (LAVORO-APERTO, 861 del 25/11). Il riparatore l'ha portato come domanda a Nicola ma non ha messo il ripiego; R08 nella stessa onda l'ha messo (PGRST202). Cura: ripiego su price con 42703, oppure la 960 applicata prima dell'unione. "
+    },
+    {
+      "id": "R10-006",
+      "chiave": "microcopy|la schermata di accesso dice ancora «100% commercianti locali verificati»",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r10 --base 21efdc86da166beb8053773b5faa446d01f106e2^ --file components/ui/AuthShell.tsx --prove tests/unit/riparazione-r10-testo-accesso.test.ts --json"
+      },
+      "nota": "Due lenti (qa grande). La promessa «100% … verificati» non resta in accesso, registrazione, reset, conferma, accetta-condizioni, metadati né traduzioni (it, en); fuori resta solo l'adesivo «100% locale» in components/home/HeroStoreCard.tsx:274, che non è la stessa promessa. La prova cade sul testo vecchio (2 su 2 rosse sulla base); 21 file di prove delle schermate di accesso verdi (156), tsc pulito. È una ricerca di parole nel sorgente: ammessa perché la voce è minore."
+    },
+    {
+      "id": "R08-001",
+      "chiave": "api-backend|la chiave di cifratura del link di disiscrizione si ricava con lo stesso calcolo usato per firmare i link vecchi",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r08 --base 48d9a8aef942056d72e6782508251ad57a77add9^ --file lib/email/unsubscribe.ts --prove tests/unit/riparazione-r08-chiave-disiscrizione.test.ts --json"
+      },
+      "altre_rimesse": [
+        {
+          "uscita": 0,
+          "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r08 --base 5be18c849c97eb925e4d72cf3a1f4050e04b3932^ --file lib/email/unsubscribe.ts --prove tests/unit/riparazione-r08-disiscrizione-senza-segreto.test.ts --json"
+        },
+        {
+          "uscita": 0,
+          "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r08 --base ed12ed8ec8190e1132b690f6e034c30f0a5d55ba --file lib/email/unsubscribe.ts --prove tests/unit/riparazione-r08-chiave-disiscrizione.test.ts,tests/unit/riparazione-r08-disiscrizione-senza-segreto.test.ts --json"
+        }
+      ],
+      "nota": "Voce dichiarata parziale (la chiave HMAC v2 resta per aprire i link già spediti): il pezzo dichiarato chiuso regge. Due lenti (qa grande ciascuna). L'unico generatore di gettoni è firmaDisiscrizione (via linkDisiscrizione, lib/email/client.ts:142) e fa solo v3 con chiave HKDF; nessun'altra strada in n8n, cron o migrazioni. Sulla rotta vera /api/unsubscribe v2 e v1 già spediti aprono la conferma (GET 307) e disiscrivono (POST 303); rifiutati v3 aperto come v2 e viceversa, troncato, «v3.» vuoto, «V3.»; segreto non ASCII ok; gettone di 75 caratteri come prima. 48 file di prove di disiscrizione verdi (311). Residuo uguale alla base, non nato qui: apriFirmato calcola segreto() fuori dal try (lib/email/unsubscribe.ts:120), quindi senza segreto un gettone v1 finto dà ancora 500."
+    },
+    {
+      "id": "R08-002",
+      "chiave": "api-backend|il webhook della sessione scaduta restituisce il codice di benvenuto senza chiudere la rivendicazione",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r08 --base 9bd3fc8c5f24f9a8a449a224ff055a7949a35b2f^ --file lib/stripe/webhook/carrello-scaduto.ts --prove tests/unit/riparazione-r08-benvenuto-dopo-la-sessione-scaduta.test.ts --json"
+      },
+      "nota": "Due lenti (qa grande ciascuna). La riga PENDING nasce solo in app/api/stripe/checkout/route.ts:972-1015 con delivery.rivendicazione (più negozi nella stessa riga, il riuso della pagina fonde il campo a :404). Sul Postgres locale coupon_redemptions.released_at esiste e service_role ha UPDATE; percorso rivendicazione → EXPIRED → release_coupon → UPDATE con released_at IS NULL provato, ripetuto dà UPDATE 0. Evento ripetuto o ordine già nato escono prima di scrivere; il return nuovo è in fondo alla funzione. 10 file di prove dei webhook verdi (116). Fuori dalla voce, stessa classe (minore): lib/stripe/webhook/quadratura.ts:93,114-117 e fascia-al-pagamento.ts:89,97-100 restituiscono il codice senza chiudere la rivendicazione."
+    },
+    {
+      "id": "R08-003",
+      "chiave": "performance|ogni ricerca rilegge tutte le email degli iscritti",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r08 --base 15a04f01665ac4243ea357726313b3c1534eec5e^ --file migrations/940_la_ricerca_per_email_la_fa_il_database.sql --prove tests/sql/rls/riparazione-r08-ricerca-email-nel-database.test.sql --sql k02_r08_rimessa --json && timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r08 --base 15a04f01665ac4243ea357726313b3c1534eec5e^ --file app/admin/users/page.tsx --prove tests/unit/riparazione-r08-ricerca-email-nel-database.test.ts --json"
+      },
+      "altre_rimesse": [
+        {
+          "uscita": 0,
+          "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r08 --base ed12ed8ec8190e1132b690f6e034c30f0a5d55ba --file migrations/940_la_ricerca_per_email_la_fa_il_database.sql --prove tests/sql/rls/riparazione-r08-ricerca-email-nel-database.test.sql --sql k02_r08_rimessa --json"
+        },
+        {
+          "uscita": 0,
+          "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r08 --base ed12ed8ec8190e1132b690f6e034c30f0a5d55ba --file app/admin/users/page.tsx --prove tests/unit/riparazione-r08-ricerca-email-nel-database.test.ts,tests/unit/riparazione-r08-email-non-arrivate.test.ts --json"
+        }
+      ],
+      "nota": "Due lenti (qa grande ciascuna), migrazione 940 provata sul Postgres locale: apply.sh 236 su 236, 940 riapplicata due volte con uscita 0, prova SQL 10 su 10, run.sh 99 file verdi, 73 file di prove sulle migrazioni verdi. Permessi: anon 42501, cliente/negozio/fattorino/service_role 42501 con lo stesso errore che l'email esista o no, admin i risultati; % e _ non allargano; la forma vecchia è invariata. La ricerca non rilegge più tutte le email (page.tsx:284) salvo il ripiego PGRST202 dichiarato; 256 utenti seminati: maiuscole, spazi, accenti, telefono trovano come prima. Una lente la dà parziale perché l'APERTURA della pagina e l'esportazione CSV leggono ancora tutte le email (page.tsx:228 → :159, e :580): la voce parla della ricerca, e il riparatore l'ha dichiarato fuori voce e fra i nuovi difetti; resta un difetto da registrare, non questa voce."
+    },
+    {
+      "id": "R08-005",
+      "chiave": "privacy-legale|sugli alimenti confezionati il peso netto è facoltativo e il prezzo al chilo non compare mai",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r08 --base ddf05f6fa9c11c4df07eeaa156b3addd95def5dc^ --file app/product/[id]/page.tsx --prove tests/unit/riparazione-r08-prezzo-al-chilo-scheda.test.tsx --json"
+      },
+      "altre_rimesse": [
+        {
+          "uscita": 0,
+          "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r08 --base ed12ed8ec8190e1132b690f6e034c30f0a5d55ba --file app/product/[id]/page.tsx --prove tests/unit/riparazione-r08-prezzo-al-chilo-scheda.test.tsx --json"
+        }
+      ],
+      "nota": "Voce dichiarata parziale (peso netto facoltativo, domanda a Nicola). Due lenti. Il pezzo chiuso è giusto dove scatta: prezzo al chilo sul prezzo scontato (page.tsx:587,600), «250 g», «1kg», «1,5 L», «75 cl», «1.000 g», «0,5 kg», «500gr», «1.5kg» corretti; quantità assurde, «2x250g», «1/2 kg» non danno righe sbagliate; varianti senza prezzo proprio. Ma resta senza prezzo al chilo, e non è dichiarato, una parte dei confezionati: confezioni multiple («2 x 125 g», «6 x 1,5 L»), «0.750 L», «1.250 kg» (espressione regolare in app/product/[id]/page.tsx:89), e il riquadro fisso col prezzo (page.tsx:1331) non lo mostra. Per quei prodotti «il prezzo al chilo non compare mai» resta vero. Nessuna rottura: 55 file di prove della scheda verdi (555)."
+    },
+    {
+      "id": "R08-006",
+      "chiave": "qa-flussi|se le email non arrivano, l'elenco dei più recenti le mostra vuote senza una riga che lo dica",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r08 --base 00746362871bc61609e34ed261ca50c286a0374c^ --file app/admin/users/page.tsx --prove tests/unit/riparazione-r08-email-non-arrivate.test.ts --json"
+      },
+      "altre_rimesse": [
+        {
+          "uscita": 0,
+          "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r08 --base ed12ed8ec8190e1132b690f6e034c30f0a5d55ba --file app/admin/users/page.tsx --prove tests/unit/riparazione-r08-ricerca-email-nel-database.test.ts,tests/unit/riparazione-r08-email-non-arrivate.test.ts --json"
+        }
+      ],
+      "nota": "Due lenti. L'avviso compare quando la RPC delle email va in errore e sparisce quando tornano; nessuna rottura (29 file di prove della pagina verdi). Ma la voce («se le email non arrivano, l'elenco le mostra vuote senza una riga che lo dica») resta vera quando la risposta arriva senza errore ma incompleta o vuota: prova del collaudatore sul modello di quella del riparatore, 2 su 2 rosse (righe senza email, nessun avviso; page.tsx:162,228-229 guardano solo l'errore). Il caso incompleto è reale: max_rows 1000 in supabase/config.toml:55 e admin_list_user_emails() senza argomenti restituisce tutta la tabella senza ordine (migrations/074:29-37): oltre mille iscritti le email mancano in silenzio. Il riparatore lo porta fra i nuovi difetti ma dichiara la voce coperta tutta. Fuori voce: anche la ricerca con RPC caduta non avvisa (page.tsx:181-185)."
+    },
     {
       "id": "R04-005",
       "chiave": "pagamenti-stripe|se il cliente viene rimborsato prima che il suo ordine nasca, l'ordine nasce lo stesso come pagato e il negozio viene pagato",
@@ -52,6 +285,12 @@
     }
   ],
   "campione": {
+    "R10": {
+      "accettato": false
+    },
+    "R08": {
+      "accettato": false
+    },
     "R04": {
       "accettato": true
     }
