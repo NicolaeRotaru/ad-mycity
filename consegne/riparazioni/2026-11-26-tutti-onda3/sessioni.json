@@ -29,7 +29,12 @@
    "id": "session_015BmpnWQAhEWyZDPEqwhBcH",
    "ramo": "ccr-a672a2b3-92w5w1-m21",
    "onda": 1,
-   "aperta": "2026-11-26 17:23"
+   "aperta": "2026-11-26 17:23",
+   "secondo": {
+    "id": "session_015BmpnYfgeg1hNf5wr5gGxr",
+    "aperta": "2026-11-26 23:19",
+    "partenza": "a483dc10307191bf99a36817703ee28b85cc877f"
+   }
   },
   "R22": {
    "id": "session_015BmpnVWRCPCRbQyQHG2z4r",
