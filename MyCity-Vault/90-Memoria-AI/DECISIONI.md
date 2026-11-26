@@ -1407,3 +1407,10 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Chi e quando:** Nicola, in chat all'AD, verso le 16:05: «ok fasce».
 - **Cosa ha deciso:** la proposta dell'AD è approvata così com'è. Base: il rapporto all'avvio senza ricerche su Google, senza concorrenti sui social e senza aggiornamenti. Business: in più le ricerche e i 3 concorrenti principali, ogni mese. Premium: tutto ogni settimana, fino a 5 concorrenti, e un incontro al mese.
 - **Cosa è stato fatto:** detto alla sessione del sito alle 16:07, e scritto nel piano, nel registro e nella bacheca.
+
+## 2026-11-26 20:18 — Il sito del venditore e il flusso n8n 14 (🟡, richiesta di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD, 26/11 verso le 19:00: «aprire su Vercel questo nuovo sito … il venditore inserisce il link Google dell'azienda … pulsante Analizza … deve uscire la scheda del cliente … velocissima, in un minuto, ma completa».
+- **Cosa è stato fatto:** la cartella `venditore/` nel repo ad-mycity (Next.js, accesso col codice dei venditori), i flussi n8n «14 · Scheda per il venditore» (`2qD0vp0hWkUjEMNO`) e «14b · …: risultato» (`LK4HDJGUeJBNNi5Q`), accesi, e la tabella «Schede per il venditore» (`Stmyk8hvuUYE2sHa`). Il lavoro di IA passa da «90 · Chiedi all'AD» (piano Max), per la regola `ad.uso-e-crediti`: nessuna API a pagamento.
+- **Perché così:** la parte che non chiede giudizio la fa il programma in pochi secondi, l'AD fa solo ricerca e giudizio. La prova vera (La Dolce Dispensa, flusso di prova archiviato subito dopo) ha risposto in 37 secondi, ma senza sito né social: l'AD vede solo gli estratti della ricerca. Da qui la regola nel codice: quello che il programma apre (sito, profili collegati) vale più degli estratti.
+- **Il segreto fra sito e n8n:** n8n ne tiene solo l'impronta sha256, controllata due volte. Il valore non è passato dalla chat: è in un file consegnato solo a Nicola.
+- **Non fatto da qui:** il progetto Vercel, perché il collegamento non ha il permesso di crearlo (403). Lo crea Nicola. Nessun deploy in produzione da qui.
