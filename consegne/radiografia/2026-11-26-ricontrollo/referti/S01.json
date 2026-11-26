@@ -1,15 +1,660 @@
 {
   "sessione": "S01",
   "base_sito": "ed12ed8ec8190e1132b690f6e034c30f0a5d55ba",
-  "aggiornato": "2026-11-26 13:42",
+  "aggiornato": "2026-11-26 13:55",
   "finita": false,
-  "lotti": [],
-  "copertura": { "file_letti_interi": [], "file_letti_in_parte": [], "file_eseguiti": [], "non_guardato": [] },
+  "lotti": [
+    {
+      "id": "L01",
+      "esito": "fatto",
+      "perche": null
+    },
+    {
+      "id": "L02",
+      "esito": "fatto",
+      "perche": null
+    }
+  ],
+  "copertura": {
+    "file_letti_interi": [
+      "vercel.json"
+    ],
+    "file_letti_in_parte": [
+      {
+        "file": "lib/ai/tettoSpesa.ts",
+        "righe": "100-200"
+      },
+      {
+        "file": "lib/account/cancellazione.ts",
+        "righe": "285-305"
+      },
+      {
+        "file": "lib/account/cancellazione.ts",
+        "righe": "440-498"
+      },
+      {
+        "file": "lib/account/cancellazione.ts",
+        "righe": "540-560"
+      },
+      {
+        "file": "lib/account/cancellazione.ts",
+        "righe": "681-729"
+      },
+      {
+        "file": "lib/account/cancellazione.ts",
+        "righe": "860-890"
+      },
+      {
+        "file": "lib/cassa/quadratura.ts",
+        "righe": "55-98"
+      },
+      {
+        "file": "app/api/orders/cod/route.ts",
+        "righe": "985-1135"
+      },
+      {
+        "file": "app/api/orders/cod/route.ts",
+        "righe": "1420-1440"
+      },
+      {
+        "file": "app/api/orders/cod/route.ts",
+        "righe": "1520-1590"
+      },
+      {
+        "file": "lib/products/salvataggio-tracciato.ts",
+        "righe": "380-470"
+      },
+      {
+        "file": ".github/workflows/deploy-dopo-ci.yml",
+        "righe": "1-90"
+      },
+      {
+        "file": "app/admin/sos/page.tsx",
+        "righe": "1-230"
+      },
+      {
+        "file": "app/api/returns/[id]/avanza/route.ts",
+        "righe": "60-240"
+      },
+      {
+        "file": "lib/rimborsi/regole-del-rimborso.ts",
+        "righe": "343-406"
+      },
+      {
+        "file": "components/StoreLocationPicker.tsx",
+        "righe": "150-240"
+      },
+      {
+        "file": "app/api/geocode/route.ts",
+        "righe": "25-50"
+      },
+      {
+        "file": "app/rider/profile/page.tsx",
+        "righe": "105-200"
+      },
+      {
+        "file": "migrations/001_create_tables.sql",
+        "righe": "80-100"
+      },
+      {
+        "file": "lib/auth/decisione-portiere.ts",
+        "righe": "1-140"
+      },
+      {
+        "file": "lib/auth/decisione-portiere.ts",
+        "righe": "244-301"
+      },
+      {
+        "file": "lib/auth/cookie-di-sessione.ts",
+        "righe": "1-80"
+      },
+      {
+        "file": "lib/auth/cookie-di-sessione.ts",
+        "righe": "400-460"
+      },
+      {
+        "file": "middleware.ts",
+        "righe": "430-760"
+      },
+      {
+        "file": "app/admin/users/page.tsx",
+        "righe": "130-290"
+      },
+      {
+        "file": "app/admin/users/page.tsx",
+        "righe": "525-560"
+      },
+      {
+        "file": "app/api/cron/operational-alerts/route.ts",
+        "righe": "1-200"
+      },
+      {
+        "file": "app/orders/[id]/return/page.tsx",
+        "righe": "18-30"
+      },
+      {
+        "file": "app/orders/[id]/return/page.tsx",
+        "righe": "85-115"
+      },
+      {
+        "file": "app/orders/[id]/return/page.tsx",
+        "righe": "180-215"
+      },
+      {
+        "file": "app/api/returns/create/route.ts",
+        "righe": "55-170"
+      },
+      {
+        "file": "components/admin/AdminSidebar.tsx",
+        "righe": "1-20"
+      },
+      {
+        "file": "components/admin/AdminSidebar.tsx",
+        "righe": "170-310"
+      },
+      {
+        "file": "app/admin/segnalazioni/page.tsx",
+        "righe": "80-230"
+      },
+      {
+        "file": "lib/geocodifica.ts",
+        "righe": "1-54"
+      },
+      {
+        "file": "lib/ordini/annulla.ts",
+        "righe": "240-300"
+      },
+      {
+        "file": "lib/stripe/payout.ts",
+        "righe": "270-560"
+      },
+      {
+        "file": "lib/stripe/payout.ts",
+        "righe": "800-935"
+      },
+      {
+        "file": "lib/stripe/payout.ts",
+        "righe": "1170-1250"
+      },
+      {
+        "file": "lib/stripe/payout.ts",
+        "righe": "1790-1860"
+      },
+      {
+        "file": "lib/stripe/payout.ts",
+        "righe": "2200-2275"
+      },
+      {
+        "file": "lib/stripe/payout.ts",
+        "righe": "2470-2540"
+      },
+      {
+        "file": "lib/stripe/webhook/dispute.ts",
+        "righe": "280-470"
+      },
+      {
+        "file": "app/reset-password/page.tsx",
+        "righe": "20-170"
+      },
+      {
+        "file": "app/sign-up/page.tsx",
+        "righe": "25-70"
+      },
+      {
+        "file": "app/sign-up/page.tsx",
+        "righe": "350-380"
+      },
+      {
+        "file": "components/seller/ProductForm.tsx",
+        "righe": "300-330"
+      },
+      {
+        "file": "components/seller/ProductForm.tsx",
+        "righe": "890-920"
+      }
+    ],
+    "file_eseguiti": [
+      {
+        "file": "tests/sql/harness/apply.sh",
+        "comando": "tests/sql/harness/apply.sh mycity_s01_l01 (e mycity_s01_l02)",
+        "esito": "235 migrazioni applicate, 0 fallite, due volte"
+      },
+      {
+        "file": "tests/sql/rls/riparazione-r03-scadenze-del-fattorino.test.sql",
+        "comando": "tests/sql/harness/run.sh mycity_s01_l01",
+        "esito": "5 verdi"
+      },
+      {
+        "file": "tests/unit/riparazione-r29-allarme-ordine.test.ts",
+        "comando": "npx vitest run",
+        "esito": "15 verdi; 8 rossi con l'avviso spento a mano"
+      },
+      {
+        "file": "tests/unit/riparazione-r01-sos-consegna.test.tsx",
+        "comando": "npx vitest run",
+        "esito": "1 verde"
+      },
+      {
+        "file": "tests/unit/riparazione-r08-le-tessere-senza-foto.test.tsx",
+        "comando": "npx vitest run (con la-foto-della-categoria…)",
+        "esito": "17 verdi"
+      },
+      {
+        "file": "tests/unit/riparazione-r03-campanella-nel-pannello.test.ts",
+        "comando": "npx vitest run",
+        "esito": "2 verdi"
+      },
+      {
+        "file": "tests/unit/riparazione-r11-contestazione-parziale-vinta.test.ts",
+        "comando": "npx vitest run (con una-contestazione-parziale…)",
+        "esito": "8 verdi"
+      },
+      {
+        "file": "tests/unit/riparazione-r03-quota-dopo-il-bonifico-a-mano.test.ts",
+        "comando": "npx vitest run",
+        "esito": "5 verdi, nessun caso PAID_MANUALLY"
+      },
+      {
+        "file": "tests/unit/riparazione-r02-recensioni-segnalabili.test.tsx",
+        "comando": "npx vitest run",
+        "esito": "1 verde"
+      },
+      {
+        "file": "tests/unit/sui-freschi-il-cambio-idea-non-diventa-un-reso.test.ts",
+        "comando": "npx vitest run (con minori-s06-reso-misto)",
+        "esito": "11 verdi"
+      },
+      {
+        "file": "tests/unit/il-portiere-non-chiude-fuori-chi-aspetta-e-non-perde-il-rinnovo.test.ts",
+        "comando": "npx vitest run",
+        "esito": "verde"
+      },
+      {
+        "file": "tests/unit/il-link-della-password-si-apre-da-qualunque-dispositivo.test.ts",
+        "comando": "npx vitest run",
+        "esito": "verde"
+      }
+    ],
+    "non_guardato": [
+      {
+        "cosa": "lo stato della produzione per il tetto della spesa AI, la chiave della posta e le righe ferme dalla 063",
+        "perche": "database, Vercel e Stripe veri sono vietati"
+      },
+      {
+        "cosa": "la risposta vera di Nominatim per via Roma e via Cavour",
+        "perche": "la rete verso Nominatim è chiusa dal proxy"
+      },
+      {
+        "cosa": "il modello email di Supabase per il recupero password",
+        "perche": "sta in produzione, fuori dal repo"
+      },
+      {
+        "cosa": "come i browser mostrano una foto HEIC",
+        "perche": "serve un telefono o un browser vero"
+      },
+      {
+        "cosa": "la parte «resta la posizione vecchia» della voce sulla posizione del negozio",
+        "perche": "è logica del browser, non provata"
+      }
+    ]
+  },
   "difetti": [],
   "scartati": [],
   "regressioni": [],
-  "ricontrolli": [],
+  "ricontrolli": [
+    {
+      "chiave": "ai-endpoints|il tetto giornaliero di spesa ai in produzione non è condiviso: ogni copia del sito conta per sé",
+      "esito": "non_verificabile",
+      "prova": "lib/ai/tettoSpesa.ts:100-200 · migrations/158_il_conto_della_spesa_ai_esiste_anche_in_produzione.sql:1-30",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "il ripiego in memoria c'è ancora; la 158 ricrea ai_spend_daily ma non si sa se è applicata in produzione",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Dipende dal database di produzione, che è vietato toccare.",
+      "falla": false
+    },
+    {
+      "chiave": "api-backend|confermata una rimessa, la giornata del fattorino risulta versata anche per i contanti che incassa dopo, e la guardia della cancellazione lo lascia andare",
+      "esito": "ancora_vero",
+      "prova": "(nel referto privato)",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "(nel referto privato)",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "(nel referto privato)",
+      "falla": true
+    },
+    {
+      "chiave": "api-backend|la funzione che muore fra l'ordine e gli articoli lascia la merce riservata senza nessuno che la liberi",
+      "esito": "ancora_vero",
+      "prova": "psql -X -d mycity_s01_l01 -f prove/L01/03-riserva.sql",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "giacenza 5, riserva di 2, ordine senza articoli, poi restore_stock_for_order: giacenza 3 (attesa 5)",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "reserve_stock (route.ts:1438) parte prima di orders.insert (1587) e di order_items (1722); il ripristino legge solo order_items.",
+      "falla": false
+    },
+    {
+      "chiave": "api-backend|un alimento gia' in vendita senza allergeni non si salva dal modulo: l'app lo ammette, il trigger 126 lo rifiuta",
+      "esito": "cambiato",
+      "prova": "psql -X -d mycity_s01_l01 -f prove/L01/04-allergeni.sql",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "cambio del solo nome: OK; cambio di sottocategoria nella stessa radice: ERROR 23514; attributo aggiunto: ERROR 23514",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Il trigger ora lascia passare i salvataggi che non toccano attributi o categoria, ma rifiuta ancora sottocategoria e attributi, che l'app (salvataggio-tracciato.ts:381-405) ammette.",
+      "falla": false
+    },
+    {
+      "chiave": "deploy-sre|ogni unione su main pubblica in produzione senza aspettare la ci",
+      "esito": "ancora_vero",
+      "prova": "node -e 'console.log(require(\"./vercel.json\").git.deploymentEnabled.main)'",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "true",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "vercel.json:6-10 pubblica ancora a ogni unione su main; deploy-dopo-ci.yml dice che la strada dopo la CI non è ancora l'unica.",
+      "falla": false
+    },
+    {
+      "chiave": "deploy-sre|sul sito vero manca la chiave della posta: il negozio non riceverà l'email del nuovo ordine e il cliente nessuna conferma",
+      "esito": "non_verificabile",
+      "prova": "variabili Production su Vercel",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "non guardato",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Dipende dalle variabili di produzione su Vercel, che è vietato leggere.",
+      "falla": false
+    },
+    {
+      "chiave": "frontend-ux|la consolle sos non mostra da quale consegna parte l'allarme: l'order_id ora scritto non si vede da nessuna parte",
+      "esito": "non_piu_vero",
+      "prova": "cd marketplace && npx vitest run tests/unit/riparazione-r01-sos-consegna.test.tsx",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "1 test passato: la pagina vera mostra il link /admin/orders/<id> «Consegna #…»",
+      "verificato": true,
+      "verificato_da": "qa nuovo: rilanciata, verde; il test monta app/admin/sos/page.tsx vera e sarebbe rosso senza il link (attivi righe 162-170, storico 223-226)",
+      "nota": null
+    },
+    {
+      "chiave": "immagini-media|le tessere delle categorie in home sono foto d'archivio scritte a mano nel codice",
+      "esito": "non_piu_vero",
+      "prova": "cd marketplace && npx vitest run tests/unit/la-foto-della-categoria-la-decide-il-dato-non-il-codice.test.ts tests/unit/riparazione-r08-le-tessere-senza-foto.test.tsx",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "2 file, 17 test passati",
+      "verificato": true,
+      "verificato_da": "qa nuovo: rilanciata, verde; un test legge il sorgente di CategoryShowcase e fallisce se trova un indirizzo http; nessun'altra foto fissa in app, components, lib",
+      "nota": null
+    },
+    {
+      "chiave": "pagamenti-stripe|gli ordini già fermati dal trigger della 063 restano con dispute_status open: la 184 vale solo per i reclami nuovi",
+      "esito": "non_verificabile",
+      "prova": "migrations/184_il_reclamo_chiuso_libera_il_bonifico.sql:45-49 · app/api/cron/release-payouts/route.ts:93",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "nessuna migrazione dopo la 184 bonifica le righe vecchie; il giro dei bonifici filtra ancora dispute_status null/WON",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Riguarda righe del database di produzione; nel codice non c'è nessuna bonifica.",
+      "falla": false
+    },
+    {
+      "chiave": "privacy-legale|il negozio può chiudere un recesso senza rimborso dopo 14 giorni anche se il cliente ha riportato o spedito la merce, perché il cliente non ha modo di dirlo",
+      "esito": "ancora_vero",
+      "prova": "(nel referto privato)",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "(nel referto privato)",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "(nel referto privato)",
+      "falla": true
+    },
+    {
+      "chiave": "privacy-legale|in vendita ci sono 7 alimenti su 9 senza allergeni né ingredienti, e la migrazione nuova li lascia comprabili",
+      "esito": "ancora_vero",
+      "prova": "psql -X -d mycity_s01_l01 -f prove/L01/11-comprabile.sql",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "salumeria disponibile con attributes {}: reserve_stock passa, giacenza 5 -> 4, resta available",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Il meccanismo è confermato e la rotta dei contanti non controlla gli allergeni; il conteggio 7 su 9 in produzione non è verificabile.",
+      "falla": false
+    },
+    {
+      "chiave": "qa-flussi|la posizione del negozio può finire lontano da piacenza, o restare quella vecchia, e il modulo la salva lo stesso",
+      "esito": "ancora_vero",
+      "prova": "psql -X -d mycity_s01_l01 -f prove/L01/12-posizione.sql",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "il venditore dal browser salva lat 40.8518 lng 14.2681 (Napoli) con indirizzo a Piacenza: accettato",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "geocode chiede solo countrycodes=it; picker, apply e database non controllano la distanza; la parte «resta quella vecchia» non è provata.",
+      "falla": false
+    },
+    {
+      "chiave": "qa-flussi|un fattorino con patente o assicurazione scaduta continua a prendere consegne, e il profilo gli dice solo «in scadenza»",
+      "esito": "cambiato",
+      "prova": "(nel referto privato)",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "(nel referto privato)",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "(nel referto privato)",
+      "falla": true
+    },
+    {
+      "chiave": "qa-flussi|un ordine fermo su «accettato» o «ritirato dal fattorino» non fa suonare nessun allarme e non scade mai",
+      "esito": "ancora_vero",
+      "prova": "cd marketplace && npx vitest run --config prove/L01/vitest.l01.config.mts (14-stati.test.ts)",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "stati interrogati: ASSIGNED, DELIVERED, NEW, OUT_FOR_DELIVERY, READY; il test è rosso su ACCEPTED",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Né operational-alerts né expire-stale-orders interrogano ACCEPTED o PICKED_UP.",
+      "falla": false
+    },
+    {
+      "chiave": "rls-database|chi ha fatto anche un solo ordine non riesce a cancellare il proprio account",
+      "esito": "ancora_vero",
+      "prova": "psql -X -v ON_ERROR_STOP=1 -d mycity_s01_l01 -f prove/L01/15-cancella.sql",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "ERROR «orders: modifica di un campo protetto non consentita» su UPDATE orders SET user_id = NULL (ON DELETE SET NULL)",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "cancellazione.ts non azzera user_id prima di deleteUser (riga 1032).",
+      "falla": false
+    },
+    {
+      "chiave": "rls-database|la regola per riga della migrazione 001 lascia scrivere i prodotti dal browser, senza traccia ne' controllo di vendibilita'",
+      "esito": "ancora_vero",
+      "prova": "(nel referto privato)",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "(nel referto privato)",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "(nel referto privato)",
+      "falla": true
+    },
+    {
+      "chiave": "sicurezza-auth|il tetto di tre secondi del portiere puo bruciare la sessione di un cliente che era regolarmente dentro",
+      "esito": "cambiato",
+      "prova": "npx vitest run tests/unit/il-portiere-non-chiude-fuori-chi-aspetta-e-non-perde-il-rinnovo.test.ts tests/unit/riparazione-r06-tetto-per-getuser.test.ts · middleware.ts:563-575 · lib/auth/cookie-di-sessione.ts:284-292",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "verdi",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Il rinnovo della sessione ha ora 10 secondi invece di 3, ma resta un tetto: un rinnovo più lungo di 10 secondi brucia ancora la sessione e viene solo registrato.",
+      "falla": false
+    },
+    {
+      "chiave": "api-backend|se la lettura delle email cade, la ricerca utenti dice «nessuno, ho cercato su tutti», e oltre mille iscritti l'email non si trova",
+      "esito": "ancora_vero",
+      "prova": "app/admin/users/page.tsx:155-158 · migrations/074_admin_user_emails.sql:12-37 · supabase/config.toml:55",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "la RPC non ha argomenti (pg_proc sul DB locale); leggiContattiAuth inghiotte l'errore e restituisce []",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Il ripiego fa ancora sparire le email in silenzio; la RPC restituisce tutto auth.users in una risposta che PostgREST taglia a 1000 righe.",
+      "falla": false
+    },
+    {
+      "chiave": "qa-flussi|nicola non viene avvisato quando arriva un ordine: il primo allarme per un ordine non accettato parte dopo un'ora, non dopo 5 minuti",
+      "esito": "non_piu_vero",
+      "prova": "cd marketplace && npx vitest run tests/unit/riparazione-r29-allarme-ordine.test.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "15 test passati",
+      "verificato": true,
+      "verificato_da": "qa nuovo: rilanciata, verde; controprova spegnendo l'avviso dei 5 minuti (route.ts:180): 8 test su 15 rossi, poi file ripristinato; vercel.json:29 */5",
+      "nota": null
+    },
+    {
+      "chiave": "frontend-ux|la pagina di richiesta reso accetta il ripensamento anche su ordini di pane",
+      "esito": "cambiato",
+      "prova": "cd marketplace && npx vitest run tests/unit/sui-freschi-il-cambio-idea-non-diventa-un-reso.test.ts tests/unit/minori-s06-reso-misto.test.tsx · migrations/180_i_prodotti_non_recedibili.sql · components/seller/ProductForm.tsx:323 · lib/ordini/recesso.ts:23",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "11 test verdi: il ripensamento è rifiutato solo se il prodotto ha non_recedibile = true",
+      "verificato": true,
+      "verificato_da": "qa nuovo: chiusura smentita, il segno vale false di serie e nessuna regola per categoria lo accende",
+      "nota": "Il blocco c'è ma scatta solo sui prodotti che il negozio segna a mano: un pane creato senza toccare la spunta accetta ancora il ripensamento.",
+      "falla": false
+    },
+    {
+      "chiave": "privacy-legale|le recensioni dei clienti non si possono segnalare, mentre i termini promettono di togliere quelle non genuine",
+      "esito": "cambiato",
+      "prova": "cd marketplace && npx vitest run tests/unit/riparazione-r02-recensioni-segnalabili.test.tsx · app/admin/segnalazioni/page.tsx:93 · app/admin/segnalazioni/page.tsx:218-223 · app/api/admin/segnalazioni/accogli/route.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "verde: la recensione si segnala e arriva in /admin/segnalazioni",
+      "verificato": true,
+      "verificato_da": "qa nuovo: chiusura smentita, «Accolta» è disattivata per le recensioni e la rotta accogli toglie solo prodotti",
+      "nota": "Ora le recensioni si segnalano, ma l'amministratore non ha modo di toglierle: nessun file in app/admin o app/api/admin tocca reviews o store_reviews.",
+      "falla": false
+    },
+    {
+      "chiave": "qa-flussi|dentro il pannello dell'amministratore non c'è la campanella: gli avvisi sui soldi da sistemare a mano si vedono solo uscendo dal pannello",
+      "esito": "non_piu_vero",
+      "prova": "cd marketplace && npx vitest run tests/unit/riparazione-r03-campanella-nel-pannello.test.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "2 test verdi: AdminSidebar e AdminMobileTopbar vere con 3 non lette",
+      "verificato": true,
+      "verificato_da": "qa nuovo: rilanciata, verde; app/admin/layout.tsx monta la campanella su computer e telefono e conta le notifiche scritte da notifyAdmins",
+      "nota": "La lista si legge ancora su /notifications, fuori dal pannello: strascico minore."
+    },
+    {
+      "chiave": "frontend-ux|le foto dell'iphone (heic) adesso entrano davvero, ma nessuno le converte: sul telefono android e su chrome restano un riquadro rotto",
+      "esito": "ancora_vero",
+      "prova": "lib/storage/casella-di-caricamento.ts:67 · lib/storage/regole-secchi.ts:55",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "HEIC ammesso; nessuna conversione (sharp, heic2any, libheif assenti in app, lib, components e package.json)",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "I file HEIC vengono salvati così come sono e nessun passaggio li converte in un formato che Chrome o Android mostrano.",
+      "falla": false
+    },
+    {
+      "chiave": "qa-flussi|la cassa dice «troppo lontano» a chi abita in via roma o in via cavour, in pieno centro, e l'ordine non parte",
+      "esito": "non_verificabile",
+      "prova": "lib/geocodifica.ts:28-32 · app/api/geocode/route.ts:36",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "la rete verso Nominatim è chiusa dal proxy (CONNECT 403): non si sa cosa risponde",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Il codice non ha difese (query libera, limit=1, nessun viewbox né controllo che il punto cada a Piacenza); senza rete il risultato sbagliato non si prova, quindi la voce resta aperta.",
+      "falla": false
+    },
+    {
+      "chiave": "qa-flussi|un ordine in contanti già incassato non si rimborsa dall’amministrazione: il sito non apre da solo il reclamo come deciso il 29/10, e il pannello dice di aprirlo a chi non può",
+      "esito": "ancora_vero",
+      "prova": "psql -d mycity_s01_l02 -f prove/L02/v10-admin-reclamo.sql · lib/ordini/annulla.ts:280-283 · app/api/admin/orders/[id]/cancel/route.ts:73-79",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "un amministratore che inserisce un reclamo sull'ordine in contanti consegnato riceve: new row violates row-level security policy for table disputes",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "annullaERimborsa restituisce CONTANTI_INCASSATI senza aprire il reclamo; regola del database e API lo vietano all'amministratore.",
+      "falla": false
+    },
+    {
+      "chiave": "pagamenti-stripe|un rimborso arrivato dopo il bonifico del lunedì non viene mai ripreso al negozio",
+      "esito": "cambiato",
+      "prova": "cd marketplace && npx vitest run tests/unit/riparazione-r03-quota-dopo-il-bonifico-a-mano.test.ts · lib/stripe/payout.ts:2531-2533 · app/admin/payouts/page.tsx:100-126",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "5 test verdi, ma tutti con payout_status HELD o AWAITING_REMITTANCE; nessuno con PAID_MANUALLY",
+      "verificato": true,
+      "verificato_da": "qa nuovo: chiusura smentita, l'avviso parte solo se payout_status è HELD e in lib/stripe non c'è nessun riferimento a PAID_MANUALLY",
+      "nota": "Coperto a metà: se il bonifico è fatto ma non ancora segnato parte l'avviso con la cifra; se Nicola l'ha già segnato (PAID_MANUALLY) non parte niente e il negozio tiene la quota.",
+      "falla": false
+    },
+    {
+      "chiave": "pagamenti-stripe|se la banca contesta solo una parte del pagamento e mycity vince, al negozio non torna la parte che gli era stata tolta",
+      "esito": "non_piu_vero",
+      "prova": "cd marketplace && npx vitest run tests/unit/riparazione-r11-contestazione-parziale-vinta.test.ts tests/unit/una-contestazione-parziale-non-si-prende-tutto.test.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "2 file, 8 test verdi: un solo bonifico di 18 € torna al negozio, l'ordine non torna HELD",
+      "verificato": true,
+      "verificato_da": "qa nuovo: rilanciata, verde; i test passano dal gestore vero del webhook e sarebbero rossi senza restituisciLeQuoteParziali (dispute.ts:402)",
+      "nota": null
+    },
+    {
+      "chiave": "sicurezza-auth|chi chiede la nuova password dal computer e apre l'email dal telefono non riesce a cambiarla, e la pagina non dice perché",
+      "esito": "cambiato",
+      "prova": "npx vitest run tests/unit/il-link-della-password-si-apre-da-qualunque-dispositivo.test.ts · app/reset-password/page.tsx:36-47 · app/auth/confirm/route.ts:141",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "verde",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "La pagina ora spiega l'errore e /auth/confirm con token_hash funziona da ogni dispositivo; che l'email porti quel link dipende dal modello email di Supabase, che non è nel repo.",
+      "falla": false
+    },
+    {
+      "chiave": "sicurezza-auth|il controllo all'ingresso chiude fuori chi aspetta l'approvazione: il negozio nuovo gira in tondo e il fattorino non arriva mai alla pagina dei documenti",
+      "esito": "cambiato",
+      "prova": "npx vitest run tests/unit/il-portiere-non-chiude-fuori-chi-aspetta-e-non-perde-il-rinnovo.test.ts · lib/auth/decisione-portiere.ts:284-301 · app/sign-up/page.tsx:30-34",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "verde: il negozio non approvato entra sulla dashboard; il fattorino non approvato viene rimandato via da /rider/onboarding",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Il negozio non gira più in tondo; il fattorino resta fuori di proposito (decisione del 26/10), ma la registrazione offre ancora «Rider» e lo lascia in un vicolo cieco senza spiegazione.",
+      "falla": false
+    }
+  ],
   "prove_per_la_palestra": [],
   "domande_per_nicola": [],
-  "conto": { "agenti": 0, "permesso_regista": null, "usd": null, "usd_perche": null, "token_sessione": {}, "token_subagenti": {}, "nota": "" }
+  "conto": {
+    "agenti": 10,
+    "permesso_regista": null,
+    "usd": null,
+    "usd_perche": null,
+    "token_sessione": {},
+    "token_subagenti": {},
+    "nota": "2 cercatori qa + 8 verificatori qa"
+  }
 }
