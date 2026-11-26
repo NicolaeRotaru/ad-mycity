@@ -47,6 +47,8 @@ Che ogni domanda sia ancora attuale sul codice di oggi.
 - R14-004 · il blocco dell'email (il lucchetto): va registrato anche nel registro delle azioni degli amministratori, o resta fuori?
 - R14-006 · un'email partita il cui segno «partita» non si riesce a scrivere: si rispedisce o no?
 
+- R16-010 e R16-008 · due scelte aperte da R16: il testo esatto delle domande è nel referto di R16
+
 ### Prove comuni che chiedono la tua firma (la correzione è pronta, tolta dal ramo)
 
 Una prova comune è un controllo che protegge più riparazioni insieme. Cambiarla chiede la tua firma, quindi la correzione è stata tolta e aspetta te.
@@ -57,6 +59,8 @@ Una prova comune è un controllo che protegge più riparazioni insieme. Cambiarl
 - R12-002 · l'avvio del lotto del catalogo durante un'applicazione: oggi risponde 200, la correzione lo gira a 409 e cambia un caso della prova comune di R13 (modifica esatta nel referto di R12)
 
 - R14-011 · la prova comune del tetto sulle letture dell'utente: la modifica esatta è nel referto di R14
+
+- R16-003 · due prove comuni da cambiare: la modifica esatta è nel referto di R16
 
 ### Domande (campo domanda_per_nicola del registro)
 
