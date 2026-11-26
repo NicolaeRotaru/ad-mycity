@@ -1439,3 +1439,12 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa è stato fatto:** la 864 è andata su main da sola, con la mycity#339. L'AD aveva dimenticato la prova aggiornata, e l'ha aggiunta la sessione delle unioni. Poi «Migrazioni a mano» con APPLICA, 1 e 864 (esecuzione 45883488542), verde alle 20:41. Controllo in sola lettura: 0 regole su schede_clienti; anon e authenticated non leggono, service_role sì.
 - **Cosa non è stato fatto, e perché:** la 863 è ferma perché il suo testo contraddice il pagamento in contanti. La ripubblicazione del 12 e del 26 è stata bloccata dal controllo dei permessi della sessione dei flussi, e la sessione non l'ha aggirata.
 - **La lezione:** una migrazione che toglie un permesso porta con sé la prova che lo controlla. Senza, la CI diventa rossa.
+
+## 2026-11-26 22:31 — La pagina del link d'invito non crea più account: si attiva un account MyCity confermato (🟡, nel ramo)
+- **Chi e quando:** l'AD, dopo il terzo collaudo indipendente della funzione «agenti» (22:15).
+- **Cosa è stato deciso:** chi riceve il link crea l'account con la registrazione normale di MyCity, che conferma l'email, ha il controllo anti-bot e mette a verbale le condizioni. Poi torna al link e preme «Attiva». Prima la pagina del link creava l'account con l'email «già confermata».
+- **Perché:** chi aveva un link poteva registrare l'email di un'altra persona. Così ne leggeva le schede legate a quell'email, oppure si teneva l'account se poi la vera titolare entrava con Google. Il passo in più (confermare l'email) è lo stesso di ogni cliente MyCity.
+- **Cosa cambia per Nicola:** l'agente fa due passi invece di uno. Il vincolo resta: si diventa agente solo dal link di Admin.
+- **Dove:** mycity#340, commit d8f3cd3. Corretti anche il posto del link che poteva valere per due persone, il consenso, i messaggi della pagina e l'accesso durante una cancellazione fermata a metà.
+- **La lezione:** un account creato «già confermato» da un modulo pubblico è un'impersonazione aperta, anche dietro un link segreto: chi ha il link non per questo possiede l'email che scrive.
+
