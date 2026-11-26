@@ -2,7 +2,7 @@
   "sessione": "S01",
   "base_sito": "ed12ed8ec8190e1132b690f6e034c30f0a5d55ba",
   "aggiornato": "2026-11-26 13:55",
-  "finita": false,
+  "finita": true,
   "lotti": [
     {
       "id": "L01",
@@ -651,10 +651,28 @@
   "conto": {
     "agenti": 10,
     "permesso_regista": null,
-    "usd": null,
+    "usd": 6.99,
     "usd_perche": null,
-    "token_sessione": {},
-    "token_subagenti": {},
-    "nota": "2 cercatori qa + 8 verificatori qa"
+    "token_sessione": {
+      "agenti": 1,
+      "agenti_misurati": 1,
+      "turni": 24,
+      "input": 48,
+      "scritti_cache": 163257,
+      "letti_cache": 4055648,
+      "uscita": 27108,
+      "entrata_totale": 4218953
+    },
+    "token_subagenti": {
+      "agenti": 10,
+      "agenti_misurati": 10,
+      "turni": 209,
+      "input": 418,
+      "scritti_cache": 441940,
+      "letti_cache": 17355595,
+      "uscita": 84284,
+      "entrata_totale": 17797953
+    },
+    "nota": "2 cercatori qa + 8 verificatori qa; usd = usage.cost_usd di get_session letto prima della chiusura (6,99 $), il conto finale sarà poco più alto"
   }
 }
