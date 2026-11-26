@@ -38,7 +38,8 @@
    "id": "session_015BmpnX4yowpJjojH947cu4",
    "ramo": "ccr-a672a2b3-92w5w1-m06",
    "onda": 1,
-   "aperta": "2026-11-26 13:55"
+   "aperta": "2026-11-26 13:55",
+   "finita": "2026-11-26 15:05"
   },
   "R07": {
    "id": "session_015BmpnYqffuXTpbqcQpQFe4",
@@ -103,7 +104,8 @@
    "partenza": "a394e0e9399318c9920e44231ff4c429807c8bd1",
    "riparatori": [
     "R05",
-    "R09"
+    "R09",
+    "R06"
    ]
   }
  },
