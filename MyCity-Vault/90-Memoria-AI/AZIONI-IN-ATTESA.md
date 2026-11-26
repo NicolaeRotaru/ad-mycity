@@ -2018,10 +2018,16 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 <!-- SUPERVISIONE-NEGOZI:FINE -->
 
 ## Firma quanto promette ogni abbonamento ai social (aggiunta 2026-11-26 19:30)
-- **Reparto:** @content-social con @marketing e @finanza · **Colore:** 🔴 (cambia cosa vendiamo ai clienti)
-- **Contenuto:** il modello 1.0 delle tre fasce in `cervello/modelli/piano-editoriale-fasce.json`, con l'esempio del Tropico a dicembre in `consegne/clienti/tropico-latino/piano-editoriale-2026-12.html`. Base 300 €: 8 contenuti (2 reel dalle foto), 4 storie, 4 post e 4 foto su Google. Business 500 €: 12 contenuti (4 reel, 2 girati), 12 storie, 8 post e 8 foto su Google, TikTok, un messaggio WhatsApp alla lista, una mossa al mese, un creator a trimestre, una spinta pubblicitaria, risposte alle recensioni Google. Premium 999 €: 20 contenuti (8 reel, 4 girati), una storia ogni sera di apertura, 12 post e 15 foto su Google, TikTok e YouTube Shorts, 2 WhatsApp, una email, evento, 2 creator, campagne Meta e Google, giornali a trimestre, aziende vicine, risposte su tutte le piattaforme. La frase del Premium: «tutti i mestieri di un'agenzia completa», detto chiaro che il lavoro ripetitivo lo fa l'intelligenza artificiale; mai «50 persone». Insieme decidi: il tetto dei clienti Premium (consiglio 5) e il costo di scattiDG.
-- **Cosa cambia:** dopo il tuo sì aggiorno il preventivo sul sito, la proposta che nasce dalla foto e il registro dei fatti, nello stesso lavoro. Il prossimo cliente vede le quantità nuove; Ora del Gusto, col Business, avrebbe 12 contenuti e 12 storie invece di 12 post.
-- **Se va bene:** i clienti che pagano vedono le quantità nuove da subito; il Tropico, che gira sul Premium gratis come prova (Nicola, 26/11 ~19:40), ci dice a gennaio cosa spostare fra le fasce, e il modello passa alla 1.1.
+- **Reparto:** @content-social, con @marketing e @finanza.
+- **Colore:** 🔴. Cambia cosa vendiamo ai clienti.
+- **Contenuto:** il modello delle tre fasce è in `cervello/modelli/piano-editoriale-fasce.json`. L'esempio del Tropico a dicembre è in `consegne/clienti/tropico-latino/piano-editoriale-2026-12.html`.
+  - Base, 300 €: 8 contenuti con 2 reel dalle foto. Poi 4 storie, 4 post e 4 foto su Google, il sito di una pagina.
+  - Business, 500 €: 12 contenuti con 4 reel, di cui 2 girati. Poi 12 storie, 8 post e 8 foto su Google, TikTok e le risposte alle recensioni. In più un messaggio WhatsApp alla lista, una mossa al mese, un creator a trimestre e una spinta pubblicitaria.
+  - Premium, 999 €: 20 contenuti con 8 reel, di cui 4 girati. Una storia ogni sera di apertura, 12 post e 15 foto su Google, TikTok e YouTube Shorts. In più 2 WhatsApp, una email, l'evento, 2 creator, campagne su Meta e Google, giornali e aziende vicine.
+  - La frase del Premium: «tutti i mestieri di un'agenzia completa». Si dice chiaro che il lavoro ripetitivo lo fa l'intelligenza artificiale. Mai «50 persone».
+  - Insieme decidi il tetto dei clienti Premium, io dico 5, e mi dici il costo di scattiDG.
+- **Cosa cambia:** dopo il tuo sì aggiorno il preventivo sul sito, la proposta che nasce dalla foto e il registro dei fatti. Lo faccio nello stesso lavoro. Il prossimo cliente vede le quantità nuove.
+- **Se va bene:** i clienti che pagano vedono le quantità nuove da subito. Il Tropico gira sul Premium gratis, come prova (Nicola, 26/11 verso le 19:40). A gennaio ci dice cosa spostare fra le fasce, e il modello passa alla 1.1.
 
 ---
 
