@@ -117,5 +117,19 @@
     "R22"
    ]
   }
+ },
+ "collaudatori": {
+  "K07": {
+   "partenza": "078a7d77bcc9e51a43ab4ac640446f2239e6e099"
+  },
+  "K08": {
+   "partenza": "078a7d77bcc9e51a43ab4ac640446f2239e6e099"
+  },
+  "K09": {
+   "partenza": "0baed7db5a174908cdf9aa01a238bfb1dd7d7f62"
+  },
+  "K10": {
+   "partenza": "0baed7db5a174908cdf9aa01a238bfb1dd7d7f62"
+  }
  }
 }

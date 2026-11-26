@@ -1,0 +1,416 @@
+{
+ "collaudatore": "K07",
+ "riparatori": [
+  "R21",
+  "R20",
+  "R17"
+ ],
+ "aggiornato": "2026-11-26 20:30",
+ "finita": true,
+ "voci": [
+  {
+   "id": "R21-001",
+   "chiave": "frontend-ux|la pagina di richiesta reso accetta il ripensamento anche su ordini di pane",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base 286e8d7b30f03488acd7312bd314b852a88cdef1^ --file app/api/returns/create/route.ts --prove tests/unit/riparazione-r21-reso-pane-non-spuntato.test.ts --json"
+   },
+   "nota": "Revisore qa (lenti chiude_tutta e nata_rotta). Regge: le 6 categorie esistono (migrations/002:110-114, 078:24-28), il blocco tocca solo «Ho cambiato idea», difettoso/sbagliato passano, l'ordine misto apre il reso. Resta: app/api/returns/ripensamento/route.ts, la scheda prodotto (app/product/[id]/page.tsx:224) e il carrello (app/cart/page.tsx:333) guardano solo la spunta, quindi a un pane non spuntato promettono il reso e poi il server rifiuta; pane sulla categoria padre «alimentari» scoperto; se le categorie non si leggono risponde 500 anche ai resi dei non alimentari. Da guardare: 'alimentari-dolci' è «Dolci & Snack» (078:28), quindi anche gli snack confezionati non deperibili perdono il recesso, mentre legale.recesso-esclusi esclude solo ciò che si deteriora in fretta."
+  },
+  {
+   "id": "R21-002",
+   "chiave": "frontend-ux|le foto dell'iphone (heic) adesso entrano davvero, ma nessuno le converte: sul telefono android e su chrome restano un riquadro rotto",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base d1baf1e7^ --file components/PhotoReviewUpload.tsx,app/seller/stories/page.tsx,components/seller/site/GalleryFields.tsx,components/seller/site/ImageUpload.tsx --prove tests/unit/riparazione-r21-foto-heic.test.tsx --json"
+   },
+   "nota": "Il referto dice «copre tutta la voce», ma non è così. I quattro campi riparati reggono, e anche i campi image/* che passano da uploadProductImages. Ma tre punti di caricamento accettano ancora HEIC tramite mappaAccept(), che contiene image/heic: components/VendorForm.tsx:220 (logo), components/StoreMediaManager.tsx:55 (foto del negozio), components/ImageUrlField.tsx:63 (banner dell'admin). Il deposito accetta heic (lib/storage/regole-secchi.ts:55-56). Su Android e Chrome il logo HEIC resta un riquadro rotto."
+  },
+  {
+   "id": "R21-003",
+   "chiave": "flussi-conversione|il filtro «prezzo minimo» taglia sul prezzo pieno, non su quello che il cliente paga",
+   "verdetto": "rompe_altro",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base 4468a8abc3fb949d397c995f60ff06b7a58261e3^ --file lib/queries/griglia-prodotti.ts --prove tests/unit/riparazione-r21-prezzo-minimo.test.ts --json ; timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base 4468a8abc3fb949d397c995f60ff06b7a58261e3^ --file migrations/911_il_prezzo_che_si_paga_lo_calcola_il_database.sql --prove tests/sql/rls/riparazione-r21-prezzo-pagato.test.sql --json --sql k07_rimessa_r21_003"
+   },
+   "nota": "Revisore qa. Lato funzioni chiude tutta: 14 controlli SQL verdi su 14; l'arrotondamento coincide con discountedUnitCents su 2.430.000 combinazioni; tetto 70, promozioni scadute, future e annullate, sconto per categoria e negozio: tutto uguale a product_active_discounts. Senza la 911 il ripiego regge: 42703, PGRST100, PGRST204 e il conteggio senza corpo danno 0 errori e 1 sonda su 80 richieste. Con tutte le migrazioni la 911 si applica, si riapplica, e la 940 e la 970 non la toccano. Ma: Difetto di scala nato con la 911: prezzo_pagato è una funzione con SET search_path, quindi non si srotola nella query e non si indicizza. Ogni filtro o ordine sul prezzo legge tutti i prodotti, con una sotto-ricerca per ognuno. Misurato da anon: 449 ms su 2.000 prodotti e 4.991 ms su 20.000, contro 1 ms su price. Oltre circa 6-7 mila prodotti si supera il limite di 3 secondi di anon, e il ripiego non riconosce l'errore 57014. In più griglia-prodotti.ts:593 (if (error && pagato)) riconta sul prezzo pieno per QUALUNQUE errore, timeout compreso: il numero sopra la griglia non corrisponde alla lista. Prima di applicare la 911 va contato il catalogo di produzione (sotto mille prodotti circa 0,25 s a richiesta, due richieste per pagina)."
+  },
+  {
+   "id": "R21-005",
+   "chiave": "flussi-conversione|l'ordine «prezzo crescente» ordina sul prezzo pieno, mentre la griglia mostra il prezzo scontato",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base c8dbb5591bbd5397db3096855c9ea3194755699b^ --file lib/queries/griglia-prodotti.ts --prove tests/unit/riparazione-r21-prezzo-ordine.test.ts --json"
+   },
+   "nota": "Revisore qa. L'ordine è giusto: prezzo_pagato, poi price, poi id, uguale nel database e nel riordino a blocchi; senza la 911 resta su price, senza errori. Difetto di scala nato con la 911: prezzo_pagato è una funzione con SET search_path, quindi non si srotola nella query e non si indicizza. Ogni filtro o ordine sul prezzo legge tutti i prodotti, con una sotto-ricerca per ognuno. Misurato da anon: 449 ms su 2.000 prodotti e 4.991 ms su 20.000, contro 1 ms su price. Oltre circa 6-7 mila prodotti si supera il limite di 3 secondi di anon, e il ripiego non riconosce l'errore 57014. Ordinare per prezzo senza filtri costa 491 ms su 2.000 prodotti, contro 1,2 ms."
+  },
+  {
+   "id": "R21-014",
+   "chiave": "frontend-ux|ordinando per prezzo, le griglie guardano il prezzo pieno e non quello che si paga",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base c8dbb5591bbd5397db3096855c9ea3194755699b^ --file lib/queries/griglia-prodotti.ts --prove tests/unit/riparazione-r21-prezzo-ordine.test.ts --json"
+   },
+   "nota": "Revisore qa. L'ordine è giusto: prezzo_pagato, poi price, poi id, uguale nel database e nel riordino a blocchi; senza la 911 resta su price, senza errori. Difetto di scala nato con la 911: prezzo_pagato è una funzione con SET search_path, quindi non si srotola nella query e non si indicizza. Ogni filtro o ordine sul prezzo legge tutti i prodotti, con una sotto-ricerca per ognuno. Misurato da anon: 449 ms su 2.000 prodotti e 4.991 ms su 20.000, contro 1 ms su price. Oltre circa 6-7 mila prodotti si supera il limite di 3 secondi di anon, e il ripiego non riconosce l'errore 57014. Ordinare per prezzo senza filtri costa 491 ms su 2.000 prodotti, contro 1,2 ms."
+  },
+  {
+   "id": "R21-006",
+   "chiave": "flussi-conversione|lo slider del prezzo massimo taglia ancora sul prezzo pieno",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base 4c6156f5b9c130d7d0f99c06037e311a68cd6f87^ --file lib/queries/griglia-prodotti.ts --prove tests/unit/riparazione-r21-prezzo-massimo.test.ts --json"
+   },
+   "nota": "Revisore qa. Con la 911 non ci sono più elenchi di id né tetti, e la soglia esclusa è giusta (9,995 diventa 10,00 e 10 diventa 10,01). Senza la 911 i tetti 1000/100 restano (è dichiarato), e la domanda degli id (idsScontatiFinoA, griglia-prodotti.ts:412 e :565) ora parte a ogni pagina e a ogni conteggio, invece di una volta in cache per 60 s. Difetto di scala nato con la 911: prezzo_pagato è una funzione con SET search_path, quindi non si srotola nella query e non si indicizza. Ogni filtro o ordine sul prezzo legge tutti i prodotti, con una sotto-ricerca per ognuno. Misurato da anon: 449 ms su 2.000 prodotti e 4.991 ms su 20.000, contro 1 ms su price. Oltre circa 6-7 mila prodotti si supera il limite di 3 secondi di anon, e il ripiego non riconosce l'errore 57014. "
+  },
+  {
+   "id": "R21-004",
+   "chiave": "flussi-conversione|il filtro «sotto i 10 €» sui prodotti in promozione si ferma a 1000 righe e 100 id",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base 4c6156f5b9c130d7d0f99c06037e311a68cd6f87^ --file lib/queries/griglia-prodotti.ts --prove tests/unit/riparazione-r21-prezzo-massimo.test.ts --json"
+   },
+   "nota": "Revisore qa. Con la 911 non ci sono più elenchi di id né tetti, e la soglia esclusa è giusta (9,995 diventa 10,00 e 10 diventa 10,01). Senza la 911 i tetti 1000/100 restano (è dichiarato), e la domanda degli id (idsScontatiFinoA, griglia-prodotti.ts:412 e :565) ora parte a ogni pagina e a ogni conteggio, invece di una volta in cache per 60 s. Difetto di scala nato con la 911: prezzo_pagato è una funzione con SET search_path, quindi non si srotola nella query e non si indicizza. Ogni filtro o ordine sul prezzo legge tutti i prodotti, con una sotto-ricerca per ognuno. Misurato da anon: 449 ms su 2.000 prodotti e 4.991 ms su 20.000, contro 1 ms su price. Oltre circa 6-7 mila prodotti si supera il limite di 3 secondi di anon, e il ripiego non riconosce l'errore 57014. "
+  },
+  {
+   "id": "R21-010",
+   "chiave": "frontend-ux|la griglia chiama il vecchio calcolo dei prodotti in promozione accanto a quello nuovo",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base 748e1aaf80c6663d15f3aa91ad5330a8b9bf726c^ --file components/ProductGrid.tsx,lib/queries/griglia-prodotti.ts --prove tests/unit/riparazione-r21-griglia-una-strada.test.ts --json"
+   },
+   "nota": "Revisore qa: ProductGrid non chiama più la vecchia funzione e non ha più l'attesa che la riguardava. 54 file di prova verdi (298 test), tsc senza errori."
+  },
+  {
+   "id": "R21-008",
+   "chiave": "frontend-ux|il bollino della promozione nella scheda prodotto scrive la percentuale grezza («in promo -80%») mentre il prezzo si ferma al 70%",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Alla base components/ActivePromoBadge.tsx:53-61 scrive appliedPct = 100 - discountedUnitCents(100, sconto)/100, cioè la percentuale col tetto 70 della cassa: con -80% il bollino dice -70%. È il bollino della scheda prodotto (app/product/[id]/page.tsx:1095). Difetto assente alla base."
+  },
+  {
+   "id": "R21-009",
+   "chiave": "frontend-ux|il riquadro della promozione può scrivere un centesimo diverso dalla cassa",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Alla base components/ActivePromoBadge.tsx:46-52 calcola lo scontato con discountedUnitCents (la funzione della cassa, al centesimo), non più con la formula a mano: 1,15 € al -10% dà 1,03 € come la cassa. Difetto assente alla base."
+  },
+  {
+   "id": "R21-011",
+   "chiave": "frontend-ux|con una promozione attiva la barra d'acquisto e i caroselli mostrano il prezzo pieno, mentre sopra c'è quello scontato",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base d5546a8dc61d7b5d68debf178ab4533cf1e5316e^ --file components/SimilarProducts.tsx,components/RecentlyViewed.tsx,components/SponsoredCarousel.tsx,components/SearchBar.tsx --prove tests/unit/riparazione-r21-prezzo-promo-fasce.test.tsx --json"
+   },
+   "nota": "Il prezzo dei caroselli e della tendina usa lo stesso discountedUnitCents della cassa (lib/ordini/valida-carrello.ts:185), con tetto 70 e lo stesso arrotondamento. Costa una chiamata in più per carosello e per ricerca ritardata: accettabile."
+  },
+  {
+   "id": "R21-015",
+   "chiave": "frontend-ux|altri percorsi di facebook non elencati possono essere salvati come nome del profilo",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base 9a30d929e42413711f5e4027a94368e88f9babc4^ --file lib/store-customization.ts --prove tests/unit/riparazione-r21-facebook-percorsi-restanti.test.ts --json"
+   },
+   "nota": "Nessun nome di pagina vero viene bloccato: i nomi utente di Facebook hanno almeno 5 caratteri, «shops» e «m» sono pagine di servizio, e shopspiacenza e touch.forno passano. Resta l'elenco aperto dichiarato (/i, /campaign, /policy…)."
+  },
+  {
+   "id": "R21-016",
+   "chiave": "frontend-ux|il campo sito del negozio accetta uno spazio nel percorso (https://negozio.it/a b) e lo salva con lo spazio",
+   "verdetto": "rompe_altro",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base 7f8588fa6cbf354216b164f92f4c07bce25a837d^ --file lib/store-customization.ts --prove tests/unit/riparazione-r21-sito-percorso-con-spazio.test.ts --json"
+   },
+   "nota": "Lo spazio finale e %20 vanno bene. Ma un sito già salvato con la regola vecchia, per esempio 'https://negozio.it/a b', ora viene scartato da normalizeCustomization. Il link sparisce dalla vetrina (components/store-sections/useStorePageData.ts:113). Poi viene cancellato dal database al primo cambio di colore (components/seller/site/ThemePicker.tsx:65) o di dettagli. È la stessa malattia di R21-012: normalizeCustomization cancella in silenzio i valori salvati che le regole di oggi rifiutano."
+  },
+  {
+   "id": "R21-012",
+   "chiave": "frontend-ux|un sito già salvato con ftp:// o scritto male ora blocca il salvataggio di tutto il negozio",
+   "verdetto": "non_regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base e62b8621b493d301694bfec3bedc6a4c4ebc9229^ --file components/VendorForm.tsx --prove tests/unit/riparazione-r21-sito-salvato-non-blocca.test.tsx --json"
+   },
+   "nota": "La correzione gira solo nella prova. Sul sito, StoreDetailsEditor.tsx:98 passa i dati salvati da normalizeCustomization (lib/store-customization.ts:257), che scarta 'ftp://sito.it' prima che arrivino al modulo. Quindi VendorForm.tsx:314-333 non scatta mai. La prova lo fa scattare solo con defaultValues grezzi. Effetto reale: il sito salvato non blocca più, ma sparisce in silenzio dal database al primo salvataggio. Sonda: normalizeCustomization({socials:{website:'ftp://sito.it',instagram:'x'}}) restituisce solo instagram."
+  },
+  {
+   "id": "R21-013",
+   "chiave": "frontend-ux|l'email della veloce dice sempre «la tua spesa arriva in una fascia» anche quando si è spostato un ordine solo del carrello",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base e5c9f47aa58bfcdaf0b68ef621dce8ecf6b3b32d^ --file lib/email/templates.ts --prove tests/unit/riparazione-r21-email-veloce-ordine-non-spostato.test.ts --json"
+   },
+   "nota": "La regex cerca «(tranne l’ordine|gli ordini » con l’apostrofo tipografico, lo stesso che scrive lib/ordini/veloce-non-confermata.ts:160; senza eccezione o con senzaFascia titolo e oggetto restano identici."
+  },
+  {
+   "id": "R21-007",
+   "chiave": "frontend-ux|le pagine di prodotti, negozi e categorie che non esistono rispondono «tutto ok» invece di «non trovato»",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base 10b630596839d63f761b09b992bc6b6a1e4742ae^ --file app/u/[handle]/page.tsx --prove tests/unit/riparazione-r21-profilo-non-trovato-senza-canonical.test.ts --json"
+   },
+   "nota": "Aggiunto solo il canonical nullo su /u/<handle> inesistente; la voce chiede il «non trovato» vero, che resta 200 per app/loading.tsx (dichiarato dal riparatore). Parziale onesto."
+  },
+  {
+   "id": "R20-001",
+   "chiave": "ai-endpoints|nella chat assistenza il negoziante approva una descrizione nuova senza poterla leggere, e al primo messaggio l'assistente riscrive tag e descrizione senza aver visto quelli che ci sono",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R20 --base a0f1254545ab8fc817d3ae6791a8b03c4483e6b2^ --file app/api/ai/catalog-chat/route.ts --prove tests/unit/riparazione-r20-chat-testo-intero.test.ts --json"
+   },
+   "nota": "Revisore qa. Il testo intero della descrizione nella risposta c'era già da prima (084e9fe8), e anche la proposta alla cieca al primo messaggio era già tolta (route.ts:175 e :506). Il commit aggiunge solo una cosa: tag e descrizione arrivano alla scheda ripuliti come li salva il server. Restano, dichiarati: la scheda accanto ad Applica dice ancora «Descrizione aggiornata» (prontoPerLaVendita.ts:705), e al primo messaggio il modello non vede tag e descrizione attuali. Minore: tagDelPatch (aiPatch.ts:831) dà un risultato diverso se applicata due volte ('Dolci ,' → doppione apparente sulla scheda, il server ne salva uno). Non rompe altro: catalog-apply ripulisce di nuovo."
+  },
+  {
+   "id": "R20-002",
+   "chiave": "ai-endpoints|il tetto giornaliero di spesa ai in produzione non è condiviso: ogni copia del sito conta per sé",
+   "verdetto": "rompe_altro",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R20 --base 52b0a1638434c9783ae7ef4ce7ae8f14e9dab702^ --file lib/ai/run.ts,lib/ai/tettoSpesa.ts --prove tests/unit/riparazione-r20-tetto-condiviso.test.ts --json ; timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R20 --base 52b0a1638434c9783ae7ef4ce7ae8f14e9dab702^ --file migrations/980_il_conto_della_spesa_ai_restituisce_le_prenotazioni.sql --prove tests/sql/rls/riparazione-r20-conto-spesa-ai-restituisce.test.sql --json --sql k07_rimessa_r20_002"
+   },
+   "nota": "[chiude_tutta, revisore qa] Le copie concorrenti sono chiuse. Prova: 60 sessioni psql in parallelo (stima 7, tetto 100) ne fanno passare esattamente 14 e il conto finisce a 98; il run.ts vero su Postgres locale con 2 copie × 15 chiamate ne fa passare 3. Ma il tetto regge solo con la 980. Con la 158 senza la 980 la restituzione negativa viene ignorata senza errore. L'AI si ferma con «Budget AI giornaliero esaurito. Riprova domani.» dopo 8,69 centesimi spesi davvero su 100, circa 11 volte prima del dovuto, e nessun allarme se ne accorge: sondaContoCondiviso (tettoSpesa.ts:429) risponde condiviso:true. L'allarme del cron (decisioneTettoSpesa.ts:226-228) dice ancora «quota per copia» e prescrive di applicare 131/158, cioè proprio lo stato rotto. Nessun controllo al rilascio lega il codice alla 980. Minori: run.ts:336 ha un contatore unico che trattiene le prenotazioni di tutte le chiamate aperte (verso sicuro); catalog-batch/start/route.ts:253-269 conta per un istante la stima due volte; una funzione uccisa dal limite di durata tiene la prenotazione fino a mezzanotte. Online prima della 980: senza tabella, 503 permanente su tutta l'AI a pagamento, zero euro spesi; con la 158 senza la 980, blocco al 9% circa con «riprova domani»; con tutte le migrazioni è corretto. In nessuno stato si spendono soldi senza tetto. || [nata_rotta, secondo revisore qa] Reggono: due copie a 99 su 100 ne fanno passare una; una doppia restituzione non toglie due volte; con il modello in errore il conto torna a 0; mezzanotte di Roma corretta; la 980 su 241 migrazioni e applicata due volte senza errori; anon e authenticated ricevono permission denied, il conto non scende sotto zero; 2237 file, 13658 prove verdi. ROMPE: tests/sql/harness/la-158-non-lascia-la-porta-aperta.sh:68 ora fallisce con «la funzione c'è già», perché ricostruendo la produzione salta 131/158/159/160 ma non la 980. È rosso con la 980 e verde senza. Non è in ci.yml, quindi la CI non lo vede, e il controllo dei permessi della funzione non gira più. Inoltre: le ricerche web non entrano nella stima (run.ts:~421: da 90 su 100 si arriva a circa 113); tre errori del conto, restituzioni comprese, mettono in pausa il circuito (tettoSpesa.ts:294-295), così per 5 minuti tutta l'AI della copia risponde 503 anche col conto tornato. Ordine di rilascio: Vercel pubblica a ogni merge su main senza aspettare la CI (deploy-dopo-ci.yml:255), quindi la 980 va applicata PRIMA del merge. Le 8 prove rosse con VERCEL=1 non rompono la CI: GitHub non imposta VERCEL, e Vercel non lancia le prove."
+  },
+  {
+   "id": "R20-008",
+   "chiave": "ai-endpoints|con un solo timeout del conto condiviso della spesa ai il negoziante legge «budget ai giornaliero esaurito. riprova domani.»",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R20 --base 951fdcbed871060f3bdc4541efc25f5c2e1c4208^ --file lib/ai/run.ts,app/api/ai/catalog-batch/start/route.ts --prove tests/unit/riparazione-r20-spesa-sconosciuta.test.ts --json"
+   },
+   "nota": "Revisore qa: il timeout e la pausa del circuito danno «Servizio AI momentaneamente non disponibile. Riprova fra qualche minuto.» e il lotto si chiude come fallito, non come annullato. Gli altri chiamanti (external-refresh, import-fetch, vision, catalog-create) passano tutti da mapAiError, e nessuno dice più «budget esaurito» per questo motivo. Imprecisione minore: se la funzione della 980 manca del tutto, «fra qualche minuto» è falso, perché il blocco dura finché non si applica la migrazione."
+  },
+  {
+   "id": "R17-002",
+   "chiave": "deploy-sre|il commento del lavoro di rilascio dice ancora «se i candidati sono piu di uno»",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R17 --base f1e5979281a025d89b4e001fa240160b511e4460^ --file .github/workflows/deploy-dopo-ci.yml --prove tests/unit/riparazione-r17-commento-del-rilascio.test.ts --json"
+   },
+   "nota": "Il commento (deploy-dopo-ci.yml:653-658) ora dice la regola vera: si torna solo al rilascio che il dominio dice se è di un altro commit; col commit che esce l'elenco non sceglie mai. Solo commento, nessun passo cambiato."
+  },
+  {
+   "id": "R17-010",
+   "chiave": "qa-flussi|il testo di un errore vero arriva a sentry senza oscurare email e telefoni",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R17 --base 23c3c08e1f12268ed9125e0e85ba01e38bd517ae^ --file lib/logger.ts --prove tests/unit/riparazione-r17-telefoni-oscurati-a-sentry.test.ts --json"
+   },
+   "nota": "La nuova forma del telefono (lib/logger.ts:68) oscura 333 12 34 567, 0523 12 34 56; la data gg.mm.aaaa resta leggibile; quantificatori limitati, niente ReDoS. Resta, dichiarato, tutto ciò che va a Sentry senza passare dal logger (instrumentation.ts, captureError, global-error, ripulisciEvento): parziale onesto."
+  },
+  {
+   "id": "R17-011",
+   "chiave": "qa-flussi|un bigint o un tojson che lancia nel contesto fanno perdere tutto il contesto della riga di log",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R17 --base 6ac6ccb6909353ac3802f660d0af7fff81f80eff^ --file lib/logger.ts --prove tests/unit/riparazione-r17-contesto-del-log-intero.test.ts --json"
+   },
+   "nota": "redact: BigInt → testo, funzioni (anche toJSON) tolte, Date ISO/Invalid Date, Map con regola delle chiavi (email oscurata), Set elenco, Object.keys protetto, prototipo nullo. Map che contiene se stessa si ferma al limite di profondità. JSON.stringify non lancia più."
+  },
+  {
+   "id": "R17-009",
+   "chiave": "qa-flussi|il carrello si riempie di nuovo con la spesa già pagata o già tolta, se si usano due dispositivi o non si torna da stripe",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R17 --base 3559deb26198a444cceded5105993850069597b5^ --file components/CartCrossDeviceSync.tsx,lib/cart.ts --prove tests/unit/riparazione-r17-carrello-fra-dispositivi.test.ts --json"
+   },
+   "nota": "Provato a rompere: user_carts non ha trigger su updated_at (032), quindi la versione del cloud letta coincide con quella scritta e un dispositivo solo non fonde per sbaglio; prendiIlCloud riallinea con la data locale avanzata da saveCart; invii in fila; chiave vecchia segue la regola di prima. Restano, dichiarati, il carrello non svuotato quando il cliente non torna da Stripe e la fusione se entrambi i dispositivi sono cambiati."
+  },
+  {
+   "id": "R17-005",
+   "chiave": "layout-responsive|/come-funziona: anche il titolo grande e un h3 in riga flex possono uscire col testo al 200%",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R17 --base 27e4aa2b02af88b2c7935dd415611a5b8f6eaef9^ --file app/come-funziona/page.tsx --prove tests/unit/riparazione-r17-come-funziona-titoli.test.ts --json"
+   },
+   "nota": "h1 break-words; i due h3 finali break-words, contenitori min-w-0, icona Store shrink-0: le parti che escono col testo al 200% sono coperte. Non misurato a schermo."
+  },
+  {
+   "id": "R17-006",
+   "chiave": "layout-responsive|/privacy e /come-funziona possono scorrere di lato col testo al 200%",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R17 --base a99b25a8ae7780ffac87de3c6117879dca9874d7^ --file app/come-funziona/page.tsx --prove tests/unit/riparazione-r17-come-funziona-banda.test.ts --json"
+   },
+   "nota": "Banda di rassicurazione: riga min-w-0, icona shrink-0, h2 min-w-0 break-words. LegalLayout (/privacy) aveva già break-words sull'h1 e overflow-wrap:anywhere sul contenuto alla base. Non misurato a schermo."
+  },
+  {
+   "id": "R17-008",
+   "chiave": "qa-flussi|un cliente che esiste già non ha una strada da solo per diventare fattorino",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Alla base app/help/page.tsx:103-109 ha già il paragrafo id=gia-cliente-rider con il link vero a /contact e l'istruzione di scrivere con l'email dell'account; la scheda «Diventa rider» (riga 59) rimanda lì. Difetto assente alla base."
+  },
+  {
+   "id": "R17-013",
+   "chiave": "stati-ui|nella chat assistenza la bolla della risposta appiattisce a capo ed elenchi: una descrizione lunga diventa un muro di testo senza «leggi tutto»",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R17 --base bb1f8df081d684138fe3fa7b1854dda7face683e^ --file components/SupportProductAssistant.tsx --prove tests/unit/riparazione-r17-chat-risposta-lunga.test.tsx --json"
+   },
+   "nota": "Bolle con whitespace-pre-line break-words (testo, niente HTML); risposta dell'assistente oltre 420 caratteri o 8 righe si ripiega con line-clamp-6 e «Leggi tutto»/«Mostra meno» con aria-expanded. Il messaggio dell'utente non si ripiega (scelta dichiarata)."
+  }
+ ],
+ "campione": {
+  "R21": {
+   "accettato": true
+  },
+  "R20": {
+   "accettato": true
+  },
+  "R17": {
+   "accettato": true
+  }
+ }
+}
