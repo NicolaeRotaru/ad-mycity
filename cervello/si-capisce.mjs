@@ -63,7 +63,7 @@ export const PAROLE_MACCHINA = [
  */
 export const BLOCCHI = ["In parole semplici", "Cosa cambia per te", "Cosa devi fare", "Cosa non ho verificato"];
 /**
- * «Il punto adesso» (Nicola, 12/11 notte: «sì, regola»). Un riassunto in cima, con ✅ fatto, ⏳ in corso e 👉 tocca a te,
+ * «Il punto adesso» (Nicola, 12/11 notte: «sì, regola»). Un riassunto in cima, con Fatto, In corso e Tocca a te (in parole, senza icone dal 26/11),
  * vale al posto dei primi tre blocchi: dice cosa è successo, cosa cambia e cosa deve fare lui. Il quarto blocco,
  * «Cosa non ho verificato», resta preteso: è quello che sparisce più spesso. Regola 3-ter di scrittura-umana.md.
  */

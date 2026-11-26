@@ -1,27 +1,48 @@
 ---
 tipo: piano
-data: 2026-11-26 14:47
-fonte: richiesta di Nicola del 25-26/11/2026 in chat con l'AD («recupera molti più dati sul cliente… l'analisi più figa che si possa creare per l'imprenditore, usando anche i dati che già analizza l'AD… e metterlo già dentro il preventivo, in base all'abbonamento»)
-stato: via di Nicola il 2026-11-26 ~14:45 — tre fonti a pagamento approvate, assaggio prima di pagare, due sessioni aperte
+data: 2026-11-26 15:20
+fonte: chat di Nicola con l'AD, 25 e 26 novembre 2026; parere legale del 26/11
+stato: via di Nicola alle 14:45 del 26/11; corretto alle 15:20 col parere legale
 ---
 
 # Il rapporto dell'imprenditore — piano
 
 ## In parole semplici
-Oggi l'analisi di un'attività che si iscrive legge il web: il suo sito, gli elenchi e gli articoli, fino a 10
-pagine. Non legge la scheda Google, Instagram, Facebook, TripAdvisor: copiarle con un programma è vietato dalle
-loro regole. Questo piano aggiunge le fonti ufficiali e gratuite, quelle a pagamento solo con la firma di
-Nicola, e i dati che l'AD segue già per MyCity (eventi, bandi, meteo, notizie, numeri del marketplace).
-Il risultato è un rapporto in 11 parti, e il preventivo dice quali parti dà ogni abbonamento.
+Oggi l'analisi di un'attività nuova legge solo il web aperto: il suo sito e qualche elenco, al massimo 10 pagine.
+Questo piano la porta a 11 parti, con fonti ufficiali e con i dati che l'AD segue già per MyCity.
+Per esempio: per La Ragazzetta, un bar di Piacenza, il web non ha dato nemmeno l'indirizzo.
+Con il riquadro ufficiale di Google il titolare vede la sua scheda in diretta. Con OpenStreetMap si contano i bar vicini.
+Detto in un altro modo: più fonti vere, e un preventivo che mostra cosa dà ogni abbonamento.
 
-## Le 11 parti del rapporto
+## Cosa cambia per te
+- Prima di pagare, il titolare vede un assaggio di 3-4 numeri veri. Il rapporto intero arriva dopo l'abbonamento.
+- Il preventivo dice quali parti danno il Base, il Business e il Premium. I prezzi restano uguali.
+- Il parere legale ha cambiato tre cose. Primo: i dati di Google non si salvano, si mostrano solo nel riquadro di Google.
+- Secondo: TripAdvisor resta spento per ora. Terzo: con DataForSEO il rischio verso Google è nostro.
+
+## Cosa devi fare
+- Dire se accetti il rischio di DataForSEO sulle recensioni. Il legale consiglia sì, tenendo solo i temi.
+- Aprire Google Cloud con un avviso di spesa, e DataForSEO con 50 dollari di ricarica. TripAdvisor per ora no.
+- Far rileggere il parere a un legale abilitato prima di accendere le fonti.
+- Unire le due richieste delle sessioni. Poi dare l'«ok ripubblica» per il flusso delle attività nuove.
+
+## Cosa non ho verificato
+- Il legale non ha potuto aprire le pagine ufficiali di TripAdvisor e DataForSEO: le ha lette di seconda mano.
+- Non so se il conto Google Cloud è intestato in Italia. Il parere lo dà per probabile.
+- Il prezzo del riquadro ufficiale di Google non l'ho controllato.
+- Non so se l'app Meta di MyCity ha già il permesso per leggere i numeri di Instagram.
+- Il costo delle due sessioni è una stima a occhio: da 2 a 3 milioni di token.
+
+## Dettagli tecnici
+
+### Le 11 parti del rapporto
 | # | Parte | Cosa dice all'imprenditore | Da dove arriva |
 |---|---|---|---|
-| 1 | La tua carta d'identità online | Se Google, sito e social dicono le stesse cose (orari, indirizzo) | Google ufficiale, pagine scaricate da n8n |
-| 2 | La tua reputazione | Voto, numero di recensioni, cosa lodano e cosa criticano, se rispondi | Google ufficiale (5 recensioni), TripAdvisor ufficiale, tutte con DataForSEO |
-| 3 | I concorrenti vicini | Quanti entro 300-500 m, il loro voto medio, chi è aperto quando tu sei chiuso | OpenStreetMap (gratis) + Google ufficiale |
+| 1 | La tua carta d'identità online | Se sito, social ed elenchi dicono le stesse cose (orari, indirizzo) | Pagine scaricate da n8n; riquadro Google accanto, senza confronti coi suoi dati |
+| 2 | La tua reputazione | Cosa lodano e cosa criticano, per temi; se rispondi | Temi da DataForSEO (≥3 recensioni per tema); riquadro Google in diretta |
+| 3 | I concorrenti vicini | Quanti entro 300-500 m, chi è aperto quando tu sei chiuso | OpenStreetMap; il loro voto solo da DataForSEO, mai da Google |
 | 4 | La tua zona | Scuole, uffici, fermate, parcheggi vicini: i momenti in cui passa gente | OpenStreetMap, ISTAT |
-| 5 | Cosa cerca la gente | Quante ricerche su Google a Piacenza per la tua categoria, in che posizione esci | DataForSEO (a pagamento) |
+| 5 | Cosa cerca la gente | Quante ricerche su Google a Piacenza per la tua categoria, in che posizione esci | DataForSEO |
 | 6 | Il tuo sito | Velocità, se si trova su Google, se funziona dal telefono | PageSpeed (già acceso), pagine scaricate |
 | 7 | I tuoi social | Follower, post al mese, video, confronto coi concorrenti | Instagram ufficiale (Business Discovery) |
 | 8 | Il calendario della città | Eventi e mercati vicino a te nei prossimi 30 giorni, meteo della settimana | Radar dell'AD (Comune, sagre), MET Norway |
@@ -29,88 +50,69 @@ Il risultato è un rapporto in 11 parti, e il preventivo dice quali parti dà og
 | 10 | Su MyCity | Vetrina, prodotti, ordini, incassi, clienti tornati | La pagella del flusso 18 (dopo l'abbonamento) |
 | 11 | Il piano dei 30 giorni | Tre mosse, ognuna col servizio che la copre e cosa cambia in cassa | L'AD, dalle parti 1-10 |
 
-## Le fonti: gratis e a pagamento
+### Le fonti
 **Gratis, partono subito**
 - OpenStreetMap (Overpass): concorrenti e servizi vicini. Al massimo 1 richiesta al secondo, nome di programma generico.
-- MET Norway (`api.met.no`): meteo dei prossimi giorni. Ammesso anche l'uso commerciale, citando la fonte (CC BY 4.0).
-  Open-Meteo NO: gratis solo per uso non commerciale.
-- Radar dell'AD (flusso 24): eventi del Comune, sagre e mercatini, bandi di Comune, Camera di Commercio e Unione
-  Commercianti, notizie locali. Fonti in `ad-mycity/cervello/radar-fonti.json`.
-- ISTAT: residenti per zona (file fisso, fase 2).
-- PageSpeed: già acceso sul sito.
-- Instagram ufficiale (Business Discovery): follower, numero di post, ultimi post con data e interazioni degli
-  account professionali. Gratis. Serve l'account Instagram professionale di MyCity collegato all'app Meta, col permesso
-  `instagram_basic` (da verificare se l'app di MyCity ce l'ha già). Esclusi gli account con limite d'età.
-- Dopo l'abbonamento, col permesso del titolare: Google Business Profile (chiamate, richieste di indicazioni, visite
-  al sito dalla scheda) e Instagram Insights (persone raggiunte, città dei follower). Gratis. Per Google serve una
-  richiesta di accesso alle sue API, approvata da Google.
+- MET Norway (`api.met.no`): meteo, uso commerciale ammesso citando la fonte (CC BY 4.0). Open-Meteo NO.
+- Radar dell'AD (flusso 24): eventi del Comune, sagre, bandi di Comune, Camera di Commercio, Unione Commercianti.
+- ISTAT: residenti per zona (fase 2). PageSpeed: già acceso.
+- Instagram ufficiale (Business Discovery): follower, post, ultimi post degli account professionali. Serve l'account
+  professionale di MyCity collegato all'app Meta (`instagram_basic`, da verificare).
+- Dopo l'abbonamento, col permesso del titolare: Google Business Profile e Instagram Insights.
 
-**A pagamento — solo con la firma di Nicola (🔴)**
-| Fonte | Cosa dà in più | Costo (verificato il 26/11 sulle pagine ufficiali) | Uso stimato |
-|---|---|---|---|
-| Google Places (ufficiale) | Scheda Google: voto, n. recensioni, 5 recensioni, orari, stato; voto dei concorrenti | Serve la carta su Google Cloud. 1.000 richieste gratis al mese per ogni tipo «Enterprise»; oltre, 20-40 $ ogni 1.000 | ~10 attività al giorno × 2 richieste ≈ 600 al mese → 0 € |
-| TripAdvisor Content API | Voto, n. recensioni, posizione in città («12° su 300»), 5 recensioni | Serve la carta. Gratis 5.000 chiamate al mese secondo la FAQ ufficiale (un'altra pagina ufficiale dice 1.000) | Solo bar, ristoranti, hotel: ≈ 300 al mese → 0 € |
-| DataForSEO | TUTTE le recensioni Google; quanto si cerca una parola a Piacenza; in che posizione esce il locale | Ricarica minima 50 $, una volta sola, non è un canone. Recensioni: 75 $ ogni milione | Pochi centesimi al mese: i 50 $ durano a lungo |
-| Visura camerale | Anno di apertura, codice attività, addetti | A pezzo, prezzo da verificare | Non la consiglio ora |
+**A pagamento, approvate da Nicola il 26/11 alle 14:45, corrette dal parere legale delle 15:10**
+| Fonte | Cosa si può fare | Costo |
+|---|---|---|
+| Google Places | Solo `place_id` (salvato senza scadenza) e coordinate (30 giorni). La scheda si mostra col riquadro `<gmp-place-details>` (Places UI Kit) in diretta. Niente voto, recensioni, orari, nome o indirizzo salvati o copiati; niente temi AI né medie dei concorrenti dai dati Google | 1.000 richieste gratis al mese per tipo; prezzo del UI Kit da verificare |
+| TripAdvisor | **Spenta** finché non arriva un sì scritto. La Content API potrebbe essere stata sostituita da «Terra» il 31/8/2026 | — |
+| DataForSEO | Ricerche e posizioni su Google: sì. Recensioni: testi solo in memoria, cancellati entro 24 ore; si salvano tema e numero di citazioni; un tema si mostra solo con ≥3 recensioni. Il rischio verso Google è nostro (§7.1-7.2: li teniamo indenni) | Ricarica minima 50 $, una volta |
 
-Avvertenze legali, da passare a `legale-privacy` prima di accendere:
-- Google vieta di tenere i suoi dati oltre 30 giorni (tranne l'identificativo del luogo). Quindi prima
-  dell'abbonamento i dati Google si mostrano «letti il …» e spariscono dopo 30 giorni. Il confronto mese su mese
-  si fa coi dati del titolare (Google Business Profile), che dopo l'abbonamento sono suoi e si possono tenere.
-- DataForSEO raccoglie i dati da Google con un suo programma: il rischio delle regole di Google è suo, ma il
-  legale lo guarda prima.
-- Recensioni: mai il nome di chi le ha scritte. Si tengono i temi, non le persone.
-- Mai pagine di Meta, mappe o portali lette di nascosto (regola già nel codice: `flussi/chiedi-all-ad/leggi-pagine.mjs`).
+**Il parere legale** (`consegne/legale/2026-11-26-fonti-rapporto-imprenditore.md`, bozza da far validare a un legale abilitato):
+- Termini Google EEA dall'8/7/2025: dati Places ammessi solo per 9 usi; un rapporto venduto a terzi non c'è (§15.2).
+  Vietato «copy and save business names, addresses, or user reviews» (ToS 3.3.2). Il riquadro UI Kit è esente da §15.1-15.2.
+- Le filiere DataForSEO e Google Places restano separate.
+- GDPR: per il titolare art. 6.1.b; per chi scrive le recensioni legittimo interesse (art. 6.1.f) con bilanciamento scritto
+  e informativa pubblicata (art. 14.5.b). MyCity è titolare autonomo del rapporto. Va aggiornata l'informativa dei titolari.
+- I termini d'uso di MyCity rimandano ai Google Maps Additional Terms e alla Google Privacy Policy (ToS 3.2.2).
 
-## Il preventivo, per abbonamento (proposta dell'AD, da confermare)
-Prezzi invariati (Base 300 €, Business 500 €, Premium 999 €). Cambia il testo `FASCE.*.servizi.analisi` in
-`mycity/lib/agenzia/preventivo.ts` e nasce l'elenco «Cosa c'è nella tua analisi»:
-- **Base** — il rapporto completo all'avvio: parti 1-4, 6-9 e 11, più un avviso quando esce un bando adatto.
-- **Business** — il rapporto all'avvio e ogni mese: cosa è cambiato (voto, recensioni, follower, concorrenti), gli
-  eventi del mese, i bandi nuovi, le vendite su MyCity (parte 10), la parte 5 se DataForSEO è acceso.
-- **Premium** — ogni settimana: le recensioni nuove con la risposta pronta, eventi e meteo della settimana con le
-  mosse, il confronto coi concorrenti; un incontro al mese per leggerlo insieme.
-Il preventivo usa già l'analisi per le proposte su misura (opportunità → servizio): con più dati, le proposte diventano
-più precise. Prima di pagare il titolare vede **un assaggio** (scelta di Nicola: assaggio o rapporto intero).
+### Il preventivo, per abbonamento (proposta dell'AD, da confermare)
+Prezzi invariati (Base 300 €, Business 500 €, Premium 999 €). Cambia `FASCE.*.servizi.analisi` in `mycity/lib/agenzia/preventivo.ts`
+e nasce l'elenco «Cosa c'è nella tua analisi»:
+- **Base**: il rapporto completo all'avvio (parti 1-4, 6-9 e 11), più un avviso quando esce un bando adatto. Mai il confronto mese su mese.
+- **Business**: all'avvio e ogni mese: cosa è cambiato (follower, temi delle recensioni, concorrenti), eventi del mese, bandi nuovi,
+  vendite su MyCity (parte 10), parte 5. Il confronto Google mese su mese solo con Google Business Profile del titolare.
+- **Premium**: ogni settimana le recensioni nuove con la risposta pronta, eventi e meteo con le mosse, confronto coi concorrenti;
+  un incontro al mese.
+- **Assaggio prima di pagare** (scelta di Nicola): concorrenti vicini (OpenStreetMap), velocità del sito, follower Instagram,
+  ricerche e posizione (DataForSEO), con accanto il riquadro Google.
 
-## Il contratto fra n8n e il sito (bozza: lo chiude la sessione dei flussi, il sito lo legge)
-Due parti nuove nella scheda che il flusso 26 manda al sito:
-- `fatti` — numeri calcolati da n8n, senza IA, ognuno con `fonte` e `letto_il`:
-  `google {voto, recensioni, orari, stato}` · `tripadvisor {voto, recensioni, posizione}` ·
-  `instagram {follower, post, post_30_giorni, video_30_giorni, ultimo_post_il, interazioni_medie}` ·
-  `concorrenti {raggio_m, quanti, voto_medio, elenco[≤8]{nome, distanza_m, voto, recensioni}}` ·
-  `zona {scuole, uffici, fermate, parcheggi}` · `meteo [≤7]{data, massima, pioggia_mm}` ·
-  `eventi [≤5]{titolo, data, luogo, fonte}` · `bandi [≤5]{titolo, ente, scadenza, per_chi, fonte}` ·
-  `sito {https, telefono_ok, titolo, descrizione, dati_strutturati}` · `ricerche [≤10]{parola, volume_mese}` (solo DataForSEO).
-  Un blocco che manca è `null` con il motivo in `non_letto`; mai uno zero inventato.
-- Nuove sezioni dell'AD (come le attuali: max 3 frasi, ognuna con fonte): `reputazione_temi`, `confronto_concorrenti`,
-  `occasioni` (eventi + meteo → mosse), `soldi_pubblici`, `piano_30_giorni` (tipo `MOSSA`, col servizio).
-Vincoli: il lavoro per «Chiedi all'AD» resta sotto i 64 KB (i `fatti` sono numeri, non pagine); tetto 40 corse al giorno.
+### Il contratto fra n8n e il sito
+Lo chiude la sessione dei flussi: `N8N/flussi/16-nuovo-cliente-da-mycity/CONTRATTO-RAPPORTO.md`, v1 del 26/11.
+- `analisi.fatti` = { versione, raccolti_il, posizione, vicini, meteo, eventi, bandi, sito, google, tripadvisor, recensioni,
+  ricerche, instagram }. Ogni blocco è una busta: { stato: letto|vuoto|spento|non_applicabile|errore, motivo, fonte, fonte_nome,
+  licenza, letto_il, conserva_fino_al, dati|null }. Fonte spenta = `spento`, mai «0».
+- Correzione del parere legale: `google.dati` = { place_id } e niente altro; `tripadvisor` = `spento`.
+- Sezioni nuove dell'AD in `analisi.business`: `reputazione_temi`, `confronto_concorrenti`, `occasioni`, `soldi_pubblici`,
+  `piano_30_giorni` (con `proposta`). I numeri vengono solo da `fatti`.
+- Il lavoro per «Chiedi all'AD» resta sotto i 64 KB; tetto 40 corse al giorno.
 
-## Il lavoro, in due sessioni parallele
-- **Sessione Flussi** (repo `N8N`): nodi gratis nel flusso 26 (OpenStreetMap, MET Norway, eventi e bandi dalle fonti
-  del radar, controlli del sito dalle pagine già scaricate); nodi Google Places, TripAdvisor, Instagram e DataForSEO
-  pronti ma **spenti** finché la chiave non c'è (`FONTE_* = no` nel Config); schema dell'AD allargato; chiude il contratto.
-- **Sessione Sito** (repo `mycity`): due campi facoltativi all'iscrizione (nome Instagram, link della scheda Google);
-  le parti nuove nella pagina «Analisi del business»; il preventivo con l'elenco per abbonamento; i dati Google che
-  scadono dopo 30 giorni. Migrazione solo se serve (la tabella `analisi_negozi` è della 711).
-- Regole: prima le prove (dato → atteso), chi costruisce non collauda, `npm run verify` e
-  `node cervello/radiografia-in-corsa.mjs --repo ../mycity` sul sito, PR su `main` per ciascun repo.
-- Preventivo: 2 sessioni, ~10 subagenti in tutto, circa 2-3 milioni di token. Stima a occhio, non dalle misure.
+### Le due sessioni
+- Flussi (N8N): `session_01R8112K1DyjU4xADptnSgNq`, ramo `claude/rapporto-imprenditore-flussi`.
+- Sito (mycity): `session_01R8112MSbmrMsg1NS5fYwU7`, ramo `claude/rapporto-imprenditore-sito`.
+- Tetto: 6 subagenti e circa 1,5 milioni di token ciascuna. Chi costruisce non collauda. PR su `main` per ogni repo.
+- Il flusso 26 vero si ripubblica solo con l'«ok ripubblica» di Nicola, dopo la copia di sicurezza.
 
-## Le prove (dato → atteso)
-1. La Ragazzetta, Piacenza, nessun sito → `fatti.concorrenti.quanti` > 0 da OpenStreetMap; `google = null` con
-   `non_letto: "chiave Google non accesa"` finché Places è spento.
+### Le prove (dato → atteso)
+1. La Ragazzetta, nessun sito → `vicini` letto da OpenStreetMap con concorrenti > 0; `google` col solo `place_id` o `spento`.
 2. Un locale con Instagram professionale → `instagram.follower` è un numero letto, con fonte e data.
-3. Una scheda Google letta 31 giorni fa → il sito non mostra più voto e recensioni Google.
-4. Il Config con `FONTE_GOOGLE = no` → nessuna chiamata a Google parte (nessuna spesa).
+3. Dopo una lettura Google → nel database e nella scheda al sito c'è solo `place_id`: nessun voto, orario o recensione.
+4. `FONTE_GOOGLE = no` o `FONTE_DATAFORSEO = no` → nessuna chiamata a pagamento parte.
 5. Una recensione con «Mario Rossi» → nel rapporto non compare nessun nome di persona.
 6. Il preventivo Base → l'elenco dell'analisi non promette il confronto mese su mese.
+7. Un tema citato da 2 recensioni → non si mostra; da 3 → si mostra con il numero.
 
-## Stato adesso (2026-11-26 14:47)
-- ✅ Scelte di Nicola (~14:45): **Google Places, TripAdvisor e DataForSEO approvate**; prima di pagare **un assaggio**;
-  **via alle due sessioni**. Fatto nel registro: `agenzia.rapporto-imprenditore`. Ha chiesto anche se ci sono altre fonti.
-- ⏳ Parere legale sulle tre fonti a pagamento: agente `legale-privacy` → `consegne/legale/2026-11-26-fonti-rapporto-imprenditore.md`.
-- ⏳ Sessione Flussi (N8N) e Sessione Sito (mycity): ID in `LAVORO-APERTO.md`. I nodi a pagamento nascono spenti.
-- 👉 Nicola: aprire i tre account e mettere le chiavi nelle credenziali di n8n (mai in chat); su Google Cloud un tetto di spesa.
-- Il flusso 26 vero si ripubblica solo con l'«ok ripubblica» di Nicola, dopo la copia di sicurezza.
+### Stato adesso (2026-11-26 15:20)
+- Fatto: scelte di Nicola nel registro (`agenzia.rapporto-imprenditore`); parere legale arrivato alle 15:10 e girato alle due
+  sessioni come avviso urgente; carta #265 in `AZIONI-IN-ATTESA.md`.
+- In corso: le due sessioni.
+- Da Nicola: rischio DataForSEO sì o no; i due account (Google Cloud, DataForSEO); legale abilitato; unione delle PR.

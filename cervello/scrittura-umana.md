@@ -262,6 +262,10 @@ node cervello/conta-blocco-mancante.mjs        # conta: quante volte è mancato,
 
 > Nicola, 12/11: *«alle volte faccio ancora fatica a capire quello che devo fare, anche se spieghi molto bene…
 > che mi fai un bel riassunto che non tralasci nulla, così non devo ogni volta leggere ogni cosa»*. Poi: «sì, regola».
+>
+> Nicola, 26/11 alle 14:00: *«mi si incrociano gli occhi a capire ogni cosa… non usare le icone, fai un riassunto,
+> sempre in modo semplice, esaustivo, che faccia capire bene le cose»*. Alle 14:15, letto un messaggio scritto così:
+> «mi piace il modo in cui stai scrivendo adesso, cambia per tutti, metti una regola».
 
 Ogni messaggio a Nicola che racconta un lavoro o gli chiede qualcosa apre con un riassunto corto. Vale per
 la chat, le fermate, i messaggi della regista e le lettere. Deve bastare da solo: chi legge solo quello sa tutto
@@ -269,20 +273,26 @@ quello che gli serve.
 
 ```
 ## Il punto adesso
-- ✅ Fatto: <cosa è finito, coi numeri veri>
-- ⏳ In corso: <cosa sta girando, e chi lo fa>
-- 👉 Tocca a te: <ogni cosa da fare, con un verbo e il posto dove farla>
-- 🕐 Quando vuoi: <le cose che non hanno fretta>
-- 💸 Costo: <questa sessione X $, circa Y% del limite> · <il lavoro di questo turno Z $, circa W%>
+<una o due frasi: cosa è successo e se serve qualcosa da Nicola>
+
+- Fatto: <cosa è finito, coi numeri veri>
+- In corso: <cosa sta girando, e chi lo fa>
+- Tocca a te: <ogni cosa da fare, con un verbo e il posto dove farla>
+- Quando vuoi: <le cose che non hanno fretta>
+- Costo: <questa sessione X $, circa Y% del limite> · <il lavoro di questo turno Z $, circa W%>
 ```
 
 Esempio vero, 12/11:
-- ✅ Fatto: la prima onda ha lavorato 300 difetti e ne ha chiusi davvero 115, per circa 610 $.
-- ⏳ In corso: la regista rilegge i file toccati, poi i controlli automatici tornano verdi.
-- 👉 Tocca a te: riprovare la migrazione 361 nella chat della regista; dire «via la seconda» quando vuoi.
-- 🕐 Quando vuoi: unire le due richieste di unione.
+- Fatto: la prima onda ha lavorato 300 difetti e ne ha chiusi davvero 115, per circa 610 $.
+- In corso: la regista rilegge i file toccati, poi i controlli automatici tornano verdi.
+- Tocca a te: riprovare la migrazione 361 nella chat della regista; dire «via la seconda» quando vuoi.
+- Quando vuoi: unire le due richieste di unione.
 
 Le regole del punto:
+- **Niente icone** (Nicola, 26/11): né nel punto né nel resto del messaggio. Le righe si riconoscono dalla parola
+  davanti, «Fatto», «In corso», «Tocca a te», «Quando vuoi». Si può scriverla in grassetto.
+- **Prima una o due frasi che dicono tutto**, poi le righe. Chi legge solo quelle sa cosa è successo e se deve fare
+  qualcosa.
 - **Niente numeri davanti alle righe del punto**, solo trattini: i numeri sopra i blocchi li ferma la Regola 3-bis.
 - **Una riga per cosa da fare**, col verbo e il posto: «nella chat della regista», «nella richiesta di unione».
   Mai «decidi tu» senza dire cosa.
@@ -290,7 +300,7 @@ Le regole del punto:
   `get_session`, e quello del lavoro del turno, comprese figlie e workflow. Tutti e due si dicono anche in
   percentuale del limite settimanale. La stima viene da una misura sola: l'onda 1 del 12/11 è costata 610 $ per circa
   il 20%, quindi **1% vale circa 30 $** di listino. Si rimisura alla prossima onda.
-- **Se non c'è niente da fare:** «👉 Tocca a te: niente». Lo si scrive comunque, perché è la riga che cerca per prima.
+- **Se non c'è niente da fare:** «Tocca a te: niente». Lo si scrive comunque, perché è la riga che cerca per prima.
 - **Il punto vale al posto dei primi tre blocchi** (In parole semplici, Cosa cambia per te, Cosa devi fare). Sotto
   si spiega solo quello che il punto non dice, senza ripeterlo (Regola 0-bis). **«Cosa non ho verificato» resta
   sempre**, perché è il blocco che sparisce più spesso. Poi la riga dei Dettagli tecnici, come prima.
