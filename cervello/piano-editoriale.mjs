@@ -168,7 +168,8 @@ export function righeCalendario(piano, modello, fascia) {
       didascalia: '',
       brief: `${c.titolo}${/[.?!]$/.test(c.titolo) ? '' : '.'} ${c.idea}`,
       stato: 'idea',
-      note: [`piano editoriale ${fascia}`, c.condizione ? `solo se: ${c.condizione}` : ''].filter(Boolean).join(' · '),
+      // Lo strato è la fascia più bassa in cui il contenuto compare: serve alla prova (fatto clienti.tropico-premium).
+      note: [`piano editoriale ${fascia}`, `strato ${c.fascia}`, c.condizione ? `solo se: ${c.condizione}` : ''].filter(Boolean).join(' · '),
     }));
 }
 

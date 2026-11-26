@@ -1,12 +1,12 @@
 {
-  "data": "2026-11-26 16:37",
+  "data": "2026-11-26 18:21",
   "esito": "ok",
-  "copertura": 2186,
+  "copertura": 2193,
   "origine": "cloud",
   "scritto_da": "coerenza-fatti.mjs",
-  "fatti_totali": 85,
+  "fatti_totali": 86,
   "cacce_aperte": 67,
-  "file_scansionati": 2186,
+  "file_scansionati": 2193,
   "incoerenze": [],
   "cacce": [
     {
@@ -61,6 +61,18 @@
       "fatto": "agenzia.rapporto-imprenditore",
       "pattern": "Il rapporto dell'imprenditore: 12 parti (Google, recensioni, concorrenti vicini, zona, ricerche, sito, social, calendario della città, bandi, MyCity, piano dei 30 giorni, concorrenti sui social e sul web). L'analisi si personalizza per abbonamento come contenuti, foto, video e sito: il preventivo mostra per ogni fascia le parti incluse e quelle escluse (Nicola, 26/11 14:54); quanto entra in ogni fascia è una proposta dell'AD da confermare. L'analisi dei concorrenti sui social e sul web è importantissima e va nei servizi (Nicola, 26/11 14:35). Fonti: Nicola alle 14:45 ha approvato Google Places, TripAdvisor e DataForSEO; il parere legale delle 15:10 (bozza) le corregge: di Google si salva solo place_id e la scheda si mostra col riquadro ufficiale in diretta; TripAdvisor spenta finché non arriva un sì scritto; DataForSEO solo temi delle recensioni, rischio verso Google nostro. Prima di pagare il titolare vede un assaggio di 3-4 numeri veri.",
       "dal": "2026-11-26 16:07",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "agenzia.scheda-da-foto",
+      "pattern": "Il preventivo per il cliente con l'anteprima di cosa offriamo",
+      "dal": "2026-11-26 16:23",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "agenzia.scheda-da-foto",
+      "pattern": "La scheda del venditore nasce dalla foto (Nicola, 26/11/2026 verso le 13:35). Il venditore fotografa l'attività in cui entra e manda la foto a una sessione nuova: la sessione legge la foto, cerca sul web via e numero, telefono, sito, social e recensioni, e consegna due pagine. ① La scheda per il venditore, interna, subito: cosa ha, cosa non ha, cosa va migliorato, potenziale, offerta, domande. ② Il preventivo per il cliente con l'anteprima di cosa offriamo: punti forti e deboli, la bozza del sito secondo gli standard, il piano editoriale del mese già pronto, gli abbonamenti. Le pagine le scrive cervello/scheda-cliente.mjs da un dati.json; la skill è scheda-da-foto. È un'altra cosa dalla scheda del cliente che riempie la vetrina MyCity, che resta dopo l'abbonamento (agenzia.analisi-e-scheda).",
+      "dal": "2026-11-26 16:23",
       "copie_trovate": 0
     },
     {
@@ -397,18 +409,6 @@
       "fatto": "strategia.segmenti-onboarding",
       "pattern": "SETTEMBRE 2026 — fresco (frutta e verdura, panetterie, gastronomie, macellerie): primo valore = anti-spreco + richiami, pre-ordini per le macellerie. OTTOBRE — ottiche, estetiste, mercato coperto: prenotazioni, promemoria, recupero dei clienti persi. NOVEMBRE — regali e PMI (saltato: calendario.novembre-regali). DICEMBRE — si continua a far entrare negozi: Nicola il 1/11/2026 ha tolto lo «stop all'onboarding» di dicembre, che non aveva fonte nelle due ricerche (la ricerca sui negozianti ha solo tre finestre: settembre, ottobre, novembre) — «toglila». Esclusi per decisione di Nicola: ristoranti, catene e franchising; pescherie in fase 2. Il ritmo vero dopo l'apertura sta in negozi.ingresso.",
       "dal": "2026-11-23 01:08",
-      "copie_trovate": 0
-    },
-    {
-      "fatto": "agenzia.scheda-da-foto",
-      "pattern": "Il preventivo per il cliente con l'anteprima di cosa offriamo",
-      "dal": "2026-11-26 16:23",
-      "copie_trovate": 0
-    },
-    {
-      "fatto": "agenzia.scheda-da-foto",
-      "pattern": "La scheda del venditore nasce dalla foto (Nicola, 26/11/2026 verso le 13:35). Il venditore fotografa l'attività in cui entra e manda la foto a una sessione nuova: la sessione legge la foto, cerca sul web via e numero, telefono, sito, social e recensioni, e consegna due pagine. ① La scheda per il venditore, interna, subito: cosa ha, cosa non ha, cosa va migliorato, potenziale, offerta, domande. ② Il preventivo per il cliente con l'anteprima di cosa offriamo: punti forti e deboli, la bozza del sito secondo gli standard, il piano editoriale del mese già pronto, gli abbonamenti. Le pagine le scrive cervello/scheda-cliente.mjs da un dati.json; la skill è scheda-da-foto. È un'altra cosa dalla scheda del cliente che riempie la vetrina MyCity, che resta dopo l'abbonamento (agenzia.analisi-e-scheda).",
-      "dal": "2026-11-26 16:23",
       "copie_trovate": 0
     }
   ],

@@ -18,6 +18,7 @@
       "nome": "Base",
       "euro_mese": 300,
       "slogan": "Sempre presenti",
+      "compito": "Farsi trovare e sembrare vivi: chi cerca il locale lo trova curato, su Google e sui social.",
       "per_chi": "Per chi vuole social e Google curati, vivi ogni settimana, senza pensarci.",
       "canali": [
         "instagram",
@@ -69,6 +70,7 @@
       "nome": "Business",
       "euro_mese": 500,
       "slogan": "Crescere ogni settimana",
+      "compito": "Portare clienti nuovi ogni settimana: video veri, recensioni, WhatsApp e una mossa nuova al mese.",
       "per_chi": "Per chi vuole più tavoli: più contenuti, video veri, Google e recensioni curate, una mossa nuova ogni mese.",
       "canali": [
         "instagram",
@@ -131,6 +133,7 @@
       "nome": "Premium",
       "euro_mese": 999,
       "slogan": "Il tuo reparto marketing",
+      "compito": "Un reparto marketing che lavora ogni giorno, anche fuori dai social: pubblicità, eventi, giornali, aziende, una persona di riferimento.",
       "per_chi": "Tutti i mestieri di un'agenzia completa al lavoro sul tuo locale, ogni settimana, con una persona di riferimento.",
       "canali": [
         "instagram",

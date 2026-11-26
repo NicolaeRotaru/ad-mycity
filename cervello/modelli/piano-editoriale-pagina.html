@@ -178,9 +178,17 @@ details > .dentro { padding: 0 1rem 1rem; }
     <div class="fasce" id="fasce"></div>
   </section>
 
+  <section class="sezione" aria-labelledby="h-prova" id="sez-prova" hidden>
+    <header><p class="occhiello">La prova</p><h2 id="h-prova"></h2><p class="lettura" id="prova-intro"></p></header>
+    <div class="due">
+      <div class="sezione"><h3>Come si misura</h3><ol id="prova-passi"></ol></div>
+      <div class="sezione"><h3>Le domande a cui risponde</h3><ul id="prova-domande"></ul></div>
+    </div>
+  </section>
+
   <section class="sezione" aria-labelledby="h-mese">
     <header><p class="occhiello">Il mese, giorno per giorno</p><h2 id="h-mese"></h2>
-      <p class="nota lettura">Scegli la fascia e tocca un giorno: sotto il calendario trovi ogni contenuto per intero. Il bordo pieno su un contenuto vuol dire che arriva con quella fascia; senza bordo, viene dalla fascia sotto.</p></header>
+      <p class="nota lettura">Scegli la fascia e tocca un giorno: sotto il calendario trovi ogni contenuto per intero. Il bordo pieno su un contenuto vuol dire che arriva con quella fascia; senza bordo, viene dalla fascia sotto. Ogni contenuto dice il suo strato: è quello che la prova misura.</p></header>
     <div class="scelta" role="tablist" aria-label="Fascia" id="scelta"></div>
     <div class="conti-fascia" id="conti"></div>
     <div class="legenda" id="legenda"></div>
@@ -284,9 +292,10 @@ const DATI = /*__DATI__*/null;
   $('fasce').innerHTML = ORDINE.map((f) => {
     const m = modello.fasce[f]; const c = fasce[f].conti;
     return `<article class="fascia${f === consigliata ? ' consigliata' : ''}">
-      <div class="cima"><h3>${esc(m.nome)}</h3>${f === consigliata ? `<span class="etichetta">Consigliata per ${esc(piano.nome)}</span>` : ''}</div>
+      <div class="cima"><h3>${esc(m.nome)}</h3>${f === consigliata ? `<span class="etichetta">${esc(P.consiglio.etichetta || 'Consigliata per ' + piano.nome)}</span>` : ''}</div>
       <div class="prezzo num">${m.euro_mese} € <small>al mese</small></div>
       <p class="slogan">${esc(m.slogan)}</p>
+      <p>${esc(m.compito || '')}</p>
       <p class="nota">${esc(m.per_chi)}</p>
       <div class="cifre">
         <div><b>${c.feed}</b><span>contenuti, ${c.reel} reel</span></div>
@@ -299,6 +308,14 @@ const DATI = /*__DATI__*/null;
       <p class="nota">Canali: ${esc(m.canali.map((x) => CANALE[x] || x).join(', '))}.</p>
     </article>`;
   }).join('');
+
+  // La prova
+  if (P.prova) {
+    $('sez-prova').hidden = false;
+    $('h-prova').textContent = P.prova.titolo;
+    $('prova-intro').textContent = P.prova.intro;
+    lista($('prova-passi'), P.prova.passi); lista($('prova-domande'), P.prova.domande);
+  }
 
   // Il mese
   $('h-mese').textContent = `${piano.nome}, ${nomeMese}`;
@@ -331,6 +348,7 @@ const DATI = /*__DATI__*/null;
       v.cta && v.cta !== '—' ? ['Invito', v.cta] : null,
       v.materiale && v.materiale !== '—' ? ['Materiale', v.materiale] : null,
       v.quante ? ['Quante', `${v.quante} foto`] : null,
+      v.rubrica ? null : ['Strato', modello.fasce[v.fascia] ? modello.fasce[v.fascia].nome : v.fascia],
       v.esiste ? ['Riga', v.esiste] : null,
     ].filter((r) => r && r[1]);
     return `<article class="voce">

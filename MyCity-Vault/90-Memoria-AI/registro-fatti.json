@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-11-26 16:31",
+  "aggiornato": "2026-11-26 18:21",
   "fatti": [
     {
       "id": "ad.uso-e-crediti",
@@ -136,6 +136,30 @@
         {
           "pattern": "Il rapporto dell'imprenditore: 12 parti (Google, recensioni, concorrenti vicini, zona, ricerche, sito, social, calendario della città, bandi, MyCity, piano dei 30 giorni, concorrenti sui social e sul web). L'analisi si personalizza per abbonamento come contenuti, foto, video e sito: il preventivo mostra per ogni fascia le parti incluse e quelle escluse (Nicola, 26/11 14:54); quanto entra in ogni fascia è una proposta dell'AD da confermare. L'analisi dei concorrenti sui social e sul web è importantissima e va nei servizi (Nicola, 26/11 14:35). Fonti: Nicola alle 14:45 ha approvato Google Places, TripAdvisor e DataForSEO; il parere legale delle 15:10 (bozza) le corregge: di Google si salva solo place_id e la scheda si mostra col riquadro ufficiale in diretta; TripAdvisor spenta finché non arriva un sì scritto; DataForSEO solo temi delle recensioni, rischio verso Google nostro. Prima di pagare il titolare vede un assaggio di 3-4 numeri veri.",
           "dal": "2026-11-26 16:07"
+        }
+      ],
+      "esenzioni": []
+    },
+    {
+      "id": "agenzia.scheda-da-foto",
+      "nome": "La scheda del venditore nasce dalla foto",
+      "valore": "Dalla foto o dal nome di un'attività nascono due momenti (Nicola, 26/11/2026; prima versione alle 13:35, la proposta prima del preventivo nel pomeriggio). ① LA PROPOSTA, subito: il venditore manda la foto dell'attività vista da fuori, oppure il nome; la sessione cerca sul web via, telefono, sito, social e recensioni e consegna la scheda per il venditore (interna: cosa ha, cosa non ha, cosa va migliorato, potenziale, offerta, domande, obiezioni) e la proposta per l'azienda (punti forti e deboli, bozza del sito, piano editoriale del mese, cosa cambia con ogni abbonamento, i prezzi, come si paga). ② IL PREVENTIVO, solo dopo il sì del titolare: Nicola scrive che ha detto sì, la sessione iscrive l'attività col flusso 20 di n8n e nasce il link col codice; il titolare lo apre e lo accetta, e paga in contanti (sdg.pagamento). Le pagine le scrive cervello/scheda-cliente.mjs da un dati.json; la skill è scheda-da-foto. È un'altra cosa dalla scheda del cliente che riempie la vetrina MyCity, che resta dopo l'abbonamento (agenzia.analisi-e-scheda).",
+      "fonte": "Nicola, chat all'AD session_01R8112KveB4Fq8Lg47R6KMu, 26/11/2026: «prima del preventivo si farà la proposta … il preventivo lo si crea solo quando si ha l'ok dall'imprenditore … tramite link, e lui basterà accettare»",
+      "aggiornato": "2026-11-26 16:23",
+      "storia": [
+        {
+          "valore": "La scheda del venditore nasce dalla foto (Nicola, 26/11/2026 verso le 13:35). Il venditore fotografa l'attività in cui entra e manda la foto a una sessione nuova: la sessione legge la foto, cerca sul web via e numero, telefono, sito, social e recensioni, e consegna due pagine. ① La scheda per il venditore, interna, subito: cosa ha, cosa non ha, cosa va migliorato, potenziale, offerta, domande. ② Il preventivo per il cliente con l'anteprima di cosa offriamo: punti forti e deboli, la bozza del sito secondo gli standard, il piano editoriale del mese già pronto, gli abbonamenti. Le pagine le scrive cervello/scheda-cliente.mjs da un dati.json; la skill è scheda-da-foto. È un'altra cosa dalla scheda del cliente che riempie la vetrina MyCity, che resta dopo l'abbonamento (agenzia.analisi-e-scheda).",
+          "fino_a": "2026-11-26 16:23"
+        }
+      ],
+      "caccia": [
+        {
+          "pattern": "Il preventivo per il cliente con l'anteprima di cosa offriamo",
+          "dal": "2026-11-26 16:23"
+        },
+        {
+          "pattern": "La scheda del venditore nasce dalla foto (Nicola, 26/11/2026 verso le 13:35). Il venditore fotografa l'attività in cui entra e manda la foto a una sessione nuova: la sessione legge la foto, cerca sul web via e numero, telefono, sito, social e recensioni, e consegna due pagine. ① La scheda per il venditore, interna, subito: cosa ha, cosa non ha, cosa va migliorato, potenziale, offerta, domande. ② Il preventivo per il cliente con l'anteprima di cosa offriamo: punti forti e deboli, la bozza del sito secondo gli standard, il piano editoriale del mese già pronto, gli abbonamenti. Le pagine le scrive cervello/scheda-cliente.mjs da un dati.json; la skill è scheda-da-foto. È un'altra cosa dalla scheda del cliente che riempie la vetrina MyCity, che resta dopo l'abbonamento (agenzia.analisi-e-scheda).",
+          "dal": "2026-11-26 16:23"
         }
       ],
       "esenzioni": []
@@ -415,6 +439,26 @@
       "valore": "Categorie al lancio, firmate da Nicola il 2026-10-29 00:05: niente abbigliamento per ora; tutto il resto sì, per i piccoli negozi che Glovo e Deliveroo non guardano: spesa fresca (pane e forno, frutta e verdura, macelleria, salumi e formaggi, latticini, gastronomia fresca, pasta fresca, dispensa), cura della persona, parafarmacia, regali e ricorrenze. L'albero va reso più ampio, con più sottocategorie di quello proposto il 29/10 alle 00:40. Pane Quotidiano vende pane, verdura fresca, alimentari e cura della persona.",
       "fonte": "Nicola in chat, 2026-10-29 00:05 (carta #219, punto 1)",
       "aggiornato": "2026-10-29 00:06",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
+      "id": "clienti.tropico-pagine",
+      "nome": "Le pagine su cui si pubblica il Tropico",
+      "valore": "Tropico Latino: tutto quello che Nicola approva si pubblica su tutte e quattro le pagine del locale, sempre (Nicola, 26/11/2026 verso le 16:10). Prima coppia, flusso 01: Instagram tropico.latino92 e Facebook «Tropico Latino». Seconda coppia, flusso 01b: Instagram eltropicolatino (l'account storico, 563 post) e Facebook «El Tropico Latino». Il flusso 01b è in modalità vera dal 26/11 alle 14:00 e resta acceso.",
+      "fonte": "Nicola in chat all'AD, 26/11/2026 verso le 16:10 («Sì, tutto deve essere pubblicato su tutte le pagine di Tropico»)",
+      "aggiornato": "2026-11-26 16:22",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
+      "id": "clienti.tropico-premium",
+      "nome": "clienti.tropico-premium",
+      "valore": "Tropico Latino è nell'abbonamento Premium dal piano di dicembre 2026, e non paga: è l'unico cliente che non paga. Il Premium sul Tropico è la prova per distinguere bene Premium, Business e Base, cioè capire cosa offrire in ogni fascia. Ogni contenuto porta lo strato da cui viene (base, business, premium) e a fine mese si misura cosa ha reso ogni strato. Le spese vere fuori dal canone (budget della pubblicità, eventi) restano da decidere con Nicola.",
+      "fonte": "Nicola in chat all'AD session_01R8112KdhTFtbuViNhfHQc7, 26/11/2026 verso le 19:40: «Tropico Latino parte già con la versione premium … l'unico che non paga è Tropico Latino … è un test per distinguere bene il premium dal business, al base»",
+      "aggiornato": "2026-11-26 18:21",
       "storia": [],
       "caccia": [],
       "esenzioni": []
@@ -1734,6 +1778,16 @@
       "esenzioni": []
     },
     {
+      "id": "sdg.pagamento",
+      "nome": "Come si paga l'abbonamento ai servizi",
+      "valore": "Per ora l’abbonamento si paga in contanti, di persona: il pagamento online sul sito arriva più avanti.",
+      "fonte": "Nicola, chat all'AD session_01R8112KveB4Fq8Lg47R6KMu, 26/11/2026: «paga con i contanti per il momento finché non è pronta la piattaforma per i pagamenti». Sul sito l'interruttore è lib/agenzia/pagamento-servizi.ts (spento).",
+      "aggiornato": "2026-11-26 16:23",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
       "id": "sensori.posthog.project_id",
       "nome": "sensori.posthog.project_id",
       "valore": "495230 — «Default project» account US (PostHog Impostazioni → Project); usato da Pannello Radiografia via POSTHOG_PROJECT_ID su Vercel",
@@ -1943,50 +1997,6 @@
           "chiusa": "2026-08-23 15:05"
         }
       ],
-      "esenzioni": []
-    },
-    {
-      "id": "agenzia.scheda-da-foto",
-      "nome": "La scheda del venditore nasce dalla foto",
-      "valore": "Dalla foto o dal nome di un'attività nascono due momenti (Nicola, 26/11/2026; prima versione alle 13:35, la proposta prima del preventivo nel pomeriggio). ① LA PROPOSTA, subito: il venditore manda la foto dell'attività vista da fuori, oppure il nome; la sessione cerca sul web via, telefono, sito, social e recensioni e consegna la scheda per il venditore (interna: cosa ha, cosa non ha, cosa va migliorato, potenziale, offerta, domande, obiezioni) e la proposta per l'azienda (punti forti e deboli, bozza del sito, piano editoriale del mese, cosa cambia con ogni abbonamento, i prezzi, come si paga). ② IL PREVENTIVO, solo dopo il sì del titolare: Nicola scrive che ha detto sì, la sessione iscrive l'attività col flusso 20 di n8n e nasce il link col codice; il titolare lo apre e lo accetta, e paga in contanti (sdg.pagamento). Le pagine le scrive cervello/scheda-cliente.mjs da un dati.json; la skill è scheda-da-foto. È un'altra cosa dalla scheda del cliente che riempie la vetrina MyCity, che resta dopo l'abbonamento (agenzia.analisi-e-scheda).",
-      "fonte": "Nicola, chat all'AD session_01R8112KveB4Fq8Lg47R6KMu, 26/11/2026: «prima del preventivo si farà la proposta … il preventivo lo si crea solo quando si ha l'ok dall'imprenditore … tramite link, e lui basterà accettare»",
-      "aggiornato": "2026-11-26 16:23",
-      "storia": [
-        {
-          "valore": "La scheda del venditore nasce dalla foto (Nicola, 26/11/2026 verso le 13:35). Il venditore fotografa l'attività in cui entra e manda la foto a una sessione nuova: la sessione legge la foto, cerca sul web via e numero, telefono, sito, social e recensioni, e consegna due pagine. ① La scheda per il venditore, interna, subito: cosa ha, cosa non ha, cosa va migliorato, potenziale, offerta, domande. ② Il preventivo per il cliente con l'anteprima di cosa offriamo: punti forti e deboli, la bozza del sito secondo gli standard, il piano editoriale del mese già pronto, gli abbonamenti. Le pagine le scrive cervello/scheda-cliente.mjs da un dati.json; la skill è scheda-da-foto. È un'altra cosa dalla scheda del cliente che riempie la vetrina MyCity, che resta dopo l'abbonamento (agenzia.analisi-e-scheda).",
-          "fino_a": "2026-11-26 16:23"
-        }
-      ],
-      "caccia": [
-        {
-          "pattern": "Il preventivo per il cliente con l'anteprima di cosa offriamo",
-          "dal": "2026-11-26 16:23"
-        },
-        {
-          "pattern": "La scheda del venditore nasce dalla foto (Nicola, 26/11/2026 verso le 13:35). Il venditore fotografa l'attività in cui entra e manda la foto a una sessione nuova: la sessione legge la foto, cerca sul web via e numero, telefono, sito, social e recensioni, e consegna due pagine. ① La scheda per il venditore, interna, subito: cosa ha, cosa non ha, cosa va migliorato, potenziale, offerta, domande. ② Il preventivo per il cliente con l'anteprima di cosa offriamo: punti forti e deboli, la bozza del sito secondo gli standard, il piano editoriale del mese già pronto, gli abbonamenti. Le pagine le scrive cervello/scheda-cliente.mjs da un dati.json; la skill è scheda-da-foto. È un'altra cosa dalla scheda del cliente che riempie la vetrina MyCity, che resta dopo l'abbonamento (agenzia.analisi-e-scheda).",
-          "dal": "2026-11-26 16:23"
-        }
-      ],
-      "esenzioni": []
-    },
-    {
-      "id": "clienti.tropico-pagine",
-      "nome": "Le pagine su cui si pubblica il Tropico",
-      "valore": "Tropico Latino: tutto quello che Nicola approva si pubblica su tutte e quattro le pagine del locale, sempre (Nicola, 26/11/2026 verso le 16:10). Prima coppia, flusso 01: Instagram tropico.latino92 e Facebook «Tropico Latino». Seconda coppia, flusso 01b: Instagram eltropicolatino (l'account storico, 563 post) e Facebook «El Tropico Latino». Il flusso 01b è in modalità vera dal 26/11 alle 14:00 e resta acceso.",
-      "fonte": "Nicola in chat all'AD, 26/11/2026 verso le 16:10 («Sì, tutto deve essere pubblicato su tutte le pagine di Tropico»)",
-      "aggiornato": "2026-11-26 16:22",
-      "storia": [],
-      "caccia": [],
-      "esenzioni": []
-    },
-    {
-      "id": "sdg.pagamento",
-      "nome": "Come si paga l'abbonamento ai servizi",
-      "valore": "Per ora l’abbonamento si paga in contanti, di persona: il pagamento online sul sito arriva più avanti.",
-      "fonte": "Nicola, chat all'AD session_01R8112KveB4Fq8Lg47R6KMu, 26/11/2026: «paga con i contanti per il momento finché non è pronta la piattaforma per i pagamenti». Sul sito l'interruttore è lib/agenzia/pagamento-servizi.ts (spento).",
-      "aggiornato": "2026-11-26 16:23",
-      "storia": [],
-      "caccia": [],
       "esenzioni": []
     }
   ]

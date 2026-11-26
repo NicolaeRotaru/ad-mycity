@@ -1407,3 +1407,9 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Chi e quando:** Nicola, in chat all'AD, verso le 16:05: «ok fasce».
 - **Cosa ha deciso:** la proposta dell'AD è approvata così com'è. Base: il rapporto all'avvio senza ricerche su Google, senza concorrenti sui social e senza aggiornamenti. Business: in più le ricerche e i 3 concorrenti principali, ogni mese. Premium: tutto ogni settimana, fino a 5 concorrenti, e un incontro al mese.
 - **Cosa è stato fatto:** detto alla sessione del sito alle 16:07, e scritto nel piano, nel registro e nella bacheca.
+## 2026-11-26 19:45 — Il Tropico Latino gira sul Premium, gratis, come prova delle fasce (🟡, parola di Nicola in chat)
+- **Chi e quando:** Nicola, in chat all'AD (`session_01R8112KdhTFtbuViNhfHQc7`), verso le 19:40: «Tropico Latino parte già con la versione premium … l'unico che non paga è Tropico Latino … è un test per distinguere bene il premium dal business, al base».
+- **Cosa vuol dire:** a dicembre il Tropico riceve tutto il Premium del piano editoriale. Ogni contenuto porta lo strato da cui viene (base, business, premium); lunedì 4 gennaio la pagella per strato dice cosa ha reso e quanto è costato, e il modello delle fasce passa alla 1.1.
+- **Fatto:** nuovo fatto `clienti.tropico-premium`; il piano del Tropico e la pagina dicono Premium; il programma scrive lo strato nelle note delle righe del Calendario. Coerenza-fatti verde.
+- **Aperto:** chi paga le spese vere fuori dal canone (budget della pubblicità, evento); se le quantità nuove si firmano subito per chi paga o dopo la prova.
+- **Colore:** 🟡. Nessuna riga scritta nel Calendario, niente pubblicato, nessun messaggio al titolare.

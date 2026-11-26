@@ -16,6 +16,7 @@ Il piano editoriale dice cosa esce, dove e quando: post, reel, storie, post su G
 Il locale è lo stesso in tutte le fasce, con la stessa voce. Cambia quanto facciamo e su quanti canali.
 Un caso vero, il ristorante di via Mazzini a dicembre. Il Base dà 8 contenuti, 4 storie e 4 post su Google. Il Business arriva a 12 contenuti e 12 storie, con video girati nel locale, TikTok, WhatsApp, risposte alle recensioni e una mossa nuova al mese. Il Premium arriva a 20 contenuti e a una storia ogni sera di apertura, cioè 26. In più ha pubblicità gestita, due creator, una storia per i giornali, le aziende vicine e un evento.
 Ripeto la regola più importante con altre parole: chi passa dal Base al Business non perde niente, si aggiunge solo lavoro.
+Il Tropico gira sul Premium, senza pagare, come prova. Ogni contenuto porta lo strato da cui viene: a fine dicembre vediamo cosa ha reso ogni strato e decidiamo cosa mettere in ogni fascia.
 
 ## Cosa cambia per te
 - Le fasce promettono più di oggi. Il preventivo sul sito diceva 8, 12 e 20 post: le quantità nuove sono nella pagina, voce per voce.
@@ -24,8 +25,8 @@ Ripeto la regola più importante con altre parole: chi passa dal Base al Busines
 - Per un cliente nuovo si scrive il suo piano del mese in un file. Il programma controlla che i numeri siano quelli promessi, che i prezzi siano nel menu e che niente esca nel giorno di chiusura.
 
 ## Cosa devi fare
-- Dimmi se firmi le quantità nuove delle tre fasce. Solo dopo cambio il preventivo sul sito.
-- Scegli la fascia con cui il Tropico gira a dicembre. Il mio consiglio è il Business intero, più tre pezzi del Premium che costano poco.
+- Dimmi chi paga sul Tropico le spese vere del Premium: il budget della pubblicità, circa 150 € a dicembre, e i costi della sera delle Posadas.
+- Dimmi se firmi subito le quantità per chi paga, o se aspetti la pagella della prova, lunedì 4 gennaio. Io firmerei subito.
 - Fai al titolare le 9 domande della pagina: orari delle feste, menu per i gruppi, sera delle Posadas, Capodanno, numero WhatsApp giusto.
 - Dimmi quanto costa una sessione di scattiDG, di sole foto e di foto e video: serve per il margine vero.
 

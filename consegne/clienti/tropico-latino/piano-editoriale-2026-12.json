@@ -4,7 +4,7 @@
   "nome_breve": "Tropico",
   "mese": "2026-12",
   "data": "2026-11-26 18:45",
-  "stato": "modello: il piano di dicembre del Tropico scritto per tutte e tre le fasce. Le righe con «esiste» sono già nel Calendario; le altre sono idee, non ancora nel foglio.",
+  "stato": "Il Tropico gira sul Premium, senza pagare: è la prova per distinguere bene le tre fasce (Nicola, 26/11/2026 verso le 19:40, fatto clienti.tropico-premium). Ogni contenuto porta la fascia più bassa in cui compare, cioè lo strato da misurare. Le righe con «esiste» sono già nel Calendario; le altre sono idee, non ancora nel foglio.",
   "fonti": {
     "scheda": "MyCity-Vault/90-Memoria-AI/BACHECA.md, scheda in 25 punti (orari, tono, note_piano, menu 2025)",
     "contenuti_gia_fatti": "consegne/content/2026-11-25-tropico-latino-pacchetto-dicembre.md e consegne/content/2026-11-26-tropico-latino-pubblicati-oggi.md",
@@ -1048,22 +1048,23 @@
     "titolo": "Il piano di dicembre del Tropico, per ogni abbonamento",
     "in_parole_semplici": [
       "Questa pagina è il modello del piano editoriale che venderemo con i tre abbonamenti, provato sul Tropico Latino a dicembre.",
-      "Il piano è lo stesso locale raccontato con la stessa voce; cambia quanto facciamo e su quanti canali. Ogni fascia contiene tutta quella sotto.",
-      "A dicembre il Base dà al Tropico 8 contenuti, 4 storie e 4 post su Google. Il Business arriva a 12 contenuti, 12 storie, video girati nel locale, TikTok, WhatsApp, recensioni e una mossa nuova al mese. Il Premium arriva a 20 contenuti, una storia ogni sera di apertura, pubblicità gestita, creator, giornali, aziende vicine ed evento."
+      "Il Tropico gira sul Premium, senza pagare: è la prova. Ogni contenuto porta lo strato da cui viene, Base, Business o Premium. A fine mese vediamo cosa ha reso ogni strato e quanto è costato, e decidiamo cosa mettere in ogni fascia.",
+      "Il locale è lo stesso, con la stessa voce, in tutte le fasce. Il Base dà 8 contenuti, 4 storie e 4 post su Google. Il Business arriva a 12 contenuti, 12 storie, video girati nel locale, TikTok, WhatsApp, recensioni e una mossa al mese. Il Premium arriva a 20 contenuti, una storia ogni sera di apertura, pubblicità, creator, giornali, aziende vicine ed evento."
     ],
     "cosa_cambia": [
-      "Le tre fasce promettono più di oggi: il preventivo diceva 8, 12 e 20 post. Le quantità nuove le trovi qui sotto, voce per voce.",
-      "Il Premium si presenta come «tutti i mestieri di un'agenzia completa»: 25 mestieri al lavoro sul locale. È il tuo «agenzia di 50 marketer», detto in un modo che possiamo provare.",
-      "Per ogni cliente nuovo basta scrivere il suo piano del mese: il programma conta, controlla e prepara le righe del Calendario."
+      "Il Tropico riceve tutto il Premium a dicembre: 20 contenuti, 26 storie, 12 post su Google e le azioni fuori dai social. È la vetrina viva per i prossimi clienti.",
+      "Le tre fasce promettono più di oggi: il preventivo diceva 8, 12 e 20 post. Le quantità nuove sono qui sotto, voce per voce, e la prova le correggerà a gennaio.",
+      "Il Premium si presenta come «tutti i mestieri di un'agenzia completa»: 25 mestieri al lavoro sul locale. È la tua «agenzia di 50 marketer», detta in un modo che possiamo provare."
     ],
     "cosa_devi_fare": [
-      "Dimmi se firmi le quantità nuove delle tre fasce. Solo dopo cambio il preventivo sul sito.",
-      "Scegli con quale fascia far girare il Tropico a dicembre. Io consiglio il Business intero, più tre pezzi del Premium che costano poco.",
-      "Fai al titolare le 9 domande in fondo alla pagina: orari delle feste, menu per i gruppi, sera delle Posadas, Capodanno, numero WhatsApp."
+      "Dimmi chi paga le spese vere del Premium sul Tropico: il budget della pubblicità (circa 150 € a dicembre) e i costi della sera delle Posadas. Il canone no: quello è gratis.",
+      "Fai al titolare le 9 domande in fondo alla pagina: orari delle feste, menu per i gruppi, sera delle Posadas, Capodanno, numero WhatsApp.",
+      "Dimmi se firmi subito le quantità nuove per i clienti che pagano, o se aspetti la pagella della prova a gennaio. Io firmerei subito: non c'è vincolo di durata, e a gennaio si corregge."
     ],
     "consiglio": {
-      "fascia": "business",
-      "perche": "Il Tropico fa da vetrina per i prossimi clienti: il Business si fa tutto con quello che la macchina sa già fare, più una ripresa. Tre pezzi del Premium costano poco e riempiono le pagine: il carosello «Come si mangia una fajita», il reel del guacamole e una storia ogni sera. L'evento, la pubblicità e i giornali chiedono il sì e i soldi del titolare: si propongono, non si danno per fatti."
+      "fascia": "premium",
+      "etichetta": "La fascia del Tropico: la prova",
+      "perche": "Deciso da Nicola il 26/11: il Tropico gira sul Premium senza pagare, per distinguere bene le tre fasce."
     },
     "senior": [
       {
@@ -1184,8 +1185,8 @@
       "In che mese avete aperto nel 1992? Avete già una lista di clienti che hanno chiesto di ricevere notizie?"
     ],
     "decisioni": [
-      "Firmare le quantità nuove delle tre fasce. Dopo la firma aggiorno il preventivo sul sito, la proposta che nasce dalla foto e il registro dei fatti, nello stesso lavoro.",
-      "Scegliere la fascia con cui il Tropico gira a dicembre. Il mio consiglio: il Business intero, più tre pezzi del Premium.",
+      "Chi paga sul Tropico il budget della pubblicità e i costi dell'evento, visto che il canone è gratis.",
+      "Firmare subito le quantità nuove per i clienti che pagano, o aspettare la pagella di gennaio. Il mio consiglio: firmare subito, e correggere a gennaio.",
       "Dirmi quanto costa una sessione di scattiDG, di sole foto e di foto e video.",
       "Decidere il tetto dei clienti Premium: io dico 5.",
       "Approvare la frase del Premium: «tutti i mestieri di un'agenzia completa», al posto di «50 persone»."
@@ -1197,6 +1198,24 @@
       "Il costo di scattiDG, e quindi il margine vero di ogni fascia. Il 30% di materie prime è una media del settore, non il dato del Tropico.",
       "Nessuna riga è entrata nel Calendario: il programma le prepara con lo stato «idea», ma non le scrive nel foglio.",
       "Le tempistiche di Google (un post a settimana come base) vengono da guide di settore, non da numeri ufficiali di Google."
-    ]
+    ],
+    "prova": {
+      "titolo": "Il Tropico è la prova: così distinguiamo le tre fasce",
+      "intro": "Il Tropico riceve tutto il Premium, ma ogni contenuto sa da quale strato viene. Così a fine dicembre non diciamo «il Premium funziona»: diciamo quale pezzo ha portato clienti, quanto è costato, e in quale fascia deve stare.",
+      "passi": [
+        "Ogni riga del Calendario porta nelle note lo strato da cui viene: base, business o premium.",
+        "Per ogni contenuto si annota il costo: il tempo di Nicola, la ripresa di scattiDG, la spesa vera.",
+        "Per ogni contenuto si annota cosa ha portato: i messaggi WhatsApp con la frase di quel canale nelle 48 ore dopo, le chiamate e le indicazioni da Google nella settimana, le prenotazioni che il titolare ci racconta.",
+        "Lunedì 4 gennaio, a locale chiuso, la pagella per strato: per ogni strato quanto è costato e cosa ha portato.",
+        "Poi si sposta: un pezzo del Premium che porta tanto e costa poco scende nel Business, e il Business diventa davvero «pazzesco». Un pezzo del Business che costa tanto e porta poco sale nel Premium o si toglie. Il Base tiene solo quello che fa trovare il locale e lo fa sembrare vivo.",
+        "Il modello passa alla versione 1.1 con le quantità corrette: è quella che si vende da gennaio."
+      ],
+      "domande": [
+        "Le storie di ogni sera portano messaggi, o bastano le 12 del Business?",
+        "I reel girati nel locale rendono più dei reel montati dalle foto, abbastanza da pagare la ripresa?",
+        "L'evento, la pubblicità e i giornali portano tavoli che il Business da solo non porta?",
+        "Quanto tempo di Nicola chiede davvero il Premium: le 8 ore che stimo, o di più?"
+      ]
+    }
   }
 }

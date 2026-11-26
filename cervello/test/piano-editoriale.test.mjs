@@ -77,6 +77,9 @@ prova('⑧ le righe del Calendario non riusano gli id delle righe che ci sono gi
   // tropico-latino-20261211-1830 è il carosello già pubblicato il 26/11: la riga nuova dell'11/12 alle 18:30 non deve avere quell'id.
   assert.ok(!righe.some((r) => r.id === 'tropico-latino-20261211-1830'));
   assert.ok(righe.every((r) => r.stato === 'idea'));
+  // La prova sul Tropico misura per strato: ogni riga deve dire da quale fascia viene.
+  assert.ok(righe.every((r) => /strato (base|business|premium)/.test(r.note)));
+  assert.ok(righe.some((r) => r.note.includes('strato base')) && righe.some((r) => r.note.includes('strato premium')));
   assert.ok(!righe.some((r) => r.id.includes('-pe-b02')), 'le righe che esistono già non si riscrivono');
 });
 
