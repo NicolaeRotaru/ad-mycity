@@ -36,9 +36,16 @@ const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,
 // ———————————————————————————————————————————————— lettura della scheda Google
 
 function scarica(url) {
-  return execFileSync('curl', ['-sSL', '--max-time', '20', '-A', UA, '-H', 'Accept-Language: it-IT,it;q=0.9', url],
-    { encoding: 'utf8', maxBuffer: 20 * 1024 * 1024 });
+  try {
+    return execFileSync('curl', ['-sSL', '--compressed', '--max-time', '20', '-A', UA, '-H', 'Accept-Language: it-IT,it;q=0.9', url],
+      { encoding: 'utf8', maxBuffer: 20 * 1024 * 1024, stdio: ['ignore', 'pipe', 'pipe'] });
+  } catch { throw new Error(`la pagina non risponde (${new URL(url).hostname})`); }
 }
+/** Google a volte manda una risposta illeggibile (collaudo 26/11: 2 letture su 13): si riprova una volta. */
+function leggiJson(url) {
+  try { return json(scarica(url)); } catch { return json(scarica(url)); }
+}
+const GOOGLE = /(^|\.)google\.[a-z.]+$|^maps\.app\.goo\.gl$|^goo\.gl$/;
 const html = (s) => s.replace(/&amp;/g, '&');
 const json = (t) => JSON.parse(t.replace(/^\)\]\}'\s*/, ''));
 const g = (o, ...p) => p.reduce((a, k) => (a == null ? undefined : a[k]), o);
@@ -47,10 +54,11 @@ const g = (o, ...p) => p.reduce((a, k) => (a == null ? undefined : a[k]), o);
 export function scaricaScheda(input) {
   let nome = input;
   if (/^https?:\/\//.test(input)) {
+    if (!GOOGLE.test(new URL(input).hostname)) throw new Error('non è un link di Google Maps: manda il link della scheda Google, oppure il nome con la via');
     const pagina = scarica(input);
     const m = pagina.match(/preview\/place\?authuser=0[^"]*/);
     if (m) {
-      const r = g(json(scarica('https://www.google.com/maps/' + html(m[0]))), 6);
+      const r = g(leggiJson('https://www.google.com/maps/' + html(m[0])), 6);
       if (r?.[11]) return r;
     }
     const daUrl = (pagina.match(/\/maps\/place\/([^/"?]+)/) ?? [])[1];
@@ -60,9 +68,9 @@ export function scaricaScheda(input) {
   const ricerca = scarica('https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(nome));
   const m = ricerca.match(/search\?tbm=map[^"]*/);
   if (!m) throw new Error(`Google Maps non risponde alla ricerca di «${nome}»`);
-  const risultati = g(json(scarica('https://www.google.com/' + html(m[0]))), 0, 1) ?? [];
+  const risultati = g(leggiJson('https://www.google.com/' + html(m[0])), 0, 1) ?? [];
   const r = risultati.map((x) => g(x, 14)).find((x) => x?.[11]);
-  if (!r) throw new Error(`nessuna attività trovata per «${nome}»`);
+  if (!r) throw new Error(`nessuna attività trovata per «${nome}»: manda il link della scheda Google, oppure il nome con la via`);
   return r;
 }
 
@@ -83,6 +91,11 @@ export function estrai(r) {
     .map((d) => ({ n: d?.[1], giorno: d?.[0], ore: (d?.[3] ?? []).map((x) => x?.[0]).filter(Boolean).join(', ') }))
     .filter((d) => d.giorno && d.ore).sort((a, b) => a.n - b.n).map(({ giorno, ore }) => ({ giorno, ore }));
   const testo = JSON.stringify(r);
+  // Google segna il locale chiuso in r[88][0] («CHIUSO»): le schede aperte lì hanno null o un servizio
+  // («Cani ammessi»). Il collaudo del 26/11 l'ha trovato su un'osteria chiusa che passava per aperta.
+  const stato = String(g(r, 88, 0) ?? '');
+  const recensioni = (g(r, 175, 9, 0, 0) ?? []).map((x) => ({ voto: g(x, 0, 2, 0, 0) ?? null, quando: ETA(g(x, 0, 1, 6)).testo, giorni: ETA(g(x, 0, 1, 6)).giorni, testo: (g(x, 0, 2, 15, 0, 0) ?? '').replace(/\s+/g, ' ').trim() }));
+  const eta = recensioni.map((x) => x.giorni).filter((d) => d > 0);
   return {
     nome: r[11],
     categorie: (g(r, 13) ?? []).filter((x) => typeof x === 'string'),
@@ -96,15 +109,18 @@ export function estrai(r) {
     sito_tipo: !sito ? 'nessuno' : SOCIAL.test(sito) ? 'social' : 'proprio',
     voto: g(r, 4, 7) ?? null,
     recensioni_n: g(r, 4, 8) ?? (parseInt(g(r, 4, 3, 1), 10) || 0),
-    recensioni: (g(r, 175, 9, 0, 0) ?? []).map((x) => ({ voto: g(x, 0, 2, 0, 0) ?? null, quando: ETA(g(x, 0, 1, 6)).testo, giorni: ETA(g(x, 0, 1, 6)).giorni, testo: (g(x, 0, 2, 15, 0, 0) ?? '').replace(/\s+/g, ' ').trim() })),
+    recensioni,
+    recensione_piu_recente_giorni: eta.length ? Math.min(...eta) : null,
     descrizione: g(r, 154, 0, 0) ?? null,
     attributi: (g(r, 100, 1) ?? []).flatMap((gr) => (gr?.[2] ?? []).map((a) => a?.[1])).filter((x) => typeof x === 'string'),
     non_rivendicata: /Rivendica/i.test(String(g(r, 49, 1) ?? '')),
     copertina_street_view: /streetviewpixels|cbk\?/.test(String(g(r, 37, 0, 0, 6, 0) ?? '')),
-    chiusa: /Chiuso definitivamente/.test(testo) ? 'definitivamente' : /Chiuso temporaneamente/.test(testo) ? 'temporaneamente' : null,
+    chiusa: /^CHIUSO/i.test(stato) ? (/TEMPORANE/i.test(stato) ? 'temporaneamente' : 'definitivamente')
+      : /Chiuso definitivamente/.test(testo) ? 'definitivamente' : /Chiuso temporaneamente/.test(testo) ? 'temporaneamente' : null,
     coordinate: [g(r, 9, 2) ?? null, g(r, 9, 3) ?? null],
     plus_code: g(r, 183, 2, 1, 0) ?? null,
     place_id: placeId,
+    cid: g(r, 10) ?? null,
   };
 }
 
@@ -157,6 +173,8 @@ const TEMI = (v, f) => ({
   ],
 });
 const GIORNI = { base: [2, 5], business: [2, 4, 6], premium: [1, 2, 3, 4, 5] };
+// Nei giorni in cui quasi tutti sono chiusi non si pubblica (collaudo 26/11: un post il 25/12).
+const FESTE = new Set(['1/1', '1/5', '15/8', '25/12', '26/12']);
 const SETT = ['dom', 'lun', 'mar', 'mer', 'gio', 'ven', 'sab'];
 const MESI = ['gennaio', 'febbraio', 'marzo', 'aprile', 'maggio', 'giugno', 'luglio', 'agosto', 'settembre', 'ottobre', 'novembre', 'dicembre'];
 
@@ -164,12 +182,15 @@ function piano(fascia, v, fatti, oggi) {
   const f = FASCE[fascia];
   const anno = oggi.getMonth() === 11 ? oggi.getFullYear() + 1 : oggi.getFullYear();
   const mese = (oggi.getMonth() + 1) % 12;
-  const date = [];
-  for (let d = 1; date.length < f.post && d <= 31; d++) {
+  const giorni = [];
+  for (let d = 1; d <= 31; d++) {
     const x = new Date(Date.UTC(anno, mese, d));
     if (x.getUTCMonth() !== mese) break;
-    if (GIORNI[fascia].includes(x.getUTCDay())) date.push(`${SETT[x.getUTCDay()]} ${d}/${mese + 1}`);
+    if (x.getUTCDay() !== 0 && !FESTE.has(`${d}/${mese + 1}`)) giorni.push({ d, dow: x.getUTCDay() });
   }
+  const scelti = giorni.filter((x) => GIORNI[fascia].includes(x.dow));
+  for (const x of giorni) if (scelti.length < f.post && !scelti.includes(x)) scelti.push(x);
+  const date = scelti.sort((a, b) => a.d - b.d).slice(0, f.post).map((x) => `${SETT[x.dow]} ${x.d}/${mese + 1}`);
   const t = TEMI(v, fatti);
   const foto = t.foto.slice(0, f.post - f.video);
   const video = t.video.slice(0, f.video);
@@ -202,6 +223,8 @@ export function lampo(x, link, adesso = new Date()) {
   const n = x.recensioni_n;
   const voto = x.voto != null ? String(x.voto).replace('.', ',') : null;
   const tutteViste = n > 0 && x.recensioni.length >= n;
+  const anni = x.recensione_piu_recente_giorni >= 730 ? Math.floor(x.recensione_piu_recente_giorni / 365) : 0;
+  const vecchie = anni ? `Le recensioni più recenti che Google mostra sono di circa ${anni} anni fa: prima di entrare controlla che sia ancora aperta.` : null;
   const ultima = tutteViste ? x.recensioni.reduce((a, b) => (b.giorni && b.giorni < a.giorni ? b : a)) : null;
   const via = (x.via ?? x.indirizzo).replace(/,\s*\d+\w*$/, '');
   const ora = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Rome', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }).format(adesso);
@@ -314,7 +337,7 @@ export function lampo(x, link, adesso = new Date()) {
       n ? `Su Google ha ${voto} su 5 da ${n} recensioni${ultima ? `: l'ultima è di circa ${ultima.quando}` : ''}.` : 'Su Google non ha ancora recensioni.',
       buchi.length ? `La scheda Google ${buchi.join(', ')}.` : 'La scheda Google è completa: orari, telefono e sito ci sono.',
       x.descrizione ? `Si presenta così: «${corta(x.descrizione, 120)}».` : persone ? 'Le recensioni lodano le persone: è il punto forte da cui partire.' : null,
-      x.chiusa ? `Attenzione: Google la segna chiusa ${x.chiusa}.` : 'Versione lampo: solo la scheda Google. Social, omonimi e stampa sono ancora da guardare.',
+      x.chiusa ? `Attenzione: Google la segna chiusa ${x.chiusa}.` : vecchie ?? 'Versione lampo: solo la scheda Google. Social, omonimi e stampa sono ancora da guardare.',
     ].filter(Boolean),
     gancio,
     perche_consigliato: consigliato === 'base'
@@ -347,11 +370,12 @@ export function lampo(x, link, adesso = new Date()) {
     obiezioni: [
       { obiezione: 'Ho già i social, mi bastano.', risposta: 'I social li vede chi vi segue già. Chi vi cerca su Google oggi trova la scheda così com\'è: noi sistemiamo la strada da cui arrivano i clienti nuovi.' },
       { obiezione: 'Non ho tempo per i social.', risposta: 'Non vi serve: le foto le fa scattiDG, i testi li scriviamo noi, voi approvate l\'anteprima su WhatsApp.' },
-      { obiezione: `${F.centesimi / 100} euro al mese sono tanti.`, risposta: `Il primo mese costa la metà e non c'è vincolo: si disdice con 30 giorni di preavviso.${consigliato !== 'base' ? ' Il Base parte da 300 euro, e si sale quando si vuole.' : ''}` },
+      { obiezione: `${F.centesimi / 100} euro al mese sono tanti.`, risposta: `Il primo mese costa la metà e non c'è vincolo: si disdice con 30 giorni di preavviso.${consigliato !== 'base' ? ` Il Base parte da ${FASCE.base.centesimi / 100} euro, e si sale quando si vuole.` : ''}` },
       { obiezione: 'Poi mi prendete una percentuale.', risposta: 'Su quello che vendete al banco, niente. Sui prodotti venduti tramite MyCity c\'è il 10%, anche con l\'abbonamento: paga la consegna e il servizio.' },
     ],
     attenzione: [
       'Il 10% sui prodotti venduti tramite MyCity resta anche con l\'abbonamento (regola del 26/11): dillo subito, mai «nessuna percentuale».',
+      vecchie,
       tabacchi && 'Nei contenuti mai gioco né tabacco: in Italia la pubblicità è vietata.',
       (!x.orari.length || !x.telefono) && 'Orari e telefono non vanno scritti da nessuna parte finché il titolare non li dà.',
       'Versione lampo: i dati vengono solo dalla scheda Google, letta direttamente. Social, omonimi e stampa non sono ancora stati cercati.',
@@ -416,6 +440,25 @@ export function lampo(x, link, adesso = new Date()) {
 
 const slug = (s) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/&/g, ' and ').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 50) || 'attivita';
 
+/**
+ * La cartella del cliente si sceglie dal codice del luogo Google (place_id o cid) scritto nel google.json delle
+ * cartelle che ci sono già: mai dal nome, che due attività possono avere uguale o simile (collaudo 26/11: un
+ * «Salone Regina» finiva nella cartella di un altro cliente e ne sovrascriveva i dati).
+ */
+export function scegliCartella(base, x, giorno) {
+  const cartelle = fs.existsSync(base) ? fs.readdirSync(base) : [];
+  const stessa = cartelle.find((d) => {
+    try {
+      const j = JSON.parse(fs.readFileSync(path.join(base, d, 'google.json'), 'utf8'));
+      return (x.place_id && j.place_id === x.place_id) || (x.cid && j.cid === x.cid);
+    } catch { return false; }
+  });
+  if (stessa) return path.join(base, stessa);
+  let nome = `${giorno}-${slug(x.nome)}`;
+  for (let k = 2; fs.existsSync(path.join(base, nome)); k++) nome = `${giorno}-${slug(x.nome)}-${k}`;
+  return path.join(base, nome);
+}
+
 function stampa(x) {
   const r = [];
   r.push(`${x.nome} · ${x.categorie.join(', ') || 'categoria non indicata'}`);
@@ -442,11 +485,14 @@ function principale(argv) {
   console.log(stampa(x));
   if (!argv.includes('--lampo')) { console.log(`  (${((Date.now() - t0) / 1000).toFixed(1)} s)`); return 0; }
 
+  if (x.chiusa) { console.error(`✗ Google segna «${x.nome}» chiusa ${x.chiusa}: niente proposta.`); return 1; }
   const giorno = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Rome' }).format(new Date());
-  const esistente = fs.existsSync(path.join(RADICE, 'consegne/clienti')) && fs.readdirSync(path.join(RADICE, 'consegne/clienti')).find((d) => d.endsWith('-' + slug(x.nome)));
-  const cartella = path.join(RADICE, 'consegne/clienti', esistente || `${giorno}-${slug(x.nome)}`);
+  const cartella = scegliCartella(path.join(RADICE, 'consegne/clienti'), x, giorno);
   fs.mkdirSync(cartella, { recursive: true });
-  fs.writeFileSync(path.join(cartella, 'google.json'), JSON.stringify({ letto: new Date().toISOString(), link: input ?? null, ...x }, null, 2) + '\n');
+  const gj = path.join(cartella, 'google.json');
+  // Non si cancella niente: la lettura di prima resta accanto, col suo orario.
+  if (fs.existsSync(gj)) fs.renameSync(gj, path.join(cartella, `google.${new Date().toISOString().replace(/[:.]/g, '-')}.json`));
+  fs.writeFileSync(gj, JSON.stringify({ letto: new Date().toISOString(), link: input ?? null, ...x }, null, 2) + '\n');
   const dati = path.join(cartella, 'dati.json');
   if (fs.existsSync(dati)) console.log(`  dati.json c'è già in ${path.relative(RADICE, cartella)}: non lo tocco (aggiornato solo google.json).`);
   else fs.writeFileSync(dati, JSON.stringify(lampo(x, input ?? ''), null, 2) + '\n');

@@ -99,10 +99,17 @@ const VIDEO = /reel|video/i;
 
 // ———————————————————————————————————————————————— controlli
 
-/** Un prezzo dentro un testo: «12 €», «€ 5», «9,50», «10 euro». Gli orari («7.30», «22:30») no. */
+/**
+ * Un prezzo dentro un testo: «12 €», «€ 5», «9,50», «12.50», «10 euro», «EUR 25». Gli orari no: «22:30»
+ * sempre, «7.30» solo con un orario intorno («7.30-22.30», «dalle 7.30», «alle 19.00»). Il collaudo del 26/11
+ * ha visto passare «Menu a 12.50» e «EUR 25», perché ogni numero col punto veniva preso per un orario.
+ */
 export function haPrezzo(t) {
-  const s = String(t ?? '').replace(/\b\d{1,2}[.:]\d{2}\b/g, ' ');
-  return /€|\beuro\b|\b\d+,\d{2}\b/i.test(s);
+  const s = String(t ?? '')
+    .replace(/\b\d{1,2}:\d{2}\b/g, ' ')
+    .replace(/\b\d{1,2}\.\d{2}\s*[-–]\s*\d{1,2}[.:]\d{2}\b/g, ' ')
+    .replace(/\b(dalle|alle|ore|entro le)\s+\d{1,2}\.\d{2}\b/gi, ' ');
+  return /€|\beuro\b|\beur\b|\b\d+,\d{2}\b|\b\d+\.\d{2}\b/i.test(s);
 }
 
 /** I canoni scritti nel registro dei fatti (sdg.abbonamenti), in centesimi. */
@@ -178,7 +185,8 @@ export function controlla(d, canoni, pagamento) {
   for (const [k, v] of Object.entries(d?.sito_bozza?.font ?? {})) if (!/^[A-Za-z0-9 ]{2,40}$/.test(String(v))) errori.push(`bozza del sito: il carattere «${k}» ha un nome non ammesso`);
   // ② bozza del sito senza prezzi
   const b = d?.sito_bozza ?? {};
-  const testiBozza = [b.claim, b.chi_siamo, b.dove_siamo, b.orari, ...(b.cosa_offriamo ?? []).flatMap((x) => [x.titolo, x.testo]),
+  const testiBozza = [b.sopra_titolo, b.claim, b.azione, b.chi_siamo, b.dove_siamo, b.orari, b.foto_segnaposto, b.contatti?.altro,
+    ...(b.cosa_offriamo ?? []).flatMap((x) => [x.titolo, x.testo]),
     ...(b.extra ?? []).flatMap((x) => [x.titolo, x.testo])];
   for (const t of testiBozza) if (haPrezzo(t)) errori.push(`bozza del sito: c’è un prezzo in «${String(t).slice(0, 60)}» (i prezzi li scrive il titolare)`);
   // ③ canoni uguali al registro

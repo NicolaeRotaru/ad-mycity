@@ -18,7 +18,8 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { estrai, lampo } from '../da-link-maps.mjs';
+import os from 'node:os';
+import { estrai, lampo, scegliCartella } from '../da-link-maps.mjs';
 import { controlla, canoniDalRegistro, pagamentoDalRegistro } from '../scheda-cliente.mjs';
 
 const RADICE = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
@@ -106,6 +107,46 @@ test('④ la versione lampo passa i controlli della proposta, con la fascia gius
     assert.equal(d.proposta.piano.righe.length, post);
     assert.equal(d.proposta.piano.righe.filter((r) => /reel|video/i.test(r.formato)).length, video);
   }
+});
+
+test('⑥ un locale che Google segna CHIUSO si riconosce, e le recensioni vecchie fanno scattare l\'avviso', () => {
+  const r = scheda({ piena: true });
+  metti(r, [88, 0], 'CHIUSO');
+  assert.equal(estrai(r).chiusa, 'definitivamente');
+  assert.equal(estrai(scheda({ piena: true })).chiusa, null);
+  const vecchia = scheda({ piena: false });
+  metti(vecchia, [175, 9, 0, 0], [recensione(5, '12 anni fa', 'Ottimo.'), recensione(4, '10 anni fa', 'Buono.')]);
+  metti(vecchia, [4, 8], 40);
+  const d = lampo(estrai(vecchia), 'https://maps.app.goo.gl/prova');
+  assert.ok(d.attenzione.some((a) => /circa 10 anni fa/.test(a)), 'avviso recensioni vecchie');
+});
+
+test('⑦ la cartella si sceglie dal codice del luogo Google, mai dal nome', () => {
+  const base = fs.mkdtempSync(path.join(os.tmpdir(), 'clienti-'));
+  const x = estrai(scheda({ piena: true }));
+  // una cartella che finisce col suo nome ma è di un altro luogo: non va toccata
+  fs.mkdirSync(path.join(base, '2026-11-01-forno-prova'));
+  fs.writeFileSync(path.join(base, '2026-11-01-forno-prova', 'google.json'), JSON.stringify({ place_id: 'ChIJaltro' }));
+  fs.mkdirSync(path.join(base, '2026-11-26-forno-prova'));
+  assert.equal(path.basename(scegliCartella(base, x, '2026-11-26')), '2026-11-26-forno-prova-2');
+  // la stessa attività letta di nuovo torna nella sua cartella
+  fs.mkdirSync(path.join(base, '2026-11-20-forno'));
+  fs.writeFileSync(path.join(base, '2026-11-20-forno', 'google.json'), JSON.stringify({ place_id: 'ChIJprova123' }));
+  assert.equal(path.basename(scegliCartella(base, x, '2026-11-26')), '2026-11-20-forno');
+});
+
+test('⑧ il piano non pubblica a Natale e Santo Stefano', () => {
+  for (const piena of [false, true]) {
+    const d = lampo(estrai(scheda({ piena })), 'https://maps.app.goo.gl/prova', new Date('2026-11-26T12:00:00Z'));
+    const date = d.proposta.piano.righe.map((r) => r.data);
+    assert.ok(!date.some((x) => / (25|26)\/12$/.test(x)), date.join(', '));
+  }
+});
+
+test('⑨ un prezzo nel sopratitolo della bozza ferma la proposta', () => {
+  const d = lampo(estrai(scheda({ piena: false })), 'https://maps.app.goo.gl/prova');
+  d.sito_bozza.sopra_titolo = 'Pizza a 5 €';
+  assert.ok(controlla(d, canoni, pagamento).some((e) => /prezzo/.test(e)));
 });
 
 test('⑤ senza orari né telefono, la bozza del sito non li inventa', () => {

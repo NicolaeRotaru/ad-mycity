@@ -57,6 +57,11 @@ test('② un prezzo nella bozza del sito la ferma, un orario no', () => {
   assert.equal(haPrezzo('Bar: dal lunedì al sabato, 7.30-22.30'), false);
   assert.equal(haPrezzo('Cappuccino e brioche a 2,50'), true);
   assert.equal(haPrezzo('Menu degustazione 35 €'), true);
+  // collaudo del 26/11: il punto decimale e «EUR» passavano per orari o per niente
+  assert.equal(haPrezzo('Menu a 12.50'), true);
+  assert.equal(haPrezzo('Pizza EUR 25'), true);
+  assert.equal(haPrezzo('Apriamo alle 7.30, chiudiamo alle 19.00'), false);
+  assert.equal(haPrezzo('lunedì 7:30-12:30'), false);
   const d = copia(leggi(CLIENTI[1]));
   d.sito_bozza.cosa_offriamo[0].testo = 'Colazione completa a 4 euro.';
   assert.ok(controlla(d, CANONI, PAGAMENTO).some((e) => e.startsWith('bozza del sito')));
