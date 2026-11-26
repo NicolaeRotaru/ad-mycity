@@ -70,6 +70,7 @@ Così due sessioni diverse consegnano la stessa forma, e i controlli non dipendo
 - Mai scritture nel database. Mai dati personali del titolare o dei clienti (nomi, telefoni privati, email):
   solo i recapiti pubblici dell'attività.
 - Nei contenuti proposti mai gioco (Sisal, scommesse) né tabacco: in Italia la pubblicità è vietata.
+- Nel preventivo il 10% sui prodotti venduti tramite MyCity resta anche con l'abbonamento (`pricing.commissione`, 26/11): mai scrivere «nessuna percentuale». Sulle vendite al banco non si prende niente.
 - Nella bozza del sito mai prezzi (stessa regola del sito, `lib/agenzia/bozza-sito-ad.ts`), e ogni testo è
   «da confermare dal titolare»: il nastro in cima lo dice.
 - Prima dell'abbonamento solo fonti pubbliche e gratuite, guardate come le vede chiunque senza accesso. Le

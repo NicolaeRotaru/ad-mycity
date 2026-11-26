@@ -218,7 +218,7 @@
     },
     {
       "servizio": "Vetrina su MyCity",
-      "perche": "La gastronomia da ritirare nel locale, senza percentuale su quello che vendono già."
+      "perche": "La gastronomia da ordinare in rete e ritirare nel locale. Su questi ordini MyCity prende il 10%, che paga consegna e servizio."
     }
   ],
   "domande": [
@@ -245,6 +245,7 @@
     }
   ],
   "attenzione": [
+    "Il 10% sui prodotti venduti tramite MyCity resta anche con l'abbonamento (regola del 26/11): dillo subito, mai «nessuna percentuale».",
     "Chi decide è un gruppo con un rapporto diretto col Comune: niente promesse di risultati, niente nomi di persone nei contenuti senza permesso.",
     "La sede è comunale e storica: le riprese del palazzo e dei portici vanno concordate prima.",
     "Gli orari del bar sono quelli detti a luglio; il ristorante non ha orari pubblici trovati.",
@@ -334,7 +335,7 @@
       {
         "tema": "Vendite",
         "oggi": "Solo in sala",
-        "con_noi": "Vetrina su MyCity per la gastronomia da ritirare, senza percentuali su quello che vendete già"
+        "con_noi": "Vetrina su MyCity per la gastronomia da ritirare; il 10% solo sugli ordini fatti da MyCity"
       }
     ],
     "standard_sito": [

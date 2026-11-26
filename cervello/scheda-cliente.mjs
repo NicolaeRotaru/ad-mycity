@@ -69,7 +69,8 @@ export const FASCE = {
     ],
   },
 };
-export const CONDIZIONI = 'Nessun vincolo di durata: disdici quando vuoi, con 30 giorni di preavviso. Il primo mese costa la metà. Nessuna percentuale su quello che vendi.';
+// Il 10% sui prodotti venduti tramite MyCity resta anche con l'abbonamento (pricing.commissione, Nicola 26/11/2026).
+export const CONDIZIONI = 'Nessun vincolo di durata: disdici quando vuoi, con 30 giorni di preavviso. Il primo mese costa la metà. Su quello che vendete al banco non prendiamo niente; sui prodotti venduti tramite MyCity resta il 10%, che paga la consegna e il servizio.';
 
 const STATI = {
   confermato: 'Confermato',

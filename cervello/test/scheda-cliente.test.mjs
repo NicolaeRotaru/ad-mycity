@@ -102,6 +102,9 @@ test('⑤ le pagine dicono quello che serve, e la scheda resta interna', () => {
   assert.doesNotMatch(prev, /Scheda interna/, 'il preventivo per il cliente non porta le note interne');
   assert.match(prev, /500 €<\/b> al mese/);
   assert.match(prev, /Il primo mese 250 €/);
+  // Il 10% sui prodotti venduti tramite MyCity resta anche con l'abbonamento (pricing.commissione, 26/11).
+  assert.match(prev, /sui prodotti venduti tramite MyCity resta il 10%/);
+  assert.doesNotMatch(prev, /[Nn]essuna percentuale su quello che vendi/);
   assert.equal((prev.match(/<td class="quando">/g) ?? []).length, 12);
   assert.match(prev, /<iframe[^>]+srcdoc=/);
   const sito = paginaSito(d);

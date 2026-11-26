@@ -224,7 +224,7 @@
     "Dicembre: vassoi di pasticceria e colazioni da portare via ordinati prima, se il laboratorio li fa.",
     "I 3.500 follower di Facebook sono già un canale: con 3 contenuti a settimana diventano clienti al banco.",
     "Le recensioni: con risposte curate il servizio smette di essere il tema e il voto può salire.",
-    "Su MyCity: colazioni da asporto e vassoi da ritirare in negozio, senza percentuale su quello che vende già.",
+    "Su MyCity: colazioni da asporto e vassoi da ritirare in negozio. Sugli ordini fatti da MyCity c'è il 10%; quello che vende al banco resta tutto suo.",
     "La via ha passaggio anche a pranzo e cena: allo stesso civico c'è una pizzeria."
   ],
   "offerta": [
@@ -246,7 +246,7 @@
     },
     {
       "servizio": "Vetrina su MyCity",
-      "perche": "Vassoi e colazioni da ritirare: ordini in più, senza percentuale su quello che vendono già al banco."
+      "perche": "Vassoi e colazioni da ordinare in rete e ritirare in negozio. Su questi ordini MyCity prende il 10%, che paga consegna e servizio; sulle vendite al banco niente."
     }
   ],
   "domande": [
@@ -273,10 +273,11 @@
     },
     {
       "obiezione": "Poi mi prendete una percentuale.",
-      "risposta": "No: solo il canone. Su quello che vendete non prendiamo niente."
+      "risposta": "Su quello che vendete al banco, niente. Sui prodotti venduti tramite MyCity c'è il 10%, anche con l'abbonamento: paga la consegna e il servizio."
     }
   ],
   "attenzione": [
+    "Il 10% sui prodotti venduti tramite MyCity resta anche con l'abbonamento (regola del 26/11): dillo subito, mai «nessuna percentuale».",
     "Omonimo: «L'Ora del Gusto», gelateria in Strada Bobbiese 52, forse chiusa. Non confonderle.",
     "Nei contenuti mai il Punto Sisal né i tabacchi: in Italia la pubblicità del gioco e del tabacco è vietata.",
     "Gli orari non vanno scritti da nessuna parte finché il titolare non li conferma.",
@@ -373,7 +374,7 @@
       {
         "tema": "Vendite",
         "oggi": "Solo al banco",
-        "con_noi": "Vetrina su MyCity per vassoi e colazioni da ritirare, senza percentuali su quello che vendete già"
+        "con_noi": "Vetrina su MyCity per vassoi e colazioni da ritirare; il 10% solo sugli ordini fatti da MyCity"
       }
     ],
     "standard_sito": [
