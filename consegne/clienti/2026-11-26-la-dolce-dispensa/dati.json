@@ -319,7 +319,7 @@
       "url": "https://www.informazione-aziende.it/Azienda_GROPPI-PASTICCERIA-DI-GROPPI-LUIGI-C-SNC"
     }
   ],
-  "preventivo": {
+  "proposta": {
     "saluto": "Abbiamo guardato La Dolce Dispensa come la vede chi vi cerca dal telefono. Le vostre torte hanno già chi le loda. Vi manca un modo per farvi trovare, e per farvi prenotare, anche quando il laboratorio è chiuso al pubblico.",
     "forti": [
       "Un laboratorio artigianale vero, aperto al pubblico da dicembre 2024.",
@@ -466,7 +466,12 @@
         "quando": "Settimana 4",
         "cosa": "Il primo resoconto: prenotazioni arrivate, visite al sito, chiamate da Google, quali contenuti hanno funzionato. E il piano di gennaio per le torte di nozze."
       }
-    ]
+    ],
+    "su_misura": {
+      "base": "Il vostro sito resta e lo colleghiamo alla vetrina MyCity; 8 contenuti al mese su Instagram e Facebook su panettoni, torte da dispensa e torte su misura; la scheda Google sistemata con via Bianchi e gli orari giusti.",
+      "business": "Il sito rifatto, di più pagine, con la pagina per prenotare la torta e scegliere il giorno del ritiro; 3 contenuti a settimana, con 2 video delle mani che decorano; le risposte alle recensioni scritte da noi.",
+      "premium": "Le torte della stagione fotografate e filmate ogni mese, le storie dal laboratorio nei giorni delle prenotazioni, e un incontro al mese per leggere insieme quante torte sono arrivate dalla rete."
+    }
   },
   "sito_bozza": {
     "schema_tipo": "Bakery",
