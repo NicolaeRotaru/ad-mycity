@@ -21,7 +21,7 @@
     },
     {
       "dove": "referti/S01b.json",
-      "campo": "copertura.file_letti_in_parte (7 voci su 5 righe dell'elenco)",
+      "campo": "copertura.file_letti_in_parte (6 voci)",
       "cosa": "tipo b, confidenza 35-50%: intervalli che nessuna voce pubblica usa e che coprono o sfiorano i puntatori di falle; contraddice la riga di non_guardato che dice di averli tenuti fuori"
     },
     {
