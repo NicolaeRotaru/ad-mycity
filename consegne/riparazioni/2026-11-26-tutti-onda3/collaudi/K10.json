@@ -5,7 +5,7 @@
   "R27",
   "R18"
  ],
- "aggiornato": "2026-11-26 23:35",
+ "aggiornato": "2026-11-26 23:50",
  "finita": true,
  "voci": [
   {
@@ -231,7 +231,16 @@
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R27-002sql --base 6a1ab8c7a04a0f6695591362b390facfc2697e04^ --file migrations/961_la_merce_riservata_resta_scritta_finche_l_ordine_non_la_prende.sql --prove tests/sql/rls/riparazione-r27-riserva-scritta.test.sql --sql k10_r27_rimessa --json",
     "rimesso_a_mano": "libera_riserve_orfane svuotata su k10_r27_lenti: prova rossa su 5 controlli"
    },
-   "nota": "due lenti fatte in linea dal collaudatore (tetto dei subagenti raggiunto). Prova SQL 11 controlli verde su Postgres locale; la rimessa SQL esce 3 (strutturale): rimesso il difetto a mano svuotando libera_riserve_orfane la prova diventa rossa su 5 controlli, sul comportamento. Rimessa del codice: uscita 0. Lette tutte le strade di annullo della rotta: con riga aperta restore_stock a due parametri toglie riga e merce insieme una volta sola, con riga chiusa resta la chiamata di sempre; il credito torna solo se l'ordine non è nato, e wallet_credit è idempotente (143); permessi solo a service_role. 87 file / 632 prove della cassa e del giro verdi. Residui fuori voce dichiarati dal riparatore (codice sconto consumato, testo degli allarmi, invio gemello)."
+   "nota": "due lenti fatte in linea dal collaudatore (tetto dei subagenti raggiunto). Prova SQL 11 controlli verde su Postgres locale; la rimessa SQL esce 3 (strutturale): rimesso il difetto a mano svuotando libera_riserve_orfane la prova diventa rossa su 5 controlli, sul comportamento. Rimessa del codice: uscita 0. Lette tutte le strade di annullo della rotta: con riga aperta restore_stock a due parametri toglie riga e merce insieme una volta sola, con riga chiusa resta la chiamata di sempre; il credito torna solo se l'ordine non è nato, e wallet_credit è idempotente (143); permessi solo a service_role. 87 file / 632 prove della cassa e del giro verdi. Residui fuori voce dichiarati dal riparatore (codice sconto consumato, testo degli allarmi, invio gemello).",
+   "seconda_lente": {
+    "da": "quinto subagente qa (autorizzato dalla regia il 26/11, solo per questa voce), senza leggere il giudizio del collaudatore",
+    "lenti": [
+     "chiude_tutta",
+     "nata_rotta"
+    ],
+    "verdetto": "regge",
+    "nota": "241 migrazioni su Postgres locale, prova SQL 11 verdi, vitest 5 su 5. Giro in parallelo con due psql: uno libera 1, l'altro 0 (SKIP LOCKED). Credito già stornato dalla rotta: la 143 scarta il secondo storno (saldo 1000, non 1400). Ordine nato senza articoli: la merce non torna due volte. Le 4 funzioni nuove senza EXECUTE per anon/authenticated/public. Minori letti nel codice: invio gemello che muore dentro rendiLaNostraParte (già dichiarato dal riparatore); articoli tolti e cancellazione dell'ordine fallita, strada che c'era già prima."
+   }
   },
   {
    "id": "R27-006",
@@ -422,5 +431,5 @@
    "accettato": true
   }
  },
- "note": "Tetto di 4 subagenti usato su R24; le lenti di R27 e R18 le ha fatte il collaudatore in linea. Nominatim vero non raggiungibile da qui."
+ "note": "Tetto di 4 subagenti usato su R24; la regia ha autorizzato un quinto subagente, usato solo come seconda lente indipendente su R27-002. Le altre lenti di R27 e R18 le ha fatte il collaudatore in linea. Nominatim vero non raggiungibile da qui."
 }
