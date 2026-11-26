@@ -1,0 +1,110 @@
+{
+ "controllore": "C01",
+ "onda": 1,
+ "finita": true,
+ "testa": "a60799bdcd19e5fe35358b7f494fa5a2c09ab211",
+ "verify": {
+  "comando": "npm run verify && tests/sql/harness/apply.sh && tests/sql/harness/run.sh",
+  "esito": "verde",
+  "dettaglio": "typecheck 0, lint 0, vitest 0; apply.sh 238 migrazioni 0 fallite; run.sh tutti verdi"
+ },
+ "voci_rosse": [
+  {
+   "chiave": "privacy-legale|il venditore può rimettere in vendita da solo un prodotto tolto dopo una segnalazione accolta",
+   "perche": "R02-014 è stata tolta dall’unione col revert a60799bd: nel ramo unito a60799bd la riparazione non c’è, ma .riparazione/referto e il referto della campagna la danno ancora come riparata o a metà, con prove che non esistono più."
+  },
+  {
+   "chiave": "qa-flussi|col doppio clic su «rifiuta ordine» compare anche un avviso rosso di errore, e l'aiuto dice che il motivo è obbligatorio e promette un rimborso che coi contanti non esiste",
+   "perche": "R06-013 è stata tolta dall’unione col revert e93ddc4e: nel ramo unito a60799bd la riparazione non c’è, ma .riparazione/referto e il referto della campagna la danno ancora come riparata o a metà, con prove che non esistono più."
+  },
+  {
+   "chiave": "microcopy|in registrazione e nel cambio password del profilo il rifiuto di una password debole o rubata non si traduce o si perde",
+   "perche": "R06-003 è stata tolta dall’unione col revert d9e1b749: nel ramo unito a60799bd la riparazione non c’è, ma .riparazione/referto e il referto della campagna la danno ancora come riparata o a metà, con prove che non esistono più."
+  },
+  {
+   "chiave": "pagamenti-stripe|il pannello dei bonifici non dice a nicola quanto versare a ogni negozio il lunedì",
+   "perche": "R05-002 è stata tolta dall’unione col revert 54ac129a e a5134d7e: nel ramo unito a60799bd la riparazione non c’è, ma .riparazione/referto e il referto della campagna la danno ancora come riparata o a metà, con prove che non esistono più."
+  },
+  {
+   "chiave": "flussi-conversione|il filtro «prezzo minimo» taglia sul prezzo pieno, non su quello che il cliente paga",
+   "perche": "R10-003 è stata tolta dall’unione col revert a63ff74c, 441ebe9e, 58bd004f: nel ramo unito a60799bd la riparazione non c’è, ma .riparazione/referto e il referto della campagna la danno ancora come riparata o a metà, con prove che non esistono più."
+  },
+  {
+   "chiave": "flussi-conversione|l'ordine «prezzo crescente» ordina sul prezzo pieno, mentre la griglia mostra il prezzo scontato",
+   "perche": "R10-004 è stata tolta dall’unione col revert a63ff74c, e3c3811d, 7691eb56, b380d329, 5ae6bd1e: nel ramo unito a60799bd la riparazione non c’è, ma .riparazione/referto e il referto della campagna la danno ancora come riparata o a metà, con prove che non esistono più."
+  },
+  {
+   "chiave": "frontend-ux|ordinando per prezzo, le griglie guardano il prezzo pieno e non quello che si paga",
+   "perche": "R10-005 è stata tolta dall’unione col revert a63ff74c, e3c3811d, 7691eb56, b380d329, 5ae6bd1e: nel ramo unito a60799bd la riparazione non c’è, ma .riparazione/referto e il referto della campagna la danno ancora come riparata o a metà, con prove che non esistono più."
+  },
+  {
+   "chiave": "pagamenti-stripe|se il cliente viene rimborsato prima che il suo ordine nasca, l'ordine nasce lo stesso come pagato e il negozio viene pagato",
+   "perche": "R04-005 è stata tolta dall’unione col revert 9aeafb6d e 09e12e77: nel ramo unito a60799bd la riparazione non c’è, ma .riparazione/referto e il referto della campagna la danno ancora come riparata o a metà, con prove che non esistono più."
+  },
+  {
+   "chiave": "stati-ui|il link al reclamo nella scheda ordine porta all'elenco filtrato sui reclami aperti e non mostra quelli in esame",
+   "perche": "R07-006 è stata tolta dall’unione col revert df6e7e96 e 02b08ddb: nel ramo unito a60799bd la riparazione non c’è, ma .riparazione/referto e il referto della campagna la danno ancora come riparata o a metà, con prove che non esistono più."
+  },
+  {
+   "chiave": "stati-ui|nella pagina di amministrazione del prodotto, quando torna la rete, il caricamento prende il posto del modulo e le modifiche si perdono; senza rete il modulo si apre con 0 taglie",
+   "perche": "R03-008 è stata tolta dall’unione col revert 5313f06a: nel ramo unito a60799bd la riparazione non c’è, ma .riparazione/referto e il referto della campagna la danno ancora come riparata o a metà, con prove che non esistono più."
+  },
+  {
+   "chiave": "qa-flussi|se le email non arrivano, l'elenco dei più recenti le mostra vuote senza una riga che lo dica",
+   "perche": "R08-006 è segnata riparata, ma app/admin/users/page.tsx:181-186 (cercaContattiAuth) ha ancora lo stesso difetto: se la funzione del database risponde con un errore diverso da PGRST202, la ricerca restituisce un elenco vuoto senza la riga che lo dice."
+  },
+  {
+   "chiave": "api-backend|la chiave di cifratura del link di disiscrizione si ricava con lo stesso calcolo usato per firmare i link vecchi",
+   "perche": "R08-001: in lib/email/unsubscribe.ts:124 apriFirmato chiama ancora segreto() fuori dal try. Senza UNSUBSCRIBE_SECRET in produzione, un link vecchio v1 fa rispondere la rotta con un errore 500 invece di «link non valido», e nella POST l’errore arriva prima del freno per indirizzo IP. La prova nuova copre solo v2 e v3."
+  }
+ ],
+ "nuovi_difetti_visti": [
+  {
+   "titolo": "Il reso di un solo articolo: il cliente vede il prezzo pieno della riga, il negozio si vede proporre la riga meno la sua parte di sconto",
+   "dimensione": "qa-flussi",
+   "severita": "minore",
+   "file": "app/seller/orders/[id]/page.tsx:201",
+   "descrizione": "Nato da R06-010. Esempio: righe da 10 € e 20 €, codice sconto da 6 €, reso della riga da 10 €. Il cliente (app/orders/[id]/return/page.tsx:391) si aspetta 10 €, il negozio si vede proporre 8 €: nasce una contestazione. La lettura dell’ordine lato negozio non chiede variant_label, quindi «Cosa torna» non mostra la variante."
+  },
+  {
+   "titolo": "La scadenza dei carrelli dal giro notturno ridà il codice sconto ma non chiude la rivendicazione",
+   "dimensione": "api-backend",
+   "severita": "minore",
+   "file": "app/api/cron/expire-checkouts/route.ts:283",
+   "descrizione": "Stesso difetto di R08-002, in un altro file. Il webhook carrello-scaduto ora chiude la riga di coupon_redemptions, il giro notturno expire-checkouts no: il codice di benvenuto torna disponibile e la rivendicazione resta aperta."
+  },
+  {
+   "titolo": "La fila per richiesta delle email si appoggia a un file interno di Next.js",
+   "dimensione": "architettura",
+   "severita": "minore",
+   "file": "lib/api/dopo-la-risposta.ts:2",
+   "descrizione": "Nato da R09-008. Importa next/dist/server/app-render/work-async-storage.external, un percorso interno. Se il bundler ne crea una seconda copia, getStore() torna sempre vuoto e tutto torna nella fila unica senza errori. Se un aggiornamento di Next sposta il file, cadono al caricamento contrassegno, checkout, webhook ordini, contatti, cancellazione account e chat. La prova finge il modulo, quindi non lo può vedere. Il commento alle righe 58-59 cita ancora annulla.ts, che non usa nellaFila."
+  },
+  {
+   "titolo": "Il freno del conto Stripe di prova vale solo sulle anteprime di Vercel, e il suo errore arriva al negoziante come errore generico",
+   "dimensione": "pagamenti-stripe",
+   "severita": "minore",
+   "file": "lib/stripe/client.ts:406",
+   "descrizione": "Nato da R07-005. Il freno guarda solo VERCEL_ENV===preview: un ambiente locale con la chiave di prova collegato al database vero salva ancora un conto di prova al posto di quello vero. ContoSconosciutoAllaChiaveDiProva non è tradotto da nessuna rotta, quindi esce un 500 generico (rotte chiamanti non aperte)."
+  },
+  {
+   "titolo": "Il prezzo al chilo usa il peso del prodotto base anche quando si sceglie un formato diverso",
+   "dimensione": "privacy-legale",
+   "severita": "minore",
+   "file": "app/product/[id]/page.tsx:597",
+   "descrizione": "Nato da R08-005. Il peso si legge da product.attributes.peso, ma per gli alimenti peso è variabile per formato (lib/category-attributes.ts:50). Con un alimento da 500 g e 1 kg, scegliendo 1 kg la riga «€/kg» resta calcolata sul peso del base. Non verificato dove la variante tiene il suo peso."
+  }
+ ],
+ "file_toccati": 122,
+ "file_guardati": 122,
+ "note": [
+  "Ultracode spento per regola della campagna (REGIA.md regola 3): al suo posto 4 subagenti e il limite di 15 $, come da messaggio della regia.",
+  "File guardati: 51 file di codice e migrazioni, uno per uno sui pezzi cambiati; dei 71 file di prova e referti sono stati controllati i conteggi, la ricerca di skip/only/todo, le asserzioni delle 4 prove SQL e le due prove comuni cambiate. Nessuna prova falsa verde trovata, nessuna prova comune indebolita.",
+  "Residui già dichiarati a metà, non bocciati: R07-001 (l’iscrizione verifica ancora il gettone sul server: accendendo il captcha su Supabase le iscrizioni con email cadono), R05-003 (avviso che si contraddice, allarme del termine non collegato, pagina senza link, reclami a termine sconosciuto: tutto già scritto da K03), R09-006.",
+  "Le prove SQL: 238 migrazioni applicate, 0 fallite; run.sh tutti i controlli verdi."
+ ],
+ "conto": {
+  "subagenti": 4,
+  "token_stimati": 372754
+ }
+}
