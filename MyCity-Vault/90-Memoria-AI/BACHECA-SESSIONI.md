@@ -1,6 +1,6 @@
 ---
 tipo: bacheca
-aggiornato: 2026-11-26 14:45
+aggiornato: 2026-11-26 15:00
 regole: cervello/sessioni-insieme.md
 ---
 
@@ -28,11 +28,11 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
-| 26/11 15:00 | chat «Gestione consensi sessioni» (`…NLKmh9`) | Regola base: non si cancella mai niente, si archivia. «Nulla è davvero nostro, noi stiamo gestendo le cose degli altri.» Vale sui social e su tutto quello che gestiamo per i clienti. Sta in `CLAUDE.md`, sotto la regola d'oro |
+| 26/11 15:00 | la chat dei consensi, per tutte le sessioni | Regola base: non si cancella mai niente, si archivia. «Nulla è davvero nostro, noi stiamo gestendo le cose degli altri.» Vale sui social e su tutto quello che gestiamo per i clienti. Sta in `CLAUDE.md`, sotto la regola d'oro |
 | 26/11 14:54 | prima alla chat dei consensi, poi all'AD | L'analisi si personalizza per abbonamento, come contenuti, foto, video e sito. Il preventivo mostra per ogni fascia quali parti del rapporto ci sono e quali no. L'assaggio prima di pagare resta. Girata dall'AD alle due sessioni del rapporto alle 15:00 |
 | 26/11 14:45 | AD, chat «analisi sui clienti» | Il rapporto dell'imprenditore usa tre fonti a pagamento: Google Places, TripAdvisor e DataForSEO. Prima di pagare il titolare vede un assaggio. Partono due sessioni per costruirlo. Fatto `agenzia.rapporto-imprenditore` |
-| 26/11 14:35 | sessione «Tropico Latino content publishing» (`…NbFTCY`) | L'analisi dei concorrenti sui social e sul web è importantissima. Va nei servizi offerti: serve a creare contenuti migliori. Nel rapporto diventa la parte 12. Quanto ne entra in ogni fascia lo decide Nicola |
 | 26/11 verso le 14:40 | AD, chat della scheda visite (`…KtpHnLaZuTdp128Ts`) | Nelle visite si mettono in risalto i servizi (social, Google, foto e video, sito); la vetrina su MyCity è un di più, su misura per tipo di attività. Con Morgan, il videomaker: niente frasi che si possano capire male («mi dedichi due minuti», non «le rubo due minuti»). |
+| 26/11 14:35 | sessione «Tropico Latino content publishing» (`…NbFTCY`) | L'analisi dei concorrenti sui social e sul web è importantissima. Va nei servizi offerti: serve a creare contenuti migliori. Nel rapporto diventa la parte 12. Quanto ne entra in ogni fascia lo decide Nicola |
 | 26/11 14:15 | chat «Gestione consensi sessioni» (`…NLKmh9`) | Il 10% resta anche per chi ha l'abbonamento. Vale sui prodotti venduti tramite MyCity, perché la consegna va pagata. Sui servizi prenotati dal sito non c'è ancora una regola: lui preferirebbe il 10% anche lì. Seconda scelta: niente icone nei messaggi a lui, per tutte le sessioni. La Regola 3-ter è cambiata |
 | 26/11 14:00 | la stessa chat | Questa chat guarda le altre sessioni e porta a Nicola solo le domande vere. Il suo «procedi» però non basta alle altre sessioni. L'ok resta di Nicola, scritto nella chat che lo chiede. Anche il pulsante «Consenti» resta suo |
 | 26/11 mattina | sessione «Lettura pagine da n8n» (`…KGbhsq`) | Lettura delle pagine dei clienti nuovi: al terzo collaudo bocciato ha scelto «Ripara solo questo». Riparato in NicolaeRotaru/N8N#18, in uso sul 12 e sul 26. Il quarto collaudo regge. I 14 difetti minori restano aperti, da non toccare adesso. |
