@@ -103,7 +103,6 @@ tr:last-child td, tr:last-child th { border-bottom: 0; }
 .chiede::before { content: "Chiede: "; color: var(--tenue); font-weight: 600; }
 .risposta { font-family: var(--display); font-size: 18px; line-height: 1.4; font-weight: 500; }
 .risposta::before { content: "Rispondi: "; font-family: var(--testo); font-size: 15px; font-weight: 600; color: var(--cotto); }
-.attenzione { display: inline-block; margin-top: 2px; font-size: 13px; font-weight: 700; color: var(--bordeaux); border: 1px solid var(--bordeaux); border-radius: 6px; padding: 1px 8px; }
 
 /* Passi per chiudere: è una sequenza vera */
 .passi { margin: 0; padding: 0; list-style: none; display: grid; gap: 12px; counter-reset: p; }
@@ -229,6 +228,7 @@ a:focus-visible { outline: 2px solid var(--cotto); outline-offset: 2px; }
             <tbody>
               <tr><th scope="row">Al mese</th><td class="num">300 €</td><td class="num">500 €</td><td class="num">999 €</td></tr>
               <tr><th scope="row">Primo mese</th><td class="num">150 €</td><td class="num">250 €</td><td class="num">499,50 €</td></tr>
+              <tr><th scope="row">Vendite dal sito</th><td>10%</td><td>10%</td><td>10%</td></tr>
               <tr><th scope="row">Al giorno</th><td class="num">circa 10 €</td><td class="num">circa 17 €</td><td class="num">circa 33 €</td></tr>
               <tr><th scope="row">Bar</th><td>4 colazioni</td><td>6 colazioni</td><td>12 colazioni</td></tr>
               <tr><th scope="row">Negozio</th><td>1 scontrino</td><td>2 scontrini</td><td>3 scontrini</td></tr>
@@ -242,7 +242,7 @@ a:focus-visible { outline: 2px solid var(--cotto); outline-offset: 2px; }
             </tbody>
           </table>
         </div>
-        <p class="nota">Le righe Bar, Negozio e Ristorante dicono quanto incasso serve per coprire il costo del giorno, con una colazione da 3 €, uno scontrino da 15 € e un coperto da 25 €. È incasso, non guadagno: non dire «si ripaga da solo».</p>
+        <p class="nota">Il 10% vale solo sui prodotti venduti tramite il sito, e paga la consegna. Le righe Bar, Negozio e Ristorante dicono quanto incasso serve per coprire il costo del giorno, con una colazione da 3 €, uno scontrino da 15 € e un coperto da 25 €. È incasso, non guadagno: non dire «si ripaga da solo».</p>
         <p class="dire">Il Base costa circa 10 € al giorno: l'incasso di 4 colazioni. E il primo mese costa la metà.</p>
         <ul class="consigli">
           <li><b>Base</b> · negozio piccolo, poco tempo, vuole partire.</li>
@@ -258,8 +258,8 @@ a:focus-visible { outline: 2px solid var(--cotto); outline-offset: 2px; }
           <li><span class="chiede">«Ho già pagato un'agenzia e ho buttato i soldi.»</span><span class="risposta">Capita a tanti, lo so. Per questo si va un mese alla volta. E niente esce senza che lei l'abbia visto.</span></li>
           <li><span class="chiede">«Non ho tempo.»</span><span class="risposta">È proprio il motivo per cui ci siamo. A lei servono le foto una volta e un'occhiata prima che pubblichiamo. Il resto lo facciamo noi.</span></li>
           <li><span class="chiede">«Non sono capace con il telefono.»</span><span class="risposta">Non deve imparare niente. Quando arriva un ordine la avvisiamo per email, e all'inizio la chiamiamo anche noi.</span></li>
-          <li><span class="chiede">«Glovo si prende il 30%.»</span><span class="risposta">Noi lavoriamo con un canone fisso: sa sempre quanto spende. E i clienti restano suoi, non nostri.</span></li>
-          <li><span class="chiede">«Sulle vendite prendete una percentuale?»</span><span class="risposta">Con l'abbonamento paga il canone, e basta.</span><span class="attenzione">Da confermare con Nicola prima di dirlo</span></li>
+          <li><span class="chiede">«Glovo si prende il 30%.»</span><span class="risposta">Noi il 10%, e solo su quello che vende tramite il sito: la consegna è compresa. E i clienti restano suoi, non nostri.</span></li>
+          <li><span class="chiede">«Sulle vendite prendete una percentuale?»</span><span class="risposta">Sì, il 10%, ma solo sui prodotti venduti tramite il sito: serve a pagare la consegna. Su quello che vende al banco, come oggi, niente.</span></li>
           <li><span class="chiede">«Chi consegna? E come mi pagate?»</span><span class="risposta">Consegniamo noi, in bici, fino a 5 km. Oppure il cliente passa da lei a ritirare. Oggi i clienti pagano in contanti alla consegna: li raccogliamo noi e le facciamo il bonifico ogni lunedì.</span></li>
           <li><span class="chiede">«Voglio solo vendere online, senza foto e social.»</span><span class="risposta">Oggi la vetrina è dentro gli abbonamenti. Mi lascia il numero? La richiamiamo appena c'è la vetrina da sola.</span></li>
           <li><span class="chiede">«Ci devo pensare.»</span><span class="risposta">Certo. Intanto la iscriviamo: sono due minuti e non paga niente. Nei prossimi giorni trova l'analisi della sua attività e il preventivo. Se le piace, sceglie da lì.</span></li>
@@ -294,6 +294,6 @@ a:focus-visible { outline: 2px solid var(--cotto); outline-offset: 2px; }
   <footer class="piede">
     <span>MyCity · Piacenza</span>
     <span>Scheda del 26/11/2026</span>
-    <span>Prezzi degli abbonamenti decisi da Nicola il 24/11/2026</span>
+    <span>Prezzi degli abbonamenti decisi da Nicola il 24/11/2026 · 10% sulle vendite dal sito confermato il 26/11</span>
   </footer>
 </div>

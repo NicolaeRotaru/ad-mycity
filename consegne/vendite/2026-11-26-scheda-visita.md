@@ -19,15 +19,15 @@ Per esempio: se il titolare dice «costa troppo», la risposta è «sono 10 € 
 
 ## Cosa cambia per te
 
-Possiamo spiegare il servizio e iscrivere i titolari già oggi. Restano tre cose che possono fare brutta figura davanti al titolare, e sono qui sotto.
+Possiamo spiegare il servizio e iscrivere i titolari già oggi. C'erano tre cose che potevano fare brutta figura davanti al titolare. Una è chiusa, due restano.
 
-- **La percentuale sulle vendite.** Il 24/11 Nicola ha detto «solo canone, niente 10%» per chi fa l'abbonamento. Il sito però trattiene ancora il 10% su ogni ordine, e il registro dei fatti dice ancora «10% su tutto». La scheda dice «con l'abbonamento paga il canone, e basta», con un bollino rosso «da confermare».
+- **La percentuale sulle vendite: chiusa il 26/11 verso le 14:15.** Nicola, tramite la sessione dei consensi: «il 10% resta, ma resta solamente sui prodotti venduti tramite il sito, perché c'è la delivery che bisogna pagarla». Chi ha l'abbonamento paga il canone più il 10% sui prodotti venduti dal sito. La scheda adesso dice così. Il 10% sui servizi prenotati dal sito è ancora da decidere, e la scheda non ne parla.
 - **Chi vuole solo la vetrina.** Oggi un'attività nuova esce dalla prova solo se paga un abbonamento, cioè almeno 300 € al mese. La vetrina da sola non ha ancora un prezzo: Nicola il 24/11 ha detto che cambia, ma non quanto. La scheda dice «la richiamiamo appena c'è».
 - **Le consegne.** Nel sito c'è 1 fattorino iscritto e 0 approvati. Un ordine con consegna resta fermo, com'è successo il 13/11.
 
 ## Cosa devi fare
 
-- Dire se chi ha l'abbonamento paga anche il 10% sulle vendite. La riga della scheda si cambia in un minuto.
+- Scegliere fra le opzioni che ti prepara la sessione dei consensi, per chi non vuole foto e social.
 - Approvare il tuo account da fattorino prima che arrivi un ordine.
 - Se un titolare vuole pagare sul posto, sapere che nessun abbonamento è ancora stato pagato davvero: è il primo.
 
