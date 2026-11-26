@@ -1,7 +1,7 @@
 ---
 tipo: lavoro-aperto
 fonte: AD digitale
-aggiornato: 2026-11-26 13:05
+aggiornato: 2026-11-26 14:25
 regola: si legge PRIMA di cercare cosa manca; si aggiorna a ogni lavoro che si apre o si chiude
 ---
 
@@ -29,6 +29,8 @@ La pagina dice com'era il lavoro il 31 ottobre alle 01:45. Ogni voce va riletta 
 ---
 
 ## 1 · Cose che toccano a te
+
+**La scheda per le visite ai titolari è pronta (26/11 13:40).** Nicola oggi va di persona dai titolari. La scheda da tenere sul telefono: https://claude.ai/artifact/Ekf7HMc1HBff53nGRM9ChA. Il 10% è chiuso: Nicola, il 26/11 verso le 14:15, dice che resta solo sui prodotti venduti tramite il sito, e la scheda è corretta. Il 10% sui servizi prenotati dal sito è ancora aperto. Restano due cose di Nicola. Prima: il prezzo della vetrina da sola, per chi non vuole foto e social: le opzioni le prepara la sessione dei consensi. Seconda: approvare il suo account da fattorino: oggi 0 approvati su 1. Nessun abbonamento è ancora stato pagato davvero (0 nel database). Dettaglio: `consegne/vendite/2026-11-26-scheda-visita.md`.
 
 **Tropico Latino: 13 contenuti di dicembre nel Calendario (25/11 23:30).** Fatti dall'AD con le 13 foto del fotografo e l'officina, senza API di IA. Alle 23:25 Nicola ne aveva approvati 5 su 13 su Telegram. Ne ha rifiutato 1, il burrito del 17/12, che ora è in bozza. Gli altri 7 aspettano il suo clic fino al 29/11 sera. Restano: il motivo del rifiuto, i nomi di due piatti dal titolare, il numero WhatsApp giusto, e riprese nuove con persone e feste (24, 25, 31 dicembre). Dettaglio: `consegne/content/2026-11-25-tropico-latino-pacchetto-dicembre.md`.
 
