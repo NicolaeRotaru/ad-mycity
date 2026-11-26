@@ -1,0 +1,13 @@
+{
+  "corsia": 20,
+  "territorio": "R20",
+  "difetti": [
+    {
+      "chiave": "ai-endpoints|con un solo timeout del conto condiviso della spesa ai il negoziante legge «budget ai giornaliero esaurito. riprova domani.»",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run --reporter=dot tests/unit/riparazione-r20-spesa-sconosciuta.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 951fdcbed871060f3bdc4541efc25f5c2e1c4208^ --file lib/ai/run.ts,app/api/ai/catalog-batch/start/route.ts --prove tests/unit/riparazione-r20-spesa-sconosciuta.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R20 --base 951fdcbed871060f3bdc4541efc25f5c2e1c4208^ --file lib/ai/run.ts,app/api/ai/catalog-batch/start/route.ts --prove tests/unit/riparazione-r20-spesa-sconosciuta.test.ts --json → uscita 0 (K07)",
+      "nota_fix": "Quando la spesa di oggi non si sa (decisione spesa_sconosciuta) l'AI lancia un errore suo, AiCallError.perSpesaSconosciuta: 503 con motivo 'spesa_sconosciuta', mai tetto_spesa. mapAiError risponde «Servizio AI momentaneamente non disponibile. Riprova fra qualche minuto.» e il lotto del catalogo chiude la riga 'failed' (non 'canceled' per tetto), quindi si può riavviare; il tetto vero continua a dire «Budget AI giornaliero esaurito» e chiude 'canceled'."
+    }
+  ]
+}
