@@ -62,9 +62,11 @@
   },
   "R26": {
    "id": "session_015BmpnVZzkQbYuUDcLqobK1",
-   "ramo": "ccr-a672a2b3-92w5w1-m26",
+   "ramo": "ccr-a672a2b3-92w5w1-m26b",
    "onda": 1,
-   "aperta": "2026-11-26 17:23"
+   "aperta": "2026-11-26 17:23",
+   "ramo_originale": "ccr-a672a2b3-92w5w1-m26",
+   "nota": "2026-11-26 23:58 copia lineare della regia: -m26 senza l unione interna d3975f44, alberi identici; solo gli SHA di R26-012 e la testa cambiano"
   },
   "R27": {
    "id": "session_015BmpnX5LPNnrGSYuzfhRRV",

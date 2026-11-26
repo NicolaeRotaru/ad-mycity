@@ -2,11 +2,11 @@
   "sessione": "R26",
   "aggiornato": "2026-11-26 17:50",
   "finita": true,
-  "testa": "51f5a265a10c7094878da9c97cb1087b1904a569",
+  "testa": "2f5433635cf9ae9d7e391432e176e3485ae5668d",
   "verifica": {
     "comando": "npm run verify",
     "esito": "verde",
-    "testa": "51f5a265a10c7094878da9c97cb1087b1904a569",
+    "testa": "2f5433635cf9ae9d7e391432e176e3485ae5668d",
     "nota": "2240 file di prova passati (1 saltato già alla base), lint 0 errori; SHA preso con git rev-parse HEAD prima e dopo il verify."
   },
   "voci": [
@@ -267,7 +267,7 @@
         },
         {
           "file": "lib/store-hours.ts",
-          "modifica": "(file di R26, dopo la prova) togliere propostaIl da negozioPuoServire, ultimoRitiroDellaFascia e finestraDelRitiro (per «domani» now.getDay()+1); attenzione: dal commit 673e50c5e55436cf4ea1ee5f70358c15a4cdedf6 propostaIl serve anche a scegliere il giorno della fascia per i segni di sospensione, da sostituire con lo stesso riporto"
+          "modifica": "(file di R26, dopo la prova) togliere propostaIl da negozioPuoServire, ultimoRitiroDellaFascia e finestraDelRitiro (per «domani» now.getDay()+1); attenzione: dal commit 6a1676714ddc1d942afdc868483e0856d52c5716 propostaIl serve anche a scegliere il giorno della fascia per i segni di sospensione, da sostituire con lo stesso riporto"
         },
         {
           "file": "lib/quando-arriva.ts",
@@ -319,7 +319,7 @@
       "id": "R26-012",
       "chiave": "frontend-ux|mancano «finito per oggi» e «chiuso fino al…», promessi ai negozi della prima ondata",
       "esito": "parziale",
-      "commit": "673e50c5e55436cf4ea1ee5f70358c15a4cdedf6",
+      "commit": "6a1676714ddc1d942afdc868483e0856d52c5716",
       "file_toccati": [
         "lib/store-hours.ts",
         "lib/quando-arriva.ts",
@@ -338,12 +338,12 @@
       "rimessa": {
         "esito": "regge",
         "uscita": 0,
-        "comando": "cd /home/user/mycity && timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 673e50c5e55436cf4ea1ee5f70358c15a4cdedf6^ --file lib/store-hours.ts,lib/quando-arriva.ts,components/seller/StoreHoursEditor.tsx --prove tests/unit/riparazione-r26-finito-per-oggi-chiuso-fino-al.test.tsx --json",
+        "comando": "cd /home/user/mycity && timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 6a1676714ddc1d942afdc868483e0856d52c5716^ --file lib/store-hours.ts,lib/quando-arriva.ts,components/seller/StoreHoursEditor.tsx --prove tests/unit/riparazione-r26-finito-per-oggi-chiuso-fino-al.test.tsx --json",
         "nota": "e per orari-schema.ts con la prova riparazione-r26-scheda-del-negozio-sospeso: stessa base, uscita 0"
       },
       "copre_tutta_la_voce": false,
       "cosa_ho_fatto": "chiusoFinoAl e finitoOggiIl (tipo a parte, così i sette giorni restano indicizzabili), sospesoIl e il giorno di Roma; isStoreClosedForOrder, negozioPuoServire e motivoNegozioChiuso li rispettano (giorno della fascia: oggi, o domani); la scheda pubblica tace gli orari di un negozio sospeso; l'editor ha «Finito per oggi» e il campo «Chiuso fino al». Prova a orologio finto che monta l'editor e passa il valore al rifiuto dell'ordine. 140 file di prova su orari/fasce verdi.",
-      "nota": "La voce ha sei commit: 673e50c5e55436cf4ea1ee5f70358c15a4cdedf6 più le correzioni di prova e di tipo 24fcea45748f1b702e0068d8e441b576b6076a45, 79b829c2d5ced8456839fe4bafa9c33e41de270b, 0fe6b05d8c7e9b4ca6c2de4ab9b883af78558064, 9054732820423eddf213c07c1527d06a538a9cc7, 51f5a265a10c7094878da9c97cb1087b1904a569 (il primo da solo rompeva il typecheck). Scelta: orariImpostati non cambiata (con un segno scaduto avrebbe chiuso per sempre un negozio senza orari): i segni contano con un controllo prima, anche senza orari.",
+      "nota": "La voce ha sei commit: 6a1676714ddc1d942afdc868483e0856d52c5716 più le correzioni di prova e di tipo 7d1fe7c69f1b3253e2474d0de2a2a0a465253420, 5fdb2ed87ca34ca688502a80ccd582c926a0aae4, 17675c0ddcd0a0f671c7d92518d2d7102d21fe00, 54b4d62e1198d18baf6cfd7fad84e90322ab4503, 2f5433635cf9ae9d7e391432e176e3485ae5668d (il primo da solo rompeva il typecheck). Scelta: orariImpostati non cambiata (con un segno scaduto avrebbe chiuso per sempre un negozio senza orari): i segni contano con un controllo prima, anche senza orari.",
       "verificato_da": "revisore (sonnet): prove verdi (5+1); fuso di Roma e cambio d'ora coperti, «chiuso fino al» passato o vuoto non chiude, la fascia di domani con «finito per oggi» resta servibile, il valore dell'editor arriva a negozioPuoServire e isStoreClosedForOrder. Giudizio: parziale, le viste dicono ancora «Aperto ora».",
       "cosa_resta": "La sospensione la rispettano la cassa, le rotte d'ordine e la scheda pubblica (orari-schema), non le altre viste: un negozio sospeso risulta ancora «Aperto ora» in elenco, hero e orari, e la promessa di consegna veloce/express può ancora comparire. Resta anche, nel mio editor, la X che annulla gli orari (StoreHoursEditor.tsx:47) e butta via un segno impostato nel frattempo.",
       "serve_file_altrui": [
@@ -420,5 +420,6 @@
     "nota": "3 lotti (il primo sul modello grande, gli altri due sul piccolo) e 1 revisore sul piccolo. Il ramo ha un'unione (d3975f44257cb1111661470bc5e0a09eeb8de59a, -s ours) perché un subagente ha ricucito un commit già spinto: segnalata alla regista.",
     "subagenti": 4
   },
-  "costo_usd": 16.89
+  "costo_usd": 16.89,
+  "nota_regia_copia_lineare": "2026-11-26 23:55 la regia ha copiato il ramo -m26 in -m26b senza l unione interna d3975f44 (alberi identici, verificati commit per commit); qui cambiano solo gli SHA dei sei commit di R26-012 e la testa."
 }
