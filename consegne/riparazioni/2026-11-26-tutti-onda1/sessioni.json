@@ -71,9 +71,9 @@
  },
  "collaudatori": {
   "K01": {
-   "id": null,
+   "id": "session_015BmpnYeZfvpg1D28N83v91",
    "ramo": "ccr-a672a2b3-92w5w1-k01",
-   "partenza": null,
+   "partenza": "bfb7f1e0ef6b0534e8a9415fa44d12f6f35a4032",
    "riparatori": [
     "R11"
    ]

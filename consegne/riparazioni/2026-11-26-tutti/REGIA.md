@@ -50,3 +50,4 @@ La percentuale del limite settimanale (la vede solo Nicola). I costi sono `usage
 ## Stato
 - 2026-11-26 14:25 onda 1 preparata: perimetro, dividi a 16, schede, copertura-prima, segnaposti verdi.
 - 2026-11-26 14:07 controllo a 10 minuti: 11 su 11 lavorano, nessuna ferma. R10 ha toccato una prova comune: chiesto di renderla inutile o di togliere la correzione (regola 5).
+- 2026-11-26 14:37 R11 finito (12,51 $): 4 riparati, 1 a metà, 2 file altrui, 2 scelte di Nicola, 6 nati; guardia e referto verdi. K01 session_015BmpnYeZfvpg1D28N83v91 lo collauda (limite 15 $). R05 a 17,86 $ alle 14:35.
