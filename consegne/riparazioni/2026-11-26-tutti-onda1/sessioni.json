@@ -118,7 +118,14 @@
    ]
   }
  },
- "controllori": {},
+ "controllori": {
+  "C01": {
+   "id": "session_015BmpnVvHeXzYqNeYDhUBTo",
+   "ramo": "ccr-a672a2b3-92w5w1-c01",
+   "aperta": "2026-11-26 15:55",
+   "integrazione": "a60799bdcd19e5fe35358b7f494fa5a2c09ab211"
+  }
+ },
  "unione": {
   "U01": {
    "id": "session_015BmpnY88LV2YEwP5rc3XuJ",
