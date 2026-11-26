@@ -1351,6 +1351,14 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Non fatto apposta:** i 7 difetti minori del collaudo 3 e i 7 del collaudo 4. Nicola ha chiesto di riparare solo il grave. Sono in LAVORO-APERTO.
 - **Prova vera (25/11 23:05):** su Ora del Gusto la ricerca ha scritto 1 pagina da leggere e n8n ne ha lette 2. La scheda le ha scartate come possibile omonimo, giustamente.
 - Referti: `consegne/riparazioni/2026-11-25-leggi-pagine/collaudo-3-sicurezza.md` e `collaudo-4-pulizia.md`.
+
+## 2026-11-26 14:45 — Nelle visite si parte dai servizi, la vetrina è un di più (🟡, decisione di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD (`session_01R8112KtpHnLaZuTdp128Ts`), 26/11 verso le 14:40. Parole sue: «bisogna mettere un pochino meno in risalto l'offerta che offre MyCity come marketplace e bisogna risaltare gli altri servizi» e «va appunto personalizzato».
+- **Cosa:** la scheda per le visite parte da social, Google, foto e video e sito. La vetrina su MyCity resta, come «in più», e cambia per tipo di attività (bar, ristorante, negozio, artigiano, servizi alla persona).
+- **Insieme:** Morgan, il videomaker, sulla scheda: «le rubo due minuti» diventa «mi dedichi due minuti», e «dobbiamo stare il più lontano possibile da qualsiasi fraintendimento: le parole che usi ti fanno assumere una posizione agli occhi del cliente». La regola entra nella scheda.
+- **Dove:** `consegne/vendite/2026-11-26-scheda-visita.html` (pagina e PDF). Prenotazioni dal sito non promesse: non esistono ancora.
+- **Colore:** 🟡 materiale di vendita interno; nessun messaggio a clienti.
+
 - 2026-11-26 14:00 · Una sessione dà i via libera di routine al posto di Nicola · Nicola, chat «Gestione consensi sessioni»: la sessione risponde «procedi» alle altre quando chiedono solo un via libera, e porta a lui solo le domande vere (strategia, prezzi, soldi, clienti veri). I pulsanti «Consenti» dell'app restano suoi: un'altra sessione non può premerli.
 - 2026-11-26 14:15 · Il 10% resta anche per chi ha l'abbonamento · Nicola: «il 10% resta, ma resta solamente sui prodotti venduti tramite il sito, perché c'è la delivery che bisogna pagarla». Supera la regola del 24/11 sugli abbonati senza percentuale. Sui servizi prenotati e pagati dal sito è aperto: «se riusciamo sarebbe meglio prendere il 10% anche da quello». Aggiornati `pricing.commissione` e `sdg.abbonamenti`. La vetrina da sola resta aperta: Nicola vuole ragionarci.
 - 2026-11-26 14:15 · Niente icone nei messaggi a Nicola, per tutte le sessioni · Nicola: «non usare le icone, fai un riassunto, sempre in modo semplice, esaustivo», poi «mi piace il modo in cui stai scrivendo adesso, cambia per tutti, metti una regola». Cambiata la Regola 3-ter di `cervello/scrittura-umana.md`, la riga di `CLAUDE.md` e la skill goku. Il controllo `si-capisce.mjs` non guardava le icone: non cambia.
