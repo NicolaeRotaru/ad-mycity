@@ -11,3 +11,14 @@ ramo R10 ccr-a672a2b3-92w5w1-m10
 ramo R11 ccr-a672a2b3-92w5w1-m11
 guardia R10 ccr-a672a2b3-92w5w1-m10 prova comune
 ferma R05 2d9c700
+finita R01
+finita R02
+finita R03
+finita R04
+finita R05
+finita R06
+finita R07
+finita R08
+finita R09
+finita R10
+finita R11
