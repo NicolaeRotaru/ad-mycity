@@ -53,5 +53,11 @@
    ]
   }
  },
- "controllori": {}
+ "controllori": {
+  "C02": {
+   "id": "session_015BmpnXuwMmpmWMEfTUvDbG",
+   "ramo": "ccr-a672a2b3-92w5w1-c02",
+   "integrazione": "aac2350b09db195d6d2286f15f75a7d02ae590a1"
+  }
+ }
 }
