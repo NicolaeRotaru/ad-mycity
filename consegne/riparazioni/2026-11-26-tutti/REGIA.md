@@ -10,6 +10,7 @@ campagna: tutti i difetti del sito che non chiedono Nicola (26/11)
 Questo quaderno serve a ripartire senza rileggere la chat. Nicola il 26/11 ha chiesto di lavorare tutti i difetti
 che non chiedono lui, senza fermate né richieste di approvazione, rimettendo nel giro anche i difetti nuovi.
 La regia è la sessione che parla con lui. Il tetto è 1.200 $ («ok 1.200» del 24/11 alle 20:30).
+Per esempio: una voce che chiede una sua scelta va nella lista per lui, e il giro va avanti senza aspettarlo.
 
 ## Cosa cambia per te
 Niente: lavora la macchina. L'unione della richiesta sul sito resta tua.
@@ -33,7 +34,7 @@ La percentuale del limite settimanale (la vede solo Nicola). I costi sono `usage
 ## Regole di questa campagna (Nicola 26/11: «senza chiedere approvazione»)
 1. Nessuna fermata. Quello che chiede Nicola va in `per-nicola.md` e il giro continua.
 2. Tetto 1.200 $ rigido. Non si alza da sola. A 1.100 $ misurati non si apre più niente: si chiude quel che c'è.
-3. Niente ultracode (non si accende: comando come testo). Riparatori 12-16 voci, limite 25 $ con gravi, 20 $ minori.
+3. Niente ultracode (non si accende: comando come testo). Riparatori da 12-16 voci, limite 25 $ con gravi, 20 $ minori.
 4. Collaudo: due lenti solo su gravi, bloccanti e soldi/dati/permessi; un controllore per unione.
 5. Firme mai chieste: prova comune o codice di un'altra voce → la voce va a `scelta_di_nicola`, si passa oltre.
 6. Migrazioni: onda a parte per le 48, al massimo 15 per richiesta (il rilascio ne applica 20 alla volta).
@@ -41,7 +42,7 @@ La percentuale del limite settimanale (la vede solo Nicola). I costi sono `usage
 8. SHA interi in source_revision. Controllo a 10 minuti con list_sessions. Riga in misure.json a fine giro.
 
 ## Il piano
-1. Onda 1: 116 voci delle 176 libere, R01-R11 (`onda1/`), poi K01-K04, unione, C01.
+1. Onda 1: 116 voci delle 176 libere, R01-R11 (`consegne/riparazioni/2026-11-26-tutti-onda1/`: ogni onda ha la sua cartella, così il controllo riconosce le schede), poi K01-K04, unione, C01.
 2. Onda 2: le 60 libere rimaste + le voci della radiografia rimaste aperte + giro di correzione dell'onda 1.
 3. Onda 3: le 48 con migrazione (al massimo 15 migrazioni a richiesta) + correzioni + nati.
 4. Avanti finché restano solo le voci per Nicola o finisce il tetto.

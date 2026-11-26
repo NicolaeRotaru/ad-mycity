@@ -1,8 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-11-24 22:57
+aggiornato: 2026-11-26 14:05
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🟡 **2026-11-26 14:05 — Riparo i difetti che non chiedono Nicola.**
+>
+> Nicola il 26/11 ha chiesto di lavorare tutti i difetti che non chiedono lui, senza approvazioni. Sul registro ci sono 598 difetti aperti: circa 410 si chiudono senza di lui. Per esempio, i contanti vecchi da versare che spariscono dal pannello dei bonifici oltre i mille ordini. Alle 13:55 sono partite 11 sessioni su 116 difetti, fra cui 17 gravi. Il tetto resta il suo «ok 1.200» del 24/11: con quella cifra si chiudono circa 150-250 difetti. La sessione della radiografia intanto ricontrolla altri 272 difetti. Quaderno: `consegne/riparazioni/2026-11-26-tutti/REGIA.md`.
 
 > 🟡 **2026-11-24 22:57 — La radiografia del sito lavora a onde, come la riparazione. È costruita e collaudata, ma non ancora lanciata.**
 >
