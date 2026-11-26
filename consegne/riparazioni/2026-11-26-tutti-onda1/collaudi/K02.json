@@ -1,0 +1,59 @@
+{
+  "collaudatore": "K02",
+  "riparatori": [
+    "R10",
+    "R08",
+    "R04"
+  ],
+  "aggiornato": "2026-11-26 15:25",
+  "finita": false,
+  "voci": [
+    {
+      "id": "R04-005",
+      "chiave": "pagamenti-stripe|se il cliente viene rimborsato prima che il suo ordine nasca, l'ordine nasce lo stesso come pagato e il negozio viene pagato",
+      "verdetto": "rompe_altro",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r04 --base 4972bd8bb2e08592d208eee82249b227394be3e8^ --file lib/stripe/webhook/ordini.ts,lib/stripe/webhook/rimborsi.ts --prove tests/unit/riparazione-r04-rimborso-prima-dell-ordine.test.ts --json"
+      },
+      "altre_rimesse": [
+        {
+          "uscita": 0,
+          "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r04 --base ed12ed8ec8190e1132b690f6e034c30f0a5d55ba --file lib/stripe/webhook/ordini.ts,lib/stripe/webhook/rimborsi.ts --prove tests/unit/riparazione-r04-rimborso-prima-dell-ordine.test.ts --json"
+        }
+      ],
+      "nota": "Due lenti (qa grande ciascuna), prove con Stripe e Supabase finti, solo in locale. Il caso della voce è chiuso: con la carta rimborsata prima della nascita l'ordine pagato non nasce più (prova del riparatore 9 su 9, 7 su 9 rosse sulla base; 42 file di prove dei webhook verdi, 305 prove). nata_rotta: ROMPE ALTRO, dimostrato con una sonda lanciata sulla testa e sulla base. La condizione amount_refunded>0 (lib/stripe/webhook/ordini.ts:255, ritorno a :277) scatta anche su un rimborso PARZIALE fatto dal nostro sistema: carrello di due negozi nato a metà, l'ordine nato viene annullato (rifiuto del negozio o expire-stale-orders, refundOrder con amount parziale, payout.ts:2313), al tentativo dopo il resto non nasce più. Testa: ordini=[pane REFUNDED], nessun rimborso dell'altro negozio, carrello PENDING per sempre (expire-checkouts salta i carrelli con ordini), merce e codice sconto bloccati; il cliente ha pagato 30 € senza merce né rimborso. Base: l'ordine dell'altro negozio nasceva PAID e il carrello diventava COMPLETED. Anche un rimborso di 1 centesimo prima della nascita lascia il cliente senza ordine e senza i 29,99 € restanti (carrello MISMATCH, solo un avviso agli amministratori). chiude_tutta: parziale, aperti e non dichiarati nel referto: rimborso parziale prima della nascita senza rimborso del resto né avviso al cliente (ordini.ts:269-275, unica uscita «pagato senza ordine» che non rimborsa); contestazione che arriva mentre l'ordine nasce (lib/stripe/webhook/dispute.ts:90-115 non si fa ripetere, il controllo del carrello aperto c'è solo in rimborsi.ts:73); incasso diverso dal preventivo con carta già rimborsata (avviso a :190 prima del rimborso a :213-216, tre avvisi uguali); il caso EXPIRED dichiarato è descritto male (il rimborso lancia prima dell'avviso: zero avvisi, tre giorni di errori). Cura suggerita: carta tornata solo se refunded o disputed o amount_refunded oltre i rimborsi già fatti sugli ordini nati. Vince il verdetto peggiore delle due lenti."
+    },
+    {
+      "id": "R04-012",
+      "chiave": "api-backend|il reso già rimborsato si chiude con la cifra uscita su stripe, non con quella chiesta, e il negozio non lo sa",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r04 --base 5676d452a3940164fac30d4f3a474a581fa6bfcb^ --file app/api/returns/[id]/avanza/route.ts --prove tests/unit/riparazione-r04-reso-chiuso-con-la-cifra-di-stripe.test.ts --json"
+      },
+      "altre_rimesse": [
+        {
+          "uscita": 0,
+          "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r04 --base ed12ed8ec8190e1132b690f6e034c30f0a5d55ba --file app/api/returns/[id]/avanza/route.ts --prove tests/unit/riparazione-r04-reso-chiuso-con-la-cifra-di-stripe.test.ts --json"
+        }
+      ],
+      "nota": "Due lenti (qa). La cifra registrata resta quella uscita sulla carta e il negozio riceve la campanella con le due cifre, in eccesso e in difetto (provato 20 chiesti/30 usciti, oltre al 40/30 della prova), anche quando chiude un amministratore (chi-comanda-il-reso.ts:63). Campanella caduta: la rotta risponde 200; seconda chiamata: 409 prima della campanella. 23 file che importano la rotta, 184 prove verdi. Revert 2a477dd2a1670f70ca1b2fb85cb9109d9145cc2c controllato: la rotta sulla testa è la base più le sole righe di R04-012 (stesse righe del commit 5676d452a3940164fac30d4f3a474a581fa6bfcb) e tests/unit/riparazione-r04-reso-nota-del-negozio.test.ts è identica alla base. Residui minori fuori dal testo: la risposta della rotta e la schermata («Reso aggiornato», components/seller/ReturnRequestCard.tsx:165) non dicono la cifra (la dice la campanella); il ramo contanti (route.ts:297-299) ignora la cifra chiesta in silenzio."
+    }
+  ],
+  "campione": {
+    "R04": {
+      "accettato": true
+    }
+  }
+}
