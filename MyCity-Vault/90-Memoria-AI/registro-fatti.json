@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-11-26 15:00",
+  "aggiornato": "2026-11-26 16:07",
   "fatti": [
     {
       "id": "ad.uso-e-crediti",
@@ -107,9 +107,9 @@
     {
       "id": "agenzia.rapporto-imprenditore",
       "nome": "agenzia.rapporto-imprenditore",
-      "valore": "Il rapporto dell'imprenditore: 12 parti (Google, recensioni, concorrenti vicini, zona, ricerche, sito, social, calendario della città, bandi, MyCity, piano dei 30 giorni, concorrenti sui social e sul web). L'analisi si personalizza per abbonamento come contenuti, foto, video e sito: il preventivo mostra per ogni fascia le parti incluse e quelle escluse (Nicola, 26/11 14:54); quanto entra in ogni fascia è una proposta dell'AD da confermare. L'analisi dei concorrenti sui social e sul web è importantissima e va nei servizi (Nicola, 26/11 14:35). Fonti: Nicola alle 14:45 ha approvato Google Places, TripAdvisor e DataForSEO; il parere legale delle 15:10 (bozza) le corregge: di Google si salva solo place_id e la scheda si mostra col riquadro ufficiale in diretta; TripAdvisor spenta finché non arriva un sì scritto; DataForSEO solo temi delle recensioni, rischio verso Google nostro. Prima di pagare il titolare vede un assaggio di 3-4 numeri veri.",
-      "fonte": "Nicola: chat AD 26/11 ~14:45; chat Tropico 14:35 e chat consensi 14:54, girate all'AD; parere consegne/legale/2026-11-26-fonti-rapporto-imprenditore.md",
-      "aggiornato": "2026-11-26 15:00",
+      "valore": "Il rapporto dell'imprenditore: 12 parti (Google, recensioni, concorrenti vicini, zona, ricerche, sito, social, calendario della città, bandi, MyCity, piano dei 30 giorni, concorrenti sui social e sul web). L'analisi si personalizza per abbonamento: il preventivo mostra per ogni fascia le parti incluse e quelle escluse (Nicola, 26/11 14:54). Fasce approvate da Nicola il 26/11 verso le 16:05 («ok fasce»): Base = rapporto all'avvio (parti 1-4, 6, 7 solo coi suoi social, 8, 9, 11) più avviso sui bandi, senza parte 5, parte 12 e aggiornamenti; Business = in più parte 5 e parte 12 sui 3 concorrenti principali, ogni mese, più parte 10; Premium = tutto ogni settimana, parte 12 su fino a 5 concorrenti, risposte pronte alle recensioni, incontro al mese. Prima di pagare il titolare vede un assaggio di 3-4 numeri veri. Fonti: Nicola alle 14:45 ha approvato Google Places, TripAdvisor e DataForSEO; il parere legale delle 14:53 (bozza) le corregge: di Google si salva solo place_id e la scheda si mostra col riquadro ufficiale in diretta; TripAdvisor spenta finché non arriva un sì scritto; DataForSEO solo temi delle recensioni, rischio verso Google nostro.",
+      "fonte": "Nicola: chat AD 26/11 ~14:45 e ~16:05; chat Tropico 14:35 e consensi 14:54; parere consegne/legale/2026-11-26-fonti-rapporto-imprenditore.md",
+      "aggiornato": "2026-11-26 16:07",
       "storia": [
         {
           "valore": "Il rapporto dell'imprenditore: 11 parti (Google, recensioni, concorrenti, zona, ricerche, sito, social, calendario della città, bandi, MyCity, piano dei 30 giorni). Fonti a pagamento approvate da Nicola il 26/11/2026: Google Places, TripAdvisor Content API, DataForSEO (ricarica minima 50 $). Prima di pagare il titolare vede un assaggio di 3-4 numeri veri; il rapporto intero dopo l'abbonamento. Il preventivo dice quali parti dà ogni abbonamento.",
@@ -118,6 +118,10 @@
         {
           "valore": "Il rapporto dell'imprenditore: 11 parti (Google, recensioni, concorrenti, zona, ricerche, sito, social, calendario della città, bandi, MyCity, piano dei 30 giorni). Nicola il 26/11/2026 alle 14:45 ha approvato Google Places, TripAdvisor e DataForSEO; il parere legale delle 15:10 (bozza) le corregge: di Google si salva solo place_id e la scheda si mostra col riquadro ufficiale in diretta; TripAdvisor spenta finché non arriva un sì scritto; DataForSEO solo temi delle recensioni, rischio verso Google nostro. Prima di pagare il titolare vede un assaggio di 3-4 numeri veri; il rapporto intero dopo l'abbonamento. Il preventivo dice quali parti dà ogni abbonamento.",
           "fino_a": "2026-11-26 15:00"
+        },
+        {
+          "valore": "Il rapporto dell'imprenditore: 12 parti (Google, recensioni, concorrenti vicini, zona, ricerche, sito, social, calendario della città, bandi, MyCity, piano dei 30 giorni, concorrenti sui social e sul web). L'analisi si personalizza per abbonamento come contenuti, foto, video e sito: il preventivo mostra per ogni fascia le parti incluse e quelle escluse (Nicola, 26/11 14:54); quanto entra in ogni fascia è una proposta dell'AD da confermare. L'analisi dei concorrenti sui social e sul web è importantissima e va nei servizi (Nicola, 26/11 14:35). Fonti: Nicola alle 14:45 ha approvato Google Places, TripAdvisor e DataForSEO; il parere legale delle 15:10 (bozza) le corregge: di Google si salva solo place_id e la scheda si mostra col riquadro ufficiale in diretta; TripAdvisor spenta finché non arriva un sì scritto; DataForSEO solo temi delle recensioni, rischio verso Google nostro. Prima di pagare il titolare vede un assaggio di 3-4 numeri veri.",
+          "fino_a": "2026-11-26 16:07"
         }
       ],
       "caccia": [
@@ -128,6 +132,10 @@
         {
           "pattern": "Il rapporto dell'imprenditore: 11 parti (Google, recensioni, concorrenti, zona, ricerche, sito, social, calendario della città, bandi, MyCity, piano dei 30 giorni). Nicola il 26/11/2026 alle 14:45 ha approvato Google Places, TripAdvisor e DataForSEO; il parere legale delle 15:10 (bozza) le corregge: di Google si salva solo place_id e la scheda si mostra col riquadro ufficiale in diretta; TripAdvisor spenta finché non arriva un sì scritto; DataForSEO solo temi delle recensioni, rischio verso Google nostro. Prima di pagare il titolare vede un assaggio di 3-4 numeri veri; il rapporto intero dopo l'abbonamento. Il preventivo dice quali parti dà ogni abbonamento.",
           "dal": "2026-11-26 15:00"
+        },
+        {
+          "pattern": "Il rapporto dell'imprenditore: 12 parti (Google, recensioni, concorrenti vicini, zona, ricerche, sito, social, calendario della città, bandi, MyCity, piano dei 30 giorni, concorrenti sui social e sul web). L'analisi si personalizza per abbonamento come contenuti, foto, video e sito: il preventivo mostra per ogni fascia le parti incluse e quelle escluse (Nicola, 26/11 14:54); quanto entra in ogni fascia è una proposta dell'AD da confermare. L'analisi dei concorrenti sui social e sul web è importantissima e va nei servizi (Nicola, 26/11 14:35). Fonti: Nicola alle 14:45 ha approvato Google Places, TripAdvisor e DataForSEO; il parere legale delle 15:10 (bozza) le corregge: di Google si salva solo place_id e la scheda si mostra col riquadro ufficiale in diretta; TripAdvisor spenta finché non arriva un sì scritto; DataForSEO solo temi delle recensioni, rischio verso Google nostro. Prima di pagare il titolare vede un assaggio di 3-4 numeri veri.",
+          "dal": "2026-11-26 16:07"
         }
       ],
       "esenzioni": []
