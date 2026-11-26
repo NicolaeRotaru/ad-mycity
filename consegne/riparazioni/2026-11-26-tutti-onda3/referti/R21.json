@@ -1,13 +1,13 @@
 {
   "sessione": "R21",
-  "aggiornato": "2026-11-26 20:05",
+  "aggiornato": "2026-11-26 23:55",
   "finita": true,
-  "testa": "10b630596839d63f761b09b992bc6b6a1e4742ae",
+  "testa": "e3071a093cd4fbdd96cb833f1f67024f8ed2d443",
   "verifica": {
     "comando": "npm run verify",
     "esito": "verde",
-    "testa": "10b630596839d63f761b09b992bc6b6a1e4742ae",
-    "nota": "typecheck ok, lint 0 errori (121 avvisi già presenti), vitest 2246 file / 13742 prove verdi"
+    "testa": "e3071a093cd4fbdd96cb833f1f67024f8ed2d443",
+    "nota": "R21 secondo: typecheck ok, lint 0 errori (121 avvisi già presenti), vitest 2248 file / 13755 prove verdi"
   },
   "voci": [
     {
@@ -53,7 +53,7 @@
     {
       "id": "R21-002",
       "chiave": "frontend-ux|le foto dell'iphone (heic) adesso entrano davvero, ma nessuno le converte: sul telefono android e su chrome restano un riquadro rotto",
-      "esito": "riparato",
+      "esito": "parziale",
       "commit": "9ac969cff4796d08e0dffac53b275b72f6faeb74",
       "file_toccati": [
         "components/PhotoReviewUpload.tsx",
@@ -73,38 +73,61 @@
         "uscita": 0,
         "comando": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base d1baf1e715603c3ab22f1add2e65ee94fa8ab49d^ --file components/PhotoReviewUpload.tsx,app/seller/stories/page.tsx,components/seller/site/GalleryFields.tsx,components/seller/site/ImageUpload.tsx --prove tests/unit/riparazione-r21-foto-heic.test.tsx --json"
       },
-      "copre_tutta_la_voce": true,
+      "copre_tutta_la_voce": false,
       "cosa_ho_fatto": "Come le foto prodotto: nei quattro punti l'accept non elenca più HEIC/HEIF, così l'iPhone le converte da solo in JPEG; un .heic che arriva lo stesso (image/heic, o tipo vuoto da PC riconosciuto dall'estensione) non parte e mostra una frase chiara.",
       "nota": "Due commit col prefisso R21-002: d1baf1e715603c3ab22f1add2e65ee94fa8ab49d la riparazione, 9ac969cff4796d08e0dffac53b275b72f6faeb74 la correzione (ogni casella tiene la sua regola, niente import fra i due file). Prova rossa senza correzione (18/21 fallite), verde con (21/21). 57 file di prove esistenti (394) verdi; nessuna prova esistente modificata.",
-      "verificato_da": "smentitore grande (worktree staccato a 9ac969cf): regge. Prova 21/21, rimessa uscita 0, 44 file di prove vicine (317 casi) verdi, tsc ed eslint puliti; varianti .HEIC/.Heif, octet-stream, heic-sequence, tipo vuoto, scelto e trascinato, 11 MB, più file insieme: l'HEIC non parte e gli altri sì; JPG/PNG/WEBP/GIF/AVIF partono ancora, accept sempre esplicito (mai image/*). Lievi: un file image/heic chiamato .jpg entra nelle due caselle della vetrina (GalleryFields.tsx:62, ImageUpload.tsx:35); .heics/.heifs non riconosciute come HEIC ma fermate comunque; la frase nomina l'iPhone anche per chi ha HEIF da Android."
+      "verificato_da": "smentitore grande (worktree staccato a 9ac969cf): regge. Prova 21/21, rimessa uscita 0, 44 file di prove vicine (317 casi) verdi, tsc ed eslint puliti; varianti .HEIC/.Heif, octet-stream, heic-sequence, tipo vuoto, scelto e trascinato, 11 MB, più file insieme: l'HEIC non parte e gli altri sì; JPG/PNG/WEBP/GIF/AVIF partono ancora, accept sempre esplicito (mai image/*). Lievi: un file image/heic chiamato .jpg entra nelle due caselle della vetrina (GalleryFields.tsx:62, ImageUpload.tsx:35); .heics/.heifs non riconosciute come HEIC ma fermate comunque; la frase nomina l'iPhone anche per chi ha HEIF da Android. Collaudo K07: parziale (tre punti fuori dalla voce accettano ancora HEIC).",
+      "cosa_resta": "Collaudo K07: i quattro campi della voce reggono, ma tre punti di caricamento accettano ancora HEIC tramite mappaAccept() (che contiene image/heic): components/VendorForm.tsx:220 (logo del negozio), components/StoreMediaManager.tsx:55 (foto del negozio), components/ImageUrlField.tsx:63 (banner dell'amministrazione). VendorForm è mio, ma la prova comune tests/unit/riparazione-r16-foto-sette-tipi.test.tsx (monta VendorForm E ImageUrlField, :93-132) pretende che tutti e due accettino HEIC: senza toccare quella prova comune non si chiude.",
+      "serve_file_altrui": [
+        {
+          "file": "components/StoreMediaManager.tsx",
+          "modifica": "A :55 sostituire `accept: mappaAccept(),` con un accept senza HEIC/HEIF: `accept: Object.fromEntries(Object.entries(mappaAccept()).filter(([t]) => t !== 'image/heic' && t !== 'image/heif')),`; in onDrop e onDropRejected, un file con type image/heic|image/heif (anche -sequence) o con estensione .heic/.heif (maiuscole comprese, anche con type vuoto o application/octet-stream) non parte e mostra «Le foto HEIC non si vedono su Android e su Chrome: dal telefono scegli la foto dalla galleria (l'iPhone la converte da solo in JPG) o caricala in JPG/PNG.» Stesso schema già sul ramo in components/seller/site/GalleryFields.tsx (commit 9ac969cff4796d08e0dffac53b275b72f6faeb74)."
+        },
+        {
+          "file": "components/ImageUrlField.tsx",
+          "modifica": "A :63 stessa modifica: `accept: Object.fromEntries(Object.entries(mappaAccept(bucket)).filter(([t]) => t !== 'image/heic' && t !== 'image/heif')),` e lo stesso rifiuto con frase chiara per l'HEIC che arriva lo stesso."
+        },
+        {
+          "file": "components/VendorForm.tsx",
+          "modifica": "A :220 stessa modifica sul logo (file di R21, ma va fatta insieme alla prova comune qui sotto)."
+        },
+        {
+          "file": "tests/unit/riparazione-r16-foto-sette-tipi.test.tsx",
+          "modifica": "Prova comune (importa VendorForm e ImageUrlField): i tre casi di :107-131 vanno rovesciati per le due caselle: l'accept deve essere TIPI_IMMAGINE meno image/heic e image/heif; il messaggio dei formati scartati non deve nominare HEIC fra gli ammessi; un 'IMG_0001.HEIC' col tipo vuoto NON deve partire e deve comparire la frase sull'HEIC. Serve la firma di chi tiene le prove comuni."
+        }
+      ]
     },
     {
       "id": "R21-003",
       "chiave": "flussi-conversione|il filtro «prezzo minimo» taglia sul prezzo pieno, non su quello che il cliente paga",
       "esito": "riparato",
-      "commit": "4468a8abc3fb949d397c995f60ff06b7a58261e3",
+      "commit": "e3071a093cd4fbdd96cb833f1f67024f8ed2d443",
       "file_toccati": [
         "lib/queries/griglia-prodotti.ts",
         "migrations/911_il_prezzo_che_si_paga_lo_calcola_il_database.sql",
-        "tests/sql/rls/riparazione-r21-prezzo-pagato.test.sql",
-        "tests/unit/riparazione-r21-prezzo-minimo.test.ts"
-      ],
-      "prova_file": [
+        "tests/unit/riparazione-r21-prezzo-pagato-tempo-scaduto.test.ts",
+        "tests/sql/rls/riparazione-r21-prezzo-pagato-veloce.test.sql",
         "tests/unit/riparazione-r21-prezzo-minimo.test.ts",
         "tests/sql/rls/riparazione-r21-prezzo-pagato.test.sql"
       ],
-      "prova_comando": "npx vitest run tests/unit/riparazione-r21-prezzo-minimo.test.ts --reporter=dot && PGHOST=/var/run/postgresql PGUSER=root bash tests/sql/harness/apply.sh r21_prova && psql -X -d r21_prova -v ON_ERROR_STOP=1 -f tests/sql/rls/riparazione-r21-prezzo-pagato.test.sql",
+      "prova_file": [
+        "tests/unit/riparazione-r21-prezzo-minimo.test.ts",
+        "tests/unit/riparazione-r21-prezzo-pagato-tempo-scaduto.test.ts",
+        "tests/sql/rls/riparazione-r21-prezzo-pagato.test.sql",
+        "tests/sql/rls/riparazione-r21-prezzo-pagato-veloce.test.sql"
+      ],
+      "prova_comando": "npx vitest run tests/unit/riparazione-r21-prezzo-minimo.test.ts tests/unit/riparazione-r21-prezzo-pagato-tempo-scaduto.test.ts --reporter=dot && PGHOST=/var/run/postgresql PGUSER=root bash tests/sql/harness/apply.sh r21_prova && psql -X -d r21_prova -v ON_ERROR_STOP=1 -f tests/sql/rls/riparazione-r21-prezzo-pagato.test.sql && psql -X -d r21_prova -v ON_ERROR_STOP=1 -f tests/sql/rls/riparazione-r21-prezzo-pagato-veloce.test.sql",
       "prova_tipo": "comando",
       "prova_eseguita": true,
       "rimessa": {
         "esito": "regge",
         "uscita": 0,
-        "comando": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 4468a8abc3fb949d397c995f60ff06b7a58261e3^ --file lib/queries/griglia-prodotti.ts --prove tests/unit/riparazione-r21-prezzo-minimo.test.ts --json"
+        "comando": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base e3071a093cd4fbdd96cb833f1f67024f8ed2d443^ --file lib/queries/griglia-prodotti.ts --prove tests/unit/riparazione-r21-prezzo-pagato-tempo-scaduto.test.ts --json"
       },
       "copre_tutta_la_voce": true,
-      "cosa_ho_fatto": "Il minimo (lettura e conteggio) filtra su prezzo_pagato. Ripiego: una sonda per client ricorda se la colonna c'è (se manca riprova dopo 5 minuti); se una lettura cade con 42703/42883 o con un PGRST che nomina prezzo_pagato, la griglia rilegge alla vecchia maniera e il conteggio riprova sul prezzo pieno.",
-      "nota": "MIGRAZIONE 911_il_prezzo_che_si_paga_lo_calcola_il_database.sql (fascia 911-915, non applicata): contenuto finale della vecchia 960 più la regola della 709 (negozio_in_vetrina(seller) OR seller = auth.uid()), SECURITY INVOKER, GRANT EXECUTE come la 425. Le migrazioni dopo la 709 (880 compresa) non toccano promozioni né negozio_in_vetrina; 900/910/940/970 non ridefiniscono prezzo_pagato. Prova SQL 14 controlli; rimessa della migrazione: regge, uscita 0 (PGHOST=/var/run/postgresql PGUSER=root timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 4468a8abc3fb949d397c995f60ff06b7a58261e3^ --file migrations/911_il_prezzo_che_si_paga_lo_calcola_il_database.sql --prove tests/sql/rls/riparazione-r21-prezzo-pagato.test.sql --sql r21_rimessa --json). Tutte le prove SQL di tests/sql/rls verdi con la 911. Il comportamento nuovo vale quando Nicola applica la 911; prima il minimo resta sul prezzo pieno, senza errori. database.types.ts non cambia (Functions: never).",
-      "verificato_da": "smentitore (sonnet, worktree a 748e1aaf): regge. 4 prove del lotto 23/23, rimessa a campione uscita 0, 54 file di prove accanto (298) verdi, tsc pulito; ripiego letto: 42703/42883/PGRST su prezzo_pagato riconosciuti, la sonda caduta per rete non si ricorda e non manda in errore, il conteggio ripiega su ogni errore; migrazione 911 INVOKER, STABLE, search_path fisso, regola identica alla 709 e a discountedUnitCents (tetto 70%, arrotondamento; 19,99 € al -50% = 9,99 € in SQL e JS)."
+      "cosa_ho_fatto": "Primo giro (4468a8ab): il minimo filtra su prezzo_pagato (migrazione 911) con ripiego se la colonna manca. Giro di correzione K07 (e3071a09): la 911 ora è veloce: prezzo_pagato è una sola espressione senza SET né sotto-ricerche, che Postgres srotola nella query, e chiama sconto_che_si_paga (SQL, STABLE, SECURITY INVOKER, stessa regola di prima). Il 57014 fa ripiegare la lista sul prezzo pieno come il 42703; il conteggio, guardando prezzo_pagato, conta con una GET limit 0 per avere il codice e ripiega solo per gli stessi errori della lista (prezzoPagatoNonVa); per un altro errore prova senza aggancio e poi dà null, mai un numero sul prezzo pieno diverso dalla lista.",
+      "nota": "MIGRAZIONE 911 riscritta nella fascia (non applicata). Misure sul Postgres locale da anon, 20.000 prodotti di 40 negozi con promozioni: minimo 10 € + prezzo crescente 4,2-4,4 s → 1,5 s; fra 10 e 20 € decrescente 4,2 s → 1,7 s; conteggio 2,2 s → 0,9 s; solo ordine 2,4 s → 1,0 s. Circa 50 µs a prodotto: i 3 s di anon si raggiungono verso 40-60 mila prodotti. Rimessa della migrazione: regge, uscita 0 (PGHOST=/var/run/postgresql PGUSER=root timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base e3071a093cd4fbdd96cb833f1f67024f8ed2d443^ --file migrations/911_il_prezzo_che_si_paga_lo_calcola_il_database.sql --prove tests/sql/rls/riparazione-r21-prezzo-pagato-veloce.test.sql --sql r21_rimessa --json). Tutte le prove SQL di tests/sql/rls verdi su database ricostruito (anche la 10: due funzioni INVOKER), i 14 controlli del prezzo verdi. La prova di velocità misura il tempo vero (margine ~1,7x sotto i 3 s): su una CI molto più lenta potrebbe diventare rossa da sola. La 911 rende veloci anche ordine e slider (voci 005, 006, 014 del registro R21), che restano come li ha giudicati il collaudo.",
+      "verificato_da": "smentitore (R21 secondo, sonnet, worktree a e3071a09): regge. Espressione float8 e sotto-ricerca identiche alla versione 87d37e2f; .limit(0) mette limit=0 e il count arriva da content-range */N; il ciclo del conteggio termina (al massimo 3 richieste in più per blocco). Dubbio non bloccante: un 57014 da carico spegne prezzo_pagato per 5 minuti, e nella stessa richiesta lista e conteggio possono divergere solo nel passaggio."
     },
     {
       "id": "R21-005",
@@ -315,51 +338,56 @@
       "id": "R21-016",
       "chiave": "frontend-ux|il campo sito del negozio accetta uno spazio nel percorso (https://negozio.it/a b) e lo salva con lo spazio",
       "esito": "riparato",
-      "commit": "7f8588fa6cbf354216b164f92f4c07bce25a837d",
+      "commit": "87d37e2f929ea16e0da464b5686faed7f016fc0b",
       "file_toccati": [
         "lib/store-customization.ts",
-        "tests/unit/riparazione-r21-sito-percorso-con-spazio.test.ts"
+        "tests/unit/riparazione-r21-sito-gia-salvato-resta.test.tsx"
       ],
       "prova_file": [
-        "tests/unit/riparazione-r21-sito-percorso-con-spazio.test.ts"
+        "tests/unit/riparazione-r21-sito-gia-salvato-resta.test.tsx"
       ],
-      "prova_comando": "npx vitest run tests/unit/riparazione-r21-sito-percorso-con-spazio.test.ts --reporter=dot",
+      "prova_comando": "npx vitest run tests/unit/riparazione-r21-sito-gia-salvato-resta.test.tsx --reporter=dot",
       "prova_tipo": "comando",
       "prova_eseguita": true,
       "rimessa": {
         "esito": "regge",
         "uscita": 0,
-        "comando": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 7f8588fa6cbf354216b164f92f4c07bce25a837d^ --file lib/store-customization.ts --prove tests/unit/riparazione-r21-sito-percorso-con-spazio.test.ts --json"
+        "comando": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 87d37e2f929ea16e0da464b5686faed7f016fc0b^ --file lib/store-customization.ts --prove tests/unit/riparazione-r21-sito-gia-salvato-resta.test.tsx --json"
       },
       "copre_tutta_la_voce": true,
-      "cosa_ho_fatto": "websiteSchema rifiuta qualsiasi spazio nell'indirizzo; normalizzaSocials non mette più https:// davanti a «//negozio.it», che resta com'è e viene rifiutato dallo schema.",
-      "verificato_da": "smentitore (sonnet, worktree a 10b63059): 6 file di prove nuove 49/49, prove accanto ai file toccati 144 file/1094 verdi. Regge: rifiutati spazio nel percorso, tab, nbsp, a capo, spazio nel dominio e nel frammento, //negozio.it; accettati %20, ?a=b, spazio solo in fondo. Rimessa uscita 0."
+      "cosa_ho_fatto": "Giro di correzione K07: normalizeCustomization tiene in lettura un sito già salvato che le regole di oggi rifiutano (spazio nel percorso, ftp://, scritto male), tranne gli schemi che eseguono codice (javascript:, vbscript:, data:, file:, blob:, anche storpiati con tab o spazi), che si scartano; in vetrina diventa link solo http/https. Così il sito non sparisce dalla vetrina e non si cancella al salvataggio dei dettagli (StoreDetailsEditor→VendorForm, che lo rimette com'era) né al cambio di colore (ThemePicker). Un valore nuovo sbagliato resta rifiutato. Prova sul percorso vero (StoreDetailsEditor e ThemePicker con il client finto e la riga scritta in profiles): senza la cura 5 su 8 rossi.",
+      "verificato_da": "smentitore (R21 secondo, sonnet, worktree a e3071a09): regge. Nessun href pericoloso (tutti da socialLinks, solo http/https); un valore nuovo sbagliato resta rifiutato (VendorForm tiene solo il salvato identico); 77 file/684 prove accanto verdi.",
+      "insieme_a": [
+        "R21-012"
+      ]
     },
     {
       "id": "R21-012",
       "chiave": "frontend-ux|un sito già salvato con ftp:// o scritto male ora blocca il salvataggio di tutto il negozio",
-      "esito": "parziale",
-      "commit": "e62b8621b493d301694bfec3bedc6a4c4ebc9229",
+      "esito": "riparato",
+      "commit": "87d37e2f929ea16e0da464b5686faed7f016fc0b",
       "file_toccati": [
-        "components/VendorForm.tsx",
-        "tests/unit/riparazione-r21-sito-salvato-non-blocca.test.tsx"
+        "lib/store-customization.ts",
+        "tests/unit/riparazione-r21-sito-gia-salvato-resta.test.tsx"
       ],
       "prova_file": [
-        "tests/unit/riparazione-r21-sito-salvato-non-blocca.test.tsx"
+        "tests/unit/riparazione-r21-sito-gia-salvato-resta.test.tsx"
       ],
-      "prova_comando": "npx vitest run tests/unit/riparazione-r21-sito-salvato-non-blocca.test.tsx --reporter=dot",
+      "prova_comando": "npx vitest run tests/unit/riparazione-r21-sito-gia-salvato-resta.test.tsx --reporter=dot",
       "prova_tipo": "comando",
       "prova_eseguita": true,
       "rimessa": {
         "esito": "regge",
         "uscita": 0,
-        "comando": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base e62b8621b493d301694bfec3bedc6a4c4ebc9229^ --file components/VendorForm.tsx --prove tests/unit/riparazione-r21-sito-salvato-non-blocca.test.tsx --json"
+        "comando": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 87d37e2f929ea16e0da464b5686faed7f016fc0b^ --file lib/store-customization.ts --prove tests/unit/riparazione-r21-sito-gia-salvato-resta.test.tsx --json"
       },
-      "copre_tutta_la_voce": false,
-      "cosa_ho_fatto": "Un sito già salvato (es. ftp://sito.it) e non toccato non blocca più il salvataggio: per il controllo si lascia vuoto e poi si rimette com'era, con l'avviso «Il resto è salvato; Sito web è rimasto com'era». Un sito nuovo sbagliato resta rifiutato.",
-      "cosa_resta": "Solo per il campo sito. Per Instagram/Facebook/TikTok un valore già salvato che le regole rifiutano blocca ancora: la prova comune tests/unit/riparazione-r02-social-link-incollati.test.tsx usa defaultValues come valore salvato e pretende il blocco; estendere ai social la contraddice (non toccata). Serve decidere se quella prova va riscritta digitando il valore invece di salvarlo.",
-      "nota": "Prove esistenti che importano VendorForm: 22 file/156 prove verdi, nessuna toccata.",
-      "verificato_da": "smentitore (sonnet, worktree a 10b63059): 6 file di prove nuove 49/49, prove accanto ai file toccati 144 file/1094 verdi. Regge come parziale (VendorForm.tsx:314-332): svuotato e corretto ragionati sul codice, non provati; con sito salvato ftp E un sito nuovo sbagliato il salvataggio resta bloccato (come prima)."
+      "copre_tutta_la_voce": true,
+      "cosa_ho_fatto": "Giro di correzione K07: normalizeCustomization tiene in lettura un sito già salvato che le regole di oggi rifiutano (spazio nel percorso, ftp://, scritto male), tranne gli schemi che eseguono codice (javascript:, vbscript:, data:, file:, blob:, anche storpiati con tab o spazi), che si scartano; in vetrina diventa link solo http/https. Così il sito non sparisce dalla vetrina e non si cancella al salvataggio dei dettagli (StoreDetailsEditor→VendorForm, che lo rimette com'era) né al cambio di colore (ThemePicker). Un valore nuovo sbagliato resta rifiutato. Prova sul percorso vero (StoreDetailsEditor e ThemePicker con il client finto e la riga scritta in profiles): senza la cura 5 su 8 rossi.",
+      "nota": "Prove esistenti che importano VendorForm/StoreDetailsEditor/ThemePicker/store-customization: 52 file/554 prove verdi, nessuna toccata. Resta fuori da questa voce il caso dei social con nome (Instagram/Facebook/TikTok) già salvati e oggi rifiutati: lo vuole bloccato la prova comune riparazione-r02-social-link-incollati (domanda per Nicola già nel referto).",
+      "verificato_da": "smentitore (R21 secondo, sonnet, worktree a e3071a09): regge. Nessun href pericoloso (tutti da socialLinks, solo http/https); un valore nuovo sbagliato resta rifiutato (VendorForm tiene solo il salvato identico); 77 file/684 prove accanto verdi.",
+      "insieme_a": [
+        "R21-016"
+      ]
     },
     {
       "id": "R21-013",
@@ -441,13 +469,6 @@
       "descrizione": "formatiLeggibili e tipiScrittiPerUmani nominano HEIC/HEIF fra i formati ammessi (es. rifiutando un image/tiff nelle storie)."
     },
     {
-      "titolo": "Con la migrazione del prezzo pagato applicata, ordine e filtri di prezzo calcolano una funzione riga per riga che nessun indice serve",
-      "dimensione": "performance",
-      "severita": "minore",
-      "file": "migrations/911_il_prezzo_che_si_paga_lo_calcola_il_database.sql · lib/queries/griglia-prodotti.ts",
-      "descrizione": "Va bene con i cataloghi di oggi; con cataloghi grandi si potrebbe aggiungere price >= minimo (non cambia i risultati, lo sconto abbassa soltanto). Senza la 911, nel ripiego ogni pagina e ogni conteggio con un massimo chiamano active_promo_products (prima ProductGrid la teneva in cache 60 s): provvisorio."
-    },
-    {
       "titolo": "Se la migrazione del prezzo pagato arriva a pagina aperta, lo scorrimento infinito può mescolare due ordini",
       "dimensione": "flussi-conversione",
       "severita": "minore",
@@ -460,6 +481,13 @@
       "severita": "minore",
       "file": "components/VendorForm.tsx:~320",
       "descrizione": "Come il sito prima della riparazione: Instagram/Facebook/TikTok salvati con un valore oggi rifiutato bloccano il resto. La prova comune riparazione-r02-social-link-incollati pretende il blocco."
+    },
+    {
+      "titolo": "Un 57014 da carico (non da prezzo_pagato) spegne l'ordine e i filtri sul prezzo pagato per cinque minuti per quel client",
+      "dimensione": "flussi-conversione",
+      "severita": "minore",
+      "file": "lib/queries/griglia-prodotti.ts:121-127",
+      "descrizione": "Il ripiego non distingue la causa del tempo scaduto: per 5 minuti la griglia torna al prezzo pieno; nella stessa richiesta lista e conteggio possono divergere solo nel passaggio."
     }
   ],
   "domande_per_nicola": [
@@ -468,9 +496,11 @@
   ],
   "conto": {
     "agenti": 8,
-    "nota": "8 subagenti: 4 riparatori (lotti 1-3 modello grande, lotto 4 sonnet) e 4 smentitori (lotti 1-2 grande, 3-4 sonnet), in una copia separata (worktree) per non sporcare l'albero.",
+    "nota": "8 subagenti: 4 riparatori (lotti 1-3 modello grande, lotto 4 sonnet) e 4 smentitori (lotti 1-2 grande, 3-4 sonnet), in una copia separata (worktree) per non sporcare l'albero. Giro di correzione K07 (26/11 sera): il lancio del subagente numero 9 è stato fermato dal freno sugli agenti (tetto 8 del riparatore-gravi); referto allineato al collaudo, nessun codice cambiato. R21 secondo (giro K07): 1 subagente smentitore (sonnet), 5,06 $.",
     "subagenti": 8,
-    "costo_usd": 23.73
+    "costo_usd": 24.18,
+    "agenti_r21_secondo": 1
   },
-  "costo_usd": 23.73
+  "costo_usd": 24.18,
+  "costo_usd_r21_secondo": 5.06
 }
