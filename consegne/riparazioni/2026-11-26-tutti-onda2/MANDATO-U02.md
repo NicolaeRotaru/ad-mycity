@@ -10,7 +10,10 @@ Cosa fai (deposito NicolaeRotaru/mycity, sei partita dall'integrazione dell'onda
    - m16 @ 34c38f70fd2e5139c8ae112df03ea8d194e3fdb4
    con `git merge --no-ff --no-edit <sha>`. I conflitti attesi sono zero (la regia ha già fatto la prova d'unione, verde). Se uno litiga: `git merge --abort`, fermati e scrivi alla regia quale ramo e quali file. Non ricucire a mano.
 3. Togli le riparazioni che rompono altro, secondo i collaudi, con `git revert --no-edit <sha>`, in QUESTO ordine (la regia l'ha già provato, passano puliti):
-__REVERT__
+   1) 20b107a4 (R14-012: la 930 cancellerebbe la correzione R13-012)
+   2) e586e7df (R12-001)
+   3) 384c46be (R12-001)
+   4) f2b9a86e (R15-006)
 4. Prove sull'albero unito, una volta: `npm ci`, poi `npm run verify`. Poi la palestra SQL: `pg_ctlcluster 16 main start; su postgres -c "createuser -s root"`, poi `tests/sql/harness/apply.sh` e `tests/sql/harness/run.sh`.
 5. Se una prova è rossa, trova la voce che la rompe. Ogni commit porta una voce sola, e il suo messaggio comincia col codice della voce (RNN-NNN). Togli la voce con `git revert` di tutti i suoi commit, poi rilancia la prova. Non correggere il codice. Non toccare nessuna prova: sono comuni, e cambiarle chiede la firma di Nicola. Se resta rosso dopo due voci tolte, fermati e scrivi alla regia.
 6. Spingi: `git push -u origin ccr-a672a2b3-92w5w1` (ritenta fino a 4 volte se la rete cade). Non aprire richieste di unione (PR): la apre la regia dopo il controllore.

@@ -54,6 +54,7 @@ Che ogni domanda sia ancora attuale sul codice di oggi.
 
 - Dal collaudo K05: con la migrazione nuova 970 (R16-009) chi ha fatto una domanda può toglierla anche dopo che il negozio ha risposto. Va bene così?
 - Dal collaudo K05, su R13-010: la pagina «lavora con noi» porta ancora il cliente già registrato all'iscrizione da fattorino, che per lui è una strada senza uscita
+- Dal collaudo K06, su R15-013: il tetto di spesa per fascia oraria vale solo per chi paga con la carta, che oggi è spenta. Chi paga in contanti non ha nessun limite. Va bene così, o il tetto deve valere anche per i contanti?
 
 - R15-010 · quanto dura la prenotazione del fattorino pagata con la carta, e cosa si fa alla scadenza (le domande esatte, anche sul tetto morbido di R15-013, sono nel referto di R15)
 
