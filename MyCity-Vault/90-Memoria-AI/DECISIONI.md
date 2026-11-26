@@ -1380,6 +1380,14 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa è stato fatto:** avviso urgente alle due sessioni alle 15:15; piano e carta #265 corretti.
 - **Cosa resta a Nicola:** dire se accetta il rischio di DataForSEO; far rileggere il parere a un legale abilitato.
 
+## 2026-11-26 15:20 — Tropico Latino: i contenuti di dicembre pubblicati già oggi, anche sulla seconda coppia; i post vecchi tolti da Facebook prima della regola «non si elimina mai» (🔴 pubblicazione, firma di Nicola in chat)
+- **Chi e quando:** Nicola, in chat all'AD (sessione «Tropico Latino content publishing»), 26/11 verso le 13:30: pubblicare oggi una storia, il reel e due post del pacchetto di ieri; togliere i post vecchi e ripubblicarne uno, per arrivare a tre post. Verso le 14:20: pubblicare gli stessi contenuti anche sulle due pagine della scheda Clienti (seconda coppia). Alle 14:35: riempire le pagine del Tropico per 3 giorni (26-28/11), anche partendo dall'analisi dei concorrenti, da aggiungere fra i servizi. Alle 15:05: «ti do il via», con le storie anche animate o video, non solo immagini.
+- **Fatto:** spostate a oggi 4 righe già approvate (reel R1 alle 14:15, margarita alle 14:35, carosello del bancone alle 14:55, storia «Prenota il tuo tavolo» alle 15:15) e aggiunta la riga dei nachos ripubblicati (15:35), con il fisso al posto del WhatsApp 339 e l'orario giusto del giovedì. Alle 15:12 reel, margarita e carosello erano usciti su tutte e quattro le pagine.
+- **Seconda coppia:** il flusso 01b passa da prova a vero, con `PUBBLICA_DAL` = 2026-11-26 14:00, acceso alle 14:22. Resta acceso per la spinta dei 3 giorni. Il Tropico è l'unico cliente con la seconda coppia.
+- **Le cancellazioni:** alle 13:47-13:48 l'AD ha cancellato da Facebook i due post dei nachos del 21/11, su richiesta di Nicola («togli i post vecchi»). Su Instagram l'API ha rifiutato («permessi insufficienti»). Alle 15:00 è arrivata la regola di Nicola, girata dalla sessione dei consensi: «quando si tratta di eliminare, anche nei social, si archivia, non si elimina mai nulla». Alle 15:05 l'AD ha tolto `DELETE` dal suo strumento n8n (N8N `69c28c8`). I due post Facebook non sono recuperabili dall'API. Su Instagram Nicola li archivia a mano.
+- **Strumento nuovo:** «AD · Calendario e Meta (a mano)» (`RDGPzvnlUxfLMwcI`), spento, avviato solo via MCP. Legge e aggiorna il Calendario e la scheda Clienti; verso Meta fa solo GET e POST.
+- **Coordinamento:** la sessione «Contenuti Canva e Reel» produce i contenuti dei 3 giorni e li propone nel Calendario; l'AD segue le uscite. L'analisi dei concorrenti come servizio va alla sessione «Migliorare analisi clienti» (parte 12 del rapporto dell'imprenditore).
+- **Bloccato da Nicola:** alle 15:00 ha negato due letture via Meta (i numeri dei post di eltropicolatino e la ricerca di un profilo concorrente). Non vanno rifatte senza il suo via.
 ## 2026-11-26 15:12 — Correzione degli orari del rapporto dell'imprenditore (AD)
 - **Cosa era sbagliato:** nella voce qui sopra «2026-11-26 15:20» avevo scritto orari che non erano ancora arrivati. Me l'ha fatto notare Goku, il supervisore delle sessioni, alle 15:08.
 - **Gli orari veri:** il parere legale è delle 14:53. L'avviso urgente alle due sessioni è partito verso le 14:56. Le correzioni al piano sono entrate alle 14:58. Quindi la voce vale come «2026-11-26 14:58».
@@ -1391,3 +1399,7 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Fatti:** nuovo `sdg.pagamento`; aggiornati `agenzia.scheda-da-foto` e `sdg.abbonamenti`. Coerenza-fatti verde.
 - **Come si torna indietro:** sul sito si riaccende l'interruttore (una riga) con la firma di Nicola; nella macchina si ripristina il commit.
 - **Colore:** 🟡. Codice in due rami con PR, niente in produzione, nessun messaggio al cliente.
+## 2026-11-26 16:05 — Le fasce del rapporto dell'imprenditore (🟡, firma di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD, verso le 16:05: «ok fasce».
+- **Cosa ha deciso:** la proposta dell'AD è approvata così com'è. Base: il rapporto all'avvio senza ricerche su Google, senza concorrenti sui social e senza aggiornamenti. Business: in più le ricerche e i 3 concorrenti principali, ogni mese. Premium: tutto ogni settimana, fino a 5 concorrenti, e un incontro al mese.
+- **Cosa è stato fatto:** detto alla sessione del sito alle 16:07, e scritto nel piano, nel registro e nella bacheca.
