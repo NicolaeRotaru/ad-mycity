@@ -95,3 +95,8 @@ Sul ramo della riparazione ci sono 611 aperti: 553, meno 8 già riparati, più 6
 - Regola «si archivia» (26/11 15:00): due post del Tropico sono stati tolti da Facebook alle 13:47, prima che la regola esistesse. Il fatto è già in BACHECA.
 - BACHECA, la sezione «Chi fa cosa, adesso»: è ferma alle 15:15. Goku non c'è più dalle 16:03.
 - Riparatori sopra il tetto di spesa: K03 (30,71 $ su 20), R15 (25,82 su 20), R12 (22,52 su 20), R02 (25,94 su 25).
+
+## Aggiornamento delle 21:20
+- **Le risposte di Nicola, delle 21:05.** Sì al collaudo della terza onda: girato alla quinta regia. La richiesta del sito con le onde 1-3 si apre quando finisce la terza onda. L'ordine delle richieste del sito va bene: le unisce lui.
+- **L'account amministratore di prova era già spento** sul database vero: bloccato fino al 2999, senza il ruolo di amministratore, con una password diversa da quella del seme e senza sessioni. Nessun account usa le password scritte nei semi. Non è stato cancellato: per la regola base, «elimina» si legge «archivia».
+- **La richiesta della scheda del cliente era già unita alle 20:24**, e la sua modifica al database è entrata alle 20:41. Al momento del resoconto delle 20:35 le richieste del sito aperte erano tre, non quattro. Restano, in ordine: le falle di sicurezza, il rapporto dell'imprenditore, il pagamento online tolto.
