@@ -7342,3 +7342,5 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
   - **Verifica:** alle 19:11 `/salute` dal server dice versione 1.6.0, `filtri.ok: true` sull'FFmpeg 5.1.9 di Debian, nessun filtro mancante (c'è anche vidstab), whisper presente, coda 0. Flusso temporaneo archiviato.
   - **Resta:** battito e soggetto da sistemare con le correzioni proposte dal collaudo (copertura fra il primo e l'ultimo colpo, statistiche del soggetto a 48 px), poi un collaudo e l'accensione in una 1.6.1.
   - **Colore:** 🔴 deploy in produzione, firmato da Nicola.
+- 2026-11-26 19:50 · Scatti di G (agenzia, non MyCity) · Guardiano del montatore, settimo collaudo rosso (2 gravi: «subito» rotto dallo spostamento del controllo; due giri insieme con Drive lento). Corretti (commit N8N «Montatore: il settimo collaudo del guardiano», caricato su n8n spento). Nicola sceglie «Sì, un ultimo controllo»: se trova solo minori il guardiano si chiude coi limiti scritti nella guida; se trova un grave si torna da lui prima di toccare altro.
+  - **Colore:** 🟡 workflow spento, su scelta di Nicola.

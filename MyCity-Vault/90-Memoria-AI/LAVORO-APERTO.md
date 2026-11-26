@@ -30,9 +30,9 @@ La pagina dice com'era il lavoro il 31 ottobre alle 01:45. Ogni voce va riletta 
 
 ## 1 · Cose che toccano a te
 
-**Scatti di G: officina 1.6.0 pubblicata; montatore spento, guardiano al settimo collaudo (aggiornato 2026-11-26 19:15).** È un lavoro per l'agenzia, non per MyCity.
+**Scatti di G: officina 1.6.0 pubblicata; montatore spento, guardiano all'ultimo collaudo concordato (aggiornato 2026-11-26 19:50).** È un lavoro per l'agenzia, non per MyCity.
 - **Fatto (26/11):** officina 1.6.0 in produzione (PR N8N#27, firma di Nicola «Pubblica, quei due spenti»): `/salute` 1.6.0, filtri ok sull'FFmpeg 5.1.9, vidstab presente. Accesi di serie: stabilizzazione e colori uguali. Spenti, a richiesta: taglio sul battito e soggetto. Nuova rotta `POST /riferimento`. Il montatore «31» chiede l'IA all'AD (niente API a pagamento); su n8n è caricato **spento**.
-- **In corso:** settimo collaudo del guardiano del montatore (un giro alla volta; il modulo si ferma e dice l'ora; «chi arriva primo» all'inizio del giro dopo 45 s). Scelte di Nicola: «Rifai il guardiano», «Si ferma e dice l'ora», «Un altro giro».
+- **In corso:** ottavo e ultimo collaudo del guardiano del montatore (se trova un grave, decide Nicola) (un giro alla volta; il modulo si ferma e dice l'ora; «chi arriva primo» all'inizio del giro dopo 45 s). Scelte di Nicola: «Rifai il guardiano», «Si ferma e dice l'ora», «Un altro giro».
 - **Da fare dopo:** battito e soggetto con le correzioni proposte dal collaudo, collaudo, accensione in una 1.6.1. Nota: `/salute` dice `telegram: false` (manca `TELEGRAM_BOT_TOKEN` sul server).
 - **Due difetti del «90» per la regia:** il conto delle corse in memoria statica non regge le corse in parallelo; una risposta in forma diversa fa fallire la corsa con più lavori. Consegna: `consegne/sdg/2026-11-26-montatore-collegato-per-la-regia.md`.
 - **Allegati di «Chiedi all'AD»:** reggono al terzo collaudo e ora sono su main (dentro la #17, che contiene anche i commit della PR N8N#14: la #14 non serve più). Restano alla regia: Data table «Allegati per l'AD», `--manda` di `allegati.mjs` e `costruisci.mjs`, accendere l'89, regola nella routine, prova vera. Dettagli: `consegne/sdg/2026-11-25-allegati-per-la-regia.md`.
