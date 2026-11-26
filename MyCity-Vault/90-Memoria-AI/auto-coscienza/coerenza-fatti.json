@@ -1,12 +1,12 @@
 {
-  "data": "2026-11-25 19:52",
+  "data": "2026-11-26 14:19",
   "esito": "ok",
-  "copertura": 2166,
+  "copertura": 2171,
   "origine": "cloud",
   "scritto_da": "coerenza-fatti.mjs",
   "fatti_totali": 81,
-  "cacce_aperte": 56,
-  "file_scansionati": 2166,
+  "cacce_aperte": 59,
+  "file_scansionati": 2171,
   "incoerenze": [],
   "cacce": [
     {
@@ -268,6 +268,12 @@
       "copie_trovate": 0
     },
     {
+      "fatto": "pricing.commissione",
+      "pattern": "solo canone, niente 10%",
+      "dal": "2026-11-26 14:19",
+      "copie_trovate": 0
+    },
+    {
       "fatto": "pricing.worker-negozi",
       "pattern": "abbonamento marketplace da 50 euro",
       "dal": "2026-11-24 02:15",
@@ -307,6 +313,18 @@
       "fatto": "sdg.abbonamenti",
       "pattern": "SDG Agenzia (l'agenzia di Nicola: web, marketing, foto e video) vende tre abbonamenti mensili: Base 300 euro, Business 500 euro, Premium 999 euro. Ognuno comprende tutti i servizi — foto e video, gestione dei social, sito web, scheda Google — in misura diversa (proposta dell'AD nel preventivo di Ora del Gusto, da confermare). Solo canone, nessuna percentuale. Condizioni scelte da Nicola il 24/11: nessun vincolo di durata, disdetta quando si vuole con 30 giorni di preavviso, primo mese a metà prezzo. Sono servizi di SDG, non di MyCity: dal 24/11 il menu «Servizi» è uscito dal marketplace. Primo cliente: Ora del Gusto (bar e pasticceria, Piacenza).",
       "dal": "2026-11-24 04:17",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "sdg.abbonamenti",
+      "pattern": "Solo canone, nessuna percentuale",
+      "dal": "2026-11-26 14:19",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "sdg.abbonamenti",
+      "pattern": "Tre abbonamenti mensili ai servizi: Base 300 euro, Business 500 euro, Premium 999 euro. Sono servizi di MyCity realizzati da SDG Agenzia, il partner di MyCity per foto, video, social e web (Nicola, 24/11: «sono servizi che offre mycity, ma tramite SDG»). Ognuno comprende foto e video, social, sito web e scheda Google, in misura diversa (proposta dell'AD, da confermare). Solo canone, nessuna percentuale. Condizioni: nessun vincolo di durata, disdetta con 30 giorni di preavviso, primo mese a metà prezzo. Il negozio li sceglie e li paga dentro il sito, dalla pagina «Il tuo preventivo» (pagamento con carta via Stripe, abbonamento mensile), in un ramo che aspetta la firma di Nicola. Primo cliente: Ora del Gusto (bar e pasticceria, Piacenza).",
+      "dal": "2026-11-26 14:19",
       "copie_trovate": 0
     },
     {
