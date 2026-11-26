@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-11-26 15:01",
+  "aggiornato": "2026-11-26 22:30",
   "scansioni": [
     {
       "quando": "2026-08-25 20:35",
@@ -8313,6 +8313,188 @@
         "cervello/allocazione-check.mjs": "36d937869e21",
         "cervello/censimento-macchina.mjs": "6747b4d399d7",
         "cervello/scheda-cliente.mjs": "9e41f25ee35a"
+      }
+    },
+    {
+      "quando": "2026-11-26 16:34",
+      "casa": "marketplace",
+      "dimensione": "api-backend",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "app/api/preventivo/[codice]/accetta/route.ts": "dd1d4cf51017",
+        "app/api/preventivo/[codice]/paga/route.ts": "b2cf97f2ccee",
+        "app/api/seller/preventivo/paga/route.ts": "4fc4887f9e41"
+      }
+    },
+    {
+      "quando": "2026-11-26 16:35",
+      "casa": "macchina",
+      "dimensione": "cadenza-esecuzione",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        ".claude/skills/scheda-da-foto/SKILL.md": "933949c2324e"
+      }
+    },
+    {
+      "quando": "2026-11-26 16:35",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/scheda-cliente.mjs": "5808744085a5"
+      }
+    },
+    {
+      "quando": "2026-11-26 16:50",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/scheda-cliente.mjs": "66ac4227a4fe"
+      }
+    },
+    {
+      "quando": "2026-11-26 18:20",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/piano-editoriale.mjs": "76301595e9c7"
+      }
+    },
+    {
+      "quando": "2026-11-26 18:36",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/piano-editoriale.mjs": "23702dc60f5b"
+      }
+    },
+    {
+      "quando": "2026-11-26 22:30",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "app/admin/agenti/page.tsx": "956a772bf423",
+        "app/agente/layout.tsx": "b72b35279078",
+        "app/agente/page.tsx": "93c8df5ca045",
+        "app/invito-agente/InvitoAgente.tsx": "ff487cda810b",
+        "app/invito-agente/page.tsx": "6880ada20317",
+        "components/admin/AdminSidebar.tsx": "b28ba0fa76a7",
+        "components/agenti/Scheda.tsx": "dd2b45d662eb",
+        "components/agenti/scheda.module.css": "c14d904d791a"
+      }
+    },
+    {
+      "quando": "2026-11-26 22:30",
+      "casa": "marketplace",
+      "dimensione": "sicurezza-auth",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "app/api/admin/agenti/route.ts": "a7e0f854be48"
+      }
+    },
+    {
+      "quando": "2026-11-26 22:30",
+      "casa": "marketplace",
+      "dimensione": "api-backend",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "app/api/account/export/route.ts": "afda3a84e548",
+        "app/api/agente/analizza/route.ts": "eae79e979da0",
+        "app/api/agente/schede/route.ts": "8be79e269ea8",
+        "app/api/agente/stato/route.ts": "1a1dbb07d4ba",
+        "app/api/invito-agente/attiva/route.ts": "ff27bc4eba6a",
+        "app/api/invito-agente/stato/route.ts": "3ff921ed9e27"
+      }
+    },
+    {
+      "quando": "2026-11-26 22:30",
+      "casa": "marketplace",
+      "dimensione": "rls-database",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "migrations/865_gli_agenti_entrano_solo_dal_link.sql": "541c7655803c"
+      }
+    },
+    {
+      "quando": "2026-11-26 22:30",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "Le schede degli agenti restano in n8n dopo la cancellazione dell'account"
+      ],
+      "nota": "",
+      "file": {
+        "lib/account/cancellazione.ts": "547d39fb6846",
+        "lib/agenti/codice.ts": "3b8b33abbff1",
+        "lib/agenti/compito.ts": "922851980066",
+        "lib/agenti/fasce.ts": "60f5f0f971ab",
+        "lib/agenti/inviti.ts": "67a0d5ae3621",
+        "lib/agenti/link.ts": "5b370589eb2b",
+        "lib/agenti/n8n.ts": "197c10024584",
+        "lib/agenti/osm.ts": "72d001c270e9",
+        "lib/agenti/rete.ts": "4535daeca1ea",
+        "lib/agenti/rotta.ts": "3ef28dc4f7a0",
+        "lib/agenti/scheda.ts": "4e8986df1971",
+        "lib/agenti/sito.ts": "242fad2a6c74",
+        "lib/database.types.ts": "255f7c2b8626"
       }
     }
   ]

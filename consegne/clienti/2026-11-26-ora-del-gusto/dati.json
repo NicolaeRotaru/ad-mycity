@@ -334,7 +334,7 @@
       "url": "https://www.italia.it/en/emilia-romagna/piacenza/where-to-eat/pizzium---piacenza"
     }
   ],
-  "preventivo": {
+  "proposta": {
     "saluto": "Abbiamo guardato Ora del Gusto come la vede chi vi cerca dal telefono. La vostra colazione ha già una buona fama. Vi manca un posto unico in rete che la racconti bene, ogni settimana, con gli orari giusti.",
     "forti": [
       "Aprite all'alba: per chi lavora presto siete un punto fermo.",
@@ -480,7 +480,12 @@
         "quando": "Settimana 4",
         "cosa": "Il primo resoconto: visite al sito, chiamate e indicazioni stradali da Google, quali contenuti hanno funzionato."
       }
-    ]
+    ],
+    "su_misura": {
+      "base": "Un sito unico di una pagina con la colazione, gli orari giusti e come arrivare; 8 contenuti al mese su Facebook e Instagram; la scheda Google sistemata all’avvio.",
+      "business": "Un sito di più pagine (colazione, pasticceria, aperitivo); 3 contenuti a settimana, con 2 video del banco della colazione; le risposte alle recensioni sul servizio scritte da noi.",
+      "premium": "Il banco della colazione fotografato e filmato ogni mese, anche le storie per le serate dell’aperitivo, e un incontro al mese per leggere i numeri insieme."
+    }
   },
   "sito_bozza": {
     "schema_tipo": "CafeOrCoffeeShop",

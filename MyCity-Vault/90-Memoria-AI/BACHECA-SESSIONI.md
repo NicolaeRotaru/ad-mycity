@@ -28,6 +28,14 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 26/11 23:50 circa | alla sessione dei flussi (`…K1DyjU`) | «Ripublica 12 e 26». Fatto verso le 23:55, dopo la copia di sicurezza; le fonti a pagamento restano spente |
+| 26/11 20:15 circa | all'AD | «E fai le migrazione». Entrata la 864 alle 20:41; la 863 è ferma, perché il suo testo non torna col pagamento in contanti |
+| 26/11 19:50 circa | all'AD | «ok ripubblica il 12 e il 26». La sessione dei flussi è ferma per il suo controllo dei permessi: serve l'ok nella sua chat, oppure «fallo tu da qui» all'AD |
+| 26/11 ~19:40 | AD (`…KdhTFt`) | **Il Tropico Latino gira sul Premium, e non paga**: è l'unico cliente che non paga. Il Premium sul Tropico è la prova per distinguere bene Premium, Business e Base. Fatto `clienti.tropico-premium`. Chi fa i contenuti del Tropico segue il piano Premium di dicembre (`consegne/clienti/tropico-latino/piano-editoriale-2026-12.json`) |
+| 26/11 ~17:00 | AD (`…KdhTFt`) | Il **piano editoriale** si personalizza per cliente e si adatta all'**abbonamento**: Business «molte più cose, un servizio pazzesco», Premium «come un'agenzia di 50 marketer», dentro tutta la visibilità online (social, Google e il resto). Esempio sul Tropico. L'AD ha fatto il modello 1.0 delle tre fasce (`cervello/modelli/piano-editoriale-fasce.json`), il piano di dicembre del Tropico per fascia e il programma che lo controlla. Le quantità nuove aspettano la firma: finché non firma, il preventivo sul sito resta com'è |
+| 26/11 ~16:10 | AD, chat del Tropico, risposta alla domanda sulle pagine | Tutto quello che approva per il Tropico si pubblica sempre su tutte e quattro le pagine del locale, anche dopo il 28/11. Il flusso 01b resta acceso. Fatto registrato come `clienti.tropico-pagine` |
+| 26/11 16:05 circa | all'AD | «ok fasce». Le parti del rapporto per Base, Business e Premium restano come le ha proposte l'AD. La sessione del sito lo sa dalle 16:07 |
+| 26/11 ~16:00 | AD (`…KveB4F`) | Prima la proposta, poi il preventivo. Dalla foto o dal nome nasce subito la proposta per l'azienda, coi prezzi e con «cosa cambia con ogni abbonamento». Il preventivo nasce solo quando il titolare dice sì: si iscrive l'attività col flusso 20 e lui accetta dal link. Per ora paga in contanti: il tasto per abbonarsi e pagare sul sito va tolto. Fatti `agenzia.scheda-da-foto`, `sdg.pagamento`, `sdg.abbonamenti`; skill `scheda-da-foto` |
 | 26/11 ~15:10 | AD (`…NFY3AU`) | Sulla scheda e sul preventivo dalla foto: «la proposta è strafiga», ma mancano tanti dati. Il preventivo deve essere un prodotto finito, che il cliente deve solo accettare. Servono quattro cose. Il valore in più detto chiaro all'imprenditore. Un'offerta su misura per ogni cliente. L'analisi vera dei social: ogni quanto pubblica, i post e le storie. Una bozza del sito fatta e finita, non un modello. Per ora nessun lavoro: ci si torna dopo le altre sessioni |
 | 26/11 15:05 | AD, quando ha ripreso dopo lo stop | Via alle risposte per la sessione dei contenuti: Calendario e cartella Drive come proposti dall'AD; le storie anche animate o video, non solo immagini |
 | 26/11 15:00 | la chat dei consensi, per tutte le sessioni | Regola base: non si cancella mai niente, si archivia. «Nulla è davvero nostro, noi stiamo gestendo le cose degli altri.» Vale sui social e su tutto quello che gestiamo per i clienti. Sta in `CLAUDE.md`, sotto la regola d'oro |
@@ -187,6 +195,7 @@ già la stessa cosa: se sì, scrivile invece di rifarlo (regola 3). Oggi tre gru
 
 | Sessione | Lavoro | File suoi |
 |---|---|---|
+| «Piano editoriale per abbonamento» (`…KdhTFt`) | Il modello delle tre fasce e il piano di dicembre del Tropico per Base, Business e Premium. Non tocca le righe del Calendario né la pubblicazione: quelle restano a «Contenuti Canva e Reel» | `cervello/modelli/piano-editoriale-*`, `cervello/piano-editoriale.mjs`, `consegne/clienti/tropico-latino/` |
 | «Migliorare analisi clienti» (`…KJEvB4`) | Dirige il lavoro sull'analisi dei clienti nuovi, con il piano, le fonti e le scelte di Nicola. Aspetta «ok fasce» | ad-mycity#1038, `consegne/strategia/2026-11-26-analisi-imprenditore/` |
 | «Rapporto dell'imprenditore · flussi n8n» (`…K1DyjU`) | Contratto dei fatti e codice del flusso 16. **È la sola che ripubblica il 16**, da main, al via di Nicola | N8N `claude/rapporto-imprenditore-flussi`, `flussi/16-nuovo-cliente-da-mycity/` |
 | «Rapporto dell'imprenditore · sito e preventivo» (`…MSbmrM`) | La parte analisi del preventivo del sito, per fascia. Su `lib/agenzia/preventivo.ts` si accorda con «Scheda cliente automatica» prima della PR | mycity `claude/rapporto-imprenditore-sito` |
@@ -199,6 +208,7 @@ già la stessa cosa: se sì, scrivile invece di rifarlo (regola 3). Oggi tre gru
 | «Gestione consensi sessioni» (`…NLKmh9`) | Dice a Nicola quale sessione aspetta un suo clic; regola «si archivia» | ad-mycity#1039 |
 | Regia «tutti i difetti senza Nicola» (`session_015BmpnXuogkPZVts89PH67a`, non visibile da qui) | Riparazione dei difetti del sito, onda 1 con 11 riparatori | ad-mycity#1032, `consegne/riparazioni/2026-11-26-tutti*/` |
 | Radiografia di ricontrollo (`session_015BmpnXAVwPhPT7aWRMXdMi`, non visibile da qui) | Ricontrolla 272 voci aperte; la regia le ripara solo dopo il suo esito | ad-mycity#1030, `consegne/radiografia/2026-11-26-ricontrollo/` |
+| «Proposta prima del preventivo» (`…KveB4F`, AD) | Mette in pratica la decisione di Nicola delle 16:00, scritta qui sopra. Programma e skill nella macchina, pagamento online spento nel sito. Avvisate quattro sessioni: «Scheda cliente automatica», «sito e preventivo», «flussi n8n», «Migliorare analisi clienti» | Nella macchina: `cervello/scheda-cliente.mjs` e la skill `scheda-da-foto`. Nel sito: `lib/agenzia/pagamento-servizi.ts` e le pagine di pagamento del preventivo. Ramo `ccr-89cc2185-1j5rl3` |
 | «Goku · fino alle 16:03» (`…PHDGR6`) | Sorveglia le sessioni e i lavori doppi | `MyCity-Vault/90-Memoria-AI/goku/` |
 
 ## Le sessioni vive
