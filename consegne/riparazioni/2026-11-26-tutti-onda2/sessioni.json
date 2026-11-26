@@ -42,6 +42,15 @@
     "R14",
     "R16"
    ]
+  },
+  "K06": {
+   "id": "session_015BmpnXzF5QVKnL1CkGnuYM",
+   "ramo": "ccr-a672a2b3-92w5w1-k06",
+   "partenza": "b24636e43caca4f5e127017a851a8e1fac028b75",
+   "riparatori": [
+    "R12",
+    "R15"
+   ]
   }
  },
  "controllori": {}
