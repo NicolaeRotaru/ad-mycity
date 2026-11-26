@@ -1,0 +1,46 @@
+{
+  "controllore": "C03",
+  "onda": 3,
+  "finita": true,
+  "testa": "447fdd4971eda1553b1ecbe4951bb25412570123",
+  "verify": {
+    "comando": "npm run verify && tests/sql/harness/apply.sh && tests/sql/harness/run.sh",
+    "esito": "verde",
+    "nota": "typecheck pulito, lint 0 errori (121 avvisi), vitest 2317 file passati e 1 saltato, 14110 prove verdi e 1 saltata; apply: 244 migrazioni applicate, 0 fallite; run: tutti i controlli verdi. Postgres 16 locale, mai il database vero."
+  },
+  "voci_rosse": [
+    {
+      "chiave": "api-backend|la funzione che muore fra l'ordine e gli articoli lascia la merce riservata senza nessuno che la liberi",
+      "perche": "Due invii con la stessa chiave (migrazione 961 verso riga 150, app/api/orders/cod/route.ts:1506) portano lo stesso order_id: se il gemello perdente muore prima di rendiLaNostraParte, il giro trova gli articoli del vincente e chiude la riga senza rimettere niente, così la merce resta scalata due volte."
+    },
+    {
+      "chiave": "frontend-ux|la pagina di richiesta reso accetta il ripensamento anche su ordini di pane",
+      "perche": "app/api/returns/create/route.ts:27-34: CATEGORIE_DEPERIBILI include 'alimentari-dolci', che nella migrazione 078 è «Dolci & Snack» con prodotti confezionati non deperibili; il ripensamento su quelli ora si rifiuta anche dove il recesso spetta (da confrontare col fatto legale.recesso-esclusi)."
+    },
+    {
+      "chiave": "privacy-legale|«lavora con noi» promette ancora un lavoro da rider con compenso fisso e turni, e «entra nel team» rimanda a posizioni che non ci sono",
+      "perche": "app/lavora-con-noi/page.tsx:188 ora dice «solo Piacenza», ma :89 lascia il Product Designer con location 'Ibrido': la pagina si contraddice."
+    },
+    {
+      "chiave": "frontend-ux|le foto dell'iphone (heic) adesso entrano davvero, ma nessuno le converte: sul telefono android e su chrome restano un riquadro rotto",
+      "perche": "app/orders/[id]/return/page.tsx:491 e components/rider/CashConfirmDialog.tsx:338 usano ancora attributoAccept senza togliere HEIC/HEIF: due punti con lo stesso difetto, non elencati nel referto."
+    },
+    {
+      "chiave": "architettura|se il registro degli invii non si legge, l'allarme dice «non partita, non è un intoppo di una notte» anche alla prima notte e per un'email forse arrivata",
+      "perche": "app/api/cron/process-deletions/route.ts:858-861 legge solo forsePartita: il segno registroIlleggibile (lib/privacy/avvisi-a-chi-aspetta.ts:233) nasce ma nessuno lo legge. Parziale dichiarato; la rotta è stata toccata in questa onda da R24, quindi ora il pezzo è chiudibile."
+    },
+    {
+      "chiave": "api-backend|l'annullo dal sito, il rifiuto del negozio e il cliente assente rispondono 500 senza riga nel registro quando l'annullo fallisce",
+      "perche": "app/api/seller/orders/[id]/reject/route.ts:106 e app/api/rider/orders/[id]/cliente-assente/route.ts:89 rispondono ancora ApiErrors.internal senza logger.error (parziale dichiarato, confermato sull'unione)."
+    }
+  ],
+  "nuovi_difetti_visti": [],
+  "note": "Unione: nessuno scontro fra migrazioni (911, 916, 926, 961 non ridefiniscono funzioni di 880/900/910/940/970/980; 961 aggiunge reserve_stock/restore_stock a 2 parametri e lascia quelle a 1). I revert di R20-002, R19-004 e R26-012 non lasciano pezzi orfani. middleware.ts (giro R23) non allarga nessun percorso protetto. I pezzi mancanti già dichiarati nei referti delle altre voci parziali (R23-014, R28-012, R18-014, R18-001, R22: ritiro al banco oltre il tetto e REFUNDED sopra PAID_MANUALLY in lib/stripe/payout.ts) sono confermati e non ripetuti qui.",
+  "file_toccati": 194,
+  "file_guardati": 181,
+  "nota_file": "194 file nel diff aac2350b..447fdd49; 13 sono .riparazione/referto-*.json (non codice). I 181 di codice sono stati divisi in 4 gruppi; i subagenti hanno letto per diff 99 file di codice e hanno scorso i file di prova senza contarli tutti: il numero esatto di file di prova letti non lo so.",
+  "conto": {
+    "subagenti": 4,
+    "token_stimati": 450000
+  }
+}
