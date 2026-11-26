@@ -178,8 +178,8 @@ già la stessa cosa: se sì, scrivile invece di rifarlo (regola 3). Oggi tre gru
 |---|---|---|
 | «Migliorare analisi clienti» (`…KJEvB4`) | AD del rapporto dell'imprenditore: piano, fonti, scelte di Nicola. Aspetta «ok fasce» | ad-mycity#1038, `consegne/strategia/2026-11-26-analisi-imprenditore/` |
 | «Rapporto dell'imprenditore · flussi n8n» (`…K1DyjU`) | Contratto dei fatti e codice del flusso 16. **È la sola che ripubblica il 16**, da main, al via di Nicola | N8N `claude/rapporto-imprenditore-flussi`, `flussi/16-nuovo-cliente-da-mycity/` |
-| «Rapporto dell'imprenditore · sito e preventivo» (`…MSbmrM`) | Il preventivo del sito per fascia. **È la sola che riscrive il preventivo del sito** | mycity `claude/rapporto-imprenditore-sito` |
-| «Scheda cliente automatica» (`…NFY3AU`) | Scheda interna e preventivo dalla foto del negozio (Ora del Gusto, La Ragazzetta). Deve usare i campi del contratto del flusso 16 | ad-mycity#1036, `cervello/scheda-cliente.mjs`, `consegne/clienti/` |
+| «Rapporto dell'imprenditore · sito e preventivo» (`…MSbmrM`) | La parte analisi del preventivo del sito, per fascia. Su `lib/agenzia/preventivo.ts` si accorda con «Scheda cliente automatica» prima della PR | mycity `claude/rapporto-imprenditore-sito` |
+| «Scheda cliente automatica» (`…NFY3AU`) | Scheda interna e preventivo dalla foto del negozio (Ora del Gusto, La Ragazzetta). Deve usare i campi del contratto del flusso 16. Piano editoriale e bozza del sito nel preventivo del sito sono suoi (AD del rapporto, 15:35) | ad-mycity#1036, `cervello/scheda-cliente.mjs`, `consegne/clienti/` |
 | «Il flusso 16 giudica sito e social» (`…NXCcdc`) | Finita. La PR N8N#22 va collaudata e unita prima del lavoro dei flussi | N8N#22, `flussi/16-nuovo-cliente-da-mycity/genera.mjs` |
 | «Verifica PR pronte per merge» (`…KTPLRu`) | Unisce le richieste quando la CI è verde | nessun file suo |
 | «Contenuti Canva e Reel» (`…MFexW4`) | Impaginazioni di post e reel senza Canva; adesso contenuti del Tropico per il calendario | ad-mycity#1034, `creativi/impaginazioni/`, N8N `flussi/ad-studio/` |
