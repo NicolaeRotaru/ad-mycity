@@ -1,6 +1,6 @@
 ---
 tipo: bacheca
-aggiornato: 2026-11-26 13:05
+aggiornato: 2026-11-26 14:28
 regole: cervello/sessioni-insieme.md
 ---
 
@@ -28,6 +28,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 26/11 14:19 | chat «Canva e reel» (`…zmP3T3`) | «Ok salva»: le impaginazioni del post e del reel e i tre file della prova di Pane Quotidiano vanno nel deposito, con una PR. Non si pubblica niente. Sullo stile, la sessione dei consensi (`…kJb6FY`) riferisce una sua frase delle 14:15 circa: «mi piace davvero molto». Le bozze della settimana di Pane Quotidiano in questa chat non le ha ancora chieste. La delega alla sessione dei consensi sta solo nella PR #1033, aperta e non unita: finché non è unita, le sue richieste si confermano con Nicola. |
 | 26/11 mattina | sessione «Lettura pagine da n8n» (`…KGbhsq`) | Lettura delle pagine dei clienti nuovi: al terzo collaudo bocciato ha scelto «Ripara solo questo». Riparato in NicolaeRotaru/N8N#18, in uso sul 12 e sul 26. Il quarto collaudo regge. I 14 difetti minori restano aperti, da non toccare adesso. |
 | 25/11 23:07-23:25 | AD, chat «Tropico: video e post» (`…0rxfdd`), via Telegram | Pacchetto di dicembre del Tropico, 5 contenuti **approvati**: il reel del 3/12, i post del 4 e del 6/12, il carosello dell'11/12, il reel del 15/12. Il post del burrito del 17/12 è **rifiutato** e torna in bozza. Restano 7 righe da approvare. |
 | 25/11 ~20:50 | sessione «Dati mancanti» (`…LJpfxZ`) | «Ripara»: le pagine dei clienti nuovi le legge n8n, nel 12 e nel 26. In uso dalle 22:15, N8N#18. Per il 12 e il 26 la rete della routine dell'AD non serve più |

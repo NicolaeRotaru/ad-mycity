@@ -1,7 +1,7 @@
 ---
 tipo: lavoro-aperto
 fonte: AD digitale
-aggiornato: 2026-11-26 13:05
+aggiornato: 2026-11-26 14:28
 regola: si legge PRIMA di cercare cosa manca; si aggiorna a ogni lavoro che si apre o si chiude
 ---
 
@@ -29,6 +29,8 @@ La pagina dice com'era il lavoro il 31 ottobre alle 01:45. Ogni voce va riletta 
 ---
 
 ## 1 · Cose che toccano a te
+
+**Post e reel fatti da programma, senza Canva né CapCut (26/11 14:28).** La prova di Pane Quotidiano è un reel di 15 secondi, un post e la copertina della storia, con le pagine vere del negozio dentro un telefono. Alle 14:19 Nicola ha scritto «Ok salva»: impaginazioni e file sono nella PR delle impaginazioni. Tocca a Nicola unirla. Pronto quando lo chiede: i contenuti della settimana di Pane Quotidiano come bozze, senza pubblicare. Dettaglio: `creativi/impaginazioni/LEGGIMI.md`.
 
 **Tropico Latino: 13 contenuti di dicembre nel Calendario (25/11 23:30).** Fatti dall'AD con le 13 foto del fotografo e l'officina, senza API di IA. Alle 23:25 Nicola ne aveva approvati 5 su 13 su Telegram. Ne ha rifiutato 1, il burrito del 17/12, che ora è in bozza. Gli altri 7 aspettano il suo clic fino al 29/11 sera. Restano: il motivo del rifiuto, i nomi di due piatti dal titolare, il numero WhatsApp giusto, e riprese nuove con persone e feste (24, 25, 31 dicembre). Dettaglio: `consegne/content/2026-11-25-tropico-latino-pacchetto-dicembre.md`.
 

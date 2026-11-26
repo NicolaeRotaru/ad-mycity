@@ -1344,3 +1344,9 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Non fatto apposta:** i 7 difetti minori del collaudo 3 e i 7 del collaudo 4. Nicola ha chiesto di riparare solo il grave. Sono in LAVORO-APERTO.
 - **Prova vera (25/11 23:05):** su Ora del Gusto la ricerca ha scritto 1 pagina da leggere e n8n ne ha lette 2. La scheda le ha scartate come possibile omonimo, giustamente.
 - Referti: `consegne/riparazioni/2026-11-25-leggi-pagine/collaudo-3-sicurezza.md` e `collaudo-4-pulizia.md`.
+
+## 2026-11-26 14:28 · Le impaginazioni per post e reel nel deposito 🟡
+- **Cosa:** salvate in `creativi/impaginazioni/` le pagine e il comando che fanno post, storia e reel senza Canva né CapCut. I tre file della prova di Pane Quotidiano sono in `creativi/pane-quotidiano/2026-11-26-prova/`. Nessuna pubblicazione.
+- **Perché:** Nicola in chat alle 14:19, «Ok salva», dopo aver visto la prova.
+- **Prima di quell'ok:** la sessione dei consensi (`…kJb6FY`) lo chiedeva a nome suo due volte. Non l'ho fatto: la sua delega sta solo nella PR #1033, scritta da lei e non unita. Ho chiesto la conferma a Nicola.
+- **Prova:** `crea.sh` lanciato dal deposito rifà i tre file identici byte per byte a quelli consegnati.
