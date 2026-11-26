@@ -1,3 +1,5 @@
 # Commit da togliere all'unione dell'onda 3 (git revert sopra le unioni), con chi l'ha deciso
 52b0a1638434c9783ae7ef4ce7ae8f14e9dab702 R20-002 rompe altro (K07: prova SQL della 158 rossa; online prima della 980 l'AI a pagamento si ferma o conta male). Revert provato: pulito.
+be3ee840e67661bedead7c511ee5506223b3e090 R19-004 rompe altro (K09, due lenti: con l'avviso «Togli X dal prossimo bonifico» e la 916 lo stesso debito si conta due volte). Revert provato sopra l'unione m17-m28: pulito.
+# R22-003 non regge (K09: oltre 1000 ordini la pagina non mostra i contanti da recuperare) ma NON si toglie: senza R19-004 non conta due volte, la rpc della 916 regge in SQL; resta aperta per il giro dopo. Il revert di 7ff54612 litiga con altri commit di R22.
 # R21-003, R21-016, R21-012: bocciati da K07, NON si tolgono col revert (quello di R21-003 litiga con 6 voci sopra): giro di correzione di R21 dalle 23:20, poi ricollaudo di K07.
