@@ -22,3 +22,11 @@ finita R08
 finita R09
 finita R10
 finita R11
+ramo K01 ccr-a672a2b3-92w5w1-k01
+finita K01
+ramo K02 ccr-a672a2b3-92w5w1-k02
+finita K02
+ramo K03 ccr-a672a2b3-92w5w1-k03
+finita K03
+ramo K04 ccr-a672a2b3-92w5w1-k04
+finita K04
