@@ -1,5 +1,5 @@
 {
- "regista": "session_015BmpnXSyPksZEDoo4vMSYa",
+ "regista": "session_015BmpnVa8hQucTzcfQ18KW2",
  "sessioni": {
   "R17": {
    "id": "session_015BmpnXmoDjAaTnDCHFYnQ8",
@@ -72,6 +72,28 @@
    "ramo": "ccr-a672a2b3-92w5w1-m28",
    "onda": 1,
    "aperta": "2026-11-26 17:23"
+  },
+  "K07": {
+   "id": "session_015BmpnW5UJVj5kuFk86pmss",
+   "ramo": "ccr-a672a2b3-92w5w1-k07",
+   "onda": 1,
+   "aperta": "2026-11-26 22:55",
+   "collauda": [
+    "R21",
+    "R20",
+    "R17"
+   ]
+  },
+  "K08": {
+   "id": "session_015BmpnXkPPduuZvaWJq3RAr",
+   "ramo": "ccr-a672a2b3-92w5w1-k08",
+   "onda": 1,
+   "aperta": "2026-11-26 22:55",
+   "collauda": [
+    "R23",
+    "R25",
+    "R26"
+   ]
   }
  }
 }
