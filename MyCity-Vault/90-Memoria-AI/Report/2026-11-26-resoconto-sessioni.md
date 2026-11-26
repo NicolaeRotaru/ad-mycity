@@ -1,6 +1,6 @@
 ---
 tipo: report
-data: 2026-11-26 20:40
+data: 2026-11-26 20:35
 fonte: AD digitale, sessione «Sessioni odierne e resoconto lavori»
 oggetto: revisione di tutte le sessioni del 26/11 e di quello che hanno consegnato
 ---
@@ -43,7 +43,7 @@ Nella memoria della macchina sono state unite 18 richieste. Le prove della macch
 **Tocca a te.** In ordine di urgenza:
 - Primo, l'account amministratore di prova: guarda se esiste sul database vero. Se c'è, cancellalo o cambiagli la password. È la falla più pericolosa rimasta aperta.
 - Secondo, la regia aspetta la tua scelta sul collaudo della terza onda. Il limite settimanale è in avviso, e la regola dice di non aprire sessioni nuove senza il tuo sì. Consiglio il sì: nell'onda 1 il collaudo ha scartato 10 riparazioni su 116 voci, perché rompevano altro. Il collaudo costa circa 80 $ in più, e la campagna è a circa 765 $ su 1.200. Prima dimmi che percentuale del limite vedi nell'app.
-- Terzo, le quattro richieste del sito sono pronte e verdi. L'ordine conta:
+- Terzo, le quattro richieste del sito sono pronte e verdi. Le ho provate tutte insieme, con le 58 riparazioni: 13.745 prove passate su 13.746, una saltata, nessuna rossa. L'ordine conta:
    - Prima la scheda del cliente che si legge solo dal server. Subito dopo, la sua modifica al database.
    - Poi le falle di sicurezza. Prima di unirle servono due letture sul database vero.
    - Poi il rapporto per i titolari.
@@ -86,7 +86,7 @@ Sul ramo della riparazione ci sono 611 aperti: 553, meno 8 già riparati, più 6
 
 **Le prove fatte da questa sessione.**
 - Onda 3: i 12 rami `-m17…-m28` partono tutti da aac2350b e si uniscono in fila senza conflitti. Il ramo `-m26` porta un'unione con sé stesso (d3975f44, «il primo commit della R26-014 sostituito»). Il contenuto si unisce bene: è solo ordine della storia.
-- Sito: main + #339 + #336 + #337 + #338 + integrazione si uniscono in fila senza conflitti, senza numeri di migrazione doppi. File in comune: la 864 (#336 e #339, identica), `app/seller/abbonamento/page.tsx` (#336 e #337). `npm run verify` sull'insieme: controllo dei tipi e lint verdi; alle 20:45 le prove unitarie girano ancora, esito da aggiungere.
+- Sito: main + #339 + #336 + #337 + #338 + integrazione si uniscono in fila senza conflitti, senza numeri di migrazione doppi. File in comune: la 864 (#336 e #339, identica), `app/seller/abbonamento/page.tsx` (#336 e #337). `npm run verify` sull'insieme (alle 20:33): tipi e lint verdi, 2239 file di prova passati e 1 saltato su 2240, 13745 prove passate e 1 saltata su 13746, exit 0.
 - Memoria: `coerenza-fatti.mjs` exit 0 su main @ 0a210cad.
 
 **Cose fuori regola trovate.**
