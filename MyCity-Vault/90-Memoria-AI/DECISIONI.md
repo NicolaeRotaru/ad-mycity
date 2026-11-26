@@ -1392,3 +1392,8 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa era sbagliato:** nella voce qui sopra «2026-11-26 15:20» avevo scritto orari che non erano ancora arrivati. Me l'ha fatto notare Goku, il supervisore delle sessioni, alle 15:08.
 - **Gli orari veri:** il parere legale è delle 14:53. L'avviso urgente alle due sessioni è partito verso le 14:56. Le correzioni al piano sono entrate alle 14:58. Quindi la voce vale come «2026-11-26 14:58».
 - **Cosa ho corretto:** gli orari nel piano, nella carta #265 e nel lavoro aperto. La voce qui sopra resta com'è, perché questo registro non si riscrive.
+
+## 2026-11-26 16:05 — Le fasce del rapporto dell'imprenditore (🟡, firma di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD, verso le 16:05: «ok fasce».
+- **Cosa ha deciso:** la proposta dell'AD è approvata così com'è. Base: il rapporto all'avvio senza ricerche su Google, senza concorrenti sui social e senza aggiornamenti. Business: in più le ricerche e i 3 concorrenti principali, ogni mese. Premium: tutto ogni settimana, fino a 5 concorrenti, e un incontro al mese.
+- **Cosa è stato fatto:** detto alla sessione del sito alle 16:07, e scritto nel piano, nel registro e nella bacheca.
