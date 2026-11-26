@@ -1317,3 +1317,11 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Il limite:** il divieto degli strumenti sta nelle istruzioni, non in un'impostazione. Da qui la routine non permette di toglierli.
 - **Cosa resta a Nicola:** aprire la rete dell'ambiente «Chiedi all'AD (n8n)» dalle impostazioni, se vuole. Poi l'AD rifà l'analisi delle due attività.
 
+
+## 2026-11-26 14:45 — Il rapporto dell'imprenditore e tre fonti a pagamento (🔴, firma di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD, 25-26/11. Prima: «recupera molti più dati sul cliente… l'analisi più figa che si possa creare per l'imprenditore, usando anche i dati che già analizza l'AD… e metterlo già dentro il preventivo, in base all'abbonamento». Alle 14:45 ha risposto alle tre domande dell'AD.
+- **Cosa ha deciso:** accese Google Places, TripAdvisor Content API e DataForSEO. Prima di pagare il titolare vede un assaggio di 3-4 numeri veri. Via alle due sessioni che costruiscono flussi e sito. Ha chiesto anche se ci sono altre fonti.
+- **Perché:** oggi l'analisi legge solo il sito e qualche elenco. Scheda Google, Instagram e TripAdvisor restano fuori, perché leggerli di nascosto è vietato. Per La Ragazzetta non si è trovato nemmeno l'indirizzo.
+- **I costi, letti il 26/11 sulle pagine ufficiali:** Google 1.000 richieste gratis al mese per tipo, poi 20-40 $ ogni 1.000. TripAdvisor gratis da 1.000 a 5.000 chiamate al mese: le due pagine ufficiali non concordano. DataForSEO 50 $ di ricarica minima, una volta sola. Uso stimato circa 600 richieste Google al mese, quindi 0 €.
+- **Cosa è stato fatto:** il piano (`consegne/strategia/2026-11-26-analisi-imprenditore/PIANO.md`), il fatto `agenzia.rapporto-imprenditore` nel registro, il parere legale chiesto a `legale-privacy`, due sessioni aperte alle 14:49 (ID in `LAVORO-APERTO.md`). I nodi a pagamento nascono spenti, finché non ci sono le chiavi.
+- **Cosa resta a Nicola:** aprire i tre account e mettere le chiavi nelle credenziali di n8n. Su Google Cloud, un tetto di spesa. Poi unire le due PR e dare l'«ok ripubblica».

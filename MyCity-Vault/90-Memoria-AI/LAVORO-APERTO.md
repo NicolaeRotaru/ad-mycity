@@ -1,7 +1,7 @@
 ---
 tipo: lavoro-aperto
 fonte: AD digitale
-aggiornato: 2026-11-25 18:08
+aggiornato: 2026-11-26 14:52
 regola: si legge PRIMA di cercare cosa manca; si aggiorna a ogni lavoro che si apre o si chiude
 ---
 
@@ -162,6 +162,7 @@ Tutti gli altri tuoi passi, 33 prima del primo ordine, sono in fila nella tua li
 
 ### Ancora da fare
 
+- **Il rapporto dell'imprenditore: due sessioni lo costruiscono (26/11 14:49).** Nicola ha chiesto di recuperare molti più dati sulle attività che si iscrivono e di mettere nel preventivo, per abbonamento, l'analisi più completa possibile, coi dati che l'AD segue già. Il rapporto ha 11 parti. Alle 14:45 Nicola ha acceso tre fonti a pagamento: Google Places, TripAdvisor e DataForSEO. Ha scelto che prima di pagare il titolare veda un assaggio. Lavorano due sessioni: «flussi n8n» (`session_01R8112K1DyjU4xADptnSgNq`, ramo `claude/rapporto-imprenditore-flussi`) e «sito e preventivo» (`session_01R8112MSbmrMsg1NS5fYwU7`, ramo `claude/rapporto-imprenditore-sito`). Tetto: 6 subagenti e circa 1,5 milioni di token ciascuna. Il parere legale sulle tre fonti è in corso. Restano a Nicola tre cose. Prima: aprire i tre account (Google Cloud con un tetto di spesa, TripAdvisor, DataForSEO con 50 $ di ricarica). Seconda: mettere le chiavi nelle credenziali di n8n che le sessioni indicheranno. Terza: unire le due PR e dare l'«ok ripubblica» per il flusso 26. Piano: `consegne/strategia/2026-11-26-analisi-imprenditore/PIANO.md`.
 - **Il risolutore sul sito: l'onda 3 lavora, primo pezzo fino a giovedì 19/11 alle 10:00** (16/11 alle 00:50, AD chat 5). L'onda 2 è sul sito dal 15/11 (mycity#290, 78 voci su 259). Il primo pezzo dell'onda 3: 66 voci, tetto 215 $, spesi 54,7 $ alle 00:30. Riparano R25, R26 e R27. Il collaudatore K11 ha finito: 8 voci reggono e 8 sono a metà. Il collaudatore K12 resta chiuso finché la regista non porta due strade coi numeri. La regista è la O3 due `session_015BmpnUwZWwGrsy5a7qyDwZ`, quaderno `consegne/riparazioni/2026-11-12-sito-tutto/REGIA-ONDA-3.md`. Lo stato dell'AD: `consegne/ad/2026-11-16-passaggio-chat-ad-onda3.md`. ⚠️ La migrazione 501 di R26 NON va applicata così com'è: K12 ha trovato che segna versata la giornata del fattorino anche quando lascia ordini in attesa (16/11 alle 01:40). Da riconciliare: la carta 248 (le 6 gravi dell'onda 2, circa 70 $) risulta ancora in coda, ma diceva «senza via vanno all'onda 3», dove R25 e R26 riparano gravi.
 - **AR-1184, la regola dei 40 voci nel piano: unita e chiusa** (16/11 alle 01:00). Nicola ha unito la #973 alle 00:51; la scheda è chiusa con la prova `node --test cervello/test/collaudi-guardati-insieme.test.mjs`, 13 verdi su 13. Resta un passo: la regista scrive il campo per l'onda 3 in `piano.json` prima di applica, e controlla che le chiusure cambino. I due buchi minori trovati dal collaudo sono AR-1188 e AR-1189.
 - **Il freno sugli agenti non vede le sessioni aperte con «/effort ultracode»** (AR-1190, grave, scritto il 16/11 alle 00:45). Oggi non scatta, perché ultracode è spento su tutta l'onda 3. Il freno nel `.claude/settings.json` di ad-mycity lo può incollare solo Nicola: è ancora da fare.

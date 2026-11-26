@@ -28,6 +28,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 26/11 14:45 | AD (chat «analisi sui clienti») | Il rapporto dell'imprenditore: accese le fonti a pagamento Google Places, TripAdvisor e DataForSEO; prima di pagare il titolare vede un assaggio; via alle due sessioni che lo costruiscono. Fatto `agenzia.rapporto-imprenditore` |
 | 25/11 ~19:30, ~19:50 e ~20:05 | la stessa chat delle 18:24, tre risposte a domande | Tre scelte sui più account. Prima: separarli dalla PR della campanella e della demo, su un ramo loro. Seconda: un quarto giro di correzioni, con la PR in bozza che toglie lui solo se il collaudo è pulito. Terza: rifare la base invece di tappare buchi, cioè il carrello e le bozze del browser sono dell'account che c'è. PR: NicolaeRotaru/mycity#333 |
 | 25/11 ~19:58 | AD (`…UV9py6`) | I social dell'attività si analizzano e si offrono come il sito, in tutto il lavoro. Fatto `agenzia.social-come-il-sito`. Parte del sito alla sessione `…MqhKbm`, parte n8n alla sessione `…XCcdcc`, girato alle 20:05 |
 | 25/11 ~19:14 | AD (`…UV9py6`) | «ok sito, ok ripubblica». La tabella dei livelli del sito vale com'è (fatto `agenzia.sito-solo-dove-vale-di-piu`). Via libera a pubblicare su n8n il 16, il 18 e il 20. Vale anche per la domanda nuova all'AD sul giudizio del sito. Lo fa la sessione «Preventivo corto» (`…MqhKbm`), avvisata alle 19:15 |
@@ -180,6 +181,8 @@ Aggiornata il 2026-11-24 21:16.
 
 | Ruolo | Id |
 |---|---|
+| «Rapporto dell'imprenditore · flussi n8n» (26/11 14:49) | `session_01R8112K1DyjU4xADptnSgNq` |
+| «Rapporto dell'imprenditore · sito e preventivo» (26/11 14:49) | `session_01R8112MSbmrMsg1NS5fYwU7` |
 | «700 difetti risoluzione», AD della campagna | `session_01R8112Lzth8WvHHrQ4H3whZ` |
 | «Ora del Gusto: iscrizione e preventivo» | `session_01R8112LZXxKxP66eMCZRgmr` |
 | «Servizio Analisi del business e bozza del sito» | `session_01R8112NW9NV7N6jACcLJvG7` |
