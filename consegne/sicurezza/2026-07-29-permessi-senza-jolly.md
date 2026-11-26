@@ -8,7 +8,7 @@
 
 Oggi due righe del foglio dei permessi dicono «puoi lanciare qualunque programma finisca in quella
 cartella», e quella cartella la scrive la macchina stessa.
-Qui sotto c'è l'elenco esplicito che le sostituisce: **144 programmi e 18 script di avvio.**
+Qui sotto c'è l'elenco esplicito che le sostituisce: **145 programmi e 18 script di avvio.**
 
 ## In parole semplici
 
@@ -29,7 +29,7 @@ Non sto dicendo che sia successo. Sto dicendo che oggi nessuno lo impedirebbe.
 ## Cosa cambia per te
 
 Nel foglio `.claude/settings.json`, sostituisci la riga `"Bash(node cervello/*.mjs:*)"` con queste
-144:
+145:
 
 ```json
       "Bash(node cervello/adozione-medicine.mjs:*)",
@@ -139,6 +139,7 @@ Nel foglio `.claude/settings.json`, sostituisci la riga `"Bash(node cervello/*.m
       "Bash(node cervello/sblocco-capacita.mjs:*)",
       "Bash(node cervello/scadenzario-check.mjs:*)",
       "Bash(node cervello/scan-segreti.mjs:*)",
+      "Bash(node cervello/scheda-cliente.mjs:*)",
       "Bash(node cervello/schede-pacchetto.mjs:*)",
       "Bash(node cervello/scritture-a-rischio.mjs:*)",
       "Bash(node cervello/senior-sola-lettura.mjs:*)",

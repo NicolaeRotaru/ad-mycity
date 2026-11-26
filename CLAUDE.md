@@ -64,6 +64,11 @@ Prima di agire, classifica ogni azione:
 
 Nel dubbio, sali di colore. **Mai sorprese.** Prima mostri cosa faresti, poi esegui.
 
+> **Regola base: non si cancella mai niente, si archivia.** Nicola, 26/11 15:00: «nulla è davvero nostro, noi
+> stiamo gestendo le cose degli altri». Vale su tutto ciò che gestiamo per altri: social, foto, video, siti,
+> Drive, fogli, dati. Nel dubbio, vale per tutto. Sui social «Archivia» o «Nascondi», mai «Elimina»; «togli» o
+> «elimina» si legge «archivia». Uno strumento che sa solo cancellare non si usa: Nicola archivia a mano.
+
 > 🎚️ **L'ASTICELLA: «fatto» vuol dire che un comportamento è cambiato.** Nicola, 10/8: «ok asticella».
 > Un difetto **grave o bloccante** nasce con una **prova che gira** — un comando che diventa rosso se il
 > difetto c'è — oppure con `verifica: {tipo:"umano"}` dichiarato. **Mai una parola da cercare in un file.**

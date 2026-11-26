@@ -15,6 +15,10 @@ fonte: AD digitale (giro, cervello/giro.md)
 >
 > Questa pagina era ferma al 24/11 alle 22:57. Per esempio, l'ultimo lavoro unito è delle 13:08 di oggi: più di un giorno dopo. Per questo un controllo automatico bocciava tutte le richieste nuove. Cosa resta da fare, tuo e mio, sta in `LAVORO-APERTO.md`.
 
+> 🟡 **2026-11-26 14:05 — La scheda del cliente nasce dalla foto dell'attività.**
+>
+> Il venditore fotografa il negozio e manda la foto a una sessione nuova. La sessione cerca via, social, sito e recensioni. Poi consegna la scheda interna per il venditore e il preventivo con bozza del sito e piano editoriale. Prima prova su Ora del Gusto e La Ragazzetta: quattro pagine private, Business consigliato a tutte e due. La rete dell'ambiente è chiusa, quindi nessuno dei 35 dati è «confermato». Dettagli: `LAVORO-APERTO.md`, voce del 26/11 14:05.
+
 > 🟡 **2026-11-24 22:57 — La radiografia del sito lavora a onde, come la riparazione. È costruita e collaudata, ma non ancora lanciata.**
 >
 > Prima ricontrolla le voci aperte, poi cerca quelle nuove. Il ricontrollo è il modo più economico di chiudere: il 21/11 ha chiuso 117 voci su 459 guardate, circa 1,1 $ l'una. Oggi un ricontrollo costerebbe circa 86 $ in tutto, per circa 78 voci chiuse su 305 guardate. Due collaudi indipendenti dicono che regge. Restano a Nicola le due scelte della carta #262 e l'unione della PR. Dettagli: `consegne/audit/2026-11-24-radiografia-a-onde/lezioni.md`.
