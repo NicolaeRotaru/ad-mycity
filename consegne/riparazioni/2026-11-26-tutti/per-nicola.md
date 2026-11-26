@@ -55,6 +55,8 @@ Che ogni domanda sia ancora attuale sul codice di oggi.
 - Dal collaudo K05: con la migrazione nuova 970 (R16-009) chi ha fatto una domanda può toglierla anche dopo che il negozio ha risposto. Va bene così?
 - Dal collaudo K05, su R13-010: la pagina «lavora con noi» porta ancora il cliente già registrato all'iscrizione da fattorino, che per lui è una strada senza uscita
 
+- R15-010 · quanto dura la prenotazione del fattorino pagata con la carta, e cosa si fa alla scadenza (le domande esatte, anche sul tetto morbido di R15-013, sono nel referto di R15)
+
 ### Prove comuni che chiedono la tua firma (la correzione è pronta, tolta dal ramo)
 
 Una prova comune è un controllo che protegge più riparazioni insieme. Cambiarla chiede la tua firma, quindi la correzione è stata tolta e aspetta te.
@@ -67,6 +69,8 @@ Una prova comune è un controllo che protegge più riparazioni insieme. Cambiarl
 - R14-011 · la prova comune del tetto sulle letture dell'utente: la modifica esatta è nel referto di R14
 
 - R16-003 · due prove comuni da cambiare: la modifica esatta è nel referto di R16
+
+- R15-001, R15-003, R15-009 · prove comuni da cambiare (la cura di R15-009 è nel commit 6484d56a, toglierla le rompe 3): modifiche esatte nel referto di R15
 
 ### Domande (campo domanda_per_nicola del registro)
 
