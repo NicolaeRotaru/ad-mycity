@@ -31,6 +31,26 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
+### 🟡 #266 — Guarda il ricontrollo del sito e unisci la richiesta, se ti va bene · ⏳ accodata 2026-11-26 15:30 · @ad
+
+**Stato:** ⏳ in attesa di Nicola, senza fretta
+
+**In parole semplici.** Oggi quattro sessioni hanno riletto 272 difetti aperti del sito: 45 su 272 non ci sono più. Le voci aperte passano da 598 a 553.
+Per esempio: l'avviso per un ordine non accettato ora parte dopo 5 minuti, non dopo un'ora, e la voce si chiude.
+
+**Cosa cambia per te.** Il registro dei difetti del sito dice il vero su 272 voci in più. È costato 64,73 $, contro 77,04 $ del preventivo.
+
+**Cosa devi fare tu.** Primo: guardare e unire la richiesta ad-mycity#1030. Secondo, solo se vuoi: dirmi se nascondere nel registro i titoli delle 9 falle trovate fra le voci aperte. Io non l'ho fatto, perché sono pubblici da settimane e la riparazione deve vederli. Terzo: firmare la riscrittura del passo della guida che accende lo sforzo massimo delle sessioni, che oggi non funziona più.
+
+**Cosa non ho verificato.** I 40 minori chiusi vengono dalla lettura del codice, senza un secondo agente. Diciassette voci non si potevano verificare da qui, perché serve il sito vero.
+
+Cosa cambia: il registro del sito scende a 553 voci aperte, con 62 gravi e 5 bloccanti.
+Se va bene: la riparazione in corso lavora su una lista più corta e più vera.
+
+- **Colore:** 🟡
+- **Reparto:** ad
+- **Dettagli tecnici:** referto `consegne/audit/2026-11-26-radiografia.md`, quaderno `consegne/radiografia/2026-11-26-ricontrollo/REGIA.md`, ramo `ccr-aa566c13-nvkbaw`.
+
 ### 🔴 #265 — Apri Google Cloud e DataForSEO per il rapporto dell'imprenditore, e di' se accetti il rischio sulle recensioni · ⏳ accodata 2026-11-26 14:55 · @builder-automazioni
 
 **Stato:** ⏳ in attesa di Nicola (corretta alle 14:58 col parere legale)

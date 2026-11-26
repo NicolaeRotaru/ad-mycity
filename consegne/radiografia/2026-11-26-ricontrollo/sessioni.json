@@ -1,0 +1,9 @@
+{
+  "regista": "session_015BmpnXAVwPhPT7aWRMXdMi",
+  "sessioni": {
+    "S01":  {"id": "session_015BmpnVNGoriu5diWMBBDLd", "ramo": "ccr-aa566c13-nvkbaw-s01",  "onda": 1, "partenza": "9a2d3cd95ebf6bd69fe418364736a396b52ecd65", "aperta": "2026-11-26 13:41"},
+    "S01b": {"id": "session_015BmpnVxGxJTUcTNxoEsHMu", "ramo": "ccr-aa566c13-nvkbaw-s01b", "onda": 1, "partenza": "9a2d3cd95ebf6bd69fe418364736a396b52ecd65", "aperta": "2026-11-26 13:42"},
+    "S01c": {"id": "session_015BmpnZHa9mJ1d6spbktxTD", "ramo": "ccr-aa566c13-nvkbaw-s01c", "onda": 1, "partenza": "9a2d3cd95ebf6bd69fe418364736a396b52ecd65", "aperta": "2026-11-26 13:42"},
+    "S01d": {"id": "session_015BmpnX4tM7Bfg2mHYX1n38", "ramo": "ccr-aa566c13-nvkbaw-s01d", "onda": 1, "partenza": "9a2d3cd95ebf6bd69fe418364736a396b52ecd65", "aperta": "2026-11-26 13:42"}
+  }
+}

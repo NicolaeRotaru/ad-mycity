@@ -1352,6 +1352,11 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Prova vera (25/11 23:05):** su Ora del Gusto la ricerca ha scritto 1 pagina da leggere e n8n ne ha lette 2. La scheda le ha scartate come possibile omonimo, giustamente.
 - Referti: `consegne/riparazioni/2026-11-25-leggi-pagine/collaudo-3-sicurezza.md` e `collaudo-4-pulizia.md`.
 
+## 2026-11-26 14:28 · Le impaginazioni per post e reel nel deposito 🟡
+- **Cosa:** salvate in `creativi/impaginazioni/` le pagine e il comando che fanno post, storia e reel senza Canva né CapCut. I tre file della prova di Pane Quotidiano sono in `creativi/pane-quotidiano/2026-11-26-prova/`. Nessuna pubblicazione.
+- **Perché:** Nicola in chat alle 14:19, «Ok salva», dopo aver visto la prova.
+- **Prima di quell'ok:** la sessione dei consensi (`…kJb6FY`) lo chiedeva a nome suo due volte. Non l'ho fatto: la sua delega sta solo nella PR #1033, scritta da lei e non unita. Ho chiesto la conferma a Nicola.
+- **Prova:** `crea.sh` lanciato dal deposito rifà i tre file identici byte per byte a quelli consegnati.
 ## 2026-11-26 14:05 — La scheda del venditore e il preventivo nascono dalla foto (🟡, decisione di Nicola)
 - **Chi e quando:** Nicola, in chat all'AD (`session_01R8112NFY3AU2rJekrQw41G`), 26/11 verso le 13:35. Parole sue: «faccio la foto al negozio … in automatico deve crearsi la scheda del cliente e fare tutte le analisi … questa scheda serve al venditore per avere un'idea chiara di quello che ha, non ha, di potenziale … nel preventivo ci deve essere già un piano editoriale, una bozza del sito seguendo gli standard, i punti deboli, forti». E: «prova già a farmela adesso».
 - **Cosa:** fatto nuovo `agenzia.scheda-da-foto`. La sessione che riceve la foto fa la ricerca e scrive un `dati.json`; `cervello/scheda-cliente.mjs` lo controlla e scrive `scheda.html` (interna), `preventivo.html` e `bozza-sito.html`. Quattro controlli: niente dati senza fonte, niente prezzi nella bozza del sito, canoni uguali al registro (`sdg.abbonamenti`), piano editoriale uguale alla promessa della fascia. Un quinto, trovato riguardando il codice con la lente della sicurezza: i dati presi dal web non possono mettere link `javascript:` o codice nelle pagine. Skill `scheda-da-foto`, aggiunta anche in `.gitignore`.
@@ -1380,6 +1385,11 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa è stato fatto:** avviso urgente alle due sessioni alle 15:15; piano e carta #265 corretti.
 - **Cosa resta a Nicola:** dire se accetta il rischio di DataForSEO; far rileggere il parere a un legale abilitato.
 
+## 2026-11-26 15:25 — Il primo ricontrollo a onde del sito, lanciato senza consensi (🟡)
+- **Cosa:** Nicola alle 13:38: «Parti con la nuova strategia di radiografia», e niente richieste di consenso salvo all'estremo. Il freno dei conti (novembre 0,18) ferma le ricerche nuove, quindi solo il profilo `ricontrollo`: 4 sessioni, 272 voci, 45 chiuse, aperte del sito da 598 a 553, 64,73 $ contro 77,04 $ attesi.
+- **Scelte dell'AD al posto delle fermate:** regia nella sessione dell'AD (un'onda sola, sotto 100 $); tetto 100 $; sessioni senza ultracode perché il prompt «/effort» oggi non passa; il confronto di riservatezza fatto da ogni sessione sulle proprie falle, perché il controllo dei permessi blocca l'invio dei dettagli fra sessioni; tolte dai referti 13 righe di copertura che puntavano ai file delle falle (restano nella storia del ramo, nomi già nel registro pubblico); i titoli delle 9 falle NON nascosti nel registro (pubblici da settimane, servono alla riparazione in corso).
+- **Perché:** il ricontrollo è la chiusura più economica e non apre voci; le altre scelte sono reversibili e Nicola non voleva fermate.
+- **Cosa resta a Nicola:** unire la ad-mycity#1030; dire se vuole i titoli delle falle nascosti; firmare la riscrittura del passo F1 della skill `radiografia-sessioni` su ultracode.
 ## 2026-11-26 15:20 — Tropico Latino: i contenuti di dicembre pubblicati già oggi, anche sulla seconda coppia; i post vecchi tolti da Facebook prima della regola «non si elimina mai» (🔴 pubblicazione, firma di Nicola in chat)
 - **Chi e quando:** Nicola, in chat all'AD (sessione «Tropico Latino content publishing»), 26/11 verso le 13:30: pubblicare oggi una storia, il reel e due post del pacchetto di ieri; togliere i post vecchi e ripubblicarne uno, per arrivare a tre post. Verso le 14:20: pubblicare gli stessi contenuti anche sulle due pagine della scheda Clienti (seconda coppia). Alle 14:35: riempire le pagine del Tropico per 3 giorni (26-28/11), anche partendo dall'analisi dei concorrenti, da aggiungere fra i servizi. Alle 15:05: «ti do il via», con le storie anche animate o video, non solo immagini.
 - **Fatto:** spostate a oggi 4 righe già approvate (reel R1 alle 14:15, margarita alle 14:35, carosello del bancone alle 14:55, storia «Prenota il tuo tavolo» alle 15:15) e aggiunta la riga dei nachos ripubblicati (15:35), con il fisso al posto del WhatsApp 339 e l'orario giusto del giovedì. Alle 15:12 reel, margarita e carosello erano usciti su tutte e quattro le pagine.
@@ -1440,6 +1450,13 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa non è stato fatto, e perché:** la 863 è ferma perché il suo testo contraddice il pagamento in contanti. La ripubblicazione del 12 e del 26 è stata bloccata dal controllo dei permessi della sessione dei flussi, e la sessione non l'ha aggirata.
 - **La lezione:** una migrazione che toglie un permesso porta con sé la prova che lo controlla. Senza, la CI diventa rossa.
 
+## 2026-11-26 21:20 — Il collaudo dell'onda 3 parte, l'account di prova resta spento (🔴 firmato da Nicola)
+- **Chi e quando:** Nicola, alle 21:05 circa, nella chat del resoconto delle sessioni (`session_015BmpnWupeVireM1DyLQB3e`).
+- **Cosa ha deciso:** «Sì, fai il collaudo della terza ondata». La PR del sito con le onde 1-3 si apre quando finisce la terza onda. L'ordine delle PR del sito va bene. «Cerca l'account amministratore di prova e eliminalo tu».
+- **Cosa è stato fatto:** il sì è stato girato alla quinta regia alle 21:15, con tre istruzioni: salvare la correzione di R20, niente push forzato su R26, le tre falle riservate all'AD della campagna. Avvisata anche la chat «Strategia risoluzione difetti». Sull'account `admin@piacenza-demo.local` ci sono state tre letture sul database vero, in sola lettura. È già bloccato fino al 2999, ha il ruolo buyer, la password è diversa da quella del seme, non ha sessioni né token. Nessuno dei 12 account del database usa le due password scritte nei semi. L'unico amministratore è un account di Nicola.
+- **Cosa non è stato fatto, e perché:** la cancellazione. Per la regola base, «elimina» si legge «archivia», e l'account era già spento. Cancellarlo da `auth.users` non si potrebbe annullare, e porterebbe via anche il suo profilo. Il push forzato su R26 non è autorizzato e non serve.
+- **La lezione:** una voce «urgente» per Nicola va ricontrollata sui dati prima di passargliela. Quella dell'account di prova era chiusa da settimane, e la lista la dava ancora per aperta.
+
 ## 2026-11-26 22:31 — La pagina del link d'invito non crea più account: si attiva un account MyCity confermato (🟡, nel ramo)
 - **Chi e quando:** l'AD, dopo il terzo collaudo indipendente della funzione «agenti» (22:15).
 - **Cosa è stato deciso:** chi riceve il link crea l'account con la registrazione normale di MyCity, che conferma l'email, ha il controllo anti-bot e mette a verbale le condizioni. Poi torna al link e preme «Attiva». Prima la pagina del link creava l'account con l'email «già confermata».
@@ -1447,4 +1464,10 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa cambia per Nicola:** l'agente fa due passi invece di uno. Il vincolo resta: si diventa agente solo dal link di Admin.
 - **Dove:** mycity#340, commit d8f3cd3. Corretti anche il posto del link che poteva valere per due persone, il consenso, i messaggi della pagina e l'accesso durante una cancellazione fermata a metà.
 - **La lezione:** un account creato «già confermato» da un modulo pubblico è un'impersonazione aperta, anche dietro un link segreto: chi ha il link non per questo possiede l'email che scrive.
+
+## 2026-11-27 00:27 — La migrazione 865 degli agenti è nel database vero (🔴, firma di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD, 27/11 verso le 00:01: «Ok migration», dopo la domanda «Hai fatto tutte le migrazioni?».
+- **Cosa è stato fatto:** «Migrazioni a mano» con APPLICA, 1 e 865 (esecuzione 45908473965), dalle 00:02 alle 00:18, verde: conteggio, riconteggio, scrittura, seconda passata e controlli finali. Controllo in sola lettura dell'AD: le tabelle `inviti_agente` e `agenti` esistono con RLS attiva, né i visitatori né gli utenti collegati le leggono, `agenti` cade insieme all'account, e le due funzioni del link non si eseguono dal browser.
+- **Prima del via:** il controllo che confronta il codice col database vero era verde alle 18:17. Mancava solo la 865.
+- **Cosa resta:** la variabile `N8N_SCHEDA_SEGRETO` su Vercel (non c'è ancora) e il primo link in Admin → Agenti, tutte e due di Nicola.
 
