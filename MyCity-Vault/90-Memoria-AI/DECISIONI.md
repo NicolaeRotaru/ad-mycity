@@ -1407,3 +1407,8 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Chi e quando:** Nicola, in chat all'AD, verso le 16:05: «ok fasce».
 - **Cosa ha deciso:** la proposta dell'AD è approvata così com'è. Base: il rapporto all'avvio senza ricerche su Google, senza concorrenti sui social e senza aggiornamenti. Business: in più le ricerche e i 3 concorrenti principali, ogni mese. Premium: tutto ogni settimana, fino a 5 concorrenti, e un incontro al mese.
 - **Cosa è stato fatto:** detto alla sessione del sito alle 16:07, e scritto nel piano, nel registro e nella bacheca.
+## 2026-11-26 17:40 — La proposta parte dal solo link Google Maps (🟡, chiesto da Nicola)
+- **Chi e quando:** Nicola, in chat all'AD, verso le 17:00: «noi ti mandiamo solamente il link Google dell'attività … in meno di un minuto, e darci già la presentazione». Primo link: Coffee & More Delicious, Via Francesco Saverio Bianchi 29.
+- **Cosa è stato fatto:** nuovo programma `cervello/da-link-maps.mjs`. Legge la scheda Google in circa 1 secondo, perché google.com risponde da questo ambiente (provato alle 17:05). Con `--lampo` scrive `dati.json` e lancia `scheda-cliente.mjs`. 5 prove nuove in `cervello/test/da-link-maps.test.mjs`, tutte verdi. La prova sui nomi dei recensori diventa rossa se il programma li legge. Aggiornati la skill `scheda-da-foto`, `COMANDI.md` e `MANUALE-AD.md`.
+- **Perché 🟡:** è una modifica della macchina. Vale con la firma di Nicola sulla PR.
+- **La proposta di Coffee & More Delicious:** consigliato il Base. Non ha un sito (Google rimanda a Facebook), e la scheda Google è vuota e non rivendicata: per la tabella firmata, nessun sito vuol dire Base. Pagine private, niente è partito verso il cliente.
