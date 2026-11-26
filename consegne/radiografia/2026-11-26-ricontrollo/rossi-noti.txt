@@ -5,3 +5,4 @@ ramo S01d ccr-aa566c13-nvkbaw-s01d
 finita S01d
 finita S01b
 finita S01
+ferma S01c 294cebf

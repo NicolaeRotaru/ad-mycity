@@ -50,3 +50,6 @@ radiografia: consegne/radiografia/2026-11-26-ricontrollo
   scrivo io con `applica`, lei dopo. Fatto: risposto alle 13:56.
 - 13:53 · S01b finita: 120 minori, 14 chiusi, 79 veri, 18 cambiati, 9 non verificabili, 3 falle (dettagli in chat
   S01b), 10,79 $. S01c a 105/120: 2 falle (pagamenti, permessi). Nota di S01c: `SendMessage` fra subagenti non ha guardia.
+- 14:04 · S01 finita (29 gravi: 5 chiusi verificati, 8 cambiati, 12 veri, 4 non verificabili, 4 falle; circa 6,99 $).
+  S01c «ferma»: scollegata dalle 13:51, aspettava L01 (7 gruppi su 8 fatti, esiti solo nel suo scratchpad, 12,05 $).
+  Svegliata con send_message: prima salva il parziale, poi rifà L01.
