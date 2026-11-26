@@ -9,26 +9,29 @@ confidenza: media-bassa sui social dei concorrenti (non visibili da qui), media 
 
 # El Tropico Latino: concorrenti e cosa pubblicare il 26, 27 e 28 novembre
 
+> **In due righe.** Questo dossier serve a decidere cosa pubblicare sulle pagine del Tropico nei prossimi tre giorni.
+> A Piacenza non ho trovato altri ristoranti messicani; i social dei concorrenti però non si sono potuti aprire.
+
 ## In parole semplici
 Ho cercato i concorrenti del Tropico a Piacenza e i migliori ristoranti latini d'Italia sui social. Il risultato più utile è questo: **a Piacenza non ho trovato nessun altro ristorante messicano o tex-mex confermato**. L'unico concorrente "etnico" a cena è la Taberna Movida (spagnola). Per l'aperitivo ci sono bar e cocktail bar classici. Quindi il Tropico non deve inseguire nessuno: deve farsi vedere, perché oggi è l'unico che può dire "messicano a Piacenza".
 
 Un limite grosso, detto subito: **non sono riuscito a vedere i profili Instagram, Facebook e TikTok di nessuno**. Il mio strumento per aprire le pagine web non raggiunge quei siti. Quindi frequenza dei post, reel e post più riusciti dei concorrenti sono **«non visibile»**. Le idee in fondo si basano sul menu, sulle foto e sui buchi di mercato, non sui numeri dei loro social.
 
 ## Cosa cambia per te
-Puoi riempire le pagine in 3 giorni con 12 contenuti pronti oggi (gruppo A) e 7 che chiedono riprese nuove (gruppo B). Nessuno è copiato da un concorrente: sono costruiti sui punti in cui il Tropico è l'unico a poter parlare.
+Puoi riempire le pagine in 3 giorni con 12 contenuti pronti oggi, il gruppo A. Altri 7 chiedono riprese nuove: sono il gruppo B. Nessuno è copiato da un concorrente: sono costruiti sui punti in cui il Tropico è l'unico a poter parlare.
 
 ## Cosa devi fare
-1. Dare l'ok al gruppo A (12 idee): sono tutte fattibili con le 13 foto, il menu 2025 e le grafiche. Ordine di uscita suggerito nella sezione 5.
-2. Decidere se girare qualcosa del gruppo B. Le due riprese che valgono di più: **fajitas che arrivano al tavolo** e **la sala piena nel weekend** (con consenso scritto se si vedono clienti).
-3. Mandarmi, se puoi, i link dei profili social del Tropico e di 2-3 concorrenti. Con quelli faccio il confronto vero sui numeri.
-4. Confermare se il pappagallo ha un nome: l'idea A8 funziona meglio se c'è.
+- Dare l'ok al gruppo A: sono 12 idee, tutte fattibili con le 13 foto, il menu 2025 e le grafiche. L'ordine di uscita suggerito sta nella sezione 5.
+- Decidere se girare qualcosa del gruppo B. Le due riprese che valgono di più sono la B1 e la B7, descritte nella sezione 5. Se si vedono clienti, serve il loro consenso scritto.
+- Mandarmi, se puoi, i link dei profili social del Tropico e di 2 o 3 concorrenti. Con quelli faccio il confronto vero sui numeri.
+- Confermare se il pappagallo ha un nome: l'idea A8 funziona meglio se c'è.
 
 ## Cosa non ho verificato
 - **Tutti i social**: Instagram, Facebook e TikTok non erano raggiungibili. Frequenza, reel, storie, post migliori = «non visibile» per ogni concorrente.
 - **Voti e recensioni Google**: nessuno visibile per i locali di Piacenza. L'unico numero trovato riguarda Agua Sancta (Milano), da un sito terzo.
 - Il sito del Tropico (eltropicolatino.it) non si apre da qui: gli orari e il menu sono quelli che mi hai dato e quelli della scheda in BACHECA.
 - Non ho trovato i profili social del Tropico stesso.
-- Ho fatto circa 14 ricerche e 8 aperture di pagina, quasi tutte fallite. Ogni giudizio su "chi è più forte" è una mia valutazione dalle schede, non una misura. Fiducia: **media sul fatto che non c'è un messicano concorrente a Piacenza** (ho cercato 5 volte con parole diverse e esce sempre solo il Tropico), **bassa su tutto ciò che riguarda i social**.
+- Ho fatto circa 14 ricerche e 8 aperture di pagina, quasi tutte fallite. Ogni giudizio su "chi è più forte" è una mia valutazione dalle schede, non una misura. La fiducia è **media** sul fatto che a Piacenza non ci sia un altro messicano: ho cercato 5 volte con parole diverse ed esce sempre solo il Tropico. La fiducia è **bassa** su tutto ciò che riguarda i social.
 
 ---
 
@@ -68,13 +71,13 @@ Anche qui: non ho visto i post, quindi per ognuno riporto **ciò che le fonti pu
 Il quarto account che avevo in mente non l'ho verificato: lo scarto. Meglio tre veri che quattro dubbi.
 
 ## 4. I buchi che il Tropico può prendersi
-Fondati su: nessun concorrente messicano trovato (sezione 1), nessun profilo social visibile (quindi nessuna prova che gli altri li coprano; l'ipotesi va verificata aprendo i profili).
+Su cosa si fondano: nella sezione 1 non c'è nessun concorrente messicano. Nessun profilo social era visibile, quindi non c'è prova che gli altri coprano questi temi. L'ipotesi va verificata aprendo i profili.
 
 1. **L'unico messicano di Piacenza, dal 1992.** Nessun altro locale in elenco può dirlo: 34 anni di storia (1992-2026). Confidenza 70%.
 2. **Il cocktail messicano come mestiere**: margarita (9,00 / caraffa 32,00), frozen, paloma, pestati, Negroni mexicano 8,50. I bar del centro vendono Spritz; il Tropico ha una carta di una trentina di cocktail. Confidenza 65%.
-3. **Gruppi, compleanni e tavolate**: due sale e oltre 100 posti, con caraffe e fajitas per 2 (31-34 euro) e Parrilla per 2 o più (36,00). Nei locali elencati non ho trovato nulla di simile, ma sono dati di scheda: confidenza 50%.
+3. **Gruppi, compleanni e tavolate**: due sale e oltre 100 posti, con le caraffe, le fajitas per 2 da 31 a 34 euro e la Parrilla per 2 o più a 36,00. Nei locali elencati non ho trovato nulla di simile, ma sono dati di scheda: confidenza 50%.
 
-Altri spazi liberi: cucina aperta fino alle 23:30 venerdì e sabato; il fuoco della griglia; il piccante come gioco (simboli (p) e (pp) del menu).
+Altri spazi liberi: la serata lunga del weekend, il fuoco della griglia e il piccante come gioco.
 
 ## 5. Idee di contenuto per 26, 27 e 28 novembre
 Esclusi i già usciti oggi: reel «Una sera al Tropico», margarita classico, carosello bancone, storia «Prenota il tuo tavolo», nachos. Prezzi solo dal menu 2025. Telefono: 0523 335932.
@@ -93,7 +96,7 @@ Esclusi i già usciti oggi: reel «Una sera al Tropico», margarita classico, ca
 | A9 | Grafica (foto cucina) | Cucina aperta fino alle 23:30 | «Venerdì e sabato. Da martedì a giovedì e domenica 19:00-23:00.» | Buco: serata lunga. Risponde a «dove si mangia tardi?» |
 | A10 | Reel (foto cucina, griglia, tortillas) | Dalla cucina alla griglia | Montaggio rapido delle foto, in coda: Parrilla per 2 o più 36,00. | Buco: il fuoco; tutto con materiale esistente |
 | A11 | Grafica (foto margarita, sangria) | Caraffe per la tavolata | Margarita 32,00, sangria 23,00, pestati 30,00. «Compleanni e gruppi: due sale.» | Buco 3. Angolo diverso dal margarita classico già uscito |
-| A12 | Storia quiz (grafica) | Quanto sei piccante? | I simboli del menu: (p) piccante, (pp) molto piccante. Chiede «Fuego o nachos Guanajuato?» (entrambi (pp)). | Interazione, gioco con un tratto vero del menu |
+| A12 | Storia quiz (grafica) | Quanto sei piccante? | I simboli del menu: una p vuol dire piccante, due p molto piccante. La domanda è «Fuego o nachos Guanajuato?»: sono tutti e due molto piccanti. | Interazione, gioco con un tratto vero del menu |
 
 Ordine suggerito sui 3 giorni: giovedì 26 (sera) A3, A7, A12; venerdì 27 A4, A9, A1, A8; sabato 28 A6, A5, A11, A10, A2.
 

@@ -8,7 +8,8 @@ stato: 5 su 5 usciti su tutte e quattro le pagine (controllo delle 15:52)
 
 # Tropico Latino · i contenuti di dicembre pubblicati già oggi, anche sulle pagine storiche
 
-> **In due righe.** Nicola ha chiesto di pubblicare oggi una parte dei contenuti fatti ieri e di togliere i post vecchi.
+> **In due righe.** Questo resoconto dice cosa è uscito oggi sulle pagine social del Tropico Latino, il ristorante cliente dell'agenzia.
+> Nicola ha chiesto di pubblicare oggi una parte dei contenuti fatti ieri e di togliere i post vecchi.
 > Sono usciti tutti e cinque (reel, margarita, carosello, storia e nachos), su tutte e quattro le pagine del Tropico.
 
 ## In parole semplici
@@ -19,9 +20,9 @@ Verso le 14:20 Nicola ha chiesto di pubblicare gli stessi contenuti anche sulle 
 Esempio: il reel «Una sera al Tropico» è uscito alle 14:16 su tropico.latino92 e su Facebook «Tropico Latino», poi alle 14:25 su eltropicolatino e su Facebook «El Tropico Latino».
 
 ## Cosa cambia per te
-- Le pagine del Tropico hanno 5 contenuti nuovi oggi, su tutte e quattro: 20 pubblicazioni, nessun errore.
+- Le pagine del Tropico hanno 5 contenuti nuovi oggi, su tutte e quattro. Sono 20 pubblicazioni su 20 riuscite, nessun errore.
 - La seconda coppia (eltropicolatino ed El Tropico Latino) resta accesa: tutto quello che esce sulla prima coppia esce anche lì. Nicola alle 14:35 ha chiesto di riempire le pagine per 3 giorni.
-- I quattro contenuti spostati a oggi lasciano vuote le loro date di dicembre: 3/12 (reel), 4/12 (storia), 6/12 (margarita), 11/12 (carosello).
+- I quattro contenuti spostati a oggi lasciano vuote le loro date di dicembre. Sono il reel del 3/12, la storia del 4/12, il margarita del 6/12 e il carosello dell'11/12.
 - Dalle 15:00 vale la regola di Nicola: sui social non si elimina mai niente, si archivia o si nasconde. Lo strumento dell'AD non sa più cancellare.
 
 ## Cosa devi fare
@@ -30,9 +31,9 @@ Esempio: il reel «Una sera al Tropico» è uscito alle 14:16 su tropico.latino9
 
 ## Cosa non ho verificato
 - **I due post Facebook cancellati alle 13:47-13:48, prima della regola delle 15:00, non li ho recuperati.** Con l'API non c'è un cestino da leggere. Si può guardare in Meta Business Suite, nella sezione dei contenuti, alla voce «Cestino». Foto e testi sono salvi, su Drive e nel Calendario.
-- **Su Instagram la cancellazione era stata rifiutata** («(#10) Insufficient permissions»): quei due post sono ancora lì.
+- **Su Instagram la cancellazione era stata rifiutata** per permessi insufficienti. Quei due post sono ancora lì.
 - **La musica del reel** e l'aspetto dei contenuti sulle pagine non li ho visti né sentiti: ho controllato che ogni pagina restituisse il link.
-- **Ho cambiato due cose nel testo dei nachos ripubblicati.** Ho tolto «stasera fino alle 23:30», che di giovedì non è vero, e ho messo il fisso al posto del WhatsApp 339.
+- **Ho cambiato due cose nel testo dei nachos ripubblicati.** Ho tolto «stasera fino alle 23:30», che di giovedì non è vero. Ho messo il fisso al posto del WhatsApp 339.
 
 ---
 
