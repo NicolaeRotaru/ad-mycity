@@ -1,0 +1,60 @@
+{
+ "collaudatore": "K01",
+ "riparatori": [
+  "R11"
+ ],
+ "aggiornato": "2026-11-26 14:44",
+ "finita": false,
+ "voci": [
+  {
+   "id": "R11-001",
+   "chiave": "frontend-ux|nella pagina di una lista il prezzo dei prodotti non tiene conto della promozione",
+   "verdetto": "regge",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R11-001 --base e43006ff9af07ccbebed97db7dc61fa27ab87b4f^ --file \"app/lists/[id]/page.tsx\" --prove tests/unit/riparazione-r11-lista-prezzo-scontato.test.ts --json"
+   }
+  },
+  {
+   "id": "R11-009",
+   "chiave": "qa-flussi|eliminata una lista, la pagina «le mie liste» la mostra ancora finché la rilettura non torna",
+   "verdetto": "regge",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R11-009 --base b9704fea60602d02c410203a4463270839f2c102^ --file \"app/lists/[id]/page.tsx\" --prove tests/unit/riparazione-r11-lista-eliminata-sparisce-da-le-mie.test.ts --json"
+   }
+  },
+  {
+   "id": "R11-007",
+   "chiave": "frontend-ux|le collezioni scelte a mano non passano il prezzo barrato del negozio",
+   "verdetto": "regge",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R11-007 --base 205790afc59ad8e1addf0a0b88a5c8fbbde84068^ --file components/store-sections/CollectionSection.tsx --prove tests/unit/riparazione-r11-collezione-prezzo-barrato.test.ts --json"
+   }
+  },
+  {
+   "id": "R11-002",
+   "chiave": "frontend-ux|l immagine di anteprima social del prodotto e i dati per i motori di ricerca mostrano il prezzo pieno durante una promozione",
+   "verdetto": "regge",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R11-002 --base f18d2819c23d9d90d6098d5a3e07d61d92476e87^ --file \"app/product/[id]/layout.tsx,app/product/[id]/opengraph-image.tsx\" --prove tests/unit/riparazione-r11-anteprima-e-google-col-prezzo-scontato.test.ts --json"
+   }
+  },
+  {
+   "id": "R11-008",
+   "chiave": "frontend-ux|orari passati alla cassa e 409 della rotta contanti: le prove cercano parole nel sorgente, non fanno girare pagina e rotta",
+   "verdetto": "regge",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R11-008 --base d7d6920aba6417d266572e18421ec2da63a5da65 --file app/api/orders/cod/route.ts --prove tests/unit/riparazione-r11-rotta-contanti-409-prima-dell-insert.test.ts --json"
+   }
+  }
+ ]
+}
