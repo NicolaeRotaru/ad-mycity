@@ -189,6 +189,7 @@ details > .dentro { padding: 0 1rem 1rem; }
   <section class="sezione" aria-labelledby="h-mese">
     <header><p class="occhiello">Il mese, giorno per giorno</p><h2 id="h-mese"></h2>
       <p class="nota lettura">Scegli la fascia e tocca un giorno: sotto il calendario trovi ogni contenuto per intero. Il bordo pieno su un contenuto vuol dire che arriva con quella fascia; senza bordo, viene dalla fascia sotto. Ogni contenuto dice il suo strato: è quello che la prova misura.</p></header>
+    <ul class="nota lettura" id="condizioni"></ul>
     <div class="scelta" role="tablist" aria-label="Fascia" id="scelta"></div>
     <div class="conti-fascia" id="conti"></div>
     <div class="legenda" id="legenda"></div>
@@ -205,7 +206,7 @@ details > .dentro { padding: 0 1rem 1rem; }
 
   <section class="sezione" aria-labelledby="h-mestieri">
     <header><p class="occhiello">Chi ci lavora</p><h2 id="h-mestieri">I mestieri di un'agenzia, fascia per fascia</h2>
-      <p class="nota lettura">Accanto a ogni mestiere c'è chi lo fa: i senior della macchina e, per foto e video, le persone di scattiDG. Il lavoro ripetitivo lo fa la macchina; le persone fanno riprese, visite e relazioni.</p></header>
+      <p class="nota lettura">Accanto a ogni mestiere c'è chi lo fa: quasi sempre un senior della macchina, cioè un agente di intelligenza artificiale; per foto e video le persone di scattiDG; Nicola per visite, relazioni e l'ultima parola. Al cliente lo diciamo così, chiaro: i mestieri sono compiti coperti, non persone assunte.</p></header>
     <div class="mestieri" id="mestieri"></div>
   </section>
 
@@ -218,7 +219,7 @@ details > .dentro { padding: 0 1rem 1rem; }
   </section>
 
   <section class="sezione" aria-labelledby="h-senior">
-    <header><p class="occhiello">Il parere dei senior</p><h2 id="h-senior">Quindici mestieri hanno guardato questo piano</h2></header>
+    <header><p class="occhiello">Il parere dei senior</p><h2 id="h-senior">I senior che hanno guardato questo piano</h2></header>
     <div class="senior" id="senior"></div>
   </section>
 
@@ -317,6 +318,8 @@ const DATI = /*__DATI__*/null;
     lista($('prova-passi'), P.prova.passi); lista($('prova-domande'), P.prova.domande);
   }
 
+  lista($('condizioni'), piano.condizioni_generali);
+
   // Il mese
   $('h-mese').textContent = `${piano.nome}, ${nomeMese}`;
   let scelta = consigliata || 'business';
@@ -341,6 +344,7 @@ const DATI = /*__DATI__*/null;
       v.esiste ? `<span class="bollino pronto">Già nel Calendario</span>` : '',
       v.rubrica ? `<span class="bollino">Rubrica del giorno</span>` : '',
       v.condizione ? `<span class="bollino se">Solo se: ${esc(v.condizione)}</span>` : '',
+      v.riserva ? `<span class="bollino">Ha una riserva</span>` : '',
     ].join('');
     const righe = [
       v.piattaforme && v.piattaforme.length ? ['Dove', v.piattaforme.map((p) => PIATT[p] || p).join(', ')] : null,
@@ -349,6 +353,7 @@ const DATI = /*__DATI__*/null;
       v.materiale && v.materiale !== '—' ? ['Materiale', v.materiale] : null,
       v.quante ? ['Quante', `${v.quante} foto`] : null,
       v.rubrica ? null : ['Strato', modello.fasce[v.fascia] ? modello.fasce[v.fascia].nome : v.fascia],
+      v.riserva ? ['Se il titolare dice no', v.riserva] : null,
       v.esiste ? ['Riga', v.esiste] : null,
     ].filter((r) => r && r[1]);
     return `<article class="voce">
@@ -408,7 +413,7 @@ const DATI = /*__DATI__*/null;
   $('pilastri').innerHTML = piano.pilastri.map((p) => `<div class="pilastro"><div><b>${esc(p.nome)}</b> <span class="nota num">${p.peso}%</span><div class="barra"><i style="width:${Number(p.peso) * 3}%"></i></div></div><p class="nota">${esc(p.cosa)}</p></div>`).join('');
 
   // Senior
-  $('h-senior').textContent = `${(P.senior || []).length} mestieri hanno guardato questo piano`;
+  $('h-senior').textContent = `${(P.senior || []).length} senior della macchina hanno guardato questo piano`;
   $('senior').innerHTML = (P.senior || []).map((s) => `<article><b>${esc(s.chi)}</b><small>${esc(s.agente)}</small><p>${esc(s.dice)}</p></article>`).join('');
 
   // Conti

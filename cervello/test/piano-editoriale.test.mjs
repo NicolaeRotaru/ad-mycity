@@ -89,6 +89,13 @@ prova('⑨ due contenuti social alla stessa ora dello stesso giorno non passano'
   assert.ok(errori(p, 'business').some((e) => e.includes('stessa ora')));
 });
 
+prova('⑩ un contenuto del feed che aspetta un sì del titolare senza riserva non passa', () => {
+  const p = vero();
+  delete p.contenuti.find((c) => c.id === 'p05').riserva;
+  assert.ok(errori(p, 'premium').some((e) => e.includes('riserva')));
+  assert.deepEqual(errori(p, 'business'), [], 'p05 è del Premium: il Business non cambia');
+});
+
 const rossi = casi.filter((c) => !c.ok);
 for (const c of casi) console.log(`${c.ok ? 'ok ' : 'NO '} ${c.nome}${c.ok ? '' : `\n     ${c.e.message}`}`);
 console.log(`\n${casi.length - rossi.length}/${casi.length} casi verdi`);

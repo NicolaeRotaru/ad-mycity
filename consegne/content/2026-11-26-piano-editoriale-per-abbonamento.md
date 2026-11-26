@@ -20,7 +20,7 @@ Il Tropico gira sul Premium, senza pagare, come prova. Ogni contenuto porta lo s
 
 ## Cosa cambia per te
 - Le fasce promettono più di oggi. Il preventivo sul sito diceva 8, 12 e 20 post: le quantità nuove sono nella pagina, voce per voce.
-- Il Premium si presenta come «tutti i mestieri di un'agenzia completa»: 25 mestieri al lavoro sul locale. Il Base ne ha 8, il Business 16.
+- Il Premium si presenta come «tutti i mestieri di un'agenzia completa»: 24 compiti coperti; il Base ne ha 8, il Business 16. Al cliente diciamo chiaro che il lavoro ripetitivo lo fa l'intelligenza artificiale, e le persone fanno riprese, visite e relazioni.
 - Il resoconto al cliente parla di chiamate, indicazioni, messaggi e prenotazioni, mai di like. Per contare le prenotazioni, ogni canale avrà il suo link WhatsApp con una frase diversa.
 - Per un cliente nuovo si scrive il suo piano del mese in un file. Il programma controlla che i numeri siano quelli promessi, che i prezzi siano nel menu e che niente esca nel giorno di chiusura.
 
@@ -36,8 +36,10 @@ Il Tropico gira sul Premium, senza pagare, come prova. Ogni contenuto porta lo s
 - Le date 2026 del mercatino di Piazza Cavalli: le fonti parlano dell'edizione precedente.
 - Il costo di scattiDG. Il 30% di materie prime nei conti è una media del settore, non il dato del Tropico.
 - Nessuna riga è entrata nel Calendario: il programma le prepara con lo stato «idea», ma non le scrive.
+- La prova sul Tropico non separa gli strati, perché escono tutti sugli stessi profili: misura i singoli pezzi, e un mese su un locale dà indicazioni, non certezze.
+- Il Premium oggi è fatto per metà a mano: Google, TikTok, YouTube, recensioni e pubblicità. Stimo 15 ore di Nicola il primo mese.
 
-La pagina con tutto, calendario giorno per giorno compreso: vedi i dettagli tecnici qui sotto.
+La pagina con tutto, calendario giorno per giorno compreso (privata): https://claude.ai/artifact/NMSupGMXxv6qWHjy7wVCCm
 
 ---
 
@@ -58,15 +60,16 @@ La pagina con tutto, calendario giorno per giorno compreso: vedi i dettagli tecn
 | Creator | 0 | 1 a trimestre | 2 |
 | Pubblicità | 0 | 1 spinta | 2 campagne gestite |
 | Giornali / aziende vicine | 0 / 0 | 0 / 0 | 1 a trimestre / 1 |
-| Sito / altre schede | 0 / 0 | 1 / 1 | 2 / 2 |
-| Mestieri al lavoro | 8 | 16 | 25 |
+| Lavori sul sito nel mese / altre schede | 0 / 0 (il sito di una pagina c'è) | 1 / 1 | 2 / 2 |
+| Mestieri coperti | 8 | 16 | 24 |
 
 ### I file
 - Il modello delle fasce, unica casa delle quantità: `cervello/modelli/piano-editoriale-fasce.json`.
 - Il piano del Tropico: `consegne/clienti/tropico-latino/piano-editoriale-2026-12.json` (65 voci; 9 già nel Calendario; nel Premium 24 aspettano un sì del titolare).
 - La pagina: `consegne/clienti/tropico-latino/piano-editoriale-2026-12.html`, fatta dal modello riusabile `cervello/modelli/piano-editoriale-pagina.html`.
 - Il programma: `node cervello/piano-editoriale.mjs --piano <piano> [--righe base|business|premium] [--pagina <modello> <uscita>]`.
-- La prova: `node cervello/test/piano-editoriale.test.mjs` (9 casi; rossa se si toglie il controllo delle parole vietate, provato).
+- La prova: `node cervello/test/piano-editoriale.test.mjs` (10 casi; rossa se si toglie il controllo delle parole vietate, provato).
+- Il revisore indipendente (direttore creativo) ha trovato 20 difetti, corretti tutti: nomi e prezzi su foto non confermate, il Base senza sito, «consulente legale» fra i mestieri venduti, l'intelligenza artificiale non dichiarata, contenuti condizionati senza riserva (ora è un controllo del programma), caraffe per i gruppi, «Feliz Navidad» fuori tono, 35 dicembri e non 34, margine a 45,50 €.
 
 ### Cosa cambia nel sito dopo la firma (non fatto)
 Le quantità vivono oggi in tre posti: `lib/agenzia/preventivo.ts` (FASCE) nel repo mycity, `cervello/scheda-cliente.mjs` (FASCE) e il fatto `sdg.abbonamenti`. Dopo la firma si allineano tutti e tre al modello, nello stesso lavoro.

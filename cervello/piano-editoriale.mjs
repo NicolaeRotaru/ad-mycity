@@ -72,7 +72,7 @@ export function espandi(piano, modello, fascia) {
       const g = new Date(`${data}T12:00:00Z`).getUTCDay();
       const base = rub.date_speciali?.[data] ?? rub.giorni?.[String(g)];
       if (!base) continue; // il conto delle storie se ne accorge
-      voci.push({ id: `r-${data.slice(5)}`, fascia, data, ora: '20:00', tipo: 'storia', materiale: 'foto o clip della sera', cta: 'Link WhatsApp', rubrica: true, ...base, piattaforme: ['instagram', 'facebook'] });
+      voci.push({ id: `r-${data.slice(5)}`, fascia, data, ora: '20:00', tipo: 'storia', materiale: 'foto o clip della ripresa del mese', cta: 'Link per il tavolo', rubrica: true, ...base, piattaforme: ['instagram', 'facebook'] });
     }
   }
   return voci.sort((a, b) => `${a.data} ${a.ora}`.localeCompare(`${b.data} ${b.ora}`));
@@ -140,6 +140,8 @@ export function controlla(piano, modello, fascia) {
     if (!c.data?.startsWith(piano.mese)) errori.push(`${dove}: la data ${c.data} è fuori da ${piano.mese}`);
     if (c.tipo !== 'lavoro' && !(piano.pilastri ?? []).some((p) => p.id === c.pilastro)) errori.push(`${dove}: pilastro «${c.pilastro}» che il piano non ha`);
     const testo = normale(`${c.titolo} ${c.idea} ${c.cta ?? ''}`);
+    // Un contenuto del feed che aspetta un sì del titolare ha una riserva: il numero promesso regge anche se dice no.
+    if (FEED.has(c.tipo) && c.condizione && !c.riserva) errori.push(`${dove}: dipende da «${c.condizione}» e non ha un contenuto di riserva`);
     if (chiusoIl.has(c.data)) {
       if (!OK_A_LOCALE_CHIUSO.has(c.tipo)) errori.push(`${dove}: ${c.tipo} il ${c.data}, giorno di chiusura`);
       else if (/\bstasera\b/.test(testo)) errori.push(`${dove}: dice «stasera» il ${c.data}, giorno di chiusura`);

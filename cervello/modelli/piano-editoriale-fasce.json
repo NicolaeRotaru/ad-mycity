@@ -11,7 +11,8 @@
     "Il piano del mese mandato in un messaggio solo: si approva in blocco, non contenuto per contenuto.",
     "Niente esce senza il sì: il titolare (o Nicola per lui) approva l'anteprima.",
     "Ogni canale ha il suo link WhatsApp con una frase diversa, così si contano le prenotazioni che arrivano da lì.",
-    "Il resoconto in linguaggio di cassa: chiamate, richieste di indicazioni, messaggi, prenotazioni. Mai like o follower."
+    "Il resoconto in linguaggio di cassa: chiamate, richieste di indicazioni, messaggi, prenotazioni. Mai like o follower.",
+    "Detto chiaro al cliente: il lavoro ripetitivo lo fa l'intelligenza artificiale; le persone, Nicola e scattiDG, fanno riprese, visite, relazioni e l'ultima parola."
   ],
   "fasce": {
     "base": {
@@ -46,12 +47,14 @@
       "reel_anche_su": [],
       "servizi": {
         "contenuti": "8 contenuti al mese su Instagram e Facebook, 2 a settimana: post, caroselli e 2 reel montati dalle foto. 4 storie.",
-        "google": "Scheda Google sistemata all'avvio (categoria, orari, menu, foto). Poi un post Google a settimana e 4 foto nuove al mese.",
+        "google": "Scheda Google sistemata all'avvio (categoria, orari, menu, foto, link per prenotare). Poi un post Google a settimana e 4 foto nuove al mese.",
         "recensioni": "Ti avvisiamo appena arriva una recensione negativa, con la risposta pronta da copiare.",
         "messaggi": "Il link per prenotare su WhatsApp è in ogni contenuto. I messaggi li leggi tu.",
         "foto_video": "Una sessione di foto all'avvio: copertina e piatti principali.",
+        "sito": "Un sito di una pagina col tuo nome, collegato alla vetrina. Se il tuo sito di oggi vale di più, lo teniamo e lo colleghiamo.",
+        "vetrina": "Vetrina su MyCity con ordini, consegna e ritiro in negozio.",
         "analisi": "Il rapporto completo all'avvio, più l'avviso quando esce un bando che ti riguarda.",
-        "resoconto": "Ogni mese: chiamate e indicazioni da Google, messaggi WhatsApp arrivati dai social.",
+        "resoconto": "Ogni mese: chiamate e indicazioni da Google, se ci dai l'accesso da gestore alla scheda, e i messaggi WhatsApp arrivati dai social.",
         "approvazione": "Il piano del mese in un messaggio: lo approvi in blocco.",
         "assistenza": "Su WhatsApp, risposta entro 24 ore lavorative."
       },
@@ -105,14 +108,15 @@
       "servizi": {
         "contenuti": "12 contenuti al mese, 3 a settimana: 4 sono reel, 2 girati nel locale. 12 storie. Ogni reel esce anche su TikTok.",
         "google": "Due post Google a settimana e 8 foto nuove al mese. Schede di TripAdvisor e TheFork tenute uguali a Google.",
-        "recensioni": "Rispondiamo a tutte le recensioni Google entro 48 ore, nel tuo tono.",
-        "messaggi": "Commenti risposti ogni giorno. I messaggi privati li smistiamo: chi vuole prenotare va su WhatsApp.",
+        "recensioni": "Rispondiamo a tutte le recensioni Google entro 48 ore, nel tuo tono, e mettiamo sul tavolo il biglietto col QR per chiederne di nuove, senza regali in cambio.",
+        "messaggi": "Commenti risposti ogni giorno. I messaggi privati li smistiamo: chi vuole prenotare va su WhatsApp. Se risponde un assistente automatico, lo diciamo.",
         "whatsapp": "Catalogo del locale su WhatsApp Business e un messaggio al mese alla tua lista, solo con un motivo vero.",
         "mossa": "Una mossa nuova al mese, pensata con te: un'offerta, un menu per i gruppi, una serata. La prepariamo, la lanciamo, la contiamo.",
-        "creator": "Un creator di Piacenza a trimestre, invitato a cena, con la collaborazione dichiarata.",
+        "creator": "Un creator di Piacenza a trimestre, invitato a cena, con la collaborazione dichiarata come pubblicità.",
         "pubblicita": "Un contenuto spinto al mese verso chi abita vicino. Il budget lo paghi tu a Meta, lo decidi tu.",
         "foto_video": "Foto all'avvio e ogni tre mesi, più una ripresa video al mese.",
         "sito": "Un sito di più pagine, con una pagina aggiornata ogni mese.",
+        "vetrina": "Vetrina su MyCity, in evidenza nella tua categoria una settimana al mese.",
         "analisi": "Ogni mese: cosa è cambiato, i tuoi 3 concorrenti principali, cosa fare il mese dopo.",
         "resoconto": "Ogni mese, in euro e prenotazioni: da dove sono arrivate, quanto ha reso la mossa del mese.",
         "approvazione": "Il piano della settimana in un messaggio.",
@@ -173,18 +177,19 @@
       ],
       "servizi": {
         "contenuti": "20 contenuti al mese, 5 a settimana: 8 reel, almeno 4 girati nel locale. Una storia ogni sera di apertura. Ogni reel esce anche su TikTok e YouTube Shorts, e prima si prova su chi non ti segue.",
-        "google": "Tre post Google a settimana, 15 foto nuove al mese, la scheda uguale anche su Apple Maps e Bing.",
+        "google": "Tre post Google a settimana, 15 foto nuove al mese, gli eventi sulla scheda e su Facebook, la scheda uguale anche su Apple Maps, Bing e sulle piattaforme d'asporto dove il locale c'è.",
         "recensioni": "Tutte le recensioni, su Google, TripAdvisor, TheFork e Facebook, risposte entro 24 ore. Il biglietto col QR sul tavolo per chiederne di nuove, senza regali in cambio.",
-        "messaggi": "Commenti e messaggi privati risposti ogni giorno, entro la sera.",
+        "messaggi": "Commenti e messaggi privati risposti ogni giorno, entro la sera. Se risponde un assistente automatico, lo diciamo.",
         "whatsapp": "Due messaggi al mese alla tua lista e la lista che cresce dal QR sul tavolo. La lista è tua.",
         "email": "Una lettera al mese ai tuoi clienti iscritti.",
         "mossa": "La mossa del mese, più un evento nel locale ideato, organizzato con te e raccontato prima, durante e dopo.",
-        "creator": "Due creator di Piacenza al mese, scelti per il tuo pubblico.",
+        "creator": "Due creator di Piacenza al mese, scelti per il tuo pubblico, con la collaborazione dichiarata come pubblicità.",
         "pubblicita": "Campagne su Meta e su Google gestite ogni settimana, con il costo di ogni prenotazione. Il budget lo paghi tu alle piattaforme.",
         "stampa": "Una storia per i giornali di Piacenza a trimestre, scritta e mandata da noi dopo il tuo sì.",
         "aziende": "Le aziende vicine contattate per cene aziendali e gruppi, con la lettera pronta.",
         "foto_video": "Una sessione di foto e video ogni mese.",
         "sito": "Il sito aggiornato ogni mese, con pagine nuove per farsi trovare su Google.",
+        "vetrina": "Vetrina su MyCity, in home page due settimane al mese.",
         "analisi": "Ogni settimana, con i 5 concorrenti principali; un incontro al mese per leggerla insieme; ogni tre mesi la strategia rifatta.",
         "resoconto": "Ogni lunedì in poche righe; ogni mese completo, in euro: prenotazioni, costo di ogni prenotazione, clienti nella lista.",
         "approvazione": "Il piano della settimana in un messaggio, più le urgenze del giorno.",
@@ -198,7 +203,6 @@
         "sviluppo commerciale con le aziende",
         "relazioni col territorio",
         "referente dedicato",
-        "consulente legale",
         "analista settimanale"
       ]
     }
@@ -210,7 +214,7 @@
     "montatore video": "ai-video, officina /video/reel, montatore",
     "specialista Google": "seo",
     "analista": "analista, intelligence",
-    "controllo qualità": "direttore-creativo, qa-designer",
+    "controllo qualità": "direttore-creativo, qa-designer; regole, consensi e pubblicità li controlla legale-privacy, come controllo interno: non è consulenza legale al cliente",
     "fotografo (all'avvio)": "scattiDG (persona)",
     "videomaker": "scattiDG (persona)",
     "community manager": "content-social (risposte_automatiche)",
@@ -227,7 +231,6 @@
     "sviluppo commerciale con le aziende": "vendite",
     "relazioni col territorio": "relazioni-istituzionali",
     "referente dedicato": "customer-success + Nicola",
-    "consulente legale": "legale-privacy",
     "analista settimanale": "bi-lead, analista"
   },
   "orari_ristorante_sera": {
@@ -247,7 +250,11 @@
     "Recensioni mai comprate, mai scambiate con sconti o regali.",
     "WhatsApp ed email solo a chi si è iscritto, e solo con un motivo vero. La lista è del locale.",
     "Musica dei reel solo originale o con licenza per uso commerciale.",
-    "Mai superlativi che non possiamo provare («il migliore», «l'unico»)."
+    "Mai superlativi che non possiamo provare («il migliore», «l'unico»).",
+    "Al cliente si dice sempre che gran parte del lavoro lo fa l'intelligenza artificiale, e quale parte fanno le persone. I mestieri sono compiti coperti, non persone assunte.",
+    "Le risposte automatiche a commenti e messaggi dicono che risponde un assistente automatico (AI Act, articolo 50).",
+    "Le liste WhatsApp ed email raccolte per il locale hanno l'informativa privacy e un accordo scritto fra il titolare e chi le gestisce per lui (GDPR, articolo 28).",
+    "Un contenuto promesso che dipende da un sì del titolare ha sempre un contenuto di riserva: il numero promesso regge anche se dice no."
   ],
   "mani": [
     {
@@ -274,6 +281,11 @@
       "cosa": "Post e foto sulla scheda Google",
       "oggi": "a mano",
       "come": "Da costruire col pezzo Google Business Profile di n8n: serve l'accesso alle API di Google per ogni scheda."
+    },
+    {
+      "cosa": "Numeri della scheda Google (chiamate, indicazioni, visite)",
+      "oggi": "a mano",
+      "come": "Si leggono dal pannello di Google solo se il titolare ci aggiunge come gestori della scheda; da costruire la lettura automatica."
     },
     {
       "cosa": "Risposte alle recensioni Google",

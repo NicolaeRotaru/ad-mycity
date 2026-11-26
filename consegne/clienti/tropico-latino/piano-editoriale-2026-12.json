@@ -65,7 +65,7 @@
     {
       "id": "P4",
       "nome": "Il posto e la storia",
-      "cosa": "Dal 1992 in via Mazzini, il palazzo del Settecento, le due sale, il bancone, il pappagallo.",
+      "cosa": "Aperto nel 1992; oggi in via Mazzini 77/A, in un palazzo del Settecento. Le due sale, il bancone, il pappagallo.",
       "peso": 10
     },
     {
@@ -96,9 +96,9 @@
       "tipo": "carosello",
       "pilastro": "P3",
       "titolo": "La tavolata di dicembre",
-      "idea": "Quattro slide: «Due sale, più di 100 posti» · «Fajitas per due, da 31 a 34 €» · «Le caraffe: margarita 32 €, sangria 23 €» · «Scrivici su WhatsApp o chiama lo 0523 335932».",
+      "idea": "Quattro slide: «Due sale, più di 100 posti» sulla foto della sala · «Piatti da dividere: fajitas per due da 31 a 34 €» in una slide di sola grafica, perché una foto delle fajitas ancora non c'è · «Nachos e quesadillas al centro del tavolo, nachos tipicos 9 €» · «Chiama lo 0523 335932 o scrivici su WhatsApp».",
       "cta": "Chiedi il tavolo su WhatsApp",
-      "materiale": "foto del fotografo (_MG_0431, _MG_0286, _MG_0330)"
+      "materiale": "foto del fotografo (_MG_0286 sala, _MG_0444) e una slide di grafica coi colori del Tropico"
     },
     {
       "id": "b02",
@@ -158,7 +158,7 @@
       "tipo": "post",
       "pilastro": "P1",
       "titolo": "Il burrito, rifatto",
-      "idea": "Il post del burrito era stato rifiutato: si rifà appena sappiamo il perché. Proposta: il Burrito de chile, 13 €, con la scritta «piccante».",
+      "idea": "Il post del burrito era stato rifiutato: si rifà appena sappiamo il perché. Nel menu ci sono sei burrito, da 11 a 13 €; il nome di quello in foto lo scriviamo solo se ce lo conferma il titolare.",
       "cta": "Prenota",
       "materiale": "foto del fotografo (_MG_0449)",
       "esiste": "tropico-latino-20261217-1830 (rifiutato, da rifare)"
@@ -171,7 +171,7 @@
       "tipo": "post",
       "pilastro": "P1",
       "titolo": "La griglia",
-      "idea": "La griglia, con la Parrilla per 2 o più a 36 €.",
+      "idea": "La griglia: carne alla brace dalla cucina del Tropico. Il nome e il prezzo del piatto in foto li scriviamo quando ce li conferma il titolare.",
       "cta": "Prenota",
       "materiale": "foto del fotografo (_MG_0431)",
       "esiste": "tropico-latino-20261222-1830 (in attesa)"
@@ -184,10 +184,11 @@
       "tipo": "post",
       "pilastro": "P4",
       "titolo": "Auguri dal 1992",
-      "idea": "La sala prima del servizio, il bancone, la parete gialla. «Trentaquattro dicembri in via Mazzini. Grazie a chi c'era.» Sotto, gli orari di fine anno.",
+      "idea": "La sala prima del servizio, il bancone, la parete gialla. «Dal 1992. Grazie a chi c'era.» Sotto, gli orari di fine anno.",
       "cta": "Gli orari di fine anno",
       "materiale": "foto del fotografo (_MG_0286)",
-      "condizione": "orari di fine anno da confermare col titolare"
+      "condizione": "orari di fine anno da confermare col titolare",
+      "riserva": "Lo stesso post senza gli orari, se il titolare non li conferma in tempo."
     },
     {
       "id": "b09",
@@ -251,7 +252,7 @@
       "titolo": "Cene di gruppo a dicembre",
       "idea": "Novità sulla scheda Google: due sale, fajitas per due, le caraffe. Per gruppi e cene aziendali, scrivici su WhatsApp.",
       "cta": "Pulsante «Chiama»",
-      "materiale": "foto del fotografo (_MG_0431)"
+      "materiale": "foto del fotografo (_MG_0286 sala)"
     },
     {
       "id": "b14",
@@ -298,7 +299,7 @@
       "tipo": "google_foto",
       "pilastro": "P1",
       "titolo": "4 foto nuove su Google",
-      "idea": "Piatto misto, griglia, bancone, margarita: le foto del fotografo, ognuna col nome del piatto.",
+      "idea": "Piatto misto, griglia, bancone, margarita: le foto del fotografo, col nome del piatto solo dove il titolare l'ha confermato.",
       "quante": 4,
       "materiale": "foto del fotografo"
     },
@@ -349,7 +350,8 @@
       "idea": "La squadra in una foto presa alla ripresa del mese. I nomi li scriviamo se ce li danno.",
       "cta": "Prenota",
       "materiale": "riprese del mese",
-      "condizione": "consenso scritto delle persone in foto"
+      "condizione": "consenso scritto delle persone in foto",
+      "riserva": "Un post del bancone senza persone, dalla ripresa del mese."
     },
     {
       "id": "s05",
@@ -384,7 +386,7 @@
       "tipo": "storia",
       "pilastro": "P3",
       "titolo": "Il tavolo del sabato",
-      "idea": "«Sabato sera il tavolo si chiede su WhatsApp, così non aspetti.»",
+      "idea": "«Sabato sera il tavolo si chiede prima: chiama lo 0523 335932 o scrivici.»",
       "cta": "Link WhatsApp",
       "materiale": "foto del fotografo"
     },
@@ -532,7 +534,7 @@
       "tipo": "mossa",
       "pilastro": "P3",
       "titolo": "La tavolata di dicembre",
-      "idea": "Proposta al titolare: un menu fisso per gruppi da 8 persone in su, coi piatti del menu (nachos, fajitas, un dolce) e una caraffa ogni quattro. Il prezzo lo decide lui. Se dice sì: pagina sul sito, post, Google e un messaggio WhatsApp con la parola «TAVOLATA», per contare chi arriva da lì.",
+      "idea": "Proposta al titolare: un menu fisso per gruppi da 8 persone in su, coi piatti del menu (nachos, fajitas, un dolce) e una bevanda a testa, anche senza alcol. Il prezzo lo decide lui. Se dice sì: pagina sul sito, post, Google e un messaggio WhatsApp con la parola «TAVOLATA», per contare chi arriva da lì.",
       "cta": "Scrivi TAVOLATA su WhatsApp",
       "materiale": "grafica",
       "condizione": "il titolare dice sì al menu per i gruppi (proposta entro il 28/11)"
@@ -545,7 +547,7 @@
       "tipo": "creator",
       "pilastro": "P1",
       "titolo": "Un creator food di Piacenza a cena",
-      "idea": "Invito a cena in cambio di un reel sincero, segnalato come collaborazione. Si sceglie chi parla a Piacenza, non chi ha più follower. Il messaggio lo scriviamo noi, lo manda Nicola.",
+      "idea": "Invito a cena in cambio di un reel sincero, dichiarato come pubblicità (etichetta «partnership pagata» o #adv). Si sceglie chi parla a Piacenza, non chi ha più follower. Il messaggio lo scriviamo noi, lo manda Nicola.",
       "cta": "—",
       "materiale": "riprese del creator",
       "condizione": "il titolare accetta l'ospite"
@@ -642,10 +644,9 @@
       "tipo": "carosello",
       "pilastro": "P5",
       "titolo": "Las Posadas, nove sere prima di Natale",
-      "idea": "Cosa sono, perché la piñata ha sette punte, cosa si beve: il ponche, caldo, di frutta. Ultima slide: «Sabato 19 la sera delle Posadas al Tropico.»",
-      "cta": "Chiedi il tavolo per sabato 19",
-      "materiale": "grafica",
-      "condizione": "il titolare dice sì alla sera delle Posadas"
+      "idea": "Cosa sono, perché la piñata ha sette punte, cosa si beve: il ponche, caldo, di frutta. L'ultima slide, «Sabato 19 la sera delle Posadas al Tropico», esce solo se il titolare dice sì; altrimenti il carosello chiude con «Buone feste dal Tropico».",
+      "cta": "Salva e condividi",
+      "materiale": "grafica"
     },
     {
       "id": "p05",
@@ -658,7 +659,8 @@
       "idea": "Il racconto della serata in venti secondi, girato col telefono durante l'evento. Volti solo con consenso.",
       "cta": "Seguici per la prossima",
       "materiale": "riprese col telefono all'evento",
-      "condizione": "l'evento si è fatto"
+      "condizione": "l'evento si è fatto",
+      "riserva": "Se l'evento non si fa: un reel dalla ripresa del mese, «La sala si prepara per Natale»."
     },
     {
       "id": "p06",
@@ -667,7 +669,7 @@
       "ora": "12:00",
       "tipo": "post",
       "pilastro": "P4",
-      "titolo": "Feliz Navidad dal Tropico",
+      "titolo": "Buon Natale dal Tropico",
       "idea": "Una grafica di auguri sulla foto del bancone, coi colori del locale.",
       "cta": "—",
       "materiale": "foto del fotografo"
@@ -683,7 +685,8 @@
       "idea": "Il titolare racconta in trenta secondi come è nato il locale.",
       "cta": "Prenota",
       "materiale": "riprese del mese",
-      "condizione": "il sì e il consenso scritto del titolare"
+      "condizione": "il sì e il consenso scritto del titolare",
+      "riserva": "Se il titolare non vuole comparire: un reel dalla ripresa del mese, «Via Mazzini 77/A, di sera»."
     },
     {
       "id": "p08",
@@ -793,7 +796,7 @@
       "tipo": "evento",
       "pilastro": "P5",
       "titolo": "La sera delle Posadas",
-      "idea": "Proposta al titolare: una sera di Natale messicano per i tavoli prenotati, con la piñata per i gruppi, il ponche caldo anche senza alcol, la musica. Programma e prezzi li decide lui. Noi facciamo grafiche, post, Google, WhatsApp, email, giornali, creator e il racconto della serata.",
+      "idea": "Proposta al titolare: una sera di Natale messicano per i tavoli prenotati, con la piñata per i gruppi, il ponche caldo anche senza alcol, la musica. Programma e prezzi li decide lui. Noi facciamo grafiche, post, l'evento su Facebook e su Google, WhatsApp, email, giornali, creator e il racconto della serata.",
       "cta": "Chiedi il tavolo per sabato 19",
       "materiale": "grafica e riprese col telefono",
       "condizione": "il titolare dice sì"
@@ -806,7 +809,7 @@
       "tipo": "creator",
       "pilastro": "P3",
       "titolo": "Un creator di serate e vita in città",
-      "idea": "Invitato alla sera delle Posadas, con la collaborazione dichiarata.",
+      "idea": "Invitato alla sera delle Posadas, con la collaborazione dichiarata come pubblicità.",
       "cta": "—",
       "materiale": "riprese del creator",
       "condizione": "evento confermato e ospite accettato dal titolare"
@@ -832,7 +835,7 @@
       "tipo": "stampa",
       "pilastro": "P4",
       "titolo": "Una storia per i giornali di Piacenza",
-      "idea": "«Il Natale messicano in via Mazzini, dal 1992»: le Posadas raccontate da chi le porta a Piacenza. Il testo lo scriviamo noi; lo manda Nicola ai giornali locali dopo il sì del titolare.",
+      "idea": "«Un locale di Piacenza aperto nel 1992 racconta il Natale messicano»: la sera delle Posadas, se il titolare la fa. Il testo lo scriviamo noi; lo manda Nicola ai giornali locali dopo il sì del titolare.",
       "cta": "—",
       "materiale": "testo e foto",
       "condizione": "evento confermato"
@@ -899,11 +902,11 @@
     }
   ],
   "rubriche_storie": {
-    "spiegazione": "Nel Premium c'è una storia ogni sera di apertura. Dove il piano non ne ha già una, la storia segue la rubrica del giorno.",
+    "spiegazione": "Nel Premium c'è una storia ogni sera di apertura. Dove il piano non ne ha già una, la storia segue la rubrica del giorno, col materiale della ripresa del mese: al titolare non chiediamo niente. Se ci manda una clip della sera, meglio.",
     "giorni": {
       "2": {
         "titolo": "La cucina di stasera",
-        "idea": "Una clip o una foto del piatto della sera, col link WhatsApp per il tavolo.",
+        "idea": "Un piatto dalla ripresa del mese, col link per il tavolo.",
         "pilastro": "P1"
       },
       "3": {
@@ -918,12 +921,12 @@
       },
       "5": {
         "titolo": "Fino a tardi",
-        "idea": "La sala alle dieci di sera, la cucina aperta fino alle 23:30.",
+        "idea": "La sala di sera, da una foto della ripresa del mese, e la cucina aperta fino alle 23:30.",
         "pilastro": "P7"
       },
       "6": {
         "titolo": "Sabato al Tropico",
-        "idea": "Una clip della sala e del bancone, senza volti riconoscibili.",
+        "idea": "Una clip della sala e del bancone dalla ripresa del mese, senza volti riconoscibili.",
         "pilastro": "P3"
       },
       "0": {
@@ -976,7 +979,7 @@
     {
       "quando": "22 febbraio",
       "cosa": "Giornata del margarita, nata negli Stati Uniti e molto seguita sui social",
-      "tipo": "Messico"
+      "tipo": "nata negli Stati Uniti, seguita sui social"
     },
     {
       "quando": "8 marzo",
@@ -1016,7 +1019,7 @@
     {
       "quando": "24 luglio",
       "cosa": "Giornata della tequila, nata negli Stati Uniti",
-      "tipo": "Messico"
+      "tipo": "nata negli Stati Uniti, seguita sui social"
     },
     {
       "quando": "15 agosto",
@@ -1054,7 +1057,7 @@
     "cosa_cambia": [
       "Il Tropico riceve tutto il Premium a dicembre: 20 contenuti, 26 storie, 12 post su Google e le azioni fuori dai social. È la vetrina viva per i prossimi clienti.",
       "Le tre fasce promettono più di oggi: il preventivo diceva 8, 12 e 20 post. Le quantità nuove sono qui sotto, voce per voce, e la prova le correggerà a gennaio.",
-      "Il Premium si presenta come «tutti i mestieri di un'agenzia completa»: 25 mestieri al lavoro sul locale. È la tua «agenzia di 50 marketer», detta in un modo che possiamo provare."
+      "Il Premium si presenta come «tutti i mestieri di un'agenzia completa»: 24 compiti coperti. Al cliente si dice chiaro che il lavoro ripetitivo lo fa l'intelligenza artificiale, e che le persone, Nicola e scattiDG, fanno riprese, visite e relazioni."
     ],
     "cosa_devi_fare": [
       "Dimmi chi paga le spese vere del Premium sul Tropico: il budget della pubblicità (circa 150 € a dicembre) e i costi della sera delle Posadas. Il canone no: quello è gratis.",
@@ -1115,7 +1118,7 @@
       {
         "chi": "Giornali",
         "agente": "pr-stampa",
-        "dice": "Il giornale locale non pubblica un'offerta, pubblica una storia. «Le Posadas portate a Piacenza da un locale aperto nel 1992» è una storia."
+        "dice": "Il giornale locale non pubblica un'offerta, pubblica una storia. «Un locale aperto nel 1992 porta a Piacenza le Posadas» è una storia, se la serata si fa."
       },
       {
         "chi": "Dati",
@@ -1130,12 +1133,12 @@
       {
         "chi": "Legale",
         "agente": "legale-privacy",
-        "dice": "Consenso scritto per i volti, collaborazioni dichiarate, alcol raccontato con misura, liste solo con consenso, niente «unico» o «il migliore» finché non è provato. E la promessa del Premium si scrive «tutti i mestieri di un'agenzia completa», non «50 persone», che sarebbe pubblicità ingannevole."
+        "dice": "Consenso scritto per i volti, collaborazioni dichiarate come pubblicità, alcol raccontato con misura, liste con informativa e accordo scritto col titolare, assistente automatico dichiarato. Niente «unico» o «il migliore». E la promessa del Premium dice che lavora l'intelligenza artificiale: «25 persone» o «50 marketer» sarebbe pubblicità ingannevole."
       },
       {
         "chi": "Organizzazione",
         "agente": "chief-of-staff",
-        "dice": "Il collo di bottiglia è l'approvazione: nel Premium escono più di 100 cose al mese e non si approvano una per una. Si approva la settimana in un messaggio, e i clienti Premium hanno un tetto finché Google e WhatsApp non vanno da soli."
+        "dice": "Il collo di bottiglia è il lavoro a mano: oggi Google, TikTok, YouTube, recensioni e pubblicità si fanno a mano, e WhatsApp ed email vanno costruiti. Il Premium del Tropico chiede circa 15 ore di Nicola il primo mese; per questo i clienti Premium hanno un tetto finché quelle mani non vanno da sole."
       },
       {
         "chi": "Prodotto",
@@ -1145,7 +1148,7 @@
     ],
     "conti": {
       "cena_per_due": "Fajitas tropico 32 € + due margarita 18 € + due dolci 12 € + coperto 3 € = 65 €, dal menu 2025.",
-      "margine": "Tolto circa il 30% di materie prime (media del settore, da confermare col titolare), a una cena per due restano circa 45 €.",
+      "margine": "Tolto circa il 30% di materie prime (media del settore, da confermare col titolare), a una cena per due restano 45,50 €. Il personale e l'affitto non li togliamo perché ci sono comunque: una cena in più, in una sera con tavoli liberi, usa la stessa squadra.",
       "righe": [
         {
           "fascia": "Base",
@@ -1162,12 +1165,12 @@
         {
           "fascia": "Premium",
           "canone": "999 €",
-          "serve": "22 cene per due, meno di una a sera; oppure una cena aziendale da 20 persone e 12 cene per due",
+          "serve": "22 cene per due, meno di una a sera; oppure una cena aziendale da 20 persone a menu pieno (32,50 € a testa) e 12 cene per due",
           "primo_mese": "499,50 €: 11 cene per due"
         }
       ],
       "nostro_lato": [
-        "Tempo di Nicola per cliente al mese, stima mia da misurare sui primi clienti: Base circa 1 ora, Business circa 3 ore, Premium circa 8 ore (visita, evento, giornali, aziende, pubblicità).",
+        "Tempo di Nicola per cliente al mese, stima mia da misurare: Base circa 1 ora, Business circa 3-4 ore, Premium circa 15 ore il primo mese, perché oggi Google, TikTok, YouTube, recensioni e pubblicità si fanno a mano.",
         "Il costo delle sessioni di scattiDG non lo conosco: senza quello il margine vero di ogni fascia resta da fare.",
         "WhatsApp alla lista costa pochi centesimi a messaggio; il budget della pubblicità lo paga il titolare alle piattaforme, fuori dal canone.",
         "Consiglio un tetto di 5 clienti Premium finché Google, WhatsApp e l'approvazione del titolare non vanno da soli."
@@ -1181,8 +1184,9 @@
       "A Capodanno fate qualcosa di speciale?",
       "Qual è il numero WhatsApp giusto per prenotare: 331 217 3684 o 339 532 7569?",
       "Come si chiamano il piatto misto e la griglia delle foto del fotografo?",
-      "Chi della squadra accetta di comparire nei video, col consenso scritto? E il titolare racconterebbe il 1992 in trenta secondi?",
-      "In che mese avete aperto nel 1992? Avete già una lista di clienti che hanno chiesto di ricevere notizie?"
+      "Chi della squadra accetta di comparire nei video, col consenso scritto? E il titolare racconterebbe in trenta secondi come è nato il locale?",
+      "In che mese avete aperto nel 1992? Avete già una lista di clienti che hanno chiesto di ricevere notizie?",
+      "Ci aggiungete come gestori della scheda Google? Senza, non possiamo leggere chiamate e indicazioni."
     ],
     "decisioni": [
       "Chi paga sul Tropico il budget della pubblicità e i costi dell'evento, visto che il canone è gratis.",
@@ -1197,16 +1201,17 @@
       "Le date 2026 del mercatino di Piazza Cavalli: le fonti trovate parlano dell'edizione precedente.",
       "Il costo di scattiDG, e quindi il margine vero di ogni fascia. Il 30% di materie prime è una media del settore, non il dato del Tropico.",
       "Nessuna riga è entrata nel Calendario: il programma le prepara con lo stato «idea», ma non le scrive nel foglio.",
-      "Le tempistiche di Google (un post a settimana come base) vengono da guide di settore, non da numeri ufficiali di Google."
+      "Le tempistiche di Google (un post a settimana come base) vengono da guide di settore, non da numeri ufficiali di Google.",
+      "La prova sul Tropico non separa gli strati: escono tutti sugli stessi profili. Misura i singoli pezzi, e su un mese e un locale dà indicazioni, non certezze."
     ],
     "prova": {
       "titolo": "Il Tropico è la prova: così distinguiamo le tre fasce",
-      "intro": "Il Tropico riceve tutto il Premium, ma ogni contenuto sa da quale strato viene. Così a fine dicembre non diciamo «il Premium funziona»: diciamo quale pezzo ha portato clienti, quanto è costato, e in quale fascia deve stare.",
+      "intro": "Il Tropico riceve tutto il Premium, ma ogni contenuto sa da quale strato viene. A fine dicembre guardiamo pezzo per pezzo cosa ha portato e quanto è costato, raggruppato per strato. Non è un esperimento separato: i tre strati escono insieme sugli stessi profili e si aiutano fra loro, e un mese su un locale solo dà indicazioni, non certezze.",
       "passi": [
         "Ogni riga del Calendario porta nelle note lo strato da cui viene: base, business o premium.",
         "Per ogni contenuto si annota il costo: il tempo di Nicola, la ripresa di scattiDG, la spesa vera.",
-        "Per ogni contenuto si annota cosa ha portato: i messaggi WhatsApp con la frase di quel canale nelle 48 ore dopo, le chiamate e le indicazioni da Google nella settimana, le prenotazioni che il titolare ci racconta.",
-        "Lunedì 4 gennaio, a locale chiuso, la pagella per strato: per ogni strato quanto è costato e cosa ha portato.",
+        "Per ogni contenuto si annota cosa ha portato: i messaggi WhatsApp con la frase di quel canale nelle 48 ore dopo (le storie hanno una frase loro, perché sono l'aggiunta più grossa del Premium), le chiamate e le indicazioni da Google nella settimana se il titolare ci dà l'accesso alla scheda, le prenotazioni che il titolare ci racconta.",
+        "Lunedì 4 gennaio, a locale chiuso, la pagella: per ogni strato quanto è costato in tutto e quanti contatti hanno portato i suoi pezzi.",
         "Poi si sposta: un pezzo del Premium che porta tanto e costa poco scende nel Business, e il Business diventa davvero «pazzesco». Un pezzo del Business che costa tanto e porta poco sale nel Premium o si toglie. Il Base tiene solo quello che fa trovare il locale e lo fa sembrare vivo.",
         "Il modello passa alla versione 1.1 con le quantità corrette: è quella che si vende da gennaio."
       ],
@@ -1217,5 +1222,9 @@
         "Quanto tempo di Nicola chiede davvero il Premium: le 8 ore che stimo, o di più?"
       ]
     }
-  }
+  },
+  "condizioni_generali": [
+    "Il numero WhatsApp va confermato (331 217 3684 o 339 532 7569): finché non lo è, ogni invito a scrivere su WhatsApp diventa «chiama lo 0523 335932».",
+    "Nomi dei piatti solo se confermati dal titolare: nelle foto del fotografo il piatto misto e la griglia non hanno ancora un nome sicuro."
+  ]
 }
