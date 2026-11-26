@@ -52,6 +52,9 @@ Che ogni domanda sia ancora attuale sul codice di oggi.
 - R12-001 · se il conto condiviso della spesa per l'AI non risponde, l'AI dei negozi si ferma: va bene così, o serve un contatore di riserva?
 - Prima di accendere l'AI dei negozi (da R12): la migrazione 158 va applicata sul database vero, e la variabile AI_GLOBAL_DAILY_BUDGET_EUR va messa su Vercel. Sono passi tuoi.
 
+- Dal collaudo K05: con la migrazione nuova 970 (R16-009) chi ha fatto una domanda può toglierla anche dopo che il negozio ha risposto. Va bene così?
+- Dal collaudo K05, su R13-010: la pagina «lavora con noi» porta ancora il cliente già registrato all'iscrizione da fattorino, che per lui è una strada senza uscita
+
 ### Prove comuni che chiedono la tua firma (la correzione è pronta, tolta dal ramo)
 
 Una prova comune è un controllo che protegge più riparazioni insieme. Cambiarla chiede la tua firma, quindi la correzione è stata tolta e aspetta te.

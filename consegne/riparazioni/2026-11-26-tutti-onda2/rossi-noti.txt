@@ -8,3 +8,5 @@ ferma R15 6484d56
 finita R14
 finita R16
 finita R12
+ramo K05 ccr-a672a2b3-92w5w1-k05
+finita K05
