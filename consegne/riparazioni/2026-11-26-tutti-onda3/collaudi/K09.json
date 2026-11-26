@@ -1,7 +1,9 @@
 {
   "collaudatore": "K09",
   "riparatori": [
-    "R28"
+    "R28",
+    "R19",
+    "R22"
   ],
   "aggiornato": "2026-11-26 23:10",
   "finita": false,
@@ -20,12 +22,17 @@
     {
       "id": "R28-005",
       "chiave": "microcopy|in registrazione e nel cambio password del profilo il rifiuto di una password debole o rubata non si traduce o si perde",
-      "verdetto": "PENDING",
-      "giudizio": "nessuno",
+      "verdetto": "regge",
+      "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R28 --base 22942d1f58977a5f7389cc6c5cca1d450ec5cb81^ --file app/api/account/cambia-password/route.ts,app/api/auth/signup/route.ts --prove tests/unit/riparazione-r28-password-debole.test.ts --json"
-      }
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Revisore qa indipendente K09: le due rotte danno 400 con la frase giusta (rubata/corta/semplice) su weak_password, AuthWeakPasswordError o reasons; la pagina del profilo mostra il messaggio della rotta (app/profile/settings/page.tsx:316 via apiErrorMessage); la registrazione era già a posto alla base (friendlyError). Mutanti rossi. Limite: la rotta signup oggi non la chiama nessuno."
     },
     {
       "id": "R28-012",
@@ -41,12 +48,17 @@
     {
       "id": "R28-010",
       "chiave": "qa-flussi|la contestazione parziale vinta, con la memoria di postgrest vecchia, scrive il tentativo nuovo ma lascia il promemoria della quota: una ripetizione di stripe rifà il bonifico con una chiave nuova",
-      "verdetto": "PENDING",
-      "giudizio": "nessuno",
+      "verdetto": "regge",
+      "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R28 --base fd6c217f06e91d8d2a513d8e32c44f4eadde3ea2^ --file lib/stripe/webhook/contestazione-parziale-vinta.ts --prove tests/unit/riparazione-r28-contestazione-parziale-ripiego.test.ts --json"
-      }
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Revisore qa K09: il ripiego toglie solo payout_tentativo e solo se il PGRST204 nomina quella colonna; promemoria e stornato sempre insieme (contestazione-parziale-vinta.ts:50-53); se manca un'altra colonna la seconda scrittura lancia e Stripe ripete con la stessa chiave. Codice vecchio rimesso: 2/2 rosse. Resta (già prima, segnalato dal riparatore): nessun controllo «bonifico già fatto» oltre le 24 ore della chiave Stripe."
     },
     {
       "id": "R28-009",
@@ -62,32 +74,47 @@
     {
       "id": "R28-008",
       "chiave": "qa-flussi|col doppio clic su «rifiuta ordine» compare anche un avviso rosso di errore, e l'aiuto dice che il motivo è obbligatorio e promette un rimborso che coi contanti non esiste",
-      "verdetto": "PENDING",
-      "giudizio": "nessuno",
+      "verdetto": "regge",
+      "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R28 --base 2a58b633cbd18f4213598e72004477cb43670552^ --file app/seller/orders/[id]/page.tsx,app/api/seller/orders/[id]/reject/route.ts,app/seller/help/domande.ts --prove tests/unit/riparazione-r28-rifiuto-del-negozio.test.ts,tests/unit/riparazione-r28-rifiuto-doppio-tocco.test.tsx --json"
-      }
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Revisore qa K09: il freno useRef ferma la seconda richiesta (page.tsx:136-142), il 409 «già annullato» resta neutro; togliendo l'uno o l'altro la prova è rossa. Unica via d'ingresso a /reject; l'aiuto non dice più motivo obbligatorio né rimborso coi contanti (domande.ts:54). Resta, fuori dalla voce: due rifiuti quasi insieme su un ordine con carta possono dare «Rimborso fallito» (non riprodotto)."
     },
     {
       "id": "R28-001",
       "chiave": "dati-analytics|il cancello del filmato copia senza pulirle le chiavi dell'evento diverse da data",
-      "verdetto": "PENDING",
-      "giudizio": "nessuno",
+      "verdetto": "regge",
+      "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R28 --base 6c2f9a9561d1e7cbf1bbff996ae7c27e9bee3ebe^ --file lib/analytics/filmato-senza-dati-personali.ts --prove tests/unit/riparazione-r28-filmato-chiavi-dell-evento.test.ts --json"
-      }
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Revisore qa K09: chiavi annidate a 4 livelli, array di array, stringa JSON con email, telefono, oggetto ciclico, __proto__: niente esce; codice vecchio rimesso: 3/4 rosse; cancello collegato in lib/analytics/posthog.tsx:248."
     },
     {
       "id": "R28-004",
       "chiave": "layout-responsive|in chi siamo i due pulsanti della fascia scura finale escono dalla fascia a 280 px col testo al 200%",
-      "verdetto": "PENDING",
-      "giudizio": "nessuno",
+      "verdetto": "regge",
+      "giudizio": "pieno",
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R28 --base bf54ece3a2847de66df39cd8cf269c56df08d974^ --file app/about/page.tsx --prove tests/unit/riparazione-r28-chi-siamo-fascia.test.ts --json"
-      }
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Revisore qa K09: CSS Tailwind 3.4 compilato (max-sm:p-[min(2rem,10vw)] genera padding vero); in Chromium sulla fascia ricostruita alla base i pulsanti escono a 280-360 px col testo al 200%, dopo la cura 0 elementi fuori da 280 a 414 px al 100% e al 200%. Avvertenza: la prova del riparatore cerca solo i nomi delle classi, non misura (ma la rimessa la fa cadere)."
     },
     {
       "id": "R28-006",
@@ -127,5 +154,9 @@
       "nota": "Parziale come dichiarato: la prova monta la pagina e cade col mutante (useMemo []), ma non guarda il ricontrollo all'invio (consegnaScelta, app/checkout/page.tsx:1384)."
     }
   ],
-  "campione": {}
+  "campione": {
+    "R28": {
+      "accettato": true
+    }
+  }
 }
