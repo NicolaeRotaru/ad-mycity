@@ -29,6 +29,7 @@
 - **"porta [nome] LIVE"** → la squadra prepara tutto per metterlo online. 🟡
 - **"trovami negozi"** → lista di botteghe da contattare + pitch pronto. 🟢
 - **"negozio in calo"** → piano per recuperare un negozio che vende meno. 🟡
+- **una foto di un negozio o di un'azienda** (anche senza una parola; alias: *"scheda di questo negozio"*, *"preventivo per [nome]"*) → la sessione legge l'insegna, cerca via, social, sito e recensioni e consegna la **scheda per il venditore** e il **preventivo** con bozza del sito e piano editoriale (skill `scheda-da-foto`, programma `node cervello/scheda-cliente.mjs`). 🟢 (niente parte verso il cliente)
 - **"supervisiona i negozi"** (alias: *"controlla i dati mancanti"*, *"cosa manca ai negozi/prodotti"*) → la macchina veglia OGNI negozio e OGNI prodotto, trova i dati mancanti e prepara il **riempimento automatico** come proposte da firmare (`node cervello/supervisione-negozi.mjs --accoda`): i campi deducibili (unità, condizione, categoria) diventano azioni 🟡 in [[AZIONI-IN-ATTESA]] col comando pronto; ciò che serve materia prima reale (foto, prezzi, orari, descrizioni) finisce in "serve da te". Report in `consegne/supervisione/`. 🟢 (la scrittura sul sito parte solo col tuo ok)
 - **"ok riempi [unità/condizione/…]"** (alias: *"ok a tutte le proposte di supervisione"*) → esegui il riempimento approvato: gira il comando pronto del report (`AZIONI_LIVE=1 node cervello/marketplace.mjs aggiorna …`), che fa backup di ogni riga (reversibile) e lascia traccia in [[DECISIONI]]. 🟡
 
