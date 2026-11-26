@@ -166,11 +166,15 @@ Una prova comune è un controllo che protegge più riparazioni insieme. Cambiarl
 
 ### Nate in questa campagna
 
+### Dalle sessioni riservate (26/11, dettagli solo nella chat dell'AD)
 
-### Dalla fine della campagna (AD, 2026-11-27 00:55)
-- Da unire le richieste del sito mycity#338 e #341: le letture da fare sul database vero sono scritte dentro le richieste.
-- Scelta: un fattorino che cambia mezzo o rinnova i documenti torna in coda di approvazione, o lo fa solo lo staff? E se rinnova mentre ha una consegna ritirata: prima finisce e poi rinnova (com'è fatto oggi), o passa allo stato «documenti da rivedere»?
-- Scelta: spostare sul server l'importazione dei campi dei prodotti dai cataloghi esterni.
-- Scelta: togliere ad anonimi e clienti il permesso di scrivere segnalazioni direttamente (oggi una prova comune, la 48, lo vuole apposta).
-- Da accendere il controllo anti-robot di Supabase, dopo aver sistemato recupero password, cambio password e reinvio della conferma.
+- Unire mycity#338 e poi mycity#341 (controlli più stretti sul database). Prima di ognuna, le letture sul database vero scritte nella richiesta.
+- Scelta: un fattorino approvato che cambia mezzo o rinnova patente o polizza oggi torna in coda per lo staff. Va bene così, o il cambio lo deve fare solo lo staff? E con una consegna già ritirata: oggi prima la finisce e poi rinnova; serve invece uno stato «documenti da rivedere»?
+- Scelta: spostare sul server l'importazione dei dati dei prodotti esterni, oggi scritta dal browser.
+- Scelta: togliere ad anonimi e clienti il permesso di scrivere segnalazioni direttamente nel database, saltando il sito (oggi una prova esistente lo vuole permesso).
+- Da fare su Supabase: accendere il controllo anti-robot, dopo aver sistemato recupero password, cambio password e reinvio della conferma.
+
+### Dalla fine della campagna (regia, 2026-11-27 00:55)
+
 - Richiesta del sito mycity#342 (campagna intera): «ok migrazioni» sulle 9 migrazioni nuove prima di unire, conteggio del catalogo per la 911, poi l'unione.
+
