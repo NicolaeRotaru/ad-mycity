@@ -5,8 +5,8 @@
     "R19",
     "R22"
   ],
-  "aggiornato": "2026-11-26 23:10",
-  "finita": false,
+  "aggiornato": "2026-11-26 23:55",
+  "finita": true,
   "voci": [
     {
       "id": "R28-013",
@@ -152,11 +152,87 @@
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R28 --base 0b0190a564e71ea3381a6562afeacab047d70466 --file app/checkout/page.tsx --prove tests/unit/riparazione-r28-cassa-orari.test.tsx --json  (base = mutante locale K09, mai spinto: useMemo di orariNegozi che dà [] alla riga 415, sulla testa ade4d1f8)"
       },
       "nota": "Parziale come dichiarato: la prova monta la pagina e cade col mutante (useMemo []), ma non guarda il ricontrollo all'invio (consegnaScelta, app/checkout/page.tsx:1384)."
+    },
+    {
+      "id": "R19-004",
+      "chiave": "pagamenti-stripe|un rimborso arrivato dopo il bonifico del lunedì non viene mai ripreso al negozio",
+      "verdetto": "rompe_altro",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R28 --base be3ee840e67661bedead7c511ee5506223b3e090^ --file lib/stripe/payout.ts --prove tests/unit/riparazione-r19-rimborso-dopo-il-bonifico-del-lunedi.test.ts --json"
+      },
+      "nota": "Due lenti, due revisori qa sull'unione locale R19+R22 (230d30e7). Con la 916 PAID_MANUALLY si scrive e l'avviso parte (payout.ts:1844-1851: «Togli X dal prossimo bonifico»), ma il debito resta solo un messaggio: la pagina /admin/payouts per lo stesso debito dice «Non è tolto dal bonifico del lunedì: chiedilo al negozio» (page.tsx:708-713) e la 916 rifiuta un bonifico ridotto (BONIFICO_CAMBIATO: «la cifra da versare è 1800, non 900», 916:258-262, provato in SQL). Nessun segno «recuperato»: la riga di contanti_da_recuperare non si chiude mai. Chi segue l'avviso versa 9 € in meno, il registro scrive la cifra intera (Già pagato gonfiato) e la pagina chiede ancora i 9 € al negozio: stesso debito contato due volte. Rimessa uscita 0."
+    },
+    {
+      "id": "R19-006",
+      "chiave": "pagamenti-stripe|se il cliente viene rimborsato prima che il suo ordine nasca, l'ordine nasce lo stesso come pagato e il negozio viene pagato",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R28 --base 7950ffff666c60162b41664c8320794a452391b5^ --file lib/stripe/webhook/ordini.ts,lib/stripe/webhook/rimborsi.ts --prove tests/unit/riparazione-r19-rimborso-prima-dell-ordine.test.ts --json"
+      },
+      "nota": "Due lenti, due revisori. Chiusi carta tutta tornata, contestata, rimborsata in parte senza ordini nati (ordini.ts:272-292). Il pagamento normale non fa letture in più (usa latest_charge già letta, ordini.ts:254-266). Nessun ciclo infinito: il carrello PENDING scade col cron expire-checkouts (~2 ore). Restano i buchi dichiarati: rimborso esterno con carrello nato a metà (ordini.ts:278), corsa in rimborsi.ts:75, contestazione durante la nascita (dispute.ts, serve_file_altrui). Limite: cron fermo oltre 3 giorni → Stripe smette di ripetere e l'avviso si perde."
+    },
+    {
+      "id": "R22-001",
+      "chiave": "pagamenti-stripe|i contanti vecchi ancora da versare spariscono dal pannello dei bonifici quando gli ordini consegnati superano mille",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R28 --base aac2350b09db195d6d2286f15f75a7d02ae590a1 --file app/admin/payouts/page.tsx --prove tests/unit/riparazione-r22-bonifici-aperti-vecchi.test.tsx,tests/unit/riparazione-r22-pagabili-a-parte.test.tsx --json  (wt-R28 a f92c4262)"
+      },
+      "nota": "Due lenti, due revisori. La lettura a parte dei pagabili regge, e se cade la pagina lancia l'errore (page.tsx:364-366). Resta il buco dichiarato: i ritiri da regolare letti dai chiusi non passano il controllo di resi e reclami (page.tsx:381-392). In più, muto: se la lettura di resi e reclami cade, contanti e ritiri diventano tutti «Fermo» e «Da versare lunedì» scende a 0 senza avviso (page.tsx:394-406; direzione sicura ma silenziosa). La 916 sull'intera catena (241 migrazioni) si applica anche due volte; 5 prove SQL r22 verdi."
+    },
+    {
+      "id": "R22-002",
+      "chiave": "pagamenti-stripe|il pannello dei bonifici non dice a nicola quanto versare a ogni negozio il lunedì",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R28 --base aac2350b09db195d6d2286f15f75a7d02ae590a1 --file app/admin/payouts/page.tsx --prove tests/unit/riparazione-r22-commissione-ritiri.test.tsx --json  (wt-R28 a ce8f8e36)"
+      },
+      "nota": "Due lenti, due revisori. Pagina (page.tsx:149-167) e 916 (916:205-257) fanno lo stesso conto (contanti + credito − commissione, trattenuta = minimo, resto in fattura) e il tasto manda gli stessi ordini mostrati (page.tsx:244-246, 273-278). Ma l'ultimo giro fa partire bonifici_manuali_per_mese e contanti_da_recuperare solo con una traccia di bonifico a mano fra le righe lette (page.tsx:419-430): un bonifico a mano più vecchio dei 1000 chiusi non si legge. Restano i punti dichiarati (recupero non tolto dal lunedì, credito dei ritiri rimborsati non recuperabile 916:285/404, pagina del negozio non allineata). La 916 sull'intera catena (241 migrazioni) si applica anche due volte; 5 prove SQL r22 verdi."
+    },
+    {
+      "id": "R22-003",
+      "chiave": "pagamenti-stripe|la rpc del tasto «bonifico fatto» dei negozi non è definita in nessuna migrazione del deposito",
+      "verdetto": "non_regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R28 --base aac2350b09db195d6d2286f15f75a7d02ae590a1 --file app/admin/payouts/page.tsx --prove tests/unit/riparazione-r22-da-recuperare.test.tsx --json  (wt-R28 a 35df99be); e la 916: --base aac2350b09db195d6d2286f15f75a7d02ae590a1 --file migrations/916_il_bonifico_fatto_ai_negozi_resta_scritto.sql --prove <le 5 prove tests/sql/rls/riparazione-r22-*> --sql k09_rimessa → uscita 3 (le prove nominano oggetti che solo la 916 crea: senza la 916 la funzione non esiste, cioè il difetto c'è)"
+      },
+      "nota": "Due lenti, due revisori. La rpc ora esiste e regge in SQL: negozio 42501, anonimo negato, tutto o niente (un buono + uno con reso aperto → BONIFICO_CAMBIATO, il buono resta HELD), secondo clic uguale idempotente, CRO diverso → BONIFICO_GIA_SEGNATO. Ma: (1) smentita la novità della traccia: pagina vera montata con 1001 ordini carta recenti + un contante dell'1/10 versato a mano e rimborsato (contanti_da_recuperare = 18 €): nessuna chiamata rpc, nessun «Da recuperare», nessun avviso, nessun «almeno» sui recuperi (page.tsx:419-428 servonoManuali, :458-470 enabled; avviso :628 solo se la lettura parte): 18 € da riprendere invisibili. (2) Senza la cura in lib/stripe/payout.ts (serve_file_altrui) il rimborso parziale su PAID_MANUALLY scrive seller_payout_reversed_cents (payout.ts:1187-1211) e con l'avviso di R19-004 lo stesso debito è contato due volte; la cura (b) proposta, applicata com'è, farebbe due avvisi (quota-da-trattenere + quota-a-mano). (3) Le prove SQL di R22-003 imitano a mano le scritture di refundOrder, non chiamano il codice vero. Cron e webhook non trattano PAID_MANUALLY come stato sconosciuto. La 916 sull'intera catena (241 migrazioni) si applica anche due volte; 5 prove SQL r22 verdi."
     }
   ],
   "campione": {
     "R28": {
       "accettato": true
     }
-  }
+  },
+  "nota_unione": "R19 e R22 giudicati sopra la loro unione locale (base aac2350b + be3ee840 + 35df99be, merge senza conflitti, 230d30e7, mai spinto): tsc 0, vitest 2240/2240 file, 241 migrazioni + run.sh SQL tutti verdi."
 }
