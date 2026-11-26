@@ -9,7 +9,9 @@
 // solo. Se il controllo corrispondente sparisse da cervello/piano-editoriale.mjs, il suo caso diventa rosso.
 
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdtempSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { FASCE, controlla, espandi, righeCalendario, sereAperte } from '../piano-editoriale.mjs';
@@ -94,6 +96,20 @@ prova('⑩ un contenuto del feed che aspetta un sì del titolare senza riserva n
   delete p.contenuti.find((c) => c.id === 'p05').riserva;
   assert.ok(errori(p, 'premium').some((e) => e.includes('riserva')));
   assert.deepEqual(errori(p, 'business'), [], 'p05 è del Premium: il Business non cambia');
+});
+
+prova('⑪ con un controllo fallito il programma non stampa le righe per il Calendario', () => {
+  const p = vero();
+  p.contenuti = p.contenuti.filter((c) => c.id !== 'b04');
+  const cartella = mkdtempSync(join(tmpdir(), 'piano-'));
+  const file = join(cartella, 'piano.json');
+  writeFileSync(file, JSON.stringify(p));
+  const r = spawnSync(process.execPath, [join(QUI, '..', 'piano-editoriale.mjs'), '--piano', file, '--righe', 'base'], { encoding: 'utf8' });
+  assert.equal(r.status, 1);
+  assert.ok(!r.stdout.includes('"stato"'), 'nessuna riga deve uscire');
+  const ok = spawnSync(process.execPath, [join(QUI, '..', 'piano-editoriale.mjs'), '--piano', join(QUI, '..', '..', 'consegne', 'clienti', 'tropico-latino', 'piano-editoriale-2026-12.json'), '--righe', 'base'], { encoding: 'utf8' });
+  assert.equal(ok.status, 0);
+  assert.ok(ok.stdout.includes('"stato": "idea"'));
 });
 
 const rossi = casi.filter((c) => !c.ok);

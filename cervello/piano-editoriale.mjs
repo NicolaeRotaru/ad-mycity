@@ -183,10 +183,18 @@ function principale(argv) {
   const piano = leggi(percorso);
   const esito = Object.fromEntries(FASCE.map((f) => [f, controlla(piano, modello, f)]));
   const errori = FASCE.flatMap((f) => esito[f].errori);
+  const scrive = argv.includes('--righe') || argv.includes('--pagina') || argv.includes('--json');
+  // Si ferma prima di produrre qualcosa da usare: righe per il Calendario o una pagina nate da un
+  // piano che non torna (conti, prezzi, giorni chiusi, riserve) non devono esistere nemmeno come file.
+  if (scrive && errori.length) {
+    console.error(`${errori.length} controlli falliti: niente righe, niente pagina.`);
+    for (const e of errori) console.error(` - ${e}`);
+    process.exit(1);
+  }
 
   if (argv.includes('--righe')) {
     console.log(JSON.stringify(righeCalendario(piano, modello, arg('--righe')), null, 2));
-    process.exit(errori.length ? 1 : 0);
+    process.exit(0);
   }
   console.log(`Piano editoriale di ${piano.nome}, ${piano.mese} (modello ${modello.versione})`);
   console.log(`Sere di apertura: ${sereAperte(piano).length}`);
