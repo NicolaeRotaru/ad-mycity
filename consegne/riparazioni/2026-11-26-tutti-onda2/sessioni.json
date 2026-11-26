@@ -1,0 +1,37 @@
+{
+ "regista": "session_015BmpnXuogkPZVts89PH67a",
+ "sessioni": {
+  "R12": {
+   "id": "session_015BmpnWXzUxB3JEfHvC1gKc",
+   "ramo": "ccr-a672a2b3-92w5w1-m12",
+   "onda": 1,
+   "aperta": "2026-11-26 15:16"
+  },
+  "R13": {
+   "id": "session_015BmpnViKZet1m9TCGC1DsF",
+   "ramo": "ccr-a672a2b3-92w5w1-m13",
+   "onda": 1,
+   "aperta": "2026-11-26 15:16"
+  },
+  "R14": {
+   "id": "session_015BmpnVYM2vKEdNHfL8qhmk",
+   "ramo": "ccr-a672a2b3-92w5w1-m14",
+   "onda": 1,
+   "aperta": "2026-11-26 15:16"
+  },
+  "R15": {
+   "id": "session_015BmpnW6bmPvyvHQMRbunQB",
+   "ramo": "ccr-a672a2b3-92w5w1-m15",
+   "onda": 1,
+   "aperta": "2026-11-26 15:16"
+  },
+  "R16": {
+   "id": "session_015BmpnUxL9XfU7oQ3yQnT3r",
+   "ramo": "ccr-a672a2b3-92w5w1-m16",
+   "onda": 1,
+   "aperta": "2026-11-26 15:16"
+  }
+ },
+ "collaudatori": {},
+ "controllori": {}
+}
