@@ -1,6 +1,6 @@
 ---
 tipo: bacheca
-aggiornato: 2026-11-25 18:57
+aggiornato: 2026-11-26 13:05
 regole: cervello/sessioni-insieme.md
 ---
 
@@ -28,6 +28,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 26/11 mattina | sessione «Lettura pagine da n8n» (`…KGbhsq`) | Lettura delle pagine dei clienti nuovi: al terzo collaudo bocciato ha scelto «Ripara solo questo». Riparato in NicolaeRotaru/N8N#18, in uso sul 12 e sul 26. Il quarto collaudo regge. I 14 difetti minori restano aperti, da non toccare adesso. |
 | 25/11 23:07-23:25 | AD, chat «Tropico: video e post» (`…0rxfdd`), via Telegram | Pacchetto di dicembre del Tropico, 5 contenuti **approvati**: il reel del 3/12, i post del 4 e del 6/12, il carosello dell'11/12, il reel del 15/12. Il post del burrito del 17/12 è **rifiutato** e torna in bozza. Restano 7 righe da approvare. |
 | 25/11 ~20:50 | sessione «Dati mancanti» (`…LJpfxZ`) | «Ripara»: le pagine dei clienti nuovi le legge n8n, nel 12 e nel 26. In uso dalle 22:15, N8N#18. Per il 12 e il 26 la rete della routine dell'AD non serve più |
 | 25/11 ~19:30, ~19:50 e ~20:05 | la stessa chat delle 18:24, tre risposte a domande | Tre scelte sui più account. Prima: separarli dalla PR della campanella e della demo, su un ramo loro. Seconda: un quarto giro di correzioni, con la PR in bozza che toglie lui solo se il collaudo è pulito. Terza: rifare la base invece di tappare buchi, cioè il carrello e le bozze del browser sono dell'account che c'è. PR: NicolaeRotaru/mycity#333 |
