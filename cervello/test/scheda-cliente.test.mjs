@@ -8,7 +8,11 @@
 //   ④ il piano editoriale deve avere i contenuti e i video promessi dall'abbonamento consigliato;
 //   ⑤ le pagine escono con quello che il venditore e il cliente devono vedere;
 //   ⑥ i dati presi dal web non possono mettere codice nelle pagine (link javascript:, colori o caratteri
-//     che chiudono il blocco <style>).
+//     che chiudono il blocco <style>);
+//   ⑦ (26/11, la proposta prima del preventivo) la proposta ha i prezzi, spiega cosa cambia con ogni
+//     abbonamento con una frase su misura per ognuno, dice come si paga leggendolo dal registro, e il
+//     programma scrive proposta.html e non più preventivo.html;
+//   ⑧ dopo il sì, --iscrizione dà al flusso 20 solo dati pubblici dell'attività, mai siti non confermati.
 //
 // NON-VACUITÀ (provata rompendo il programma apposta): togliendo la riga del controllo ①
 // («un dato … vuole la fonte https») il caso ① diventa ROSSO; togliendo il confronto col registro il
@@ -19,30 +23,33 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { controlla, canoniDalRegistro, haPrezzo, paginaScheda, paginaPreventivo, paginaSito } from '../scheda-cliente.mjs';
+import { execFileSync } from 'node:child_process';
+import os from 'node:os';
+import { controlla, canoniDalRegistro, pagamentoDalRegistro, datiIscrizione, haPrezzo, paginaScheda, paginaProposta, paginaSito } from '../scheda-cliente.mjs';
 
 const RADICE = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const leggi = (p) => JSON.parse(fs.readFileSync(path.join(RADICE, p), 'utf8'));
 const REGISTRO = leggi('MyCity-Vault/90-Memoria-AI/registro-fatti.json');
 const CANONI = canoniDalRegistro(REGISTRO);
+const PAGAMENTO = pagamentoDalRegistro(REGISTRO);
 const CLIENTI = ['consegne/clienti/2026-11-26-ora-del-gusto/dati.json', 'consegne/clienti/2026-11-26-la-ragazzetta/dati.json'];
 const copia = (o) => JSON.parse(JSON.stringify(o));
 
 test('i dati veri dei due locali passano tutti i controlli', () => {
   assert.deepEqual(CANONI, { base: 30000, business: 50000, premium: 99900 });
-  for (const f of CLIENTI) assert.deepEqual(controlla(leggi(f), CANONI), [], f);
+  for (const f of CLIENTI) assert.deepEqual(controlla(leggi(f), CANONI, PAGAMENTO), [], f);
 });
 
 test('① un dato «da confermare» senza fonte ferma la scheda', () => {
   const d = copia(leggi(CLIENTI[0]));
   d.campi.find((c) => c.voce === 'Telefono del bar').fonte = null;
-  assert.ok(controlla(d, CANONI).some((e) => e.includes('Telefono del bar') && e.includes('fonte')));
+  assert.ok(controlla(d, CANONI, PAGAMENTO).some((e) => e.includes('Telefono del bar') && e.includes('fonte')));
   const n = copia(leggi(CLIENTI[0]));
   n.campi.push({ voce: 'Fax', valore: null, stato: 'non_trovato', fonte: null });
-  assert.deepEqual(controlla(n, CANONI), [], '«non_trovato» senza fonte è onesto, e passa');
+  assert.deepEqual(controlla(n, CANONI, PAGAMENTO), [], '«non_trovato» senza fonte è onesto, e passa');
   const f = copia(leggi(CLIENTI[0]));
   f.campi.push({ voce: 'Insegna', valore: 'Ora del Gusto', stato: 'confermato', fonte: 'foto' });
-  assert.deepEqual(controlla(f, CANONI), [], 'quello che il venditore legge sulla sua foto vale come fonte');
+  assert.deepEqual(controlla(f, CANONI, PAGAMENTO), [], 'quello che il venditore legge sulla sua foto vale come fonte');
   assert.match(paginaScheda(f), /foto del venditore/);
 });
 
@@ -52,7 +59,7 @@ test('② un prezzo nella bozza del sito la ferma, un orario no', () => {
   assert.equal(haPrezzo('Menu degustazione 35 €'), true);
   const d = copia(leggi(CLIENTI[1]));
   d.sito_bozza.cosa_offriamo[0].testo = 'Colazione completa a 4 euro.';
-  assert.ok(controlla(d, CANONI).some((e) => e.startsWith('bozza del sito')));
+  assert.ok(controlla(d, CANONI, PAGAMENTO).some((e) => e.startsWith('bozza del sito')));
 });
 
 test('③ un canone cambiato nel registro e non nel programma ferma il preventivo', () => {
@@ -60,21 +67,21 @@ test('③ un canone cambiato nel registro e non nel programma ferma il preventiv
   const fatti = r.fatti ?? r;
   const voce = Array.isArray(fatti) ? fatti.find((f) => f.id === 'sdg.abbonamenti') : fatti['sdg.abbonamenti'];
   voce.valore = voce.valore.replace('Business 500 euro', 'Business 550 euro');
-  const errori = controlla(leggi(CLIENTI[0]), canoniDalRegistro(r));
+  const errori = controlla(leggi(CLIENTI[0]), canoniDalRegistro(r), PAGAMENTO);
   assert.ok(errori.some((e) => e.startsWith('canone Business')), errori.join(' | '));
-  assert.ok(controlla(leggi(CLIENTI[0]), null).some((e) => e.startsWith('registro dei fatti')));
+  assert.ok(controlla(leggi(CLIENTI[0]), null, PAGAMENTO).some((e) => e.startsWith('registro dei fatti')));
 });
 
 test('④ il piano editoriale mantiene la promessa dell’abbonamento consigliato', () => {
   const d = copia(leggi(CLIENTI[0]));
-  d.preventivo.piano.righe.pop();
-  assert.ok(controlla(d, CANONI).some((e) => e.includes('11 contenuti')));
+  d.proposta.piano.righe.pop();
+  assert.ok(controlla(d, CANONI, PAGAMENTO).some((e) => e.includes('11 contenuti')));
   const v = copia(leggi(CLIENTI[0]));
-  v.preventivo.piano.righe[2].formato = 'Reel';
-  assert.ok(controlla(v, CANONI).some((e) => e.includes('3 video')));
+  v.proposta.piano.righe[2].formato = 'Reel';
+  assert.ok(controlla(v, CANONI, PAGAMENTO).some((e) => e.includes('3 video')));
   const p = copia(leggi(CLIENTI[0]));
   p.consigliato = 'premium';
-  assert.ok(controlla(p, CANONI).some((e) => e.includes('il Premium ne promette 20')));
+  assert.ok(controlla(p, CANONI, PAGAMENTO).some((e) => e.includes('il Premium ne promette 20')));
 });
 
 test('⑥ i dati presi dal web non possono iniettare codice nelle pagine', () => {
@@ -82,7 +89,7 @@ test('⑥ i dati presi dal web non possono iniettare codice nelle pagine', () =>
   d.fonti.push({ titolo: 'trappola', url: 'javascript:alert(1)' });
   d.sito_bozza.palette.accento = 'red}</style><script>alert(1)</script>';
   d.sito_bozza.font.titoli = 'X"><script>';
-  const e = controlla(d, CANONI);
+  const e = controlla(d, CANONI, PAGAMENTO);
   assert.ok(e.some((x) => x.startsWith('fonte «trappola»')), e.join(' | '));
   assert.ok(e.some((x) => x.includes('colore «accento»')));
   assert.ok(e.some((x) => x.includes('carattere «titoli»')));
@@ -98,8 +105,8 @@ test('⑤ le pagine dicono quello che serve, e la scheda resta interna', () => {
   assert.match(scheda, /Scheda interna per il venditore/);
   assert.match(scheda, /Cosa ha, cosa non ha, cosa va migliorato/);
   assert.match(scheda, /Domande da fare al titolare/);
-  const prev = paginaPreventivo(d);
-  assert.doesNotMatch(prev, /Scheda interna/, 'il preventivo per il cliente non porta le note interne');
+  const prev = paginaProposta(d, PAGAMENTO);
+  assert.doesNotMatch(prev, /Scheda interna/, 'la proposta per il cliente non porta le note interne');
   assert.match(prev, /500 €<\/b> al mese/);
   assert.match(prev, /Il primo mese 250 €/);
   // Il 10% sui prodotti venduti tramite MyCity resta anche con l'abbonamento (pricing.commissione, 26/11).
@@ -111,4 +118,84 @@ test('⑤ le pagine dicono quello che serve, e la scheda resta interna', () => {
   assert.match(sito, /^<!doctype html>/);
   assert.match(sito, /anteprima non pubblicata/);
   assert.match(sito, /"@type":"Restaurant"/);
+});
+
+test('⑦ la proposta: prezzi, cosa cambia con ogni abbonamento, come si paga; il preventivo dopo il sì', () => {
+  assert.match(PAGAMENTO ?? '', /contanti/, 'il registro dice che per ora si paga in contanti (sdg.pagamento, 26/11)');
+  const d = leggi(CLIENTI[0]);
+  const html = paginaProposta(d, PAGAMENTO);
+  assert.match(html, /<h2>Cosa cambia con ogni abbonamento<\/h2>/);
+  for (const id of ['base', 'business', 'premium']) {
+    const frase = d.proposta.su_misura[id].replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    assert.ok(html.includes(frase), `la frase su misura del ${id} è nella proposta`);
+  }
+  assert.match(html, /<th scope="col" class="scelta">Business · consigliato<\/th>/, 'la colonna del consigliato si vede');
+  assert.match(html, /300 €<\/b> al mese/);
+  assert.match(html, /999 €<\/b> al mese/);
+  assert.ok(html.includes(PAGAMENTO.replace(/&/g, '&amp;')), 'come si paga, preso dal registro');
+  assert.match(html, /vi mandiamo il preventivo con un link/);
+  // Rotture apposta: manca una frase, due frasi uguali, il registro senza sdg.pagamento.
+  const a = copia(d); delete a.proposta.su_misura.premium;
+  assert.ok(controlla(a, CANONI, PAGAMENTO).some((e) => e.includes('col Premium')));
+  const b = copia(d); b.proposta.su_misura.base = b.proposta.su_misura.business;
+  assert.ok(controlla(b, CANONI, PAGAMENTO).some((e) => e.includes('la stessa frase')));
+  const r = copia(REGISTRO); r.fatti = r.fatti.filter((f) => f.id !== 'sdg.pagamento');
+  assert.equal(pagamentoDalRegistro(r), null);
+  assert.ok(controlla(d, CANONI, pagamentoDalRegistro(r)).some((e) => e.includes('sdg.pagamento')));
+  // Il programma vero scrive proposta.html e non preventivo.html.
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'proposta-'));
+  fs.copyFileSync(path.join(RADICE, CLIENTI[1]), path.join(tmp, 'dati.json'));
+  const uscita = execFileSync(process.execPath, [path.join(RADICE, 'cervello', 'scheda-cliente.mjs'), tmp], { encoding: 'utf8' });
+  assert.match(uscita, /scheda, proposta e bozza del sito/);
+  assert.deepEqual(fs.readdirSync(tmp).sort(), ['bozza-sito.html', 'dati.json', 'proposta.html', 'scheda.html']);
+  fs.rmSync(tmp, { recursive: true, force: true });
+});
+
+test('⑧ dopo il sì: i dati per il flusso 20 sono solo quelli pubblici, mai un sito non confermato', () => {
+  const d = leggi(CLIENTI[0]);
+  const x = datiIscrizione(d);
+  assert.deepEqual(Object.keys(x).sort(), ['citta', 'indirizzo', 'nome', 'tipo']);
+  assert.equal(x.nome, 'Ora del Gusto');
+  assert.equal(x.sito, undefined, 'i tre siti di Ora del Gusto sono «da confermare»: non partono');
+  const c = copia(d);
+  c.campi.push({ voce: 'Sito ufficiale', valore: 'oradelgusto.it', stato: 'confermato', fonte: 'https://oradelgusto.it' });
+  assert.equal(datiIscrizione(c).sito, 'https://oradelgusto.it');
+  const n = copia(leggi(CLIENTI[1]));
+  n.campi.find((k) => k.voce === 'Indirizzo').stato = 'non_trovato';
+  assert.equal(datiIscrizione(n).indirizzo, undefined, 'un indirizzo non trovato non parte');
+});
+
+test('⑨ dal collaudo del 26/11: promesse sbagliate, iscrizione pulita, dati vecchi', () => {
+  const d = leggi(CLIENTI[0]);
+  // promesse che la fascia non mantiene
+  const a = copia(d); a.proposta.su_misura.base = 'Due post a settimana con 2 video al mese e la visita nel locale ogni mese.';
+  const ea = controlla(a, CANONI, PAGAMENTO);
+  assert.ok(ea.some((e) => e.includes('il Base non dà «video»')), ea.join(' | '));
+  assert.ok(ea.some((e) => e.includes('«2 video» col Base')), ea.join(' | '));
+  assert.ok(ea.some((e) => e.includes('il Base non dà «visit»')), ea.join(' | '));
+  const b = copia(d); b.proposta.su_misura.business = 'Le storie ogni giorno e un referente tutto vostro, con 20 contenuti al mese.';
+  const eb = controlla(b, CANONI, PAGAMENTO);
+  assert.ok(eb.some((e) => e.includes('il Business non dà «storie»')), eb.join(' | '));
+  assert.ok(eb.some((e) => e.includes('il Business non dà «referente»')), eb.join(' | '));
+  assert.ok(eb.some((e) => e.includes('«20 contenuti» col Business')), eb.join(' | '));
+  // iscrizione: mai un sito di elenco o di un vicino, mai un recapito, mai un indirizzo incerto
+  const t = copia(d); t.campi.push({ voce: 'Sito 1', valore: 'tripadvisor.it/Restaurant-ora', stato: 'confermato', fonte: 'https://www.tripadvisor.it/Restaurant-ora' });
+  t.campi.find((c) => c.voce === 'Sito 1' && c.stato === 'da_confermare').stato = 'confermato';
+  assert.equal(datiIscrizione(t).sito, undefined, 'un sito letto su un elenco non parte');
+  const v = copia(d); v.campi.push({ voce: 'Sito del vicino (Pizzium)', valore: 'pizzium.com', stato: 'confermato', fonte: 'https://pizzium.com' });
+  assert.equal(datiIscrizione(v).sito, undefined, 'il sito di un vicino non parte');
+  const due = copia(d); due.campi.push({ voce: 'Sito ufficiale', valore: 'oradelgusto.it', stato: 'confermato', fonte: 'https://oradelgusto.it' }, { voce: 'Sito 2', valore: 'oradelgusto.eatbu.com', stato: 'confermato', fonte: 'https://oradelgusto.eatbu.com' });
+  due.campi = due.campi.filter((c) => !(c.voce === 'Sito 2' && c.stato === 'da_confermare'));
+  assert.equal(datiIscrizione(due).sito, undefined, 'con due siti confermati non ne parte nessuno');
+  const tel = copia(d); tel.tipo = 'Bar, cell. 333 123 4567';
+  assert.throws(() => datiIscrizione(tel), /numero o un'email/);
+  const fr = copia(d); fr.campi.find((c) => c.voce === 'Indirizzo').stato = 'frammento';
+  assert.equal(datiIscrizione(fr).indirizzo, undefined, 'un indirizzo che è solo un indizio non parte');
+  // dati vecchi: il blocco «preventivo» si legge ancora, e l'errore dice cosa fare
+  const vecchio = copia(d); vecchio.preventivo = vecchio.proposta; delete vecchio.proposta; delete vecchio.preventivo.su_misura;
+  assert.ok(controlla(vecchio, CANONI, PAGAMENTO).some((e) => e.includes('ora si chiama «proposta»')));
+  const misto = copia(vecchio); misto.proposta = { su_misura: d.proposta.su_misura };
+  assert.deepEqual(controlla(misto, CANONI, PAGAMENTO), [], 'aggiungere solo proposta.su_misura a un dati.json vecchio basta');
+  // su telefono il consigliato si vede anche senza l'intestazione
+  assert.match(paginaProposta(d, PAGAMENTO), /data-l="Business · consigliato"/);
 });

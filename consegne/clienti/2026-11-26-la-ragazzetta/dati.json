@@ -295,7 +295,7 @@
       "url": "https://www.piacenzasera.it/2026/11/la-ragazzetta-inaugura-il-nuovo-ristorante-e-gastronomia-sabato-il-taglio-del-nastro/671056"
     }
   ],
-  "preventivo": {
+  "proposta": {
     "saluto": "Avete aperto il ristorante il 21 novembre, e la stampa di Piacenza ne ha parlato. Chi vi cerca dal telefono però trova gli articoli, non La Ragazzetta. Ecco come vi facciamo trovare, e prenotare.",
     "forti": [
       "Il posto più bello della città: Piazza Cavalli, sotto i portici di Palazzo Mercanti.",
@@ -442,7 +442,12 @@
         "quando": "Settimana 4",
         "cosa": "Il primo resoconto: visite al sito, richieste di prenotazione, chiamate da Google, quali contenuti hanno funzionato."
       }
-    ]
+    ],
+    "su_misura": {
+      "base": "Un sito di una pagina col caffè, il ristorante e gli orari; 8 contenuti al mese sui piatti e sulla piazza; la scheda Google creata all’avvio.",
+      "business": "Un sito di più pagine per caffè, ristorante, gastronomia ed eventi; 12 contenuti al mese con 2 video; una sessione di foto ogni tre mesi, a ogni cambio di menù.",
+      "premium": "Foto e video ogni mese, con 4 video al mese per raccontare gli eventi dell’inverno; il sito aggiornato da noi con gli appuntamenti; un referente tutto vostro."
+    }
   },
   "sito_bozza": {
     "schema_tipo": "Restaurant",
