@@ -32,6 +32,17 @@
    "aperta": "2026-11-26 15:16"
   }
  },
- "collaudatori": {},
+ "collaudatori": {
+  "K05": {
+   "id": "session_015BmpnYtdkqrFVcKRU934YY",
+   "ramo": "ccr-a672a2b3-92w5w1-k05",
+   "partenza": "f6003f49264144475e9c7dc2421070bfbccf461d",
+   "riparatori": [
+    "R13",
+    "R14",
+    "R16"
+   ]
+  }
+ },
  "controllori": {}
 }
