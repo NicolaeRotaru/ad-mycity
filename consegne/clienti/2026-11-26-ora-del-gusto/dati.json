@@ -1,0 +1,535 @@
+{
+  "nome": "Ora del Gusto",
+  "tipo": "Bar, caffetteria e pasticceria di quartiere",
+  "citta": "Piacenza",
+  "indirizzo": "Viale Sant'Ambrogio 6/B, 29121 Piacenza",
+  "data": "2026-11-26 14:00",
+  "foto": null,
+  "stato_mycity": "Su MyCity dal 24/11: nascosta, non approvata, con demo e preventivo",
+  "consigliato": "business",
+  "in_30_secondi": [
+    "Bar, caffetteria e pasticceria in Viale Sant'Ambrogio 6/B: apre all'alba, colazione a buffet con brioche anche vegane, aperitivo la sera.",
+    "Ha già un pubblico: la pagina Facebook ha circa 3.500 follower, e i voti sui siti di recensioni stanno tra 4,2 e 4,5 su cinque.",
+    "Il punto debole è la rete: tre siti diversi, quello misurato ci mette 11 secondi ad aprirsi, Instagram non si trova con certezza.",
+    "Le recensioni recenti lamentano il servizio e meno scelta di dolci: è il tasto da toccare con garbo.",
+    "È già su MyCity dal 24/11, nascosta: ha la sua demo e il suo preventivo col link."
+  ],
+  "gancio": "Avete circa 3.500 persone su Facebook e voti sopra il 4: un pubblico che pochi bar hanno. Però chi vi cerca su Google trova tre siti diversi, con orari diversi, e il principale ci mette 11 secondi ad aprirsi. Lo sistemiamo noi, e vi portiamo quel pubblico al banco.",
+  "perche_consigliato": "Il Base dà 8 post e un sito di una pagina: non basta per rimettere in ordine tre siti e rispondere alle recensioni sul servizio. Il Business dà un sito di più pagine, 12 contenuti al mese con 2 video e le risposte alle recensioni. Il Premium ha senso più avanti, se vogliono le storie ogni giorno e una sessione di foto al mese.",
+  "perche_consigliato_cliente": "Per voi consigliamo il Business: rimette in ordine sito e scheda Google, dà un ritmo di 3 contenuti a settimana e risponde alle recensioni. Potete partire dal Base e salire quando volete.",
+  "campi": [
+    {
+      "voce": "Nome",
+      "valore": "Ora del Gusto (in alcuni elenchi «L'Ora del Gusto»; prima si chiamava «Golosia»)",
+      "stato": "da_confermare",
+      "fonte": "https://oradelgustovialesantambrogiopiacenzapcitalia.eatbu.com/?lang=en"
+    },
+    {
+      "voce": "Tipo",
+      "valore": "Bar, caffetteria, pasticceria; un elenco aggiunge tabacchi e panini",
+      "stato": "da_confermare",
+      "fonte": "https://app.wanderlog.com/place/details/2856569"
+    },
+    {
+      "voce": "Indirizzo",
+      "valore": "Viale Sant'Ambrogio 6/B, 29121 Piacenza",
+      "stato": "da_confermare",
+      "fonte": "https://www.tripadvisor.com/Restaurant_Review-g187805-d21228132-Reviews-Ora_del_Gusto-Piacenza_Province_of_Piacenza_Emilia_Romagna.html"
+    },
+    {
+      "voce": "Telefono del bar",
+      "valore": "0523 337635",
+      "stato": "da_confermare",
+      "fonte": "https://app.wanderlog.com/place/details/2856569"
+    },
+    {
+      "voce": "Orari",
+      "valore": "Gli elenchi non concordano: tutti i giorni 5.30-20.30, oppure apertura alle 4.50, oppure lunedì chiusura alle 15",
+      "stato": "frammento",
+      "fonte": "https://negozi.sisal.com/my-sisal/piacenza-viale-sant-ambrogio-6-b-ora-del-gusto"
+    },
+    {
+      "voce": "Sito 1",
+      "valore": "oradelgustovialesantambrogiopiacenzapcitalia.eatbu.com (il più completo, misurato da Google)",
+      "stato": "da_confermare",
+      "fonte": "https://oradelgustovialesantambrogiopiacenzapcitalia.eatbu.com/?lang=en"
+    },
+    {
+      "voce": "Sito 2",
+      "valore": "oradelgusto.eatbu.com («L'Ora del Gusto»)",
+      "stato": "da_confermare",
+      "fonte": "https://oradelgusto.eatbu.com/?lang=en"
+    },
+    {
+      "voce": "Sito 3",
+      "valore": "oradelgusto.weebly.com («Bar Ora del Gusto Piacenza»)",
+      "stato": "da_confermare",
+      "fonte": "https://oradelgusto.weebly.com/"
+    },
+    {
+      "voce": "Facebook",
+      "valore": "facebook.com/Oradelgustopiacenza: circa 2.700 mi piace e 3.500 follower",
+      "stato": "da_confermare",
+      "fonte": "https://www.facebook.com/Oradelgustopiacenza/mentions/"
+    },
+    {
+      "voce": "Facebook vecchio",
+      "valore": "facebook.com/bargolosia2.0: circa 1.000 mi piace, stesso nome",
+      "stato": "da_confermare",
+      "fonte": "https://www.facebook.com/bargolosia2.0/"
+    },
+    {
+      "voce": "Instagram",
+      "valore": "@ora.delgusto, citato da un solo elenco",
+      "stato": "frammento",
+      "fonte": "https://restaurantguru.com/Golosia-Piacenza-2"
+    },
+    {
+      "voce": "TikTok",
+      "valore": null,
+      "stato": "non_trovato",
+      "fonte": null
+    },
+    {
+      "voce": "Scheda Google",
+      "valore": "Non vista: da questa sessione le pagine non si aprono",
+      "stato": "non_trovato",
+      "fonte": null
+    },
+    {
+      "voce": "Tripadvisor",
+      "valore": "Scheda presente, recensioni sulla colazione e sull'aperitivo",
+      "stato": "da_confermare",
+      "fonte": "https://www.tripadvisor.com/Restaurant_Review-g187805-d21228132-Reviews-Ora_del_Gusto-Piacenza_Province_of_Piacenza_Emilia_Romagna.html"
+    },
+    {
+      "voce": "Menu",
+      "valore": "Caffetteria, colazione a buffet, brioche anche vegane, pasticceria, aperitivo con vino locale (Ortrugo), piccola cucina e cocktail",
+      "stato": "frammento",
+      "fonte": "https://oradelgustovialesantambrogiopiacenzapcitalia.eatbu.com/?lang=en"
+    },
+    {
+      "voce": "Servizi in più",
+      "valore": "Punto Sisal",
+      "stato": "da_confermare",
+      "fonte": "https://negozi.sisal.com/my-sisal/piacenza-viale-sant-ambrogio-6-b-ora-del-gusto"
+    },
+    {
+      "voce": "Gestioni di prima",
+      "valore": "Le recensioni del 2017-2018 parlano di una gestione precedente, «bar statale 45»",
+      "stato": "frammento",
+      "fonte": "https://www.sluurpy.it/piacenza/ristorante/81945/ora-del-gusto/recensioni"
+    },
+    {
+      "voce": "Vicini",
+      "valore": "Allo stesso civico 6 c'è Pizzium, pizzeria a pranzo e cena",
+      "stato": "da_confermare",
+      "fonte": "https://www.italia.it/en/emilia-romagna/piacenza/where-to-eat/pizzium---piacenza"
+    }
+  ],
+  "ha": [
+    "Un pubblico del mattino presto: più elenchi dicono che apre prima delle 6.",
+    "La colazione a buffet con brioche anche vegane, lodata nelle recensioni.",
+    "Una pagina Facebook con circa 3.500 follower, che annuncia le serate.",
+    "Voti tra 4,2 e 4,5 su cinque nei siti di recensioni.",
+    "L'aperitivo la sera con vino dei colli piacentini e serate a tema come il karaoke.",
+    "Un sito, anche se fatto con un modello: ricerca Google 92 su 100."
+  ],
+  "non_ha": [
+    "Un sito unico e suo: oggi ce ne sono tre, nessuno curato.",
+    "Un profilo Instagram trovato con certezza.",
+    "Un profilo TikTok.",
+    "Orari uguali dappertutto: ogni elenco ne dice di diversi.",
+    "Foto del locale sulla vetrina MyCity: la copertina è vuota.",
+    "Un modo per ordinare vassoi e torte senza passare dal bar."
+  ],
+  "migliorare": [
+    "Il sito misurato: 11 secondi per vedere la pagina, e chi aspetta se ne va.",
+    "Le risposte alle recensioni, soprattutto a quelle sul servizio.",
+    "La vecchia pagina Facebook «bargolosia2.0», che divide il pubblico.",
+    "Il racconto della pasticceria: una recensione dice che la scelta si è ridotta ai cornetti.",
+    "I nomi vecchi (Golosia, bar statale 45) che girano ancora negli elenchi."
+  ],
+  "reputazione": {
+    "sintesi": "Voti tra 4,2 e 4,5 su cinque, secondo la piattaforma. La colazione piace a quasi tutti; il servizio e la costanza della pasticceria dividono. Le recensioni non le ho aperte una per una: vengono dai riassunti della ricerca.",
+    "positivi": [
+      "Ottimo per la colazione e anche per l'aperitivo (Tripadvisor).",
+      "Tanta scelta a colazione, anche vegana (Gastroranking, novembre 2025).",
+      "Personale gentile e preparato (Tripadvisor, gennaio 2025)."
+    ],
+    "negativi": [
+      "Servizio da migliorare, con un conto contestato per due calici di vino (dicembre 2025).",
+      "La scelta di dolci si è ridotta quasi ai soli cornetti (gennaio 2025).",
+      "Le recensioni vecchie parlano delle gestioni di prima e confondono chi legge."
+    ]
+  },
+  "sito": {
+    "livello": "semplice",
+    "numeri": [
+      {
+        "nome": "Velocità",
+        "valore": 67,
+        "su": 100
+      },
+      {
+        "nome": "Ricerca Google",
+        "valore": 92,
+        "su": 100
+      },
+      {
+        "nome": "Accessibilità",
+        "valore": 83,
+        "su": 100
+      },
+      {
+        "nome": "Secondi per vedere la pagina",
+        "valore": 11
+      }
+    ],
+    "giudizio": "Tre siti per lo stesso bar, due su eatbu e uno su weebly: chi cerca non sa qual è quello vero. Quello misurato da Google il 25/11 è un modello di eatbu: 11 secondi per mostrare il contenuto principale, immagini senza descrizione, testi con poco contrasto. Per la tabella firmata da Nicola è un sito «semplice», quindi si rifà già dal Base.",
+    "fonte": "https://oradelgustovialesantambrogiopiacenzapcitalia.eatbu.com/"
+  },
+  "social": [
+    {
+      "canale": "Facebook",
+      "stato": "trovato",
+      "livello": "Attivo, da vedere",
+      "giudizio": "Circa 3.500 follower; annuncia eventi come le serate karaoke. Ogni quanto pubblica non l'ho potuto vedere da qui.",
+      "fonte": "https://www.facebook.com/Oradelgustopiacenza/mentions/"
+    },
+    {
+      "canale": "Instagram",
+      "stato": "frammento",
+      "livello": "Incerto",
+      "giudizio": "Un solo elenco cita @ora.delgusto; la ricerca non lo conferma.",
+      "fonte": "https://restaurantguru.com/Golosia-Piacenza-2"
+    },
+    {
+      "canale": "TikTok",
+      "stato": "non_trovato",
+      "livello": "Non trovato",
+      "giudizio": "Nessun profilo.",
+      "fonte": null
+    },
+    {
+      "canale": "Scheda Google Maps",
+      "stato": "non_trovato",
+      "livello": "Non vista",
+      "giudizio": "Quasi certamente c'è, perché le recensioni la citano, ma da qui non si apre: guardala dal telefono prima di entrare.",
+      "fonte": null
+    }
+  ],
+  "potenziale": [
+    "Il mattino presto: chi entra prima delle 6 ha poche alternative. È un pubblico da far tornare ogni giorno, e da far conoscere a chi non sa che il bar è già aperto.",
+    "Dicembre: vassoi di pasticceria e colazioni da portare via ordinati prima, se il laboratorio li fa.",
+    "I 3.500 follower di Facebook sono già un canale: con 3 contenuti a settimana diventano clienti al banco.",
+    "Le recensioni: con risposte curate il servizio smette di essere il tema e il voto può salire.",
+    "Su MyCity: colazioni da asporto e vassoi da ritirare in negozio. Sugli ordini fatti da MyCity c'è il 10%; quello che vende al banco resta tutto suo.",
+    "La via ha passaggio anche a pranzo e cena: allo stesso civico c'è una pizzeria."
+  ],
+  "offerta": [
+    {
+      "servizio": "Un sito unico e veloce",
+      "perche": "Tre siti diventano uno solo, di più pagine: colazione, pasticceria, aperitivo, orari giusti, come arrivare. Si apre in meno di 3 secondi."
+    },
+    {
+      "servizio": "Social e scheda Google",
+      "perche": "Facebook ha già il pubblico: gli diamo 3 contenuti a settimana, con 2 video al mese. Instagram si apre o si sistema. Le recensioni sul servizio ricevono una risposta scritta da noi."
+    },
+    {
+      "servizio": "Foto e video con scattiDG",
+      "perche": "La vetrina non ha foto, e il banco della colazione è la cosa più bella che hanno. Una sessione all'avvio, una ogni tre mesi, un video al mese."
+    },
+    {
+      "servizio": "Analisi ogni mese",
+      "perche": "Cosa è cambiato su recensioni, scheda Google e social, e cosa fare il mese dopo."
+    },
+    {
+      "servizio": "Vetrina su MyCity",
+      "perche": "Vassoi e colazioni da ordinare in rete e ritirare in negozio. Su questi ordini MyCity prende il 10%, che paga consegna e servizio; sulle vendite al banco niente."
+    }
+  ],
+  "domande": [
+    "Quali sono gli orari veri, giorno per giorno, festivi compresi?",
+    "La pasticceria la fate voi o arriva da un laboratorio? Fate vassoi e torte su ordinazione per Natale?",
+    "Quale dei tre siti è il vostro? Chi li ha fatti, e avete ancora l'accesso?",
+    "Avete un profilo Instagram? @ora.delgusto è vostro?",
+    "Chi gestisce oggi la pagina Facebook, e chi risponde alle recensioni?",
+    "La scheda Google è a nome «Ora del Gusto» o ancora «Golosia»?",
+    "Cosa vendereste da portare via o da far ritirare: colazioni, vassoi, torte?"
+  ],
+  "obiezioni": [
+    {
+      "obiezione": "Ho già Facebook, mi basta.",
+      "risposta": "Facebook vi porta 3.500 persone. Ma chi vi cerca su Google trova tre siti e orari diversi. Il nostro lavoro è far arrivare al banco ogni strada, con gli orari giusti."
+    },
+    {
+      "obiezione": "Non ho tempo per i social.",
+      "risposta": "Non vi serve: le foto le fa scattiDG, i testi li scriviamo noi, voi approvate l'anteprima su WhatsApp."
+    },
+    {
+      "obiezione": "500 euro al mese sono tanti.",
+      "risposta": "Il primo mese costa la metà e non c'è vincolo: si disdice con 30 giorni di preavviso. Il Base parte da 300 euro, e si sale quando si vuole."
+    },
+    {
+      "obiezione": "Poi mi prendete una percentuale.",
+      "risposta": "Su quello che vendete al banco, niente. Sui prodotti venduti tramite MyCity c'è il 10%, anche con l'abbonamento: paga la consegna e il servizio."
+    }
+  ],
+  "attenzione": [
+    "Il 10% sui prodotti venduti tramite MyCity resta anche con l'abbonamento (regola del 26/11): dillo subito, mai «nessuna percentuale».",
+    "Omonimo: «L'Ora del Gusto», gelateria in Strada Bobbiese 52, forse chiusa. Non confonderle.",
+    "Nei contenuti mai il Punto Sisal né i tabacchi: in Italia la pubblicità del gioco e del tabacco è vietata.",
+    "Gli orari non vanno scritti da nessuna parte finché il titolare non li conferma.",
+    "Tutti i dati vengono da elenchi e riassunti di ricerca: questa sessione non può aprire le pagine. Il telefono del venditore sì: controlla Google Maps prima di entrare.",
+    "Ieri sera, 25/11 alle 22:40, il flusso 16 ha sovrascritto la sua analisi ricca con una vuota: per questo la demo oggi la mostra vuota."
+  ],
+  "fonti": [
+    {
+      "titolo": "Tripadvisor, scheda di Ora del Gusto",
+      "url": "https://www.tripadvisor.com/Restaurant_Review-g187805-d21228132-Reviews-Ora_del_Gusto-Piacenza_Province_of_Piacenza_Emilia_Romagna.html"
+    },
+    {
+      "titolo": "Wanderlog, scheda con telefono e categorie",
+      "url": "https://app.wanderlog.com/place/details/2856569"
+    },
+    {
+      "titolo": "Sisal, punto vendita di Viale Sant'Ambrogio 6/B",
+      "url": "https://negozi.sisal.com/my-sisal/piacenza-viale-sant-ambrogio-6-b-ora-del-gusto"
+    },
+    {
+      "titolo": "Sito eatbu (il più completo)",
+      "url": "https://oradelgustovialesantambrogiopiacenzapcitalia.eatbu.com/?lang=en"
+    },
+    {
+      "titolo": "Sito eatbu «L'Ora del Gusto»",
+      "url": "https://oradelgusto.eatbu.com/?lang=en"
+    },
+    {
+      "titolo": "Sito weebly",
+      "url": "https://oradelgusto.weebly.com/"
+    },
+    {
+      "titolo": "Facebook, pagina Ora del gusto piacenza",
+      "url": "https://www.facebook.com/Oradelgustopiacenza/mentions/"
+    },
+    {
+      "titolo": "Facebook, pagina vecchia bargolosia2.0",
+      "url": "https://www.facebook.com/bargolosia2.0/"
+    },
+    {
+      "titolo": "Restaurant Guru, scheda Golosia",
+      "url": "https://restaurantguru.com/Golosia-Piacenza-2"
+    },
+    {
+      "titolo": "Sluurpy, recensioni",
+      "url": "https://www.sluurpy.it/piacenza/ristorante/81945/ora-del-gusto/recensioni"
+    },
+    {
+      "titolo": "Gastroranking, recensioni",
+      "url": "https://gastroranking.it/r/ora-del-gusto_362137/"
+    },
+    {
+      "titolo": "Italia.it, Pizzium allo stesso civico",
+      "url": "https://www.italia.it/en/emilia-romagna/piacenza/where-to-eat/pizzium---piacenza"
+    }
+  ],
+  "preventivo": {
+    "saluto": "Abbiamo guardato Ora del Gusto come la vede chi vi cerca dal telefono. La vostra colazione ha già una buona fama. Vi manca un posto unico in rete che la racconti bene, ogni settimana, con gli orari giusti.",
+    "forti": [
+      "Aprite all'alba: per chi lavora presto siete un punto fermo.",
+      "La colazione a buffet, con brioche anche vegane, piace a chi la prova.",
+      "Circa 3.500 persone seguono la vostra pagina Facebook.",
+      "I voti nei siti di recensioni stanno tra 4,2 e 4,5 su cinque.",
+      "La sera c'è l'aperitivo con l'Ortrugo e qualche serata a tema."
+    ],
+    "deboli": [
+      "Chi vi cerca trova tre siti diversi, e il principale ci mette 11 secondi ad aprirsi.",
+      "Gli orari cambiano da un elenco all'altro: chi vuole venire presto non sa se trova aperto.",
+      "Alcune recensioni recenti parlano del servizio e di meno scelta tra i dolci: conviene rispondere.",
+      "Instagram non si trova con certezza: le foto della vostra colazione oggi non le vede nessuno.",
+      "Un vassoio per le feste si può ordinare solo venendo al bar."
+    ],
+    "cosa_facciamo": [
+      {
+        "tema": "Sito",
+        "oggi": "Tre siti, il principale lento",
+        "con_noi": "Un sito unico col vostro nome, di più pagine, che si apre in meno di 3 secondi"
+      },
+      {
+        "tema": "Google Maps",
+        "oggi": "Orari diversi negli elenchi, nomi vecchi in giro",
+        "con_noi": "Scheda sistemata, orari uguali dappertutto, risposte alle recensioni scritte da noi"
+      },
+      {
+        "tema": "Social",
+        "oggi": "Facebook c'è, Instagram non si trova",
+        "con_noi": "12 contenuti al mese, 3 a settimana, con 2 video brevi; voi approvate l'anteprima su WhatsApp"
+      },
+      {
+        "tema": "Foto e video",
+        "oggi": "Nessuna foto del locale nella vetrina",
+        "con_noi": "Una sessione con scattiDG all'avvio, una ogni tre mesi, più un video al mese"
+      },
+      {
+        "tema": "Vendite",
+        "oggi": "Solo al banco",
+        "con_noi": "Vetrina su MyCity per vassoi e colazioni da ritirare; il 10% solo sugli ordini fatti da MyCity"
+      }
+    ],
+    "standard_sito": [
+      "Si apre in meno di 3 secondi dal telefono (la misura di Google per i siti veloci).",
+      "Nome, indirizzo e telefono identici a quelli della scheda Google.",
+      "Dati per Google in formato schema.org: orari e indirizzo li leggono anche i motori di ricerca.",
+      "Leggibile da tutti: contrasto dei testi e descrizione delle immagini secondo le regole WCAG 2.1.",
+      "Pensato prima per il telefono, poi per il computer.",
+      "Nessun cookie di profilazione, quindi nessun banner da chiudere."
+    ],
+    "piano": {
+      "mese": "dicembre 2026",
+      "nota": "12 contenuti, 3 a settimana, con 2 video brevi. I temi partono da quello che abbiamo letto in rete: prodotti, orari e persone li confermiamo con voi prima di pubblicare.",
+      "righe": [
+        {
+          "data": "mar 1/12",
+          "formato": "Reel",
+          "tema": "La città dorme, il bar no",
+          "testo": "Video breve dell'apertura: luci che si accendono, la prima brioche in vetrina, il primo caffè. «Ti aspettiamo dall'alba.»"
+        },
+        {
+          "data": "gio 3/12",
+          "formato": "Carosello",
+          "tema": "Il buffet della colazione",
+          "testo": "Cinque foto dei vassoi del mattino. «Colazione a buffet: scegli tu, ogni mattina.»"
+        },
+        {
+          "data": "sab 5/12",
+          "formato": "Post",
+          "tema": "La brioche vegana del giorno",
+          "testo": "Una foto sola, ben fatta. «Vegana e golosa: chiedi quella di oggi.»"
+        },
+        {
+          "data": "mar 8/12",
+          "formato": "Post",
+          "tema": "Immacolata: siamo aperti",
+          "testo": "Orari della festa, confermati con voi. «Festa? Il cornetto non va in vacanza.»"
+        },
+        {
+          "data": "gio 10/12",
+          "formato": "Carosello",
+          "tema": "Dietro il banco",
+          "testo": "Le persone che vi preparano la colazione, con il loro permesso. Racconta il servizio dalla parte di chi lo fa."
+        },
+        {
+          "data": "sab 12/12",
+          "formato": "Post",
+          "tema": "Aperitivo con l'Ortrugo",
+          "testo": "Un calice dei colli piacentini al tramonto. «Finisci la giornata dove l'hai cominciata.»"
+        },
+        {
+          "data": "mar 15/12",
+          "formato": "Reel",
+          "tema": "Un vassoio per le feste in 30 secondi",
+          "testo": "Video della preparazione di un vassoio di pasticceria, se lo fate. Chiude con «ordinalo al banco»."
+        },
+        {
+          "data": "gio 17/12",
+          "formato": "Post",
+          "tema": "Come ordinare il vassoio di Natale",
+          "testo": "Due righe chiare: cosa si può ordinare, entro quando, come ritirarlo."
+        },
+        {
+          "data": "sab 19/12",
+          "formato": "Post",
+          "tema": "La serata di dicembre",
+          "testo": "La serata a tema del mese, come il karaoke, se è in programma. Data e ora confermate con voi."
+        },
+        {
+          "data": "mar 22/12",
+          "formato": "Post",
+          "tema": "Il cliente delle sei",
+          "testo": "La storia breve di un cliente abituale del mattino, con il suo permesso."
+        },
+        {
+          "data": "gio 24/12",
+          "formato": "Post",
+          "tema": "Vigilia: orari e auguri",
+          "testo": "Gli orari di Natale e Santo Stefano, e un grazie a chi passa ogni giorno."
+        },
+        {
+          "data": "sab 26/12",
+          "formato": "Carosello",
+          "tema": "Le feste da noi",
+          "testo": "Le foto dei giorni di festa al bar, e l'appuntamento con l'anno nuovo."
+        }
+      ]
+    },
+    "primi_30_giorni": [
+      {
+        "quando": "Settimana 1",
+        "cosa": "Mezz'ora al bar con voi: orari, prodotti, accessi a Facebook e Google. Sessione di foto con scattiDG."
+      },
+      {
+        "quando": "Settimana 2",
+        "cosa": "Il sito nuovo va online al posto dei tre vecchi; la scheda Google viene sistemata; escono i primi 3 contenuti."
+      },
+      {
+        "quando": "Settimana 3",
+        "cosa": "Il primo video; le risposte alle recensioni; la vetrina MyCity con vassoi e colazioni da ritirare, se la volete."
+      },
+      {
+        "quando": "Settimana 4",
+        "cosa": "Il primo resoconto: visite al sito, chiamate e indicazioni stradali da Google, quali contenuti hanno funzionato."
+      }
+    ]
+  },
+  "sito_bozza": {
+    "schema_tipo": "CafeOrCoffeeShop",
+    "palette": {
+      "fondo": "#F6EFE6",
+      "testo": "#2A1E17",
+      "accento": "#8A3B1F",
+      "tenue": "#76665A",
+      "carta": "#FFFFFF"
+    },
+    "sfondo_eroe": "#2A1E17",
+    "testo_eroe": "#F6EFE6",
+    "font": {
+      "titoli": "Playfair Display",
+      "testo": "DM Sans"
+    },
+    "sopra_titolo": "Bar · caffetteria · pasticceria",
+    "claim": "La colazione è pronta prima che si alzi la città.",
+    "azione": "Chiama il bar",
+    "lingue": [
+      "it"
+    ],
+    "chi_siamo": "Siamo il bar di Viale Sant'Ambrogio. Apriamo all'alba, quando la città è ancora silenziosa, e la sera ci ritroviamo per l'aperitivo. Da noi la colazione si sceglie al banco, con le brioche del giorno, anche vegane.",
+    "cosa_offriamo": [
+      {
+        "titolo": "Colazione a buffet",
+        "testo": "Brioche, cornetti e paste del giorno, da scegliere al banco. Ogni mattina anche una brioche vegana."
+      },
+      {
+        "titolo": "Pasticceria",
+        "testo": "Dolci per la colazione e per le feste. Per vassoi e torte chiedeteci al banco."
+      },
+      {
+        "titolo": "Aperitivo",
+        "testo": "La sera un calice di vino dei colli piacentini, come l'Ortrugo, e qualcosa da mangiare."
+      },
+      {
+        "titolo": "Serate",
+        "testo": "Ogni tanto una serata a tema, come il karaoke: la annunciamo qui e su Facebook."
+      }
+    ],
+    "extra": [],
+    "dove_siamo": "Viale Sant'Ambrogio 6/B, 29121 Piacenza.",
+    "orari": "Orari da confermare con il titolare: gli elenchi in rete non concordano.",
+    "contatti": {
+      "indirizzo": "Viale Sant'Ambrogio 6/B, 29121 Piacenza",
+      "telefono": "0523 337635",
+      "altro": "Facebook: Ora del gusto piacenza"
+    },
+    "foto_segnaposto": "Qui la foto del banco della colazione, scattata da scattiDG"
+  }
+}
