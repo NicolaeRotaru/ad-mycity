@@ -3,11 +3,11 @@ Sei U02, la sessione che unisce l'onda 2 della riparazione del 26/11 del sito My
 Cosa fai (deposito NicolaeRotaru/mycity, sei partita dall'integrazione dell'onda 1, a60799bdcd19e5fe35358b7f494fa5a2c09ab211; il tuo ramo è ccr-a672a2b3-92w5w1):
 1. `git checkout -B ccr-a672a2b3-92w5w1 a60799bdcd19e5fe35358b7f494fa5a2c09ab211`, poi `git fetch origin` dei rami ccr-a672a2b3-92w5w1-m12 … -m16.
 2. Unisci in ordine, uno alla volta, queste punte esatte (non la punta del ramo, se nel frattempo è cambiata):
-   - m12 @ __M12__
-   - m13 @ __M13__
-   - m14 @ __M14__
-   - m15 @ __M15__
-   - m16 @ __M16__
+   - m12 @ d29a7978a65735a070251cef5f75a99f82668642
+   - m13 @ 72753febe012c165cbc8059ee9a0b53fc78b17b6
+   - m14 @ ccc8c31f164438ec61e165854477365615d64357
+   - m15 @ e24d158d6715d3cce72ab9ed9247f97055122a2c
+   - m16 @ 34c38f70fd2e5139c8ae112df03ea8d194e3fdb4
    con `git merge --no-ff --no-edit <sha>`. I conflitti attesi sono zero (la regia ha già fatto la prova d'unione, verde). Se uno litiga: `git merge --abort`, fermati e scrivi alla regia quale ramo e quali file. Non ricucire a mano.
 3. Togli le riparazioni che rompono altro, secondo i collaudi, con `git revert --no-edit <sha>`, in QUESTO ordine (la regia l'ha già provato, passano puliti):
 __REVERT__
