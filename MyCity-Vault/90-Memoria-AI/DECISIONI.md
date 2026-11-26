@@ -7344,3 +7344,5 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
   - **Colore:** 🔴 deploy in produzione, firmato da Nicola.
 - 2026-11-26 19:50 · Scatti di G (agenzia, non MyCity) · Guardiano del montatore, settimo collaudo rosso (2 gravi: «subito» rotto dallo spostamento del controllo; due giri insieme con Drive lento). Corretti (commit N8N «Montatore: il settimo collaudo del guardiano», caricato su n8n spento). Nicola sceglie «Sì, un ultimo controllo»: se trova solo minori il guardiano si chiude coi limiti scritti nella guida; se trova un grave si torna da lui prima di toccare altro.
   - **Colore:** 🟡 workflow spento, su scelta di Nicola.
+- 2026-11-26 20:13 · Scatti di G (agenzia, non MyCity) · Ottavo e ultimo collaudo del guardiano: «regge» (nessun grave; 1 medio di messaggio, 4 minori). Come concordato con Nicola il guardiano si chiude: corretti il medio e tre minori da una riga, gli altri limiti scritti nella guida del montatore. Commit N8N «Montatore: l'ottavo collaudo del guardiano regge (chiuso)», caricato su n8n spento.
+  - **Colore:** 🟢 chiusura secondo la regola concordata.
