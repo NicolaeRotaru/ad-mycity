@@ -1,7 +1,7 @@
 ---
 tipo: lavoro-aperto
 fonte: AD digitale
-aggiornato: 2026-11-26 16:08
+aggiornato: 2026-11-26 17:55
 regola: si legge PRIMA di cercare cosa manca; si aggiorna a ogni lavoro che si apre o si chiude
 ---
 
@@ -29,6 +29,8 @@ La pagina dice com'era il lavoro il 31 ottobre alle 01:45. Ogni voce va riletta 
 ---
 
 ## 1 · Cose che toccano a te
+
+**Maurizio Callegari, la rivista «Shopping» e il Centro Farnese: decidi fin dove usarlo (26/11 17:47).** Nicola chiede chi è: conosce tanti negozianti e ha una rivista sui negozi di Piacenza. La scheda è pronta in `consegne/intelligence/2026-11-26-maurizio-callegari-shopping-farnese.md`. Il punto da sapere: un Maurizio Callegari è il segretario provinciale di Forza Nuova, e a febbraio 2026 ha aperto la sede nella galleria del Centro Farnese. Le fonti non dicono se è lo stesso editore. Tocca a Nicola: chiedergli dove sta la redazione e se la rivista esce ancora (l'ultimo numero trovato è di giugno 2024), poi scegliere una delle tre strade. Il consiglio dell'AD: ci presenta i negozi a voce, senza logo insieme, senza pubblicità sulla rivista, senza eventi al Farnese.
 
 **La scheda per le visite ai titolari è pronta (26/11 13:40).** Nicola oggi va di persona dai titolari. La scheda da tenere sul telefono: https://claude.ai/artifact/Ekf7HMc1HBff53nGRM9ChA. Il 10% è chiuso: Nicola, il 26/11 verso le 14:15, dice che resta solo sui prodotti venduti tramite il sito, e la scheda è corretta. Il 10% sui servizi prenotati dal sito è ancora aperto. Restano due cose di Nicola. Prima: il prezzo della vetrina da sola, per chi non vuole foto e social: le opzioni le prepara la sessione dei consensi. Seconda: approvare il suo account da fattorino: oggi 0 approvati su 1. Nessun abbonamento è ancora stato pagato davvero (0 nel database). Dettaglio: `consegne/vendite/2026-11-26-scheda-visita.md`.
 
