@@ -28,6 +28,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 26/11 14:00 | sessione «Gestione consensi sessioni» (`…NLKmh9`) | Questa sessione dà al posto suo i via libera di routine alle altre sessioni («procedi», «salva», «continua»). Si ferma e porta a lui solo le domande vere: scelte strategiche, prezzi, soldi, clienti veri. Gli scrive in modo più semplice: niente icone, un riassunto, frasi chiare e complete. Se il modo di scrivere vale per tutte le sessioni è chiesto a lui. I pulsanti «Consenti» dell'app non si possono premere da un'altra sessione: restano suoi |
 | 26/11 mattina | sessione «Lettura pagine da n8n» (`…KGbhsq`) | Lettura delle pagine dei clienti nuovi: al terzo collaudo bocciato ha scelto «Ripara solo questo». Riparato in NicolaeRotaru/N8N#18, in uso sul 12 e sul 26. Il quarto collaudo regge. I 14 difetti minori restano aperti, da non toccare adesso. |
 | 25/11 23:07-23:25 | AD, chat «Tropico: video e post» (`…0rxfdd`), via Telegram | Pacchetto di dicembre del Tropico, 5 contenuti **approvati**: il reel del 3/12, i post del 4 e del 6/12, il carosello dell'11/12, il reel del 15/12. Il post del burrito del 17/12 è **rifiutato** e torna in bozza. Restano 7 righe da approvare. |
 | 25/11 ~20:50 | sessione «Dati mancanti» (`…LJpfxZ`) | «Ripara»: le pagine dei clienti nuovi le legge n8n, nel 12 e nel 26. In uso dalle 22:15, N8N#18. Per il 12 e il 26 la rete della routine dell'AD non serve più |
