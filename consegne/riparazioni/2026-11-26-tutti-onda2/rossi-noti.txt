@@ -11,3 +11,4 @@ ramo K05 ccr-a672a2b3-92w5w1-k05
 finita K05
 finita R15
 finita R13
+finita K06
