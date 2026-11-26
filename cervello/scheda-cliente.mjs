@@ -208,7 +208,11 @@ export function controlla(d, canoni, pagamento) {
   return errori;
 }
 
-const host = (u) => { try { return new URL(/^https?:\/\//i.test(u) ? u : `https://${u}`).hostname.replace(/^www\./, '').toLowerCase(); } catch { return ''; } };
+/** Il dominio di un indirizzo, o `null` se non è un indirizzo: un sito che non si legge non parte. */
+const host = (u) => {
+  const s = /^https?:\/\//i.test(String(u)) ? String(u) : `https://${u}`;
+  return URL.canParse(s) ? new URL(s).hostname.replace(/^www\./, '').toLowerCase() || null : null;
+};
 /** Un recapito di persona dentro un testo: un'email, o un numero di telefono (almeno 8 cifre di fila, anche con spazi). */
 const haRecapito = (v) => /@[a-z0-9-]+\.[a-z]{2,}/i.test(v) || (String(v).match(/[\d+][\d .\/-]*\d/g) ?? []).some((x) => x.replace(/\D/g, '').length >= 8);
 
