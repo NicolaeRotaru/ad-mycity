@@ -7330,3 +7330,7 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
   - **Perché:** la A toglie ogni scrittura automatica sulle righe del 03 dopo tre collaudi bocciati sul segno «sostituito»; l'officina era collaudata e aspettava solo la firma.
   - **Verifica:** alle 20:36 `/salute` dal server dice versione 1.5.0, `filtri.ok: true` sull'FFmpeg 5.1.9 di Debian, whisper presente, coda 0.
   - **Colore:** 🔴 deploy in produzione, firmato da Nicola («Fai te!»).
+- 2026-11-26 16:44 · Scatti di G (agenzia, non MyCity) · Il guardiano delle cartelle del montatore arriva alla terza bocciatura: Nicola sceglie «Rifai il guardiano» (contro «lascia così, cura nel 90» e «spegni la partenza da sola»).
+  - **Cosa ho fatto:** ogni giro scrive la sua fine stimata sulla cartella «Pronti» di Drive (proprietà dell'app), da qualunque strada parta; il guardiano le legge e non fa partire un altro servizio finché una non è scaduta; senza la durata di Drive la stima si fa dal peso. Commit N8N «Montatore: il guardiano rifatto», caricato su n8n spento; quarto collaudo lanciato.
+  - **Perché:** due giri insieme fanno partire «90 · Chiedi all'AD» in parallelo, e il suo conto delle corse si sfasa. La cura di fondo resta nel «90» (della regia), segnalata nella consegna del 26/11.
+  - **Colore:** 🟡 modifica a un workflow spento, su scelta di Nicola.
