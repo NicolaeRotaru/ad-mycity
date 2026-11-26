@@ -31,11 +31,11 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
-### 🔴 #265 — Apri Google Cloud e DataForSEO per il rapporto dell'imprenditore, e di' se accetti il rischio sulle recensioni · ⏳ accodata 2026-11-26 15:05 · @builder-automazioni
+### 🔴 #265 — Apri Google Cloud e DataForSEO per il rapporto dell'imprenditore, e di' se accetti il rischio sulle recensioni · ⏳ accodata 2026-11-26 14:55 · @builder-automazioni
 
-**Stato:** ⏳ in attesa di Nicola (corretta alle 15:20 col parere legale)
+**Stato:** ⏳ in attesa di Nicola (corretta alle 14:58 col parere legale)
 
-**In parole semplici.** Il rapporto sulle attività che si iscrivono userà fonti a pagamento. Alle 14:45 del 26/11 ne hai approvate tre. Il parere legale delle 15:10 ne tiene due. Le sessioni costruiscono i pezzi spenti: si accendono quando ci sono le chiavi.
+**In parole semplici.** Il rapporto sulle attività che si iscrivono userà fonti a pagamento. Alle 14:45 del 26/11 ne hai approvate tre. Il parere legale delle 14:53 ne tiene due. Le sessioni costruiscono i pezzi spenti: si accendono quando ci sono le chiavi.
 Per esempio: per La Ragazzetta il riquadro ufficiale di Google mostrerebbe la sua scheda, che il web non ha trovato.
 
 **Cosa cambia per te.** Google resta gratis sotto le sue quote, ma i suoi dati non si salvano: si vedono solo nel riquadro di Google. TripAdvisor resta spento finché non arriva un sì scritto. DataForSEO chiede 50 dollari di ricarica, una volta sola, e il rischio verso Google resta nostro.
