@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-11-25 19:52",
+  "aggiornato": "2026-11-26 14:47",
   "fatti": [
     {
       "id": "ad.uso-e-crediti",
@@ -102,6 +102,16 @@
           "dal": "2026-11-23 02:47"
         }
       ],
+      "esenzioni": []
+    },
+    {
+      "id": "agenzia.rapporto-imprenditore",
+      "nome": "agenzia.rapporto-imprenditore",
+      "valore": "Il rapporto dell'imprenditore: 11 parti (Google, recensioni, concorrenti, zona, ricerche, sito, social, calendario della città, bandi, MyCity, piano dei 30 giorni). Fonti a pagamento approvate da Nicola il 26/11/2026: Google Places, TripAdvisor Content API, DataForSEO (ricarica minima 50 $). Prima di pagare il titolare vede un assaggio di 3-4 numeri veri; il rapporto intero dopo l'abbonamento. Il preventivo dice quali parti dà ogni abbonamento.",
+      "fonte": "Nicola in chat con l'AD, 2026-11-26 ~14:45 (risposte alle tre domande); piano consegne/strategia/2026-11-26-analisi-imprenditore/PIANO.md",
+      "aggiornato": "2026-11-26 14:47",
+      "storia": [],
+      "caccia": [],
       "esenzioni": []
     },
     {
