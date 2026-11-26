@@ -54,6 +54,13 @@ La regola è **un owner per keyword**, e gli altri rimandano. Due cose da cercar
 La `description` **è** il meccanismo di accensione. Un mansionario perfetto dietro una descrizione
 che non scatta non esiste.
 
+**Due pezzi, un solo contratto (25/11).** Nel frontmatter la `description` è UNA riga corta, circa
+150 byte, che dice quando usare il senior: è il testo che ogni sessione dell'AD carica per tutti i 120.
+Il testo lungo di smistamento («Delega qui per "…"» e i rimandi «(→ tema = **agente**)») sta nel corpo,
+sotto `## 🚪 Quando chiamarmi (smistamento)`. I guardiani dei confini leggono quel paragrafo con
+`portaDi` di `cervello/porta-senior.mjs`. Un rimando nuovo va lì, non nel frontmatter; la prova
+`cervello/test/porta-corta.test.mjs` diventa rossa se una description torna lunga o il paragrafo manca.
+
 Si misura, non si giudica a occhio: scrivi 5-10 frasi come le direbbe Nicola davvero (anche dette
 male, anche a voce), più 2-3 **trappole** che NON devono accenderlo, e guarda se la scelta cade sul
 senior giusto. Il modo di sbagliare è quasi sempre lo stesso: la frase contiene una parola familiare

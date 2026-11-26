@@ -31,6 +31,48 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
+### 🔴 #264 — Unisci la correzione che impedisce di crearsi una scheda da amministratore, poi applicala al database · ⏳ accodata 2026-11-25 16:19 · @security
+
+**Stato:** ✅ FATTO 2026-11-25 18:06. Nicola ha unito la correzione dentro la PR unica del sito e ha scritto «fai tu le migrazioni 861 e 862». L'AD ha applicato la 862 insieme alla 861 col pulsante «Migrazioni a mano», alle 18:06. Le due prove qui sotto, rilanciate in sola lettura alle 18:12, danno 0 e false.
+
+**In parole semplici.** Ogni utente ha nel database una scheda che dice se è cliente, negozio, fattorino o amministratore. Chi aveva un account senza scheda poteva crearsela dal browser e scriverci «amministratore, approvato». La correzione toglie quella possibilità: la scheda la crea solo la registrazione, o il server.
+Per esempio: un cliente la cui scheda viene cancellata per sbaglio, prima poteva rientrare e diventare amministratore; adesso il database gli dice «non hai il permesso».
+
+**Cosa cambia per te.** Oggi nessuno poteva usare la porta: in produzione 0 utenti senza scheda su 12. La correzione la chiude prima che serva.
+
+**Cosa devi fare.**
+- Guardare la richiesta di unione del sito e unirla, se ti va bene.
+- Poi applicare la migrazione 862 con il pulsante «Migrazioni a mano» (oppure dire all'AD «fai tu la migrazione 862»).
+
+**Cosa non ho verificato.** In produzione non l'ho applicata. L'ho provata su un database ricostruito qui con tutte le migrazioni; due collaudatori diversi da me dicono che regge.
+
+**Cosa cambia:** nessun utente collegato può più crearsi da solo una scheda da amministratore approvato, nemmeno se la sua scheda sparisce.
+**Se va bene:** dopo la migrazione, l'AD ricontrolla in sola lettura che in produzione non ci siano più né la regola né il permesso di inserire.
+
+- **Colore:** 🔴 (migrazione sul database di produzione)
+- **Reparto:** security
+- **Dettagli tecnici:** https://github.com/NicolaeRotaru/mycity/pull/328, ramo `claude/il-profilo-lo-crea-solo-la-registrazione`. Migrazione `migrations/862_il_profilo_lo_crea_solo_la_registrazione.sql`: `DROP POLICY "Profile is created on signup"` + `REVOKE INSERT ON public.profiles FROM anon, authenticated`. Prova `tests/sql/rls/il-profilo-lo-crea-solo-la-registrazione.test.sql` (senza 862: 4 rossi su 8; con 862: 8 verdi). Controllo in produzione del 25/11 16:10: `profiles` e `handle_new_user()` di `postgres`, INSERT diretto del proprietario, `service_role` con INSERT: la registrazione non si ferma.
+- **Verifica dopo, prima prova:** `select count(*) from pg_policies where schemaname='public' and tablename='profiles' and cmd='INSERT'` deve dare 0.
+- **Verifica dopo, seconda prova:** `has_table_privilege('authenticated','public.profiles','INSERT')` deve dare false.
+
+### 🟡 #263 — Genera la chiave della routine «Chiedi all'AD» e scegli il modello · ⏳ accodata 2026-11-25 13:35 · @builder-automazioni
+
+**Stato:** ✅ FATTO 2026-11-25 17:11
+
+**In parole semplici.** Questa card serviva a far lavorare l'AD per n8n col piano Max, senza pagare l'API di Claude. Servivano due cose da Nicola: la chiave della routine e la scelta del modello. Sono fatte tutte e due.
+Esempio vero: oggi alle 17:10 il flusso dei testi ha chiesto all'AD la didascalia di un post di prova per El Tropico Latino. La risposta è tornata a n8n in 17 secondi.
+
+**Cosa cambia per te.** I testi dei post, il controllo prima di pubblicare e la scelta delle foto passano dall'AD. Non si spende niente a consumo: si usa la quota del piano Max.
+
+**Cosa devi fare tu.** Niente su questa card. La chiave è in n8n dalle 13:58. Il pezzo di n8n è acceso dalle 14:08. Il modello è Sonnet dalle 17:07.
+
+**Cosa non ho verificato.** Quanta quota consuma in un giorno normale: finora ho misurato poche corse.
+
+Cosa cambia: i lavori di n8n con l'IA usano il piano Max invece dell'API a pagamento.
+Se va bene: si guarda la quota dopo una settimana di lavoro vero.
+
+---
+
 ### 🟡 #262 — Guarda la radiografia a onde e dimmi due scelte prima della prima radiografia · ⏳ accodata 2026-11-24 21:58 · @ad
 
 **In parole semplici.** La radiografia del sito ora lavora come le onde della riparazione. Prima ricontrolla i difetti aperti, che è il modo più economico di chiuderli, poi cerca quelli nuovi.

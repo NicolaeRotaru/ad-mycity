@@ -97102,17 +97102,17 @@
     }
   ],
   "sync_scan": {
-    "aggiornato": "2026-11-24 22:33",
+    "aggiornato": "2026-11-25 13:23",
     "letto": true,
     "motivo": null,
     "forma": "elenco",
-    "findings_aperti": 602,
-    "findings_chiusi": 2905,
+    "findings_aperti": 598,
+    "findings_chiusi": 2909,
     "findings_tot": 3507,
     "aperti_per_severita": {
       "bloccante": 5,
       "grave": 67,
-      "minore": 530,
+      "minore": 526,
       "altre": 0
     },
     "dichiarati_dal_referto": 3507,

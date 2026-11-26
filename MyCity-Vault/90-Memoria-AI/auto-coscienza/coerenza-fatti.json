@@ -1,12 +1,12 @@
 {
-  "data": "2026-11-24 22:33",
+  "data": "2026-11-25 19:52",
   "esito": "ok",
-  "copertura": 2157,
+  "copertura": 2166,
   "origine": "cloud",
   "scritto_da": "coerenza-fatti.mjs",
-  "fatti_totali": 78,
-  "cacce_aperte": 54,
-  "file_scansionati": 2157,
+  "fatti_totali": 81,
+  "cacce_aperte": 56,
+  "file_scansionati": 2166,
   "incoerenze": [],
   "cacce": [
     {
@@ -43,6 +43,18 @@
       "fatto": "agenzia.nome",
       "pattern": "scattiDG è l'azienda partner a cui MyCity si affida per foto e video (riprese, scatti, montaggio, ritocco). Il preventivo in dashboard lo firma MyCity; social, sito web e logo sono servizi di MyCity. Sul sito: LISTINO.foto_video.partner e NOME_AGENZIA_DI_RISERVA = MyCity in lib/agenzia/preventivo.ts.",
       "dal": "2026-11-23 02:47",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "agenzia.sito-solo-dove-vale-di-piu",
+      "pattern": "quale fascia vince per ogni livello: proposta dell'AD, da confermare con Nicola",
+      "dal": "2026-11-25 19:16",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "agenzia.sito-solo-dove-vale-di-piu",
+      "pattern": "Il sito nel preventivo si offre solo dove vale di più di quello che il cliente ha già (Nicola, 25/11/2026 verso le 18:58). Prima si controlla se il sito c'è, quanto è fatto bene e quanto è complesso. Poi la bozza o il rifacimento del sito entra solo nelle fasce in cui possiamo dare un valore più grande del sito di oggi. Esempio di Nicola: un sito fatto molto bene, pagato 10.000 euro, non lo battono né il Base né il Business; forse il Premium. Nelle fasce che non vincono, il sito di oggi si tiene e si collega alla vetrina. Come si misura il valore del sito e quale fascia vince per ogni livello: proposta dell'AD, da confermare con Nicola.",
+      "dal": "2026-11-25 19:16",
       "copie_trovate": 0
     },
     {
@@ -336,6 +348,7 @@
   ],
   "esenzioni_default": [
     "MyCity-Vault/90-Memoria-AI/DECISIONI.md",
+    "MyCity-Vault/90-Memoria-AI/Archivio/",
     "MyCity-Vault/90-Memoria-AI/SALA-OPERATIVA.md",
     "MyCity-Vault/90-Memoria-AI/Briefing/",
     "MyCity-Vault/90-Memoria-AI/Report/",

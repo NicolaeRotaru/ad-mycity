@@ -58,6 +58,7 @@ export const RIGENERATI = /^MyCity-Vault\/90-Memoria-AI\/auto-coscienza\/.*\.jso
 /** I file dove si scrive in fondo e non si riscrive mai: due autori, due righe, tutte e due vere. */
 export const APPEND_ONLY = [
   /^MyCity-Vault\/90-Memoria-AI\/DECISIONI\.md$/,
+  /^MyCity-Vault\/90-Memoria-AI\/Archivio\/DECISIONI\//,
   /^MyCity-Vault\/90-Memoria-AI\/SALA-OPERATIVA\.md$/,
   /^MyCity-Vault\/90-Memoria-AI\/Briefing\//,
   /^MyCity-Vault\/90-Memoria-AI\/Report\//,

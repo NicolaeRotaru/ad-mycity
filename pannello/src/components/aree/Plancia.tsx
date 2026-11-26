@@ -125,6 +125,7 @@ export default function Plancia({
   const [mosse, setMosse] = useState<Mossa[]>([]);
   const [ritmo, setRitmo] = useState<{ pianoMattino: Voce; reportSera: Voce }>({ pianoMattino: null, reportSera: null });
   const [documenti, setDocumenti] = useState<Doc[]>([]);
+  const [prospectAperti, setProspectAperti] = useState(false);
   // AR-401 — un verdetto per fonte. `VERDETTO_INIZIALE` è «cieco: non l'ho ancora letto»: al primo
   // render la home non parte da «vuoto», perché non ha ancora guardato niente.
   const [fonti, setFonti] = useState<Record<string, Verdetto>>({});
@@ -337,7 +338,12 @@ export default function Plancia({
             </button>
           ))}
         </div>
-        <details className="rounded-xl border border-black/[0.07] bg-paper/30 group">
+        <details
+          className="rounded-xl border border-black/[0.07] bg-paper/30 group"
+          onToggle={(e) => {
+            if (e.currentTarget.open) setProspectAperti(true);
+          }}
+        >
           <summary className="flex items-center gap-2 px-3 py-2 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
             <span className="text-[13px] font-medium flex-1" style={{ color: "var(--text-primary)" }}>
               Mappa prospect
@@ -346,7 +352,10 @@ export default function Plancia({
             <span className="t-eti text-[11px] hidden sm:inline">apri la categoria che ti serve</span>
           </summary>
           <div className="px-3 pb-2.5 pt-0 border-t border-black/[0.05]">
-            <ListaProspectHome />
+            {/* Velocità (perf home, 25/11/2026): l'elenco dei locali (~300 elementi, un terzo della
+                home) si prepara la prima volta che apri la tendina, non a ogni apertura della home
+                dentro una tendina chiusa. Una volta aperto resta, anche se la richiudi. */}
+            {prospectAperti && <ListaProspectHome />}
           </div>
         </details>
       </section>

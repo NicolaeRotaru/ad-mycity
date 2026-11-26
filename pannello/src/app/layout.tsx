@@ -27,7 +27,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="antialiased">
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem("mycity_theme");var d=t==="dark"||(!t&&window.matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.classList.toggle("dark",d)}catch(e){}})();`,
+            __html: `(function(){try{var t=localStorage.getItem("mycity_theme");var d=t==="dark"||(!t&&window.matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.classList.toggle("dark",d)}catch(e){}try{document.documentElement.classList.toggle("demo-on",/(?:^|; ?)mycity_demo=on(?:;|$)/.test(document.cookie))}catch(e){}})();`,
           }}
         />
         <ThemeInit />

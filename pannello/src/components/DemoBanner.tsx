@@ -46,10 +46,7 @@ export default function DemoBanner() {
     }
   }
 
-  if (demo === null) return null;
-
-  if (demo) {
-    return (
+  const acceso = (
       <div className="rounded-2xl border border-amber-300 bg-amber-50 p-3.5 flex items-center gap-3 flex-wrap">
         <span className="grid place-items-center w-8 h-8 rounded-lg bg-amber-200/70 text-amber-800 shrink-0">
           <FlaskConical size={16} />
@@ -69,10 +66,9 @@ export default function DemoBanner() {
         </button>
         {err && <div className="w-full text-[12px] font-medium text-red-700">⚠️ {err}</div>}
       </div>
-    );
-  }
+  );
 
-  return (
+  const spento = (
     <div className="rounded-2xl border border-dashed border-black/[0.12] bg-paper/40 p-3 flex items-center gap-3 flex-wrap">
       <span className="grid place-items-center w-8 h-8 rounded-lg bg-brand-50 text-brand shrink-0">
         <FlaskConical size={16} />
@@ -91,4 +87,22 @@ export default function DemoBanner() {
       {err && <div className="w-full text-[12px] font-medium text-red-700">⚠️ {err}</div>}
     </div>
   );
+
+  // Velocità (perf home, 25/11/2026): prima, finché /api/demo non rispondeva, il banner era `null` e
+  // poi compariva di colpo. Era l'elemento più grande della home (LCP a 3,4 s, quasi tutto attesa) e
+  // spingeva giù tutta la Plancia (CLS 0,197). Adesso, finché lo stato non è letto, nell'HTML del
+  // server ci sono ENTRAMBE le versioni e il CSS ne mostra una sola: la classe `demo-on` su <html>
+  // la mette lo script del layout leggendo il cookie, prima del primo disegno. Appena /api/demo
+  // risponde, resta solo la versione giusta, come prima. Un solo <div> che le avvolge: il genitore
+  // usa `space-y-5`, e due fratelli (uno nascosto) prenderebbero un margine in più.
+  if (demo === null) {
+    return (
+      <div>
+        <div className="demo-solo-on">{acceso}</div>
+        <div className="demo-solo-off">{spento}</div>
+      </div>
+    );
+  }
+
+  return demo ? acceso : spento;
 }
