@@ -37,7 +37,7 @@
   "nuovi_difetti_visti": [],
   "note": "Unione: nessuno scontro fra migrazioni (911, 916, 926, 961 non ridefiniscono funzioni di 880/900/910/940/970/980; 961 aggiunge reserve_stock/restore_stock a 2 parametri e lascia quelle a 1). I revert di R20-002, R19-004 e R26-012 non lasciano pezzi orfani. middleware.ts (giro R23) non allarga nessun percorso protetto. I pezzi mancanti già dichiarati nei referti delle altre voci parziali (R23-014, R28-012, R18-014, R18-001, R22: ritiro al banco oltre il tetto e REFUNDED sopra PAID_MANUALLY in lib/stripe/payout.ts) sono confermati e non ripetuti qui.",
   "file_toccati": 194,
-  "file_guardati": 181,
+  "file_guardati": 99,
   "nota_file": "194 file nel diff aac2350b..447fdd49; 13 sono .riparazione/referto-*.json (non codice). I 181 di codice sono stati divisi in 4 gruppi; i subagenti hanno letto per diff 99 file di codice e hanno scorso i file di prova senza contarli tutti: il numero esatto di file di prova letti non lo so.",
   "conto": {
     "subagenti": 4,
