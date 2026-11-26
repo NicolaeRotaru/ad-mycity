@@ -59,3 +59,7 @@ radiografia: consegne/radiografia/2026-11-26-ricontrollo
 - 15:06 · CF aperto (session_015BmpnXSRA4TbSnbKgczsmo, ramo `-cf`): conti e copertura-dopo verdi, 5 chiusure gravi già
   verificate. L'invio dei dettagli delle falle fra sessioni è bloccato dal controllo dei permessi: il confronto parola
   per parola lo fanno S01, S01b, S01c sui file pubblici, e mandano solo i segni (dove, campo, tipo), mai i dettagli.
+- 15:16 · CF chiuso (4,86 $ + 7,60 $ dei tre turni di riservatezza = 12,46 $). Tolte 13 righe di copertura (S01 6+1,
+  S01b 6) che puntavano ai file delle falle. Piano: S01 segnata senza ultracode. Misura scritta: 64,73 $ contro 77,04 $
+  attesi. `applica --scrivi`: 45 chiusi, aperte del sito da 598 a 553 (gravi 67→62, minori 526→486, bloccanti 5).
+  Grezzo vuoto: il digest non serve (nessuna voce nuova). Da riservare: 9 falle + 6 del CF, scelta dell'AD sotto.
