@@ -45,3 +45,8 @@ radiografia: consegne/radiografia/2026-11-26-ricontrollo
   2 asserzioni su 36. Verde il 25/11 su `0eb50c4` (#1011), rotto fra #1025 e #1027. Non viene da questa PR (commento
   sulla #1030). Ripararlo è una modifica alla macchina: serve la sua firma.
 - 13:46 · S01d finita: 3 minori, 2 ancora veri, 1 chiuso; `get_session` non dà il costo in dollari (manca `cost_usd`).
+- 13:56 · La sessione «Strategia risoluzione difetti» (session_015BmpnXuogkPZVts89PH67a, tetto 1.200 $) ripara 116 voci
+  FUORI dalle nostre 272, stessa base. A fine ricontrollo le mando lo SHA con referti e `trovati.txt`; il registro lo
+  scrivo io con `applica`, lei dopo. Fatto: risposto alle 13:56.
+- 13:53 · S01b finita: 120 minori, 14 chiusi, 79 veri, 18 cambiati, 9 non verificabili, 3 falle (dettagli in chat
+  S01b), 10,79 $. S01c a 105/120: 2 falle (pagamenti, permessi). Nota di S01c: `SendMessage` fra subagenti non ha guardia.
