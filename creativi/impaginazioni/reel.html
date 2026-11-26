@@ -1,0 +1,124 @@
+<!doctype html><html lang="it"><head><meta charset="utf-8"><title>Reel Pane Quotidiano</title>
+<link rel="stylesheet" href="common.css">
+<style>
+body{width:1080px;height:1920px;position:relative}
+.layer{position:absolute;left:0;top:0;width:1080px;height:1920px;overflow:hidden}
+#A,#E{background:var(--terra)}
+#A{z-index:10}#E{z-index:20;transform:translateY(1920px)}
+.kicker{font:800 28px Inter;letter-spacing:5px;color:var(--senape);text-align:center}
+.big{font:900 156px Fraunces;color:var(--panna);line-height:1.02;text-align:center;letter-spacing:-3px}
+.big span{display:inline-block}
+#ul{height:16px;background:var(--senape);border-radius:8px;width:0;margin:6px auto 0}
+#Atxt{position:absolute;left:0;right:0;top:640px}
+#caps{position:absolute;left:0;right:0;top:300px;height:140px;z-index:5}
+.cap{position:absolute;left:50%;top:0;display:flex;align-items:center;gap:26px;background:#fff;border-radius:999px;
+  padding:20px 46px 20px 22px;box-shadow:0 14px 34px rgba(44,42,40,.14);white-space:nowrap;opacity:0}
+.num{width:84px;height:84px;border-radius:50%;background:var(--senape);display:flex;align-items:center;justify-content:center;font:900 50px Fraunces;color:var(--ink)}
+.capt{font:800 52px Fraunces;color:var(--ink);letter-spacing:-.5px}
+#ph{left:224px;top:520px;transform-origin:50% 22%}
+#hl{position:absolute;left:12px;width:576px;border:6px solid var(--terra);border-radius:22px;box-shadow:0 0 0 9999px rgba(44,42,40,.0);opacity:0}
+#tap{position:absolute;width:40px;height:40px;border-radius:50%;background:rgba(232,163,61,.55);border:5px solid var(--senape);opacity:0;transform:translate(-50%,-50%)}
+#flash{position:absolute;inset:0;background:#fff;opacity:0}
+#card{position:absolute;left:110px;right:110px;top:560px;background:#fff;border-radius:48px;padding:70px 60px 64px;text-align:center;
+  box-shadow:0 30px 70px rgba(44,42,40,.16);opacity:0}
+.ck{font:800 28px Inter;letter-spacing:5px;color:var(--terra)}
+.prezzo{font:900 300px Fraunces;color:var(--terra);line-height:1;letter-spacing:-8px;margin:16px 0 6px}
+.cl{font:700 46px Inter;color:var(--ink);line-height:1.2}
+.cs{font:500 34px Inter;color:#6b645d;margin-top:22px}
+#strada{position:absolute;left:110px;right:110px;top:1330px;height:6px;border-radius:3px;background:repeating-linear-gradient(90deg,var(--ink) 0 26px,transparent 26px 44px);opacity:0}
+#bici{position:absolute;top:1196px;left:-260px;width:220px}
+#Etxt{position:absolute;left:0;right:0;top:470px}
+.sub{font:700 44px Inter;color:var(--panna);text-align:center;margin-top:34px;opacity:0}
+.sub b{color:var(--senape)}
+#band{position:absolute;left:70px;right:70px;top:1210px;height:330px;background:var(--panna);border-radius:44px;display:flex;align-items:center;justify-content:center;
+  transform:translateY(500px)}
+#band .wordmark{font-size:110px}#band .tagline{font-size:40px;margin-top:6px}#band .handle{font-size:32px;margin-top:8px}
+</style></head><body>
+<div class="layer" id="base"><div class="carta"></div>
+  <div id="caps">
+    <div class="cap" id="c1"><div class="num">1</div><div class="capt">Scegli dal telefono</div></div>
+    <div class="cap" id="c2"><div class="num">2</div><div class="capt">Scegli l'ora della consegna</div></div>
+    <div class="cap" id="c3"><div class="num">3</div><div class="capt">Paghi alla consegna</div></div>
+  </div>
+  <div class="phone" id="ph"><div class="screen"><div class="island"></div>
+    <div class="status"><span>9:41</span><span>●●● ▮</span></div>
+    <div class="vp"><img id="shotN" src="assets/negozio.png"><img id="shotK" src="assets/kefir.png" style="display:none"><div id="hl"></div><div id="tap"></div><div id="flash"></div></div>
+    <img class="nav" src="assets/nav.png"></div></div>
+  <div id="card"><div class="ck">LA CONSEGNA</div><div class="prezzo">3&nbsp;€</div>
+    <div class="cl">per tutto il carrello</div><div class="cs">4 € se spendi meno di 10 €</div></div>
+  <div id="strada"></div>
+  <svg id="bici" viewBox="0 0 220 130" fill="none" stroke="#2C2A28" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="46" cy="88" r="36"/><circle cx="174" cy="88" r="36"/>
+    <path d="M46 88 L86 34 L140 34 L174 88 M86 34 L112 88 L140 34 M112 88 L46 88 M76 18 L100 18 M140 34 L134 14 L156 14"/>
+    <rect x="118" y="40" width="0" height="0"/>
+  </svg>
+</div>
+<div class="layer" id="A"><div class="carta" style="opacity:.25"></div>
+  <div id="Atxt"><div class="kicker" id="ak">PANE QUOTIDIANO · VIA CALZOLAI 25</div>
+    <div class="big" style="margin-top:44px"><span id="w1">Non riesci</span><br><span id="w2">a passare?</span></div>
+    <div id="ul"></div></div>
+</div>
+<div class="layer" id="E"><div class="carta" style="opacity:.25"></div>
+  <div id="Etxt"><div class="big"><span id="e1">Passiamo</span><br><span id="e2">noi.</span></div>
+    <div class="sub" id="es">Ordina dal <b>link in bio</b></div></div>
+  <div id="band"><div class="firma"><div class="wordmark"><span class="my">My</span><span class="city">City</span></div>
+    <div class="tagline">La spesa che tiene viva la città.</div><div class="handle">@mycity.piacenza</div></div></div>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const cl=(x,a,b)=>Math.min(b,Math.max(a,x));
+const p=(t,a,b)=>cl((t-a)/(b-a),0,1);
+const L=(a,b,x)=>a+(b-a)*x;
+const oC=x=>1-Math.pow(1-x,3), iC=x=>x*x*x, ioC=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;
+const oB=x=>{const c1=1.70158,c3=c1+1;return 1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2)};
+const K=600/390; // scala screenshot -> schermo
+function pop(el,t,a,b){const x=p(t,a,b);el.style.opacity=cl(x*1.6,0,1);el.style.transform=`translateY(${L(40,0,oC(x))}px) scale(${L(.7,1,oB(x))})`;}
+function cap(el,t,a,b){ // entra in [a,a+.4], esce in [b-.2,b]
+  const i=oC(p(t,a,a+.4)), o=iC(p(t,b-.2,b));
+  el.style.opacity=i*(1-o);
+  el.style.transform=`translateX(-50%) translateX(${L(-120,0,i)+L(0,120,o)}px) scale(${L(.9,1,i)})`;
+}
+window.render=function(t){
+  // A — l'aggancio
+  $('A').style.transform=`translateY(${L(0,-1920,iC(p(t,2.8,3.25)))}px)`;
+  $('ak').style.opacity=p(t,.15,.5);
+  pop($('w1'),t,.25,.6); pop($('w2'),t,.7,1.05);
+  $('ul').style.width=(L(0,560,oC(p(t,1.25,1.65))))+'px';
+  $('Atxt').style.transform=`scale(${L(1,1.05,t/2.8)})`;
+  // telefono
+  let ty=L(1100,0,oC(p(t,2.9,3.55)))+L(0,1500,iC(p(t,10.0,10.45)));
+  let rot=L(-4,-1.5,oC(p(t,2.9,3.6)));
+  let sc=L(1,1.12,ioC(p(t,6.45,7.1)))*L(1,1/1.12,ioC(p(t,9.6,10.0)));
+  rot=L(rot,0,ioC(p(t,6.45,7.1)));
+  ty+=Math.sin(t*1.7)*6;
+  $('ph').style.transform=`translateY(${ty}px) rotate(${rot}deg) scale(${sc})`;
+  let scroll; const kef=t>=6.4;
+  $('shotN').style.display=kef?'none':'block'; $('shotK').style.display=kef?'block':'none';
+  scroll=kef?L(930,950,p(t,6.4,10)):L(340,745,ioC(p(t,3.75,5.2)));
+  (kef?$('shotK'):$('shotN')).style.transform=`translateY(${-scroll*K}px)`;
+  $('flash').style.opacity=t>=6.4?1-oC(p(t,6.4,6.62)):0;
+  // tocco sul + del pesto
+  const tp=p(t,5.45,6.05), tap=$('tap');
+  tap.style.left=(155*K)+'px'; tap.style.top=((1123-745)*K)+'px';
+  tap.style.opacity=tp>0&&tp<1?(1-tp):0; tap.style.width=tap.style.height=L(30,150,oC(tp))+'px';
+  // evidenziatore sulle righe vere della scheda
+  const r1=[1076,1130], r2=[1129,1162], m=oC(p(t,8.25,8.6));
+  const top=L(r1[0],r2[0],m), bot=L(r1[1],r2[1],m);
+  const hl=$('hl'); hl.style.top=((top-scroll)*K-8)+'px'; hl.style.height=((bot-top)*K+16)+'px';
+  hl.style.opacity=p(t,6.95,7.3)*(1-p(t,9.7,9.95));
+  hl.style.transform=`scale(${L(1.08,1,oC(p(t,6.95,7.3)))})`;
+  // didascalie
+  cap($('c1'),t,3.0,6.4); cap($('c2'),t,6.45,8.2); cap($('c3'),t,8.2,10.0);
+  // D — il prezzo della consegna
+  const cd=p(t,10.4,10.85), card=$('card');
+  card.style.opacity=cl(cd*1.5,0,1); card.style.transform=`translateY(${L(80,0,oC(cd))}px) scale(${L(.85,1,oB(cd))})`;
+  $('strada').style.opacity=p(t,10.6,10.9);
+  $('bici').style.transform=`translateX(${L(0,1600,ioC(p(t,10.5,12.3)))}px) rotate(${Math.sin(t*14)*1.2}deg)`;
+  // E — la chiusura
+  $('E').style.transform=`translateY(${L(1920,0,oC(p(t,12.4,12.85)))}px)`;
+  pop($('e1'),t,12.8,13.1); pop($('e2'),t,13.0,13.35);
+  $('es').style.opacity=p(t,13.4,13.7);
+  $('band').style.transform=`translateY(${L(500,0,oC(p(t,13.5,13.95)))}px)`;
+};
+window.render(0);
+</script></body></html>

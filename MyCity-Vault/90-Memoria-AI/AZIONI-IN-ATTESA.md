@@ -31,6 +31,26 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
+### 🟡 #266 — Guarda il ricontrollo del sito e unisci la richiesta, se ti va bene · ⏳ accodata 2026-11-26 15:30 · @ad
+
+**Stato:** ⏳ in attesa di Nicola, senza fretta
+
+**In parole semplici.** Oggi quattro sessioni hanno riletto 272 difetti aperti del sito: 45 su 272 non ci sono più. Le voci aperte passano da 598 a 553.
+Per esempio: l'avviso per un ordine non accettato ora parte dopo 5 minuti, non dopo un'ora, e la voce si chiude.
+
+**Cosa cambia per te.** Il registro dei difetti del sito dice il vero su 272 voci in più. È costato 64,73 $, contro 77,04 $ del preventivo.
+
+**Cosa devi fare tu.** Primo: guardare e unire la richiesta ad-mycity#1030. Secondo, solo se vuoi: dirmi se nascondere nel registro i titoli delle 9 falle trovate fra le voci aperte. Io non l'ho fatto, perché sono pubblici da settimane e la riparazione deve vederli. Terzo: firmare la riscrittura del passo della guida che accende lo sforzo massimo delle sessioni, che oggi non funziona più.
+
+**Cosa non ho verificato.** I 40 minori chiusi vengono dalla lettura del codice, senza un secondo agente. Diciassette voci non si potevano verificare da qui, perché serve il sito vero.
+
+Cosa cambia: il registro del sito scende a 553 voci aperte, con 62 gravi e 5 bloccanti.
+Se va bene: la riparazione in corso lavora su una lista più corta e più vera.
+
+- **Colore:** 🟡
+- **Reparto:** ad
+- **Dettagli tecnici:** referto `consegne/audit/2026-11-26-radiografia.md`, quaderno `consegne/radiografia/2026-11-26-ricontrollo/REGIA.md`, ramo `ccr-aa566c13-nvkbaw`.
+
 ### 🔴 #265 — Apri Google Cloud e DataForSEO per il rapporto dell'imprenditore, e di' se accetti il rischio sulle recensioni · ⏳ accodata 2026-11-26 14:55 · @builder-automazioni
 
 **Stato:** ⏳ in attesa di Nicola (corretta alle 14:58 col parere legale)
@@ -2016,6 +2036,20 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 > è un valore DEDOTTO dalla macchina, non fornito dal negozio; per prezzo/orari/descrizione serve prima
 > la conferma del dato dal negozio (restano «da procurare», non li scrive nessun autofill).
 <!-- SUPERVISIONE-NEGOZI:FINE -->
+
+## Firma quanto promette ogni abbonamento ai social (aggiunta 2026-11-26 19:30)
+- **Reparto:** @content-social, con @marketing e @finanza.
+- **Colore:** 🔴. Cambia cosa vendiamo ai clienti.
+- **Contenuto:** il modello delle tre fasce è in `cervello/modelli/piano-editoriale-fasce.json`. L'esempio del Tropico a dicembre è in `consegne/clienti/tropico-latino/piano-editoriale-2026-12.html`.
+  - Base, 300 €: 8 contenuti con 2 reel dalle foto. Poi 4 storie, 4 post e 4 foto su Google, il sito di una pagina.
+  - Business, 500 €: 12 contenuti con 4 reel, di cui 2 girati. Poi 12 storie, 8 post e 8 foto su Google, TikTok e le risposte alle recensioni. In più un messaggio WhatsApp alla lista, una mossa al mese, un creator a trimestre e una spinta pubblicitaria.
+  - Premium, 999 €: 20 contenuti con 8 reel, di cui 4 girati. Una storia ogni sera di apertura, 12 post e 15 foto su Google, TikTok e YouTube Shorts. In più 2 WhatsApp, una email, l'evento, 2 creator, campagne su Meta e Google, giornali e aziende vicine.
+  - La frase del Premium: «tutti i mestieri di un'agenzia completa». Si dice chiaro che il lavoro ripetitivo lo fa l'intelligenza artificiale. Mai «50 persone».
+  - Insieme decidi il tetto dei clienti Premium, io dico 5, e mi dici il costo di scattiDG.
+- **Cosa cambia:** dopo il tuo sì aggiorno il preventivo sul sito, la proposta che nasce dalla foto e il registro dei fatti. Lo faccio nello stesso lavoro. Il prossimo cliente vede le quantità nuove.
+- **Se va bene:** i clienti che pagano vedono le quantità nuove da subito. Il Tropico gira sul Premium gratis, come prova (Nicola, 26/11 verso le 19:40). A gennaio ci dice cosa spostare fra le fasce, e il modello passa alla 1.1.
+
+---
 
 ## Manda a Ora del Gusto il preventivo di SDG e fallo iscrivere su MyCity (aggiunta 2026-11-24 02:20, corretta 03:50)
 - **Reparto:** @onboarding-negozi · **Colore:** 🔴 (preventivo a un cliente vero; iscrizione sul sito vero)

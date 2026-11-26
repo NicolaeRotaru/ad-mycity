@@ -1,0 +1,10 @@
+# chiave<TAB>sessione  (voci pubbliche che il ricontrollo ha trovato essere falle ancora aperte: la regia chiede a Nicola se renderle riservate nel registro; i dettagli sono solo nelle chat delle sessioni)
+api-backend|confermata una rimessa, la giornata del fattorino risulta versata anche per i contanti che incassa dopo, e la guardia della cancellazione lo lascia andare	S01
+privacy-legale|il negozio può chiudere un recesso senza rimborso dopo 14 giorni anche se il cliente ha riportato o spedito la merce, perché il cliente non ha modo di dirlo	S01
+qa-flussi|un fattorino con patente o assicurazione scaduta continua a prendere consegne, e il profilo gli dice solo «in scadenza»	S01
+rls-database|la regola per riga della migrazione 001 lascia scrivere i prodotti dal browser, senza traccia ne' controllo di vendibilita'	S01
+api-backend|se il cliente ritira il reso mentre il negozio lo approva con rimborso, il reso resta annullato coi soldi gia' usciti	S01b
+privacy-legale|nome, telefono e indirizzo di chi non completa l'accesso restano nel browser senza scadenza, e chi apre la cassa dopo li trova già scritti	S01b
+qa-flussi|privacy: una classifica degli inviti mostra dati personali oltre il necessario (inviti spenti al lancio)	S01b
+pagamenti-stripe|una sponsorizzazione o un abbonamento rimborsati o contestati in banca restano attivi	S01c
+rls-database|chi apre un reclamo può indirizzarlo a un negozio qualunque, e il negozio giusto non lo vede	S01c

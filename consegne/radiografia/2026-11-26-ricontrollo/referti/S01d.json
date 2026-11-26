@@ -1,0 +1,131 @@
+{
+  "sessione": "S01d",
+  "base_sito": "ed12ed8ec8190e1132b690f6e034c30f0a5d55ba",
+  "aggiornato": "2026-11-26 13:45",
+  "finita": true,
+  "lotti": [
+    {
+      "id": "L01",
+      "esito": "fatto",
+      "perche": null
+    }
+  ],
+  "copertura": {
+    "file_letti_interi": [
+      "tests/unit/riparazione-r11-tipi-che-possono-restare-vuoti.test.ts"
+    ],
+    "file_letti_in_parte": [
+      {
+        "file": "tests/unit/minori-s08-cancellazione.test.ts",
+        "righe": "1-90"
+      },
+      {
+        "file": "tests/unit/scarica-i-miei-dati-non-salta-nessuna-tabella.test.ts",
+        "righe": "1-80"
+      },
+      {
+        "file": "tests/unit/riparazione-r11-viste-nei-tipi.test.ts",
+        "righe": "20-55"
+      },
+      {
+        "file": "app/api/account/export/route.ts",
+        "righe": "224-224"
+      },
+      {
+        "file": "package.json",
+        "righe": "20-20"
+      }
+    ],
+    "file_eseguiti": [
+      {
+        "file": "tests/unit/minori-s08-cancellazione.test.ts",
+        "comando": "npx vitest run tests/unit/minori-s08-cancellazione.test.ts tests/unit/riparazione-r11-tipi-che-possono-restare-vuoti.test.ts tests/unit/riparazione-r11-viste-nei-tipi.test.ts tests/unit/scarica-i-miei-dati-non-salta-nessuna-tabella.test.ts",
+        "esito": "4 file su 4, 32 test su 32 verdi"
+      },
+      {
+        "file": "tests/unit/riparazione-r11-tipi-che-possono-restare-vuoti.test.ts",
+        "comando": "npx vitest run tests/unit/minori-s08-cancellazione.test.ts tests/unit/riparazione-r11-tipi-che-possono-restare-vuoti.test.ts tests/unit/riparazione-r11-viste-nei-tipi.test.ts tests/unit/scarica-i-miei-dati-non-salta-nessuna-tabella.test.ts",
+        "esito": "4 file su 4, 32 test su 32 verdi"
+      },
+      {
+        "file": "tests/unit/riparazione-r11-viste-nei-tipi.test.ts",
+        "comando": "npx vitest run tests/unit/minori-s08-cancellazione.test.ts tests/unit/riparazione-r11-tipi-che-possono-restare-vuoti.test.ts tests/unit/riparazione-r11-viste-nei-tipi.test.ts tests/unit/scarica-i-miei-dati-non-salta-nessuna-tabella.test.ts",
+        "esito": "4 file su 4, 32 test su 32 verdi"
+      },
+      {
+        "file": "tests/unit/scarica-i-miei-dati-non-salta-nessuna-tabella.test.ts",
+        "comando": "npx vitest run tests/unit/minori-s08-cancellazione.test.ts tests/unit/riparazione-r11-tipi-che-possono-restare-vuoti.test.ts tests/unit/riparazione-r11-viste-nei-tipi.test.ts tests/unit/scarica-i-miei-dati-non-salta-nessuna-tabella.test.ts",
+        "esito": "4 file su 4, 32 test su 32 verdi"
+      },
+      {
+        "file": "scripts/gen-db-types.mjs",
+        "comando": "copia nello scratchpad con una migrazione di prova che aggiunge una colonna a orders, node gen-db-types.mjs, poi cmp con lib/database.types.ts",
+        "esito": "diversi con la migrazione, uguali senza"
+      }
+    ],
+    "non_guardato": []
+  },
+  "difetti": [],
+  "scartati": [],
+  "regressioni": [],
+  "ricontrolli": [
+    {
+      "chiave": "architettura|un altro finto scritto a mano risponde alle letture degli avvisi nelle prove della cancellazione",
+      "esito": "ancora_vero",
+      "prova": "tests/unit/minori-s08-cancellazione.test.ts:42-68",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "adminFinto() è ancora definito nel file di test e risponde da solo a from('notifications') alle righe 56-60; tests/helpers non esiste, quindi non c'è un finto condiviso",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "qa-flussi|una migrazione che aggiunge una colonna non si può consegnare da sola: i tipi generati vanno rigenerati nello stesso commit",
+      "esito": "ancora_vero",
+      "prova": "copia di scripts/gen-db-types.mjs e migrations/ nello scratchpad, aggiunta 999999_prova_qa.sql (alter table public.orders add column prova_colonna_qa text), node gen-db-types.mjs, cmp con lib/database.types.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "con la migrazione il file esce diverso (la colonna compare 3 volte), senza esce uguale: i due test che confrontano byte per byte (tipi-che-possono-restare-vuoti.test.ts:54-56, viste-nei-tipi.test.ts:54-55) diventano rossi; il generatore gira solo con lo script db:types, nessun hook lo rilancia",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "architettura|la prova sull'export elenca ancora cod_reconciliations fra le tabelle escluse",
+      "esito": "non_piu_vero",
+      "prova": "grep -n cod_reconciliations tests/unit/scarica-i-miei-dati-non-salta-nessuna-tabella.test.ts app/api/account/export/route.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "nel test 0 righe: l'elenco delle tabelle escluse (righe 33-47, 13 voci) non la contiene più; la rotta export la legge a route.ts:224 filtrata per rider_id; il test passa",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "voce minore: niente secondo verificatore (LEGGIMI §4)"
+    }
+  ],
+  "prove_per_la_palestra": [],
+  "domande_per_nicola": [],
+  "conto": {
+    "agenti": 1,
+    "permesso_regista": null,
+    "usd": 2.01,
+    "usd_perche": "usage.cost_usd di get_session letto dalla regia a fine sessione, 2026-11-26 15:02 (nel referto della sessione: null, letto prima della chiusura)",
+    "token_sessione": {
+      "turni": 10,
+      "entrata_totale": 1477959,
+      "letti_cache": 1382938,
+      "scritti_cache": 95002,
+      "uscita": 4215
+    },
+    "token_subagenti": {
+      "turni": 11,
+      "entrata_totale": 454761,
+      "letti_cache": 408946,
+      "scritti_cache": 45793,
+      "uscita": 5008
+    },
+    "nota": "un solo lotto da 3 voci minori, un subagente qa"
+  }
+}

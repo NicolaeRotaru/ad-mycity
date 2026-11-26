@@ -1,0 +1,11 @@
+{
+  "name": "impaginazioni",
+  "private": true,
+  "description": "Impaginazioni MyCity per post, storie e reel: pagine HTML trasformate in immagini e video.",
+  "type": "module",
+  "scripts": { "crea": "bash crea.sh" },
+  "dependencies": {
+    "@fontsource/fraunces": "^5.3.0",
+    "@fontsource/inter": "^5.3.0"
+  }
+}
