@@ -166,3 +166,11 @@ Una prova comune è un controllo che protegge più riparazioni insieme. Cambiarl
 
 ### Nate in questa campagna
 
+
+### Dalla fine della campagna (AD, 2026-11-27 00:55)
+- Da unire le richieste del sito mycity#338 e #341: le letture da fare sul database vero sono scritte dentro le richieste.
+- Scelta: un fattorino che cambia mezzo o rinnova i documenti torna in coda di approvazione, o lo fa solo lo staff? E se rinnova mentre ha una consegna ritirata: prima finisce e poi rinnova (com'è fatto oggi), o passa allo stato «documenti da rivedere»?
+- Scelta: spostare sul server l'importazione dei campi dei prodotti dai cataloghi esterni.
+- Scelta: togliere ad anonimi e clienti il permesso di scrivere segnalazioni direttamente (oggi una prova comune, la 48, lo vuole apposta).
+- Da accendere il controllo anti-robot di Supabase, dopo aver sistemato recupero password, cambio password e reinvio della conferma.
+- Richiesta del sito mycity#342 (campagna intera): «ok migrazioni» sulle 9 migrazioni nuove prima di unire, conteggio del catalogo per la 911, poi l'unione.

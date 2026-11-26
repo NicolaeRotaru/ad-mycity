@@ -274,11 +274,11 @@
       "voci_lavorate": 341,
       "voci_che_reggono": 112,
       "voci_chiuse": 97,
-      "usd": 995,
+      "usd": 1000,
       "usd_per_voce_lavorata": 2.9,
       "usd_per_voce_chiusa": 10.3,
       "nati": 43,
-      "nota": "Stima, non tutta misurata: ~815 $ fino alla sesta regia (riparatori, collaudi K01-K10, U01-U02, C01-C02, regie 1-6) + riservate ~101 (S01, S01 secondo, KS01, S02 11,82, KS02 5,30) + AD della campagna ~40 + settima regia (get_session): K09 7,60 · R21 secondo 5,06 · K07 ricollaudo 3,53 · U03 0,47 · C03 5,79 · K08 ~10 (non letto) · regia settima 6,77. Voci lavorate = somma delle decisioni delle tre onde (116+70+155, con ripassaggi: le voci distinte sono meno). Si chiudono dopo l unione di mycity#342: 27+31+39, più 15 già riparate. Revert all unione: onda 1 17, onda 2 4, onda 3 8 (R20-002, R19-004, R26-012 ×6). Lezioni: la PR finale va unita con main prima di aprirla (3 PR entrate nel frattempo: 1 import e 1 prova da ricucire); un ramo con unione interna non passa prova-unione: copia lineare in un ramo nuovo invece del push forzato; la regia ha passato i 250 mila token (295 mila) chiudendo la PR invece di passare la mano."
+      "nota": "Stima, non tutta misurata: ~815 $ fino alla sesta regia (riparatori, collaudi K01-K10, U01-U02, C01-C02, regie 1-6) + riservate 101,03 (S01 25,15 · S01 secondo 28,94 · KS01 29,82 · S02 11,82 · KS02 5,30) + AD della campagna ~45 + settima regia (get_session): K09 7,60 · R21 secondo 5,06 · K07 ricollaudo 3,53 · U03 0,47 · C03 5,79 · K08 ~10 (non letto) · regia settima 6,77. Voci lavorate = somma delle decisioni delle tre onde (116+70+155, con ripassaggi: le voci distinte sono meno). Si chiudono dopo l unione di mycity#342: 27+31+39, più 15 già riparate. Revert all unione: onda 1 17, onda 2 4, onda 3 8 (R20-002, R19-004, R26-012 ×6). Lezioni: la PR finale va unita con main prima di aprirla (3 PR entrate nel frattempo: 1 import e 1 prova da ricucire); un ramo con unione interna non passa prova-unione: copia lineare in un ramo nuovo invece del push forzato; la regia ha passato i 250 mila token (295 mila) chiudendo la PR invece di passare la mano."
     }
   ],
   "casi_base_per_il_preventivo": {
