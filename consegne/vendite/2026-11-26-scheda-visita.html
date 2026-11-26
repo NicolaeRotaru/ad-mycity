@@ -1,0 +1,299 @@
+<title>Scheda visita MyCity</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;600;700&display=swap">
+<style>
+/* Layout: una scheda da banco, una colonna sul telefono; sul computer fronte e retro affiancati; in stampa due fogli A4. */
+:root {
+  --carta: #FBF7F0;      /* panna, fondo */
+  --foglio: #FFFFFF;     /* riquadri */
+  --inchiostro: #2C2A28; /* testo */
+  --tenue: #6B625A;      /* testo secondario */
+  --filo: #E6DDD0;       /* linee */
+  --cotto: #C0492C;      /* terracotta, titoli e virgolette */
+  --senape: #E8A33D;     /* parole chiave */
+  --senape-fondo: #FBEBD0;
+  --fascia: #B4432A;     /* fondo delle tre frasi, testo bianco */
+  --oliva: #5A7C42;      /* sì, si può dire */
+  --bordeaux: #B82A28;   /* no, non dirlo */
+  --display: "Fraunces", Georgia, "Times New Roman", serif;
+  --testo: "Inter", "Helvetica Neue", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --carta: #1E1B18; --foglio: #282420; --inchiostro: #F3ECE2; --tenue: #B5AA9D; --filo: #3D3731;
+    --cotto: #E5775C; --senape: #EDB45A; --senape-fondo: #3A2E1C; --oliva: #8DB06F; --bordeaux: #E86A66; --fascia: #9A3A23;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --carta: #1E1B18; --foglio: #282420; --inchiostro: #F3ECE2; --tenue: #B5AA9D; --filo: #3D3731;
+  --cotto: #E5775C; --senape: #EDB45A; --senape-fondo: #3A2E1C; --oliva: #8DB06F; --bordeaux: #E86A66; --fascia: #9A3A23;
+  color-scheme: dark;
+}
+
+body {
+  background: var(--carta);
+  color: var(--inchiostro);
+  font-family: var(--testo);
+  font-size: 16px;
+  line-height: 1.55;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 20px 48px;
+}
+.pagina { max-width: 1120px; margin: 0 auto; display: grid; gap: 28px; }
+
+/* Testata */
+.testata { display: grid; gap: 10px; border-bottom: 3px solid var(--cotto); padding-block: 4px 18px; }
+.marchio { font-family: var(--display); font-weight: 700; font-size: 15px; letter-spacing: .04em; color: var(--cotto); text-transform: uppercase; }
+h1 { font-family: var(--display); font-weight: 700; font-size: clamp(30px, 6vw, 46px); line-height: 1.08; margin: 0; text-wrap: balance; }
+.sottotitolo { margin: 0; color: var(--tenue); max-width: 62ch; }
+.indice { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; padding: 0; list-style: none; }
+.indice a { display: inline-block; padding: 6px 12px; border: 1px solid var(--filo); border-radius: 999px; color: var(--inchiostro); text-decoration: none; font-size: 14px; font-weight: 600; background: var(--foglio); }
+.indice a:hover, .indice a:focus-visible { border-color: var(--cotto); color: var(--cotto); outline: none; }
+
+/* Le tre frasi */
+.tre { background: var(--fascia); color: #FFFFFF; border-radius: 14px; padding: 20px; display: grid; gap: 12px; }
+.tre h2 { color: #FFFFFF; margin: 0; font-size: 15px; font-family: var(--testo); text-transform: uppercase; letter-spacing: .08em; font-weight: 700; opacity: .9; }
+.tre ol { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; counter-reset: f; }
+.tre li { font-family: var(--display); font-size: clamp(20px, 3.4vw, 26px); line-height: 1.25; font-weight: 500; display: grid; grid-template-columns: 34px 1fr; gap: 8px; counter-increment: f; }
+.tre li::before { content: counter(f); font-family: var(--testo); font-weight: 700; font-size: 15px; width: 26px; height: 26px; border-radius: 50%; background: #FFFFFF; color: #A53D24; display: grid; place-items: center; margin-top: 3px; }
+
+/* Fronte e retro */
+.facce { display: grid; gap: 28px; }
+@media (min-width: 900px) { .facce { grid-template-columns: 1fr 1fr; align-items: start; } }
+.faccia { display: grid; gap: 22px; min-width: 0; }
+.etichetta-faccia { font-size: 13px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--tenue); border-bottom: 1px solid var(--filo); padding-bottom: 6px; }
+
+section { display: grid; gap: 10px; min-width: 0; scroll-margin-top: 16px; }
+h2 { font-family: var(--display); font-weight: 700; font-size: 23px; line-height: 1.2; margin: 0; color: var(--cotto); text-wrap: balance; }
+p { margin: 0; }
+.nota { color: var(--tenue); font-size: 14px; }
+
+/* Le frasi da dire a voce */
+.dire { font-family: var(--display); font-size: 19px; line-height: 1.4; font-weight: 500; margin: 0; padding-left: 26px; position: relative; }
+.dire::before { content: "«"; position: absolute; left: 0; top: -2px; color: var(--cotto); font-size: 26px; line-height: 1; font-weight: 700; }
+.dire-lista { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+
+/* Cosa facciamo */
+.servizi { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.servizi li { display: grid; gap: 2px; }
+.servizi b { font-size: 16px; }
+.servizi span { color: var(--inchiostro); }
+.chiave { background: var(--senape-fondo); padding: 0 4px; border-radius: 4px; font-weight: 600; }
+
+/* Prezzi */
+.tabella-box { overflow-x: auto; border: 1px solid var(--filo); border-radius: 12px; background: var(--foglio); }
+table { border-collapse: collapse; width: 100%; min-width: 520px; font-size: 14.5px; }
+th, td { padding: 10px 12px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--filo); }
+thead th { font-family: var(--display); font-size: 19px; color: var(--cotto); font-weight: 700; }
+tbody th { font-weight: 600; color: var(--tenue); font-size: 13px; text-transform: uppercase; letter-spacing: .04em; white-space: nowrap; }
+tr:last-child td, tr:last-child th { border-bottom: 0; }
+.num { font-variant-numeric: tabular-nums; font-weight: 700; font-size: 17px; }
+.consigli { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.consigli b { color: var(--cotto); }
+
+/* Domande difficili */
+.domande { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.domande li { display: grid; gap: 4px; padding-bottom: 14px; border-bottom: 1px dashed var(--filo); }
+.domande li:last-child { border-bottom: 0; padding-bottom: 0; }
+.chiede { font-weight: 700; font-size: 15px; }
+.chiede::before { content: "Chiede: "; color: var(--tenue); font-weight: 600; }
+.risposta { font-family: var(--display); font-size: 18px; line-height: 1.4; font-weight: 500; }
+.risposta::before { content: "Rispondi: "; font-family: var(--testo); font-size: 15px; font-weight: 600; color: var(--cotto); }
+.attenzione { display: inline-block; margin-top: 2px; font-size: 13px; font-weight: 700; color: var(--bordeaux); border: 1px solid var(--bordeaux); border-radius: 6px; padding: 1px 8px; }
+
+/* Passi per chiudere: è una sequenza vera */
+.passi { margin: 0; padding: 0; list-style: none; display: grid; gap: 12px; counter-reset: p; }
+.passi li { display: grid; grid-template-columns: 34px 1fr; gap: 10px; counter-increment: p; }
+.passi li::before { content: counter(p); width: 28px; height: 28px; border-radius: 50%; background: var(--senape); color: #2C2A28; font-weight: 700; display: grid; place-items: center; font-variant-numeric: tabular-nums; }
+.indirizzo { font-weight: 700; font-variant-numeric: tabular-nums; user-select: all; background: var(--senape-fondo); padding: 1px 6px; border-radius: 4px; }
+
+/* Da non dire */
+.no { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.no li { display: grid; grid-template-columns: 22px 1fr; gap: 8px; }
+.no li::before { content: "✕"; color: var(--bordeaux); font-weight: 700; }
+.si li::before { content: "✓"; color: var(--oliva); }
+
+.prima { background: var(--foglio); border: 1px solid var(--filo); border-radius: 12px; padding: 16px; }
+
+.piede { border-top: 1px solid var(--filo); padding-top: 12px; color: var(--tenue); font-size: 13px; display: flex; flex-wrap: wrap; gap: 6px 18px; }
+
+a:focus-visible { outline: 2px solid var(--cotto); outline-offset: 2px; }
+
+@media print {
+  :root { --carta: #FFFFFF; --foglio: #FFFFFF; }
+  body { font-size: 11.5pt; padding: 0; }
+  .indice { display: none; }
+  .facce { grid-template-columns: 1fr; }
+  .retro { break-before: page; }
+  .tre { background: #FFFFFF; color: var(--inchiostro); border: 2px solid var(--cotto); }
+  .tre h2 { color: var(--cotto); }
+  .tre li::before { background: var(--cotto); color: #FFFFFF; }
+  section, .domande li, .passi li { break-inside: avoid; }
+  table { min-width: 0; }
+}
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+
+<div class="pagina">
+
+  <header class="testata">
+    <div class="marchio">MyCity · Piacenza</div>
+    <h1>Cosa dire al titolare, in parole semplici</h1>
+    <p class="sottotitolo">Da tenere sul telefono durante la visita. Dai del lei, finché non è lui a darti del tu. Parla di clienti, incassi e tempo: mai di «tecnologia».</p>
+    <ul class="indice" aria-label="Vai a">
+      <li><a href="#prima">Prima di entrare</a></li>
+      <li><a href="#apertura">Come aprire</a></li>
+      <li><a href="#cosa">Cosa facciamo</a></li>
+      <li><a href="#prezzi">Quanto costa</a></li>
+      <li><a href="#domande">Domande difficili</a></li>
+      <li><a href="#chiudere">Come chiudere</a></li>
+    </ul>
+  </header>
+
+  <div class="tre" role="note">
+    <h2>Se ricordi solo tre frasi</h2>
+    <ol>
+      <li>«Facciamo tutto noi: lei non ci perde tempo e non deve imparare niente.»</li>
+      <li>«I clienti restano suoi, e niente esce senza il suo ok.»</li>
+      <li>«Un mese alla volta, disdice quando vuole. Il primo mese costa la metà.»</li>
+    </ol>
+  </div>
+
+  <div class="facce">
+
+    <!-- FRONTE -->
+    <div class="faccia fronte">
+      <div class="etichetta-faccia">Fronte · la conversazione</div>
+
+      <section id="prima" class="prima">
+        <h2>Prima di entrare (30 secondi)</h2>
+        <p>Cerca il locale su <b>Google Maps</b> dal telefono. Guarda quante foto ha, se gli orari sono giusti, le recensioni, se ha un sito, quando ha pubblicato l'ultimo post.</p>
+        <p>Scegli <span class="chiave">una cosa concreta</span> da dirgli. Per esempio: «Su Google ha solo 3 foto, e la domenica risulta aperto.»</p>
+      </section>
+
+      <section id="apertura">
+        <h2>Come aprire</h2>
+        <p class="dire">Buongiorno, sono Nicola di MyCity. Siamo di Piacenza e lavoriamo solo con le attività di Piacenza. Le rubo due minuti: le faccio vedere come trovare clienti nuovi senza perderci tempo.</p>
+        <p class="nota">Poi fai domande e ascolta. Non vendere subito.</p>
+        <ul class="dire-lista">
+          <li class="dire">Oggi i clienti nuovi come la trovano?</li>
+          <li class="dire">Le foto e i post chi li fa? Quanto tempo ci perde?</li>
+          <li class="dire">Se uno la cerca su Google, cosa trova?</li>
+        </ul>
+        <p class="nota">Alla terza domanda dici la cosa concreta che hai visto su Google.</p>
+      </section>
+
+      <section id="frase">
+        <h2>MyCity in una frase</h2>
+        <p class="dire">Noi le portiamo clienti nuovi e le togliamo il lavoro che non ha tempo di fare. I clienti di Piacenza la trovano, ordinano dal telefono e noi consegniamo a casa. Foto, post e Google li facciamo noi.</p>
+      </section>
+
+      <section id="cosa">
+        <h2>Cosa facciamo per lei</h2>
+        <ul class="servizi">
+          <li><b>La vetrina su MyCity.</b><span>I suoi prodotti sul nostro sito. I clienti ordinano dal telefono: consegniamo noi a casa, fino a 5 km, oppure passano da lei a ritirare.</span></li>
+          <li><b>Foto e video.</b><span>Belle foto del locale e dei prodotti. Le fa SDG Agenzia, il nostro partner.</span></li>
+          <li><b>Social e Google Maps.</b><span>I post li prepariamo e li pubblichiamo noi. Sistemiamo la scheda su Google: orari giusti, foto, il collegamento alla vetrina. Chi cerca vicino a lei, la trova.</span></li>
+          <li><b>Un sito col suo nome.</b><span>Se non ce l'ha, o se quello che ha si può migliorare.</span></li>
+          <li><b>Cosa va e cosa migliorare.</b><span>Guardiamo la sua attività, i social, Google e il sito, e glielo diciamo in parole semplici.</span></li>
+        </ul>
+      </section>
+
+      <section id="fiducia">
+        <h2>Perché fidarsi</h2>
+        <ul class="dire-lista">
+          <li class="dire">Non deve imparare niente e non ci perde tempo: facciamo tutto noi.</li>
+          <li class="dire">Niente esce senza il suo ok: prima glielo facciamo vedere, poi pubblichiamo.</li>
+          <li class="dire">I clienti restano suoi: la lista la scarica quando vuole.</li>
+          <li class="dire">Nessun contratto lungo: disdice quando vuole, con 30 giorni di preavviso.</li>
+        </ul>
+        <p class="nota">Se chiede chi c'è già: «Pane Quotidiano, in via Calzolai. Le faccio vedere la sua vetrina.» Aprila sul telefono.</p>
+      </section>
+    </div>
+
+    <!-- RETRO -->
+    <div class="faccia retro">
+      <div class="etichetta-faccia">Retro · prezzi, domande, chiusura</div>
+
+      <section id="prezzi">
+        <h2>Quanto costa</h2>
+        <div class="tabella-box">
+          <table>
+            <thead>
+              <tr><th scope="col"><span class="nota">Abbonamento</span></th><th scope="col">Base</th><th scope="col">Business</th><th scope="col">Premium</th></tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">Al mese</th><td class="num">300 €</td><td class="num">500 €</td><td class="num">999 €</td></tr>
+              <tr><th scope="row">Primo mese</th><td class="num">150 €</td><td class="num">250 €</td><td class="num">499,50 €</td></tr>
+              <tr><th scope="row">Al giorno</th><td class="num">circa 10 €</td><td class="num">circa 17 €</td><td class="num">circa 33 €</td></tr>
+              <tr><th scope="row">Bar</th><td>4 colazioni</td><td>6 colazioni</td><td>12 colazioni</td></tr>
+              <tr><th scope="row">Negozio</th><td>1 scontrino</td><td>2 scontrini</td><td>3 scontrini</td></tr>
+              <tr><th scope="row">Ristorante</th><td>1 coperto</td><td>1 coperto</td><td>2 coperti</td></tr>
+              <tr><th scope="row">Foto</th><td>Una sessione all'inizio</td><td>Ogni 3 mesi, più un video al mese</td><td>Foto e video ogni mese</td></tr>
+              <tr><th scope="row">Post</th><td>8 al mese</td><td>12 al mese, con 2 video</td><td>20 al mese, 4 video e le storie</td></tr>
+              <tr><th scope="row">Google</th><td>Scheda sistemata all'inizio</td><td>Più le risposte alle recensioni</td><td>Curata ogni mese</td></tr>
+              <tr><th scope="row">Sito</th><td>Una pagina</td><td>Più pagine</td><td>Aggiornato ogni mese</td></tr>
+              <tr><th scope="row">Vetrina</th><td>Ordini, consegna e ritiro</td><td>In evidenza una settimana al mese</td><td>In prima pagina due settimane al mese</td></tr>
+              <tr><th scope="row">Aiuto</th><td>WhatsApp, risposta in 24 ore</td><td>WhatsApp, risposta in 4 ore</td><td>Un referente e una visita al mese</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="nota">Le righe Bar, Negozio e Ristorante dicono quanto incasso serve per coprire il costo del giorno, con una colazione da 3 €, uno scontrino da 15 € e un coperto da 25 €. È incasso, non guadagno: non dire «si ripaga da solo».</p>
+        <p class="dire">Il Base costa circa 10 € al giorno: l'incasso di 4 colazioni. E il primo mese costa la metà.</p>
+        <ul class="consigli">
+          <li><b>Base</b> · negozio piccolo, poco tempo, vuole partire.</li>
+          <li><b>Business</b> · bar, pasticceria o ristorante che vive di foto. Con il Natale vicino è quello da proporre.</li>
+          <li><b>Premium</b> · vuole tutto fatto, con una persona di riferimento.</li>
+        </ul>
+      </section>
+
+      <section id="domande">
+        <h2>Le domande difficili</h2>
+        <ul class="domande">
+          <li><span class="chiede">«Costa troppo.»</span><span class="risposta">Sono 10 € al giorno, e il primo mese 5. Quanto spende oggi, in soldi e in ore, per foto, post e Google? Se dopo un mese non le va, disdice.</span></li>
+          <li><span class="chiede">«Ho già pagato un'agenzia e ho buttato i soldi.»</span><span class="risposta">Capita a tanti, lo so. Per questo si va un mese alla volta. E niente esce senza che lei l'abbia visto.</span></li>
+          <li><span class="chiede">«Non ho tempo.»</span><span class="risposta">È proprio il motivo per cui ci siamo. A lei servono le foto una volta e un'occhiata prima che pubblichiamo. Il resto lo facciamo noi.</span></li>
+          <li><span class="chiede">«Non sono capace con il telefono.»</span><span class="risposta">Non deve imparare niente. Quando arriva un ordine la avvisiamo per email, e all'inizio la chiamiamo anche noi.</span></li>
+          <li><span class="chiede">«Glovo si prende il 30%.»</span><span class="risposta">Noi lavoriamo con un canone fisso: sa sempre quanto spende. E i clienti restano suoi, non nostri.</span></li>
+          <li><span class="chiede">«Sulle vendite prendete una percentuale?»</span><span class="risposta">Con l'abbonamento paga il canone, e basta.</span><span class="attenzione">Da confermare con Nicola prima di dirlo</span></li>
+          <li><span class="chiede">«Chi consegna? E come mi pagate?»</span><span class="risposta">Consegniamo noi, in bici, fino a 5 km. Oppure il cliente passa da lei a ritirare. Oggi i clienti pagano in contanti alla consegna: li raccogliamo noi e le facciamo il bonifico ogni lunedì.</span></li>
+          <li><span class="chiede">«Voglio solo vendere online, senza foto e social.»</span><span class="risposta">Oggi la vetrina è dentro gli abbonamenti. Mi lascia il numero? La richiamiamo appena c'è la vetrina da sola.</span></li>
+          <li><span class="chiede">«Ci devo pensare.»</span><span class="risposta">Certo. Intanto la iscriviamo: sono due minuti e non paga niente. Nei prossimi giorni trova l'analisi della sua attività e il preventivo. Se le piace, sceglie da lì.</span></li>
+        </ul>
+      </section>
+
+      <section id="chiudere">
+        <h2>Come chiudere, sul posto</h2>
+        <ol class="passi">
+          <li><span><b>Iscrizione insieme, dal suo telefono:</b> <span class="indirizzo">mycity-marketplace.com/sell</span>. Servono tipo di attività, nome, indirizzo, partita IVA e telefono. Subito dopo, i dati di chi firma. Iscriversi è gratis.</span></li>
+          <li><span><b>Se c'è tempo, 3 foto col suo telefono:</b> la vetrina, il banco, il prodotto che vende di più.</span></li>
+          <li><span><b>Se vuole partire subito:</b> nella pagina «Il tuo preventivo» sceglie l'abbonamento e paga con la carta. Il primo mese costa la metà.</span></li>
+          <li><span><b>Prima di salutare:</b> fissate il giorno delle foto, e mandagli su WhatsApp due righe con quello che avete deciso.</span></li>
+        </ol>
+      </section>
+
+      <section id="non-dire">
+        <h2>Da non dire mai</h2>
+        <ul class="no">
+          <li>«Digitalizzazione», «intelligenza artificiale», «tecnologia». Di' clienti, incassi, tempo.</li>
+          <li>Numeri inventati, come «raddoppia le vendite»: non li abbiamo ancora.</li>
+          <li>«Zero commissioni», detto da solo.</li>
+          <li>Buoni regalo, welfare aziendale, contributi o bandi: oggi non ci sono.</li>
+          <li>Date per l'app del negozio: non prometterle.</li>
+          <li>Pagamento con carta per i suoi clienti: oggi pagano in contanti, alla consegna o al banco.</li>
+        </ul>
+      </section>
+    </div>
+
+  </div>
+
+  <footer class="piede">
+    <span>MyCity · Piacenza</span>
+    <span>Scheda del 26/11/2026</span>
+    <span>Prezzi degli abbonamenti decisi da Nicola il 24/11/2026</span>
+  </footer>
+</div>
