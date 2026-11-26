@@ -1,0 +1,24 @@
+{
+  "controllore": "C02", "onda": 2, "finita": true, "testa": "aac2350b09db195d6d2286f15f75a7d02ae590a1",
+  "verify": { "comando": "npm run verify && tests/sql/harness/apply.sh && tests/sql/harness/run.sh", "esito": "verde",
+              "dettaglio": "typecheck e lint puliti; 2233 file di prova verdi, 1 saltato (13638 prove); 240 migrazioni applicate, 0 fallite; tutti i controlli SQL verdi" },
+  "voci_rosse": [
+    { "chiave": "qa-flussi|il campanello del sito e la lista delle notifiche contano ancora le promozioni (e le newsletter) di chi le ha spente",
+      "perche": "app/notifications/page.tsx:251 — unendo R12-011 (campanello) e R14-010 (lista) il pallino esclude promozioni e newsletter spente (components/hooks/useNotificationsCount.ts:62), ma la lista toglie solo category 'promo': chi ha spento la newsletter vede ancora quelle righe non lette e «segna tutte lette» col pallino spento. La voce resta aperta per il pezzo newsletter della lista (il riparatore l'aveva dichiarata parziale)." }
+  ],
+  "nuovi_difetti_visti": [
+    { "titolo": "Un sito già salvato con ftp:// o scritto male ora blocca il salvataggio di tutto il negozio",
+      "dimensione": "frontend-ux", "severita": "medio",
+      "file": "components/VendorForm.tsx:312",
+      "descrizione": "Nato dall'incontro di R13-008 (lib/store-customization.ts:184-198, il sito accetta solo http/https) col ripiego «il social sbagliato resta com'era» di VendorForm. Un negozio che ha già salvato website='ftp://sito.it' (prima accettato da .url()) cambia solo il nome: il valore salvato viene rimesso nel modulo, la seconda verifica fallisce di nuovo e VendorForm mostra l'errore e fa return. Nome, logo e colore non si salvano finché non corregge il sito." }
+  ],
+  "file_toccati": 82, "file_guardati": 36,
+  "file_non_guardati": "46 file non guardati con gli occhi, di proposito: 41 file di prova (eseguiti tutti, verdi) e 5 referti .riparazione/referto-R1x.json (solo dati). Guardati tutti i 36 file di codice, migrazioni, semine, script e documenti.",
+  "note": [
+    "Annullate all'unione e non guardate: R12-001, R14-012, R15-006 (nessun loro file resta nel diff).",
+    "R14-002 parziale come dichiarato: app/api/cron/process-deletions/route.ts:557 copia ancora EMAIL_PARTITA invece di chiamare emailRisultaPartita.",
+    "R15-014: nello stesso file fetchNomiPubblici (righe 273 e 283) usa ancora un solo .in() senza blocchi; oggi i chiamanti passano elenchi corti, non contato come difetto.",
+    "R16-009: l'autore può cancellare una domanda segnalata prima che l'amministratore la esamini; scelta di prodotto, non guasto."
+  ],
+  "conto": { "subagenti": 4, "token_stimati": 330000 }
+}
