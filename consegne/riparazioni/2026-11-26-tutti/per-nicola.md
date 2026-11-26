@@ -76,6 +76,8 @@ Dall'onda 3 (le domande esatte sono nel referto di ogni riparatore):
 - R22 · la quota rimborsata dopo un bonifico fatto a mano: si toglie dal lunedì dopo o si chiede indietro?
 - R27 · un riquadro di circa 12 km per la posizione
 
+- Dal collaudo K07 (onda 3), per le migrazioni della PR del sito: la 911 si applica solo dopo aver contato i prodotti del catalogo vero (oltre 6-7 mila la lettura diventa lenta); una migrazione va applicata PRIMA di unire la PR, perché Vercel pubblica il codice senza aspettare le prove.
+
 ### Prove comuni che chiedono la tua firma (la correzione è pronta, tolta dal ramo)
 
 Una prova comune è un controllo che protegge più riparazioni insieme. Cambiarla chiede la tua firma, quindi la correzione è stata tolta e aspetta te.
