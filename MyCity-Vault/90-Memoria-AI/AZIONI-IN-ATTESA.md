@@ -31,6 +31,24 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
+### 🔴 #265 — Apri Google Cloud e DataForSEO per il rapporto dell'imprenditore, e di' se accetti il rischio sulle recensioni · ⏳ accodata 2026-11-26 14:55 · @builder-automazioni
+
+**Stato:** ⏳ in attesa di Nicola (corretta alle 14:58 col parere legale)
+
+**In parole semplici.** Il rapporto sulle attività che si iscrivono userà fonti a pagamento. Alle 14:45 del 26/11 ne hai approvate tre. Il parere legale delle 14:53 ne tiene due. Le sessioni costruiscono i pezzi spenti: si accendono quando ci sono le chiavi.
+Per esempio: per La Ragazzetta il riquadro ufficiale di Google mostrerebbe la sua scheda, che il web non ha trovato.
+
+**Cosa cambia per te.** Google resta gratis sotto le sue quote, ma i suoi dati non si salvano: si vedono solo nel riquadro di Google. TripAdvisor resta spento finché non arriva un sì scritto. DataForSEO chiede 50 dollari di ricarica, una volta sola, e il rischio verso Google resta nostro.
+
+**Cosa devi fare tu.** Primo: dire se accetti il rischio di DataForSEO sulle recensioni; il legale consiglia sì, tenendo solo i temi. Secondo: su Google Cloud, nel progetto della chiave PageSpeed, attiva «Places API (New)» e «Places UI Kit», crea una chiave e metti un avviso di spesa a 10 euro. Terzo: apri DataForSEO e fai la ricarica. Le chiavi vanno nelle credenziali di n8n, mai in chat; i nomi esatti li porta la sessione dei flussi. Quarto: fai rileggere il parere a un legale abilitato.
+
+**Cosa non ho verificato.** Il legale ha letto le pagine di TripAdvisor e DataForSEO solo di seconda mano. Il prezzo del riquadro di Google non l'ho controllato.
+
+Cosa cambia: il rapporto di ogni attività nuova mostra la scheda Google in diretta e i temi di tutte le recensioni, invece del solo sito.
+Se va bene: l'AD rifà l'analisi di La Ragazzetta e di Ora del Gusto e ti mostra la differenza.
+
+---
+
 ### 🔴 #264 — Unisci la correzione che impedisce di crearsi una scheda da amministratore, poi applicala al database · ⏳ accodata 2026-11-25 16:19 · @security
 
 **Stato:** ✅ FATTO 2026-11-25 18:06. Nicola ha unito la correzione dentro la PR unica del sito e ha scritto «fai tu le migrazioni 861 e 862». L'AD ha applicato la 862 insieme alla 861 col pulsante «Migrazioni a mano», alle 18:06. Le due prove qui sotto, rilanciate in sola lettura alle 18:12, danno 0 e false.
@@ -1768,6 +1786,7 @@ Al posto di `"Bash(node cervello/*.mjs:*)"` — 144 righe:
       "Bash(node cervello/sblocco-capacita.mjs:*)",
       "Bash(node cervello/scadenzario-check.mjs:*)",
       "Bash(node cervello/scan-segreti.mjs:*)",
+      "Bash(node cervello/scheda-cliente.mjs:*)",
       "Bash(node cervello/schede-pacchetto.mjs:*)",
       "Bash(node cervello/scritture-a-rischio.mjs:*)",
       "Bash(node cervello/senior-sola-lettura.mjs:*)",
@@ -1997,6 +2016,20 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 > è un valore DEDOTTO dalla macchina, non fornito dal negozio; per prezzo/orari/descrizione serve prima
 > la conferma del dato dal negozio (restano «da procurare», non li scrive nessun autofill).
 <!-- SUPERVISIONE-NEGOZI:FINE -->
+
+## Firma quanto promette ogni abbonamento ai social (aggiunta 2026-11-26 19:30)
+- **Reparto:** @content-social, con @marketing e @finanza.
+- **Colore:** 🔴. Cambia cosa vendiamo ai clienti.
+- **Contenuto:** il modello delle tre fasce è in `cervello/modelli/piano-editoriale-fasce.json`. L'esempio del Tropico a dicembre è in `consegne/clienti/tropico-latino/piano-editoriale-2026-12.html`.
+  - Base, 300 €: 8 contenuti con 2 reel dalle foto. Poi 4 storie, 4 post e 4 foto su Google, il sito di una pagina.
+  - Business, 500 €: 12 contenuti con 4 reel, di cui 2 girati. Poi 12 storie, 8 post e 8 foto su Google, TikTok e le risposte alle recensioni. In più un messaggio WhatsApp alla lista, una mossa al mese, un creator a trimestre e una spinta pubblicitaria.
+  - Premium, 999 €: 20 contenuti con 8 reel, di cui 4 girati. Una storia ogni sera di apertura, 12 post e 15 foto su Google, TikTok e YouTube Shorts. In più 2 WhatsApp, una email, l'evento, 2 creator, campagne su Meta e Google, giornali e aziende vicine.
+  - La frase del Premium: «tutti i mestieri di un'agenzia completa». Si dice chiaro che il lavoro ripetitivo lo fa l'intelligenza artificiale. Mai «50 persone».
+  - Insieme decidi il tetto dei clienti Premium, io dico 5, e mi dici il costo di scattiDG.
+- **Cosa cambia:** dopo il tuo sì aggiorno il preventivo sul sito, la proposta che nasce dalla foto e il registro dei fatti. Lo faccio nello stesso lavoro. Il prossimo cliente vede le quantità nuove.
+- **Se va bene:** i clienti che pagano vedono le quantità nuove da subito. Il Tropico gira sul Premium gratis, come prova (Nicola, 26/11 verso le 19:40). A gennaio ci dice cosa spostare fra le fasce, e il modello passa alla 1.1.
+
+---
 
 ## Manda a Ora del Gusto il preventivo di SDG e fallo iscrivere su MyCity (aggiunta 2026-11-24 02:20, corretta 03:50)
 - **Reparto:** @onboarding-negozi · **Colore:** 🔴 (preventivo a un cliente vero; iscrizione sul sito vero)

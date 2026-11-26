@@ -1,0 +1,531 @@
+{
+  "nome": "La Dolce Dispensa",
+  "tipo": "Laboratorio di pasticceria artigianale, soprattutto su ordinazione",
+  "citta": "Piacenza",
+  "indirizzo": "Via Bianchi 27, 29122 Piacenza",
+  "data": "2026-11-26 16:50",
+  "foto": null,
+  "stato_mycity": "Non è su MyCity: nessun negozio con questo nome nel database (controllato il 26/11 alle 16:45)",
+  "consigliato": "business",
+  "in_30_secondi": [
+    "Laboratorio di pasticceria artigianale in via Bianchi 27: torte su ordinazione, cake design, torte da dispensa, panettoni e colombe.",
+    "È nato nel 2022 come laboratorio in casa. Da dicembre 2024 è aperto al pubblico: a dicembre compie due anni di porta aperta.",
+    "Ha già un sito suo, Instagram e Facebook. Le torte nuziali hanno 4,9 su 5 su matrimonio.com, ma con sole 6 recensioni.",
+    "Il punto debole: si prenota solo telefonando o passando, e il foglio sulla porta dice che apre al pubblico solo la mattina, da mercoledì a domenica.",
+    "Natale è fra quattro settimane: è il momento dei panettoni, e quindi il momento giusto per entrare."
+  ],
+  "gancio": "Natale è fra quattro settimane e i panettoni si prenotano adesso. Oggi però si prenota solo telefonando, o passando la mattina. Vi portiamo le prenotazioni anche quando il laboratorio è chiuso al pubblico, con il giorno del ritiro già scelto.",
+  "perche_consigliato": "Il cake design si vende con i video: il Business dà 12 contenuti al mese con 2 video, e rifà il sito con la pagina per prenotare la torta (il sito non l'ho potuto guardare, quindi per la tabella firmata vale «medio» e si rifà dal Business). Il Base dà 8 post senza video e tiene il sito com'è: va bene se il prezzo frena, e il primo mese costa 150 euro. Prima di proporre i social guarda il suo Instagram dal telefono: se pubblica già più di 12 contenuti al mese con video regolari, fuori dal Premium la gestione social non aggiunge niente, e si punta su Google, sito e vetrina MyCity.",
+  "perche_consigliato_cliente": "Per voi consigliamo il Business: 3 contenuti a settimana con 2 video della decorazione, la scheda Google sistemata e il sito con la pagina per prenotare la torta. Potete partire dal Base e salire quando volete.",
+  "campi": [
+    {
+      "voce": "Nome",
+      "valore": "La Dolce Dispensa (sull'insegna «La dolce dispensa»)",
+      "stato": "confermato",
+      "fonte": "foto"
+    },
+    {
+      "voce": "Motto",
+      "valore": "«La bontà nella semplicità»",
+      "stato": "confermato",
+      "fonte": "foto"
+    },
+    {
+      "voce": "Tipo",
+      "valore": "Laboratorio di pasticceria artigianale; il foglio sulla porta parla di prenotazioni di torte, dolci ed eventi",
+      "stato": "confermato",
+      "fonte": "foto"
+    },
+    {
+      "voce": "Telefono del laboratorio",
+      "valore": "331 5040843 (scritto sul foglio della porta; lo stesso numero lo riporta il sito)",
+      "stato": "confermato",
+      "fonte": "foto"
+    },
+    {
+      "voce": "Orari",
+      "valore": "Dal foglio sulla porta: lunedì e martedì chiuso al pubblico; da mercoledì a domenica aperto la mattina. Le ore esatte nella foto non si leggono",
+      "stato": "frammento",
+      "fonte": "foto"
+    },
+    {
+      "voce": "Adesivi in vetrina",
+      "valore": "Nessun adesivo di pagamenti o di consegne a domicilio visibile sulla porta",
+      "stato": "confermato",
+      "fonte": "foto"
+    },
+    {
+      "voce": "Indirizzo",
+      "valore": "Via Bianchi 27, 29122 Piacenza",
+      "stato": "da_confermare",
+      "fonte": "https://www.ladolcedispensa.it/home/chi-sono/"
+    },
+    {
+      "voce": "Indirizzo vecchio",
+      "valore": "La scheda di matrimonio.com riporta ancora un altro indirizzo, quello di quando lavorava in casa",
+      "stato": "frammento",
+      "fonte": "https://www.matrimonio.com/torte-nuziali/la-dolce-dispensa-di-fabiola--e356948"
+    },
+    {
+      "voce": "Storia",
+      "valore": "Nata nel 2022 come impresa alimentare in casa; laboratorio aperto al pubblico in via Bianchi da dicembre 2024",
+      "stato": "da_confermare",
+      "fonte": "https://www.ladolcedispensa.it/home/chi-sono/"
+    },
+    {
+      "voce": "Prodotti",
+      "valore": "Torte di cake design, torte da dispensa (crostata, torta di rose, ciambellone, pan brioche, muffin, plumcake), piccola pasticceria dolce e salata, biscotti, panettoni e colombe",
+      "stato": "da_confermare",
+      "fonte": "https://www.ladolcedispensa.it/"
+    },
+    {
+      "voce": "Come lavora",
+      "valore": "Soprattutto su ordinazione, ogni torta personalizzata; su matrimonio.com le torte partono da 10 persone",
+      "stato": "da_confermare",
+      "fonte": "https://www.matrimonio.com/torte-nuziali/la-dolce-dispensa-di-fabiola--e356948"
+    },
+    {
+      "voce": "Sito",
+      "valore": "ladolcedispensa.it, con più pagine (home, chi sono, prodotti) e un titolo pensato per Google: «pasticceria a Piacenza per torte indimenticabili»",
+      "stato": "da_confermare",
+      "fonte": "https://www.ladolcedispensa.it/"
+    },
+    {
+      "voce": "Instagram",
+      "valore": "@ladolcedispensa: si presenta come laboratorio di pasticceria, con torte personalizzate, piccola pasticceria dolce e salata e grandi lievitati",
+      "stato": "da_confermare",
+      "fonte": "https://www.instagram.com/ladolcedispensa/"
+    },
+    {
+      "voce": "Facebook",
+      "valore": "Pagina della Dolce Dispensa, con 1 recensione e nessun voto mostrato",
+      "stato": "da_confermare",
+      "fonte": "https://www.facebook.com/p/La-Dolce-Dispensa-di-Fabiola-Porru-100086946734071/"
+    },
+    {
+      "voce": "TikTok",
+      "valore": null,
+      "stato": "non_trovato",
+      "fonte": null
+    },
+    {
+      "voce": "Scheda Google",
+      "valore": "Non vista: da questa sessione le pagine non si aprono",
+      "stato": "non_trovato",
+      "fonte": null
+    },
+    {
+      "voce": "Matrimonio.com",
+      "valore": "Scheda tra i fornitori di torte nuziali: 4,9 su 5 con 6 recensioni (un'altra pagina dice 5 su 5 con 3)",
+      "stato": "da_confermare",
+      "fonte": "https://www.matrimonio.com/torte-nuziali/la-dolce-dispensa-di-fabiola--e356948"
+    },
+    {
+      "voce": "Elenchi dei locali",
+      "valore": "Nessuna scheda trovata su Tripadvisor, Sluurpy o Restaurant Guru",
+      "stato": "non_trovato",
+      "fonte": null
+    },
+    {
+      "voce": "Stampa locale",
+      "valore": "Nessun articolo trovato su Libertà, Il Piacenza o PiacenzaSera",
+      "stato": "non_trovato",
+      "fonte": null
+    },
+    {
+      "voce": "Altre pasticcerie nello stesso CAP",
+      "valore": "Pasticceria Gobbi (viale Dante 59), Pasticceria Dante, vegana e senza glutine (viale Dante 93), Groppi (via Trieste 3). Quanto distano da via Bianchi non l'ho misurato",
+      "stato": "da_confermare",
+      "fonte": "https://www.aziende.it/pasticceria-gobbi-di-ernestini-enrica-andrea-e-c-s-n-c"
+    }
+  ],
+  "ha": [
+    "Un laboratorio vero, aperto al pubblico da dicembre 2024, con un'insegna curata e la vetrina già addobbata per Natale.",
+    "Un sito suo, ladolcedispensa.it, con più pagine.",
+    "Un profilo Instagram, @ladolcedispensa, e una pagina Facebook.",
+    "Le torte nuziali con 4,9 su 5 su matrimonio.com.",
+    "Un'offerta che copre tutto l'anno: torte su misura, torte da dispensa, piccola pasticceria dolce e salata, panettoni e colombe.",
+    "Telefono e orari scritti sulla porta."
+  ],
+  "non_ha": [
+    "Un modo per prenotare e pagare la torta in rete: oggi si telefona o si passa.",
+    "Una scheda Google vista con certezza: va controllata dal telefono.",
+    "Recensioni sugli elenchi che usa chi cerca una pasticceria, come Tripadvisor.",
+    "Un profilo TikTok.",
+    "Un articolo sulla stampa locale: l'apertura di dicembre 2024 non risulta raccontata.",
+    "Pagamenti digitali o consegna a domicilio dichiarati in vetrina."
+  ],
+  "migliorare": [
+    "Nome e indirizzo uguali dappertutto: matrimonio.com mostra ancora l'indirizzo di quando lavorava in casa.",
+    "Gli orari: apre al pubblico solo la mattina, e chi passa il pomeriggio trova chiuso. Vanno scritti chiari su Google e sul sito.",
+    "Le recensioni: sono poche, e vanno chieste ai clienti contenti, sposi e famiglie delle feste.",
+    "Il foglio degli orari sulla porta: è un foglio stampato piccolo, e dalla strada si legge male.",
+    "Il racconto delle «torte da dispensa»: è un'idea forte, ma chi non la conosce non sa cosa sono."
+  ],
+  "reputazione": {
+    "sintesi": "Pochissime recensioni, tutte molto buone: 4,9 su 5 su matrimonio.com con 6 recensioni, e 1 recensione su Facebook. La scheda Google non l'ho vista. Le recensioni non le ho aperte una per una: vengono dai riassunti della ricerca.",
+    "positivi": [
+      "Torte buonissime (matrimonio.com).",
+      "Una torta nuziale deliziosa, e una titolare professionale (matrimonio.com).",
+      "Secondo la scheda di matrimonio.com, il 98% delle coppie la consiglia."
+    ],
+    "negativi": [
+      "Nessuna critica trovata, ma con così poche recensioni non si può dire che non ce ne siano.",
+      "Su matrimonio.com il numero delle recensioni cambia da una pagina all'altra: 6 oppure 3.",
+      "Nessuna recensione sugli elenchi dei locali: chi cerca «pasticceria Piacenza» lì non la trova."
+    ]
+  },
+  "sito": {
+    "livello": "medio",
+    "numeri": [],
+    "giudizio": "Il sito c'è, ha più pagine e un titolo pensato per Google. Da questa sessione non si apre, e la misura di Google oggi non è riuscita per un limite di richieste. Per la tabella firmata da Nicola, un sito non guardato vale «medio»: nel Base si tiene e si collega alla vetrina, nel Business si rifà. Guardalo dal telefono prima di entrare: quanto ci mette ad aprirsi, e se c'è un modo per prenotare.",
+    "fonte": "https://www.ladolcedispensa.it/"
+  },
+  "social": [
+    {
+      "canale": "Instagram",
+      "stato": "trovato",
+      "livello": "Da vedere",
+      "giudizio": "Il profilo c'è e racconta i prodotti. Ogni quanto pubblica e se fa video non l'ho potuto vedere da qui: è la prima cosa da guardare.",
+      "fonte": "https://www.instagram.com/ladolcedispensa/"
+    },
+    {
+      "canale": "Facebook",
+      "stato": "trovato",
+      "livello": "Da vedere",
+      "giudizio": "La pagina c'è, con 1 recensione. Seguito e ritmo non visti.",
+      "fonte": "https://www.facebook.com/p/La-Dolce-Dispensa-di-Fabiola-Porru-100086946734071/"
+    },
+    {
+      "canale": "TikTok",
+      "stato": "non_trovato",
+      "livello": "Non trovato",
+      "giudizio": "Nessun profilo.",
+      "fonte": null
+    },
+    {
+      "canale": "Scheda Google Maps",
+      "stato": "non_trovato",
+      "livello": "Non vista",
+      "giudizio": "Da qui non si apre. Controlla dal telefono che ci sia, che porti l'indirizzo di via Bianchi e gli orari giusti.",
+      "fonte": null
+    }
+  ],
+  "potenziale": [
+    "Natale fra quattro settimane: panettoni e torte da prenotare adesso. Con l'ordine in rete e il ritiro in laboratorio, le prenotazioni arrivano anche quando la porta è chiusa al pubblico.",
+    "Le feste di famiglia (compleanni, battesimi, comunioni) sono ordini pianificati con giorni di anticipo: sono fatti apposta per la prenotazione dal sito.",
+    "Matrimoni 2027: le coppie scelgono la torta mesi prima. Con 4,9 su matrimonio.com la base c'è, e da gennaio serve farsi vedere.",
+    "Il cake design si vende con le immagini: un video delle mani che decorano convince più di dieci foto.",
+    "Su MyCity: panettoni e torte da dispensa da ordinare e ritirare in laboratorio. Sugli ordini fatti da MyCity c'è il 10%; quello che vende al banco resta tutto suo.",
+    "Lunedì e martedì il laboratorio è chiuso al pubblico ma lavora: gli ordini presi in rete riempiono proprio quei giorni."
+  ],
+  "offerta": [
+    {
+      "servizio": "Social con 2 video al mese",
+      "perche": "Le torte decorate si vendono guardando le mani al lavoro: 12 contenuti al mese, 3 a settimana, con 2 video della decorazione. Voi approvate l'anteprima su WhatsApp."
+    },
+    {
+      "servizio": "Scheda Google e indirizzi giusti",
+      "perche": "Nome, indirizzo di via Bianchi e orari uguali su Google, sito, Instagram e matrimonio.com. Le risposte alle recensioni le scriviamo noi."
+    },
+    {
+      "servizio": "Il sito con la prenotazione",
+      "perche": "Il sito c'è. Nel Business lo rifacciamo veloce dal telefono, con la pagina per prenotare la torta e scegliere il giorno del ritiro."
+    },
+    {
+      "servizio": "Foto e video con scattiDG",
+      "perche": "Una sessione all'avvio sulle torte di Natale, una ogni tre mesi, e un video al mese."
+    },
+    {
+      "servizio": "Vetrina su MyCity",
+      "perche": "Panettoni e torte da dispensa da ordinare in rete e ritirare in laboratorio. Su questi ordini MyCity prende il 10%, che paga consegna e servizio; sulle vendite al banco niente."
+    }
+  ],
+  "domande": [
+    "Quante torte su ordinazione fate in una settimana normale, e quante a dicembre? Fino a quando si prenotano i panettoni?",
+    "Chi segue Instagram e Facebook oggi, ogni quanto pubblicate, e fate video?",
+    "La scheda Google c'è? Porta già l'indirizzo di via Bianchi?",
+    "Gli orari veri: da mercoledì a domenica solo la mattina? E i giorni di festa a dicembre?",
+    "Da dove arrivano oggi gli ordini: passaparola, Instagram, matrimonio.com o telefono?",
+    "Il sito chi ve l'ha fatto, e riuscite a cambiarlo da soli?",
+    "Cosa vendereste da ordinare in rete e ritirare: panettoni, torte da dispensa, vassoi per le feste? E le torte su misura con quanti giorni di anticipo?"
+  ],
+  "obiezioni": [
+    {
+      "obiezione": "Ho già Instagram e il sito.",
+      "risposta": "Bene, li teniamo. Noi aggiungiamo il ritmo, 3 contenuti a settimana con 2 video, e mettiamo nome, indirizzo e orari uguali dappertutto. Così chi vi scopre su Instagram sa anche quando venire."
+    },
+    {
+      "obiezione": "Lavoro su ordinazione, vendere in rete non mi serve.",
+      "risposta": "Proprio per questo serve: la prenotazione in rete arriva anche quando il laboratorio è chiuso al pubblico, con il giorno del ritiro già scelto. Meno telefonate mentre avete le mani in pasta."
+    },
+    {
+      "obiezione": "Non ho tempo per i social.",
+      "risposta": "Non vi serve: le foto le fa scattiDG, i testi li scriviamo noi, voi approvate l'anteprima su WhatsApp."
+    },
+    {
+      "obiezione": "500 euro al mese sono tanti per un laboratorio piccolo.",
+      "risposta": "Il primo mese costa la metà e non c'è vincolo: si disdice con 30 giorni di preavviso. Si può partire dal Base a 300 euro e salire quando si vede il risultato."
+    },
+    {
+      "obiezione": "Poi mi prendete una percentuale.",
+      "risposta": "Su quello che vendete al banco, niente. Sui prodotti venduti tramite MyCity c'è il 10%, anche con l'abbonamento: paga la consegna e il servizio."
+    }
+  ],
+  "attenzione": [
+    "Il 10% sui prodotti venduti tramite MyCity resta anche con l'abbonamento (regola del 26/11): dillo subito, mai «nessuna percentuale».",
+    "Prima di proporre i social guarda Instagram: se pubblica già più di 12 contenuti al mese con video regolari, per la tabella firmata la gestione social si offre solo nel Premium.",
+    "Omonimi da non confondere: «Dalla Dispensa» (un produttore di conserve e biscotti) e «La Dispensa dei Balocchi» (un ristorante di Piacenza).",
+    "L'indirizzo vecchio di matrimonio.com era quello di casa: non scriverlo da nessuna parte e non usarlo.",
+    "Per vendere dolci in rete, ogni prodotto deve avere gli allergeni scritti prima dell'acquisto: chiedi se li ha già pronti.",
+    "Gli orari non vanno scritti da nessuna parte finché il titolare non li conferma.",
+    "Quasi tutti i dati vengono da riassunti di ricerca: questa sessione non può aprire le pagine. Sicuri sono solo nome, motto, telefono e orari della foto."
+  ],
+  "fonti": [
+    {
+      "titolo": "Sito del laboratorio, home",
+      "url": "https://www.ladolcedispensa.it/"
+    },
+    {
+      "titolo": "Sito del laboratorio, chi sono",
+      "url": "https://www.ladolcedispensa.it/home/chi-sono/"
+    },
+    {
+      "titolo": "Instagram @ladolcedispensa",
+      "url": "https://www.instagram.com/ladolcedispensa/"
+    },
+    {
+      "titolo": "Facebook, pagina della Dolce Dispensa",
+      "url": "https://www.facebook.com/p/La-Dolce-Dispensa-di-Fabiola-Porru-100086946734071/"
+    },
+    {
+      "titolo": "Matrimonio.com, scheda torte nuziali",
+      "url": "https://www.matrimonio.com/torte-nuziali/la-dolce-dispensa-di-fabiola--e356948"
+    },
+    {
+      "titolo": "Matrimonio.com, torte nuziali a Piacenza",
+      "url": "https://www.matrimonio.com/torte-nuziali/piacenza"
+    },
+    {
+      "titolo": "Aziende.it, Pasticceria Gobbi",
+      "url": "https://www.aziende.it/pasticceria-gobbi-di-ernestini-enrica-andrea-e-c-s-n-c"
+    },
+    {
+      "titolo": "Spinach, Pasticceria Dante",
+      "url": "https://spinach.guide/venues/pasticceria-dante-89238/"
+    },
+    {
+      "titolo": "Informazione Aziende, Groppi Pasticceria",
+      "url": "https://www.informazione-aziende.it/Azienda_GROPPI-PASTICCERIA-DI-GROPPI-LUIGI-C-SNC"
+    }
+  ],
+  "proposta": {
+    "saluto": "Abbiamo guardato La Dolce Dispensa come la vede chi vi cerca dal telefono. Le vostre torte hanno già chi le loda. Vi manca un modo per farvi trovare, e per farvi prenotare, anche quando il laboratorio è chiuso al pubblico.",
+    "forti": [
+      "Un laboratorio artigianale vero, aperto al pubblico da dicembre 2024.",
+      "Le coppie che vi hanno scelto per la torta di nozze vi danno 4,9 su 5.",
+      "Un'offerta che copre tutto l'anno: torte su misura, torte da dispensa, piccola pasticceria, panettoni e colombe.",
+      "Avete già un sito vostro e un profilo Instagram.",
+      "Un motto chiaro, «La bontà nella semplicità», e una vetrina curata."
+    ],
+    "deboli": [
+      "Si prenota solo telefonando o passando, e il laboratorio è aperto al pubblico solo la mattina.",
+      "Le recensioni sono poche: chi non vi conosce ha pochi motivi per fidarsi.",
+      "In rete gira ancora un indirizzo vecchio, e gli orari stanno solo sul foglio della porta.",
+      "Natale è vicino, e oggi un panettone si prenota solo al telefono o al banco.",
+      "Chi cerca una pasticceria a Piacenza sugli elenchi dei locali non vi trova."
+    ],
+    "cosa_facciamo": [
+      {
+        "tema": "Sito",
+        "oggi": "Un sito vostro, senza una pagina per prenotare",
+        "con_noi": "Un sito veloce dal telefono, con la pagina per prenotare la torta e scegliere il giorno del ritiro"
+      },
+      {
+        "tema": "Google Maps",
+        "oggi": "Un indirizzo vecchio ancora in rete, orari solo sulla porta",
+        "con_noi": "Scheda sistemata, nome, indirizzo e orari uguali dappertutto, risposte alle recensioni scritte da noi"
+      },
+      {
+        "tema": "Social",
+        "oggi": "Instagram e Facebook ci sono",
+        "con_noi": "12 contenuti al mese, 3 a settimana, con 2 video della decorazione; voi approvate l'anteprima su WhatsApp"
+      },
+      {
+        "tema": "Foto e video",
+        "oggi": "Ogni torta è diversa, e va fotografata ogni volta",
+        "con_noi": "Una sessione con scattiDG all'avvio, una ogni tre mesi, più un video al mese"
+      },
+      {
+        "tema": "Vendite",
+        "oggi": "Ordini al telefono e al banco",
+        "con_noi": "Vetrina su MyCity per panettoni e torte da dispensa da ritirare; il 10% solo sugli ordini fatti da MyCity"
+      }
+    ],
+    "standard_sito": [
+      "Si apre in meno di 3 secondi dal telefono (la misura di Google per i siti veloci).",
+      "Nome, indirizzo e telefono identici a quelli della scheda Google.",
+      "Dati per Google in formato schema.org: orari e indirizzo li leggono anche i motori di ricerca.",
+      "Leggibile da tutti: contrasto dei testi e descrizione delle immagini secondo le regole WCAG 2.1.",
+      "Pensato prima per il telefono, poi per il computer.",
+      "Allergeni scritti per ogni dolce, prima della prenotazione.",
+      "Nessun cookie di profilazione, quindi nessun banner da chiudere."
+    ],
+    "piano": {
+      "mese": "dicembre 2026",
+      "nota": "12 contenuti, 3 a settimana, con 2 video brevi. I temi partono da quello che abbiamo letto in rete e sulla vostra porta: prodotti, date di prenotazione e orari li confermiamo con voi prima di pubblicare.",
+      "righe": [
+        {
+          "data": "mar 1/12",
+          "formato": "Reel",
+          "tema": "Il panettone, dall'impasto al nastro",
+          "testo": "Video breve delle fasi del panettone, fino alla confezione. «I panettoni di Natale si prenotano adesso.»"
+        },
+        {
+          "data": "gio 3/12",
+          "formato": "Carosello",
+          "tema": "Che cos'è una torta da dispensa",
+          "testo": "Crostata, torta di rose, ciambellone, pan brioche: una foto per ciascuna. «Dolci di casa, fatti in laboratorio.»"
+        },
+        {
+          "data": "sab 5/12",
+          "formato": "Post",
+          "tema": "Come prenotare il panettone",
+          "testo": "Tre righe chiare: cosa si prenota, entro quando, come e quando si ritira. Date confermate con voi."
+        },
+        {
+          "data": "mar 8/12",
+          "formato": "Post",
+          "tema": "Immacolata: gli orari della festa",
+          "testo": "Gli orari del ponte, confermati con voi, e un invito a passare in laboratorio."
+        },
+        {
+          "data": "gio 10/12",
+          "formato": "Carosello",
+          "tema": "Una torta, dal disegno alla festa",
+          "testo": "Lo schizzo, la prova dei colori, la torta finita. Con il permesso del cliente che l'ha ordinata."
+        },
+        {
+          "data": "sab 12/12",
+          "formato": "Post",
+          "tema": "La bontà nella semplicità",
+          "testo": "Il vostro motto spiegato con una foto degli ingredienti: pochi, buoni, scelti."
+        },
+        {
+          "data": "mar 15/12",
+          "formato": "Reel",
+          "tema": "30 secondi di cake design",
+          "testo": "Le mani che decorano una torta di Natale. «Ogni torta la pensiamo per chi la riceve.»"
+        },
+        {
+          "data": "gio 17/12",
+          "formato": "Post",
+          "tema": "Piccola pasticceria per il pranzo di Natale",
+          "testo": "Un vassoio dolce e uno salato, su ordinazione. Chiude con come prenotarli."
+        },
+        {
+          "data": "sab 19/12",
+          "formato": "Post",
+          "tema": "Ultimi giorni per il panettone",
+          "testo": "Promemoria con la data limite confermata con voi."
+        },
+        {
+          "data": "mar 22/12",
+          "formato": "Post",
+          "tema": "Due anni con la porta aperta",
+          "testo": "A dicembre 2024 il laboratorio di via Bianchi ha aperto al pubblico: un grazie a chi è passato. La data giusta la confermate voi."
+        },
+        {
+          "data": "gio 24/12",
+          "formato": "Post",
+          "tema": "Vigilia: ritiri e auguri",
+          "testo": "Gli orari dei ritiri di Natale e un grazie a chi ha scelto i vostri dolci per la sua tavola."
+        },
+        {
+          "data": "sab 26/12",
+          "formato": "Carosello",
+          "tema": "Le vostre torte del 2026",
+          "testo": "Le torte più belle dell'anno, con il permesso dei clienti. In chiusura: a gennaio si prenotano le torte di nozze del 2027."
+        }
+      ]
+    },
+    "primi_30_giorni": [
+      {
+        "quando": "Settimana 1",
+        "cosa": "Mezz'ora in laboratorio con voi: orari, prodotti, date dei panettoni, accessi a Instagram, Facebook e Google. Sessione di foto con scattiDG sulle torte di Natale."
+      },
+      {
+        "quando": "Settimana 2",
+        "cosa": "La scheda Google sistemata con via Bianchi e gli orari giusti; escono i primi 3 contenuti e il video del panettone."
+      },
+      {
+        "quando": "Settimana 3",
+        "cosa": "La vetrina MyCity con panettoni e torte da dispensa da ritirare, se la volete, con gli allergeni scritti; il secondo video; la bozza del sito nuovo da guardare insieme."
+      },
+      {
+        "quando": "Settimana 4",
+        "cosa": "Il primo resoconto: prenotazioni arrivate, visite al sito, chiamate da Google, quali contenuti hanno funzionato. E il piano di gennaio per le torte di nozze."
+      }
+    ],
+    "su_misura": {
+      "base": "Il vostro sito resta e lo colleghiamo alla vetrina MyCity; 8 contenuti al mese su Instagram e Facebook su panettoni, torte da dispensa e torte su misura; la scheda Google sistemata con via Bianchi e gli orari giusti.",
+      "business": "Il sito rifatto, di più pagine, con la pagina per prenotare la torta e scegliere il giorno del ritiro; 3 contenuti a settimana, con 2 video delle mani che decorano; le risposte alle recensioni scritte da noi.",
+      "premium": "Le torte della stagione fotografate e filmate ogni mese, le storie dal laboratorio nei giorni delle prenotazioni, e un incontro al mese per leggere insieme quante torte sono arrivate dalla rete."
+    }
+  },
+  "sito_bozza": {
+    "schema_tipo": "Bakery",
+    "palette": {
+      "fondo": "#FAF5EF",
+      "testo": "#2B1B1E",
+      "accento": "#9E1B32",
+      "tenue": "#6E5F60",
+      "carta": "#FFFFFF"
+    },
+    "sfondo_eroe": "#5E1020",
+    "testo_eroe": "#FAF5EF",
+    "font": {
+      "titoli": "Bodoni Moda",
+      "testo": "DM Sans"
+    },
+    "sopra_titolo": "Laboratorio di pasticceria artigianale",
+    "claim": "La bontà nella semplicità.",
+    "azione": "Chiama per prenotare",
+    "lingue": [
+      "it"
+    ],
+    "chi_siamo": "Siamo un laboratorio di pasticceria artigianale in via Bianchi, a Piacenza. Siamo nati nel 2022 e da dicembre 2024 il laboratorio è aperto al pubblico. Lavoriamo soprattutto su ordinazione: ogni torta la pensiamo per chi la riceve.",
+    "cosa_offriamo": [
+      {
+        "titolo": "Torte su misura",
+        "testo": "Torte di cake design per compleanni, battesimi, comunioni e matrimoni, disegnate insieme a voi."
+      },
+      {
+        "titolo": "Torte da dispensa",
+        "testo": "Crostate, torta di rose, ciambellone, pan brioche, muffin e plumcake: i dolci di casa, fatti in laboratorio."
+      },
+      {
+        "titolo": "Piccola pasticceria",
+        "testo": "Dolce e salata, per le feste in famiglia e per gli eventi."
+      },
+      {
+        "titolo": "Grandi lievitati",
+        "testo": "Panettoni a Natale e colombe a Pasqua, da prenotare per tempo."
+      }
+    ],
+    "extra": [
+      {
+        "titolo": "Come prenotare",
+        "testo": "Chiamateci o passate in laboratorio: ci accordiamo su gusto, decorazione e giorno del ritiro."
+      }
+    ],
+    "dove_siamo": "Via Bianchi 27, 29122 Piacenza.",
+    "orari": "Orari da confermare con il titolare. Dal foglio sulla porta: lunedì e martedì chiuso al pubblico, da mercoledì a domenica aperto la mattina.",
+    "contatti": {
+      "indirizzo": "Via Bianchi 27, 29122 Piacenza",
+      "telefono": "331 5040843",
+      "altro": "Instagram: @ladolcedispensa"
+    },
+    "foto_segnaposto": "Qui la foto di una torta decorata in laboratorio, scattata da scattiDG"
+  }
+}

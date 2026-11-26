@@ -1,12 +1,12 @@
 {
-  "data": "2026-11-25 19:52",
+  "data": "2026-11-26 22:31",
   "esito": "ok",
-  "copertura": 2166,
+  "copertura": 2194,
   "origine": "cloud",
   "scritto_da": "coerenza-fatti.mjs",
-  "fatti_totali": 81,
-  "cacce_aperte": 56,
-  "file_scansionati": 2166,
+  "fatti_totali": 87,
+  "cacce_aperte": 67,
+  "file_scansionati": 2194,
   "incoerenze": [],
   "cacce": [
     {
@@ -43,6 +43,24 @@
       "fatto": "agenzia.nome",
       "pattern": "scattiDG è l'azienda partner a cui MyCity si affida per foto e video (riprese, scatti, montaggio, ritocco). Il preventivo in dashboard lo firma MyCity; social, sito web e logo sono servizi di MyCity. Sul sito: LISTINO.foto_video.partner e NOME_AGENZIA_DI_RISERVA = MyCity in lib/agenzia/preventivo.ts.",
       "dal": "2026-11-23 02:47",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "agenzia.rapporto-imprenditore",
+      "pattern": "Il rapporto dell'imprenditore: 11 parti (Google, recensioni, concorrenti, zona, ricerche, sito, social, calendario della città, bandi, MyCity, piano dei 30 giorni). Fonti a pagamento approvate da Nicola il 26/11/2026: Google Places, TripAdvisor Content API, DataForSEO (ricarica minima 50 $). Prima di pagare il titolare vede un assaggio di 3-4 numeri veri; il rapporto intero dopo l'abbonamento. Il preventivo dice quali parti dà ogni abbonamento.",
+      "dal": "2026-11-26 14:57",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "agenzia.rapporto-imprenditore",
+      "pattern": "Il rapporto dell'imprenditore: 11 parti (Google, recensioni, concorrenti, zona, ricerche, sito, social, calendario della città, bandi, MyCity, piano dei 30 giorni). Nicola il 26/11/2026 alle 14:45 ha approvato Google Places, TripAdvisor e DataForSEO; il parere legale delle 15:10 (bozza) le corregge: di Google si salva solo place_id e la scheda si mostra col riquadro ufficiale in diretta; TripAdvisor spenta finché non arriva un sì scritto; DataForSEO solo temi delle recensioni, rischio verso Google nostro. Prima di pagare il titolare vede un assaggio di 3-4 numeri veri; il rapporto intero dopo l'abbonamento. Il preventivo dice quali parti dà ogni abbonamento.",
+      "dal": "2026-11-26 15:00",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "agenzia.rapporto-imprenditore",
+      "pattern": "Il rapporto dell'imprenditore: 12 parti (Google, recensioni, concorrenti vicini, zona, ricerche, sito, social, calendario della città, bandi, MyCity, piano dei 30 giorni, concorrenti sui social e sul web). L'analisi si personalizza per abbonamento come contenuti, foto, video e sito: il preventivo mostra per ogni fascia le parti incluse e quelle escluse (Nicola, 26/11 14:54); quanto entra in ogni fascia è una proposta dell'AD da confermare. L'analisi dei concorrenti sui social e sul web è importantissima e va nei servizi (Nicola, 26/11 14:35). Fonti: Nicola alle 14:45 ha approvato Google Places, TripAdvisor e DataForSEO; il parere legale delle 15:10 (bozza) le corregge: di Google si salva solo place_id e la scheda si mostra col riquadro ufficiale in diretta; TripAdvisor spenta finché non arriva un sì scritto; DataForSEO solo temi delle recensioni, rischio verso Google nostro. Prima di pagare il titolare vede un assaggio di 3-4 numeri veri.",
+      "dal": "2026-11-26 16:07",
       "copie_trovate": 0
     },
     {
@@ -268,6 +286,12 @@
       "copie_trovate": 0
     },
     {
+      "fatto": "pricing.commissione",
+      "pattern": "solo canone, niente 10%",
+      "dal": "2026-11-26 14:19",
+      "copie_trovate": 0
+    },
+    {
       "fatto": "pricing.worker-negozi",
       "pattern": "abbonamento marketplace da 50 euro",
       "dal": "2026-11-24 02:15",
@@ -310,6 +334,36 @@
       "copie_trovate": 0
     },
     {
+      "fatto": "sdg.abbonamenti",
+      "pattern": "Solo canone, nessuna percentuale",
+      "dal": "2026-11-26 14:19",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "sdg.abbonamenti",
+      "pattern": "Tre abbonamenti mensili ai servizi: Base 300 euro, Business 500 euro, Premium 999 euro. Sono servizi di MyCity realizzati da SDG Agenzia, il partner di MyCity per foto, video, social e web (Nicola, 24/11: «sono servizi che offre mycity, ma tramite SDG»). Ognuno comprende foto e video, social, sito web e scheda Google, in misura diversa (proposta dell'AD, da confermare). Solo canone, nessuna percentuale. Condizioni: nessun vincolo di durata, disdetta con 30 giorni di preavviso, primo mese a metà prezzo. Il negozio li sceglie e li paga dentro il sito, dalla pagina «Il tuo preventivo» (pagamento con carta via Stripe, abbonamento mensile), in un ramo che aspetta la firma di Nicola. Primo cliente: Ora del Gusto (bar e pasticceria, Piacenza).",
+      "dal": "2026-11-26 14:19",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "sdg.abbonamenti",
+      "pattern": "pagamento con carta via Stripe, abbonamento mensile",
+      "dal": "2026-11-26 16:24",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "sdg.abbonamenti",
+      "pattern": "Tre abbonamenti mensili ai servizi: Base 300 euro, Business 500 euro, Premium 999 euro. Sono servizi di MyCity realizzati da SDG Agenzia, il partner di MyCity per foto, video, social e web (Nicola, 24/11: «sono servizi che offre mycity, ma tramite SDG»). Ognuno comprende foto e video, social, sito web e scheda Google, in misura diversa (proposta dell'AD, da confermare). Oltre al canone resta il 10% sui prodotti venduti tramite MyCity, perché la consegna va pagata (Nicola, 26/11/2026 verso le 14:15; vedi pricing.commissione). Sui servizi prenotati e pagati dal sito è ancora aperto. Condizioni: nessun vincolo di durata, disdetta con 30 giorni di preavviso, primo mese a metà prezzo. Il negozio li sceglie e li paga dentro il sito, dalla pagina «Il tuo preventivo» (pagamento con carta via Stripe, abbonamento mensile), in un ramo che aspetta la firma di Nicola. Primo cliente: Ora del Gusto (bar e pasticceria, Piacenza).",
+      "dal": "2026-11-26 16:24",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "sdg.abbonamenti",
+      "pattern": "Tre abbonamenti mensili ai servizi: Base 300 euro, Business 500 euro, Premium 999 euro. Sono servizi di MyCity realizzati da SDG Agenzia, il partner di MyCity per foto, video, social e web (Nicola, 24/11: «sono servizi che offre mycity, ma tramite SDG»). Ognuno comprende foto e video, social, sito web e scheda Google, in misura diversa (proposta dell'AD, da confermare). Solo canone, nessuna percentuale. Condizioni: nessun vincolo di durata, disdetta con 30 giorni di preavviso, primo mese a metà prezzo. Il titolare li vede coi prezzi nella proposta e li accetta dal link del preventivo; per ora li paga in contanti, di persona (sdg.pagamento, Nicola 26/11): il pagamento con carta dentro il sito è spento finché la piattaforma dei pagamenti non è pronta. Primo cliente: Ora del Gusto (bar e pasticceria, Piacenza).",
+      "dal": "2026-11-26 16:31",
+      "copie_trovate": 0
+    },
+    {
       "fatto": "strategia.cliente-core",
       "pattern": "MyCity lavora solo con botteghe",
       "dal": "2026-11-23 01:08",
@@ -343,6 +397,18 @@
       "fatto": "strategia.segmenti-onboarding",
       "pattern": "SETTEMBRE 2026 — fresco (frutta e verdura, panetterie, gastronomie, macellerie): primo valore = anti-spreco + richiami, pre-ordini per le macellerie. OTTOBRE — ottiche, estetiste, mercato coperto: prenotazioni, promemoria, recupero dei clienti persi. NOVEMBRE — regali e PMI (saltato: calendario.novembre-regali). DICEMBRE — si continua a far entrare negozi: Nicola il 1/11/2026 ha tolto lo «stop all'onboarding» di dicembre, che non aveva fonte nelle due ricerche (la ricerca sui negozianti ha solo tre finestre: settembre, ottobre, novembre) — «toglila». Esclusi per decisione di Nicola: ristoranti, catene e franchising; pescherie in fase 2. Il ritmo vero dopo l'apertura sta in negozi.ingresso.",
       "dal": "2026-11-23 01:08",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "agenzia.scheda-da-foto",
+      "pattern": "Il preventivo per il cliente con l'anteprima di cosa offriamo",
+      "dal": "2026-11-26 16:23",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "agenzia.scheda-da-foto",
+      "pattern": "La scheda del venditore nasce dalla foto (Nicola, 26/11/2026 verso le 13:35). Il venditore fotografa l'attività in cui entra e manda la foto a una sessione nuova: la sessione legge la foto, cerca sul web via e numero, telefono, sito, social e recensioni, e consegna due pagine. ① La scheda per il venditore, interna, subito: cosa ha, cosa non ha, cosa va migliorato, potenziale, offerta, domande. ② Il preventivo per il cliente con l'anteprima di cosa offriamo: punti forti e deboli, la bozza del sito secondo gli standard, il piano editoriale del mese già pronto, gli abbonamenti. Le pagine le scrive cervello/scheda-cliente.mjs da un dati.json; la skill è scheda-da-foto. È un'altra cosa dalla scheda del cliente che riempie la vetrina MyCity, che resta dopo l'abbonamento (agenzia.analisi-e-scheda).",
+      "dal": "2026-11-26 16:23",
       "copie_trovate": 0
     }
   ],

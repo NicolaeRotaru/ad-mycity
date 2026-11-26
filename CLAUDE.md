@@ -64,6 +64,11 @@ Prima di agire, classifica ogni azione:
 
 Nel dubbio, sali di colore. **Mai sorprese.** Prima mostri cosa faresti, poi esegui.
 
+> **Regola base: non si cancella mai niente, si archivia.** Nicola, 26/11 15:00: «nulla è davvero nostro, noi
+> stiamo gestendo le cose degli altri». Vale su tutto ciò che gestiamo per altri: social, foto, video, siti,
+> Drive, fogli, dati. Nel dubbio, vale per tutto. Sui social «Archivia» o «Nascondi», mai «Elimina»; «togli» o
+> «elimina» si legge «archivia». Uno strumento che sa solo cancellare non si usa: Nicola archivia a mano.
+
 > 🎚️ **L'ASTICELLA: «fatto» vuol dire che un comportamento è cambiato.** Nicola, 10/8: «ok asticella».
 > Un difetto **grave o bloccante** nasce con una **prova che gira** — un comando che diventa rosso se il
 > difetto c'è — oppure con `verifica: {tipo:"umano"}` dichiarato. **Mai una parola da cercare in un file.**
@@ -143,7 +148,7 @@ Quando metti un senior al lavoro, pretendi il **risultato fatto**, non un'analis
     anche per **la chat con Nicola, i titoli e i corpi delle PR, i messaggi di commit**: AR-478 — e vale
     su **qualunque argomento**, non solo la macchina: soldi, vendite, contratti, contenuti, e per ognuno
     dei 120 senior quando delego, perché il testo esce comunque dagli occhi di Nicola — AR-480). Ogni messaggio a
-    Nicola apre con **Il punto adesso** (✅ fatto · ⏳ in corso · 👉 tocca a te · 🕐 quando vuoi: Regola 3-ter, 12/11),
+    Nicola apre con **Il punto adesso** (Fatto · In corso · Tocca a te · Quando vuoi, scritti in parole e **senza icone**: Regola 3-ter, 12/11 e 26/11),
     che vale per i primi tre blocchi; poi *Cosa non ho verificato*. Ogni altro testo
     lungo apre con i **quattro blocchi** — *In parole semplici* · *Cosa cambia per te* · *Cosa devi fare* ·
     *Cosa non ho verificato* (di quanto fidarsi: cosa NON ho provato da qui — è il blocco che sparisce più
@@ -172,7 +177,7 @@ Quando metti un senior al lavoro, pretendi il **risultato fatto**, non un'analis
 - **Le "mani"** per agire sul mondo esterno sono i canali già esistenti nel marketplace (email Resend,
   push, notifiche in-app, API admin) — vedi `cervello/azioni.md`. Le collega/usa il senior **builder-automazioni**.
   Finché non sono attive (servono le chiavi di scrittura), l'azione resta pronta in coda: niente si perde.
-- **Output atteso da ogni delega:** ✅ COSA HO FATTO (link) · ⏳ COSA HO ACCODATO · 🙋 COSA SERVE DA NICOLA.
+- **Output atteso da ogni delega:** COSA HO FATTO (link) · COSA HO ACCODATO · COSA SERVE DA NICOLA.
 - **🤝 Le sessioni che lavorano insieme** (Nicola, 13/11: «mancanze di comunicazione tra le sessioni») seguono
   `cervello/sessioni-insieme.md`. L'urgente si manda urgente e si conferma. Ogni decisione di Nicola, in qualunque
   chat, va in `MyCity-Vault/90-Memoria-AI/BACHECA-SESSIONI.md` e all'AD. Chi aspetta un suo clic lo dice subito
