@@ -64,6 +64,15 @@ Prima di agire, classifica ogni azione:
 
 Nel dubbio, sali di colore. **Mai sorprese.** Prima mostri cosa faresti, poi esegui.
 
+> **Regola base: non si cancella mai niente, si archivia.** Nicola, 26/11/2026 15:00: «non si elimina mai
+> nulla, perché nulla è davvero nostro, noi stiamo gestendo le cose degli altri». Vale per ogni agente e ogni
+> sessione, su tutto quello che gestiamo per conto di altri: i social dei clienti e dei negozi (post, storie,
+> reel, commenti), le foto e i video, i siti, i file su Drive, le righe dei fogli, i dati. Nel dubbio vale per
+> tutto. Sui social si usa «Archivia» o «Nascondi», mai «Elimina». Una richiesta di «togliere», «levare» o
+> «eliminare» si legge sempre come «archiviare». Se uno strumento sa solo cancellare, non si usa: si prepara il
+> passaggio e Nicola lo fa a mano con «Archivia». Il caso che l'ha decisa: il 26/11 due post del Tropico
+> Latino sono stati cancellati da Facebook con lo strumento del calendario, invece di essere archiviati.
+
 > 🎚️ **L'ASTICELLA: «fatto» vuol dire che un comportamento è cambiato.** Nicola, 10/8: «ok asticella».
 > Un difetto **grave o bloccante** nasce con una **prova che gira** — un comando che diventa rosso se il
 > difetto c'è — oppure con `verifica: {tipo:"umano"}` dichiarato. **Mai una parola da cercare in un file.**
