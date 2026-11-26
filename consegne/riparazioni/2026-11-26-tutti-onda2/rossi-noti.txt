@@ -12,3 +12,4 @@ finita K05
 finita R15
 finita R13
 finita K06
+ramo K06 ccr-a672a2b3-92w5w1-k06
