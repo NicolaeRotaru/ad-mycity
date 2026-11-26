@@ -28,6 +28,8 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 26/11 20:15 circa | all'AD | «E fai le migrazione». Entrata la 864 alle 20:41; la 863 è ferma, perché il suo testo non torna col pagamento in contanti |
+| 26/11 19:50 circa | all'AD | «ok ripubblica il 12 e il 26». La sessione dei flussi è ferma per il suo controllo dei permessi: serve l'ok nella sua chat, oppure «fallo tu da qui» all'AD |
 | 26/11 ~19:40 | AD (`…KdhTFt`) | **Il Tropico Latino gira sul Premium, e non paga**: è l'unico cliente che non paga. Il Premium sul Tropico è la prova per distinguere bene Premium, Business e Base. Fatto `clienti.tropico-premium`. Chi fa i contenuti del Tropico segue il piano Premium di dicembre (`consegne/clienti/tropico-latino/piano-editoriale-2026-12.json`) |
 | 26/11 ~17:00 | AD (`…KdhTFt`) | Il **piano editoriale** si personalizza per cliente e si adatta all'**abbonamento**: Business «molte più cose, un servizio pazzesco», Premium «come un'agenzia di 50 marketer», dentro tutta la visibilità online (social, Google e il resto). Esempio sul Tropico. L'AD ha fatto il modello 1.0 delle tre fasce (`cervello/modelli/piano-editoriale-fasce.json`), il piano di dicembre del Tropico per fascia e il programma che lo controlla. Le quantità nuove aspettano la firma: finché non firma, il preventivo sul sito resta com'è |
 | 26/11 ~16:10 | AD, chat del Tropico, risposta alla domanda sulle pagine | Tutto quello che approva per il Tropico si pubblica sempre su tutte e quattro le pagine del locale, anche dopo il 28/11. Il flusso 01b resta acceso. Fatto registrato come `clienti.tropico-pagine` |
