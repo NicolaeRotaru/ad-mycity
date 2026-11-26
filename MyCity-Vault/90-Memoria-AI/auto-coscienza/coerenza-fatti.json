@@ -1,11 +1,11 @@
 {
-  "data": "2026-11-26 14:57",
+  "data": "2026-11-26 15:00",
   "esito": "ok",
   "copertura": 2175,
   "origine": "cloud",
   "scritto_da": "coerenza-fatti.mjs",
   "fatti_totali": 82,
-  "cacce_aperte": 60,
+  "cacce_aperte": 61,
   "file_scansionati": 2175,
   "incoerenze": [],
   "cacce": [
@@ -49,6 +49,12 @@
       "fatto": "agenzia.rapporto-imprenditore",
       "pattern": "Il rapporto dell'imprenditore: 11 parti (Google, recensioni, concorrenti, zona, ricerche, sito, social, calendario della città, bandi, MyCity, piano dei 30 giorni). Fonti a pagamento approvate da Nicola il 26/11/2026: Google Places, TripAdvisor Content API, DataForSEO (ricarica minima 50 $). Prima di pagare il titolare vede un assaggio di 3-4 numeri veri; il rapporto intero dopo l'abbonamento. Il preventivo dice quali parti dà ogni abbonamento.",
       "dal": "2026-11-26 14:57",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "agenzia.rapporto-imprenditore",
+      "pattern": "Il rapporto dell'imprenditore: 11 parti (Google, recensioni, concorrenti, zona, ricerche, sito, social, calendario della città, bandi, MyCity, piano dei 30 giorni). Nicola il 26/11/2026 alle 14:45 ha approvato Google Places, TripAdvisor e DataForSEO; il parere legale delle 15:10 (bozza) le corregge: di Google si salva solo place_id e la scheda si mostra col riquadro ufficiale in diretta; TripAdvisor spenta finché non arriva un sì scritto; DataForSEO solo temi delle recensioni, rischio verso Google nostro. Prima di pagare il titolare vede un assaggio di 3-4 numeri veri; il rapporto intero dopo l'abbonamento. Il preventivo dice quali parti dà ogni abbonamento.",
+      "dal": "2026-11-26 15:00",
       "copie_trovate": 0
     },
     {
