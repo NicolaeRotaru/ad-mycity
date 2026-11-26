@@ -1,0 +1,27 @@
+# elenco D di pronte (2026-11-26 17:16): 26 voci uniche, una chiave per riga
+deploy-sre|il rilascio non applica le migrazioni: il codice nuovo arriva su un database vecchio
+deploy-sre|la regola che dovrebbe fermare il codice rosso esiste su github ma è spenta, non guarda nessun ramo e aspetta un controllo che non esiste
+qa-flussi|le tre prove automatiche dell'acquisto vero sono vuote: passano in tre millesimi senza aprire niente
+deploy-sre|le foto dei negozi non sono ancora in nessuna copia di sicurezza: manca una chiave nei segreti
+privacy-legale|lo sconto scritto su un evento appare ai clienti come «-20%», ma la cassa non lo applica mai
+privacy-legale|la pulizia notturna dei documenti d'identità lasciati a metà iscrizione fallisce ogni notte nel database vero
+privacy-legale|i nomi di sedici account cancellati restano nel registro delle azioni
+privacy-legale|chi fa una segnalazione lascia la sua email lì per sempre
+privacy-legale|l'informativa non dice quanto teniamo i messaggi dei contatti e della chat, e per l'email con l'iban scrive «finché non la cancelliamo»
+privacy-legale|il venditore può rimettere in vendita da solo un prodotto tolto dopo una segnalazione accolta
+ai-endpoints|la lettura di più prodotti da foto chiede 6000 token in un tentativo da 60 secondi
+ai-endpoints|il freno di sei ore sui prodotti importati in errore regge solo con upstash: senza, ogni copia del sito ripaga le chiamate ai
+pagamenti-stripe|il bonifico di rimborso al cliente non si può segnare come fatto, e nessuno controlla la scadenza dei 14 giorni
+qa-flussi|il collegamento del negozio a stripe e il bonifico manuale non hanno nessuna prova
+sicurezza-auth|il gettone anti-robot si consuma due volte: accendendo il captcha su supabase, accesso e iscrizione con email si rompono
+mobile-pwa|il manifest blocca l'app in verticale e non ha le schermate per la finestra d'installazione
+api-backend|la chiave di cifratura del link di disiscrizione si ricava con lo stesso calcolo usato per firmare i link vecchi
+architettura|il codice pgrst204 su una colonna della 124 ora fa scattare il ripiego per tutti: con la cache dello schema di postgrest vecchia, la scrittura salta gross_total_cents anche a migrazione applicata
+architettura|la scrittura della contestazione vinta toglie il numero del tentativo del bonifico anche quando a mancare è solo la cache di postgrest
+architettura|il conto della cassa riceve ancora le coordinate di negozio e consegna, che non entrano più in nessun conto
+architettura|la funzione della spedizione in centesimi accetta ancora i sette ingressi che non servono
+flussi-conversione|il filtro «prezzo minimo» taglia sul prezzo pieno, non su quello che il cliente paga
+flussi-conversione|l'ordine «prezzo crescente» ordina sul prezzo pieno, mentre la griglia mostra il prezzo scontato
+frontend-ux|ordinando per prezzo, le griglie guardano il prezzo pieno e non quello che si paga
+frontend-ux|un tasso di conversione fra il 50% e il 99% resta verde anche se gonfiato dal consenso ai cookie
+frontend-ux|la pagina clienti del negozio mostra solo i nomi, senza contatti né esportazione, e consiglia offerte che non si possono mandare
