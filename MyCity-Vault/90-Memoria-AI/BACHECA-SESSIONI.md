@@ -170,28 +170,45 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 | 12/11 21:05 (entro) | regista | «Risolvi le due regole» del programma di riparazione: guardia sul risultato del ramo e prova dei file nuovi e delle migrazioni |
 
 ## Chi fa cosa, adesso
-Aggiornata il 2026-11-24 21:16. Le sessioni dell'onda dei 700, regie e figlie, sono finite: qui non ci sono più.
+Aggiornata il 2026-11-26 15:15 da Goku (`…PHDGR6`). Prima di cominciare un lavoro, guarda qui se un'altra sessione fa
+già la stessa cosa: se sì, scrivile invece di rifarlo (regola 3). Oggi tre gruppi lavorano vicini: il cliente nuovo
+(scheda, analisi, preventivo), i contenuti del Tropico, i difetti del sito.
 
 | Sessione | Lavoro | File suoi |
 |---|---|---|
-| «700 difetti risoluzione» (`…Lzth8W`) | AD della campagna. Fa la PR unica di ad-mycity chiesta da Nicola alle 21:11 | #991-#994 → PR unica |
-| «Ora del Gusto: iscrizione e preventivo» (`…LZXxKx`) | Ora del Gusto e servizi SDG. Migrazioni 703-710 in produzione alle 20:49. Aspetta 3 clic di Nicola | ramo di #992, fermo |
-| «Servizio Analisi del business e bozza del sito» (`…NW9NV7`) | Figlia di Ora del Gusto. Codice del sito, migrazione 711 | ramo suo su mycity |
-| «n8n workflow per MyCity» (`…LTnRkP`) | Prova se Vercel e n8n possono sostituire il server del worker | ramo di #993, fermo |
-| «Sistema radiografia» (`…L41wUH`) | Manuale della radiografia, freno sui subagenti, mutazioni | `ccr-aa319319-23ibpz` |
-| «Monitoraggio sessioni simultanee» (`…LQmMMb`) | Sorveglianza delle sessioni vive | nessun file |
+| «Migliorare analisi clienti» (`…KJEvB4`) | AD del rapporto dell'imprenditore: piano, fonti, scelte di Nicola. Aspetta «ok fasce» | ad-mycity#1038, `consegne/strategia/2026-11-26-analisi-imprenditore/` |
+| «Rapporto dell'imprenditore · flussi n8n» (`…K1DyjU`) | Contratto dei fatti e codice del flusso 16. **È la sola che ripubblica il 16**, da main, al via di Nicola | N8N `claude/rapporto-imprenditore-flussi`, `flussi/16-nuovo-cliente-da-mycity/` |
+| «Rapporto dell'imprenditore · sito e preventivo» (`…MSbmrM`) | Il preventivo del sito per fascia. **È la sola che riscrive il preventivo del sito** | mycity `claude/rapporto-imprenditore-sito` |
+| «Scheda cliente automatica» (`…NFY3AU`) | Scheda interna e preventivo dalla foto del negozio (Ora del Gusto, La Ragazzetta). Deve usare i campi del contratto del flusso 16 | ad-mycity#1036, `cervello/scheda-cliente.mjs`, `consegne/clienti/` |
+| «Il flusso 16 giudica sito e social» (`…NXCcdc`) | Finita. La PR N8N#22 va collaudata e unita prima del lavoro dei flussi | N8N#22, `flussi/16-nuovo-cliente-da-mycity/genera.mjs` |
+| «Verifica PR pronte per merge» (`…KTPLRu`) | Unisce le richieste quando la CI è verde | nessun file suo |
+| «Contenuti Canva e Reel» (`…MFexW4`) | Impaginazioni di post e reel senza Canva; adesso contenuti del Tropico per il calendario | ad-mycity#1034, `creativi/impaginazioni/`, N8N `flussi/ad-studio/` |
+| «Tropico Latino content publishing» (`…NbFTCY`) | Ferma per ordine di Nicola. Tiene il dossier dei concorrenti del Tropico, non ancora salvato | `consegne/content/2026-11-26-tropico-concorrenti.md` (da salvare) |
+| «Montatore video autonomo AI» (`…KsvUDc`) | Montatore dei video da Drive, versione 1.6.0 in collaudo | N8N `officina/` |
+| «Gestione consensi sessioni» (`…NLKmh9`) | Dice a Nicola quale sessione aspetta un suo clic; regola «si archivia» | ad-mycity#1039 |
+| Regia «tutti i difetti senza Nicola» (`session_015BmpnXuogkPZVts89PH67a`, non visibile da qui) | Riparazione dei difetti del sito, onda 1 con 11 riparatori | ad-mycity#1032, `consegne/riparazioni/2026-11-26-tutti*/` |
+| Radiografia di ricontrollo (`session_015BmpnXAVwPhPT7aWRMXdMi`, non visibile da qui) | Ricontrolla 272 voci aperte; la regia le ripara solo dopo il suo esito | ad-mycity#1030, `consegne/radiografia/2026-11-26-ricontrollo/` |
+| «Goku · fino alle 16:03» (`…PHDGR6`) | Sorveglia le sessioni e i lavori doppi | `MyCity-Vault/90-Memoria-AI/goku/` |
 
 ## Le sessioni vive
-Aggiornata il 2026-11-24 21:16.
+Aggiornata il 2026-11-26 15:15 da Goku. Le due sessioni del 015Bmpn… stanno in un elenco che da qui non si vede.
 
 | Ruolo | Id |
 |---|---|
-| «700 difetti risoluzione», AD della campagna | `session_01R8112Lzth8WvHHrQ4H3whZ` |
-| «Ora del Gusto: iscrizione e preventivo» | `session_01R8112LZXxKxP66eMCZRgmr` |
-| «Servizio Analisi del business e bozza del sito» | `session_01R8112NW9NV7N6jACcLJvG7` |
-| «n8n workflow per MyCity» | `session_01R8112LTnRkPxboA6MyC4yC` |
-| «Sistema radiografia» | `…L41wUH` |
-| «Monitoraggio sessioni simultanee» | `…LQmMMb` |
+| «Migliorare analisi clienti», AD del rapporto | `session_01R8112KJEvB4uRMQLAYZ3Uo` |
+| «Rapporto dell'imprenditore · flussi n8n» | `session_01R8112K1DyjU4xADptnSgNq` |
+| «Rapporto dell'imprenditore · sito e preventivo» | `session_01R8112MSbmrMsg1NS5fYwU7` |
+| «Scheda cliente automatica» | `session_01R8112NFY3AU2rJekrQw41G` |
+| «Il flusso 16 giudica sito e social» | `session_01R8112NXCcdccwqXhFqm6UF` |
+| «Verifica PR pronte per merge» | `session_01R8112KTPLRuAkWr1PreRUu` |
+| «Contenuti Canva e Reel» | `session_01R8112MFexW4rFbjYzmP3T3` |
+| «Tropico Latino content publishing» | `session_01R8112NbFTCYkBJ9yByfTv2` |
+| «Montatore video autonomo AI» | `session_01R8112KsvUDcuk4haFpw4jn` |
+| «Gestione consensi sessioni» | `session_01R8112NLKmh9dyDahkJb6FY` |
+| «Schema presentazione clienti» | `session_01R8112KtpHnLaZuTdp128Ts` |
+| Regia «tutti i difetti senza Nicola» | `session_015BmpnXuogkPZVts89PH67a` |
+| Radiografia di ricontrollo | `session_015BmpnXAVwPhPT7aWRMXdMi` |
+| «Goku · fino alle 16:03», supervisore | `session_01R8112PHDGR6F1U6hU73YxR` |
 
 ## La quota
 | Quando | Chi l'ha vista | Stato |
