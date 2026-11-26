@@ -1,0 +1,424 @@
+<title>Piano editoriale __NOME__</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Roboto+Slab:wght@600;800&display=swap">
+<style>
+/* Layout: una colonna di lettura (68ch) dentro un contenitore largo per calendario e tabelle; il colore del locale solo dove serve a distinguere. */
+:root {
+  --bg: #faf8f9; --surface: #ffffff; --ink: #201a1e; --muted: #6a6067; --line: #e6dee2;
+  --accent: #b5145d; --accent-soft: #fbe4ee;
+  --feed-bg: #fbe3ee; --feed-fg: #8a1046;
+  --storia-bg: #fff0bf; --storia-fg: #634700;
+  --google-bg: #e2f0dc; --google-fg: #2a581e;
+  --crescita-bg: #e3e8f7; --crescita-fg: #2b3d78;
+  --casa-bg: #eeeaec; --casa-fg: #574e55;
+  --ok: #2a6a1f; --warn: #8a5a00; --todo: #9b1c3b;
+  --display: "Roboto Slab", Georgia, serif;
+  --text: "Archivo", "Segoe UI", system-ui, sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #141013; --surface: #1d181b; --ink: #f2ecef; --muted: #a99ea5; --line: #362d33;
+  --accent: #f26ba7; --accent-soft: #3a1a29;
+  --feed-bg: #43172b; --feed-fg: #ffc2dc; --storia-bg: #3d3210; --storia-fg: #ffe28a;
+  --google-bg: #1f3519; --google-fg: #bfe8ad; --crescita-bg: #1f2747; --crescita-fg: #c2cdf7;
+  --casa-bg: #2c2529; --casa-fg: #d6cbd2; --ok: #8fd47c; --warn: #f2c25c; --todo: #ff8fa8;
+  color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #141013; --surface: #1d181b; --ink: #f2ecef; --muted: #a99ea5; --line: #362d33;
+  --accent: #f26ba7; --accent-soft: #3a1a29;
+  --feed-bg: #43172b; --feed-fg: #ffc2dc; --storia-bg: #3d3210; --storia-fg: #ffe28a;
+  --google-bg: #1f3519; --google-fg: #bfe8ad; --crescita-bg: #1f2747; --crescita-fg: #c2cdf7;
+  --casa-bg: #2c2529; --casa-fg: #d6cbd2; --ok: #8fd47c; --warn: #f2c25c; --todo: #ff8fa8;
+  color-scheme: dark; }
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--text); font-size: 16px; line-height: 1.55;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 0 4rem; }
+.pagina { max-width: 1120px; margin: 0 auto; display: grid; gap: 3.2rem; }
+.lettura { max-width: 70ch; }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; line-height: 1.15; margin: 0; }
+h1 { font-size: clamp(2rem, 5vw, 3.1rem); font-weight: 800; }
+h2 { font-size: clamp(1.45rem, 3vw, 1.9rem); font-weight: 800; }
+h3 { font-size: 1.1rem; font-weight: 600; }
+p { margin: 0; }
+ul, ol { margin: 0; padding-left: 1.2rem; display: grid; gap: .35rem; }
+a { color: var(--accent); }
+.occhiello { font-size: .78rem; letter-spacing: .09em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.sezione { display: grid; gap: 1.2rem; }
+.sezione > header { display: grid; gap: .4rem; }
+.nota { color: var(--muted); font-size: .92rem; }
+.num { font-variant-numeric: tabular-nums; }
+
+.testa { padding-block: 2.6rem 0; display: grid; gap: 1rem; }
+.testa .sotto { font-size: 1.15rem; color: var(--muted); max-width: 60ch; }
+.blocchi { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.4rem 2rem; padding-top: .6rem; border-top: 1px solid var(--line); }
+.blocchi > div { display: grid; gap: .5rem; align-content: start; min-width: 0; }
+.blocchi h3 { font-family: var(--text); font-size: .82rem; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.blocchi li, .blocchi p { font-size: .95rem; }
+
+.fasce { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+@media (max-width: 860px) { .fasce { grid-template-columns: 1fr; } }
+.fascia { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 1.3rem; display: grid; gap: .8rem; align-content: start; }
+.fascia.consigliata { border: 2px solid var(--accent); }
+.fascia .cima { display: flex; justify-content: space-between; align-items: baseline; gap: .6rem; flex-wrap: wrap; }
+.fascia .prezzo { font-family: var(--display); font-weight: 800; font-size: 1.6rem; }
+.fascia .prezzo small { font-family: var(--text); font-weight: 500; font-size: .85rem; color: var(--muted); }
+.fascia .slogan { color: var(--accent); font-weight: 600; }
+.cifre { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .5rem .8rem; padding: .7rem 0; border-block: 1px solid var(--line); }
+.cifre div { display: grid; }
+.cifre b { font-family: var(--display); font-size: 1.35rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+.cifre span { font-size: .8rem; color: var(--muted); }
+.etichetta { display: inline-block; font-size: .74rem; font-weight: 600; padding: .12rem .55rem; border-radius: 99px; background: var(--accent-soft); color: var(--accent); white-space: nowrap; }
+
+.scelta { display: inline-flex; flex-wrap: wrap; gap: .3rem; padding: .3rem; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; }
+.scelta button { font: inherit; font-weight: 600; border: 0; background: transparent; color: var(--ink); padding: .5rem 1rem; border-radius: 9px; cursor: pointer; }
+.scelta button[aria-selected="true"] { background: var(--accent); color: var(--surface); }
+.scelta button:focus-visible, .giorno:focus-visible, details summary:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.conti-fascia { display: flex; flex-wrap: wrap; gap: .4rem .5rem; }
+.conti-fascia span { font-size: .86rem; background: var(--surface); border: 1px solid var(--line); border-radius: 99px; padding: .2rem .65rem; font-variant-numeric: tabular-nums; }
+.legenda { display: flex; flex-wrap: wrap; gap: .4rem .9rem; font-size: .85rem; color: var(--muted); }
+.legenda i { display: inline-block; width: .8rem; height: .8rem; border-radius: 3px; vertical-align: -1px; margin-right: .3rem; }
+
+.calendario-box { overflow-x: auto; }
+.calendario { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; min-width: 320px; }
+.calendario .intestazione { font-size: .75rem; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); padding: .2rem .3rem; font-weight: 600; }
+.giorno { font: inherit; text-align: left; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; min-height: 108px; padding: .35rem; display: flex; flex-direction: column; gap: 3px; cursor: pointer; color: var(--ink); min-width: 0; }
+.giorno.vuoto { visibility: hidden; }
+.giorno.chiuso { background: transparent; border-style: dashed; }
+.giorno[aria-pressed="true"] { border: 2px solid var(--accent); }
+.giorno .n { font-weight: 700; font-variant-numeric: tabular-nums; font-size: .9rem; display: flex; justify-content: space-between; gap: .2rem; }
+.giorno .n em { font-style: normal; font-weight: 500; font-size: .7rem; color: var(--muted); }
+.chip { font-size: .7rem; line-height: 1.25; border-radius: 5px; padding: .1rem .3rem; font-weight: 600; overflow-wrap: anywhere; }
+.chip.nuovo { box-shadow: inset 0 0 0 1.5px currentColor; }
+.f-feed { background: var(--feed-bg); color: var(--feed-fg); }
+.f-storia { background: var(--storia-bg); color: var(--storia-fg); }
+.f-google { background: var(--google-bg); color: var(--google-fg); }
+.f-crescita { background: var(--crescita-bg); color: var(--crescita-fg); }
+.f-casa { background: var(--casa-bg); color: var(--casa-fg); }
+@media (max-width: 720px) {
+  .giorno { min-height: 64px; padding: .25rem; }
+  .giorno .n em { display: none; }
+  .chip { font-size: 0; width: 9px; height: 9px; padding: 0; border-radius: 50%; display: inline-block; }
+  .giorno .chips { display: flex; flex-wrap: wrap; gap: 3px; }
+}
+.giorno .chips { display: grid; gap: 3px; }
+.dettaglio { display: grid; gap: .8rem; }
+.voce { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 1rem; display: grid; gap: .45rem; min-width: 0; }
+.voce .riga1 { display: flex; flex-wrap: wrap; gap: .4rem .6rem; align-items: center; }
+.voce .ora { font-variant-numeric: tabular-nums; font-weight: 700; }
+.voce .tipo { font-size: .75rem; font-weight: 700; border-radius: 99px; padding: .1rem .55rem; }
+.voce h4 { margin: 0; font-family: var(--display); font-size: 1.08rem; font-weight: 600; }
+.voce dl { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: .2rem .8rem; margin: 0; font-size: .9rem; }
+.voce dt { color: var(--muted); }
+.voce dd { margin: 0; min-width: 0; }
+.bollino { font-size: .74rem; font-weight: 600; border-radius: 99px; padding: .1rem .55rem; border: 1px solid var(--line); color: var(--muted); }
+.bollino.se { border-color: var(--warn); color: var(--warn); }
+.bollino.pronto { border-color: var(--ok); color: var(--ok); }
+.bollino.nuovo { border-color: var(--accent); color: var(--accent); }
+
+.tabella { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; }
+th, td { text-align: left; vertical-align: top; padding: .7rem .85rem; border-bottom: 1px solid var(--line); }
+tr:last-child td { border-bottom: 0; }
+thead th { font-size: .78rem; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
+.confronto { min-width: 760px; }
+.confronto th[scope="row"] { color: var(--muted); font-weight: 600; width: 13%; }
+.confronto td.vuota { color: var(--muted); }
+.pill { font-size: .78rem; font-weight: 700; border-radius: 99px; padding: .12rem .6rem; white-space: nowrap; }
+.pill.sola { background: var(--google-bg); color: var(--ok); }
+.pill.mano { background: var(--storia-bg); color: var(--warn); }
+.pill.costruire { background: var(--feed-bg); color: var(--todo); }
+
+.mestieri { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+@media (max-width: 860px) { .mestieri { grid-template-columns: 1fr; } }
+.mestieri > div { display: grid; gap: .5rem; align-content: start; }
+.mestieri ul { list-style: none; padding: 0; gap: .45rem; }
+.mestieri li { display: grid; border-left: 3px solid var(--line); padding-left: .6rem; }
+.mestieri li small { color: var(--muted); font-size: .8rem; }
+.pilastri { display: grid; gap: .55rem; }
+.pilastro { display: grid; grid-template-columns: minmax(130px, 200px) minmax(0, 1fr); gap: .3rem 1rem; align-items: start; }
+@media (max-width: 600px) { .pilastro { grid-template-columns: 1fr; } }
+.barra { height: 8px; background: var(--line); border-radius: 99px; overflow: hidden; margin-top: .45rem; }
+.barra i { display: block; height: 100%; background: var(--accent); }
+.senior { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: .9rem; }
+.senior article { border-top: 2px solid var(--line); padding-top: .6rem; display: grid; gap: .3rem; align-content: start; }
+.senior article b { font-family: var(--display); font-weight: 600; }
+.senior article small { color: var(--muted); }
+.due { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem; }
+@media (max-width: 860px) { .due { grid-template-columns: 1fr; } }
+.due > * { min-width: 0; }
+.anno { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: .4rem 1.4rem; list-style: none; padding: 0; }
+.anno li { display: grid; grid-template-columns: 7.5rem minmax(0, 1fr); gap: .6rem; padding: .45rem 0; border-bottom: 1px solid var(--line); font-size: .92rem; }
+.anno li b { font-variant-numeric: tabular-nums; }
+.anno li small { display: block; color: var(--muted); font-size: .78rem; }
+details { border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+details summary { cursor: pointer; padding: .8rem 1rem; font-weight: 600; }
+details > .dentro { padding: 0 1rem 1rem; }
+.tecnico code { font-size: .85rem; overflow-wrap: anywhere; }
+@media (prefers-reduced-motion: no-preference) { .giorno, .scelta button { transition: background .15s, border-color .15s; } }
+</style>
+
+<main class="pagina">
+  <header class="testa">
+    <p class="occhiello" id="occhiello"></p>
+    <h1 id="titolo"></h1>
+    <p class="sotto" id="sottotitolo"></p>
+    <div class="blocchi">
+      <div><h3>In parole semplici</h3><div id="semplici" style="display:grid;gap:.5rem"></div></div>
+      <div><h3>Cosa cambia per te</h3><ul id="cambia"></ul></div>
+      <div><h3>Cosa devi fare</h3><ul id="fare"></ul></div>
+      <div><h3>Cosa non ho verificato</h3><ul id="nonverificato"></ul></div>
+    </div>
+  </header>
+
+  <section class="sezione" aria-labelledby="h-fasce">
+    <header><p class="occhiello">Le tre fasce</p><h2 id="h-fasce">Stesso locale, stessa voce, più potenza a ogni fascia</h2>
+      <p class="nota lettura" id="matrioska"></p></header>
+    <div class="fasce" id="fasce"></div>
+  </section>
+
+  <section class="sezione" aria-labelledby="h-mese">
+    <header><p class="occhiello">Il mese, giorno per giorno</p><h2 id="h-mese"></h2>
+      <p class="nota lettura">Scegli la fascia e tocca un giorno: sotto il calendario trovi ogni contenuto per intero. Il bordo pieno su un contenuto vuol dire che arriva con quella fascia; senza bordo, viene dalla fascia sotto.</p></header>
+    <div class="scelta" role="tablist" aria-label="Fascia" id="scelta"></div>
+    <div class="conti-fascia" id="conti"></div>
+    <div class="legenda" id="legenda"></div>
+    <div class="calendario-box"><div class="calendario" id="calendario"></div></div>
+    <div class="dettaglio" id="dettaglio" aria-live="polite"></div>
+    <details id="elenco-box"><summary id="elenco-titolo">Tutto il mese in elenco</summary><div class="dentro"><div class="tabella"><table><thead><tr><th>Quando</th><th>Cosa</th><th>Titolo</th><th>Note</th></tr></thead><tbody id="elenco"></tbody></table></div></div></details>
+  </section>
+
+  <section class="sezione" aria-labelledby="h-confronto">
+    <header><p class="occhiello">Voce per voce</p><h2 id="h-confronto">Cosa comprende ogni abbonamento</h2></header>
+    <div class="tabella"><table class="confronto"><thead><tr><th>Voce</th><th>Base</th><th>Business</th><th>Premium</th></tr></thead><tbody id="confronto"></tbody></table></div>
+    <p class="nota lettura" id="mercato"></p>
+  </section>
+
+  <section class="sezione" aria-labelledby="h-mestieri">
+    <header><p class="occhiello">Chi ci lavora</p><h2 id="h-mestieri">I mestieri di un'agenzia, fascia per fascia</h2>
+      <p class="nota lettura">Accanto a ogni mestiere c'è chi lo fa: i senior della macchina e, per foto e video, le persone di scattiDG. Il lavoro ripetitivo lo fa la macchina; le persone fanno riprese, visite e relazioni.</p></header>
+    <div class="mestieri" id="mestieri"></div>
+  </section>
+
+  <section class="sezione" aria-labelledby="h-strategia">
+    <header><p class="occhiello">La parte su misura</p><h2 id="h-strategia">La strategia del mese</h2></header>
+    <div class="due">
+      <div class="sezione"><h3>Gli obiettivi</h3><ul id="obiettivi"></ul></div>
+      <div class="sezione"><h3>I pilastri dei contenuti</h3><div class="pilastri" id="pilastri"></div></div>
+    </div>
+  </section>
+
+  <section class="sezione" aria-labelledby="h-senior">
+    <header><p class="occhiello">Il parere dei senior</p><h2 id="h-senior">Quindici mestieri hanno guardato questo piano</h2></header>
+    <div class="senior" id="senior"></div>
+  </section>
+
+  <section class="sezione" aria-labelledby="h-conti">
+    <header><p class="occhiello">I conti</p><h2 id="h-conti">Quanto deve rendere ogni fascia per ripagarsi</h2>
+      <p class="lettura" id="cena"></p><p class="nota lettura" id="margine"></p></header>
+    <div class="tabella"><table><thead><tr><th>Fascia</th><th>Canone al mese</th><th>Per ripagarsi servono</th><th>Il primo mese, a metà prezzo</th></tr></thead><tbody id="conti-righe"></tbody></table></div>
+    <div class="sezione lettura"><h3>Dal nostro lato</h3><ul id="nostro"></ul></div>
+  </section>
+
+  <section class="sezione" aria-labelledby="h-mani">
+    <header><p class="occhiello">Cosa è pronto</p><h2 id="h-mani">Cosa fa già la macchina e cosa va costruito</h2></header>
+    <div class="tabella"><table><thead><tr><th>Lavoro</th><th>Oggi</th><th>Come</th></tr></thead><tbody id="mani"></tbody></table></div>
+  </section>
+
+  <section class="sezione" aria-labelledby="h-anno">
+    <header><p class="occhiello">L'anno</p><h2 id="h-anno">I momenti dell'anno da preparare</h2></header>
+    <ul class="anno" id="anno"></ul>
+  </section>
+
+  <section class="sezione due" aria-label="Regole e domande">
+    <div class="sezione"><h2>Le regole che valgono sempre</h2><ul id="regole"></ul></div>
+    <div class="sezione"><h2 id="h-domande">Le domande per il titolare</h2><ol id="domande"></ol></div>
+  </section>
+
+  <section class="sezione lettura" aria-labelledby="h-decisioni">
+    <h2 id="h-decisioni">Cosa devi decidere</h2>
+    <ol id="decisioni"></ol>
+  </section>
+
+  <section class="sezione tecnico" aria-labelledby="h-tecnico">
+    <details><summary id="h-tecnico">Dettagli tecnici</summary><div class="dentro" id="tecnico"></div></details>
+  </section>
+</main>
+
+<script>
+const DATI = /*__DATI__*/null;
+(function () {
+  if (!DATI) { document.getElementById('titolo').textContent = 'Mancano i dati del piano'; return; }
+  const { modello, piano, fasce, sere } = DATI;
+  const P = piano.pagina || {};
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const lista = (el, voci) => { el.innerHTML = (voci || []).map((v) => `<li>${esc(v)}</li>`).join(''); };
+  const ORDINE = ['base', 'business', 'premium'];
+  const GIORNI = ['domenica', 'lunedì', 'martedì', 'mercoledì', 'giovedì', 'venerdì', 'sabato'];
+  const MESI = ['gennaio', 'febbraio', 'marzo', 'aprile', 'maggio', 'giugno', 'luglio', 'agosto', 'settembre', 'ottobre', 'novembre', 'dicembre'];
+  const TIPO = { post: 'Post', carosello: 'Carosello', reel: 'Reel', storia: 'Storia', google_post: 'Post Google', google_foto: 'Foto Google', whatsapp: 'WhatsApp', email: 'Email', mossa: 'Mossa del mese', evento: 'Evento', creator: 'Creator', ads: 'Pubblicità', stampa: 'Giornali', aziende: 'Aziende', sito: 'Sito', schede: 'Schede', lavoro: 'Lavoro interno' };
+  const FAMIGLIA = (t) => ['post', 'carosello', 'reel'].includes(t) ? 'feed' : t === 'storia' ? 'storia' : t.startsWith('google') ? 'google' : ['sito', 'schede', 'lavoro'].includes(t) ? 'casa' : 'crescita';
+  const CANALE = { instagram: 'Instagram', facebook: 'Facebook', google: 'Google', tiktok: 'TikTok', 'youtube shorts': 'YouTube Shorts', whatsapp: 'WhatsApp', email: 'email', 'tripadvisor e thefork': 'TripAdvisor e TheFork', 'apple maps e bing': 'Apple Maps e Bing', sito: 'sito', 'giornali di Piacenza': 'giornali di Piacenza' };
+  const PIATT = { instagram: 'Instagram', facebook: 'Facebook', tiktok: 'TikTok', youtube: 'YouTube Shorts', google: 'Google' };
+  const pilastro = (id) => (piano.pilastri.find((p) => p.id === id) || {}).nome || '';
+  const [anno, mese] = piano.mese.split('-').map(Number);
+  const nomeMese = `${MESI[mese - 1]} ${anno}`;
+  const chiusiSett = new Set(piano.giorni_chiusura_settimana || []);
+  const chiusiExtra = new Map((piano.chiusure_extra || []).map((c) => [c.data, c.nota]));
+  const sett = (data) => new Date(data + 'T12:00:00Z').getUTCDay();
+  const giornoLungo = (data) => `${GIORNI[sett(data)]} ${Number(data.slice(8))} ${MESI[mese - 1]}`;
+
+  // Testa e quattro blocchi
+  $('occhiello').textContent = `${piano.nome} · modello ${modello.versione} · ${piano.data}`;
+  $('titolo').textContent = P.titolo || `Il piano editoriale di ${piano.nome}`;
+  $('sottotitolo').textContent = `${nomeMese[0].toUpperCase() + nomeMese.slice(1)}: tre abbonamenti, ${sere} sere di apertura, ogni contenuto con data, ora e canale.`;
+  $('semplici').innerHTML = (P.in_parole_semplici || []).map((t) => `<p>${esc(t)}</p>`).join('');
+  lista($('cambia'), P.cosa_cambia); lista($('fare'), P.cosa_devi_fare); lista($('nonverificato'), P.non_verificato);
+  $('matrioska').textContent = modello.regola_matrioska;
+
+  // Le tre fasce
+  const mestieriCumulati = (f) => ORDINE.slice(0, ORDINE.indexOf(f) + 1).flatMap((x) => modello.fasce[x].mestieri);
+  const consigliata = P.consiglio && P.consiglio.fascia;
+  $('fasce').innerHTML = ORDINE.map((f) => {
+    const m = modello.fasce[f]; const c = fasce[f].conti;
+    return `<article class="fascia${f === consigliata ? ' consigliata' : ''}">
+      <div class="cima"><h3>${esc(m.nome)}</h3>${f === consigliata ? `<span class="etichetta">Consigliata per ${esc(piano.nome)}</span>` : ''}</div>
+      <div class="prezzo num">${m.euro_mese} € <small>al mese</small></div>
+      <p class="slogan">${esc(m.slogan)}</p>
+      <p class="nota">${esc(m.per_chi)}</p>
+      <div class="cifre">
+        <div><b>${c.feed}</b><span>contenuti, ${c.reel} reel</span></div>
+        <div><b>${c.storie}</b><span>storie</span></div>
+        <div><b>${c.google_post}</b><span>post su Google</span></div>
+        <div><b>${m.canali.length}</b><span>canali curati</span></div>
+        <div><b>${mestieriCumulati(f).length}</b><span>mestieri al lavoro</span></div>
+        <div><b>${['whatsapp', 'email', 'mossa', 'evento', 'creator', 'ads', 'stampa', 'aziende'].reduce((s, k) => s + c[k], 0)}</b><span>azioni di crescita</span></div>
+      </div>
+      <p class="nota">Canali: ${esc(m.canali.map((x) => CANALE[x] || x).join(', '))}.</p>
+    </article>`;
+  }).join('');
+
+  // Il mese
+  $('h-mese').textContent = `${piano.nome}, ${nomeMese}`;
+  let scelta = consigliata || 'business';
+  let giornoScelto = `${piano.mese}-01`;
+  $('scelta').innerHTML = ORDINE.map((f) => `<button role="tab" id="tab-${f}" data-f="${f}">${esc(modello.fasce[f].nome)} · ${modello.fasce[f].euro_mese} €</button>`).join('');
+  $('scelta').addEventListener('click', (e) => { const b = e.target.closest('button[data-f]'); if (b) { scelta = b.dataset.f; disegna(); } });
+  $('legenda').innerHTML = [['feed', 'Instagram e Facebook'], ['storia', 'Storie'], ['google', 'Google'], ['crescita', 'Crescita: WhatsApp, email, mossa, evento, creator, pubblicità, giornali, aziende'], ['casa', 'Sito, schede, lavoro interno']]
+    .map(([k, t]) => `<span><i class="f-${k}"></i>${esc(t)}</span>`).join('');
+
+  function etichettaConti(c) {
+    const pezzi = [`${c.feed} contenuti`, `${c.reel} reel (${c.reel_da_riprese} girati nel locale)`, `${c.storie} storie`, `${c.google_post} post Google`, `${c.google_foto} foto Google`];
+    const altri = { whatsapp: ['messaggio WhatsApp alla lista', 'messaggi WhatsApp alla lista'], email: ['lettera email', 'lettere email'], mossa: ['mossa del mese', 'mosse del mese'], evento: ['evento', 'eventi'], creator: ['creator', 'creator'], ads: ['pubblicità', 'pubblicità'], stampa: ['storia per i giornali', 'storie per i giornali'], aziende: ['contatto con le aziende', 'contatti con le aziende'], sito: ['lavoro sul sito', 'lavori sul sito'], schede: ['scheda su altri portali', 'schede su altri portali'] };
+    for (const [k, [uno, piu]] of Object.entries(altri)) if (c[k]) pezzi.push(`${c[k]} ${c[k] === 1 ? uno : piu}`);
+    return pezzi;
+  }
+
+  function voceHtml(v) {
+    const fam = FAMIGLIA(v.tipo);
+    const nuovo = v.fascia === scelta && scelta !== 'base' && !v.rubrica;
+    const bollini = [
+      nuovo ? `<span class="bollino nuovo">Arriva col ${esc(modello.fasce[scelta].nome)}</span>` : '',
+      v.esiste ? `<span class="bollino pronto">Già nel Calendario</span>` : '',
+      v.rubrica ? `<span class="bollino">Rubrica del giorno</span>` : '',
+      v.condizione ? `<span class="bollino se">Solo se: ${esc(v.condizione)}</span>` : '',
+    ].join('');
+    const righe = [
+      v.piattaforme && v.piattaforme.length ? ['Dove', v.piattaforme.map((p) => PIATT[p] || p).join(', ')] : null,
+      ['Pilastro', pilastro(v.pilastro)],
+      v.cta && v.cta !== '—' ? ['Invito', v.cta] : null,
+      v.materiale && v.materiale !== '—' ? ['Materiale', v.materiale] : null,
+      v.quante ? ['Quante', `${v.quante} foto`] : null,
+      v.esiste ? ['Riga', v.esiste] : null,
+    ].filter((r) => r && r[1]);
+    return `<article class="voce">
+      <div class="riga1"><span class="ora">${esc(v.ora)}</span><span class="tipo f-${fam}">${esc(TIPO[v.tipo] || v.tipo)}</span>${bollini}</div>
+      <h4>${esc(v.titolo)}</h4>
+      <p>${esc(v.idea)}</p>
+      <dl>${righe.map(([a, b]) => `<dt>${esc(a)}</dt><dd>${esc(b)}</dd>`).join('')}</dl>
+    </article>`;
+  }
+
+  function disegna() {
+    document.querySelectorAll('#scelta button').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.f === scelta)));
+    const voci = fasce[scelta].voci;
+    const c = fasce[scelta].conti;
+    const condizionati = voci.filter((v) => v.condizione).length;
+    $('conti').innerHTML = etichettaConti(c).map((t) => `<span>${esc(t)}</span>`).join('') + (condizionati ? `<span>${condizionati} aspettano un sì del titolare</span>` : '');
+    const perGiorno = new Map();
+    for (const v of voci) { if (!perGiorno.has(v.data)) perGiorno.set(v.data, []); perGiorno.get(v.data).push(v); }
+    const primo = `${piano.mese}-01`;
+    const spazi = (sett(primo) + 6) % 7; // il calendario parte dal lunedì
+    const quanti = new Date(Date.UTC(anno, mese, 0)).getUTCDate();
+    let html = ['lun', 'mar', 'mer', 'gio', 'ven', 'sab', 'dom'].map((g) => `<div class="intestazione">${g}</div>`).join('');
+    for (let i = 0; i < spazi; i++) html += '<div class="giorno vuoto" aria-hidden="true"></div>';
+    for (let d = 1; d <= quanti; d++) {
+      const data = `${piano.mese}-${String(d).padStart(2, '0')}`;
+      const chiuso = chiusiSett.has(sett(data)) || chiusiExtra.has(data);
+      const qui = perGiorno.get(data) || [];
+      const chips = qui.map((v) => `<span class="chip f-${FAMIGLIA(v.tipo)}${v.fascia === scelta && scelta !== 'base' && !v.rubrica ? ' nuovo' : ''}" title="${esc(v.titolo)}">${esc(TIPO[v.tipo] || v.tipo)}</span>`).join('');
+      html += `<button class="giorno${chiuso ? ' chiuso' : ''}" aria-pressed="${data === giornoScelto}" data-d="${data}" aria-label="${esc(giornoLungo(data))}: ${qui.length} cose${chiuso ? ', locale chiuso' : ''}">
+        <span class="n">${d}${chiuso ? '<em>chiuso</em>' : ''}</span><span class="chips">${chips}</span></button>`;
+    }
+    $('calendario').innerHTML = html;
+    const sel = perGiorno.get(giornoScelto) || [];
+    const chiusoSel = chiusiSett.has(sett(giornoScelto)) || chiusiExtra.has(giornoScelto);
+    $('dettaglio').innerHTML = `<h3>${esc(giornoLungo(giornoScelto))}${chiusoSel ? ` · locale chiuso${chiusiExtra.get(giornoScelto) ? ` (${esc(chiusiExtra.get(giornoScelto))})` : ''}` : ''}</h3>` +
+      (sel.length ? sel.map(voceHtml).join('') : `<p class="nota">In questa fascia, quel giorno non esce niente.</p>`);
+    $('elenco-titolo').textContent = `Tutto il mese in elenco: ${voci.length} cose nel ${modello.fasce[scelta].nome}`;
+    $('elenco').innerHTML = voci.map((v) => `<tr><td class="num">${esc(Number(v.data.slice(8)))}/${mese} ${esc(v.ora)}</td><td>${esc(TIPO[v.tipo] || v.tipo)}</td><td>${esc(v.titolo)}</td><td class="nota">${esc([v.esiste ? 'già nel Calendario' : '', v.condizione ? 'solo se: ' + v.condizione : '', v.rubrica ? 'rubrica' : ''].filter(Boolean).join(' · '))}</td></tr>`).join('');
+  }
+  $('calendario').addEventListener('click', (e) => { const b = e.target.closest('.giorno[data-d]'); if (b) { giornoScelto = b.dataset.d; disegna(); $('dettaglio').scrollIntoView({ block: 'nearest' }); } });
+  disegna();
+
+  // Confronto
+  const RIGHE = [['contenuti', 'Contenuti'], ['google', 'Google'], ['recensioni', 'Recensioni'], ['messaggi', 'Commenti e messaggi'], ['whatsapp', 'WhatsApp'], ['email', 'Email'], ['mossa', 'Mossa ed eventi'], ['creator', 'Creator'], ['pubblicita', 'Pubblicità'], ['stampa', 'Giornali'], ['aziende', 'Aziende vicine'], ['foto_video', 'Foto e video'], ['sito', 'Sito'], ['analisi', 'Analisi'], ['resoconto', 'Resoconto'], ['approvazione', 'Approvazione'], ['assistenza', 'Assistenza']];
+  $('confronto').innerHTML = RIGHE.map(([k, t]) => `<tr><th scope="row">${esc(t)}</th>${ORDINE.map((f) => { const v = modello.fasce[f].servizi[k]; return v ? `<td>${esc(v)}</td>` : '<td class="vuota">—</td>'; }).join('')}</tr>`).join('');
+  if (modello.mercato) $('mercato').innerHTML = `${esc(modello.mercato.testo)} Fonte: <a href="${esc(modello.mercato.fonte)}" target="_blank" rel="noopener">Kontentino</a>, letta il ${esc(modello.mercato.letto)}. Il Business costa meno di un pacchetto intermedio e copre sei canali invece di due.`;
+
+  // Mestieri
+  $('mestieri').innerHTML = ORDINE.map((f, i) => {
+    const m = modello.fasce[f];
+    const tot = mestieriCumulati(f).length;
+    return `<div><h3>${i === 0 ? m.nome : '+ ' + m.nome} <span class="nota num">(${tot} in tutto)</span></h3><ul>${m.mestieri.map((x) => `<li>${esc(x)}<small>${esc(modello.senior[x] || '')}</small></li>`).join('')}</ul></div>`;
+  }).join('');
+
+  // Strategia
+  lista($('obiettivi'), piano.obiettivi);
+  $('pilastri').innerHTML = piano.pilastri.map((p) => `<div class="pilastro"><div><b>${esc(p.nome)}</b> <span class="nota num">${p.peso}%</span><div class="barra"><i style="width:${Number(p.peso) * 3}%"></i></div></div><p class="nota">${esc(p.cosa)}</p></div>`).join('');
+
+  // Senior
+  $('h-senior').textContent = `${(P.senior || []).length} mestieri hanno guardato questo piano`;
+  $('senior').innerHTML = (P.senior || []).map((s) => `<article><b>${esc(s.chi)}</b><small>${esc(s.agente)}</small><p>${esc(s.dice)}</p></article>`).join('');
+
+  // Conti
+  const C = P.conti || {};
+  $('cena').textContent = C.cena_per_due ? `Il conto del titolare. Una cena per due tipo: ${C.cena_per_due}` : '';
+  $('margine').textContent = C.margine || '';
+  $('conti-righe').innerHTML = (C.righe || []).map((r) => `<tr><td><b>${esc(r.fascia)}</b></td><td class="num">${esc(r.canone)}</td><td>${esc(r.serve)}</td><td class="num">${esc(r.primo_mese)}</td></tr>`).join('');
+  lista($('nostro'), C.nostro_lato);
+
+  // Mani
+  const CLASSE = { 'da sola': 'sola', 'a mano': 'mano', 'da costruire': 'costruire' };
+  $('mani').innerHTML = (modello.mani || []).map((m) => `<tr><td>${esc(m.cosa)}</td><td><span class="pill ${CLASSE[m.oggi] || ''}">${esc(m.oggi)}</span></td><td>${esc(m.come)}</td></tr>`).join('');
+
+  // Anno, regole, domande, decisioni
+  $('anno').innerHTML = (piano.anno || []).map((a) => `<li><b>${esc(a.quando)}</b><span>${esc(a.cosa)}<small>${esc(a.tipo)}</small></span></li>`).join('');
+  lista($('regole'), modello.regole);
+  $('h-domande').textContent = `Le ${(P.domande_titolare || []).length} domande per il titolare`;
+  lista($('domande'), P.domande_titolare);
+  lista($('decisioni'), P.decisioni);
+
+  // Dettagli tecnici
+  $('tecnico').innerHTML = `<ul>
+    <li>Il modello delle fasce: <code>cervello/modelli/piano-editoriale-fasce.json</code> (versione ${esc(modello.versione)}, ${esc(modello.stato)})</li>
+    <li>Il piano del cliente: <code>consegne/clienti/${esc(piano.cliente)}/piano-editoriale-${esc(piano.mese)}.json</code></li>
+    <li>Il controllo: <code>node cervello/piano-editoriale.mjs --piano consegne/clienti/${esc(piano.cliente)}/piano-editoriale-${esc(piano.mese)}.json</code></li>
+    <li>Le righe per il Calendario (stato «idea», id col suffisso <code>-pe-</code>): aggiungi <code>--righe business</code></li>
+    <li>La prova: <code>node cervello/test/piano-editoriale.test.mjs</code></li>
+    <li>Fonti: ${Object.entries(piano.fonti || {}).map(([k, v]) => `${esc(k.replaceAll('_', ' '))}: ${esc(v)}`).join(' · ')}</li>
+  </ul>`;
+})();
+</script>

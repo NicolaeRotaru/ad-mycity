@@ -28,6 +28,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 26/11 ~17:00 | AD (`…KdhTFt`) | Il **piano editoriale** si personalizza per cliente e si adatta all'**abbonamento**: Business «molte più cose, un servizio pazzesco», Premium «come un'agenzia di 50 marketer», dentro tutta la visibilità online (social, Google e il resto). Esempio sul Tropico. L'AD ha fatto il modello 1.0 delle tre fasce (`cervello/modelli/piano-editoriale-fasce.json`), il piano di dicembre del Tropico per fascia e il programma che lo controlla. Le quantità nuove aspettano la firma: finché non firma, il preventivo sul sito resta com'è |
 | 26/11 ~16:10 | AD, chat del Tropico, risposta alla domanda sulle pagine | Tutto quello che approva per il Tropico si pubblica sempre su tutte e quattro le pagine del locale, anche dopo il 28/11. Il flusso 01b resta acceso. Fatto registrato come `clienti.tropico-pagine` |
 | 26/11 16:05 circa | all'AD | «ok fasce». Le parti del rapporto per Base, Business e Premium restano come le ha proposte l'AD. La sessione del sito lo sa dalle 16:07 |
 | 26/11 ~16:00 | AD (`…KveB4F`) | Prima la proposta, poi il preventivo. Dalla foto o dal nome nasce subito la proposta per l'azienda, coi prezzi e con «cosa cambia con ogni abbonamento». Il preventivo nasce solo quando il titolare dice sì: si iscrive l'attività col flusso 20 e lui accetta dal link. Per ora paga in contanti: il tasto per abbonarsi e pagare sul sito va tolto. Fatti `agenzia.scheda-da-foto`, `sdg.pagamento`, `sdg.abbonamenti`; skill `scheda-da-foto` |
@@ -189,6 +190,7 @@ già la stessa cosa: se sì, scrivile invece di rifarlo (regola 3). Oggi tre gru
 
 | Sessione | Lavoro | File suoi |
 |---|---|---|
+| «Piano editoriale per abbonamento» (`…KdhTFt`) | Il modello delle tre fasce e il piano di dicembre del Tropico per Base, Business e Premium. Non tocca le righe del Calendario né la pubblicazione: quelle restano a «Contenuti Canva e Reel» | `cervello/modelli/piano-editoriale-*`, `cervello/piano-editoriale.mjs`, `consegne/clienti/tropico-latino/` |
 | «Migliorare analisi clienti» (`…KJEvB4`) | Dirige il lavoro sull'analisi dei clienti nuovi, con il piano, le fonti e le scelte di Nicola. Aspetta «ok fasce» | ad-mycity#1038, `consegne/strategia/2026-11-26-analisi-imprenditore/` |
 | «Rapporto dell'imprenditore · flussi n8n» (`…K1DyjU`) | Contratto dei fatti e codice del flusso 16. **È la sola che ripubblica il 16**, da main, al via di Nicola | N8N `claude/rapporto-imprenditore-flussi`, `flussi/16-nuovo-cliente-da-mycity/` |
 | «Rapporto dell'imprenditore · sito e preventivo» (`…MSbmrM`) | La parte analisi del preventivo del sito, per fascia. Su `lib/agenzia/preventivo.ts` si accorda con «Scheda cliente automatica» prima della PR | mycity `claude/rapporto-imprenditore-sito` |

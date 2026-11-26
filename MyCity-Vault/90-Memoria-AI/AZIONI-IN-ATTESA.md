@@ -2017,6 +2017,14 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 > la conferma del dato dal negozio (restano «da procurare», non li scrive nessun autofill).
 <!-- SUPERVISIONE-NEGOZI:FINE -->
 
+## Firma quanto promette ogni abbonamento ai social (aggiunta 2026-11-26 19:30)
+- **Reparto:** @content-social con @marketing e @finanza · **Colore:** 🔴 (cambia cosa vendiamo ai clienti)
+- **Contenuto:** il modello 1.0 delle tre fasce in `cervello/modelli/piano-editoriale-fasce.json`, con l'esempio del Tropico a dicembre in `consegne/clienti/tropico-latino/piano-editoriale-2026-12.html`. Base 300 €: 8 contenuti (2 reel dalle foto), 4 storie, 4 post e 4 foto su Google. Business 500 €: 12 contenuti (4 reel, 2 girati), 12 storie, 8 post e 8 foto su Google, TikTok, un messaggio WhatsApp alla lista, una mossa al mese, un creator a trimestre, una spinta pubblicitaria, risposte alle recensioni Google. Premium 999 €: 20 contenuti (8 reel, 4 girati), una storia ogni sera di apertura, 12 post e 15 foto su Google, TikTok e YouTube Shorts, 2 WhatsApp, una email, evento, 2 creator, campagne Meta e Google, giornali a trimestre, aziende vicine, risposte su tutte le piattaforme. La frase del Premium: «tutti i mestieri di un'agenzia completa», non «50 persone». Insieme decidi: il tetto dei clienti Premium (consiglio 5) e il costo di scattiDG.
+- **Cosa cambia:** dopo il tuo sì aggiorno il preventivo sul sito, la proposta che nasce dalla foto e il registro dei fatti, nello stesso lavoro. Il prossimo cliente vede le quantità nuove; Ora del Gusto, col Business, avrebbe 12 contenuti e 12 storie invece di 12 post.
+- **Se va bene:** il Tropico parte a dicembre con la fascia che scegli, e le righe del suo piano entrano nel Calendario come idee da approvare.
+
+---
+
 ## Manda a Ora del Gusto il preventivo di SDG e fallo iscrivere su MyCity (aggiunta 2026-11-24 02:20, corretta 03:50)
 - **Reparto:** @onboarding-negozi · **Colore:** 🔴 (preventivo a un cliente vero; iscrizione sul sito vero)
 - **Contenuto:** preventivo di SDG Agenzia `consegne/preventivi/2026-11-24-ora-del-gusto/preventivo-sdg-ora-del-gusto.pdf` (Base 300 · Business 500 consigliato · Premium 999 €/mese, primo mese a metà, nessun vincolo con 30 giorni di preavviso). Prima di mandarlo scrivi a mano email e WhatsApp di SDG e il nome del titolare. Iscrizione MyCity: il titolare da mycity-marketplace.com/sell, tipo «Bar o caffetteria».

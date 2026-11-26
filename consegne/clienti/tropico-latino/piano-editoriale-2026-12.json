@@ -1,0 +1,1202 @@
+{
+  "cliente": "tropico-latino",
+  "nome": "El Tropico Latino",
+  "nome_breve": "Tropico",
+  "mese": "2026-12",
+  "data": "2026-11-26 18:45",
+  "stato": "modello: il piano di dicembre del Tropico scritto per tutte e tre le fasce. Le righe con «esiste» sono già nel Calendario; le altre sono idee, non ancora nel foglio.",
+  "fonti": {
+    "scheda": "MyCity-Vault/90-Memoria-AI/BACHECA.md, scheda in 25 punti (orari, tono, note_piano, menu 2025)",
+    "contenuti_gia_fatti": "consegne/content/2026-11-25-tropico-latino-pacchetto-dicembre.md e consegne/content/2026-11-26-tropico-latino-pubblicati-oggi.md",
+    "concorrenti": "consegne/content/2026-11-26-tropico-concorrenti.md",
+    "natale_a_piacenza": "visitpiacenza.it/en/events/christmas-in-piacenza: dal 21/11/2026 al 6/1/2027, programma in aggiornamento"
+  },
+  "giorni_chiusura_settimana": [
+    1
+  ],
+  "chiusure_extra": [
+    {
+      "data": "2026-12-25",
+      "nota": "Natale: chiuso per ipotesi, da confermare col titolare"
+    }
+  ],
+  "telefono": "0523 335932",
+  "parole_vietate": [
+    "passione",
+    "eccellenza",
+    "esperienza unica",
+    "viaggio nei sapori",
+    "autentic",
+    "fiesta",
+    "caliente",
+    "sombrer",
+    "cactus",
+    "il migliore",
+    "l'unico",
+    "unico messicano"
+  ],
+  "menu_nota": "Riassunto fedele del menu 2025 (BACHECA punto 22): i controlli ci cercano i prezzi citati nei contenuti.",
+  "menu_testo": "Burrito 12,00 · Burrito de pollo 11,00 · Burrito de verduras (v) 11,00 · Burrito del mar 12,00 · Burrito de chile (p) 13,00 · Cheviche pollo (pp) 11,00 · Cheviche de gamberi (pp) 12,00 · Soft tacos 12,00 · Chile con carne (p) 15,00 · Vegetables burger (v) 11,50 · Tortilla yerba buena (v) 10,00 · Camarones fiestas 16,00 · Camarones a la diabla (p) 16,50 · Enchiladas poblanas 10,00 · Enchiladas rojas 13,00 · Enchiladas verdes 13,50 · Alambre 13,00 · Fuego (pp) 13,00 · Degustacion del Tropico a testa 16,00 · Degustacion di burritos per 2 24,00 · Fajitas fiestas, per 2: tropico 32,00 · del sol 33,00 · pollo 32,00 · combo 32,00 · pollo y vegetales 31,00 · gambas 34,00 · A la grilla: Medallones a la pimienta (p) 22,00 · Filete Villa Rica 22,00 · Filete del deserto 22,00 · Tacos al carbon 18,00 · Pollo Camino Real 15,00 · Barbacoa 16,00 · Picada caliente (p) 14,00 · El bistecòn 24,00 · Dos continentes 16,00 · Parrilla per 2 o più 36,00 · Nachos tipicos (v)(p) 9,00 / piccola 8,00 · Nachos blanco 7,50 / 6,50 · Nachos del sol (v) 9,50 / 8,50 · Nachos palmeros 8,00 / 7,00 · Nachos Jalisco 8,50 / 7,50 · Nachos Guanajuato (pp) 9,00 · Quesadillas 8,00 / 8,50 / 9,00 · Tostaditos y salsa 3,50 · Guacamole y tostaditos 4,50 · Pequeño 5,50 · Queso fundido 8,00 · Buffalo wings 8,00 · Taquitos 8,50 · Margarita, Margarita gold 9,00 / caraffa 32,00 · Paloma, Daiquiri, Piña colada, Tequila sunrise, Coco loco, Cuba libre 9,00 · Sangria 8,50 / caraffa 23,00 · Margarita frozen 8,50 / caraffa 24,00 · Pestati 9,00 / caraffa 30,00 · Dulces 6,00 · Oreo cake 7,00 · Negroni, Negroni mexicano 8,50 · Spritz, Hugo tropico 6,00 · Coperto e servizio 1,50",
+  "obiettivi": [
+    "Più tavoli da martedì a giovedì, le sere che di solito girano meno (ipotesi da confermare col titolare) e il weekend del ponte dell'Immacolata.",
+    "Prenotazioni di gruppo: cene di Natale fra amici, cene aziendali, compleanni. Il Tropico ha due sale e più di 100 posti.",
+    "Farsi trovare su Google da chi cerca «ristorante messicano Piacenza» e «cena aziendale Piacenza».",
+    "Far crescere il profilo nuovo tropico.latino92: ogni contenuto esce anche sulle pagine storiche (regola di Nicola del 26/11)."
+  ],
+  "pilastri": [
+    {
+      "id": "P1",
+      "nome": "La tavola",
+      "cosa": "I piatti firma: fajitas, burritos, enchiladas, nachos, la griglia. Una serie: «un piatto, una storia».",
+      "peso": 30
+    },
+    {
+      "id": "P2",
+      "nome": "Il bancone",
+      "cosa": "Aperitivo e cocktail, raccontati con calma: margarita, paloma, Negroni mexicano, sangria.",
+      "peso": 15
+    },
+    {
+      "id": "P3",
+      "nome": "Le occasioni",
+      "cosa": "Gruppi, compleanni, cene aziendali, dopo il giro in centro, il weekend fino a tardi.",
+      "peso": 25
+    },
+    {
+      "id": "P4",
+      "nome": "Il posto e la storia",
+      "cosa": "Dal 1992 in via Mazzini, il palazzo del Settecento, le due sale, il bancone, il pappagallo.",
+      "peso": 10
+    },
+    {
+      "id": "P5",
+      "nome": "Il Natale messicano",
+      "cosa": "Le tradizioni vere, spiegate bene: Posadas, Nochebuena, le 12 uvas, la Rosca de Reyes. Niente stereotipi.",
+      "peso": 10
+    },
+    {
+      "id": "P6",
+      "nome": "Le persone",
+      "cosa": "La squadra e il titolare, sempre col loro consenso scritto. Servono le riprese: dal Business in su.",
+      "peso": 5
+    },
+    {
+      "id": "P7",
+      "nome": "Il servizio",
+      "cosa": "Come prenotare, orari, dove siamo, orari delle feste.",
+      "peso": 5
+    }
+  ],
+  "contenuti": [
+    {
+      "id": "b01",
+      "fascia": "base",
+      "data": "2026-12-01",
+      "ora": "18:30",
+      "tipo": "carosello",
+      "pilastro": "P3",
+      "titolo": "La tavolata di dicembre",
+      "idea": "Quattro slide: «Due sale, più di 100 posti» · «Fajitas per due, da 31 a 34 €» · «Le caraffe: margarita 32 €, sangria 23 €» · «Scrivici su WhatsApp o chiama lo 0523 335932».",
+      "cta": "Chiedi il tavolo su WhatsApp",
+      "materiale": "foto del fotografo (_MG_0431, _MG_0286, _MG_0330)"
+    },
+    {
+      "id": "b02",
+      "fascia": "base",
+      "data": "2026-12-04",
+      "ora": "18:30",
+      "tipo": "post",
+      "pilastro": "P1",
+      "titolo": "Il piatto misto",
+      "idea": "Tanti assaggi in un piatto solo. Il nome del piatto lo scriviamo quando ce lo conferma il titolare.",
+      "cta": "Prenota",
+      "materiale": "foto del fotografo (_MG_0444)",
+      "esiste": "tropico-latino-20261204-1830 (approvato)"
+    },
+    {
+      "id": "b03",
+      "fascia": "base",
+      "data": "2026-12-09",
+      "ora": "19:00",
+      "tipo": "reel",
+      "pilastro": "P3",
+      "titolo": "Dopo il giro in centro",
+      "idea": "Sei foto montate: bancone, cocktail, sala. Il testo: «Il mercatino in Piazza Cavalli, poi 330 metri fino a via Mazzini 77/A. Aperitivo dalle 18:30.» Le date del mercatino 2026 si confermano prima di pubblicare.",
+      "cta": "Vieni all'aperitivo",
+      "materiale": "foto del fotografo"
+    },
+    {
+      "id": "b04",
+      "fascia": "base",
+      "data": "2026-12-11",
+      "ora": "18:30",
+      "tipo": "post",
+      "pilastro": "P2",
+      "titolo": "Il Negroni mexicano",
+      "idea": "Il bancone col Negroni mexicano, 8,50 €. «Aperitivo al bancone, da martedì a domenica dalle 18:30.» Da bere con calma.",
+      "cta": "Vieni all'aperitivo",
+      "materiale": "foto del fotografo (bottiglie, _MG_0278)"
+    },
+    {
+      "id": "b05",
+      "fascia": "base",
+      "data": "2026-12-15",
+      "ora": "19:00",
+      "tipo": "reel",
+      "pilastro": "P1",
+      "titolo": "Dalla cucina al tavolo",
+      "idea": "Sette foto di cucina e piatti, copertina sulle tortillas.",
+      "cta": "Prenota",
+      "materiale": "foto del fotografo",
+      "esiste": "tropico-latino-20261215-1900 (approvato)"
+    },
+    {
+      "id": "b06",
+      "fascia": "base",
+      "data": "2026-12-17",
+      "ora": "18:30",
+      "tipo": "post",
+      "pilastro": "P1",
+      "titolo": "Il burrito, rifatto",
+      "idea": "Il post del burrito era stato rifiutato: si rifà appena sappiamo il perché. Proposta: il Burrito de chile, 13 €, con la scritta «piccante».",
+      "cta": "Prenota",
+      "materiale": "foto del fotografo (_MG_0449)",
+      "esiste": "tropico-latino-20261217-1830 (rifiutato, da rifare)"
+    },
+    {
+      "id": "b07",
+      "fascia": "base",
+      "data": "2026-12-22",
+      "ora": "18:30",
+      "tipo": "post",
+      "pilastro": "P1",
+      "titolo": "La griglia",
+      "idea": "La griglia, con la Parrilla per 2 o più a 36 €.",
+      "cta": "Prenota",
+      "materiale": "foto del fotografo (_MG_0431)",
+      "esiste": "tropico-latino-20261222-1830 (in attesa)"
+    },
+    {
+      "id": "b08",
+      "fascia": "base",
+      "data": "2026-12-29",
+      "ora": "18:30",
+      "tipo": "post",
+      "pilastro": "P4",
+      "titolo": "Auguri dal 1992",
+      "idea": "La sala prima del servizio, il bancone, la parete gialla. «Trentaquattro dicembri in via Mazzini. Grazie a chi c'era.» Sotto, gli orari di fine anno.",
+      "cta": "Gli orari di fine anno",
+      "materiale": "foto del fotografo (_MG_0286)",
+      "condizione": "orari di fine anno da confermare col titolare"
+    },
+    {
+      "id": "b09",
+      "fascia": "base",
+      "data": "2026-12-01",
+      "ora": "18:45",
+      "tipo": "storia",
+      "pilastro": "P4",
+      "titolo": "Bienvenidos",
+      "idea": "La cornice del Tropico sul bancone: si apre dicembre.",
+      "cta": "Link WhatsApp",
+      "materiale": "foto del fotografo (_MG_0286)",
+      "esiste": "tropico-latino-20261201-1845"
+    },
+    {
+      "id": "b10",
+      "fascia": "base",
+      "data": "2026-12-05",
+      "ora": "19:00",
+      "tipo": "storia",
+      "pilastro": "P2",
+      "titolo": "Aperitivo al bancone, si parte",
+      "idea": "La frase approvata dal titolare sulla foto del bancone.",
+      "cta": "Link WhatsApp",
+      "materiale": "foto del fotografo (_MG_0278)",
+      "esiste": "tropico-latino-20261205-1900"
+    },
+    {
+      "id": "b11",
+      "fascia": "base",
+      "data": "2026-12-10",
+      "ora": "19:15",
+      "tipo": "storia",
+      "pilastro": "P2",
+      "titolo": "Margarita frozen o classico?",
+      "idea": "La domanda come testo; l'adesivo del sondaggio si mette a mano dall'app.",
+      "cta": "Rispondi",
+      "materiale": "foto del fotografo (_MG_0330)",
+      "esiste": "tropico-latino-20261210-1915"
+    },
+    {
+      "id": "b12",
+      "fascia": "base",
+      "data": "2026-12-19",
+      "ora": "21:30",
+      "tipo": "storia",
+      "pilastro": "P3",
+      "titolo": "Il weekend al Tropico",
+      "idea": "«Due sale, più di 100 posti: portate tutti.»",
+      "cta": "Link WhatsApp",
+      "materiale": "foto del fotografo (_MG_0267)",
+      "esiste": "tropico-latino-20261219-2130"
+    },
+    {
+      "id": "b13",
+      "fascia": "base",
+      "data": "2026-12-02",
+      "ora": "11:00",
+      "tipo": "google_post",
+      "pilastro": "P3",
+      "titolo": "Cene di gruppo a dicembre",
+      "idea": "Novità sulla scheda Google: due sale, fajitas per due, le caraffe. Per gruppi e cene aziendali, scrivici su WhatsApp.",
+      "cta": "Pulsante «Chiama»",
+      "materiale": "foto del fotografo (_MG_0431)"
+    },
+    {
+      "id": "b14",
+      "fascia": "base",
+      "data": "2026-12-09",
+      "ora": "11:00",
+      "tipo": "google_post",
+      "pilastro": "P4",
+      "titolo": "A 330 metri da Piazza Cavalli",
+      "idea": "Dopo il giro in centro, aperitivo dalle 18:30 in via Mazzini 77/A.",
+      "cta": "Pulsante «Indicazioni»",
+      "materiale": "foto del fotografo (_MG_0286)"
+    },
+    {
+      "id": "b15",
+      "fascia": "base",
+      "data": "2026-12-16",
+      "ora": "11:00",
+      "tipo": "google_post",
+      "pilastro": "P1",
+      "titolo": "Il menu della sera",
+      "idea": "Fajitas, burritos, enchiladas, nachos e la griglia. Cucina fino alle 23, venerdì e sabato fino alle 23:30.",
+      "cta": "Pulsante «Menu»",
+      "materiale": "foto del fotografo (_MG_0444)"
+    },
+    {
+      "id": "b16",
+      "fascia": "base",
+      "data": "2026-12-23",
+      "ora": "11:00",
+      "tipo": "google_post",
+      "pilastro": "P7",
+      "titolo": "Orari delle feste",
+      "idea": "Vigilia, Natale, Santo Stefano, Capodanno: gli orari giusti anche sulla scheda Google, che è la prima cosa che si guarda.",
+      "cta": "Pulsante «Chiama»",
+      "materiale": "grafica",
+      "condizione": "orari delle feste da confermare col titolare"
+    },
+    {
+      "id": "b17",
+      "fascia": "base",
+      "data": "2026-12-02",
+      "ora": "11:30",
+      "tipo": "google_foto",
+      "pilastro": "P1",
+      "titolo": "4 foto nuove su Google",
+      "idea": "Piatto misto, griglia, bancone, margarita: le foto del fotografo, ognuna col nome del piatto.",
+      "quante": 4,
+      "materiale": "foto del fotografo"
+    },
+    {
+      "id": "s01",
+      "fascia": "business",
+      "data": "2026-12-05",
+      "ora": "19:30",
+      "tipo": "reel",
+      "pilastro": "P1",
+      "titolo": "Le fajitas arrivano al tavolo",
+      "idea": "Quindici secondi: la piastra che sfrigola esce dalla cucina e arriva al tavolo. Niente volti. In coda: «Fajitas per due, da 31 €. Weekend del ponte: chiedi il tavolo.»",
+      "cta": "Chiedi il tavolo su WhatsApp",
+      "materiale": "riprese del mese"
+    },
+    {
+      "id": "s02",
+      "fascia": "business",
+      "data": "2026-12-08",
+      "ora": "18:30",
+      "tipo": "carosello",
+      "pilastro": "P5",
+      "titolo": "Il Natale in Messico dura quasi un mese",
+      "idea": "Da salvare, sei slide: il 12 dicembre la Virgen de Guadalupe · dal 16 al 24 las Posadas · il 24 la Nochebuena · il 28 i Santos Inocentes, il loro pesce d'aprile · il 31 le 12 uvas a mezzanotte · il 6 gennaio la Rosca de Reyes. Grafica coi colori del Tropico.",
+      "cta": "Salva e condividi",
+      "materiale": "grafica"
+    },
+    {
+      "id": "s03",
+      "fascia": "business",
+      "data": "2026-12-18",
+      "ora": "19:00",
+      "tipo": "reel",
+      "pilastro": "P2",
+      "titolo": "Come nasce un margarita",
+      "idea": "Le mani del barista: ghiaccio, lime, shaker, il bicchiere. Quindici secondi, musica originale. Testo finale: «Margarita, 9 €. Da bere con calma.»",
+      "cta": "Vieni all'aperitivo",
+      "materiale": "riprese del mese"
+    },
+    {
+      "id": "s04",
+      "fascia": "business",
+      "data": "2026-12-23",
+      "ora": "18:30",
+      "tipo": "post",
+      "pilastro": "P6",
+      "titolo": "Chi c'è dietro il bancone",
+      "idea": "La squadra in una foto presa alla ripresa del mese. I nomi li scriviamo se ce li danno.",
+      "cta": "Prenota",
+      "materiale": "riprese del mese",
+      "condizione": "consenso scritto delle persone in foto"
+    },
+    {
+      "id": "s05",
+      "fascia": "business",
+      "data": "2026-12-03",
+      "ora": "20:30",
+      "tipo": "storia",
+      "pilastro": "P2",
+      "titolo": "Margarita o paloma?",
+      "idea": "Sondaggio: l'adesivo si mette a mano dall'app, da programma oggi non si può.",
+      "cta": "Rispondi",
+      "materiale": "foto del fotografo"
+    },
+    {
+      "id": "s06",
+      "fascia": "business",
+      "data": "2026-12-09",
+      "ora": "18:30",
+      "tipo": "storia",
+      "pilastro": "P1",
+      "titolo": "La cucina",
+      "idea": "La foto della cucina, già pronta.",
+      "cta": "Link WhatsApp",
+      "materiale": "foto del fotografo (_MG_0430)",
+      "esiste": "tropico-latino-20261209-1830"
+    },
+    {
+      "id": "s07",
+      "fascia": "business",
+      "data": "2026-12-12",
+      "ora": "21:00",
+      "tipo": "storia",
+      "pilastro": "P3",
+      "titolo": "Il tavolo del sabato",
+      "idea": "«Sabato sera il tavolo si chiede su WhatsApp, così non aspetti.»",
+      "cta": "Link WhatsApp",
+      "materiale": "foto del fotografo"
+    },
+    {
+      "id": "s08",
+      "fascia": "business",
+      "data": "2026-12-16",
+      "ora": "19:00",
+      "tipo": "storia",
+      "pilastro": "P5",
+      "titolo": "Stasera cominciano las Posadas",
+      "idea": "«In Messico dal 16 al 24 dicembre ogni sera è una posada: si cammina, si canta, si rompe la piñata.» Rimanda al carosello dell'8 dicembre.",
+      "cta": "Guarda il carosello",
+      "materiale": "grafica"
+    },
+    {
+      "id": "s09",
+      "fascia": "business",
+      "data": "2026-12-18",
+      "ora": "21:00",
+      "tipo": "storia",
+      "pilastro": "P7",
+      "titolo": "Cucina fino alle 23:30",
+      "idea": "Venerdì e sabato si mangia fino alle 23:30.",
+      "cta": "Link WhatsApp",
+      "materiale": "foto del fotografo"
+    },
+    {
+      "id": "s10",
+      "fascia": "business",
+      "data": "2026-12-22",
+      "ora": "19:30",
+      "tipo": "storia",
+      "pilastro": "P1",
+      "titolo": "Indovina il piatto",
+      "idea": "Un primo piano strettissimo di un piatto; la risposta nel riquadro dopo.",
+      "cta": "Rispondi",
+      "materiale": "foto del fotografo"
+    },
+    {
+      "id": "s11",
+      "fascia": "business",
+      "data": "2026-12-24",
+      "ora": "18:30",
+      "tipo": "storia",
+      "pilastro": "P7",
+      "titolo": "La Vigilia al Tropico",
+      "idea": "Gli orari della Vigilia, se il locale apre.",
+      "cta": "Link WhatsApp",
+      "materiale": "grafica",
+      "condizione": "orari della Vigilia da confermare col titolare"
+    },
+    {
+      "id": "s12",
+      "fascia": "business",
+      "data": "2026-12-30",
+      "ora": "19:00",
+      "tipo": "storia",
+      "pilastro": "P5",
+      "titolo": "Le 12 uvas di mezzanotte",
+      "idea": "In Messico e in Spagna a mezzanotte si mangiano 12 acini d'uva, uno a ogni rintocco: un desiderio per ogni mese.",
+      "cta": "Salva",
+      "materiale": "grafica"
+    },
+    {
+      "id": "s13",
+      "fascia": "business",
+      "data": "2026-12-04",
+      "ora": "11:00",
+      "tipo": "google_post",
+      "pilastro": "P7",
+      "titolo": "Il ponte dell'Immacolata",
+      "idea": "Sabato 5 e domenica 6 aperti, lunedì 7 chiusi come ogni lunedì, martedì 8 aperti.",
+      "cta": "Pulsante «Chiama»",
+      "materiale": "grafica",
+      "condizione": "apertura di martedì 8 da confermare col titolare"
+    },
+    {
+      "id": "s14",
+      "fascia": "business",
+      "data": "2026-12-11",
+      "ora": "11:00",
+      "tipo": "google_post",
+      "pilastro": "P3",
+      "titolo": "Cene aziendali a dicembre",
+      "idea": "Due sale per i gruppi: scrivici su WhatsApp con la data e quanti siete.",
+      "cta": "Pulsante «Chiama»",
+      "materiale": "foto del fotografo"
+    },
+    {
+      "id": "s15",
+      "fascia": "business",
+      "data": "2026-12-18",
+      "ora": "11:00",
+      "tipo": "google_post",
+      "pilastro": "P5",
+      "titolo": "Il Natale messicano",
+      "idea": "Le Posadas, la Nochebuena, le 12 uvas: il carosello dell'8 dicembre, anche su Google.",
+      "cta": "Pulsante «Scopri»",
+      "materiale": "grafica"
+    },
+    {
+      "id": "s16",
+      "fascia": "business",
+      "data": "2026-12-29",
+      "ora": "11:00",
+      "tipo": "google_post",
+      "pilastro": "P7",
+      "titolo": "Fine anno: orari e auguri",
+      "idea": "Gli orari dal 29 dicembre al 6 gennaio e gli auguri.",
+      "cta": "Pulsante «Chiama»",
+      "materiale": "grafica",
+      "condizione": "orari da confermare col titolare"
+    },
+    {
+      "id": "s17",
+      "fascia": "business",
+      "data": "2026-12-16",
+      "ora": "11:30",
+      "tipo": "google_foto",
+      "pilastro": "P1",
+      "titolo": "4 foto dalla ripresa",
+      "idea": "Fajitas, margarita, sala, squadra (con consenso).",
+      "quante": 4,
+      "materiale": "riprese del mese"
+    },
+    {
+      "id": "s18",
+      "fascia": "business",
+      "data": "2026-12-10",
+      "ora": "11:00",
+      "tipo": "whatsapp",
+      "pilastro": "P7",
+      "titolo": "Orari delle feste e tavolate",
+      "idea": "Un messaggio alla lista, con un motivo vero: gli orari delle feste e il link per chiedere il tavolo dei gruppi.",
+      "cta": "Rispondi per il tavolo",
+      "materiale": "testo",
+      "condizione": "lista con consenso: se non c'è, si comincia a costruirla dal QR sul tavolo"
+    },
+    {
+      "id": "s19",
+      "fascia": "business",
+      "data": "2026-12-01",
+      "ora": "10:00",
+      "tipo": "mossa",
+      "pilastro": "P3",
+      "titolo": "La tavolata di dicembre",
+      "idea": "Proposta al titolare: un menu fisso per gruppi da 8 persone in su, coi piatti del menu (nachos, fajitas, un dolce) e una caraffa ogni quattro. Il prezzo lo decide lui. Se dice sì: pagina sul sito, post, Google e un messaggio WhatsApp con la parola «TAVOLATA», per contare chi arriva da lì.",
+      "cta": "Scrivi TAVOLATA su WhatsApp",
+      "materiale": "grafica",
+      "condizione": "il titolare dice sì al menu per i gruppi (proposta entro il 28/11)"
+    },
+    {
+      "id": "s20",
+      "fascia": "business",
+      "data": "2026-12-10",
+      "ora": "20:00",
+      "tipo": "creator",
+      "pilastro": "P1",
+      "titolo": "Un creator food di Piacenza a cena",
+      "idea": "Invito a cena in cambio di un reel sincero, segnalato come collaborazione. Si sceglie chi parla a Piacenza, non chi ha più follower. Il messaggio lo scriviamo noi, lo manda Nicola.",
+      "cta": "—",
+      "materiale": "riprese del creator",
+      "condizione": "il titolare accetta l'ospite"
+    },
+    {
+      "id": "s21",
+      "fascia": "business",
+      "data": "2026-12-02",
+      "ora": "12:00",
+      "tipo": "ads",
+      "pilastro": "P3",
+      "titolo": "Spingere la tavolata",
+      "idea": "Dal 2 all'8 dicembre, a chi abita entro 5 km, con la slide delle fajitas del carosello della tavolata: la pubblicità non punta sull'alcol. Budget proposto 30-50 €, deciso e pagato dal titolare.",
+      "cta": "Chiedi il tavolo su WhatsApp",
+      "materiale": "il carosello del 1/12",
+      "condizione": "budget firmato dal titolare"
+    },
+    {
+      "id": "s22",
+      "fascia": "business",
+      "data": "2026-12-01",
+      "ora": "09:00",
+      "tipo": "sito",
+      "pilastro": "P3",
+      "titolo": "Pagina «Gruppi e cene aziendali»",
+      "idea": "Sul sito: le due sale, i piatti per due, la tavolata se c'è, il link WhatsApp per chiedere la data.",
+      "cta": "Chiedi la data",
+      "materiale": "foto del fotografo"
+    },
+    {
+      "id": "s23",
+      "fascia": "business",
+      "data": "2026-12-02",
+      "ora": "10:00",
+      "tipo": "schede",
+      "pilastro": "P7",
+      "titolo": "TripAdvisor e TheFork uguali a Google",
+      "idea": "Orari delle feste, foto nuove, link al menu: le stesse informazioni dappertutto, se le schede ci sono.",
+      "cta": "—",
+      "materiale": "foto del fotografo"
+    },
+    {
+      "id": "s24",
+      "fascia": "business",
+      "data": "2026-12-02",
+      "ora": "17:30",
+      "tipo": "lavoro",
+      "pilastro": "P6",
+      "titolo": "La ripresa video del mese (scattiDG)",
+      "idea": "Un'ora, prima e durante il primo servizio: fajitas al tavolo, margarita al bancone, la squadra con il consenso scritto.",
+      "materiale": "riprese"
+    },
+    {
+      "id": "p01",
+      "fascia": "premium",
+      "data": "2026-12-03",
+      "ora": "19:00",
+      "tipo": "reel",
+      "pilastro": "P1",
+      "titolo": "Il guacamole, a mano",
+      "idea": "Primo piano di mani, avocado, lime, coriandolo. Dodici secondi. «Guacamole y tostaditos, 4,50 €.»",
+      "cta": "Prenota",
+      "materiale": "riprese del mese"
+    },
+    {
+      "id": "p02",
+      "fascia": "premium",
+      "data": "2026-12-06",
+      "ora": "18:30",
+      "tipo": "carosello",
+      "pilastro": "P1",
+      "titolo": "Come si mangia una fajita",
+      "idea": "Cinque slide da salvare: scalda la tortilla · poca carne, tanto colore · le salse in quest'ordine · arrotola stretto · il lime alla fine. Ultima slide: «Fajitas per due, da 31 €.»",
+      "cta": "Salva e prenota",
+      "materiale": "riprese del mese"
+    },
+    {
+      "id": "p03",
+      "fascia": "premium",
+      "data": "2026-12-12",
+      "ora": "19:00",
+      "tipo": "reel",
+      "pilastro": "P4",
+      "titolo": "Dalla porta al tavolo",
+      "idea": "Una camminata lenta: la porta su via Mazzini, il bancone, le due sale, il tavolo apparecchiato. Senza volti riconoscibili.",
+      "cta": "Prenota",
+      "materiale": "riprese del mese"
+    },
+    {
+      "id": "p04",
+      "fascia": "premium",
+      "data": "2026-12-16",
+      "ora": "18:30",
+      "tipo": "carosello",
+      "pilastro": "P5",
+      "titolo": "Las Posadas, nove sere prima di Natale",
+      "idea": "Cosa sono, perché la piñata ha sette punte, cosa si beve: il ponche, caldo, di frutta. Ultima slide: «Sabato 19 la sera delle Posadas al Tropico.»",
+      "cta": "Chiedi il tavolo per sabato 19",
+      "materiale": "grafica",
+      "condizione": "il titolare dice sì alla sera delle Posadas"
+    },
+    {
+      "id": "p05",
+      "fascia": "premium",
+      "data": "2026-12-20",
+      "ora": "19:00",
+      "tipo": "reel",
+      "pilastro": "P6",
+      "titolo": "Com'è andata la sera delle Posadas",
+      "idea": "Il racconto della serata in venti secondi, girato col telefono durante l'evento. Volti solo con consenso.",
+      "cta": "Seguici per la prossima",
+      "materiale": "riprese col telefono all'evento",
+      "condizione": "l'evento si è fatto"
+    },
+    {
+      "id": "p06",
+      "fascia": "premium",
+      "data": "2026-12-24",
+      "ora": "12:00",
+      "tipo": "post",
+      "pilastro": "P4",
+      "titolo": "Feliz Navidad dal Tropico",
+      "idea": "Una grafica di auguri sulla foto del bancone, coi colori del locale.",
+      "cta": "—",
+      "materiale": "foto del fotografo"
+    },
+    {
+      "id": "p07",
+      "fascia": "premium",
+      "data": "2026-12-27",
+      "ora": "19:00",
+      "tipo": "reel",
+      "pilastro": "P6",
+      "titolo": "Dal 1992: chi c'è dietro il Tropico",
+      "idea": "Il titolare racconta in trenta secondi come è nato il locale.",
+      "cta": "Prenota",
+      "materiale": "riprese del mese",
+      "condizione": "il sì e il consenso scritto del titolare"
+    },
+    {
+      "id": "p08",
+      "fascia": "premium",
+      "data": "2026-12-30",
+      "ora": "18:30",
+      "tipo": "carosello",
+      "pilastro": "P5",
+      "titolo": "Le 12 uvas: come si fa",
+      "idea": "Quattro slide: dodici acini, dodici rintocchi, dodici desideri. L'ultima vale solo se il Tropico apre il 31.",
+      "cta": "Salva",
+      "materiale": "grafica"
+    },
+    {
+      "id": "p09",
+      "fascia": "premium",
+      "data": "2026-12-07",
+      "ora": "11:00",
+      "tipo": "google_post",
+      "pilastro": "P4",
+      "titolo": "Dove siamo",
+      "idea": "Via Mazzini 77/A, a 330 metri da Piazza Cavalli. Il lunedì chiusi, da martedì aperti dalle 18:30.",
+      "cta": "Pulsante «Indicazioni»",
+      "materiale": "foto del fotografo"
+    },
+    {
+      "id": "p10",
+      "fascia": "premium",
+      "data": "2026-12-14",
+      "ora": "11:00",
+      "tipo": "google_post",
+      "pilastro": "P5",
+      "titolo": "Sabato 19: la sera delle Posadas",
+      "idea": "Un evento sulla scheda Google, con data e ora.",
+      "cta": "Pulsante «Chiama»",
+      "materiale": "grafica",
+      "condizione": "il titolare dice sì alla sera delle Posadas"
+    },
+    {
+      "id": "p11",
+      "fascia": "premium",
+      "data": "2026-12-21",
+      "ora": "11:00",
+      "tipo": "google_post",
+      "pilastro": "P3",
+      "titolo": "Gruppi prima di Natale",
+      "idea": "Per le cene di gruppo prima di Natale, scrivici su WhatsApp con la data.",
+      "cta": "Pulsante «Chiama»",
+      "materiale": "foto del fotografo"
+    },
+    {
+      "id": "p12",
+      "fascia": "premium",
+      "data": "2026-12-28",
+      "ora": "11:00",
+      "tipo": "google_post",
+      "pilastro": "P7",
+      "titolo": "Capodanno al Tropico",
+      "idea": "Cosa si fa il 31, con orari e come prenotare.",
+      "cta": "Pulsante «Chiama»",
+      "materiale": "grafica",
+      "condizione": "il Tropico apre il 31 e il titolare decide cosa offrire"
+    },
+    {
+      "id": "p13",
+      "fascia": "premium",
+      "data": "2026-12-07",
+      "ora": "11:30",
+      "tipo": "google_foto",
+      "pilastro": "P1",
+      "titolo": "7 foto dalla ripresa del mese",
+      "idea": "Piatti, cocktail, le sale, la porta su via Mazzini.",
+      "quante": 7,
+      "materiale": "riprese del mese"
+    },
+    {
+      "id": "p14",
+      "fascia": "premium",
+      "data": "2026-12-16",
+      "ora": "17:00",
+      "tipo": "whatsapp",
+      "pilastro": "P5",
+      "titolo": "Sabato 19, la sera delle Posadas",
+      "idea": "Il secondo messaggio del mese alla lista: l'evento e come chiedere il tavolo.",
+      "cta": "Rispondi per il tavolo",
+      "materiale": "testo",
+      "condizione": "evento confermato e lista con consenso"
+    },
+    {
+      "id": "p15",
+      "fascia": "premium",
+      "data": "2026-12-10",
+      "ora": "10:00",
+      "tipo": "email",
+      "pilastro": "P7",
+      "titolo": "La lettera di dicembre",
+      "idea": "Orari delle feste, la tavolata per i gruppi, la sera delle Posadas, Capodanno se c'è. Solo agli iscritti.",
+      "cta": "Chiedi il tavolo",
+      "materiale": "testo e foto",
+      "condizione": "lista con consenso"
+    },
+    {
+      "id": "p16",
+      "fascia": "premium",
+      "data": "2026-12-19",
+      "ora": "19:00",
+      "tipo": "evento",
+      "pilastro": "P5",
+      "titolo": "La sera delle Posadas",
+      "idea": "Proposta al titolare: una sera di Natale messicano per i tavoli prenotati, con la piñata per i gruppi, il ponche caldo anche senza alcol, la musica. Programma e prezzi li decide lui. Noi facciamo grafiche, post, Google, WhatsApp, email, giornali, creator e il racconto della serata.",
+      "cta": "Chiedi il tavolo per sabato 19",
+      "materiale": "grafica e riprese col telefono",
+      "condizione": "il titolare dice sì"
+    },
+    {
+      "id": "p17",
+      "fascia": "premium",
+      "data": "2026-12-19",
+      "ora": "20:00",
+      "tipo": "creator",
+      "pilastro": "P3",
+      "titolo": "Un creator di serate e vita in città",
+      "idea": "Invitato alla sera delle Posadas, con la collaborazione dichiarata.",
+      "cta": "—",
+      "materiale": "riprese del creator",
+      "condizione": "evento confermato e ospite accettato dal titolare"
+    },
+    {
+      "id": "p18",
+      "fascia": "premium",
+      "data": "2026-12-03",
+      "ora": "09:00",
+      "tipo": "ads",
+      "pilastro": "P3",
+      "titolo": "Campagna Google: ristorante messicano a Piacenza",
+      "idea": "Annunci di ricerca per chi cerca «ristorante messicano», «cena di gruppo» e «cena aziendale» a Piacenza, dal 3 al 23 dicembre. Budget proposto 100 €, pagato dal titolare a Google. Ogni settimana: quante chiamate, quanti messaggi, quanto è costato ognuno.",
+      "cta": "Chiama o scrivi",
+      "materiale": "testi",
+      "condizione": "budget firmato dal titolare"
+    },
+    {
+      "id": "p19",
+      "fascia": "premium",
+      "data": "2026-12-09",
+      "ora": "10:00",
+      "tipo": "stampa",
+      "pilastro": "P4",
+      "titolo": "Una storia per i giornali di Piacenza",
+      "idea": "«Il Natale messicano in via Mazzini, dal 1992»: le Posadas raccontate da chi le porta a Piacenza. Il testo lo scriviamo noi; lo manda Nicola ai giornali locali dopo il sì del titolare.",
+      "cta": "—",
+      "materiale": "testo e foto",
+      "condizione": "evento confermato"
+    },
+    {
+      "id": "p20",
+      "fascia": "premium",
+      "data": "2026-12-01",
+      "ora": "10:30",
+      "tipo": "aziende",
+      "pilastro": "P3",
+      "titolo": "Le aziende vicine, per le cene aziendali",
+      "idea": "Una lista di 30 aziende entro 2 km, dai dati pubblici, e una lettera breve: due sale, piatti per due, la tavolata. La manda il titolare o Nicola, una per una.",
+      "cta": "Chiedi la data",
+      "materiale": "testo",
+      "condizione": "il titolare approva la lettera"
+    },
+    {
+      "id": "p21",
+      "fascia": "premium",
+      "data": "2026-12-07",
+      "ora": "09:00",
+      "tipo": "sito",
+      "pilastro": "P5",
+      "titolo": "Pagina «Natale e Capodanno al Tropico»",
+      "idea": "Orari delle feste, la sera delle Posadas, la tavolata, con i dati strutturati che Google legge.",
+      "cta": "Chiedi il tavolo",
+      "materiale": "grafica"
+    },
+    {
+      "id": "p22",
+      "fascia": "premium",
+      "data": "2026-12-03",
+      "ora": "10:00",
+      "tipo": "schede",
+      "pilastro": "P7",
+      "titolo": "Apple Maps e Bing uguali a Google",
+      "idea": "Nome, indirizzo, telefono, orari e foto identici dappertutto: chi ha l'iPhone cerca su Apple Maps.",
+      "cta": "—",
+      "materiale": "foto del fotografo"
+    },
+    {
+      "id": "p23",
+      "fascia": "premium",
+      "data": "2026-12-01",
+      "ora": "17:00",
+      "tipo": "lavoro",
+      "pilastro": "P6",
+      "titolo": "La ripresa di foto e video del mese (scattiDG)",
+      "idea": "Due ore: piatti, cocktail, il guacamole a mano, la camminata nelle sale, la squadra, il titolare che racconta il 1992. Tutti col consenso scritto.",
+      "materiale": "riprese",
+      "sostituisce": "s24"
+    },
+    {
+      "id": "p24",
+      "fascia": "premium",
+      "data": "2026-12-07",
+      "ora": "15:00",
+      "tipo": "lavoro",
+      "pilastro": "P7",
+      "titolo": "L'incontro del mese col titolare",
+      "idea": "Il lunedì il locale è chiuso: si legge dicembre e si decidono evento e mossa di gennaio.",
+      "materiale": "—"
+    }
+  ],
+  "rubriche_storie": {
+    "spiegazione": "Nel Premium c'è una storia ogni sera di apertura. Dove il piano non ne ha già una, la storia segue la rubrica del giorno.",
+    "giorni": {
+      "2": {
+        "titolo": "La cucina di stasera",
+        "idea": "Una clip o una foto del piatto della sera, col link WhatsApp per il tavolo.",
+        "pilastro": "P1"
+      },
+      "3": {
+        "titolo": "Al bancone",
+        "idea": "Un cocktail o un analcolico, con un sondaggio.",
+        "pilastro": "P2"
+      },
+      "4": {
+        "titolo": "Il weekend si prenota oggi",
+        "idea": "Il link WhatsApp, e la cucina aperta fino alle 23:30 venerdì e sabato.",
+        "pilastro": "P3"
+      },
+      "5": {
+        "titolo": "Fino a tardi",
+        "idea": "La sala alle dieci di sera, la cucina aperta fino alle 23:30.",
+        "pilastro": "P7"
+      },
+      "6": {
+        "titolo": "Sabato al Tropico",
+        "idea": "Una clip della sala e del bancone, senza volti riconoscibili.",
+        "pilastro": "P3"
+      },
+      "0": {
+        "titolo": "La domenica si cena con calma",
+        "idea": "Un tavolo per due, cucina fino alle 23.",
+        "pilastro": "P3"
+      }
+    },
+    "date_speciali": {
+      "2026-12-13": {
+        "titolo": "Santa Lucia",
+        "idea": "Gli auguri ai bambini di Piacenza, che stamattina hanno aperto i regali.",
+        "pilastro": "P4"
+      },
+      "2026-12-26": {
+        "titolo": "Santo Stefano al Tropico",
+        "idea": "Gli orari di oggi.",
+        "pilastro": "P7",
+        "condizione": "il Tropico apre il 26"
+      },
+      "2026-12-31": {
+        "titolo": "Buon anno dal Tropico",
+        "idea": "Gli auguri e, se il locale apre, l'ora di stasera.",
+        "pilastro": "P7",
+        "condizione": "orari del 31 da confermare col titolare"
+      }
+    }
+  },
+  "anno": [
+    {
+      "quando": "6 gennaio",
+      "cosa": "Epifania e Rosca de Reyes: in Messico si taglia la corona di pane dolce, chi trova la statuina offre i tamales il 2 febbraio",
+      "tipo": "Messico e Italia"
+    },
+    {
+      "quando": "2 febbraio",
+      "cosa": "Día de la Candelaria: il giorno dei tamales",
+      "tipo": "Messico"
+    },
+    {
+      "quando": "9 febbraio",
+      "cosa": "Martedì grasso, Carnevale 2027",
+      "tipo": "Italia"
+    },
+    {
+      "quando": "14 febbraio",
+      "cosa": "San Valentino: la cena per due",
+      "tipo": "Italia"
+    },
+    {
+      "quando": "22 febbraio",
+      "cosa": "Giornata del margarita, nata negli Stati Uniti e molto seguita sui social",
+      "tipo": "Messico"
+    },
+    {
+      "quando": "8 marzo",
+      "cosa": "Festa della donna: le tavolate fra amiche",
+      "tipo": "Italia"
+    },
+    {
+      "quando": "28 marzo",
+      "cosa": "Pasqua 2027",
+      "tipo": "Italia"
+    },
+    {
+      "quando": "31 marzo",
+      "cosa": "Día del Taco in Messico",
+      "tipo": "Messico"
+    },
+    {
+      "quando": "25 aprile e 1 maggio",
+      "cosa": "I due ponti di primavera",
+      "tipo": "Italia"
+    },
+    {
+      "quando": "5 maggio",
+      "cosa": "Cinco de Mayo",
+      "tipo": "Messico"
+    },
+    {
+      "quando": "9 maggio",
+      "cosa": "Festa della mamma",
+      "tipo": "Italia"
+    },
+    {
+      "quando": "4 luglio",
+      "cosa": "Sant'Antonino, patrono di Piacenza",
+      "tipo": "Piacenza"
+    },
+    {
+      "quando": "24 luglio",
+      "cosa": "Giornata della tequila, nata negli Stati Uniti",
+      "tipo": "Messico"
+    },
+    {
+      "quando": "15 agosto",
+      "cosa": "Ferragosto: orari o chiusura estiva",
+      "tipo": "Italia"
+    },
+    {
+      "quando": "15 e 16 settembre",
+      "cosa": "Independencia: la notte del Grito",
+      "tipo": "Messico"
+    },
+    {
+      "quando": "31 ottobre, 1 e 2 novembre",
+      "cosa": "Halloween e Día de Muertos: l'altare, il pan de muerto, raccontati con rispetto",
+      "tipo": "Messico"
+    },
+    {
+      "quando": "da chiedere al titolare",
+      "cosa": "Il compleanno del locale, aperto nel 1992",
+      "tipo": "Tropico"
+    },
+    {
+      "quando": "12-31 dicembre",
+      "cosa": "Guadalupe, Santa Lucia, Posadas, Nochebuena, Inocentes, 12 uvas; Natale a Piacenza fino al 6 gennaio",
+      "tipo": "Messico, Piacenza, Italia"
+    }
+  ],
+  "pagina": {
+    "titolo": "Il piano di dicembre del Tropico, per ogni abbonamento",
+    "in_parole_semplici": [
+      "Questa pagina è il modello del piano editoriale che venderemo con i tre abbonamenti, provato sul Tropico Latino a dicembre.",
+      "Il piano è lo stesso locale raccontato con la stessa voce; cambia quanto facciamo e su quanti canali. Ogni fascia contiene tutta quella sotto.",
+      "A dicembre il Base dà al Tropico 8 contenuti, 4 storie e 4 post su Google. Il Business arriva a 12 contenuti, 12 storie, video girati nel locale, TikTok, WhatsApp, recensioni e una mossa nuova al mese. Il Premium arriva a 20 contenuti, una storia ogni sera di apertura, pubblicità gestita, creator, giornali, aziende vicine ed evento."
+    ],
+    "cosa_cambia": [
+      "Le tre fasce promettono più di oggi: il preventivo diceva 8, 12 e 20 post. Le quantità nuove le trovi qui sotto, voce per voce.",
+      "Il Premium si presenta come «tutti i mestieri di un'agenzia completa»: 25 mestieri al lavoro sul locale. È il tuo «agenzia di 50 marketer», detto in un modo che possiamo provare.",
+      "Per ogni cliente nuovo basta scrivere il suo piano del mese: il programma conta, controlla e prepara le righe del Calendario."
+    ],
+    "cosa_devi_fare": [
+      "Dimmi se firmi le quantità nuove delle tre fasce. Solo dopo cambio il preventivo sul sito.",
+      "Scegli con quale fascia far girare il Tropico a dicembre. Io consiglio il Business intero, più tre pezzi del Premium che costano poco.",
+      "Fai al titolare le 9 domande in fondo alla pagina: orari delle feste, menu per i gruppi, sera delle Posadas, Capodanno, numero WhatsApp."
+    ],
+    "consiglio": {
+      "fascia": "business",
+      "perche": "Il Tropico fa da vetrina per i prossimi clienti: il Business si fa tutto con quello che la macchina sa già fare, più una ripresa. Tre pezzi del Premium costano poco e riempiono le pagine: il carosello «Come si mangia una fajita», il reel del guacamole e una storia ogni sera. L'evento, la pubblicità e i giornali chiedono il sì e i soldi del titolare: si propongono, non si danno per fatti."
+    },
+    "senior": [
+      {
+        "chi": "Strategia",
+        "agente": "marketing",
+        "dice": "Dicembre si vince sui gruppi: una tavolata da dieci vale cinque coppie, e si prenota due o tre settimane prima. Per questo la tavolata apre il mese il 1° dicembre e torna ogni settimana fino al 21."
+      },
+      {
+        "chi": "Contenuti",
+        "agente": "content-social",
+        "dice": "Le fasce non cambiano la voce del locale, cambiano la potenza. Il Base tiene piatti firma e servizio; il Business aggiunge le persone e il video vero; il Premium aggiunge le rubriche e una storia ogni sera."
+      },
+      {
+        "chi": "Direttore creativo",
+        "agente": "direttore-creativo",
+        "dice": "Il margarita era in 4 contenuti su 13: nel piano il bancone pesa il 15%, non di più. Le tradizioni messicane si spiegano bene, senza i soliti simboli; la Virgen de Guadalupe è una festa religiosa e si nomina solo nel carosello, con rispetto."
+      },
+      {
+        "chi": "Video",
+        "agente": "ai-video",
+        "dice": "Un'ora di ripresa al mese basta per 4-6 reel. Si gira prima del servizio, mani, piatti e bancone, e durante, senza volti o con il consenso."
+      },
+      {
+        "chi": "Google",
+        "agente": "seo",
+        "dice": "Chi cerca «messicano Piacenza» guarda prima la scheda Google. Orari delle feste giusti, foto nuove ogni mese e risposte alle recensioni contano più dei post: per questo Google è in tutte e tre le fasce."
+      },
+      {
+        "chi": "Recensioni",
+        "agente": "content-social con legale-privacy",
+        "dice": "Risposta a ogni recensione Google entro 48 ore dal Business, a tutte le piattaforme entro 24 ore nel Premium. Il QR sul tavolo chiede la recensione senza regali in cambio."
+      },
+      {
+        "chi": "Pubblicità",
+        "agente": "ads-performance",
+        "dice": "Poca spesa, ben puntata: 30-50 € per spingere la tavolata a chi abita entro 5 km, nel Business; nel Premium anche una campagna Google su chi cerca già «ristorante messicano». La pubblicità non punta mai sull'alcol."
+      },
+      {
+        "chi": "WhatsApp ed email",
+        "agente": "crm-lifecycle",
+        "dice": "La lista dei clienti è il tesoro del locale e resta sua. Si costruisce col QR al tavolo, e si scrive solo con un motivo vero: una volta al mese nel Business, due nel Premium."
+      },
+      {
+        "chi": "Creator",
+        "agente": "influencer-partnership",
+        "dice": "Meglio un creator con 3.000 follower di Piacenza che uno con 50.000 sparsi per l'Italia. La collaborazione si dichiara sempre, anche se si paga con una cena."
+      },
+      {
+        "chi": "Giornali",
+        "agente": "pr-stampa",
+        "dice": "Il giornale locale non pubblica un'offerta, pubblica una storia. «Le Posadas portate a Piacenza da un locale aperto nel 1992» è una storia."
+      },
+      {
+        "chi": "Dati",
+        "agente": "analista",
+        "dice": "Il resoconto parla di chiamate, indicazioni, messaggi e prenotazioni, mai di like. Per contare le prenotazioni basta un link WhatsApp con una frase diversa per ogni canale."
+      },
+      {
+        "chi": "Soldi",
+        "agente": "finanza",
+        "dice": "Una cena per due al Tropico vale circa 65 €. Al Premium bastano meno di una coppia in più a sera per ripagarsi; al Base meno di due coppie a settimana."
+      },
+      {
+        "chi": "Legale",
+        "agente": "legale-privacy",
+        "dice": "Consenso scritto per i volti, collaborazioni dichiarate, alcol raccontato con misura, liste solo con consenso, niente «unico» o «il migliore» finché non è provato. E la promessa del Premium si scrive «tutti i mestieri di un'agenzia completa», non «50 persone», che sarebbe pubblicità ingannevole."
+      },
+      {
+        "chi": "Organizzazione",
+        "agente": "chief-of-staff",
+        "dice": "Il collo di bottiglia è l'approvazione: nel Premium escono più di 100 cose al mese e non si approvano una per una. Si approva la settimana in un messaggio, e i clienti Premium hanno un tetto finché Google e WhatsApp non vanno da soli."
+      },
+      {
+        "chi": "Prodotto",
+        "agente": "product-manager",
+        "dice": "Passa le cinque domande: il titolare non impara app nuove, i clienti restano suoi, il primo risultato si vede in 2-4 settimane nelle chiamate e nei messaggi da Google, e non aggiunge fatica a chi cucina."
+      }
+    ],
+    "conti": {
+      "cena_per_due": "Fajitas tropico 32 € + due margarita 18 € + due dolci 12 € + coperto 3 € = 65 €, dal menu 2025.",
+      "margine": "Tolto circa il 30% di materie prime (media del settore, da confermare col titolare), a una cena per due restano circa 45 €.",
+      "righe": [
+        {
+          "fascia": "Base",
+          "canone": "300 €",
+          "serve": "7 cene per due in più al mese, meno di due a settimana",
+          "primo_mese": "150 €: 4 cene per due"
+        },
+        {
+          "fascia": "Business",
+          "canone": "500 €",
+          "serve": "11 cene per due in più al mese, meno di tre a settimana",
+          "primo_mese": "250 €: 6 cene per due"
+        },
+        {
+          "fascia": "Premium",
+          "canone": "999 €",
+          "serve": "22 cene per due, meno di una a sera; oppure una cena aziendale da 20 persone e 12 cene per due",
+          "primo_mese": "499,50 €: 11 cene per due"
+        }
+      ],
+      "nostro_lato": [
+        "Tempo di Nicola per cliente al mese, stima mia da misurare sui primi clienti: Base circa 1 ora, Business circa 3 ore, Premium circa 8 ore (visita, evento, giornali, aziende, pubblicità).",
+        "Il costo delle sessioni di scattiDG non lo conosco: senza quello il margine vero di ogni fascia resta da fare.",
+        "WhatsApp alla lista costa pochi centesimi a messaggio; il budget della pubblicità lo paga il titolare alle piattaforme, fuori dal canone.",
+        "Consiglio un tetto di 5 clienti Premium finché Google, WhatsApp e l'approvazione del titolare non vanno da soli."
+      ]
+    },
+    "domande_titolare": [
+      "Il 24, il 25, il 26 e il 31 dicembre siete aperti? Con che orari? E il 1° gennaio?",
+      "Martedì 8 dicembre, l'Immacolata, siete aperti?",
+      "Vi interessa un menu fisso per i gruppi da 8 persone in su? A che prezzo a testa?",
+      "Vi va una sera delle Posadas sabato 19 dicembre, con la piñata per i gruppi e il ponche caldo?",
+      "A Capodanno fate qualcosa di speciale?",
+      "Qual è il numero WhatsApp giusto per prenotare: 331 217 3684 o 339 532 7569?",
+      "Come si chiamano il piatto misto e la griglia delle foto del fotografo?",
+      "Chi della squadra accetta di comparire nei video, col consenso scritto? E il titolare racconterebbe il 1992 in trenta secondi?",
+      "In che mese avete aperto nel 1992? Avete già una lista di clienti che hanno chiesto di ricevere notizie?"
+    ],
+    "decisioni": [
+      "Firmare le quantità nuove delle tre fasce. Dopo la firma aggiorno il preventivo sul sito, la proposta che nasce dalla foto e il registro dei fatti, nello stesso lavoro.",
+      "Scegliere la fascia con cui il Tropico gira a dicembre. Il mio consiglio: il Business intero, più tre pezzi del Premium.",
+      "Dirmi quanto costa una sessione di scattiDG, di sole foto e di foto e video.",
+      "Decidere il tetto dei clienti Premium: io dico 5.",
+      "Approvare la frase del Premium: «tutti i mestieri di un'agenzia completa», al posto di «50 persone»."
+    ],
+    "non_verificato": [
+      "Non ho aperto i profili social né la scheda Google del Tropico: da questa sessione quei siti non si aprono. Non so quanto pubblicano oggi le pagine storiche, né se la scheda Google è completa.",
+      "Gli orari delle feste, l'apertura del 24, 25, 26 e 31 e il numero WhatsApp giusto: nel piano sono segnati «da confermare».",
+      "Le date 2026 del mercatino di Piazza Cavalli: le fonti trovate parlano dell'edizione precedente.",
+      "Il costo di scattiDG, e quindi il margine vero di ogni fascia. Il 30% di materie prime è una media del settore, non il dato del Tropico.",
+      "Nessuna riga è entrata nel Calendario: il programma le prepara con lo stato «idea», ma non le scrive nel foglio.",
+      "Le tempistiche di Google (un post a settimana come base) vengono da guide di settore, non da numeri ufficiali di Google."
+    ]
+  }
+}
