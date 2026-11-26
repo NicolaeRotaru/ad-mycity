@@ -3,7 +3,7 @@
   "riparatori": [
     "R01"
   ],
-  "aggiornato": "2026-11-26 15:40",
+  "aggiornato": "2026-11-26 15:19",
   "finita": false,
   "voci": [
     {
@@ -19,7 +19,7 @@
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-base --base 455c3f93e44e0d92296bb2782d06960518f04e02^ --file tests/e2e/12-la-cassa-dal-carrello-al-pagamento.spec.ts --prove tests/unit/riparazione-r29-la-cassa-e2e-non-diventa-verde-a-vuoto.test.ts,tests/unit/le-prove-della-cassa-non-passano-senza-aver-guardato.test.ts --json"
       },
-      "nota": "in corso"
+      "nota": "Grave: un subagente qa con le due lenti, testa fdbbd90c369db7102e564fabb5f5c1347e099c75 e base ed12ed8ec8190e1132b690f6e034c30f0a5d55ba. Nessun commit di R01: la rimessa l'ho lanciata sulla base contro la riparazione di prima (455c3f93e44e0d92296bb2782d06960518f04e02): rimettendo lo spec 12 com'era, le due prove di guardia cadono (uscita 0, la prova morde; con anche ci.yml in --file usciva 1 perché ci.yml di quel commit non è guardato da queste prove). Parte fatta vera: :486/:528/:559 senza salti propri, test.fixme, return o catch che inghiottono; con ambiente finto completo e irraggiungibile le tre prove cadono in 25-44 ms su «fetch failed» (hanno cercato il database). Residuo dichiarato confermato a mano: E2E_DATI_DI_PROVA=1 senza chiave Stripe → Playwright esce 0, 3 saltate (anche il contrassegno), il riepilogo (ci.yml:598) non fa mai fallire, il cancello conta success (ci.yml:1076). Residuo NON dichiarato nel cosa_resta: (1) senza la variabile E2E_DATI_DI_PROVA il lavoro è skipped (ci.yml:521) e Main lo fa passare (ci.yml:1077): oggi la CI è verde senza che la cassa vera abbia mai girato; (2) le due prove di guardia scrivono il residuo come comportamento voluto (le-prove-della-cassa-non-passano-senza-aver-guardato.test.ts:132, riparazione-r29-la-cassa-e2e-non-diventa-verde-a-vuoto.test.ts:267): chi chiude il residuo deve cambiarle; (3) la quarta prova «la cassa disegna il modulo» (spec 12 :271) non gira in nessun lavoro (filtro -g a ci.yml:591). Nata rotta: no, il nuovo lavoro e2e-telefono non tocca e2e-cassa-vera né il cancello; prove di guardia 16/16 alla testa e alla base, prove del cancello 21/21. Verdetto parziale: la voce resta aperta."
     },
     {
       "id": "R01-006",
@@ -34,7 +34,7 @@
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-28729f77 --base 28729f778396bbbdeb887bc4ff0ea2ed0a399ad7^ --file app/api/track/route.ts --prove tests/unit/riparazione-r01-segreto-di-bordo-nel-registro-visite.test.ts --json"
       },
-      "nota": "in corso"
+      "nota": "Segreti e permessi: due subagenti qa, una lente ciascuno, testa fdbbd90c369db7102e564fabb5f5c1347e099c75. chiude_tutta: tutti i lettori dei due segreti alla testa usano ?.trim() — lib/api/middleware.ts:808 INTERNAL_API_SECRET, :694 CRON_SECRET, lib/rate-limit.ts:351 e app/api/track/route.ts:78 EDGE_TRUST_SECRET (l'unico grezzo alla base, :75), più health e health/ready; nessuna lettura dinamica; il gettone in arrivo lo ripulisce già Headers; mutanti che tolgono trim dai tre lettori della base fanno cadere la prova R23 (3, 2, 1 rosse); sonda 12/12 su «\\n», «\\r\\n», « \\r\\n», «\\t\\n». nata_rotta: segreto vuoto o di soli spazi resta chiuso (!!segretoDiBordo, route.ts:79), confronto ancora con timingSafeEqual, griglia 10 segreti × 7 gettoni identica a getClientIp (0 differenze); 118/118 prove su track ed EDGE_TRUST_SECRET verdi; prova del riparatore 2/4 rosse con route.ts della base. Debolezze che non riaprono la voce: la prova nuova copre «\\r\\n» solo per /api/track (per cron e getClientIp lo ha visto solo la sonda); nessun guardiano contro una nuova lettura grezza; il modo in cui cron Vercel e la regola di Cloudflare mandano il segreto sta fuori dal deposito."
     },
     {
       "id": "R01-008",
@@ -49,8 +49,37 @@
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-0f664938 --base 0f6649381d4399b3e0f43443a11d15a73ef06973^ --file .github/workflows/ci.yml --prove tests/unit/riparazione-r01-prove-sul-telefono.test.ts --json"
       },
-      "nota": "in corso"
+      "nota": "Un subagente qa con le due lenti, testa fdbbd90c369db7102e564fabb5f5c1347e099c75. Parte fatta vera: mobile-safari è iPhone 14 (isMobile, webkit), 76 prove su 12 file; il lavoro e2e-telefono le lancia (ci.yml:862) e Main lo aspetta (ci.yml:1053); YAML valido, permessi ereditati contents: read, nessun secrets., nessuna collisione di nomi; 142/142 prove che leggono ci.yml verdi; prova del riparatore 3/4 rosse con ci.yml della base. Buchi NON nominati nel cosa_resta: (1) timeout-minutes: 30 (ci.yml:811): se il lavoro sfora o WebKit non si installa (ci.yml:827) l'esito è failure/cancelled, continue-on-error del passo non lo copre, Main diventa rosso e si ferma anche il rilascio (deploy-dopo-ci.yml:228 parte solo con CI success); la durata di 76 prove su WebKit con 1 worker e 2 ritentativi non è misurata; (2) la prova è debole: un mutante con continue-on-error sull'intero lavoro e il lancio di Playwright sostituito da un echo resta 4/4 verde (cerca solo il testo LANCIA_PLAYWRIGHT, riga 32 del test, e non guarda continue-on-error); (3) nessuna prova obbliga a togliere continue-on-error (ci.yml:839) quando lo spec 03 sarà riparato; (4) build e dipendenze di WebKit rifatte a ogni push. Non verificato: WebKit vero (non installabile qui), quindi lo spec 03 rosso sul telefono resta dedotto. Verdetto parziale: la voce resta aperta."
     }
   ],
-  "campione": {}
+  "campione": {
+    "R01": {
+      "accettato": true
+    }
+  },
+  "revert_R01_007": {
+    "esito": "pulito",
+    "commit_annullato": "439b57222b83c9d96ba55f0bfcf7985ecd70b558",
+    "revert": "fdbbd90c369db7102e564fabb5f5c1347e099c75",
+    "nota": "Il revert è l'inverso esatto di 439b5722 (righe tolte e aggiunte confrontate); alla testa .github/workflows/deriva-migrazioni-produzione.yml e tests/unit/riparazione-r01-regole-del-database-vero.test.ts sono identici alla base; in .github/workflows/ci.yml la differenza base→testa è solo quella di R01-008 (0f6649381d4399b3e0f43443a11d15a73ef06973); rls-locale torna su postgres:16 (ci.yml:250). Nessuna traccia del confronto notturno."
+  },
+  "nuovi_difetti_visti": [
+    {
+      "titolo": "il lavoro nuovo delle prove sul telefono, se sfora i 30 minuti o WebKit non si installa, fa rosso il cancello Main e ferma il rilascio",
+      "dimensione": "deploy-sre",
+      "severita": "minore",
+      "file": ".github/workflows/ci.yml:811 · .github/workflows/ci.yml:827 · .github/workflows/ci.yml:839 · .github/workflows/deploy-dopo-ci.yml:228",
+      "descrizione": "Nato da R01-008: continue-on-error sta sul passo delle prove, non sul lavoro. Un timeout (30 minuti, 76 prove WebKit con 1 worker e 2 ritentativi, durata mai misurata) o un'installazione di WebKit fallita danno failure/cancelled, Main li conta rossi e deploy-dopo-ci non parte. WebKit vero non è mai girato.",
+      "visto_da": "K04, lente nata_rotta su R01-008"
+    },
+    {
+      "titolo": "la quarta prova della cassa vera, «la cassa disegna il modulo», non gira in nessun lavoro della CI",
+      "dimensione": "qa-flussi",
+      "severita": "minore",
+      "file": "tests/e2e/12-la-cassa-dal-carrello-al-pagamento.spec.ts:271 · .github/workflows/ci.yml:591 · .github/workflows/ci.yml:573",
+      "descrizione": "Il filtro -g del lavoro e2e-cassa-vera la esclude ed E2E_DATI_DI_PROVA è acceso solo in quel lavoro: la prova esiste ma non la lancia nessuno.",
+      "visto_da": "K04, lente chiude_tutta su R01-003"
+    }
+  ],
+  "nota": "Ultracode non acceso (regola della regista del 26/11): lavorato senza. 3 subagenti qa (R01-003 da solo; R01-006 una lente ciascuno; R01-006 nata_rotta + R01-008). Nessun database, Supabase, Vercel, Stripe o GitHub veri. R02 arriva dopo: collaudo non finito."
 }
