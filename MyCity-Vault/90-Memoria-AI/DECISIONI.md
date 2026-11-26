@@ -1326,3 +1326,13 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Il limite:** il divieto degli strumenti sta nelle istruzioni, non in un'impostazione. Da qui la routine non permette di toglierli.
 - **Cosa resta a Nicola:** aprire la rete dell'ambiente «Chiedi all'AD (n8n)» dalle impostazioni, se vuole. Poi l'AD rifà l'analisi delle due attività.
 
+
+## 2026-11-26 12:53 · La lettura delle pagine dei clienti nuovi: l'ultimo collaudo e la riparazione 🟡
+- **Cosa:** Nicola ha chiesto un ultimo collaudo indipendente della sicurezza (25/11 verso le 23:30, «Ultimo controllo»). Il collaudatore ha bocciato per un solo difetto grave. Era un difetto di funzionamento, non di sicurezza. Su un sito vecchio, uno script con «<!--» e un commento più in basso cancellavano indirizzo, telefono e orari. Sulla sicurezza il pezzo ha retto: 80 indirizzi interni scritti a mano e 400.000 a caso, nessuno passato.
+- **Il terzo rosso:** per la regola del collaudo decideva Nicola. Ha scelto «Ripara solo questo» (26/11 mattina).
+- **La riparazione:** commenti e script ora si tolgono in un passaggio solo, come fa il browser. È N8N#18, testa `bbd4cc6`. La prova nuova è rossa sul codice di prima e verde su questo. In tutto 273 prove verdi e nessuna rossa.
+- **In uso su n8n dalle 12:50:** il 12 alla versione `765b6b0e` (prima `0e29ac19`), il 26 alla `242dc419` (prima `42d412fc`). Su tutti e due `leggi-pagine.mjs --file` dice «uguale».
+- **Collaudo della riparazione:** un collaudatore nuovo dice che regge. Ha provato 27 varianti scomode confrontate con Chromium. Su 1.500 pagine casuali, 0 parole perse rispetto al codice di prima. Il tempo massimo è 69 ms su 3 MB.
+- **Non fatto apposta:** i 7 difetti minori del collaudo 3 e i 7 del collaudo 4. Nicola ha chiesto di riparare solo il grave. Sono in LAVORO-APERTO.
+- **Prova vera (25/11 23:05):** su Ora del Gusto la ricerca ha scritto 1 pagina da leggere e n8n ne ha lette 2. La scheda le ha scartate come possibile omonimo, giustamente.
+- Referti: `consegne/riparazioni/2026-11-25-leggi-pagine/collaudo-3-sicurezza.md` e `collaudo-4-pulizia.md`.
