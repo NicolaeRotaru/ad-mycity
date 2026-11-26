@@ -1399,6 +1399,10 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Fatti:** nuovo `sdg.pagamento`; aggiornati `agenzia.scheda-da-foto` e `sdg.abbonamenti`. Coerenza-fatti verde.
 - **Come si torna indietro:** sul sito si riaccende l'interruttore (una riga) con la firma di Nicola; nella macchina si ripristina il commit.
 - **Colore:** 🟡. Codice in due rami con PR, niente in produzione, nessun messaggio al cliente.
+## 2026-11-26 16:13 — Tropico Latino: si pubblica sempre su tutte e quattro le pagine (🔴 pubblicazione, firma di Nicola in chat)
+- **Chi e quando:** Nicola, in chat all'AD verso le 16:10, alla domanda se dopo il 28/11 le pagine eltropicolatino ed El Tropico Latino dovessero continuare a ricevere tutto: «Sì, tutto deve essere pubblicato su tutte le pagine di Tropico».
+- **Cosa vuol dire:** ogni contenuto approvato per il Tropico esce sulla prima coppia (flusso 01: tropico.latino92 e «Tropico Latino») e poi sulla seconda (flusso 01b: eltropicolatino ed «El Tropico Latino»). Vale anche per i contenuti di dicembre già approvati.
+- **Fatto:** nessun cambio su n8n, perché il 01b è già acceso in modalità vera dal 26/11 alle 14:00. Registrato il fatto `clienti.tropico-pagine` nel registro dei fatti. Tolta la domanda aperta da LAVORO-APERTO.
 ## 2026-11-26 16:05 — Le fasce del rapporto dell'imprenditore (🟡, firma di Nicola)
 - **Chi e quando:** Nicola, in chat all'AD, verso le 16:05: «ok fasce».
 - **Cosa ha deciso:** la proposta dell'AD è approvata così com'è. Base: il rapporto all'avvio senza ricerche su Google, senza concorrenti sui social e senza aggiornamenti. Business: in più le ricerche e i 3 concorrenti principali, ogni mese. Premium: tutto ogni settimana, fino a 5 concorrenti, e un incontro al mese.
