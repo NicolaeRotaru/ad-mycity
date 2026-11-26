@@ -3,13 +3,13 @@ tipo: consegna
 data: 2026-11-26 15:15
 cliente: El Tropico Latino (tropico-latino), cliente dell'agenzia
 reparto: content-social · builder-automazioni
-stato: 3 su 5 usciti su tutte e quattro le pagine alle 15:12; storia (15:15) e nachos (15:35) in fila
+stato: 5 su 5 usciti su tutte e quattro le pagine (controllo delle 15:52)
 ---
 
 # Tropico Latino · i contenuti di dicembre pubblicati già oggi, anche sulle pagine storiche
 
 > **In due righe.** Nicola ha chiesto di pubblicare oggi una parte dei contenuti fatti ieri e di togliere i post vecchi.
-> Sono usciti il reel, il margarita e il carosello, su tutte e quattro le pagine del Tropico; la storia e i nachos sono in fila.
+> Sono usciti tutti e cinque (reel, margarita, carosello, storia e nachos), su tutte e quattro le pagine del Tropico.
 
 ## In parole semplici
 Il 26/11 verso le 13:30 Nicola ha chiesto: pubblica oggi una storia, il reel e due post tra quelli fatti ieri. Ha chiesto anche di togliere i post vecchi e di ripubblicarne uno, per arrivare a tre post.
@@ -19,7 +19,7 @@ Verso le 14:20 Nicola ha chiesto di pubblicare gli stessi contenuti anche sulle 
 Esempio: il reel «Una sera al Tropico» è uscito alle 14:16 su tropico.latino92 e su Facebook «Tropico Latino», poi alle 14:25 su eltropicolatino e su Facebook «El Tropico Latino».
 
 ## Cosa cambia per te
-- Le pagine del Tropico hanno contenuti nuovi oggi: 3 su 5 già fuori su tutte e quattro le pagine, la storia e i nachos in fila.
+- Le pagine del Tropico hanno 5 contenuti nuovi oggi, su tutte e quattro: 20 pubblicazioni, nessun errore.
 - La seconda coppia (eltropicolatino ed El Tropico Latino) resta accesa: tutto quello che esce sulla prima coppia esce anche lì. Nicola alle 14:35 ha chiesto di riempire le pagine per 3 giorni.
 - I quattro contenuti spostati a oggi lasciano vuote le loro date di dicembre: 3/12 (reel), 4/12 (storia), 6/12 (margarita), 11/12 (carosello).
 - Dalle 15:00 vale la regola di Nicola: sui social non si elimina mai niente, si archivia o si nasconde. Lo strumento dell'AD non sa più cancellare.
@@ -44,8 +44,8 @@ Esempio: il reel «Una sera al Tropico» è uscito alle 14:16 su tropico.latino9
 | tropico-latino-20261203-1900 | reel «Una sera al Tropico» | 14:15 | [IG](https://www.instagram.com/reel/DgNMJdltQtp/) · [FB](https://www.facebook.com/reel/2380643796108279/) | [IG](https://www.instagram.com/reel/DgNNWZtSOqc/) · [FB](https://www.facebook.com/reel/1534300138526276/) |
 | tropico-latino-20261206-1830 | post margarita | 14:35 | [IG](https://www.instagram.com/p/DgNObBwCv-s/) · [FB](https://www.facebook.com/122109746361543064/posts/122112438417543064) | [IG](https://www.instagram.com/p/DgNPFvLCtPs/) · [FB](https://www.facebook.com/1677537854385261/posts/1677537777718602) |
 | tropico-latino-20261211-1830 | carosello del bancone | 14:55 | [IG](https://www.instagram.com/p/DgNQvXNijOb/) · [FB](https://www.facebook.com/122109746361543064/posts/122112444549543064) | [IG](https://www.instagram.com/p/DgNRX1NioZ8/) · [FB](https://www.facebook.com/1677537854385261/posts/1677560664382980) |
-| tropico-latino-20261204-1900 | storia «Prenota il tuo tavolo» | 15:15 | in fila | in fila |
-| tropico-latino-20261126-1535-nachos | post nachos ripubblicato | 15:35 | in fila | in fila |
+| tropico-latino-20261204-1900 | storia «Prenota il tuo tavolo» | 15:15 | [IG](https://www.instagram.com/stories/tropico.latino92/4038968024182175848) · FB (storia della pagina) | [IG](https://www.instagram.com/stories/eltropicolatino/4038970800274567695) · FB (storia della pagina) |
+| tropico-latino-20261126-1535-nachos | post nachos ripubblicato | 15:35 | [IG](https://www.instagram.com/p/DgNVSk3CnCL/) · [FB](https://www.facebook.com/122109746361543064/posts/122112458835543064) | [IG](https://www.instagram.com/p/DgNV60KCh8p/) · [FB](https://www.facebook.com/1677537854385261/posts/1677618087710571) |
 
 Le due righe del 21/11 (`tropico-2026-11-21-a` e `-b`) sono `annullato`, con la storia scritta nelle note.
 
