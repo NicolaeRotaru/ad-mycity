@@ -1445,6 +1445,13 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa non è stato fatto, e perché:** la 863 è ferma perché il suo testo contraddice il pagamento in contanti. La ripubblicazione del 12 e del 26 è stata bloccata dal controllo dei permessi della sessione dei flussi, e la sessione non l'ha aggirata.
 - **La lezione:** una migrazione che toglie un permesso porta con sé la prova che lo controlla. Senza, la CI diventa rossa.
 
+## 2026-11-26 21:20 — Il collaudo dell'onda 3 parte, l'account di prova resta spento (🔴 firmato da Nicola)
+- **Chi e quando:** Nicola, alle 21:05 circa, nella chat del resoconto delle sessioni (`session_015BmpnWupeVireM1DyLQB3e`).
+- **Cosa ha deciso:** «Sì, fai il collaudo della terza ondata». La PR del sito con le onde 1-3 si apre quando finisce la terza onda. L'ordine delle PR del sito va bene. «Cerca l'account amministratore di prova e eliminalo tu».
+- **Cosa è stato fatto:** il sì è stato girato alla quinta regia alle 21:15, con tre istruzioni: salvare la correzione di R20, niente push forzato su R26, le tre falle riservate all'AD della campagna. Avvisata anche la chat «Strategia risoluzione difetti». Sull'account `admin@piacenza-demo.local` ci sono state tre letture sul database vero, in sola lettura. È già bloccato fino al 2999, ha il ruolo buyer, la password è diversa da quella del seme, non ha sessioni né token. Nessuno dei 12 account del database usa le due password scritte nei semi. L'unico amministratore è un account di Nicola.
+- **Cosa non è stato fatto, e perché:** la cancellazione. Per la regola base, «elimina» si legge «archivia», e l'account era già spento. Cancellarlo da `auth.users` non si potrebbe annullare, e porterebbe via anche il suo profilo. Il push forzato su R26 non è autorizzato e non serve.
+- **La lezione:** una voce «urgente» per Nicola va ricontrollata sui dati prima di passargliela. Quella dell'account di prova era chiusa da settimane, e la lista la dava ancora per aperta.
+
 ## 2026-11-26 22:31 — La pagina del link d'invito non crea più account: si attiva un account MyCity confermato (🟡, nel ramo)
 - **Chi e quando:** l'AD, dopo il terzo collaudo indipendente della funzione «agenti» (22:15).
 - **Cosa è stato deciso:** chi riceve il link crea l'account con la registrazione normale di MyCity, che conferma l'email, ha il controllo anti-bot e mette a verbale le condizioni. Poi torna al link e preme «Attiva». Prima la pagina del link creava l'account con l'email «già confermata».
