@@ -182,14 +182,14 @@ già la stessa cosa: se sì, scrivile invece di rifarlo (regola 3). Oggi tre gru
 
 | Sessione | Lavoro | File suoi |
 |---|---|---|
-| «Migliorare analisi clienti» (`…KJEvB4`) | AD del rapporto dell'imprenditore: piano, fonti, scelte di Nicola. Aspetta «ok fasce» | ad-mycity#1038, `consegne/strategia/2026-11-26-analisi-imprenditore/` |
+| «Migliorare analisi clienti» (`…KJEvB4`) | Dirige il lavoro sull'analisi dei clienti nuovi, con il piano, le fonti e le scelte di Nicola. Aspetta «ok fasce» | ad-mycity#1038, `consegne/strategia/2026-11-26-analisi-imprenditore/` |
 | «Rapporto dell'imprenditore · flussi n8n» (`…K1DyjU`) | Contratto dei fatti e codice del flusso 16. **È la sola che ripubblica il 16**, da main, al via di Nicola | N8N `claude/rapporto-imprenditore-flussi`, `flussi/16-nuovo-cliente-da-mycity/` |
 | «Rapporto dell'imprenditore · sito e preventivo» (`…MSbmrM`) | La parte analisi del preventivo del sito, per fascia. Su `lib/agenzia/preventivo.ts` si accorda con «Scheda cliente automatica» prima della PR | mycity `claude/rapporto-imprenditore-sito` |
-| «Scheda cliente automatica» (`…NFY3AU`) | Scheda interna e preventivo dalla foto del negozio (Ora del Gusto, La Ragazzetta). Deve usare i campi del contratto del flusso 16. Piano editoriale e bozza del sito nel preventivo del sito sono suoi (AD del rapporto, 15:35) | ad-mycity#1036, `cervello/scheda-cliente.mjs`, `consegne/clienti/` |
+| «Scheda cliente automatica» (`…NFY3AU`) | Parte da una foto del locale e prepara le pagine per il venditore e per il cliente. Prova su Ora del Gusto e La Ragazzetta. Usa i campi del contratto del flusso 16. Piano editoriale e bozza del sito nel preventivo del sito sono suoi: l'ha deciso l'AD alle 15:35 | ad-mycity#1036, `cervello/scheda-cliente.mjs`, `consegne/clienti/` |
 | «Il flusso 16 giudica sito e social» (`…NXCcdc`) | Finita. La PR N8N#22 va collaudata e unita prima del lavoro dei flussi | N8N#22, `flussi/16-nuovo-cliente-da-mycity/genera.mjs` |
 | «Verifica PR pronte per merge» (`…KTPLRu`) | Unisce le richieste quando la CI è verde | nessun file suo |
 | «Contenuti Canva e Reel» (`…MFexW4`) | Impaginazioni di post e reel senza Canva; adesso contenuti del Tropico per il calendario | ad-mycity#1034, `creativi/impaginazioni/`, N8N `flussi/ad-studio/` |
-| «Tropico Latino content publishing» (`…NbFTCY`) | Ferma per ordine di Nicola. Tiene il dossier dei concorrenti del Tropico, non ancora salvato | `consegne/content/2026-11-26-tropico-concorrenti.md` (da salvare) |
+| «Tropico Latino content publishing» (`…NbFTCY`) | Pubblica i contenuti del Tropico e passa i lavori a «Contenuti Canva e Reel». Il dossier dei concorrenti è salvato | ad-mycity#1042, N8N#23 |
 | «Montatore video autonomo AI» (`…KsvUDc`) | Montatore dei video da Drive, versione 1.6.0 in collaudo | N8N `officina/` |
 | «Gestione consensi sessioni» (`…NLKmh9`) | Dice a Nicola quale sessione aspetta un suo clic; regola «si archivia» | ad-mycity#1039 |
 | Regia «tutti i difetti senza Nicola» (`session_015BmpnXuogkPZVts89PH67a`, non visibile da qui) | Riparazione dei difetti del sito, onda 1 con 11 riparatori | ad-mycity#1032, `consegne/riparazioni/2026-11-26-tutti*/` |
