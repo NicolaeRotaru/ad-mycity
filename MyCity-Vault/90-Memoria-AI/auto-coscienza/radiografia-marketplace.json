@@ -99054,17 +99054,17 @@
     }
   ],
   "sync_scan": {
-    "aggiornato": "2026-11-25 13:23",
+    "aggiornato": "2026-11-26 15:22",
     "letto": true,
     "motivo": null,
     "forma": "elenco",
-    "findings_aperti": 598,
-    "findings_chiusi": 2909,
+    "findings_aperti": 553,
+    "findings_chiusi": 2954,
     "findings_tot": 3507,
     "aperti_per_severita": {
       "bloccante": 5,
-      "grave": 67,
-      "minore": 526,
+      "grave": 62,
+      "minore": 486,
       "altre": 0
     },
     "dichiarati_dal_referto": 3507,

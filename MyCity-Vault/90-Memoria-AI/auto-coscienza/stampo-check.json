@@ -1,24 +1,24 @@
 {
   "_cosa_e": "Guardiano stampo senior: legge il CONTENUTO di mansionario, kit e quaderno di ogni agente e lo confronta col debito dichiarato in cervello/stampo-baseline.json.",
   "_cosa_NON_prova": "Non prova che un kit sia BUONO né che un ESITO sia vero: misura spessore relativo, fotocopie, struttura e presenza di righe ESITO datate. Un kit lungo e originale può essere sbagliato, e una riga ESITO può contenere un numero inventato — quella parte la giudicano il direttore-creativo e la calibrazione, non questo controllo.",
-  "aggiornato": "2026-11-25 13:23",
+  "aggiornato": "2026-11-26 15:15",
   "origine": "cloud",
   "copertura": 120,
   "scritto_da": "stampo-check.mjs",
   "totale_agenti": 120,
   "soglia_sottile_byte": 7025,
   "quaderni": {
-    "vivi": 15,
+    "vivi": 17,
     "vuoti": 68,
-    "fermi": 37,
+    "fermi": 35,
     "assenti": 0
   },
-  "con_difetti": 113,
-  "senza_difetti": 7,
+  "con_difetti": 112,
+  "senza_difetti": 8,
   "per_tipo": {
     "loop_senza_varianti": 82,
     "quaderno_vuoto": 68,
-    "quaderno_fermo": 37,
+    "quaderno_fermo": 35,
     "kit_sottile": 10,
     "kit_fotocopia": 10,
     "kit_struttura_rotta": 9,
@@ -50,10 +50,6 @@
     },
     {
       "nome": "contabilita",
-      "difetto": "quaderno_fermo"
-    },
-    {
-      "nome": "content-social",
       "difetto": "quaderno_fermo"
     },
     {
@@ -114,10 +110,6 @@
     },
     {
       "nome": "internal-audit",
-      "difetto": "quaderno_fermo"
-    },
-    {
-      "nome": "legale-privacy",
       "difetto": "quaderno_fermo"
     },
     {
@@ -210,11 +202,6 @@
       "perche": "nessun esito è sparito (ultimo 2026-07-01, era 2026-07-01): a muoversi è stato il calendario"
     },
     {
-      "nome": "content-social",
-      "difetto": "quaderno_fermo",
-      "perche": "nessun esito è sparito (ultimo 2026-09-01, era 2026-07-31): a muoversi è stato il calendario"
-    },
-    {
       "nome": "corporate-strategy",
       "difetto": "quaderno_fermo",
       "perche": "nessun esito è sparito (ultimo 2026-07-20, era 2026-07-20): a muoversi è stato il calendario"
@@ -288,11 +275,6 @@
       "nome": "internal-audit",
       "difetto": "quaderno_fermo",
       "perche": "nessun esito è sparito (ultimo 2026-07-29, era 2026-07-29): a muoversi è stato il calendario"
-    },
-    {
-      "nome": "legale-privacy",
-      "difetto": "quaderno_fermo",
-      "perche": "nessun esito è sparito (ultimo 2026-07-01, era 2026-07-01): a muoversi è stato il calendario"
     },
     {
       "nome": "marketing",
