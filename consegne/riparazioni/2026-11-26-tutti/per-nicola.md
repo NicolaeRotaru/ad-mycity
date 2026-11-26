@@ -40,6 +40,12 @@ Che ogni domanda sia ancora attuale sul codice di oggi.
 - qa-flussi|una migrazione che aggiunge una colonna non si può consegnare da sola: i tipi generati vanno rigenerati nello stesso commit
 - api-backend|una notifica push presa dal giro del cron si perde per sempre se il giro muore prima di mandarla o ridarla
 
+### Prove comuni che chiedono la tua firma (la correzione è pronta, tolta dal ramo)
+
+Una prova comune è un controllo che protegge più riparazioni insieme. Cambiarla chiede la tua firma, quindi la correzione è stata tolta e aspetta te.
+- R04-011 · il reso con la nota del negozio: per stare verde la correzione cambia lo scenario della prova comune del reso (correzione nel commit 51fd671b, tolta con 2a477dd2). R04-013 era nello stesso commit: si rifà da sola nel giro dopo.
+- R02-011 · l'esito di una recensione accolta parte solo quando la recensione non è più pubblicata: la correzione regge ma cambia una prova comune delle segnalazioni (correzione nel commit daecd9af, tolta con 23c3eb6f).
+
 ### Domande (campo domanda_per_nicola del registro)
 
 - flussi-conversione|«vendi su mycity» è solo un muro di accesso: niente prezzo, niente vantaggi, nessuna persona da contattare
