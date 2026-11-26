@@ -6,11 +6,21 @@
 // di potenziale … Invece nel preventivo ci deve essere già l'anteprima: un piano editoriale già fatto,
 // una bozza del sito seguendo gli standard, i punti deboli, forti, e tutto quello che possiamo offrire».
 //
+// 26/11/2026, più tardi — Nicola: «prima del preventivo si farà la proposta … il preventivo lo si crea
+// solo quando si ha l'ok dall'imprenditore … che gli daremo tramite link, e lui basterà accettare».
+// «Nella proposta si vedono i prezzi», e «bisogna spiegare la personalizzazione del prodotto in base
+// all'abbonamento»; «paga con i contanti per il momento». Quindi DUE MOMENTI:
+//   ① la PROPOSTA, subito dalla foto o dal nome: le tre pagine qui sotto, prezzi compresi;
+//   ② il PREVENTIVO, solo dopo il sì del titolare: è il link col codice del sito (flusso 20 di n8n),
+//     che il titolare apre e accetta. Questo programma lo prepara e basta: `--iscrizione` stampa i
+//     dati pubblici da dare al flusso 20.
+//
 // La sessione che riceve la foto fa la ricerca e scrive UN file di dati (`dati.json`). Questo programma
 // lo controlla e ne fa sempre le stesse tre pagine:
 //   · scheda.html      → per il venditore, interna: ha / non ha / da migliorare / potenziale / offerta;
-//   · preventivo.html  → per il cliente: punti forti e deboli, bozza del sito, piano editoriale, abbonamenti;
-//   · bozza-sito.html  → la bozza del sito a schermo intero (la stessa che il preventivo mostra nel telefono).
+//   · proposta.html    → per il cliente: punti forti e deboli, bozza del sito, piano editoriale, cosa
+//                        cambia con ogni abbonamento, i prezzi e come si paga;
+//   · bozza-sito.html  → la bozza del sito a schermo intero (la stessa che la proposta mostra nel telefono).
 //
 // I CONTROLLI (se uno fallisce, niente pagine ed exit 1):
 //   ① ogni dato ha uno stato vero (confermato · da_confermare · frammento · non_trovato) e, se non è
@@ -19,10 +29,14 @@
 //   ② nella bozza del sito niente prezzi (stessa regola del sito: lib/agenzia/bozza-sito-ad.ts);
 //   ③ i canoni degli abbonamenti sono quelli del registro dei fatti (sdg.abbonamenti): se Nicola li
 //     cambia lì e qui no, il programma si ferma invece di stampare un preventivo vecchio;
-//   ④ il piano editoriale ha esattamente i post e i video promessi dall'abbonamento consigliato.
+//   ④ il piano editoriale ha esattamente i post e i video promessi dall'abbonamento consigliato;
+//   ⑤ la personalizzazione: per OGNI abbonamento una frase su misura per questo cliente
+//     (`proposta.su_misura.base|business|premium`), tutte e tre diverse;
+//   ⑥ come si paga lo dice il registro dei fatti (sdg.pagamento): se manca, niente proposta.
 //
 // Uso:  node cervello/scheda-cliente.mjs consegne/clienti/<cartella>        (scrive le tre pagine)
 //       node cervello/scheda-cliente.mjs consegne/clienti/<cartella> --solo-controlla
+//       node cervello/scheda-cliente.mjs consegne/clienti/<cartella> --iscrizione   (dopo il sì: i dati per il flusso 20)
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -37,6 +51,7 @@ const REGISTRO = path.join(RADICE_REPO, CARTELLE_MEMORIA[0], '90-Memoria-AI', 'r
 export const FASCE = {
   base: {
     nome: 'Base', centesimi: 30000, post: 8, video: 0,
+    inPratica: { sito: 'Una pagina col vostro nome', piano: '8 contenuti al mese, senza video', foto: 'Una sessione all’avvio', analisi: 'Una, all’avvio' },
     perChi: 'Per essere online e vendere da subito, con un aiuto costante ma leggero.',
     servizi: [
       ['Foto e video', 'Una sessione di foto all’avvio: copertina e prodotti principali.'],
@@ -48,6 +63,7 @@ export const FASCE = {
   },
   business: {
     nome: 'Business', centesimi: 50000, post: 12, video: 2,
+    inPratica: { sito: 'Più pagine col vostro nome', piano: '12 contenuti al mese, 2 sono video', foto: 'Una sessione ogni tre mesi e un video al mese', analisi: 'Una ogni mese' },
     perChi: 'Per crescere ogni settimana: più contenuti, più clienti che ti trovano.',
     servizi: [
       ['Foto e video', 'Foto all’avvio e una nuova sessione ogni tre mesi, più un video al mese.'],
@@ -59,6 +75,7 @@ export const FASCE = {
   },
   premium: {
     nome: 'Premium', centesimi: 99900, post: 20, video: 4,
+    inPratica: { sito: 'Più pagine, aggiornato da noi ogni mese', piano: '20 contenuti al mese, 4 sono video, più le storie', foto: 'Foto e video ogni mese', analisi: 'Una ogni settimana, e un incontro al mese' },
     perChi: 'Il servizio completo: foto e video ogni mese, un referente tutto tuo.',
     servizi: [
       ['Foto e video', 'Una sessione di foto e video ogni mese.'],
@@ -98,7 +115,18 @@ export function canoniDalRegistro(registro) {
   return { base: +m[1] * 100, business: +m[2] * 100, premium: +m[3] * 100 };
 }
 
-export function controlla(d, canoni) {
+/** Come si paga l'abbonamento, scritto nel registro dei fatti (sdg.pagamento), con le parole per il cliente. */
+export function pagamentoDalRegistro(registro) {
+  const fatti = registro?.fatti ?? registro;
+  const voce = Array.isArray(fatti) ? fatti.find((f) => f.id === 'sdg.pagamento') : fatti?.['sdg.pagamento'];
+  const v = String(voce?.valore ?? '').trim();
+  return v || null;
+}
+
+/** I testi della proposta. Fino al 26/11 il blocco si chiamava «preventivo»: i dati vecchi valgono ancora. */
+const proposta = (d) => d?.proposta ?? d?.preventivo ?? {};
+
+export function controlla(d, canoni, pagamento) {
   const errori = [];
   const https = (u) => typeof u === 'string' && /^https:\/\/[^\s]+$/.test(u);
   // La foto scattata dal venditore è una prova di prima mano: vale come fonte (fonte: "foto").
@@ -131,13 +159,37 @@ export function controlla(d, canoni) {
   }
   // ④ piano editoriale = promessa dell'abbonamento consigliato
   const f = FASCE[d?.consigliato];
-  const righe = d?.preventivo?.piano?.righe ?? [];
+  const righe = proposta(d).piano?.righe ?? [];
   if (f) {
     const video = righe.filter((r) => VIDEO.test(r.formato)).length;
     if (righe.length !== f.post) errori.push(`piano editoriale: ${righe.length} contenuti, il ${f.nome} ne promette ${f.post}`);
     if (video !== f.video) errori.push(`piano editoriale: ${video} video, il ${f.nome} ne promette ${f.video}`);
   }
+  // ⑤ la personalizzazione per abbonamento: una frase su misura per ognuno, e diverse tra loro
+  const sm = proposta(d).su_misura ?? {};
+  const frasi = Object.keys(FASCE).map((id) => String(sm[id] ?? '').trim());
+  Object.entries(FASCE).forEach(([id, fx], i) => {
+    if (frasi[i].length < 20) errori.push(`personalizzazione: manca cosa riceve questo cliente col ${fx.nome} (proposta.su_misura.${id})`);
+  });
+  if (frasi.every((x) => x.length >= 20) && new Set(frasi).size < frasi.length) errori.push('personalizzazione: due abbonamenti hanno la stessa frase, ognuno deve dire cosa cambia');
+  // ⑥ come si paga: dal registro dei fatti, mai scritto a memoria
+  if (!pagamento) errori.push('registro dei fatti: non trovo come si paga l’abbonamento (sdg.pagamento)');
   return errori;
+}
+
+/**
+ * Dopo il sì del titolare: i dati PUBBLICI dell'attività per il flusso 20 di n8n («Iscrivi il cliente in
+ * MyCity»), che crea il negozio nascosto e il link col preventivo. Mai dati del titolare. L'indirizzo
+ * entra solo se è stato trovato; il sito solo se è «confermato» (aperto sulla pagina dell'attività).
+ */
+export function datiIscrizione(d) {
+  const campi = d?.campi ?? [];
+  const trovato = (re) => campi.find((c) => re.test(c.voce) && c.stato !== 'non_trovato' && c.valore);
+  const sito = campi.find((c) => /^sito/i.test(c.voce) && c.stato === 'confermato' && /^https:\/\//.test(c.fonte ?? ''));
+  const dati = { nome: String(d.nome).trim(), citta: String(d.citta ?? 'Piacenza').trim(), tipo: String(d.tipo ?? '').slice(0, 80).trim() };
+  if (trovato(/^indirizzo$/i) && d.indirizzo) dati.indirizzo = String(d.indirizzo).slice(0, 200);
+  if (sito) dati.sito = sito.fonte;
+  return dati;
 }
 
 // ———————————————————————————————————————————————— pagine
@@ -198,7 +250,7 @@ export function paginaScheda(d) {
   return `${testa(`Scheda ${d.nome}`, css)}
 <div class="pagina">
 <header class="testata">
-  <p class="interno">Scheda interna per il venditore: non si mostra e non si manda al cliente. Il preventivo da mostrare è a parte.</p>
+  <p class="interno">Scheda interna per il venditore: non si mostra e non si manda al cliente. La proposta da mostrare è a parte.</p>
   <span class="occhiello">Scheda cliente · ${esc(d.data)}</span>
   <h1>${esc(d.nome)}</h1>
   <p>${esc(d.tipo)} · ${esc(d.indirizzo ?? d.citta)}</p>
@@ -271,9 +323,21 @@ main{display:grid;gap:2.2rem;padding-block:2.4rem}.blocco{display:grid;gap:.7rem
   return `<!doctype html>\n<html lang="it">\n<head>${head}</head>\n<body>${corpo}</body>\n</html>\n`;
 }
 
-export function paginaPreventivo(d) {
-  const pv = d.preventivo ?? {};
+export function paginaProposta(d, pagamento) {
+  const pv = proposta(d);
   const consigliato = d.consigliato;
+  // La personalizzazione (Nicola, 26/11): cosa cambia, in pratica, per QUESTO cliente con ogni abbonamento.
+  const ids = Object.keys(FASCE);
+  const cella = (id, testo) => `<td data-l="${esc(FASCE[id].nome)}"${id === consigliato ? ' class="scelta"' : ''}>${esc(testo)}</td>`;
+  const riga = (titolo, testoDi) => `<tr><th scope="row">${esc(titolo)}</th>${ids.map((id) => cella(id, testoDi(id))).join('')}</tr>`;
+  const cambia = [
+    riga('Per voi, in pratica', (id) => pv.su_misura?.[id] ?? ''),
+    riga('Il sito', (id) => FASCE[id].inPratica.sito),
+    riga('Il piano editoriale', (id) => FASCE[id].inPratica.piano),
+    riga('Foto e video', (id) => FASCE[id].inPratica.foto),
+    riga('L’analisi', (id) => FASCE[id].inPratica.analisi),
+  ].join('');
+  const testaCambia = ids.map((id) => `<th scope="col"${id === consigliato ? ' class="scelta"' : ''}>${esc(FASCE[id].nome)}${id === consigliato ? ' · consigliato' : ''}</th>`).join('');
   const fasce = Object.entries(FASCE).map(([id, f]) => `<article class="fascia${id === consigliato ? ' scelta' : ''}">
 <div class="cima"><h3>${esc(f.nome)}</h3>${id === consigliato ? '<span class="chip forte">Consigliato per voi</span>' : ''}</div>
 <p class="prezzo"><b>${euro(f.centesimi)}</b> al mese</p><p class="nota">Il primo mese ${euro(f.centesimi / 2)}</p><p>${esc(f.perChi)}</p>
@@ -295,7 +359,12 @@ export function paginaPreventivo(d) {
 .fascia.scelta{border:2px solid var(--cotto)}.cima{display:flex;justify-content:space-between;gap:.5rem;align-items:center;flex-wrap:wrap}
 .prezzo b{font-family:var(--display);font-size:1.9rem}
 dl{margin:.3rem 0 0;display:grid;gap:.45rem}dt{font-size:.74rem;letter-spacing:.07em;text-transform:uppercase;color:var(--tenue);font-weight:600}dd{margin:0;font-size:.92rem}
-.passi{display:grid;gap:.6rem}.firma{border-top:1px solid var(--riga);padding-top:1rem;font-size:.9rem;color:var(--tenue)}`;
+.passi{display:grid;gap:.6rem}.firma{border-top:1px solid var(--riga);padding-top:1rem;font-size:.9rem;color:var(--tenue)}
+.cambia th[scope=row]{font-size:.8rem;color:var(--tenue);font-weight:600;white-space:nowrap}.cambia .scelta{background:color-mix(in srgb,var(--cotto) 9%,transparent)}
+.cambia thead th.scelta{color:var(--cotto)}.cambia tbody tr:first-child td{font-weight:500}
+@media (max-width:560px){.cambia thead{display:none}.cambia tr{display:grid;gap:.35rem;padding:.75rem .8rem;border-bottom:1px solid var(--riga)}.cambia tr:last-child{border-bottom:0}
+.cambia th,.cambia td{border:0;padding:0}.cambia td{padding:.15rem .4rem;border-radius:6px}.cambia td::before{content:attr(data-l) ": ";font-weight:600;color:var(--tenue)}}
+.paga{border-left:3px solid var(--senape);padding:.55rem .8rem;background:var(--carta);border-radius:0 10px 10px 0}`;
   return `${testa(`Proposta per ${d.nome}`, css)}
 <div class="pagina">
 <header class="testata"><span class="occhiello">Proposta di MyCity · ${esc(d.data.slice(0, 10).split('-').reverse().join('/'))}</span>
@@ -317,12 +386,16 @@ dl{margin:.3rem 0 0;display:grid;gap:.45rem}dt{font-size:.74rem;letter-spacing:.
 <p class="nota">${esc(pv.piano?.nota ?? '')}</p>
 <div class="tabella"><table class="pila"><thead><tr><th>Quando</th><th>Formato</th><th>Il contenuto</th></tr></thead><tbody>${piano}</tbody></table></div></section>
 
-<section class="sezione"><h2>Gli abbonamenti</h2><p class="nota">${esc(CONDIZIONI)}</p><div class="fasce">${fasce}</div>
+<section class="sezione"><h2>Cosa cambia con ogni abbonamento</h2>
+<p class="nota">La bozza del sito e il piano editoriale che avete visto sopra sono quelli del ${esc(FASCE[consigliato].nome)}, l’abbonamento che vi consigliamo. Con un altro abbonamento cambia quanto facciamo per voi: ecco cosa ricevereste, in pratica.</p>
+<div class="tabella"><table class="cambia"><thead><tr><th scope="col"><span class="nota">Cosa</span></th>${testaCambia}</tr></thead><tbody>${cambia}</tbody></table></div></section>
+
+<section class="sezione"><h2>Gli abbonamenti</h2><p class="nota">${esc(CONDIZIONI)}</p><p class="paga">${esc(pagamento)}</p><div class="fasce">${fasce}</div>
 <p class="nota">${esc(d.perche_consigliato_cliente ?? '')}</p></section>
 
 <section class="sezione"><h2>I primi 30 giorni</h2><div class="riquadro"><ul class="passi">${passi}</ul></div></section>
 
-<p class="firma">I servizi li realizza SDG Agenzia, il partner di MyCity per foto, video, social e web. Foto e video con scattiDG. Questa proposta è un’anteprima: nulla viene pubblicato senza il vostro sì.</p>
+<p class="firma">I servizi li realizza SDG Agenzia, il partner di MyCity per foto, video, social e web. Foto e video con scattiDG. Questa proposta è un’anteprima: nulla viene pubblicato senza il vostro sì. Se vi convince, vi mandiamo il preventivo con un link: per partire basta accettarlo.</p>
 </div>`;
 }
 
@@ -330,17 +403,23 @@ dl{margin:.3rem 0 0;display:grid;gap:.45rem}dt{font-size:.74rem;letter-spacing:.
 
 function principale(argv) {
   const cartella = argv[0];
-  if (!cartella) { console.error('Uso: node cervello/scheda-cliente.mjs <cartella con dati.json> [--solo-controlla]'); return 2; }
+  if (!cartella) { console.error('Uso: node cervello/scheda-cliente.mjs <cartella con dati.json> [--solo-controlla | --iscrizione]'); return 2; }
   const dati = JSON.parse(fs.readFileSync(path.join(cartella, 'dati.json'), 'utf8'));
-  const canoni = canoniDalRegistro(JSON.parse(fs.readFileSync(REGISTRO, 'utf8')));
-  const errori = controlla(dati, canoni);
+  const registro = JSON.parse(fs.readFileSync(REGISTRO, 'utf8'));
+  const canoni = canoniDalRegistro(registro);
+  const pagamento = pagamentoDalRegistro(registro);
+  const errori = controlla(dati, canoni, pagamento);
   if (errori.length) { console.error(`✗ ${dati.nome ?? cartella}: ${errori.length} problemi\n  · ${errori.join('\n  · ')}`); return 1; }
   if (argv.includes('--solo-controlla')) { console.log(`✓ ${dati.nome}: i dati passano i controlli`); return 0; }
+  // Dopo il sì del titolare: solo i dati per il flusso 20, niente pagine.
+  if (argv.includes('--iscrizione')) { console.log(JSON.stringify(datiIscrizione(dati), null, 2)); return 0; }
   fs.writeFileSync(path.join(cartella, 'scheda.html'), paginaScheda(dati));
-  fs.writeFileSync(path.join(cartella, 'preventivo.html'), paginaPreventivo(dati));
+  fs.writeFileSync(path.join(cartella, 'proposta.html'), paginaProposta(dati, pagamento));
   fs.writeFileSync(path.join(cartella, 'bozza-sito.html'), paginaSito(dati));
   const n = (dati.campi ?? []).length; const conf = (dati.campi ?? []).filter((c) => c.stato === 'confermato').length;
-  console.log(`✓ ${dati.nome}: scheda, preventivo e bozza del sito scritti in ${cartella} · ${n} dati, ${conf} confermati · consigliato ${FASCE[dati.consigliato].nome}`);
+  console.log(`✓ ${dati.nome}: scheda, proposta e bozza del sito scritti in ${cartella} · ${n} dati, ${conf} confermati · consigliato ${FASCE[dati.consigliato].nome}`);
+  console.log('  Il preventivo nasce solo dopo il sì del titolare: allora --iscrizione dà i dati per il flusso 20.');
+  if (fs.existsSync(path.join(cartella, 'preventivo.html'))) console.log('  ⚠ c’è ancora preventivo.html del modello vecchio: la proposta adesso è proposta.html (rinominalo con git mv).');
   return 0;
 }
 
