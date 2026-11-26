@@ -1,0 +1,145 @@
+{
+ "collaudatore": "K10",
+ "riparatori": [
+  "R24"
+ ],
+ "aggiornato": "2026-11-26 23:40",
+ "finita": false,
+ "voci": [
+  {
+   "id": "R24-001",
+   "chiave": "api-backend|oltre mille iscritti la pagina utenti perde in silenzio email e ultimo accesso degli altri",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R24-001 --base b9d736a0a070352196f2fd0f95a418dbacff6a0f^ --file app/admin/users/page.tsx --prove tests/unit/riparazione-r24-email-utenti-oltre-mille.test.ts  --json"
+   },
+   "verdetto": "non_regge",
+   "giudizio": "nessuno",
+   "nota": "in attesa del giudizio pieno"
+  },
+  {
+   "id": "R24-002",
+   "chiave": "api-backend|la rotta di annullo dell'amministrazione risponde 500 in silenzio quando l'annullo stesso fallisce",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R24-002 --base 40607c896ce88c296b68a1b7ac30ee4d8f560fc1^ --file app/api/admin/orders/[id]/cancel/route.ts --prove tests/unit/riparazione-r24-annullo-admin-nel-registro.test.ts  --json"
+   },
+   "verdetto": "regge",
+   "giudizio": "nessuno"
+  },
+  {
+   "id": "R24-003",
+   "chiave": "api-backend|cancellazione utente e annullo ordine dell'amministrazione rispondono 500 senza scrivere nel registro",
+   "verdetto": "non_regge",
+   "giudizio": "nessuno",
+   "nota": "in attesa del giudizio pieno"
+  },
+  {
+   "id": "R24-004",
+   "chiave": "api-backend|la scadenza dei carrelli dal giro notturno ridà il codice sconto ma non chiude la rivendicazione",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R24-004 --base e8ed882a692043c4a1a26202a5939cecbb410f50^ --file app/api/cron/expire-checkouts/route.ts --prove tests/unit/riparazione-r24-carrello-scaduto-chiude-la-rivendicazione.test.ts  --json"
+   },
+   "verdetto": "regge",
+   "giudizio": "nessuno"
+  },
+  {
+   "id": "R24-005",
+   "chiave": "api-backend|il tetto della notte lascia indietro gli account nell'ordine della rpc, non dal più vecchio: chi è già oltre il mese può essere rimandato ogni notte, senza avviso del termine",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R24-005 --base e1a1cffd094fc9aeb5edce1dd40fba55efa0f22a^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r24-cancellazioni-dal-piu-vecchio.test.ts  --json"
+   },
+   "verdetto": "non_regge",
+   "giudizio": "nessuno",
+   "nota": "in attesa del giudizio pieno"
+  },
+  {
+   "id": "R24-006",
+   "chiave": "api-backend|il tetto di tempo della notte non è rigido: l'ultimo account preso può sforare, e la cancellazione di un account non ha un limite di tempo suo",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R24-006 --base 2d24495e85c0e0c35c490b40f4d83e8f39027367^ --file app/api/cron/process-deletions/route.ts,lib/account/cancellazione.ts --prove tests/unit/riparazione-r24-cancellazione-col-suo-tempo.test.ts  --json"
+   },
+   "verdetto": "non_regge",
+   "giudizio": "nessuno",
+   "nota": "in attesa del giudizio pieno"
+  },
+  {
+   "id": "R24-007",
+   "chiave": "api-backend|un account preso poco prima del tetto del ciclo non ha un tempo suo",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R24-007 --base 2d24495e85c0e0c35c490b40f4d83e8f39027367^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r24-preso-poco-prima-del-tetto.test.ts  --json"
+   },
+   "verdetto": "non_regge",
+   "giudizio": "nessuno",
+   "nota": "in attesa del giudizio pieno"
+  },
+  {
+   "id": "R24-009",
+   "chiave": "api-backend|l'annullo dal sito, il rifiuto del negozio e il cliente assente rispondono 500 senza riga nel registro quando l'annullo fallisce",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R24-009 --base 3dc32949f596ae03661928691257c5e85c95b02a^ --file app/api/orders/[id]/cancel/route.ts --prove tests/unit/riparazione-r24-annullo-cliente-nel-registro.test.ts  --json"
+   },
+   "verdetto": "regge",
+   "giudizio": "nessuno"
+  },
+  {
+   "id": "R24-010",
+   "chiave": "api-backend|due segnali di accesso per lo stesso ingresso: la deduplica legge-e-poi-scrive senza vincolo sul database — e la migrazione che la reggerebbe non c'e' in questo lotto",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R24-010 --base 489eb8c2850352615bb09808e01d3aa94a80c8fb^ --file migrations/926_un_accesso_una_riga_anche_coi_due_segnali_insieme.sql --prove tests/sql/rls/riparazione-r24-un-accesso-una-riga.test.sql --sql k10_r24_rimessa --json"
+   },
+   "verdetto": "non_regge",
+   "giudizio": "nessuno",
+   "nota": "in attesa del giudizio pieno"
+  },
+  {
+   "id": "R24-011",
+   "chiave": "api-backend|la rotta che registra le visite va in errore del server se riceve un corpo vuoto o rotto, o un cookie dei consensi storto",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R24-011 --base 3d97dcd7b52fb71edb67035a745a55d59628bce5^ --file app/api/track/route.ts,lib/consent.ts --prove tests/unit/riparazione-r24-registro-visite-corpo-e-cookie-storti.test.ts  --json"
+   },
+   "verdetto": "non_regge",
+   "giudizio": "nessuno",
+   "nota": "in attesa del giudizio pieno"
+  },
+  {
+   "id": "R24-012",
+   "chiave": "api-backend|la pagina d'errore dice «abbiamo registrato il problema», ma un errore nel telefono del cliente non lo registra nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R24-012 --base fdcf6262da3d2fddc74093d58df3242cdad50474^ --file app/error.tsx,app/admin/error.tsx --prove tests/unit/riparazione-r24-pagine-errore-dicono-il-vero.test.tsx  --json"
+   },
+   "verdetto": "non_regge",
+   "giudizio": "nessuno",
+   "nota": "in attesa del giudizio pieno"
+  },
+  {
+   "id": "R24-013",
+   "chiave": "api-backend|il modulo dell'indirizzo alla cassa non annulla le ricerche vecchie mentre si scrive",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R24-013 --base ad4270baee4e67acb82f9337809d142c37b4ddf1^ --file components/checkout/ShippingAddressForm.tsx --prove tests/unit/riparazione-r24-ricerca-zona-vecchia-si-annulla.test.ts  --json"
+   },
+   "verdetto": "regge",
+   "giudizio": "nessuno"
+  },
+  {
+   "id": "R24-015",
+   "chiave": "api-backend|se la lettura dell'email cade, la cancellazione dell'account lascia l'indirizzo nella newsletter e nessuno lo sa",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R24-015 --base 285b17e5e2d6d4e40a3fa11cf0a8e8d0d2a316c6^ --file lib/account/cancellazione.ts --prove tests/unit/riparazione-r24-newsletter-email-non-letta.test.ts  --json"
+   },
+   "verdetto": "non_regge",
+   "giudizio": "nessuno",
+   "nota": "in attesa del giudizio pieno"
+  }
+ ]
+}
