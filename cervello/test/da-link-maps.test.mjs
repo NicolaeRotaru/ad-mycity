@@ -97,6 +97,9 @@ test('③ dei recensori non esce né il nome né il profilo', () => {
     const testo = JSON.stringify(x) + JSON.stringify(lampo(x, 'https://maps.app.goo.gl/prova'));
     assert.ok(!testo.includes('Mario Recensore'), 'nome del recensore');
     assert.ok(!testo.includes('/maps/contrib/'), 'profilo del recensore');
+    // parere legale del 26/11, punto GDPR: solo temi, mai i testi delle recensioni nelle pagine
+    const pagine = JSON.stringify(lampo(x, 'https://maps.app.goo.gl/prova'));
+    for (const t of ['Titolare gentilissima', 'Pane buonissimo', 'Attesa lunga']) assert.ok(!pagine.includes(t), `testo di recensione: ${t}`);
   }
 });
 

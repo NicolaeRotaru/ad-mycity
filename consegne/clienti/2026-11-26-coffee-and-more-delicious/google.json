@@ -1,53 +1,5 @@
 {
   "letto": "2026-11-26T16:27:15.252Z",
-  "link": "https://maps.app.goo.gl/jkXYaegN8jZjUghC6",
-  "nome": "Coffee & More Delicious",
-  "categorie": [
-    "Bar"
-  ],
-  "indirizzo": "Via Francesco Saverio Bianchi, 29, 29122 Piacenza PC",
-  "via": "Via Francesco Saverio Bianchi, 29",
-  "citta": "Piacenza",
-  "cap": "29122",
-  "telefono": null,
-  "orari": [],
-  "sito": "https://m.facebook.com/CoffeeMoreDelicious/",
-  "sito_tipo": "social",
-  "voto": 5,
-  "recensioni_n": 3,
-  "recensioni": [
-    {
-      "voto": 5,
-      "quando": "un anno fa",
-      "giorni": 365,
-      "testo": "Tutto veramente ottimo e titolare gentilissima 😍"
-    },
-    {
-      "voto": 5,
-      "quando": "8 mesi fa",
-      "giorni": 240,
-      "testo": "Ottimo caffè"
-    },
-    {
-      "voto": 5,
-      "quando": "8 mesi fa",
-      "giorni": 240,
-      "testo": ""
-    }
-  ],
-  "recensione_piu_recente_giorni": 240,
-  "descrizione": null,
-  "attributi": [
-    "Ingresso accessibile in sedia a rotelle"
-  ],
-  "non_rivendicata": true,
-  "copertina_street_view": true,
-  "chiusa": null,
-  "coordinate": [
-    45.0421792,
-    9.6814606
-  ],
-  "plus_code": "8FQF2MRJ+VH",
   "place_id": "ChIJ15l9nP_dgEcREAVaBYkdfuA",
   "cid": "0x4780ddff9c7d99d7:0xe07e1d89055a0510"
 }

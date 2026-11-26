@@ -53,13 +53,21 @@ Così due sessioni diverse consegnano la stessa forma, e i controlli non dipendo
 > Coffee & More Delicious, `consegne/clienti/2026-11-26-coffee-and-more-delicious/`. Il programma ha letto la
 > scheda Google in 1 secondo; con le pagine scritte e controllate, sotto i 3.
 
+> ⚠️ **Bloccata in attesa di Nicola (26/11/2026 17:35).** Il parere legale del 26/11 (fatto
+> `agenzia.rapporto-imprenditore`) dice che da Google si salva solo l'identificativo della scheda, e che le
+> recensioni entrano solo come temi, mai come testi. Il programma oggi salva solo `place_id` e `cid` e non cita
+> le recensioni. Restano da decidere due cose: se si può leggere la pagina pubblica di Google Maps senza
+> l'interfaccia ufficiale, e se i voti Google possono stare nella proposta. Finché Nicola non decide, la
+> proposta lampo non si mostra al titolare.
+
 Quando arriva un link Google Maps (o il nome con la città, se il link non c'è):
 
 1. `node cervello/da-link-maps.mjs "<link>" --lampo` — legge la scheda Google come la vede chiunque (nome,
    categorie, indirizzo, telefono, orari, sito, voto, recensioni coi testi, descrizione, servizi, se è
    rivendicata, se la copertina è Street View), scrive `google.json` e un `dati.json` completo con testi da
    regole, e chiama `scheda-cliente.mjs`. Deve stampare ✓. I dati letti dalla scheda sono `confermato`, con
-   fonte il link. Dei recensori non legge mai i nomi.
+   fonte il link. Dei recensori non legge mai i nomi; i testi delle recensioni non finiscono nelle pagine;
+   `google.json` tiene solo `place_id` e `cid`.
 2. **Guarda se c'è già** su MyCity (passo 2 qui sotto: una query, pochi secondi) e scrivilo in `stato_mycity`.
 3. **Pubblica subito** le due pagine (passo 7) e manda i due link a Nicola: la presentazione c'è già.
 4. **Poi arricchisci, senza far aspettare:** una tornata sola di ricerche in parallelo (social, omonimi,

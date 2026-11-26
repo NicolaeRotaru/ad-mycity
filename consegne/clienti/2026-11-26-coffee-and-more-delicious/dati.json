@@ -12,7 +12,7 @@
     "Bar in Via Francesco Saverio Bianchi 29, circa un chilometro e mezzo a sud-ovest del centro.",
     "Su Google ha 5 stelle su 5, ma da sole 3 recensioni: l'ultima è di circa 8 mesi fa.",
     "La scheda Google non è rivendicata: niente orari, niente telefono, la copertina è un'immagine di Street View e il «sito» è la pagina Facebook.",
-    "Le recensioni lodano il caffè e la titolare «gentilissima»: il punto forte è la persona dietro il banco.",
+    "Le recensioni sono poche ma tutte da 5 stelle: il punto forte da verificare di persona è chi sta al banco.",
     "Non è su MyCity. Attenzione all'omonima «Gastronomia Delicious» in Via Leonardo da Vinci: chiedi se c'è un legame."
   ],
   "gancio": "Su Google avete 5 stelle, ma chi vi cerca non trova né gli orari né un numero da chiamare, e la scheda non è nemmeno a vostro nome. In una settimana la mettiamo a posto, con le foto vere del vostro banco: così chi passa in Via Bianchi sa che siete aperti.",
@@ -124,8 +124,7 @@
   ],
   "ha": [
     "Il voto pieno su Google: 5 su 5, anche se da sole 3 recensioni.",
-    "Una titolare che i clienti ricordano: «titolare gentilissima», scrive una recensione.",
-    "Un caffè lodato: «ottimo caffè».",
+    "Recensioni tutte da 5 stelle (3 in tutto): i testi non si riportano, per la regola privacy del 26/11.",
     "Una frase di presentazione su Facebook che è già un'idea di marchio: «Non esiste buongiorno che non porti con sé il profumo dell'espresso».",
     "Una pagina Facebook con circa 650 mi piace.",
     "L'ingresso accessibile in sedia a rotelle, segnato su Google."
@@ -145,11 +144,9 @@
     "La categoria su Google: oggi solo «Bar»; se fanno colazione o pasticceria va aggiunta."
   ],
   "reputazione": {
-    "sintesi": "5 su 5 su Google, ma da 3 recensioni soltanto: la più recente è di circa 8 mesi fa. Sono poche per convincere chi non li conosce, ma dicono la cosa giusta: caffè buono e titolare gentile. I testi li ho letti direttamente dalla scheda Google.",
+    "sintesi": "5 su 5 su Google da 3 recensioni soltanto: la più recente è di circa 8 mesi fa. Sono poche per convincere chi non li conosce. I testi non si riportano: si usano solo i temi citati da almeno 3 recensioni, e qui non ce n'è nessuno (regola privacy del 26/11).",
     "positivi": [
-      "«Tutto veramente ottimo e titolare gentilissima» (Google, circa un anno fa).",
-      "«Ottimo caffè» (Google, circa 8 mesi fa).",
-      "Una terza recensione da 5 stelle, senza testo (Google, circa 8 mesi fa)."
+      "Tutte e 3 le recensioni sono da 5 stelle; due hanno un breve testo, da leggere dal telefono prima di entrare."
     ],
     "negativi": [
       "Nessuna recensione negativa trovata.",
@@ -196,7 +193,7 @@
     "La scheda Google è il primo cliente da conquistare: rivendicata e completa (orari, telefono, foto vere, categorie giuste) si vede nelle ricerche «bar vicino a me» in una o due settimane.",
     "Le recensioni: un bar con clienti abituali può passare da 3 a qualche decina in pochi mesi, se le chiede al banco (stima, da misurare).",
     "Al civico 35 della stessa via c'è un altro bar: chi decide all'ultimo momento sceglie chi vede meglio su Google.",
-    "La titolare è il punto forte che i clienti citano: i contenuti possono partire da lei, se lo vuole.",
+    "Chi sta al banco può essere il volto dei contenuti, se lo vuole: lo si capisce in negozio.",
     "Su MyCity: colazioni e dolci da ordinare e ritirare, se li fanno. Sugli ordini fatti da MyCity c'è il 10%; quello che vendono al banco resta tutto loro."
   ],
   "offerta": [
@@ -258,7 +255,8 @@
     "Su Instagram ci sono altri «Coffee & More» di altre città (Mesero, Mariano Comense): non citarli.",
     "Nei dati Google una voce è firmata «Coffee & More Delicious (Proprietario)», ma la scheda ha il pulsante «Rivendica questa attività»: forse qualcuno l'ha gestita in passato. Chiedi chi ha l'accesso prima di promettere i tempi.",
     "Orari e telefono non vanno scritti da nessuna parte finché il titolare non li dà.",
-    "I dati della scheda Google li ho letti direttamente; Facebook e gli elenchi solo dai riassunti della ricerca."
+    "I dati della scheda Google li ho letti direttamente; Facebook e gli elenchi solo dai riassunti della ricerca.",
+    "Regola del 26/11 (parere legale): i testi delle recensioni non si citano, né nella scheda né nella proposta; da Google si salva solo l'identificativo della scheda. Voti e dati letti da Google restano qui in attesa della decisione di Nicola."
   ],
   "fonti": [
     {
@@ -291,11 +289,10 @@
     }
   ],
   "proposta": {
-    "saluto": "Abbiamo guardato Coffee & More Delicious come la vede chi vi cerca dal telefono. Chi vi conosce vi dà 5 stelle e parla bene del caffè e di chi lo serve. Chi non vi conosce, oggi, su Google non trova né gli orari né un numero da chiamare.",
+    "saluto": "Abbiamo guardato Coffee & More Delicious come la vede chi vi cerca dal telefono. Chi vi conosce vi lascia recensioni ottime. Chi non vi conosce, oggi, su Google non trova né gli orari né un numero da chiamare.",
     "forti": [
       "Su Google avete il voto pieno: 5 su 5.",
-      "I clienti ricordano chi sta al banco: «titolare gentilissima».",
-      "Il caffè piace: «ottimo caffè», scrive chi è passato.",
+      "Chi vi ha recensito su Google ne è uscito contento.",
       "Avete già una frase che vi racconta: «Non esiste buongiorno che non porti con sé il profumo dell'espresso».",
       "Circa 650 persone hanno messo mi piace alla vostra pagina Facebook."
     ],
@@ -356,7 +353,7 @@
           "data": "ven 4/12",
           "formato": "Carosello",
           "tema": "Chi c'è dietro il banco",
-          "testo": "La titolare si presenta, se lo vuole: chi è, da quando c'è, come le piace il caffè. Le recensioni parlano di lei: partiamo da lì."
+          "testo": "La titolare si presenta, se lo vuole: chi è, da quando c'è, come le piace il caffè. Partiamo dalle persone."
         },
         {
           "data": "mar 8/12",

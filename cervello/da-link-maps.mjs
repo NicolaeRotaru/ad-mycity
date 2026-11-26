@@ -235,7 +235,9 @@ export function lampo(x, link, adesso = new Date()) {
   const mancaPerChi = [!x.orari.length && 'gli orari', !x.telefono && 'un numero da chiamare'].filter(Boolean);
   const positive = x.recensioni.filter((r) => r.testo && (r.voto ?? 5) >= 4);
   const negative = x.recensioni.filter((r) => r.testo && r.voto != null && r.voto <= 3);
-  const persone = positive.some((r) => /gentil|titolar|personale|staff|simpatic|cordial|accoglien/i.test(r.testo));
+  // Le recensioni entrano solo come temi, e un tema vale solo se lo citano almeno 3 recensioni: mai testi né
+  // nomi (parere legale del 26/11, punto GDPR, fatto agenzia.rapporto-imprenditore). I testi restano in memoria.
+  const persone = positive.filter((r) => /gentil|titolar|personale|staff|simpatic|cordial|accoglien/i.test(r.testo)).length >= 3;
   const tabacchi = /tabacc|sisal|lotto|scommess|ricevitor/i.test(x.categorie.join(' '));
 
   const campo = (voce, valore, stato, f = fonte) => ({ voce, valore: valore ?? null, stato: valore ? stato : 'non_trovato', fonte: valore ? f : null });
@@ -263,7 +265,6 @@ export function lampo(x, link, adesso = new Date()) {
     x.sito_tipo === 'social' && `Una pagina ${socialNome}, che Google mostra come sito.`,
     x.descrizione && 'Una descrizione su Google scritta da loro.',
     ...x.attributi.slice(0, 2).map((a) => `${a}, segnato su Google.`),
-    positive[0] && `Chi è passato scrive: «${corta(positive[0].testo, 110)}».`,
   ].filter(Boolean);
   const nonHa = [
     x.sito_tipo === 'nessuno' && 'Un sito: su Google il campo è vuoto.',
@@ -285,9 +286,9 @@ export function lampo(x, link, adesso = new Date()) {
   ].filter(Boolean);
 
   const sintesi = n
-    ? `${voto} su 5 su Google da ${n} recensioni.${n < 10 ? ' Sono poche per convincere chi non li conosce.' : ''} I testi qui sotto sono quelli che Google mostra per primi, letti direttamente dalla scheda.`
+    ? `${voto} su 5 su Google da ${n} recensioni.${n < 10 ? ' Sono poche per convincere chi non li conosce.' : ''} I testi non si riportano: solo i temi citati da almeno 3 recensioni.`
     : 'Nessuna recensione su Google: è il primo lavoro da fare.';
-  const riga = (r) => `«${corta(r.testo)}» (Google, ${r.voto ? `${r.voto} stelle, ` : ''}circa ${r.quando}).`;
+  // (i testi non si riportano: vedi sopra)
 
   const social = [{ canale: 'Scheda Google Maps', stato: 'trovato', livello: buchi.length ? 'Da sistemare' : 'Completa',
     giudizio: `${n ? `${voto} su 5 da ${n} recensioni. ` : 'Nessuna recensione. '}${buchi.length ? `La scheda ${buchi.join(', ')}.` : 'Orari, telefono e sito ci sono.'}`, fonte }];
@@ -311,8 +312,6 @@ export function lampo(x, link, adesso = new Date()) {
   const piu = (s) => s[0].toUpperCase() + s.slice(1);
   const forti = [
     n && x.voto >= 4 && `Su Google avete ${voto} su 5${n >= 20 ? `, da ${n} recensioni` : ''}.`,
-    positive[0] && `Chi è passato scrive: «${corta(positive[0].testo, 110)}».`,
-    positive[1] && `E ancora: «${corta(positive[1].testo, 110)}».`,
     x.telefono && x.orari.length && 'Chi vi cerca trova già orari e telefono.',
     x.descrizione && `Vi presentate così: «${corta(x.descrizione, 120)}».`,
     ...x.attributi.slice(0, 1).map((a) => `${a}: Google lo mostra a chi cerca.`),
@@ -347,7 +346,11 @@ export function lampo(x, link, adesso = new Date()) {
       ? 'Per voi consigliamo il Base: vi mette su Google con orari, telefono e foto vere, vi dà un sito vostro e 2 contenuti a settimana. Quando vorrete i video, si sale al Business.'
       : 'Per voi consigliamo il Business: un sito di più pagine, 3 contenuti a settimana con 2 video, le risposte alle recensioni e un\'analisi ogni mese. Potete partire dal Base e salire quando volete.',
     campi, ha, non_ha: nonHa, migliorare,
-    reputazione: { sintesi, positivi: positive.slice(0, 4).map(riga), negativi: negative.length ? negative.slice(0, 3).map(riga) : ['Nessuna recensione negativa tra quelle che Google mostra per prime.'] },
+    reputazione: {
+      sintesi,
+      positivi: [persone ? 'Tema che torna in almeno 3 recensioni: le persone, gentili e accoglienti.' : 'Nessun tema citato da almeno 3 recensioni: i testi non si riportano (regola privacy del 26/11).'],
+      negativi: [negative.length ? `${negative.length} delle recensioni che Google mostra per prime sono da 3 stelle o meno: leggile dal telefono prima di entrare.` : 'Nessuna recensione negativa tra quelle che Google mostra per prime.'],
+    },
     sito: x.sito_tipo === 'proprio'
       ? { livello: 'da misurare', numeri: [], giudizio: `Il sito c'è (${x.sito}). Velocità e ricerca si misurano con Google PageSpeed; aspetto, pagine e funzioni li guarda la sessione.`, fonte: x.sito.startsWith('https://') ? x.sito : fonte }
       : { livello: 'nessuno', numeri: [], giudizio: `Non c'è un sito: ${x.sito_tipo === 'social' ? `nella scheda Google il campo «sito web» porta alla pagina ${socialNome}` : 'nella scheda Google il campo «sito web» è vuoto'}. Per la tabella firmata da Nicola la bozza parte dal Base.`, fonte },
@@ -466,7 +469,7 @@ function stampa(x) {
   r.push(`  Voto ${x.voto ?? '—'} su 5 · ${x.recensioni_n} recensioni · telefono ${x.telefono ?? 'NO'} · orari ${x.orari.length ? 'sì' : 'NO'} · sito ${x.sito ?? 'NO'}${x.sito_tipo === 'social' ? ' (è un social)' : ''}`);
   r.push(`  Scheda ${x.non_rivendicata ? 'NON rivendicata' : 'rivendicata'}${x.copertina_street_view ? ' · copertina Street View' : ''}${x.chiusa ? ` · CHIUSA ${x.chiusa}` : ''}`);
   if (x.descrizione) r.push(`  Descrizione: ${x.descrizione}`);
-  for (const rc of x.recensioni.slice(0, 5)) r.push(`  ${rc.voto ?? '?'}★ ${rc.quando}: ${corta(rc.testo || '(senza testo)', 100)}`);
+  for (const rc of x.recensioni.slice(0, 5)) r.push(`  ${rc.voto ?? '?'}★ ${rc.quando}${rc.testo ? '' : ' (senza testo)'}`);
   return r.join('\n');
 }
 
@@ -481,7 +484,7 @@ function principale(argv) {
   } catch (e) { console.error(`✗ ${e.message}`); return 1; }
   if (!r) { console.error('✗ nella risposta non c\'è una scheda Google leggibile'); return 1; }
   const x = estrai(r);
-  if (argv.includes('--json')) { console.log(JSON.stringify(x, null, 2)); return 0; }
+  if (argv.includes('--json')) { console.log(JSON.stringify({ ...x, recensioni: x.recensioni.map(({ testo, ...resto }) => resto) }, null, 2)); return 0; }
   console.log(stampa(x));
   if (!argv.includes('--lampo')) { console.log(`  (${((Date.now() - t0) / 1000).toFixed(1)} s)`); return 0; }
 
@@ -492,7 +495,9 @@ function principale(argv) {
   const gj = path.join(cartella, 'google.json');
   // Non si cancella niente: la lettura di prima resta accanto, col suo orario.
   if (fs.existsSync(gj)) fs.renameSync(gj, path.join(cartella, `google.${new Date().toISOString().replace(/[:.]/g, '-')}.json`));
-  fs.writeFileSync(gj, JSON.stringify({ letto: new Date().toISOString(), link: input ?? null, ...x }, null, 2) + '\n');
+  // Da Google si salva solo l'identificativo della scheda (parere legale del 26/11): niente voti, recensioni,
+  // orari, nomi o indirizzi presi da lì. Serve a ritrovare la cartella giusta la prossima volta.
+  fs.writeFileSync(gj, JSON.stringify({ letto: new Date().toISOString(), place_id: x.place_id, cid: x.cid }, null, 2) + '\n');
   const dati = path.join(cartella, 'dati.json');
   if (fs.existsSync(dati)) console.log(`  dati.json c'è già in ${path.relative(RADICE, cartella)}: non lo tocco (aggiornato solo google.json).`);
   else fs.writeFileSync(dati, JSON.stringify(lampo(x, input ?? ''), null, 2) + '\n');
