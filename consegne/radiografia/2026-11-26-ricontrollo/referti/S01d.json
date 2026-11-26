@@ -1,0 +1,15 @@
+{
+  "sessione": "S01d",
+  "base_sito": "ed12ed8ec8190e1132b690f6e034c30f0a5d55ba",
+  "aggiornato": "2026-11-26 13:42",
+  "finita": false,
+  "lotti": [],
+  "copertura": { "file_letti_interi": [], "file_letti_in_parte": [], "file_eseguiti": [], "non_guardato": [] },
+  "difetti": [],
+  "scartati": [],
+  "regressioni": [],
+  "ricontrolli": [],
+  "prove_per_la_palestra": [],
+  "domande_per_nicola": [],
+  "conto": { "agenti": 0, "permesso_regista": null, "usd": null, "usd_perche": null, "token_sessione": {}, "token_subagenti": {}, "nota": "" }
+}
