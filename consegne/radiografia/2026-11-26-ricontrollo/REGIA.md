@@ -39,3 +39,9 @@ radiografia: consegne/radiografia/2026-11-26-ricontrollo
 - Sorveglianza: `node cervello/radiografia-sessioni.mjs sorveglia --cartella $C --onda 1 --attendi` (sottofondo).
 - Fine onda: `git checkout origin/ccr-aa566c13-nvkbaw-sNN -- $C/referti/SNN.json`, poi `doppioni --cartella $C`.
 - Poi F2 della skill `radiografia-sessioni`.
+
+## Da dire a Nicola alla fine
+- 13:47 · Il controllo «suite del cervello — fetta 3» è rosso anche su main (`b783ce5`): `cervello/test/due-case.test.mjs`,
+  2 asserzioni su 36. Verde il 25/11 su `0eb50c4` (#1011), rotto fra #1025 e #1027. Non viene da questa PR (commento
+  sulla #1030). Ripararlo è una modifica alla macchina: serve la sua firma.
+- 13:46 · S01d finita: 3 minori, 2 ancora veri, 1 chiuso; `get_session` non dà il costo in dollari (manca `cost_usd`).
