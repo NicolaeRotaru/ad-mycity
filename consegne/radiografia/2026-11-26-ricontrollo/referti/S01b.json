@@ -1,15 +1,2330 @@
 {
   "sessione": "S01b",
   "base_sito": "ed12ed8ec8190e1132b690f6e034c30f0a5d55ba",
-  "aggiornato": "2026-11-26 13:42",
-  "finita": false,
-  "lotti": [],
-  "copertura": { "file_letti_interi": [], "file_letti_in_parte": [], "file_eseguiti": [], "non_guardato": [] },
+  "aggiornato": "2026-11-26 13:51",
+  "finita": true,
+  "lotti": [
+    {
+      "id": "L01",
+      "esito": "fatto",
+      "perche": null
+    },
+    {
+      "id": "L02",
+      "esito": "fatto",
+      "perche": null
+    },
+    {
+      "id": "L03",
+      "esito": "fatto",
+      "perche": null
+    },
+    {
+      "id": "L04",
+      "esito": "fatto",
+      "perche": null
+    },
+    {
+      "id": "L05",
+      "esito": "fatto",
+      "perche": null
+    },
+    {
+      "id": "L06",
+      "esito": "fatto",
+      "perche": null
+    },
+    {
+      "id": "L07",
+      "esito": "fatto",
+      "perche": null
+    },
+    {
+      "id": "L08",
+      "esito": "fatto",
+      "perche": null
+    }
+  ],
+  "copertura": {
+    "file_letti_interi": [
+      "tests/unit/aiuti/schermo.ts",
+      "app/api/cron/send-push/route.ts"
+    ],
+    "file_letti_in_parte": [
+      {
+        "file": ".github/workflows/deploy-dopo-ci.yml",
+        "righe": "640-670"
+      },
+      {
+        "file": "app/api/ai/catalog-batch/apply/route.ts",
+        "righe": "100-240"
+      },
+      {
+        "file": "app/api/ai/catalog-batch/apply/route.ts",
+        "righe": "430-464"
+      },
+      {
+        "file": "lib/ai/tettoSpesa.ts",
+        "righe": "452-496"
+      },
+      {
+        "file": "lib/ai/run.ts",
+        "righe": "120-300"
+      },
+      {
+        "file": "app/api/track/route.ts",
+        "righe": "54-61"
+      },
+      {
+        "file": "app/api/track/route.ts",
+        "righe": "86-92"
+      },
+      {
+        "file": "app/api/track/route.ts",
+        "righe": "120-274"
+      },
+      {
+        "file": "lib/api/corpo.ts",
+        "righe": "20-70"
+      },
+      {
+        "file": "lib/consent.ts",
+        "righe": "140-175"
+      },
+      {
+        "file": "lib/consent.ts",
+        "righe": "243-260"
+      },
+      {
+        "file": "lib/activity.ts",
+        "righe": "210-253"
+      },
+      {
+        "file": "app/api/cron/expire-stale-orders/route.ts",
+        "righe": "100-141"
+      },
+      {
+        "file": "app/api/cron/process-deletions/route.ts",
+        "righe": "72-95"
+      },
+      {
+        "file": "app/api/cron/process-deletions/route.ts",
+        "righe": "520-590"
+      },
+      {
+        "file": "app/api/cron/send-push/route.ts",
+        "righe": "40-95"
+      },
+      {
+        "file": "app/api/cron/send-push/route.ts",
+        "righe": "215-235"
+      },
+      {
+        "file": "lib/ai/client.ts",
+        "righe": "180-234"
+      },
+      {
+        "file": "lib/privacy/avvisi-a-chi-aspetta.ts",
+        "righe": "161-240"
+      },
+      {
+        "file": "lib/privacy/avvisi-a-chi-aspetta.ts",
+        "righe": "286-400"
+      },
+      {
+        "file": "lib/ordini/prezzi.ts",
+        "righe": "85-135"
+      },
+      {
+        "file": "lib/ordini/prezzi.ts",
+        "righe": "200-250"
+      },
+      {
+        "file": "lib/store-hours.ts",
+        "righe": "265-295"
+      },
+      {
+        "file": "lib/funzioni-al-lancio.ts",
+        "righe": "69-69"
+      },
+      {
+        "file": "vercel.json",
+        "righe": "26-29"
+      },
+      {
+        "file": "lib/ordini/prezzi.ts",
+        "righe": "57-125"
+      },
+      {
+        "file": "lib/ordini/prezzi.ts",
+        "righe": "220-265"
+      },
+      {
+        "file": "app/admin/coupons/page.tsx",
+        "righe": "178-190"
+      },
+      {
+        "file": "lib/quando-arriva.ts",
+        "righe": "218-236"
+      },
+      {
+        "file": "app/api/orders/cod/route.ts",
+        "righe": "1013-1018"
+      },
+      {
+        "file": "app/api/stripe/checkout/route.ts",
+        "righe": "522-527"
+      },
+      {
+        "file": "lib/ordini/zona-di-consegna.ts",
+        "righe": "25-68"
+      },
+      {
+        "file": "lib/legal/titolare.ts",
+        "righe": "150-260"
+      },
+      {
+        "file": "app/privacy/page.tsx",
+        "righe": "60-75"
+      },
+      {
+        "file": "app/cookies/page.tsx",
+        "righe": "20-35"
+      },
+      {
+        "file": "app/cookies/page.tsx",
+        "righe": "135-152"
+      },
+      {
+        "file": "components/seller/SellerShell.tsx",
+        "righe": "25-70"
+      },
+      {
+        "file": "app/seller/servizi/[servizio]/page.tsx",
+        "righe": "60-110"
+      },
+      {
+        "file": "components/seller/AnteprimaServizio.tsx",
+        "righe": "1-40"
+      },
+      {
+        "file": "app/admin/users/page.tsx",
+        "righe": "488-520"
+      },
+      {
+        "file": "components/StoreLocationPicker.tsx",
+        "righe": "14-60"
+      },
+      {
+        "file": "app/rider/onboarding/page.tsx",
+        "righe": "15-47"
+      },
+      {
+        "file": "app/rider/onboarding/page.tsx",
+        "righe": "272-300"
+      },
+      {
+        "file": "lib/admin/regole-approvazione.ts",
+        "righe": "55-71"
+      },
+      {
+        "file": "app/product/[id]/layout.tsx",
+        "righe": "25-45"
+      },
+      {
+        "file": "app/product/[id]/layout.tsx",
+        "righe": "158-170"
+      },
+      {
+        "file": "app/loading.tsx",
+        "righe": "1-30"
+      },
+      {
+        "file": "components/PromoTicker.tsx",
+        "righe": "1-129"
+      },
+      {
+        "file": "app/globals.css",
+        "righe": "470-495"
+      },
+      {
+        "file": "components/checkout/PaymentMethodSelector.tsx",
+        "righe": "125-200"
+      },
+      {
+        "file": "components/CookieBanner.tsx",
+        "righe": "136-220"
+      },
+      {
+        "file": "components/Navbar.tsx",
+        "righe": "24-90"
+      },
+      {
+        "file": "components/Navbar.tsx",
+        "righe": "196-265"
+      },
+      {
+        "file": "components/Navbar.tsx",
+        "righe": "270-290"
+      },
+      {
+        "file": "app/product/[id]/opengraph-image.tsx",
+        "righe": "28-34"
+      },
+      {
+        "file": "messages/it.json",
+        "righe": "105-107"
+      },
+      {
+        "file": "migrations/832_l_ordine_pronto_dice_anche_il_giorno.sql",
+        "righe": "78-120"
+      },
+      {
+        "file": "migrations/215_minori_s04_database.sql",
+        "righe": "203-216"
+      },
+      {
+        "file": "lib/ordini/scadenza-accettazione.ts",
+        "righe": "251-320"
+      },
+      {
+        "file": "app/seller/orders/[id]/page.tsx",
+        "righe": "451-498"
+      },
+      {
+        "file": "app/api/admin/cod-remittance/route.ts",
+        "righe": "1-90"
+      },
+      {
+        "file": "lib/ordini/veloce-non-confermata.ts",
+        "righe": "630-800"
+      },
+      {
+        "file": "app/api/stripe/checkout/route.ts",
+        "righe": "240-262"
+      },
+      {
+        "file": "app/api/stripe/checkout/route.ts",
+        "righe": "330-360"
+      },
+      {
+        "file": "app/api/stripe/checkout/route.ts",
+        "righe": "740-790"
+      },
+      {
+        "file": "lib/quando-arriva.ts",
+        "righe": "75-130"
+      },
+      {
+        "file": "lib/ordini/fascia-consegna.ts",
+        "righe": "20-38"
+      },
+      {
+        "file": "components/store-sections/misure-vetrina.ts",
+        "righe": "26-26"
+      },
+      {
+        "file": "lib/stripe/payout.ts",
+        "righe": "540-620"
+      },
+      {
+        "file": "lib/stripe/payout.ts",
+        "righe": "900-1010"
+      },
+      {
+        "file": "lib/guadagni/fattorino.ts",
+        "righe": "1-84"
+      },
+      {
+        "file": "lib/stripe/webhook/rimborsi.ts",
+        "righe": "135-175"
+      },
+      {
+        "file": "lib/stripe/webhook/dispute.ts",
+        "righe": "235-275"
+      },
+      {
+        "file": "app/rider/earnings/page.tsx",
+        "righe": "30-60"
+      },
+      {
+        "file": "lib/ordini/veloce-non-confermata.ts",
+        "righe": "536-552"
+      },
+      {
+        "file": "lib/ordini/veloce-non-confermata.ts",
+        "righe": "660-760"
+      },
+      {
+        "file": "lib/stripe/client.ts",
+        "righe": "318-440"
+      },
+      {
+        "file": "app/api/stripe/connect/onboarding/route.ts",
+        "righe": "25-54"
+      },
+      {
+        "file": "lib/stripe/webhook/ordini.ts",
+        "righe": "95-320"
+      },
+      {
+        "file": "lib/stripe/webhook/ordini.ts",
+        "righe": "575-598"
+      },
+      {
+        "file": "lib/stripe/webhook/fascia-al-pagamento.ts",
+        "righe": "40-115"
+      },
+      {
+        "file": "lib/supabase/lettura-per-metadati.ts",
+        "righe": "1-90"
+      },
+      {
+        "file": "app/product/[id]/layout.tsx",
+        "righe": "20-60"
+      },
+      {
+        "file": "app/product/[id]/layout.tsx",
+        "righe": "140-175"
+      },
+      {
+        "file": "app/store/[id]/layout.tsx",
+        "righe": "25-110"
+      },
+      {
+        "file": "middleware.ts",
+        "righe": "620-700"
+      },
+      {
+        "file": "middleware.ts",
+        "righe": "755-762"
+      },
+      {
+        "file": "app/layout.tsx",
+        "righe": "40-100"
+      },
+      {
+        "file": "app/api/kyc/start-check/route.ts",
+        "righe": "1-40"
+      },
+      {
+        "file": "components/SellerApplicationForm.tsx",
+        "righe": "255-325"
+      },
+      {
+        "file": "components/seller/ProductForm.tsx",
+        "righe": "1150-1175"
+      },
+      {
+        "file": "app/product/[id]/page.tsx",
+        "righe": "540-560"
+      },
+      {
+        "file": "app/product/[id]/page.tsx",
+        "righe": "1012-1032"
+      },
+      {
+        "file": "lib/email/templates.ts",
+        "righe": "137-200"
+      },
+      {
+        "file": "app/profile/settings/page.tsx",
+        "righe": "840-880"
+      },
+      {
+        "file": "app/api/cron/operational-alerts/route.ts",
+        "righe": "504-514"
+      },
+      {
+        "file": "app/api/account/delete/route.ts",
+        "righe": "148-160"
+      },
+      {
+        "file": "migrations/087_wallet_and_redemption.sql",
+        "righe": "27-34"
+      },
+      {
+        "file": "migrations/127_minori_22_agosto.sql",
+        "righe": "20-60"
+      },
+      {
+        "file": "migrations/165_la_coda_email_ha_un_eta_massima.sql",
+        "righe": "1-40"
+      },
+      {
+        "file": "app/checkout/page.tsx",
+        "righe": "400-420"
+      },
+      {
+        "file": "app/checkout/page.tsx",
+        "righe": "515-595"
+      },
+      {
+        "file": "app/checkout/page.tsx",
+        "righe": "928-1015"
+      },
+      {
+        "file": "app/checkout/page.tsx",
+        "righe": "1314-1320"
+      },
+      {
+        "file": "components/Navbar.tsx",
+        "righe": "190-235"
+      },
+      {
+        "file": "app/api/orders/cod/route.ts",
+        "righe": "440-550"
+      },
+      {
+        "file": "app/api/orders/cod/route.ts",
+        "righe": "1010-1035"
+      },
+      {
+        "file": "lib/ordini/consegna-veloce.ts",
+        "righe": "40-200"
+      },
+      {
+        "file": "lib/auth/cookie-di-sessione.ts",
+        "righe": "370-425"
+      },
+      {
+        "file": "components/CartCrossDeviceSync.tsx",
+        "righe": "40-140"
+      },
+      {
+        "file": "lib/cart.ts",
+        "righe": "41-53"
+      },
+      {
+        "file": "migrations/215_minori_s04_database.sql",
+        "righe": "80-121"
+      },
+      {
+        "file": "migrations/709_i_negozi_nuovi_entrano_in_modalita_demo.sql",
+        "righe": "195-215"
+      },
+      {
+        "file": "app/orders/[id]/dispute/page.tsx",
+        "righe": "215-245"
+      },
+      {
+        "file": "lib/queries/seller-public-profiles.ts",
+        "righe": "238-283"
+      },
+      {
+        "file": "components/ProductQA.tsx",
+        "righe": "60-80"
+      },
+      {
+        "file": "components/store-sections/useStorePageData.ts",
+        "righe": "50-62"
+      },
+      {
+        "file": "tests/unit/riparazione-r03-turni-non-spengono-l-online.test.tsx",
+        "righe": "1-40"
+      },
+      {
+        "file": "migrations/424_un_reclamo_non_resta_legato_a_un_ordine_che_non_esiste.sql",
+        "righe": "1-71"
+      },
+      {
+        "file": "migrations/360_l_amministratore_chiude_la_consegna.sql",
+        "righe": "1-110"
+      },
+      {
+        "file": "app/api/cron/operational-alerts/route.ts",
+        "righe": "190-206"
+      },
+      {
+        "file": "app/checkout/page.tsx",
+        "righe": "925-1020"
+      },
+      {
+        "file": "app/checkout/page.tsx",
+        "righe": "1250-1265"
+      },
+      {
+        "file": "lib/ordini/tentativo.ts",
+        "righe": "1-107"
+      },
+      {
+        "file": "app/api/orders/cod/route.ts",
+        "righe": "150-235"
+      },
+      {
+        "file": "lib/analytics/chiave-checkout.ts",
+        "righe": "1-60"
+      },
+      {
+        "file": "lib/logger.ts",
+        "righe": "76-110"
+      },
+      {
+        "file": "lib/logger.ts",
+        "righe": "283-340"
+      },
+      {
+        "file": "migrations/127_minori_22_agosto.sql",
+        "righe": "180-200"
+      },
+      {
+        "file": "migrations/215_minori_s04_database.sql",
+        "righe": "120-140"
+      },
+      {
+        "file": "migrations/002_categories_and_extras.sql",
+        "righe": "40-48"
+      },
+      {
+        "file": "migrations/140_nome_prodotto_sulla_riga_ordine.sql",
+        "righe": "100-136"
+      },
+      {
+        "file": "lib/auth/cookie-di-sessione.ts",
+        "righe": "186-240"
+      },
+      {
+        "file": "lib/auth/cookie-di-sessione.ts",
+        "righe": "360-400"
+      },
+      {
+        "file": "middleware.ts",
+        "righe": "505-560"
+      },
+      {
+        "file": "lib/rate-limit.ts",
+        "righe": "125-195"
+      },
+      {
+        "file": "app/api/account/accetta-condizioni/route.ts",
+        "righe": "1-60"
+      },
+      {
+        "file": "lib/ai/statoLavoroCatalogo.ts",
+        "righe": "20-70"
+      },
+      {
+        "file": "app/api/ai/catalog-batch/status/route.ts",
+        "righe": "120-135"
+      },
+      {
+        "file": "components/checkout/ShippingAddressForm.tsx",
+        "righe": "40-120"
+      },
+      {
+        "file": "app/stores/page.tsx",
+        "righe": "290-291"
+      },
+      {
+        "file": "app/seller/dashboard/page.tsx",
+        "righe": "258-275"
+      },
+      {
+        "file": "app/seller/dashboard/page.tsx",
+        "righe": "380-380"
+      },
+      {
+        "file": "app/seller/reviews/page.tsx",
+        "righe": "123-123"
+      },
+      {
+        "file": "app/seller/customers/page.tsx",
+        "righe": "99-99"
+      },
+      {
+        "file": "app/seller/customers/page.tsx",
+        "righe": "168-168"
+      },
+      {
+        "file": "app/seller/customers/page.tsx",
+        "righe": "203-203"
+      },
+      {
+        "file": "lib/format.ts",
+        "righe": "1-30"
+      },
+      {
+        "file": "lib/format.ts",
+        "righe": "69-69"
+      },
+      {
+        "file": "app/globals.css",
+        "righe": "15-40"
+      },
+      {
+        "file": "app/about/page.tsx",
+        "righe": "1-60"
+      },
+      {
+        "file": "app/about/page.tsx",
+        "righe": "170-254"
+      },
+      {
+        "file": "app/lavora-con-noi/page.tsx",
+        "righe": "55-100"
+      },
+      {
+        "file": "tests/unit/riparazione-r02-chi-siamo-280.test.tsx",
+        "righe": "1-103"
+      },
+      {
+        "file": "components/ui/Button.tsx",
+        "righe": "77-110"
+      },
+      {
+        "file": "app/api/admin/cod-remittance/route.ts",
+        "righe": "30-104"
+      },
+      {
+        "file": "app/admin/cod-remittance/page.tsx",
+        "righe": "200-240"
+      },
+      {
+        "file": "app/admin/cod-remittance/page.tsx",
+        "righe": "415-450"
+      },
+      {
+        "file": "migrations/501_la_rimessa_conferma_solo_gli_ordini_visti.sql",
+        "righe": "25-78"
+      },
+      {
+        "file": "migrations/024_blockers_money_kyc_returns_cash.sql",
+        "righe": "118-135"
+      },
+      {
+        "file": "app/admin/page.tsx",
+        "righe": "125-200"
+      },
+      {
+        "file": "app/admin/segnalazioni/page.tsx",
+        "righe": "85-150"
+      },
+      {
+        "file": "app/admin/users/page.tsx",
+        "righe": "140-175"
+      },
+      {
+        "file": "app/admin/users/page.tsx",
+        "righe": "380-408"
+      },
+      {
+        "file": "app/admin/users/page.tsx",
+        "righe": "895-925"
+      },
+      {
+        "file": "app/admin/users/page.tsx",
+        "righe": "950-1040"
+      },
+      {
+        "file": "migrations/061_p0_security_rls_state_machine_reviews.sql",
+        "righe": "25-60"
+      },
+      {
+        "file": "migrations/830_il_nome_del_negozio_ha_un_tetto_anche_nel_database.sql",
+        "righe": "30-48"
+      },
+      {
+        "file": "app/api/admin/users/[id]/moderate/route.ts",
+        "righe": "120-170"
+      },
+      {
+        "file": "app/api/admin/users/[id]/moderate/route.ts",
+        "righe": "336-425"
+      },
+      {
+        "file": "app/api/ai/catalog-batch/start/route.ts",
+        "righe": "35-165"
+      },
+      {
+        "file": "app/api/consegna/veloce/route.ts",
+        "righe": "1-30"
+      },
+      {
+        "file": "app/api/consegna/veloce/route.ts",
+        "righe": "93-98"
+      },
+      {
+        "file": "app/api/consent/route.ts",
+        "righe": "60-160"
+      },
+      {
+        "file": "app/api/cron/operational-alerts/route.ts",
+        "righe": "240-280"
+      },
+      {
+        "file": "app/api/cron/operational-alerts/route.ts",
+        "righe": "700-737"
+      },
+      {
+        "file": "app/api/admin/users/[id]/moderate/route.ts",
+        "righe": "50-140"
+      },
+      {
+        "file": "app/api/cron/process-deletions/route.ts",
+        "righe": "130-700"
+      },
+      {
+        "file": "app/api/cron/process-deletions/route.ts",
+        "righe": "836-960"
+      },
+      {
+        "file": "app/api/cron/process-deletions/route.ts",
+        "righe": "980-1010"
+      },
+      {
+        "file": "migrations/572_la_cancellazione_aspetta_gli_ordini_aperti_del_negozio.sql",
+        "righe": "20-62"
+      },
+      {
+        "file": "lib/account/cancellazione.ts",
+        "righe": "925-1035"
+      },
+      {
+        "file": "app/api/account/delete/route.ts",
+        "righe": "190-215"
+      },
+      {
+        "file": "app/api/cron/release-payouts/route.ts",
+        "righe": "270-325"
+      },
+      {
+        "file": "lib/stripe/payout.ts",
+        "righe": "395-415"
+      },
+      {
+        "file": "lib/stripe/payout.ts",
+        "righe": "596-660"
+      },
+      {
+        "file": "lib/stripe/payout.ts",
+        "righe": "905-925"
+      },
+      {
+        "file": "lib/stripe/payout.ts",
+        "righe": "1885-1905"
+      },
+      {
+        "file": "lib/stripe/payout.ts",
+        "righe": "2490-2570"
+      },
+      {
+        "file": "lib/ordini/annullo-del-cliente.ts",
+        "righe": "15-21"
+      },
+      {
+        "file": "app/orders/[id]/page.tsx",
+        "righe": "554-600"
+      },
+      {
+        "file": "app/orders/[id]/page.tsx",
+        "righe": "800-830"
+      },
+      {
+        "file": "app/orders/[id]/page.tsx",
+        "righe": "940-985"
+      },
+      {
+        "file": "lib/stripe/webhook/ordini.ts",
+        "righe": "530-585"
+      },
+      {
+        "file": "app/api/orders/cod/route.ts",
+        "righe": "1867-1910"
+      },
+      {
+        "file": "lib/email/templates.ts",
+        "righe": "142-156"
+      }
+    ],
+    "file_eseguiti": [
+      {
+        "file": "package-lock.json",
+        "comando": "npm audit --package-lock-only --json",
+        "esito": "18 avvisi (5 bassi, 9 moderati, 4 alti); app+components"
+      },
+      {
+        "file": "tests/unit/riparazione-r01-avvio-dopo-assistenza.test.ts",
+        "comando": "npx vitest run tests/unit/riparazione-r01-avvio-dopo-assistenza.test.ts",
+        "esito": "non partito (ERR_MODULE_NOT_FOUND, dipendenze non installate)"
+      }
+    ],
+    "non_guardato": [
+      {
+        "cosa": "le impostazioni e le variabili di produzione su Vercel e Supabase Auth",
+        "perche": "strumenti di Vercel e del database vero vietati dal §1"
+      },
+      {
+        "cosa": "le righe del database di produzione (dati dei negozi, migrazioni applicate)",
+        "perche": "database vero vietato dal §1"
+      },
+      {
+        "cosa": "le misure nel browser delle voci di impaginazione",
+        "perche": "voci minori: bastava la lettura del codice, dipendenze del sito non installate"
+      },
+      {
+        "cosa": "i file letti per le voci riservate",
+        "perche": "tenuti fuori dal deposito pubblico finché le falle sono aperte"
+      }
+    ]
+  },
   "difetti": [],
   "scartati": [],
   "regressioni": [],
-  "ricontrolli": [],
+  "ricontrolli": [
+    {
+      "chiave": "deploy-sre|il commento del lavoro di rilascio dice ancora «se i candidati sono piu di uno»",
+      "esito": "ancora_vero",
+      "prova": ".github/workflows/deploy-dopo-ci.yml:653",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "Il commento dice ancora «Se non risponde e i candidati sono piu' di uno»; il warning a riga 664 copre anche «c'e' solo lui»",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "ai-endpoints|con un solo lavoro aperto per negozio, il «rimetti pronto» dell applica può fallire senza che nessuno lo veda",
+      "esito": "non_piu_vero",
+      "prova": "app/api/ai/catalog-batch/apply/route.ts:152-162,446-455,479",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "rimettiPronto ora legge l'errore, lo registra, distingue 23505 e manda l'«avviso» nella risposta",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null
+    },
+    {
+      "chiave": "ai-endpoints|il controllo del tetto di spesa ai gira anche con l ai dei negozi spenta",
+      "esito": "non_piu_vero",
+      "prova": "lib/ai/tettoSpesa.ts:473-480",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "if (!(tettoEur>0) || !AI_NEGOZI_ACCESA) return []: niente sonda, resta solo un delete best-effort",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null
+    },
+    {
+      "chiave": "ai-endpoints|un solo venditore può bruciare da solo il budget ai giornaliero di tutto il sito e lasciare gli altri negozi a «riprova domani»",
+      "esito": "ancora_vero",
+      "prova": "lib/ai/run.ts:260-262",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "controllaTettoSpesaAi(feature, stima) legge solo AI_GLOBAL_DAILY_BUDGET_EUR; nessun tetto per venditore",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Attenuato al lancio: AI_NEGOZI_ACCESA=false (lib/funzioni-al-lancio.ts:69)",
+      "falla": false
+    },
+    {
+      "chiave": "api-backend|due segnali di accesso per lo stesso ingresso: la deduplica legge-e-poi-scrive senza vincolo sul database — e la migrazione che la reggerebbe non c'e' in questo lotto",
+      "esito": "ancora_vero",
+      "prova": "cd marketplace && grep -rln --include=*.sql -i \"unique index.*activity\" migrations; sed -n 218,253p lib/activity.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "Prima legge, poi recordActivity; nelle migrazioni nessun indice unico su activity_events",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "api-backend|il giro che annulla legge al massimo 100 ordini fermi, senza un ordine: una veloce scaduta può restare fuori dal giro",
+      "esito": "cambiato",
+      "prova": "app/api/cron/expire-stale-orders/route.ts:121,137-140",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "Aggiunto .order('created_at', asc) e il limite resta 100",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "L'ordine c'è; oltre 100 NEW più vecchi non scaduti (es. programmati) lasciano fuori la veloce scaduta",
+      "falla": false
+    },
+    {
+      "chiave": "api-backend|il tetto di tempo delle email della notte parte dall inizio del giro, e il ciclo delle cancellazioni resta senza tetto: con una notte lunga non parte nessuna email e non c è allarme",
+      "esito": "non_piu_vero",
+      "prova": "app/api/cron/process-deletions/route.ts:82,94,245,467,524,574-588",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "Cancellazioni con tetto a 150 s; email con tetto a 240 s e allarme agli admin quando scatta",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Resta un caso teorico: un account lento preso prima di 150 s che supera i 300 s"
+    },
+    {
+      "chiave": "api-backend|la rotta che registra le visite va in errore del server se riceve un corpo vuoto o rotto, o un cookie dei consensi storto",
+      "esito": "ancora_vero",
+      "prova": "app/api/track/route.ts:133-148; lib/api/corpo.ts:52-56; lib/consent.ts:250",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "Viene controllato solo undefined: con null, body.event_type lancia fuori dal try; parseConsentCookie decodifica una seconda volta senza try",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "api-backend|le notifiche push partono due volte se due giri del cron si sovrappongono: la presa in carico non è atomica",
+      "esito": "ancora_vero",
+      "prova": "app/api/cron/send-push/route.ts:58-64,224-227",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "Legge pushed_at null e segna pushed_at solo a fine giro; nessuna presa in carico atomica né lucchetto",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "api-backend|se il cliente ritira il reso mentre il negozio lo approva con rimborso, il reso resta annullato coi soldi gia' usciti",
+      "esito": "ancora_vero",
+      "prova": "(nel referto privato)",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "(nel referto privato)",
+      "verificato": false,
+      "verificato_da": "(nel referto privato)",
+      "nota": "(nel referto privato)",
+      "falla": true
+    },
+    {
+      "chiave": "architettura|«ai per i negozi» spenta ferma anche l'ai dei clienti (riassunto recensioni, risposte, ordine da foto)",
+      "esito": "ancora_vero",
+      "prova": "lib/ai/client.ts:217; app/api/ai/reviews-summary/route.ts:61; app/api/ai/answer-qa/route.ts:51; lib/ai/run.ts:536",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "getAnthropic lancia se !AI_NEGOZI_ACCESA; le rotte per i clienti controllano lo stesso interruttore",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "architettura|audit_logs, il registro delle azioni amministrative, diventa il lucchetto delle email, scritto fuori da lib/audit.ts e dal catalogo",
+      "esito": "ancora_vero",
+      "prova": "cd marketplace && grep -rn \"avviso_cancellazione\" lib/audit.ts lib/audit-azioni.ts lib/privacy/avvisi-a-chi-aspetta.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "REGISTRO_INVII='audit_logs' scritto direttamente (avvisi-a-chi-aspetta.ts:363,383); le azioni privacy.avviso_cancellazione.* non sono nel catalogo",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "architettura|avvisi-a-chi-aspetta.ts tiene insieme pannello, lucchetto email, indirizzo, html e invio; l'email parte solo se il pannello riesce",
+      "esito": "cambiato",
+      "prova": "lib/privacy/avvisi-a-chi-aspetta.ts:197-209,538,691",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "Nel catch non c'è più continue: l'email si tenta anche se il pannello fallisce; il file ha 720 righe con tutto dentro",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Tolto il legame pannello→email; resta il file che fa tutto",
+      "falla": false
+    },
+    {
+      "chiave": "architettura|col codice, sotto 30 € a negozio la piattaforma resta a zero e paga di tasca la commissione stripe di ogni addebito",
+      "esito": "ancora_vero",
+      "prova": "lib/ordini/prezzi.ts:225-247; app/admin/coupons/page.tsx:47",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "Il codice regala la consegna fino a commissione+spedizione; spesa minima dei coupon di default 0",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "architettura|da controllare sui dati: un negozio che oggi ha salvato 7 giorni vuoti diventa chiuso sempre appena esce la modifica",
+      "esito": "non_verificabile",
+      "prova": "lib/store-hours.ts:265-276",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "Il meccanismo c'è: con 4 o più giorni scritti, anche vuoti, gli orari valgono e il negozio è chiuso sempre",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Non posso sapere se ci sono negozi con 7 giorni vuoti: il database è vietato",
+      "falla": false
+    },
+    {
+      "chiave": "architettura|gli strumenti degli sviluppatori portano altre 19 falle note, 10 alte, ma nessuna arriva al sito",
+      "esito": "cambiato",
+      "prova": "cd marketplace && npm audit --package-lock-only --json",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "18 avvisi in totale (4 alti); tra gli strumenti degli sviluppatori resta alta solo la catena storybook/webpack-dev-middleware 6.1.3 (3 voci)",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Calate da 19/10 alte a circa 3 alte negli strumenti di sviluppo; elliptic/pbkdf2 restano bassi",
+      "falla": false
+    },
+    {
+      "chiave": "architettura|il codice «spedizione gratuita» sotto 30 € a negozio fa pagare parte della consegna (1 € su 20 €): il nome promette gratis",
+      "esito": "ancora_vero",
+      "prova": "lib/ordini/prezzi.ts:225-243; app/admin/coupons/page.tsx:180-186",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "consegnaDaPagareCents fa ancora pagare una parte sotto soglia; l'opzione si chiama ancora «Spedizione gratuita», c'è solo un avviso all'admin",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Aggiunto solo un avviso nel pannello admin",
+      "falla": false
+    },
+    {
+      "chiave": "architettura|il parametro propostail di negoziopuoservire non lo passa nessuno",
+      "esito": "ancora_vero",
+      "prova": "app/api/orders/cod/route.ts:1013; app/api/stripe/checkout/route.ts:522; lib/stripe/webhook/ordini.ts:292",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "Ora motivoFasciaRifiutata accetta propostaIl, ma tutti e tre i chiamanti passano solo 2 argomenti",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Il parametro adesso scende fino alla funzione, ma nessuna rotta lo passa",
+      "falla": false
+    },
+    {
+      "chiave": "architettura|le falle note nelle librerie sono passate da 3 a 15, ma oggi nessuna colpisce il sito in produzione",
+      "esito": "cambiato",
+      "prova": "cd marketplace && npm audit --package-lock-only --json",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "Next/sharp/dompurify/qs/fflate/tailwind non compaiono più; nuovi avvisi su librerie usate dal sito: zod 3.25.76 alto, catena resend moderata",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Lista diversa: zod alto nel codice del sito, non verificato se raggiungibile",
+      "falla": false
+    },
+    {
+      "chiave": "architettura|se manca la posizione del negozio o dell'indirizzo, il confine dei 10 km non scatta: l'ordine passa a qualunque distanza",
+      "esito": "ancora_vero",
+      "prova": "lib/ordini/zona-di-consegna.ts:43",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "Se manca una coordinata return false («dentro zona»); usata nelle rotte COD e carta",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Scelta dichiarata nel commento («quando non si sa, non si blocca»)",
+      "falla": false
+    },
+    {
+      "chiave": "architettura|senza la casella vera, l'unico recapito del titolare nell'informativa e nella cookie policy è il modulo web",
+      "esito": "ancora_vero",
+      "prova": "lib/legal/titolare.ts:236-245; app/cookies/page.tsx:27; app/privacy/page.tsx:49,73",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "Senza emailPrivacyConfigurata, recapitoPrivacy ripiega sul modulo dei contatti",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Variabile d'ambiente in produzione non verificabile (Vercel vietato)",
+      "falla": false
+    },
+    {
+      "chiave": "coerenza-brand|la scala tipografica è aggirata 330 volte con misure a mano",
+      "esito": "cambiato",
+      "prova": "cd marketplace && grep -rhoP 'text-\\[\\d+(\\.\\d+)?px\\]' app components | wc -l",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "223 occorrenze (prima 330); le più numerose in app/rider/page.tsx (18)",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Scese da 330 a 223, il difetto resta",
+      "falla": false
+    },
+    {
+      "chiave": "dati-analytics|le statistiche di visita di vercel non sono attive, e quindi nessuno sa quanta gente entra",
+      "esito": "ancora_vero",
+      "prova": "cd marketplace && grep -rn \"@vercel/analytics\\|<Analytics\" app package.json",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "Nessun pacchetto né componente Vercel Analytics nel codice",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Il cruscotto Vercel non è controllato (vietato); la prova sta solo nel codice",
+      "falla": false
+    },
+    {
+      "chiave": "deploy-sre|le anteprime delle modifiche mostrano un sito senza database: nicola non può vedere una modifica prima di unirla",
+      "esito": "non_verificabile",
+      "prova": "Vercel variabili d'ambiente",
+      "prova_tipo": "umano",
+      "prova_eseguita": false,
+      "esito_prova": "Serve il cruscotto o gli strumenti di Vercel, vietati in questo compito",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Configurazione che sta solo su Vercel, non nel codice",
+      "falla": false
+    },
+    {
+      "chiave": "flussi-conversione|nel pannello del negozio non c'è un posto dove vedere e approvare le anteprime",
+      "esito": "ancora_vero",
+      "prova": "components/seller/SellerShell.tsx:36-62; app/seller/servizi/[servizio]/page.tsx:104",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "Nessuna voce o rotta di approvazione; /seller/servizi mostra solo esempi di servizio, nessun pulsante approva",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Ci sono anteprime d'esempio dei servizi, ma senza approvazione",
+      "falla": false
+    },
+    {
+      "chiave": "frontend-ux|i link ai documenti del fattorino scadono dopo 2 minuti a pannello aperto",
+      "esito": "cambiato",
+      "prova": "app/api/kyc/documenti-rider/[id]/route.ts:12; app/admin/users/page.tsx:498-511",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "Ancora 120 s; ora staleTime 100 s + refetchOnWindowFocus: si rileggono tornando sulla scheda, ma non restando sul pannello",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Si rileggono quando la scheda torna in primo piano; restando sul pannello scadono comunque",
+      "falla": false
+    },
+    {
+      "chiave": "frontend-ux|i negozi già salvati a roma restano a roma finché non riaprono il profilo",
+      "esito": "ancora_vero",
+      "prova": "components/StoreLocationPicker.tsx:17,47-53",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "Roma riconosciuta solo all'apertura del selettore; nessuna migrazione SQL che pulisca i dati trovata",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Righe del database non lette (vietato)",
+      "falla": false
+    },
+    {
+      "chiave": "frontend-ux|il costruttore della vetrina ha ancora campi brevi che tagliano in silenzio",
+      "esito": "non_piu_vero",
+      "prova": "cd marketplace && grep -rn \"maxLength\" components/seller/site",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "Nessun maxLength rimasto, solo commenti che spiegano la rimozione (R09/R10)",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null
+    },
+    {
+      "chiave": "frontend-ux|l'iscrizione obbliga il fattorino a caricare una sua polizza rc anche se va in bici",
+      "esito": "non_piu_vero",
+      "prova": "app/rider/onboarding/page.tsx:278-284; lib/admin/regole-approvazione.ts:57,64-71",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "Gli obbligatori dipendono dal mezzo; RC_OBBLIGATORIA_PER_LA_BICI=false, in bici niente patente né polizza RC",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null
+    },
+    {
+      "chiave": "frontend-ux|le pagine di prodotti, negozi e categorie che non esistono rispondono «tutto ok» invece di «non trovato»",
+      "esito": "ancora_vero",
+      "prova": "app/loading.tsx; app/product/[id]/layout.tsx:164-167",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "app/loading.tsx c'è ancora; il commento ammette che la risposta parte con 200 e notFound arriva in streaming",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "layout-responsive|a 1024 px col testo al 200% le pagine pubbliche scorrono di lato per la fascia animata in alto, non per il piede",
+      "esito": "ancora_vero",
+      "prova": "components/PromoTicker.tsx:105-108",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "Striscia già dentro min-w-0 overflow-hidden dal 12/11; la misura in Chromium del 21/11 è successiva; nessuna correzione dopo",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Da solo codice sembrerebbe contenuta: serve un browser per chiuderla",
+      "falla": false
+    },
+    {
+      "chiave": "layout-responsive|alla cassa, col testo del telefono al massimo, la scheda «contanti alla consegna» esce dallo schermo e la pagina scorre di lato",
+      "esito": "ancora_vero",
+      "prova": "components/checkout/PaymentMethodSelector.tsx:163-167",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "div flex-1 ancora senza min-w-0; riga titolo+badge ora flex-wrap",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "flex-wrap forse aiuta, non verificato in browser",
+      "falla": false
+    },
+    {
+      "chiave": "layout-responsive|col testo al 200% a 280 px il banner dei cookie esce dal suo riquadro",
+      "esito": "ancora_vero",
+      "prova": "components/CookieBanner.tsx:137-216",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "Stesse classi (p-3 + p-5, niente break-words/min-w-0)",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "microcopy|in tanti punti l'euro è ancora scritto all'inglese: «€12.50», «€0 – €500+», «€ 2,50»",
+      "esito": "ancora_vero",
+      "prova": "app/search/page.tsx:295 · app/category/[slug]/page.tsx:331 · app/api/seller/orders/[id]/reject/route.ts:118",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "Ancora «€{min} – €{max}+» e «€x.xx» con toFixed; corretti OG image e messages/it.json",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Riparati alcuni punti, altri restano",
+      "falla": false
+    },
+    {
+      "chiave": "microcopy|la campanella «ordine assegnato» dice ancora rider al cliente e al negozio",
+      "esito": "non_piu_vero",
+      "prova": "migrations/832_l_ordine_pronto_dice_anche_il_giorno.sql:102-112",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "Ramo ASSIGNED: «Un fattorino ha preso il tuo ordine» / «Fattorino assegnato»; nessuna migrazione successiva ridefinisce la funzione",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Vale se la 832 è applicata in produzione"
+    },
+    {
+      "chiave": "microcopy|la descrizione del negozio vero comincia a metà frase e promette pane e miele che online non vende",
+      "esito": "non_verificabile",
+      "prova": "dati di produzione profiles/products",
+      "prova_tipo": "umano",
+      "prova_eseguita": false,
+      "esito_prova": "Dato solo nel database vero, lettura vietata",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Serve una lettura del database di produzione",
+      "falla": false
+    },
+    {
+      "chiave": "microcopy|la riga dice «il tempo per accettarlo è finito, si sta annullando» mentre l'ordine si può ancora accettare",
+      "esito": "ancora_vero",
+      "prova": "lib/ordini/scadenza-accettazione.ts:304 · app/seller/orders/[id]/page.tsx:498",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "Frase ancora presente dopo la scadenza; il pulsante Accetta dipende solo dallo stato",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "microcopy|le notifiche di benvenuto già consegnate promettono ancora 5 euro sopra 10 euro di spesa",
+      "esito": "non_verificabile",
+      "prova": "migrations/215_minori_s04_database.sql:203-210",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "Esiste UPDATE che riscrive le notifiche vecchie; se è applicata in produzione non si vede",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Correzione nel codice c'è, stato di produzione non leggibile",
+      "falla": false
+    },
+    {
+      "chiave": "microcopy|ora dell'una scritta male: «entro le 1:15», «alle 1:15» invece di «entro l'1:15», «all'1:15»",
+      "esito": "ancora_vero",
+      "prova": "lib/ordini/scadenza-accettazione.ts:251-254,267,304-307",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "oraDaParete senza articolo; «le ${ora}» fisso, nessun caso per l'una",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "mobile-pwa|quando la sessione scade da sola, il telefono perde le notifiche in silenzio e al nuovo accesso nessuno le riaccende",
+      "esito": "cambiato",
+      "prova": "components/Navbar.tsx:33-45,226-244",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "A SIGNED_OUT ancora disiscrive, ma lascia un segno e al rientro avvisa con la strada per riattivarle",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Non più in silenzio; resta la perdita",
+      "falla": false
+    },
+    {
+      "chiave": "navigazione-gerarchia|la larghezza del contenuto cambia tre volte lungo il percorso d'acquisto",
+      "esito": "ancora_vero",
+      "prova": "components/store-sections/misure-vetrina.ts:26 · app/categorie/page.tsx:73 · app/product/[id]/page.tsx:777 · app/checkout/page.tsx:1467",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "categorie 7xl, negozio 5xl, prodotto e carrello container pieno, cassa 6xl",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Valori diversi da quelli scritti, il difetto resta",
+      "falla": false
+    },
+    {
+      "chiave": "pagamenti-stripe|«conferma rimessa» sblocca anche gli incassi registrati dopo che l'amministratore ha aperto la pagina",
+      "esito": "cambiato",
+      "prova": "app/api/admin/cod-remittance/route.ts:49-73 · migrations/501_la_rimessa_conferma_solo_gli_ordini_visti.sql:31",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "Ora rilascia solo gli orderIds visti; se la 501 manca torna alla forma vecchia per giorno",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Corretto nel codice; resta il ripiego vecchio finché la 501 non risulta applicata",
+      "falla": false
+    },
+    {
+      "chiave": "pagamenti-stripe|l'euro torna sul credito prima della scrittura della fascia: se il negozio accetta in quell'istante, un annullo dopo rende 1 € in più",
+      "esito": "ancora_vero",
+      "prova": "lib/ordini/veloce-non-confermata.ts:654,678,741-755",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "rendiSulCredito prima di scrivi(); con zero righe il ramo i===0 finisce «accettato», wallet_applied_cents non scalato",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "gara di tempi non pilotabile apposta",
+      "falla": false
+    },
+    {
+      "chiave": "pagamenti-stripe|la pulizia gira prima di ogni convalida del carrello: un tentativo respinto uccide una cassa ancora buona",
+      "esito": "cambiato",
+      "prova": "app/api/stripe/checkout/route.ts:245-259,356,634,756,785-787",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "Pulizia ora pigra, dopo i controlli; restano solo i rifiuti per importo ≤0, codice sconto e scorte",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Ristretta a codice sconto, importo e scorte",
+      "falla": false
+    },
+    {
+      "chiave": "pagamenti-stripe|le due rotte accettano ancora le sei fasce di prima che nicola ha tolto",
+      "esito": "ancora_vero",
+      "prova": "lib/quando-arriva.ts:116-121 · lib/ordini/fascia-consegna.ts:31-37",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "FASCE_AMMESSE contiene ancora FASCE_DI_PRIMA; campoFasciaConsegna le accetta in entrambe le rotte",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Tenute apposta (commento 78-84)",
+      "falla": false
+    },
+    {
+      "chiave": "pagamenti-stripe|se il cliente viene rimborsato dopo la consegna, al fattorino si riprendono i 3 euro senza dirglielo, e la sua pagina guadagni li mostra ancora «in arrivo»",
+      "esito": "ancora_vero",
+      "prova": "lib/stripe/payout.ts:909-957 · lib/guadagni/fattorino.ts:72-75",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "Lo storno porta lo stato a REVERSED e il fattorino non viene avvisato; per la carta ogni stato diverso da TRANSFERRED finisce in inArrivo",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "pagamenti-stripe|se il negozio conferma mentre parte il rimborso, mycity perde 1 € a ogni corsa (scelta dichiarata, avviso agli admin)",
+      "esito": "ancora_vero",
+      "prova": "lib/ordini/veloce-non-confermata.ts:541-552,692-755",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "Il rimborso parte ancora prima della scrittura condizionata; nel ramo i===0 parte l'avviso agli admin, l'euro resta reso",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "scelta dichiarata, invariata",
+      "falla": false
+    },
+    {
+      "chiave": "pagamenti-stripe|se il primo collegamento a stripe si interrompe e poi cambiano email o ruolo, negozio e fattorino leggono «errore stripe» a ogni nuovo tentativo per 24 ore",
+      "esito": "non_piu_vero",
+      "prova": "lib/stripe/client.ts:333-336,410-424",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "La chiave è ora connect_<id>_<ruolo>_<impronta email>; salvaConto salva l'id prima del link, per negozio e fattorino",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null
+    },
+    {
+      "chiave": "pagamenti-stripe|un evento rinviato dopo il canceled per fascia rifà rimborso e avviso agli admin: canceled non chiude subito",
+      "esito": "cambiato",
+      "prova": "lib/stripe/webhook/ordini.ts:121-133 · lib/stripe/webhook/fascia-al-pagamento.ts:72-110",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "CANCELED continua a non chiudere subito; l'avviso agli admin ora ha unaVoltaPer; il rimborso è protetto dalla chiave per 24h",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "avviso deduplicato; oltre 24h il nuovo rimborso è rifiutato da Stripe e l'evento va in errore, senza doppio rimborso",
+      "falla": false
+    },
+    {
+      "chiave": "pagamenti-stripe|webhook ripreso dopo il rimborso della fascia: con 'adesso' e negozio riaperto nasce l'ordine gia' rimborsato",
+      "esito": "ancora_vero",
+      "prova": "lib/stripe/webhook/ordini.ts:121-133,283-294",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "Nessun controllo su pending.status CANCELED; se alla ripresa la fascia risulta valida, gli ordini nascono comunque",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "performance|le pagine di prodotto, negozio e categoria non usano la cache che dichiarano, e rileggono due volte la stessa riga a ogni visita",
+      "esito": "cambiato",
+      "prova": "app/layout.tsx:132 · app/product/[id]/layout.tsx:19,85-91,162 · lib/queries/precarico.ts:124,158",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "force-dynamic ancora attivo e i revalidate 300/600 restano dichiarati; la doppia lettura è risolta con React.cache e il precarico",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "resta solo la cache dichiarata che non conta",
+      "falla": false
+    },
+    {
+      "chiave": "performance|nel pannello del negozio ogni link della barra laterale, precaricato, fa ripassare il controllo d'accesso con due chiamate a supabase",
+      "esito": "ancora_vero",
+      "prova": "middleware.ts:641-662,758-761 · components/seller/SellerShell.tsx:318",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "Il matcher non esclude il precarico; sulle aree protette il profilo viene riletto sempre; i Link non hanno prefetch={false}",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "performance|ogni pagina scarica due caratteri in corsivo che quasi nessuna pagina usa",
+      "esito": "cambiato",
+      "prova": "app/layout.tsx:56-86",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "Fraunces ha ora preload:false; Inter no (default true) e include il file corsivo",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "ora viene precaricato solo il corsivo di Inter",
+      "falla": false
+    },
+    {
+      "chiave": "performance|quasi tutte le pagine del sito nascono vuote e le riempie il browser con chiamate al database, non solo la home e la scheda prodotto",
+      "esito": "ancora_vero",
+      "prova": "cd marketplace && find app -name page.tsx | xargs grep -l \"^'use client'\" | wc -l",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "106 pagine su 126 hanno 'use client', comprese orders, seller/orders, seller/dashboard e admin/orders",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "privacy-legale|chi cancella l'account perde il credito mycity senza avviso, anche quando quel credito è il rimborso di un reso o un buono regalo pagato",
+      "esito": "ancora_vero",
+      "prova": "cd marketplace && grep -rln wallet_balance app/api/account lib/account app/profile/settings",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "Nessun riferimento al saldo nella cancellazione né nell'avviso; wallet_ledger è ON DELETE CASCADE (087:29)",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "privacy-legale|il lotto riaccende una rotta che alla base era morta: il fattorino vede «kyc inviato, verifica in corso», ma nessuna parte del sistema chiude mai quello stato. i difetti qui sotto erano dormienti e ora si possono raggiungere",
+      "esito": "cambiato",
+      "prova": "cd marketplace && grep -rn kyc_provider_status app lib migrations",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "Lo stato lo scrive solo start-check:178 e /api/kyc/webhook non esiste; il sorvegliante ora guarda anche i fattorini (operational-alerts:257)",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "lo stato non si chiude ancora; dopo 48h ora arriva l'avviso all'admin anche per i fattorini",
+      "falla": false
+    },
+    {
+      "chiave": "privacy-legale|il negozio accetta i termini con una sola spunta: foro di piacenza, limiti di responsabilità e sospensione non sono approvati per iscritto, quindi contro di lui non valgono",
+      "esito": "ancora_vero",
+      "prova": "components/SellerApplicationForm.tsx:266-290",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "Solo spunte generiche (Termini, Privacy, dati corretti, addebito); nessuna approvazione specifica delle clausole",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "privacy-legale|il negozio può mettere qualunque «prezzo pieno» barrato e il sito scrive «risparmi x €», senza guardare il prezzo più basso degli ultimi 30 giorni",
+      "esito": "ancora_vero",
+      "prova": "app/product/[id]/page.tsx:545-547,1026-1029 · components/seller/ProductForm.tsx:1155-1162",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "L'unica condizione è compare_at > prezzo (vincolo 071); nessun controllo sul prezzo minimo degli ultimi 30 giorni",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "privacy-legale|l'email di conferma d'ordine non è una conferma di contratto: niente prodotti, niente venditore, niente diritto di recesso",
+      "esito": "ancora_vero",
+      "prova": "lib/email/templates.ts:137-187",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "Solo insegna, numero, totale, fascia e pagamento; nessun prodotto, «recesso» compare 0 volte nei template",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "il venditore compare solo come nome dell'insegna",
+      "falla": false
+    },
+    {
+      "chiave": "privacy-legale|la coda delle email non si svuota mai",
+      "esito": "ancora_vero",
+      "prova": "cd marketplace && grep -rn email_queue app lib migrations | grep -i delete",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "Nessun DELETE su email_queue; la 165 aggiunge scade_at, ma le righe scadute vengono solo annullate",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "privacy-legale|nome, telefono e indirizzo di chi non completa l'accesso restano nel browser senza scadenza, e chi apre la cassa dopo li trova già scritti",
+      "esito": "ancora_vero",
+      "prova": "(nel referto privato)",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "(nel referto privato)",
+      "verificato": false,
+      "verificato_da": "(nel referto privato)",
+      "nota": "(nel referto privato)",
+      "falla": true
+    },
+    {
+      "chiave": "qa-flussi|con una fascia oraria l ordine passa anche senza nessun fattorino approvato: il controllo del fattorino vale solo per la veloce",
+      "esito": "ancora_vero",
+      "prova": "app/api/orders/cod/route.ts:1025; app/api/stripe/checkout/route.ts:530-538",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "contaFattoriniOnline/veloceSiPuo si chiamano solo dentro if (consegnaVeloce); per le fasce nessun controllo sui fattorini",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "qa-flussi|due regole diverse per il tetto del portiere sulla sessione",
+      "esito": "ancora_vero",
+      "prova": "lib/auth/cookie-di-sessione.ts:392-397,411-416; middleware.ts:574",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "tettoPerChiedereChiSei (qualunque tessera, 10s) e tettoPerGetUser (solo se da rinnovare) convivono; il commento a :407 lo ammette",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "righe spostate",
+      "falla": false
+    },
+    {
+      "chiave": "qa-flussi|il carrello si riempie di nuovo con la spesa già pagata o già tolta, se si usano due dispositivi o non si torna da stripe",
+      "esito": "ancora_vero",
+      "prova": "components/CartCrossDeviceSync.tsx:77-108; lib/cart.ts:41-53; app/orders/page.tsx:102-108",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "il caso «cloud vuoto più recente» ora è gestito; la fusione fa ancora l'unione con la quantità più alta e la carta senza rientro non svuota",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "mitigato solo il caso cloud vuoto",
+      "falla": false
+    },
+    {
+      "chiave": "qa-flussi|il fattorino resta «online» per sempre: la mattina dopo il sito vende la consegna veloce anche se nessuno è in servizio",
+      "esito": "ancora_vero",
+      "prova": "cd marketplace && grep -rn rider_is_online --include=*.ts --include=*.tsx --include=*.sql .",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "scritto solo da app/rider/page.tsx:452 e availability/page.tsx:122; nessun cron o migrazione lo spegne",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "qa-flussi|in cassa la riga «il codice copre x € della consegna» non ha nessuna prova: se si stacca, sopra una consegna scontata torna la tariffa piena e tutto resta verde",
+      "esito": "ancora_vero",
+      "prova": "cd marketplace && grep -rln rigaCodice tests",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "nessun test monta la cassa; resta solo il test della funzione pura; la riga ora sta a page.tsx:879 e :1575-1576",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "righe spostate",
+      "falla": false
+    },
+    {
+      "chiave": "qa-flussi|l'aiutante attendi() può dire «sospeso per sempre» per un import solo lento, e il permesso permettisospeso vale per l'ultima accendi",
+      "esito": "ancora_vero",
+      "prova": "tests/unit/aiuti/schermo.ts:23,37,66-77",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "flag globale riscritto a ogni accendi; attendi fa 20 giri setTimeout(0) e poi lancia l'errore «sospeso»",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "qa-flussi|l'interruttore online/offline e le zone preferite del fattorino non cambiano niente: gli avvisi arrivano a tutti",
+      "esito": "cambiato",
+      "prova": "migrations/215_minori_s04_database.sql:96,118; lib/ordini/consegna-veloce.ts:150-160",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "gli avvisi ora vanno solo ai fattorini con rider_is_online=true; rider_zones non lo legge nessuno",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "l'interruttore ora funziona; le zone preferite restano senza effetto",
+      "falla": false
+    },
+    {
+      "chiave": "qa-flussi|la bozza della cassa riceve gli orari dei negozi vuoti: il filo con la regola unica non lavora",
+      "esito": "ancora_vero",
+      "prova": "app/checkout/page.tsx:415,520-557",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "l'effetto con deps [] legge orariNegozi (useMemo da useQuery), che al primo disegno è []",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "qa-flussi|la prova rimessa rifiuta un albero con modifiche non salvate, quindi una voce serve_file_altrui (patch senza commit) si controlla solo a mano",
+      "esito": "ancora_vero",
+      "prova": "cervello/prova-rimessa.mjs:276-278 (deposito ad-mycity)",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "se git status --porcelain non è vuoto (node_modules escluso) si ferma con no()",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "file della macchina, non del sito",
+      "falla": false
+    },
+    {
+      "chiave": "qa-flussi|lo stesso carrello rimandato con un'altra fascia riceve «fatto» con l'ordine vecchio",
+      "esito": "ancora_vero",
+      "prova": "app/checkout/page.tsx:1008-1012; app/api/orders/cod/route.ts:525-549",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "l'impronta del carrello non contiene la fascia; il server restituisce ordiniGia senza confrontare la fascia (finestra 12h)",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "qa-flussi|nel reclamo non si può allegare la foto del prodotto rotto, mentre nel reso sì",
+      "esito": "ancora_vero",
+      "prova": "app/orders/[id]/dispute/page.tsx:225-228; app/api/disputes/route.ts:66",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "il body ha solo orderId, reason e description; nessuna migrazione aggiunge foto a disputes",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "ora il reclamo passa da /api/disputes, sempre senza foto",
+      "falla": false
+    },
+    {
+      "chiave": "qa-flussi|nessun giro notturno di mutazioni sul percorso dei soldi: un controllo nuovo su incasso o bonifico puo' entrare senza una prova che lo tenga",
+      "esito": "ancora_vero",
+      "prova": "cd marketplace && ls .github/workflows && grep -rli \"stryker\\|mutation\" .github package.json",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "solo backup-db, ci, deploy-dopo-ci, deriva-migrazioni-produzione, migrazioni-a-mano; nessun test di mutazione",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "qa-flussi|nessuno svuota user_carts dopo un ordine pagato con la carta senza rientro",
+      "esito": "ancora_vero",
+      "prova": "cd marketplace && grep -rn user_carts app lib components",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "lo toccano solo CambiaAccount, CartCrossDeviceSync e l'export; webhook e rotte d'ordine mai",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "qa-flussi|ogni visitatore senza account fa una richiesta rifiutata alla vista dei nomi su ogni scheda prodotto e vetrina",
+      "esito": "ancora_vero",
+      "prova": "migrations/164:111-112; migrations/425:185; components/ProductQA.tsx:73; components/store-sections/useStorePageData.ts:61",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "vista concessa solo ad authenticated; i chiamanti non guardano la sessione; l'errore finisce in logger.warn",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "succede solo se ci sono domande o recensioni da firmare",
+      "falla": false
+    },
+    {
+      "chiave": "qa-flussi|privacy: una classifica degli inviti mostra dati personali oltre il necessario (inviti spenti al lancio)",
+      "esito": "ancora_vero",
+      "prova": "(nel referto privato)",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "(nel referto privato)",
+      "verificato": false,
+      "verificato_da": "(nel referto privato)",
+      "nota": "(nel referto privato)",
+      "falla": true
+    },
+    {
+      "chiave": "qa-flussi|rilanciando la migrazione 424 la validazione non si riprova, e in produzione due movimenti punti orfani vanno ripuliti prima del validate",
+      "esito": "ancora_vero",
+      "prova": "migrations/424_un_reclamo_non_resta_legato_a_un_ordine_che_non_esiste.sql:46-58",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "se il vincolo esiste già il ciclo salta tutto, VALIDATE non si ritenta; nessuna migrazione successiva lo valida",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "gli orfani in produzione non sono verificabili (database vero vietato)",
+      "falla": false
+    },
+    {
+      "chiave": "qa-flussi|se il cliente non ha il codice di consegna sotto mano, l'ordine non si chiude più: nessuna alternativa e nessun allarme",
+      "esito": "cambiato",
+      "prova": "migrations/360_l_amministratore_chiude_la_consegna.sql:66-75; app/api/cron/operational-alerts/route.ts:193-199",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "nuova chiusura admin solo per contanti in consegna, non chiamata da app/lib; carta senza alternativa; allarme solo su OUT_FOR_DELIVERY",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "aggiunta strada admin per i contanti; carta e stato PICKED_UP ancora scoperti",
+      "falla": false
+    },
+    {
+      "chiave": "qa-flussi|stesso carrello entro 12 ore con un'altra fascia o un altro indirizzo: la cassa risponde «fatto» con l'ordine di prima",
+      "esito": "ancora_vero",
+      "prova": "app/checkout/page.tsx:1008-1012; lib/ordini/tentativo.ts:1-110; app/api/orders/cod/route.ts:167",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "l'impronta contiene solo negozi/prodotti/quantità; il ramo ripetuto entro 12h restituisce gli ordini senza confrontare fascia/indirizzo",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "qa-flussi|un contesto circolare passato al logger fa lanciare un errore invece di scrivere la riga",
+      "esito": "ancora_vero",
+      "prova": "lib/logger.ts:76-77,283-284",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "redact oltre profondità 4 rimette l'oggetto originale; line() fa JSON.stringify senza try",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "rls-database|altre regole degli amministratori leggono profiles coi permessi di chi chiede invece di usare is_admin()",
+      "esito": "ancora_vero",
+      "prova": "migrations/037_rider_sos_admin_dashboard.sql:36-39; migrations/070_storage_and_rls_hardening.sql:77-80",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "le ultime definizioni usano ancora EXISTS su profiles role='admin'; la 422 le elenca come ancora da fare",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "rls-database|in produzione la tabella dei prodotti ha due regole in più che nel codice, e un indice degli ordini è doppio",
+      "esito": "non_verificabile",
+      "prova": "migrations/127_minori_22_agosto.sql:195-196; migrations/215_minori_s04_database.sql:129-135",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "il codice cancella le due regole e l'indice doppio; se in produzione sono applicate non si vede",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "serve lo stato del database vero, vietato",
+      "falla": false
+    },
+    {
+      "chiave": "rls-database|la regola di cancellazione del venditore lascia cancellare dal browser un prodotto mai venduto, senza riga in audit_logs",
+      "esito": "ancora_vero",
+      "prova": "migrations/002_categories_and_extras.sql:42-44; migrations/140_nome_prodotto_sulla_riga_ordine.sql:100-131",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "regola seller_id=auth.uid() intatta; il trigger blocca solo i prodotti venduti/recensiti; nessun audit sulla cancellazione",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "sicurezza-auth|il conteggio dei rinnovi di sessione arrivati tardi può restare a zero in produzione",
+      "esito": "ancora_vero",
+      "prova": "middleware.ts:353,528-532",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "conteggio via logger.warn dopo la risposta già partita, senza waitUntil",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "prova a runtime non fatta, confidenza media",
+      "falla": false
+    },
+    {
+      "chiave": "sicurezza-auth|il freno contro chi prova mille password vale per ogni copia del sito, perché manca il contatore condiviso",
+      "esito": "non_verificabile",
+      "prova": "lib/rate-limit.ts:136-140",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "il codice ripiega ancora sul contatore in memoria senza Upstash; non si vede se le variabili ci sono in produzione",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "le variabili di produzione su Vercel non sono consultabili (vietato)",
+      "falla": false
+    },
+    {
+      "chiave": "sicurezza-auth|l'accettazione delle condizioni e' l'unica rotta con sessione che non passa dal cancello comune: il controllo di provenienza aggiunto il 30 agosto qui non c'e'",
+      "esito": "non_piu_vero",
+      "prova": "app/api/account/accetta-condizioni/route.ts:25-30",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "arrivaDaUnAltroSito(req) controllato prima di aprire la sessione, 403 se l'origine è esterna",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "resta fuori da authenticate(), ma il controllo di provenienza c'è"
+    },
+    {
+      "chiave": "sicurezza-auth|la chiave segreta del controllo anti-robot è salvata su vercel in forma leggibile, unica fra i segreti",
+      "esito": "non_verificabile",
+      "prova": "Vercel, variabile TURNSTILE_SECRET_KEY",
+      "prova_tipo": "umano",
+      "prova_eseguita": false,
+      "esito_prova": "non è nel codice",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "solo configurazione Vercel, strumenti Vercel vietati",
+      "falla": false
+    },
+    {
+      "chiave": "sicurezza-auth|la protezione contro le password già rubate è spenta su supabase auth",
+      "esito": "non_verificabile",
+      "prova": "Supabase Auth produzione",
+      "prova_tipo": "umano",
+      "prova_eseguita": false,
+      "esito_prova": "impostazione del progetto, non nel codice",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "serve l'advisor di Supabase produzione, vietato",
+      "falla": false
+    },
+    {
+      "chiave": "stati-ui|a riga chiusa con il motivo «chiedi all'assistenza» il pulsante «avvia» resta",
+      "esito": "non_piu_vero",
+      "prova": "lib/ai/statoLavoroCatalogo.ts:39-54; app/seller/products/ai-batch/page.tsx:516; app/api/ai/catalog-batch/status/route.ts:128",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "puoAvviareLavoro esclude failed/error con «chiedi all'assistenza»; il pulsante dipende da quella",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "test unit presente ma non eseguito qui (dipendenze mancanti)"
+    },
+    {
+      "chiave": "stati-ui|mentre la cassa cerca l'indirizzo scritto a mano, «ordina» resta premibile e il fuori zona lo dice ancora il server",
+      "esito": "ancora_vero",
+      "prova": "components/checkout/ShippingAddressForm.tsx:59-94; app/checkout/page.tsx:1254-1265",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "durante la ricerca l'hook restituisce null, quindi fuoriZona=false; ordineBloccato non conta l'attesa",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "tipografia|con un solo elemento il sito scrive «1 negozi», «1 articoli», «1 ordini», «1 giorni fa»: il plurale è fisso",
+      "esito": "ancora_vero",
+      "prova": "app/seller/dashboard/page.tsx:380 · app/seller/customers/page.tsx:168,203 · app/seller/reviews/page.tsx:123",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "«${ordiniOggi} ordini», «{daysAgo} giorni fa», «{stats.count} recensioni» ancora fissi",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Ridotto: pluralize ora si usa in carrello e cassa",
+      "falla": false
+    },
+    {
+      "chiave": "tipografia|la scala delle dimensioni del testo viene scavalcata circa trecentotrenta volte",
+      "esito": "ancora_vero",
+      "prova": "cd marketplace && grep -rEo \"text-\\[[^]]*(px|rem|em)\\]\" app components lib | wc -l",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "223 dimensioni fuori scala; ProductCard ripulito",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Calato da circa 330 a 223",
+      "falla": false
+    },
+    {
+      "chiave": "layout-responsive|in chi siamo i due pulsanti della fascia scura finale escono dalla fascia a 280 px col testo al 200%",
+      "esito": "non_verificabile",
+      "prova": "app/about/page.tsx:226-247",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "Aggiunti max-[300px]:px-3 e max-w-full, la fascia resta p-8; stima circa 196px su 168px utili",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Serve una misura nel browser: qui non ci sono node_modules",
+      "falla": false
+    },
+    {
+      "chiave": "privacy-legale|«chi siamo» e «lavora con noi» raccontano una flotta di rider, una crescita e quattro posti di lavoro che oggi non esistono",
+      "esito": "ancora_vero",
+      "prova": "app/lavora-con-noi/page.tsx:71-100 · app/about/page.tsx:213-217",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "Restano 4 posizioni aperte, fra cui «Coordinatore flotta rider»; chi siamo dice «consegne in bici», «cresceremo»",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Chi siamo ammorbidito; le quattro posizioni restano",
+      "falla": false
+    },
+    {
+      "chiave": "frontend-ux|anche i campi brevi delle categorie nel pannello admin tagliano in silenzio con maxlength",
+      "esito": "ancora_vero",
+      "prova": "app/admin/categories/page.tsx:72-74,150-151",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "maxLength 60/8 sugli Input; Field non ha contatore né avviso",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "api-backend|un doppio clic su «conferma i contanti ricevuti» registra due rimesse invece di una",
+      "esito": "non_piu_vero",
+      "prova": "components/ui/Button.tsx:99-110 · migrations/501_la_rimessa_conferma_solo_gli_ordini_visti.sql:66-69",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "Il pulsante si disabilita durante l'invio; la rimessa è un upsert sulla chiave unica (rider_id, for_date)",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Al massimo resta una seconda riga nel registro delle azioni con 0 ordini"
+    },
+    {
+      "chiave": "dati-analytics|la percentuale dei pagamenti con carta oltre ventimila tentativi diventa un campione senza dirlo",
+      "esito": "ancora_vero",
+      "prova": "app/admin/page.tsx:138 · lib/supabase/blocchi.ts:70-94",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "leggiTutteLeRighe ha tetto 20000 e restituisce troncato; la Panoramica non lo guarda",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "privacy-legale|accogliendo la segnalazione di un negozio, se la lettura del negozio cade, il negozio resta online ma la decisione «accolta» si registra",
+      "esito": "ancora_vero",
+      "prova": "app/admin/segnalazioni/page.tsx:113-131",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "L'errore della lettura di profiles non si guarda: negozio null, sospensione saltata, segnalazione «accolta» lo stesso",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "api-backend|oltre mille iscritti la pagina utenti perde in silenzio email e ultimo accesso degli altri",
+      "esito": "ancora_vero",
+      "prova": "app/admin/users/page.tsx:155-159",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "rpc admin_list_user_emails senza range né paginazione: vale il tetto di 1000 righe, nessun avviso",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "qa-flussi|il nome del negozio nel pannello admin non ha il tetto di 80 caratteri: oltre, il database lo rifiuta col messaggio generico",
+      "esito": "ancora_vero",
+      "prova": "app/admin/users/page.tsx:1023 · lib/errors.ts:24",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "Il campo non ha maxLength; il trigger rifiuta con 23514, mostrato come «Il valore inserito non è valido.»",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "sicurezza-auth|il cambio di ruolo di un utente non finisce nel registro delle azioni amministrative",
+      "esito": "ancora_vero",
+      "prova": "app/admin/users/page.tsx:384-387",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "saveUser aggiorna profiles direttamente dal browser, senza writeAudit; il trigger non scrive nel registro",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Lo fa solo l'admin autorizzato: manca la traccia, non c'è accesso indebito",
+      "falla": false
+    },
+    {
+      "chiave": "sicurezza-auth|se la notifica non parte nessuno lo sa, e i tre passi non sono legati",
+      "esito": "cambiato",
+      "prova": "app/api/admin/users/[id]/moderate/route.ts:341-347,406-422 · app/admin/users/page.tsx:314-315",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "La notifica fallita ora si registra e torna come avviso all'admin; i passi restano separati",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Riparata la parte «nessuno lo sa»; i passi non sono legati",
+      "falla": false
+    },
+    {
+      "chiave": "ai-endpoints|due funzioni ai sono pubblicate ma nessuna pagina le usa: la bozza di risposta ai clienti e il riassunto delle recensioni",
+      "esito": "ancora_vero",
+      "prova": "cd marketplace && grep -rn \"answer-qa\\|reviews-summary\" app components lib | grep -v ^app/api/ai/",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "Le rotte esistono; nessun riferimento fuori da app/api/ai",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "ai-endpoints|l attesa per un applicazione del catalogo ancora in corso non scatta mai: legge una colonna che nessuna migrazione crea",
+      "esito": "ancora_vero",
+      "prova": "cd marketplace && grep -rln applicazione_finita_il --include=*.sql .",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "Nessun file SQL crea la colonna, la migrazione 750 non c'è; start/route.ts:132-146 su 42703 va avanti",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "architettura|commenti delle rotte della veloce dicono ancora «un fattorino approvato e online»",
+      "esito": "cambiato",
+      "prova": "cd marketplace && grep -rn \"approvato e online\" app lib",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "Sparita da veloce/route.ts e orders/cod/route.ts; resta in app/api/stripe/checkout/route.ts:530 e app/checkout/page.tsx:661",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "Ora la frase vive nella rotta della carta e nella pagina della cassa",
+      "falla": false
+    },
+    {
+      "chiave": "privacy-legale|chi rifiuta le statistiche dopo averle accettate si tiene l'identificativo di un anno, e al sì successivo le visite nuove si riattaccano a quelle di prima",
+      "esito": "non_piu_vero",
+      "prova": "app/api/consent/route.ts:121-129; app/api/track/route.ts:155-159",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "col no alle statistiche il server mette mc_vid a maxAge 0 (R32-011); anche track lo cancella se manca il consenso",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null
+    },
+    {
+      "chiave": "deploy-sre|l'avviso «registratore degli errori acceso solo sul server» resta finché non si rifà il deploy",
+      "esito": "ancora_vero",
+      "prova": "app/api/cron/operational-alerts/route.ts:719-735",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "l'avviso dipende dalle variabili d'ambiente, la variabile del browser entra solo alla build; il testo dice già «rifai il deploy»",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "comportamento voluto: l'onda precedente l'aveva lasciato aperto come non_codice",
+      "falla": false
+    },
+    {
+      "chiave": "qa-flussi|il sorvegliante avvisa per una verifica d'identità «in attesa» anche dopo che lo staff ha approvato il fattorino o il negozio",
+      "esito": "ancora_vero",
+      "prova": "app/api/cron/operational-alerts/route.ts:254-263; app/api/admin/users/[id]/moderate/route.ts:83",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "la query filtra solo kyc_provider_status=PENDING, non lo stato di approvazione; approve non tocca kyc_provider_status",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "api-backend|il tetto della notte lascia indietro gli account nell'ordine della rpc, non dal più vecchio: chi è già oltre il mese può essere rimandato ogni notte, senza avviso del termine",
+      "esito": "ancora_vero",
+      "prova": "migrations/572_la_cancellazione_aspetta_gli_ordini_aperti_del_negozio.sql:32-55; app/api/cron/process-deletions/route.ts:223,243-245",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "la RPC non ha ORDER BY e la rotta non riordina; c'è un avviso generico del tetto, non uno sul termine",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "api-backend|il tetto di tempo della notte non è rigido: l'ultimo account preso può sforare, e la cancellazione di un account non ha un limite di tempo suo",
+      "esito": "ancora_vero",
+      "prova": "app/api/cron/process-deletions/route.ts:245; lib/account/cancellazione.ts:932",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "il tetto si guarda solo prima di prendere l'account; cancellaAccount non ha né timeout né AbortSignal",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "api-backend|la chiusura dello «scrivile tu» gira dopo il tetto delle email e non ha un suo tetto di tempo",
+      "esito": "non_piu_vero",
+      "prova": "app/api/cron/process-deletions/route.ts:107,842,897,902,942",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "TETTO_CHIUSURE_MS=280000 controllato in ogni ciclo delle chiusure (R02-001)",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null
+    },
+    {
+      "chiave": "api-backend|se lo stesso guasto della pulizia dei dati vecchi torna dopo essere stato letto, gli amministratori non ricevono più l'allarme",
+      "esito": "non_piu_vero",
+      "prova": "app/api/cron/process-deletions/route.ts:209,639-652",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "nella notte in cui tutte le pulizie riescono gli allarmi «Dati vecchi non cancellati» si cancellano: il guasto che torna ne scrive uno nuovo",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null
+    },
+    {
+      "chiave": "api-backend|un account preso poco prima del tetto del ciclo non ha un tempo suo",
+      "esito": "ancora_vero",
+      "prova": "app/api/cron/process-deletions/route.ts:245,261; lib/account/cancellazione.ts:932",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "nessun limite di tempo per singolo account",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "privacy-legale|chi annulla la cancellazione dell'account mentre gira il giro notturno viene cancellato lo stesso",
+      "esito": "cambiato",
+      "prova": "app/api/cron/process-deletions/route.ts:256,751-759; app/api/account/delete/route.ts:199-212",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "si rilegge la richiesta prima di ogni account, ma non prima di deleteUser; l'annullo risponde ok senza controllo",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "la finestra si è ristretta dall'intera notte alla sola durata della cancellazione di quell'account",
+      "falla": false
+    },
+    {
+      "chiave": "pagamenti-stripe|con la carta il fattorino viene pagato o no su un ordine rimborsato a seconda dell'orario del rimborso",
+      "esito": "ancora_vero",
+      "prova": "lib/stripe/payout.ts:913-915,2550-2556,596-615; app/api/cron/release-payouts/route.ts:302-312",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "il rimborso pieno storna il compenso solo se già TRANSFERRED; prima del versamento il giro lo paga comunque",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "api-backend|una notifica push presa dal giro del cron si perde per sempre se il giro muore prima di mandarla o ridarla",
+      "esito": "non_piu_vero",
+      "prova": "app/api/cron/send-push/route.ts:58-65,213-230",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "il giro del cron non prenota niente: pushed_at si scrive solo dopo la consegna, se il giro muore la notifica si ritenta entro un'ora",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "la prenotazione esiste solo in lib/push/subito.ts, che nessuna rotta chiama"
+    },
+    {
+      "chiave": "qa-flussi|nel cron delle notifiche restano altri codici di sessione nei commenti, come quello appena tolto",
+      "esito": "ancora_vero",
+      "prova": "cd marketplace && grep -n \"R[0-9]\\|#[0-9]\" app/api/cron/send-push/route.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "R28-006 (41), R009 (46), #245 (52), R26-003 (75), R076 (128,176), 🟠-10 (213)",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "qa-flussi|faccine nei titoli delle notifiche scritte dal codice del sito",
+      "esito": "ancora_vero",
+      "prova": "script python con regex emoji su lib/stripe/webhook/*.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "più di 40 titoli con ⚠️ ✅ 💶 ✨ 📭, es. abbonamenti.ts:195, trasferimenti.ts:135, servizi.ts:136",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "sulle 3 rotte nominate non ne restano fuori dai commenti; nei webhook sì",
+      "falla": false
+    },
+    {
+      "chiave": "qa-flussi|fra «il negozio ha accettato» e «consegnato» il cliente non ha nessuna via d'uscita",
+      "esito": "ancora_vero",
+      "prova": "app/api/orders/[id]/cancel/route.ts:53; app/orders/[id]/page.tsx:554-600; app/api/returns/create/route.ts:81",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "annullo solo da NEW, reclamo e reso solo da consegnato; restano «Contatta il negozio» e le FAQ",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "microcopy|la conferma al cliente conta il giorno da quando parte l'email, non da quando è nato l'ordine",
+      "esito": "ancora_vero",
+      "prova": "lib/email/templates.ts:152; lib/stripe/webhook/ordini.ts:537; app/api/orders/cod/route.ts:1893",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "il template usa createdAt ?? new Date(), ma nessuno dei due chiamanti passa createdAt",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    }
+  ],
   "prove_per_la_palestra": [],
   "domande_per_nicola": [],
-  "conto": { "agenti": 0, "permesso_regista": null, "usd": null, "usd_perche": null, "token_sessione": {}, "token_subagenti": {}, "nota": "" }
+  "conto": {
+    "agenti": 8,
+    "permesso_regista": null,
+    "usd": 10.79,
+    "usd_perche": null,
+    "token_sessione": {
+      "agenti": 1,
+      "agenti_misurati": 1,
+      "turni": 24,
+      "input": 47,
+      "scritti_cache": 190795,
+      "letti_cache": 4255510,
+      "uscita": 45811,
+      "entrata_totale": 4446352
+    },
+    "token_subagenti": {
+      "agenti": 8,
+      "agenti_misurati": 8,
+      "turni": 336,
+      "input": 672,
+      "scritti_cache": 572619,
+      "letti_cache": 21879889,
+      "uscita": 123056,
+      "entrata_totale": 22453180
+    },
+    "nota": "8 subagenti qa, uno per lotto; nessun verificatore: tutte le voci sono minori. usd da get_session (usage.cost_usd 10.786) a composizione del referto."
+  }
 }
