@@ -63,7 +63,7 @@ export const FASCE = {
   },
   business: {
     nome: 'Business', centesimi: 50000, post: 12, video: 2,
-    inPratica: { sito: 'Più pagine col vostro nome', piano: '12 contenuti al mese, 2 sono video', foto: 'Una sessione ogni tre mesi e un video al mese', analisi: 'Una ogni mese' },
+    inPratica: { sito: 'Più pagine col vostro nome', piano: '12 contenuti al mese, di cui 2 video brevi', foto: 'Una sessione di foto ogni tre mesi, più un video al mese', analisi: 'Una ogni mese' },
     perChi: 'Per crescere ogni settimana: più contenuti, più clienti che ti trovano.',
     servizi: [
       ['Foto e video', 'Foto all’avvio e una nuova sessione ogni tre mesi, più un video al mese.'],
@@ -123,8 +123,37 @@ export function pagamentoDalRegistro(registro) {
   return v || null;
 }
 
-/** I testi della proposta. Fino al 26/11 il blocco si chiamava «preventivo»: i dati vecchi valgono ancora. */
-const proposta = (d) => d?.proposta ?? d?.preventivo ?? {};
+/**
+ * I testi della proposta. Fino al 26/11 il blocco si chiamava «preventivo»: si legge ancora, unito a
+ * «proposta» (che vince campo per campo). Così chi aggiunge solo `proposta.su_misura` a un dati.json
+ * vecchio non perde il piano editoriale.
+ */
+const proposta = (d) => ({ ...(d?.preventivo ?? {}), ...(d?.proposta ?? {}) });
+
+/**
+ * Cosa una fascia NON dà, in parole che una frase su misura non può usare (collaudo del 26/11: «Base
+ * con due video al mese e la visita nel locale» passava). Le parole vengono da FASCE[*].servizi.
+ */
+const NON_DA = {
+  base: [/\bvideo\b/i, /\bstorie\b/i, /referente/i, /\bvisit/i, /più pagine/i, /ogni (tre )?mes[ei]/i, /ogni settimana/i, /incontr/i],
+  business: [/\bstorie\b/i, /referente/i, /\bvisit/i, /ogni settimana/i, /incontr/i, /foto e video ogni mese/i],
+  premium: [],
+};
+
+/** I numeri di contenuti e video detti in una frase devono essere quelli della fascia. */
+function promesseSbagliate(id, frase) {
+  const f = FASCE[id];
+  const errori = [];
+  for (const re of NON_DA[id] ?? []) if (re.test(frase)) errori.push(`personalizzazione: il ${f.nome} non dà «${frase.match(re)[0]}» (proposta.su_misura.${id})`);
+  for (const m of frase.matchAll(/(\d+)\s+(?:contenuti|post)(\s+(?:a|alla|ogni)\s+settimana)?/gi)) {
+    const al_mese = Number(m[1]) * (m[2] ? 4 : 1);
+    if (al_mese !== f.post) errori.push(`personalizzazione: «${m[0]}» col ${f.nome}, che ne dà ${f.post} al mese (proposta.su_misura.${id})`);
+  }
+  for (const m of frase.matchAll(/(\d+)\s+video/gi)) {
+    if (Number(m[1]) !== f.video) errori.push(`personalizzazione: «${m[0]}» col ${f.nome}, che ne dà ${f.video} al mese (proposta.su_misura.${id})`);
+  }
+  return errori;
+}
 
 export function controlla(d, canoni, pagamento) {
   const errori = [];
@@ -168,8 +197,10 @@ export function controlla(d, canoni, pagamento) {
   // ⑤ la personalizzazione per abbonamento: una frase su misura per ognuno, e diverse tra loro
   const sm = proposta(d).su_misura ?? {};
   const frasi = Object.keys(FASCE).map((id) => String(sm[id] ?? '').trim());
+  const vecchio = d?.preventivo && !d?.proposta ? ' — il blocco «preventivo» dei dati fatti prima del 26/11 ora si chiama «proposta»: rinominalo e aggiungi su_misura' : '';
   Object.entries(FASCE).forEach(([id, fx], i) => {
-    if (frasi[i].length < 20) errori.push(`personalizzazione: manca cosa riceve questo cliente col ${fx.nome} (proposta.su_misura.${id})`);
+    if (frasi[i].length < 20) errori.push(`personalizzazione: manca cosa riceve questo cliente col ${fx.nome} (proposta.su_misura.${id})${vecchio}`);
+    else errori.push(...promesseSbagliate(id, frasi[i]));
   });
   if (frasi.every((x) => x.length >= 20) && new Set(frasi).size < frasi.length) errori.push('personalizzazione: due abbonamenti hanno la stessa frase, ognuno deve dire cosa cambia');
   // ⑥ come si paga: dal registro dei fatti, mai scritto a memoria
@@ -177,18 +208,29 @@ export function controlla(d, canoni, pagamento) {
   return errori;
 }
 
+const host = (u) => { try { return new URL(/^https?:\/\//i.test(u) ? u : `https://${u}`).hostname.replace(/^www\./, '').toLowerCase(); } catch { return ''; } };
+/** Un recapito di persona dentro un testo: un'email, o un numero di telefono (almeno 8 cifre di fila, anche con spazi). */
+const haRecapito = (v) => /@[a-z0-9-]+\.[a-z]{2,}/i.test(v) || (String(v).match(/[\d+][\d .\/-]*\d/g) ?? []).some((x) => x.replace(/\D/g, '').length >= 8);
+
 /**
  * Dopo il sì del titolare: i dati PUBBLICI dell'attività per il flusso 20 di n8n («Iscrivi il cliente in
- * MyCity»), che crea il negozio nascosto e il link col preventivo. Mai dati del titolare. L'indirizzo
- * entra solo se è stato trovato; il sito solo se è «confermato» (aperto sulla pagina dell'attività).
+ * MyCity»), che crea il negozio nascosto e il link col preventivo. Mai dati del titolare: un numero o
+ * un'email nel nome, nel tipo o nell'indirizzo ferma tutto. L'indirizzo entra solo se è «confermato» o
+ * «da confermare» (non un indizio). Il sito entra solo se è UNO, con la voce «Sito» (o «Sito 1», «Sito
+ * ufficiale»), «confermato», e la pagina da cui viene è il sito stesso: mai una pagina di elenco, mai il
+ * sito di un vicino. Se i siti confermati sono più d'uno, non ne parte nessuno.
  */
 export function datiIscrizione(d) {
   const campi = d?.campi ?? [];
-  const trovato = (re) => campi.find((c) => re.test(c.voce) && c.stato !== 'non_trovato' && c.valore);
-  const sito = campi.find((c) => /^sito/i.test(c.voce) && c.stato === 'confermato' && /^https:\/\//.test(c.fonte ?? ''));
+  const indirizzo = campi.find((c) => /^indirizzo$/i.test(c.voce) && ['confermato', 'da_confermare'].includes(c.stato) && c.valore);
+  const siti = campi.filter((c) => /^sito(\s+(\d+|ufficiale))?$/i.test(c.voce) && c.stato === 'confermato' && c.valore
+    && /^https:\/\//.test(c.fonte ?? '') && host(c.fonte) && host(c.fonte) === host(String(c.valore).split(/\s/)[0]));
   const dati = { nome: String(d.nome).trim(), citta: String(d.citta ?? 'Piacenza').trim(), tipo: String(d.tipo ?? '').slice(0, 80).trim() };
-  if (trovato(/^indirizzo$/i) && d.indirizzo) dati.indirizzo = String(d.indirizzo).slice(0, 200);
-  if (sito) dati.sito = sito.fonte;
+  if (indirizzo && d.indirizzo) dati.indirizzo = String(d.indirizzo).slice(0, 200);
+  if (siti.length === 1) dati.sito = `https://${host(siti[0].fonte)}`;
+  for (const [k, v] of Object.entries(dati)) {
+    if (k !== 'sito' && haRecapito(v)) throw new Error(`iscrizione: in «${k}» c'è un numero o un'email («${v}»): al flusso 20 vanno solo dati pubblici dell'attività, mai recapiti di persone`);
+  }
   return dati;
 }
 
@@ -328,7 +370,7 @@ export function paginaProposta(d, pagamento) {
   const consigliato = d.consigliato;
   // La personalizzazione (Nicola, 26/11): cosa cambia, in pratica, per QUESTO cliente con ogni abbonamento.
   const ids = Object.keys(FASCE);
-  const cella = (id, testo) => `<td data-l="${esc(FASCE[id].nome)}"${id === consigliato ? ' class="scelta"' : ''}>${esc(testo)}</td>`;
+  const cella = (id, testo) => `<td data-l="${esc(FASCE[id].nome)}${id === consigliato ? ' · consigliato' : ''}"${id === consigliato ? ' class="scelta"' : ''}>${esc(testo)}</td>`;
   const riga = (titolo, testoDi) => `<tr><th scope="row">${esc(titolo)}</th>${ids.map((id) => cella(id, testoDi(id))).join('')}</tr>`;
   const cambia = [
     riga('Per voi, in pratica', (id) => pv.su_misura?.[id] ?? ''),
@@ -412,14 +454,16 @@ function principale(argv) {
   if (errori.length) { console.error(`✗ ${dati.nome ?? cartella}: ${errori.length} problemi\n  · ${errori.join('\n  · ')}`); return 1; }
   if (argv.includes('--solo-controlla')) { console.log(`✓ ${dati.nome}: i dati passano i controlli`); return 0; }
   // Dopo il sì del titolare: solo i dati per il flusso 20, niente pagine.
-  if (argv.includes('--iscrizione')) { console.log(JSON.stringify(datiIscrizione(dati), null, 2)); return 0; }
+  if (argv.includes('--iscrizione')) {
+    try { console.log(JSON.stringify(datiIscrizione(dati), null, 2)); return 0; } catch (e) { console.error(`✗ ${e.message}`); return 1; }
+  }
   fs.writeFileSync(path.join(cartella, 'scheda.html'), paginaScheda(dati));
   fs.writeFileSync(path.join(cartella, 'proposta.html'), paginaProposta(dati, pagamento));
   fs.writeFileSync(path.join(cartella, 'bozza-sito.html'), paginaSito(dati));
   const n = (dati.campi ?? []).length; const conf = (dati.campi ?? []).filter((c) => c.stato === 'confermato').length;
   console.log(`✓ ${dati.nome}: scheda, proposta e bozza del sito scritti in ${cartella} · ${n} dati, ${conf} confermati · consigliato ${FASCE[dati.consigliato].nome}`);
   console.log('  Il preventivo nasce solo dopo il sì del titolare: allora --iscrizione dà i dati per il flusso 20.');
-  if (fs.existsSync(path.join(cartella, 'preventivo.html'))) console.log('  ⚠ c’è ancora preventivo.html del modello vecchio: la proposta adesso è proposta.html (rinominalo con git mv).');
+  if (fs.existsSync(path.join(cartella, 'preventivo.html'))) console.log('  ⚠ c’è ancora preventivo.html del modello vecchio: la proposta adesso è proposta.html. Toglilo con «git rm preventivo.html»: la storia di git lo conserva.');
   return 0;
 }
 

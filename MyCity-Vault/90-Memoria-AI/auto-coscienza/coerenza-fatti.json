@@ -1,11 +1,11 @@
 {
-  "data": "2026-11-26 16:27",
+  "data": "2026-11-26 16:31",
   "esito": "ok",
   "copertura": 2186,
   "origine": "cloud",
   "scritto_da": "coerenza-fatti.mjs",
   "fatti_totali": 84,
-  "cacce_aperte": 66,
+  "cacce_aperte": 67,
   "file_scansionati": 2186,
   "incoerenze": [],
   "cacce": [
@@ -367,6 +367,12 @@
       "fatto": "sdg.abbonamenti",
       "pattern": "Tre abbonamenti mensili ai servizi: Base 300 euro, Business 500 euro, Premium 999 euro. Sono servizi di MyCity realizzati da SDG Agenzia, il partner di MyCity per foto, video, social e web (Nicola, 24/11: «sono servizi che offre mycity, ma tramite SDG»). Ognuno comprende foto e video, social, sito web e scheda Google, in misura diversa (proposta dell'AD, da confermare). Oltre al canone resta il 10% sui prodotti venduti tramite MyCity, perché la consegna va pagata (Nicola, 26/11/2026 verso le 14:15; vedi pricing.commissione). Sui servizi prenotati e pagati dal sito è ancora aperto. Condizioni: nessun vincolo di durata, disdetta con 30 giorni di preavviso, primo mese a metà prezzo. Il negozio li sceglie e li paga dentro il sito, dalla pagina «Il tuo preventivo» (pagamento con carta via Stripe, abbonamento mensile), in un ramo che aspetta la firma di Nicola. Primo cliente: Ora del Gusto (bar e pasticceria, Piacenza).",
       "dal": "2026-11-26 16:24",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "sdg.abbonamenti",
+      "pattern": "Tre abbonamenti mensili ai servizi: Base 300 euro, Business 500 euro, Premium 999 euro. Sono servizi di MyCity realizzati da SDG Agenzia, il partner di MyCity per foto, video, social e web (Nicola, 24/11: «sono servizi che offre mycity, ma tramite SDG»). Ognuno comprende foto e video, social, sito web e scheda Google, in misura diversa (proposta dell'AD, da confermare). Solo canone, nessuna percentuale. Condizioni: nessun vincolo di durata, disdetta con 30 giorni di preavviso, primo mese a metà prezzo. Il titolare li vede coi prezzi nella proposta e li accetta dal link del preventivo; per ora li paga in contanti, di persona (sdg.pagamento, Nicola 26/11): il pagamento con carta dentro il sito è spento finché la piattaforma dei pagamenti non è pronta. Primo cliente: Ora del Gusto (bar e pasticceria, Piacenza).",
+      "dal": "2026-11-26 16:31",
       "copie_trovate": 0
     },
     {

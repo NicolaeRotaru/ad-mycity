@@ -164,3 +164,38 @@ test('⑧ dopo il sì: i dati per il flusso 20 sono solo quelli pubblici, mai un
   n.campi.find((k) => k.voce === 'Indirizzo').stato = 'non_trovato';
   assert.equal(datiIscrizione(n).indirizzo, undefined, 'un indirizzo non trovato non parte');
 });
+
+test('⑨ dal collaudo del 26/11: promesse sbagliate, iscrizione pulita, dati vecchi', () => {
+  const d = leggi(CLIENTI[0]);
+  // promesse che la fascia non mantiene
+  const a = copia(d); a.proposta.su_misura.base = 'Due post a settimana con 2 video al mese e la visita nel locale ogni mese.';
+  const ea = controlla(a, CANONI, PAGAMENTO);
+  assert.ok(ea.some((e) => e.includes('il Base non dà «video»')), ea.join(' | '));
+  assert.ok(ea.some((e) => e.includes('«2 video» col Base')), ea.join(' | '));
+  assert.ok(ea.some((e) => e.includes('il Base non dà «visit»')), ea.join(' | '));
+  const b = copia(d); b.proposta.su_misura.business = 'Le storie ogni giorno e un referente tutto vostro, con 20 contenuti al mese.';
+  const eb = controlla(b, CANONI, PAGAMENTO);
+  assert.ok(eb.some((e) => e.includes('il Business non dà «storie»')), eb.join(' | '));
+  assert.ok(eb.some((e) => e.includes('il Business non dà «referente»')), eb.join(' | '));
+  assert.ok(eb.some((e) => e.includes('«20 contenuti» col Business')), eb.join(' | '));
+  // iscrizione: mai un sito di elenco o di un vicino, mai un recapito, mai un indirizzo incerto
+  const t = copia(d); t.campi.push({ voce: 'Sito 1', valore: 'tripadvisor.it/Restaurant-ora', stato: 'confermato', fonte: 'https://www.tripadvisor.it/Restaurant-ora' });
+  t.campi.find((c) => c.voce === 'Sito 1' && c.stato === 'da_confermare').stato = 'confermato';
+  assert.equal(datiIscrizione(t).sito, undefined, 'un sito letto su un elenco non parte');
+  const v = copia(d); v.campi.push({ voce: 'Sito del vicino (Pizzium)', valore: 'pizzium.com', stato: 'confermato', fonte: 'https://pizzium.com' });
+  assert.equal(datiIscrizione(v).sito, undefined, 'il sito di un vicino non parte');
+  const due = copia(d); due.campi.push({ voce: 'Sito ufficiale', valore: 'oradelgusto.it', stato: 'confermato', fonte: 'https://oradelgusto.it' }, { voce: 'Sito 2', valore: 'oradelgusto.eatbu.com', stato: 'confermato', fonte: 'https://oradelgusto.eatbu.com' });
+  due.campi = due.campi.filter((c) => !(c.voce === 'Sito 2' && c.stato === 'da_confermare'));
+  assert.equal(datiIscrizione(due).sito, undefined, 'con due siti confermati non ne parte nessuno');
+  const tel = copia(d); tel.tipo = 'Bar, cell. 333 123 4567';
+  assert.throws(() => datiIscrizione(tel), /numero o un'email/);
+  const fr = copia(d); fr.campi.find((c) => c.voce === 'Indirizzo').stato = 'frammento';
+  assert.equal(datiIscrizione(fr).indirizzo, undefined, 'un indirizzo che è solo un indizio non parte');
+  // dati vecchi: il blocco «preventivo» si legge ancora, e l'errore dice cosa fare
+  const vecchio = copia(d); vecchio.preventivo = vecchio.proposta; delete vecchio.proposta; delete vecchio.preventivo.su_misura;
+  assert.ok(controlla(vecchio, CANONI, PAGAMENTO).some((e) => e.includes('ora si chiama «proposta»')));
+  const misto = copia(vecchio); misto.proposta = { su_misura: d.proposta.su_misura };
+  assert.deepEqual(controlla(misto, CANONI, PAGAMENTO), [], 'aggiungere solo proposta.su_misura a un dati.json vecchio basta');
+  // su telefono il consigliato si vede anche senza l'intestazione
+  assert.match(paginaProposta(d, PAGAMENTO), /data-l="Business · consigliato"/);
+});

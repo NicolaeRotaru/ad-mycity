@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-11-26 15:01",
+  "aggiornato": "2026-11-26 16:35",
   "scansioni": [
     {
       "quando": "2026-08-25 20:35",
@@ -8313,6 +8313,50 @@
         "cervello/allocazione-check.mjs": "36d937869e21",
         "cervello/censimento-macchina.mjs": "6747b4d399d7",
         "cervello/scheda-cliente.mjs": "9e41f25ee35a"
+      }
+    },
+    {
+      "quando": "2026-11-26 16:34",
+      "casa": "marketplace",
+      "dimensione": "api-backend",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "app/api/preventivo/[codice]/accetta/route.ts": "dd1d4cf51017",
+        "app/api/preventivo/[codice]/paga/route.ts": "b2cf97f2ccee",
+        "app/api/seller/preventivo/paga/route.ts": "4fc4887f9e41"
+      }
+    },
+    {
+      "quando": "2026-11-26 16:35",
+      "casa": "macchina",
+      "dimensione": "cadenza-esecuzione",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        ".claude/skills/scheda-da-foto/SKILL.md": "933949c2324e"
+      }
+    },
+    {
+      "quando": "2026-11-26 16:35",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/scheda-cliente.mjs": "5808744085a5"
       }
     }
   ]
