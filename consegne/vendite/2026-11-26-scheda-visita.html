@@ -121,10 +121,20 @@ tr:last-child td, tr:last-child th { border-bottom: 0; }
 
 a:focus-visible { outline: 2px solid var(--cotto); outline-offset: 2px; }
 
+
+/* Su misura: un riquadro per tipo di attività */
+.misura { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.misura > li { background: var(--foglio); border: 1px solid var(--filo); border-radius: 12px; padding: 12px 14px; display: grid; gap: 4px; }
+.misura h3 { font-family: var(--display); font-size: 18px; font-weight: 700; margin: 0; color: var(--cotto); }
+.misura p { font-size: 15px; }
+.misura .riga { color: var(--tenue); font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: .04em; margin-right: 4px; }
+.misura .dire { font-size: 16.5px; }
+.inpiu { border-top: 1px dashed var(--filo); padding-top: 10px; }
+
 @media print {
-  @page { size: A4; margin: 12mm 13mm; }
+  @page { size: A4; margin: 10mm 12mm; }
   :root { --carta: #FFFFFF; --foglio: #FFFFFF; }
-  body { font-size: 10pt; line-height: 1.42; padding: 0; }
+  body { font-size: 10pt; line-height: 1.38; padding: 0; }
   /* In stampa la griglia si spezza male fra le pagine: tutto scorre come blocchi. */
   .pagina, .facce, .faccia, section, .testata, .tre, .tre ol, .servizi, .dire-lista, .domande, .passi, .no, .consigli { display: block; }
   .pagina > * + *, .faccia > * + * { margin-top: 12pt; }
@@ -142,13 +152,20 @@ a:focus-visible { outline: 2px solid var(--cotto); outline-offset: 2px; }
   .tre li::before { background: var(--cotto); color: #FFFFFF; }
   .prima { padding: 8pt 10pt; }
   .etichetta-faccia { break-after: avoid; }
-  .retro { break-before: page; }
+  .retro { break-before: auto; }
   table { min-width: 0; font-size: 9pt; }
   th, td { padding: 4pt 6pt; }
   thead th { font-size: 12pt; }
   .num { font-size: 10.5pt; }
   .tabella-box, .domande li, .passi li, .servizi li, .dire-lista li, .tre, .prima, .no li { break-inside: avoid; }
   .piede { margin-top: 14pt; }
+}
+@media print {
+  .misura { display: block; }
+  .misura > li + li { margin-top: 6pt; }
+  .misura > li { display: grid; gap: 2pt; padding: 7pt 9pt; break-inside: avoid; }
+  .misura h3 { font-size: 12.5pt; }
+  .misura p, .misura .dire { font-size: 10pt; }
 }
 @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
 </style>
@@ -158,11 +175,12 @@ a:focus-visible { outline: 2px solid var(--cotto); outline-offset: 2px; }
   <header class="testata">
     <div class="marchio">MyCity · Piacenza</div>
     <h1>Cosa dire al titolare, in parole semplici</h1>
-    <p class="sottotitolo">Da tenere sul telefono durante la visita. Dai del lei, finché non è lui a darti del tu. Parla di clienti, incassi e tempo: mai di «tecnologia».</p>
+    <p class="sottotitolo">Da tenere sul telefono durante la visita. Parti da quello che gli serve: social, Google, foto e video, sito. La vendita su MyCity viene dopo, come un di più. Dai del lei. Parla di clienti, incassi e tempo, mai di «tecnologia». Le parole contano: decidono come ti vede il titolare. Frasi chiare, che non si possano capire male, dette da professionista alla pari.</p>
     <ul class="indice" aria-label="Vai a">
       <li><a href="#prima">Prima di entrare</a></li>
       <li><a href="#apertura">Come aprire</a></li>
       <li><a href="#cosa">Cosa facciamo</a></li>
+      <li><a href="#misura">Su misura</a></li>
       <li><a href="#prezzi">Quanto costa</a></li>
       <li><a href="#domande">Domande difficili</a></li>
       <li><a href="#chiudere">Come chiudere</a></li>
@@ -172,8 +190,8 @@ a:focus-visible { outline: 2px solid var(--cotto); outline-offset: 2px; }
   <div class="tre" role="note">
     <h2>Se ricordi solo tre frasi</h2>
     <ol>
-      <li>«Facciamo tutto noi: lei non ci perde tempo e non deve imparare niente.»</li>
-      <li>«I clienti restano suoi, e niente esce senza il suo ok.»</li>
+      <li>«Social, Google, foto e sito li facciamo noi: lei pensa al locale.»</li>
+      <li>«Niente esce senza il suo ok, e i clienti restano suoi.»</li>
       <li>«Un mese alla volta, disdice quando vuole. Il primo mese costa la metà.»</li>
     </ol>
   </div>
@@ -186,35 +204,77 @@ a:focus-visible { outline: 2px solid var(--cotto); outline-offset: 2px; }
 
       <section id="prima" class="prima">
         <h2>Prima di entrare (30 secondi)</h2>
-        <p>Cerca il locale su <b>Google Maps</b> dal telefono. Guarda quante foto ha, se gli orari sono giusti, le recensioni, se ha un sito, quando ha pubblicato l'ultimo post.</p>
-        <p>Scegli <span class="chiave">una cosa concreta</span> da dirgli. Per esempio: «Su Google ha solo 3 foto, e la domenica risulta aperto.»</p>
+        <p>Cerca il locale su <b>Google Maps</b> e su <b>Instagram o Facebook</b>. Guarda quante foto ha, se gli orari sono giusti, le recensioni e se qualcuno ha avuto risposta, se ha un sito, quando ha pubblicato l'ultimo post.</p>
+        <p>Scegli <span class="chiave">una cosa concreta</span> da dirgli. Per esempio: «Su Google ha solo 3 foto, e l'ultimo post su Instagram è di agosto.»</p>
       </section>
 
       <section id="apertura">
         <h2>Come aprire</h2>
-        <p class="dire">Buongiorno, sono Nicola di MyCity. Siamo di Piacenza e lavoriamo solo con le attività di Piacenza. Le rubo due minuti: le faccio vedere come trovare clienti nuovi senza perderci tempo.</p>
+        <p class="dire">Buongiorno, sono Nicola di MyCity. Siamo di Piacenza e lavoriamo con le attività di Piacenza: ci occupiamo di social, Google, foto e sito. Mi dedichi due minuti: le faccio vedere cosa possiamo fare per lei.</p>
         <p class="nota">Poi fai domande e ascolta. Non vendere subito.</p>
         <ul class="dire-lista">
           <li class="dire">Oggi i clienti nuovi come la trovano?</li>
-          <li class="dire">Le foto e i post chi li fa? Quanto tempo ci perde?</li>
-          <li class="dire">Se uno la cerca su Google, cosa trova?</li>
+          <li class="dire">I post e le foto chi li fa? Quanto tempo ci perde?</li>
+          <li class="dire">Se un cliente la cerca su Google, cosa trova?</li>
         </ul>
-        <p class="nota">Alla terza domanda dici la cosa concreta che hai visto su Google.</p>
+        <p class="nota">Alla terza domanda dici la cosa concreta che hai visto.</p>
       </section>
 
       <section id="frase">
         <h2>MyCity in una frase</h2>
-        <p class="dire">Noi le portiamo clienti nuovi e le togliamo il lavoro che non ha tempo di fare. I clienti di Piacenza la trovano, ordinano dal telefono e noi consegniamo a casa. Foto, post e Google li facciamo noi.</p>
+        <p class="dire">Ci occupiamo noi di come la vedono i clienti: social, Google, foto e video, sito. Lei pensa al locale. E se vuole, i suoi prodotti si possono anche ordinare online, con la consegna a casa.</p>
       </section>
 
       <section id="cosa">
         <h2>Cosa facciamo per lei</h2>
         <ul class="servizi">
-          <li><b>La vetrina su MyCity.</b><span>I suoi prodotti sul nostro sito. I clienti ordinano dal telefono: consegniamo noi a casa, fino a 5 km, oppure passano da lei a ritirare.</span></li>
-          <li><b>Foto e video.</b><span>Belle foto del locale e dei prodotti. Le fa SDG Agenzia, il nostro partner.</span></li>
-          <li><b>Social e Google Maps.</b><span>I post li prepariamo e li pubblichiamo noi. Sistemiamo la scheda su Google: orari giusti, foto, il collegamento alla vetrina. Chi cerca vicino a lei, la trova.</span></li>
+          <li><b>Social.</b><span>I post li prepariamo e li pubblichiamo noi, ogni settimana, con le foto del suo locale. Lei li vede prima e dice sì.</span></li>
+          <li><b>Google Maps.</b><span>Sistemiamo la sua scheda: orari giusti, foto belle, categoria giusta. Chi cerca vicino a lei, la trova.</span></li>
+          <li><b>Foto e video.</b><span>Foto del locale e dei prodotti, e video brevi per i social. Li fa SDG Agenzia, il nostro partner.</span></li>
           <li><b>Un sito col suo nome.</b><span>Se non ce l'ha, o se quello che ha si può migliorare.</span></li>
           <li><b>Cosa va e cosa migliorare.</b><span>Guardiamo la sua attività, i social, Google e il sito, e glielo diciamo in parole semplici.</span></li>
+          <li class="inpiu"><b>In più: la vetrina su MyCity.</b><span>I suoi prodotti sul nostro sito: i clienti di Piacenza ordinano dal telefono, e noi consegniamo a casa fino a 5 km, oppure passano da lei a ritirare. Cosa mettere in vetrina dipende dall'attività: guarda «Su misura».</span></li>
+        </ul>
+      </section>
+
+      <section id="misura">
+        <h2>Su misura: cosa dire a chi</h2>
+        <ul class="misura">
+          <li>
+            <h3>Bar e pasticcerie</h3>
+            <p><span class="riga">Gli interessa</span>farsi vedere ogni giorno, le foto di brioche e torte, il Natale.</p>
+            <p class="dire">Le sue torte meritano foto belle: le facciamo noi, e i post escono tre volte a settimana.</p>
+            <p><span class="riga">Su MyCity</span>brioche, torte e vassoi su ordinazione, da ritirare al banco o con la consegna.</p>
+            <p><span class="riga">Proponi</span>Business.</p>
+          </li>
+          <li>
+            <h3>Ristoranti</h3>
+            <p><span class="riga">Gli interessa</span>Google, le recensioni, le foto dei piatti.</p>
+            <p class="dire">Chi cerca dove mangiare guarda Google e le foto. Sistemiamo la scheda, rispondiamo noi alle recensioni e facciamo le foto dei piatti.</p>
+            <p><span class="riga">Su MyCity</span>piatti e prodotti da portare a casa, da ritirare o con la consegna fino a 5 km.</p>
+            <p><span class="riga">Proponi</span>Business.</p>
+          </li>
+          <li>
+            <h3>Negozi e botteghe</h3>
+            <p><span class="riga">Gli interessa</span>clienti nuovi, senza perdere tempo.</p>
+            <p class="dire">Mentre lei sta al banco, noi la facciamo trovare su Google e sui social.</p>
+            <p><span class="riga">Su MyCity</span>qui la vetrina conta di più: i clienti ordinano la spesa dal telefono e gliela portiamo a casa.</p>
+            <p><span class="riga">Proponi</span>Base.</p>
+          </li>
+          <li>
+            <h3>Artigiani</h3>
+            <p><span class="riga">Gli interessa</span>far vedere il lavoro fatto.</p>
+            <p class="dire">Il suo lavoro si vende con le foto: le facciamo noi, e le mettiamo su social, Google e sito.</p>
+            <p><span class="riga">Su MyCity</span>i prodotti già pronti. Per un lavoro su misura il cliente le scrive su WhatsApp, dal pulsante «Contatta il negozio».</p>
+            <p><span class="riga">Proponi</span>Base o Business.</p>
+          </li>
+          <li>
+            <h3>Parrucchieri, estetiste e servizi</h3>
+            <p><span class="riga">Gli interessa</span>l'agenda piena, Google e le recensioni.</p>
+            <p class="dire">Chi cerca un parrucchiere qui vicino guarda Google e Instagram: lì la facciamo trovare.</p>
+            <p><span class="riga">Su MyCity</span>i prodotti che vende, come shampoo e creme. Le prenotazioni dal sito non ci sono ancora: non prometterle.</p>
+            <p><span class="riga">Proponi</span>Business.</p>
+          </li>
         </ul>
       </section>
 
@@ -226,7 +286,7 @@ a:focus-visible { outline: 2px solid var(--cotto); outline-offset: 2px; }
           <li class="dire">I clienti restano suoi: la lista la scarica quando vuole.</li>
           <li class="dire">Nessun contratto lungo: disdice quando vuole, con 30 giorni di preavviso.</li>
         </ul>
-        <p class="nota">Se chiede chi c'è già: «Pane Quotidiano, in via Calzolai. Le faccio vedere la sua vetrina.» Aprila sul telefono.</p>
+        <p class="nota">Se chiede chi c'è già sulla vetrina: «Pane Quotidiano, in via Calzolai. Le faccio vedere la vetrina di Pane Quotidiano.» Aprila sul telefono.</p>
       </section>
     </div>
 
@@ -244,27 +304,24 @@ a:focus-visible { outline: 2px solid var(--cotto); outline-offset: 2px; }
             <tbody>
               <tr><th scope="row">Al mese</th><td class="num">300 €</td><td class="num">500 €</td><td class="num">999 €</td></tr>
               <tr><th scope="row">Primo mese</th><td class="num">150 €</td><td class="num">250 €</td><td class="num">499,50 €</td></tr>
-              <tr><th scope="row">Vendite dal sito</th><td>10%</td><td>10%</td><td>10%</td></tr>
               <tr><th scope="row">Al giorno</th><td class="num">circa 10 €</td><td class="num">circa 17 €</td><td class="num">circa 33 €</td></tr>
               <tr><th scope="row">Bar</th><td>4 colazioni</td><td>6 colazioni</td><td>12 colazioni</td></tr>
               <tr><th scope="row">Negozio</th><td>1 scontrino</td><td>2 scontrini</td><td>3 scontrini</td></tr>
               <tr><th scope="row">Ristorante</th><td>1 coperto</td><td>1 coperto</td><td>2 coperti</td></tr>
-              <tr><th scope="row">Foto</th><td>Una sessione all'inizio</td><td>Ogni 3 mesi, più un video al mese</td><td>Foto e video ogni mese</td></tr>
               <tr><th scope="row">Post</th><td>8 al mese</td><td>12 al mese, con 2 video</td><td>20 al mese, 4 video e le storie</td></tr>
               <tr><th scope="row">Google</th><td>Scheda sistemata all'inizio</td><td>Più le risposte alle recensioni</td><td>Curata ogni mese</td></tr>
+              <tr><th scope="row">Foto</th><td>Una sessione all'inizio</td><td>Ogni 3 mesi, più un video al mese</td><td>Foto e video ogni mese</td></tr>
               <tr><th scope="row">Sito</th><td>Una pagina</td><td>Più pagine</td><td>Aggiornato ogni mese</td></tr>
+              <tr><th scope="row">Analisi</th><td>All'inizio</td><td>Ogni mese</td><td>Ogni settimana, e un incontro al mese</td></tr>
               <tr><th scope="row">Vetrina</th><td>Ordini, consegna e ritiro</td><td>In evidenza una settimana al mese</td><td>In prima pagina due settimane al mese</td></tr>
+              <tr><th scope="row">Vendite dal sito</th><td>10%</td><td>10%</td><td>10%</td></tr>
               <tr><th scope="row">Aiuto</th><td>WhatsApp, risposta in 24 ore</td><td>WhatsApp, risposta in 4 ore</td><td>Un referente e una visita al mese</td></tr>
             </tbody>
           </table>
         </div>
         <p class="nota">Il 10% vale solo sui prodotti venduti tramite il sito, e paga la consegna. Le righe Bar, Negozio e Ristorante dicono quanto incasso serve per coprire il costo del giorno, con una colazione da 3 €, uno scontrino da 15 € e un coperto da 25 €. È incasso, non guadagno: non dire «si ripaga da solo».</p>
         <p class="dire">Il Base costa circa 10 € al giorno: l'incasso di 4 colazioni. E il primo mese costa la metà.</p>
-        <ul class="consigli">
-          <li><b>Base</b> · negozio piccolo, poco tempo, vuole partire.</li>
-          <li><b>Business</b> · bar, pasticceria o ristorante che vive di foto. Con il Natale vicino è quello da proporre.</li>
-          <li><b>Premium</b> · vuole tutto fatto, con una persona di riferimento.</li>
-        </ul>
+        <p class="nota">Quale proporre: lo trovi nel riquadro «Su misura» del suo tipo di attività. Chi vuole tutto fatto, con una persona di riferimento: Premium.</p>
       </section>
 
       <section id="domande">
@@ -272,12 +329,12 @@ a:focus-visible { outline: 2px solid var(--cotto); outline-offset: 2px; }
         <ul class="domande">
           <li><span class="chiede">«Costa troppo.»</span><span class="risposta">Sono 10 € al giorno, e il primo mese 5. Quanto spende oggi, in soldi e in ore, per foto, post e Google? Se dopo un mese non le va, disdice.</span></li>
           <li><span class="chiede">«Ho già pagato un'agenzia e ho buttato i soldi.»</span><span class="risposta">Capita a tanti, lo so. Per questo si va un mese alla volta. E niente esce senza che lei l'abbia visto.</span></li>
+          <li><span class="chiede">«I social me li fa già mio nipote.»</span><span class="risposta">Bene, partiamo da quello che c'è. Noi aggiungiamo foto fatte bene, Google sistemato e post ogni settimana, senza saltarne una.</span></li>
+          <li><span class="chiede">«I social non mi portano clienti.»</span><span class="risposta">Da soli spesso no. Per questo li colleghiamo a Google e alla vetrina: chi vede un post trova subito orari, strada e, se vuole, ordina.</span></li>
           <li><span class="chiede">«Non ho tempo.»</span><span class="risposta">È proprio il motivo per cui ci siamo. A lei servono le foto una volta e un'occhiata prima che pubblichiamo. Il resto lo facciamo noi.</span></li>
-          <li><span class="chiede">«Non sono capace con il telefono.»</span><span class="risposta">Non deve imparare niente. Quando arriva un ordine la avvisiamo per email, e all'inizio la chiamiamo anche noi.</span></li>
-          <li><span class="chiede">«Glovo si prende il 30%.»</span><span class="risposta">Noi il 10%, e solo su quello che vende tramite il sito: la consegna è compresa. E i clienti restano suoi, non nostri.</span></li>
-          <li><span class="chiede">«Sulle vendite prendete una percentuale?»</span><span class="risposta">Sì, il 10%, ma solo sui prodotti venduti tramite il sito: serve a pagare la consegna. Su quello che vende al banco, come oggi, niente.</span></li>
+          <li><span class="chiede">«Non sono capace con il telefono.»</span><span class="risposta">Non deve imparare niente. I post glieli mandiamo da vedere, e se arriva un ordine la avvisiamo per email. All'inizio la chiamiamo anche noi.</span></li>
+          <li><span class="chiede">«Sulle vendite prendete una percentuale?»</span><span class="risposta">Solo sui prodotti venduti tramite il sito: il 10%, che serve a pagare la consegna. Su quello che vende al banco, come oggi, niente.</span></li>
           <li><span class="chiede">«Chi consegna? E come mi pagate?»</span><span class="risposta">Consegniamo noi, in bici, fino a 5 km. Oppure il cliente passa da lei a ritirare. Oggi i clienti pagano in contanti alla consegna: li raccogliamo noi e le facciamo il bonifico ogni lunedì.</span></li>
-          <li><span class="chiede">«Voglio solo vendere online, senza foto e social.»</span><span class="risposta">Oggi la vetrina è dentro gli abbonamenti. Mi lascia il numero? La richiamiamo appena c'è la vetrina da sola.</span></li>
           <li><span class="chiede">«Ci devo pensare.»</span><span class="risposta">Certo. Intanto la iscriviamo: sono due minuti e non paga niente. Nei prossimi giorni trova l'analisi della sua attività e il preventivo. Se le piace, sceglie da lì.</span></li>
         </ul>
       </section>
@@ -296,10 +353,11 @@ a:focus-visible { outline: 2px solid var(--cotto); outline-offset: 2px; }
         <h2>Da non dire mai</h2>
         <ul class="no">
           <li>«Digitalizzazione», «intelligenza artificiale», «tecnologia». Di' clienti, incassi, tempo.</li>
-          <li>Numeri inventati, come «raddoppia le vendite»: non li abbiamo ancora.</li>
+          <li>Frasi che si possono capire male, come «le rubo due minuti». Meglio «mi dedichi due minuti».</li>
+          <li>Promesse di risultati, come «le portiamo clienti» o «raddoppia le vendite»: i numeri non li abbiamo ancora.</li>
           <li>«Zero commissioni», detto da solo.</li>
           <li>Buoni regalo, welfare aziendale, contributi o bandi: oggi non ci sono.</li>
-          <li>Date per l'app del negozio: non prometterle.</li>
+          <li>Prenotazioni dal sito, e date per l'app del negozio: non prometterle.</li>
           <li>Pagamento con carta per i suoi clienti: oggi pagano in contanti, alla consegna o al banco.</li>
         </ul>
       </section>
@@ -308,8 +366,6 @@ a:focus-visible { outline: 2px solid var(--cotto); outline-offset: 2px; }
   </div>
 
   <footer class="piede">
-    <span>MyCity · Piacenza</span>
-    <span>Scheda del 26/11/2026</span>
-    <span>Prezzi degli abbonamenti decisi da Nicola il 24/11/2026 · 10% sulle vendite dal sito confermato il 26/11</span>
+    <span>MyCity · Piacenza · scheda del 26/11/2026, pomeriggio · prezzi del 24/11, 10% confermato il 26/11</span>
   </footer>
 </div>

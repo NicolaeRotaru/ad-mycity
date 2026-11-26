@@ -9,6 +9,8 @@ sorgente: consegne/vendite/2026-11-26-scheda-visita.html
 
 # La scheda per le visite ai titolari, e se siamo pronti
 
+> **In due righe.** La scheda per le visite è pronta, in pagina e in PDF, e dal pomeriggio parte dai servizi. Siamo pronti a spiegare e iscrivere; per consegnare manca il fattorino approvato.
+
 Di cosa parlo: della scheda da usare oggi nelle visite ai titolari. A cosa serve questa nota: dire se siamo pronti a farli entrare in MyCity.
 
 ## In parole semplici
@@ -37,6 +39,12 @@ Possiamo spiegare il servizio e iscrivere i titolari già oggi. C'erano tre cose
 - Come si dividono i servizi fra Base, Business e Premium è una proposta dell'AD del 24/11, mai confermata da Nicola. La scheda la copia, perché è quella che il titolare legge nel preventivo.
 - Non so se l'analisi arriva per tutti: per La Ragazzetta era vuota, perché in rete non c'era niente su di lei. Per questo la scheda dice «nei prossimi giorni», e non promette una data.
 - Le colazioni, gli scontrini e i coperti della tabella usano gli stessi valori di partenza del sito: 3 €, 15 € e 25 €. Sono stime, non dati del locale.
+
+## La versione del pomeriggio (26/11 verso le 14:45)
+
+Nicola ha chiesto di mettere in risalto i servizi e meno la vendita su MyCity: alle attività interessano di più social, Google, foto e video, sito. Adesso la scheda parte dai servizi, e la vetrina su MyCity è «in più». C'è un riquadro per ogni tipo di attività: bar e pasticcerie, ristoranti, negozi, artigiani, parrucchieri ed estetiste. Ognuno dice cosa gli interessa, la frase da dire, cosa può mettere in vetrina e quale abbonamento proporre.
+
+Morgan, il videomaker, ha letto la scheda e ha corretto una frase: «le rubo due minuti» diventa «mi dedichi due minuti». La sua regola: le parole decidono come ti vede il titolare, quindi niente frasi che si possano capire male. Per la stessa regola sono cambiate altre tre frasi. «Aiutiamo le attività» diventa «lavoriamo con le attività». «La sua vetrina», detto di Pane Quotidiano, diventa «la vetrina di Pane Quotidiano». «Noi le portiamo clienti nuovi» esce, perché suona come una garanzia.
 
 ---
 

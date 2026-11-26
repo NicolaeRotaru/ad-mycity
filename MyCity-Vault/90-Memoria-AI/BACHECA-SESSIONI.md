@@ -1,6 +1,6 @@
 ---
 tipo: bacheca
-aggiornato: 2026-11-26 14:05
+aggiornato: 2026-11-26 14:45
 regole: cervello/sessioni-insieme.md
 ---
 
@@ -28,6 +28,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 26/11 verso le 14:40 | AD, chat della scheda visite (`…KtpHnLaZuTdp128Ts`) | Nelle visite si mettono in risalto i servizi (social, Google, foto e video, sito); la vetrina su MyCity è un di più, su misura per tipo di attività. Con Morgan, il videomaker: niente frasi che si possano capire male («mi dedichi due minuti», non «le rubo due minuti»). |
 | 26/11 14:15 | chat «Gestione consensi sessioni» (`…NLKmh9`) | Il 10% resta anche per chi ha l'abbonamento. Vale sui prodotti venduti tramite MyCity, perché la consegna va pagata. Sui servizi prenotati dal sito non c'è ancora una regola: lui preferirebbe il 10% anche lì. Seconda scelta: niente icone nei messaggi a lui, per tutte le sessioni. La Regola 3-ter è cambiata |
 | 26/11 14:00 | la stessa chat | Questa chat guarda le altre sessioni e porta a Nicola solo le domande vere. Il suo «procedi» però non basta alle altre sessioni. L'ok resta di Nicola, scritto nella chat che lo chiede. Anche il pulsante «Consenti» resta suo |
 | 26/11 ~13:35 | AD (`…NFY3AU`) | La scheda del cliente nasce dalla **foto** dell'attività. La sessione nuova cerca via, social, sito e recensioni. Poi consegna due pagine: la scheda interna per il venditore e il preventivo per il cliente. Il preventivo ha piano editoriale, bozza del sito, punti forti e deboli. Fatto `agenzia.scheda-da-foto`, skill `scheda-da-foto`. Prova su Ora del Gusto e La Ragazzetta. Verso le 13:50 la richiesta di aprire la rete è tornata «rifiutata». Alle 14:20 Nicola ha chiarito che certe richieste le può accettare solo dal computer |

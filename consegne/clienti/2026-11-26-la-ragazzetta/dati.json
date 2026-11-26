@@ -133,7 +133,7 @@
   "non_ha": [
     "Un sito: in rete non c'è niente di suo.",
     "Profili social trovati: né Instagram, né Facebook, né TikTok.",
-    "Un modo per prenotare un tavolo in rete.",
+    "Un modo chiaro per prenotare un tavolo (telefono o WhatsApp in vista).",
     "Il menu in rete, che cambia ogni tre mesi e va aggiornato.",
     "Il calendario degli eventi in un posto solo.",
     "Testi in inglese per i turisti.",
@@ -250,7 +250,8 @@
     "La sede è comunale e storica: le riprese del palazzo e dei portici vanno concordate prima.",
     "Gli orari del bar sono quelli detti a luglio; il ristorante non ha orari pubblici trovati.",
     "Tutti i dati vengono da articoli e riassunti di ricerca: questa sessione non può aprire le pagine.",
-    "Su MyCity è registrata come «bar»: con il ristorante va aggiornata la categoria, se il gruppo è d'accordo."
+    "Su MyCity è registrata come «bar»: con il ristorante va aggiornata la categoria, se il gruppo è d'accordo.",
+    "Prenotazioni in rete dal sito MyCity: non esistono ancora, non prometterle. La bozza del sito porta solo «Chiama per prenotare»."
   ],
   "fonti": [
     {
@@ -307,7 +308,7 @@
     "deboli": [
       "Chi vi cerca non trova un vostro sito: trova solo articoli di giornale.",
       "Non abbiamo trovato profili Instagram o Facebook del locale.",
-      "Non si può prenotare un tavolo in rete, né vedere il menu.",
+      "Il menu non si trova in rete, e non c'è un modo chiaro per prenotare un tavolo.",
       "Gli eventi non hanno un posto unico dove vederli.",
       "Per i turisti non c'è niente in inglese."
     ],
@@ -460,7 +461,7 @@
     },
     "sopra_titolo": "Caffè · ristorante · gastronomia · Piazza Cavalli",
     "claim": "Il caffè storico di Piacenza, sotto i portici di Palazzo Mercanti. Dal mattino a cena.",
-    "azione": "Prenota un tavolo",
+    "azione": "Chiama per prenotare",
     "lingue": [
       "it",
       "en"
