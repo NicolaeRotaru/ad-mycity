@@ -122,16 +122,33 @@ tr:last-child td, tr:last-child th { border-bottom: 0; }
 a:focus-visible { outline: 2px solid var(--cotto); outline-offset: 2px; }
 
 @media print {
+  @page { size: A4; margin: 12mm 13mm; }
   :root { --carta: #FFFFFF; --foglio: #FFFFFF; }
-  body { font-size: 11.5pt; padding: 0; }
+  body { font-size: 10pt; line-height: 1.42; padding: 0; }
+  /* In stampa la griglia si spezza male fra le pagine: tutto scorre come blocchi. */
+  .pagina, .facce, .faccia, section, .testata, .tre, .tre ol, .servizi, .dire-lista, .domande, .passi, .no, .consigli { display: block; }
+  .pagina > * + *, .faccia > * + * { margin-top: 12pt; }
+  section > * + *, .testata > * + * { margin-top: 5pt; }
+  .tre ol > li + li, .servizi > li + li, .dire-lista > li + li, .passi > li + li, .no > li + li, .consigli > li + li { margin-top: 4pt; }
+  .domande > li + li { margin-top: 7pt; }
+  .domande li { padding-bottom: 7pt; display: grid; gap: 2pt; }
   .indice { display: none; }
-  .facce { grid-template-columns: 1fr; }
-  .retro { break-before: page; }
-  .tre { background: #FFFFFF; color: var(--inchiostro); border: 2px solid var(--cotto); }
-  .tre h2 { color: var(--cotto); }
+  h1 { font-size: 24pt; }
+  h2 { font-size: 15pt; break-after: avoid; }
+  .dire, .risposta { font-size: 11pt; }
+  .tre { background: #FFFFFF; color: var(--inchiostro); border: 1.5pt solid var(--cotto); padding: 10pt 12pt; }
+  .tre h2 { color: var(--cotto); font-size: 9pt; }
+  .tre li { font-size: 13pt; }
   .tre li::before { background: var(--cotto); color: #FFFFFF; }
-  section, .domande li, .passi li { break-inside: avoid; }
-  table { min-width: 0; }
+  .prima { padding: 8pt 10pt; }
+  .etichetta-faccia { break-after: avoid; }
+  .retro { break-before: page; }
+  table { min-width: 0; font-size: 9pt; }
+  th, td { padding: 4pt 6pt; }
+  thead th { font-size: 12pt; }
+  .num { font-size: 10.5pt; }
+  .tabella-box, .domande li, .passi li, .servizi li, .dire-lista li, .tre, .prima, .no li { break-inside: avoid; }
+  .piede { margin-top: 14pt; }
 }
 @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
 </style>
