@@ -1,0 +1,339 @@
+{
+  "versione": 1,
+  "creato": "2026-11-26 13:40",
+  "profilo": "ricontrollo",
+  "base": "ed12ed8ec8190e1132b690f6e034c30f0a5d55ba",
+  "diff": null,
+  "temi_scelti": [
+    "S01"
+  ],
+  "minori_aperti": 526,
+  "soglia_minori": 100,
+  "minori_ammessi": false,
+  "gravita_cercate": [
+    "bloccante",
+    "grave"
+  ],
+  "ricontrollo": [
+    "bloccante",
+    "grave",
+    "minore"
+  ],
+  "palestra_prima": false,
+  "onda_pilota": null,
+  "voci_da_ricontrollare": 272,
+  "prepasso": {
+    "voci": 522,
+    "guardate": 272,
+    "tenute_dal_programma": 250,
+    "per_classe": {
+      "righe_toccate": 163,
+      "righe_ferme": 104,
+      "fermo": 162,
+      "senza_file": 20,
+      "file_ambigui": 3,
+      "senza_data": 66,
+      "file_spariti": 4
+    },
+    "storia_corta": false
+  },
+  "ultracode_modo": "dove-serve",
+  "cerca_nuovi": false,
+  "file_perimetro": 3803,
+  "codice_fuori_profilo": 1266,
+  "lenti_fuori": [
+    "architettura",
+    "sicurezza-auth",
+    "rls-database",
+    "pagamenti-stripe",
+    "privacy-legale",
+    "performance",
+    "frontend-ux",
+    "accessibilita",
+    "qa-flussi",
+    "api-backend",
+    "ai-endpoints",
+    "dati-analytics",
+    "deploy-sre",
+    "layout-responsive",
+    "coerenza-brand",
+    "tipografia",
+    "accessibilita-visiva",
+    "stati-ui",
+    "immagini-media",
+    "mobile-pwa",
+    "flussi-conversione",
+    "microcopy",
+    "navigazione-gerarchia",
+    "performance-percepita"
+  ],
+  "angoli_fuori": [
+    "X-soldi",
+    "X-permessi-db-live",
+    "X-produzione-dal-vivo",
+    "X-sito-dal-vero",
+    "X-regole-business",
+    "X-prove-automatiche",
+    "X-flussi-utente",
+    "X-concorrenza",
+    "X-privacy-ciclo",
+    "Y-attaccante-anonimo",
+    "Y-attaccante-cliente",
+    "Y-attaccante-negozio-rider",
+    "Y-errori-silenziosi",
+    "Y-tempo-e-date",
+    "Y-promesse-vs-codice",
+    "Y-avvisi-e-notifiche",
+    "Y-dati-veri-incoerenti",
+    "Z-account-di-prova",
+    "Z-database-a-163",
+    "Z-rimborso-contanti",
+    "Z-documenti-fiscali"
+  ],
+  "sessioni": {
+    "S01": {
+      "tema": "S01",
+      "nome": "Ricontrollo dei difetti aperti",
+      "rischio": "alto",
+      "lenti": [],
+      "angoli": [],
+      "prefissi": [],
+      "tetto": 12,
+      "ultracode": false,
+      "voci_gravi": true,
+      "lotti": [
+        {
+          "id": "L01",
+          "voci": 15
+        },
+        {
+          "id": "L02",
+          "voci": 14
+        }
+      ],
+      "onda": 1,
+      "ultracode_previsto": true,
+      "nota_ultracode": "2026-11-26 15:13, regia: ultracode non si è acceso (create_session rifiuta un prompt che comincia con «/», e /effort mandato con send_message arriva come testo). La sessione ha girato allo sforzo di partenza: la misura lo deve dire."
+    },
+    "S01b": {
+      "tema": "S01",
+      "nome": "Ricontrollo dei difetti aperti",
+      "rischio": "alto",
+      "lenti": [],
+      "angoli": [],
+      "prefissi": [],
+      "tetto": 12,
+      "ultracode": false,
+      "voci_gravi": false,
+      "lotti": [
+        {
+          "id": "L01",
+          "voci": 15
+        },
+        {
+          "id": "L02",
+          "voci": 15
+        },
+        {
+          "id": "L03",
+          "voci": 15
+        },
+        {
+          "id": "L04",
+          "voci": 15
+        },
+        {
+          "id": "L05",
+          "voci": 15
+        },
+        {
+          "id": "L06",
+          "voci": 15
+        },
+        {
+          "id": "L07",
+          "voci": 15
+        },
+        {
+          "id": "L08",
+          "voci": 15
+        }
+      ],
+      "onda": 1
+    },
+    "S01c": {
+      "tema": "S01",
+      "nome": "Ricontrollo dei difetti aperti",
+      "rischio": "alto",
+      "lenti": [],
+      "angoli": [],
+      "prefissi": [],
+      "tetto": 12,
+      "ultracode": false,
+      "voci_gravi": false,
+      "lotti": [
+        {
+          "id": "L01",
+          "voci": 15
+        },
+        {
+          "id": "L02",
+          "voci": 15
+        },
+        {
+          "id": "L03",
+          "voci": 15
+        },
+        {
+          "id": "L04",
+          "voci": 15
+        },
+        {
+          "id": "L05",
+          "voci": 15
+        },
+        {
+          "id": "L06",
+          "voci": 15
+        },
+        {
+          "id": "L07",
+          "voci": 15
+        },
+        {
+          "id": "L08",
+          "voci": 15
+        }
+      ],
+      "onda": 1
+    },
+    "S01d": {
+      "tema": "S01",
+      "nome": "Ricontrollo dei difetti aperti",
+      "rischio": "alto",
+      "lenti": [],
+      "angoli": [],
+      "prefissi": [],
+      "tetto": 12,
+      "ultracode": false,
+      "voci_gravi": false,
+      "lotti": [
+        {
+          "id": "L01",
+          "voci": 3
+        }
+      ],
+      "onda": 1
+    }
+  },
+  "onde": [
+    [
+      "S01",
+      "S01b",
+      "S01c",
+      "S01d"
+    ]
+  ],
+  "preventivo": {
+    "sessioni": 4,
+    "onde": 1,
+    "lotti": 19,
+    "verificatori_attesi": 8,
+    "agenti": 27,
+    "subagenti_max_per_sessione": 10,
+    "usd": 77.04,
+    "token": 5550000,
+    "serve_firma": true,
+    "dollari": {
+      "sessioni": [
+        {
+          "sessione": "S01",
+          "tipo": "ricontrollo",
+          "ultracode": true,
+          "unita": 29,
+          "misurata": true,
+          "atteso": 6.62,
+          "minimo": 5.29,
+          "massimo": 8.6,
+          "fonte": "ricontrollo del 21/11 (settimana dei 700), una misura sola (forchetta -20% +30%)",
+          "chiusi_attesi": 7
+        },
+        {
+          "sessione": "S01b",
+          "tipo": "ricontrollo",
+          "ultracode": false,
+          "unita": 120,
+          "misurata": true,
+          "atteso": 27.38,
+          "minimo": 21.9,
+          "massimo": 35.59,
+          "fonte": "ricontrollo del 21/11 (settimana dei 700), con ultracode acceso: misura vicina, una misura sola (forchetta -20% +30%)",
+          "chiusi_attesi": 31
+        },
+        {
+          "sessione": "S01c",
+          "tipo": "ricontrollo",
+          "ultracode": false,
+          "unita": 120,
+          "misurata": true,
+          "atteso": 27.38,
+          "minimo": 21.9,
+          "massimo": 35.59,
+          "fonte": "ricontrollo del 21/11 (settimana dei 700), con ultracode acceso: misura vicina, una misura sola (forchetta -20% +30%)",
+          "chiusi_attesi": 31
+        },
+        {
+          "sessione": "S01d",
+          "tipo": "ricontrollo",
+          "ultracode": false,
+          "unita": 3,
+          "misurata": true,
+          "atteso": 0.68,
+          "minimo": 0.55,
+          "massimo": 0.89,
+          "fonte": "ricontrollo del 21/11 (settimana dei 700), con ultracode acceso: misura vicina, una misura sola (forchetta -20% +30%)",
+          "chiusi_attesi": 1
+        }
+      ],
+      "quota_regia_e_cf": 0.24,
+      "fonte_quota": "dalla misura usata",
+      "usd_sessioni": {
+        "minimo": 49.65,
+        "atteso": 62.06,
+        "massimo": 80.67
+      },
+      "usd": {
+        "minimo": 61.63,
+        "atteso": 77.04,
+        "massimo": 100.15
+      },
+      "chiusi_attesi": 69,
+      "usd_per_chiusa_attesa": 1.12,
+      "percento_settimana": 2.5,
+      "per_onda": [
+        {
+          "onda": 1,
+          "sessioni": [
+            "S01",
+            "S01b",
+            "S01c",
+            "S01d"
+          ],
+          "atteso": 77.04
+        }
+      ],
+      "mai_misurate": [],
+      "avvisi": [
+        "S01b: nessuna misura di ricontrollo con ultracode spento: uso quella con l'altro (ricontrollo del 21/11 (settimana dei 700))",
+        "S01c: nessuna misura di ricontrollo con ultracode spento: uso quella con l'altro (ricontrollo del 21/11 (settimana dei 700))",
+        "S01d: nessuna misura di ricontrollo con ultracode spento: uso quella con l'altro (ricontrollo del 21/11 (settimana dei 700))"
+      ]
+    },
+    "calcolato": "2026-11-26 13:40"
+  },
+  "schede": {
+    "cartella": "consegne/radiografia/2026-11-26-ricontrollo",
+    "ramo": "ccr-aa566c13-nvkbaw",
+    "regista": "session_015BmpnXAVwPhPT7aWRMXdMi"
+  }
+}

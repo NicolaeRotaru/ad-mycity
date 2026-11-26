@@ -1,0 +1,1 @@
+# id	sessione	gravita	file	titolo  (i difetti tenuti dopo i doppioni: la seconda onda li cerca con grep prima di scrivere)
