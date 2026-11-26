@@ -65,9 +65,19 @@
    "id": "session_015BmpnWePCdfg1LVxdAqVxp",
    "ramo": "ccr-a672a2b3-92w5w1-m11",
    "onda": 1,
-   "aperta": "2026-11-26 13:55"
+   "aperta": "2026-11-26 13:55",
+   "finita": "2026-11-26 14:36"
   }
  },
- "collaudatori": {},
+ "collaudatori": {
+  "K01": {
+   "id": null,
+   "ramo": "ccr-a672a2b3-92w5w1-k01",
+   "partenza": null,
+   "riparatori": [
+    "R11"
+   ]
+  }
+ },
  "controllori": {}
 }
