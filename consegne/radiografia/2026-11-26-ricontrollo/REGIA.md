@@ -56,3 +56,6 @@ radiografia: consegne/radiografia/2026-11-26-ricontrollo
 - 15:03 · Onda finita. 4 referti verdi; doppioni, grezzo e conti verdi (0 difetti nuovi). Chiusi 45 su 272 (S01 5,
   S01b 14, S01c 25, S01d 1). Costo da get_session: S01 10,49 · S01b 13,44 · S01c 15,58 · S01d 2,01 = 41,52 $; regia
   8,34 $ alle 15:02. Falle fra le aperte: 9 (S01 4, S01b 3, S01c 2), dettagli solo nelle chat. Prossimo: il CF.
+- 15:06 · CF aperto (session_015BmpnXSRA4TbSnbKgczsmo, ramo `-cf`): conti e copertura-dopo verdi, 5 chiusure gravi già
+  verificate. L'invio dei dettagli delle falle fra sessioni è bloccato dal controllo dei permessi: il confronto parola
+  per parola lo fanno S01, S01b, S01c sui file pubblici, e mandano solo i segni (dove, campo, tipo), mai i dettagli.
