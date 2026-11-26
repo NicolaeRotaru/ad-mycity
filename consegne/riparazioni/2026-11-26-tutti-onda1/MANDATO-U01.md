@@ -4,7 +4,16 @@ Cosa fai (deposito NicolaeRotaru/mycity, sei partita dalla base ed12ed8ec8190e11
 1. `git checkout -B ccr-a672a2b3-92w5w1 ed12ed8ec8190e1132b690f6e034c30f0a5d55ba`, poi `git fetch origin` dei rami ccr-a672a2b3-92w5w1-m01 … -m11.
 2. Unisci in ordine, uno alla volta: `git merge --no-ff --no-edit origin/ccr-a672a2b3-92w5w1-mNN` per NN = 01, 02, … 11. I conflitti attesi sono zero (la regia ha già fatto la prova d'unione, verde). Se uno litiga: `git merge --abort`, fermati e scrivi alla regia quale ramo e quali file. Non ricucire a mano.
 3. Togli le riparazioni che rompono altro, secondo i collaudi. Si tolgono con `git revert --no-edit <sha>`: il revert scrive un commit nuovo che annulla quello vecchio. Segui QUESTO ordine. La regia l'ha già provato e tutti passano puliti:
-   {{REVERT}}
+   1) da38e34a (R03-008)
+   2) 64f68b97 (R07-006)
+   3) fe24a1fb (R07-006)
+   4) 4972bd8b (R04-005)
+   5) 936ff7ef (R04-005)
+   6) c7469c5e, f00538d4, 9c56fe93, ec64e9c3, 09c4de9f, e39bfa93, 3a4e4c80 (R10-003, R10-004, R10-005: con l'ultimo se ne va la migrazione 960)
+   7) c3dc96e7, 2d9c7002 (R05-002)
+   8) bb5c0509 (R06-003)
+   9) a9adb1a6 (R06-013)
+   10) dc4dad45 (R02-014: se ne va la migrazione 881)
 4. Prove sull'albero unito, una volta: `npm ci`, poi `npm run verify`. Poi la palestra SQL: `pg_ctlcluster 16 main start; su postgres -c "createuser -s root"`, poi `tests/sql/harness/apply.sh` e `tests/sql/harness/run.sh`.
 5. Se una prova è rossa, trova la voce che la rompe. Ogni commit porta una voce sola, e il suo messaggio comincia col codice della voce (RNN-NNN). Togli la voce con `git revert` di tutti i suoi commit, poi rilancia la prova. Non correggere il codice. Non toccare nessuna prova: sono comuni, e cambiarle chiede la firma di Nicola. Se resta rosso dopo due voci tolte, fermati e scrivi alla regia.
 6. Spingi: `git push -u origin ccr-a672a2b3-92w5w1` (ritenta fino a 4 volte se la rete cade). Non aprire richieste di unione (PR): la apre la regia dopo il controllore.

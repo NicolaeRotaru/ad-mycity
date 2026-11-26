@@ -118,5 +118,14 @@
    ]
   }
  },
- "controllori": {}
+ "controllori": {},
+ "unione": {
+  "U01": {
+   "id": "session_015BmpnY88LV2YEwP5rc3XuJ",
+   "ramo": "ccr-a672a2b3-92w5w1",
+   "deposito": "NicolaeRotaru/mycity",
+   "partenza": "ed12ed8ec8190e1132b690f6e034c30f0a5d55ba",
+   "aperta": "2026-11-26 15:42"
+  }
+ }
 }
