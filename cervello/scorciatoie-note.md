@@ -45,6 +45,14 @@
     verdi: una di queste ricostruiva lo stato a ogni promemoria, e un Goku fermato con «basta» ripartiva.
     *Cura: la prova rigioca l'uscita esatta che il programma stampa, mai una forma scritta a mano.*
 
+39. **La barriera doppia che copre il buco nelle prove.** *(Aggiunta del 25/11, collaudo della lettura delle
+    pagine da n8n, N8N#18.)* Due controlli in fila contro gli indirizzi interni: uno guardava «stesso sito», l'altro
+    l'indirizzo. Il primo era rotto (si fermava ai due punti di `sito.it:@officina.internal`), e le prove passavano lo
+    stesso perché il secondo bloccava tutto. Togliendo il secondo, la suite restava verde e si apriva il buco. Variante
+    vicina: un tetto in caratteri messo davanti a un limite in byte (64 KB della routine), verde solo col testo
+    italiano. *Cura: si muta ogni barriera da sola, con l'input che scavalca proprio quella; e il tetto si misura nella
+    stessa unità del limite che protegge.*
+
 ## C. Il numero mente
 
 8. **Il numero dichiarato dalla parte comoda.** Il pezzo dichiara «sono cieco sul 40%»: ricontato,

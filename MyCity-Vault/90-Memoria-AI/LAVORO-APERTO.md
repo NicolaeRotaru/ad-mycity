@@ -1,7 +1,7 @@
 ---
 tipo: lavoro-aperto
 fonte: AD digitale
-aggiornato: 2026-11-25 23:30
+aggiornato: 2026-11-26 13:05
 regola: si legge PRIMA di cercare cosa manca; si aggiorna a ogni lavoro che si apre o si chiude
 ---
 
@@ -205,6 +205,7 @@ Tutti gli altri tuoi passi, 33 prima del primo ordine, sono in fila nella tua li
 
 ## 3 · La macchina
 
+- **Le schede dei clienti nuovi non vengono più vuote: le pagine le legge n8n** (25/11 22:15, via di Nicola «Ripara»). Il 12 e il 26 erano tutti «non trovato» da quando la ricerca la fa l'AD. Riparati e in uso. La prova vera su Ora del Gusto (25/11 23:05) ha funzionato: 1 pagina in elenco, 2 lette da n8n. Quattro collaudi: tre bocciature, 12 difetti gravi corretti; l'ultimo, del 26/11, regge. In uso dalle 12:50 del 26/11: 12 `765b6b0e`, 26 `242dc419`. **Unite il 26/11 verso le 13:05:** NicolaeRotaru/N8N#18 (testa `bbd4cc6`) e ad-mycity#1027, che porta questa nota. **Dopo l'unione:** chi pubblica il 26 col generatore cambiato da N8N#19 e #20 lancia `leggi-pagine.mjs --file` sul suo export (deve dire «uguale»). **Restano aperti:** 14 difetti minori dei collaudi 3 e 4 (due punti lenti con testi lunghissimi, la maschera di Meta aggirabile con uno spazio invisibile, nessun tetto alla dimensione del download, un `<svg>` senza chiusura che taglia la pagina, altri rari), referti in `consegne/riparazioni/2026-11-25-leggi-pagine/`. E il limite noto: un dominio pubblico che punta a un indirizzo interno non si vede dal nome (proposta: la protezione SSRF di n8n su Sliplane, da firmare). (aggiornato 2026-11-26 12:53)
 - **Goku, il supervisore delle sessioni, parte con «sei: goku»** (24/11 alle 23:28, costruito su tua richiesta delle 22:12). Per un'ora guarda le sessioni attive, ripara quello che può e ti avvisa 10 minuti prima di scadere. Provati l'orologio, la catena dei risvegli e il diario; il guardare e l'agire sono solo testo nella skill. Da fare al primo turno vero: misurare il conto di un'ora, oggi stimato 2-5 $, e scriverlo nella skill.
 - **La radiografia del sito lavora a onde, come la riparazione** (2026-11-24 21:40, mai lanciata). Prima ricontrolla i difetti aperti, poi cerca quelli nuovi. Il ricontrollo è il modo più economico di chiudere: il 21/11 ha chiuso 117 voci su 459 guardate, circa 1,1 $ l'una. Oggi un ricontrollo costerebbe circa 86 $ in tutto, per circa 78 voci chiuse su 305 guardate. Le due scelte che restano a te sono nella carta #262. Dettagli: `consegne/audit/2026-11-24-radiografia-a-onde/lezioni.md`.
 - **La skill della riparazione non si apre sempre per prima** (AR-1166). Entro tre mosse si apre su tutte e 4 le frasi vere provate. Come prima mossa invece cambia da una corsa all'altra: 1 frase su 4 la prima volta, 2 su 3 la seconda. Il motivo: a volte la sessione legge prima il manuale, e il manuale poi la nomina. Da decidere: se la misura di `prova-trigger` va allargata alle prime mosse.

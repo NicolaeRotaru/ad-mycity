@@ -1318,6 +1318,15 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Esito:** ricerca, analisi del business e scheda al sito sono arrivate alle 19:39. L'analisi del business è vuota perché in rete non c'è niente sul locale, e l'AD non ha inventato. Il preventivo si apre. Il link mostrava per sempre «la stiamo preparando»: difetto passato alla sessione del sito.
 - **Non verificato:** le bozze del 19 su Telegram, perché il 19 non conserva le esecuzioni riuscite. Le deve confermare Nicola.
 
+## 2026-11-25 22:15 — Le pagine dei clienti nuovi le legge n8n: il 12 e il 26 riparati e in uso (🟡, via di Nicola)
+- **Chi e quando:** Nicola, in chat alla sessione «Dati mancanti» (`session_01R8112LJpfxZRKXjZh6EgFy`). Alle 20:33 manda la card di Ora del Gusto, tutta «non trovato», e chiede perché. Verso le 20:50 risponde «Ripara» alla proposta dell'AD.
+- **La causa:** due guasti. La routine dell'AD cerca sul web ma non apre le pagine, perché la sua rete è chiusa. E il controllo delle citazioni del 12 cercava il testo delle pagine nella risposta dell'API a pagamento, che non si usa più: senza quel testo scartava ogni dato del web. La riga «Ricerche web: 0 · costo 0,00 $» era sempre falsa.
+- **Cosa:** nodi nuovi e piccoli nel 12 e nel 26. Dopo la ricerca dell'AD, n8n scarica le pagine trovate. Non apre mai indirizzi interni, Meta, mappe o portali, e i rinvii passano dallo stesso controllo. Poi rimette le pagine nella risposta come pagine lette. L'anteprima dice che la ricerca l'ha fatta l'AD e porta i suoi avvisi. I nodi grandi del 12 non sono stati toccati.
+- **Prove:** sul codice vero del 12, con la stessa risposta dell'AD, la catena vecchia dà telefono e indirizzo «non trovato» e quella nuova «confermato». Su n8n vero il nodo HTTP legge i due siti di Ora del Gusto: dal sito weebly escono indirizzo, telefono e orari. Le prove automatiche sono 247 verdi.
+- **Dove:** NicolaeRotaru/N8N#18 (ramo `ccr-d58987f6-fnlly3`). In uso su n8n dalle 22:15: 12 versione `7522db24`, 26 versione `48386068`. Le precedenti (`5a437a1d`, `36041275`) restano nella cronologia.
+- **Non fatto:** lo spostamento della sessione nell'ambiente con la chiave n8n, che Nicola ha rifiutato. Le modifiche sono passate dagli strumenti n8n a pezzi.
+- **Collaudo (22:25-22:50):** due collaudatori indipendenti. Quello sulla sicurezza ha bocciato per 4 difetti: una pagina scritta apposta teneva fermo il nodo per minuti, un collegamento «sito:@officina.internal» passava come stesso sito, mancavano i servizi DNS jolly, il tetto dei 30.000 caratteri saltava. Quello sulla catena dei dati ha detto che regge, con 3 difetti: i byte della richiesta all'AD con molte foto, Meta in chiaro sull'anteprima, un rinvio perso con 10 indirizzi. Corretti tutti e 7, con una prova ciascuno. In uso dalle 22:48: 12 versione `1098d032`, 26 versione `17d319be`. È partito un ricollaudo della sicurezza.
+- **Rete della routine:** per il 12 e il 26 non serve più aprirla. La scelta che la sessione `…UV9py6` ha chiesto a Nicola resta solo per il giudizio sul sito della N8N#16.
 ## 2026-11-25 22:30 — Le sicurezze per aprire la rete alla routine «Chiedi all'AD» (🟡, decisione di Nicola)
 - **Chi e quando:** Nicola, in chat alla sessione «Notifiche nella finestra», 25/11 verso le 22:20: «fai i miglioramenti». Prima aveva chiesto se, lasciando raggiungere qualunque sito, si potevano prevenire i danni.
 - **Perché:** l'analisi del business di Ora del Gusto e della Ragazzetta resta vuota, perché la routine trova le pagine ma non può aprirle: il suo ambiente lascia passare in rete solo n8n.
@@ -1325,3 +1334,13 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Il limite:** il divieto degli strumenti sta nelle istruzioni, non in un'impostazione. Da qui la routine non permette di toglierli.
 - **Cosa resta a Nicola:** aprire la rete dell'ambiente «Chiedi all'AD (n8n)» dalle impostazioni, se vuole. Poi l'AD rifà l'analisi delle due attività.
 
+
+## 2026-11-26 12:53 · La lettura delle pagine dei clienti nuovi: l'ultimo collaudo e la riparazione 🟡
+- **Cosa:** Nicola ha chiesto un ultimo collaudo indipendente della sicurezza (25/11 verso le 23:30, «Ultimo controllo»). Il collaudatore ha bocciato per un solo difetto grave. Era un difetto di funzionamento, non di sicurezza. Su un sito vecchio, uno script con «<!--» e un commento più in basso cancellavano indirizzo, telefono e orari. Sulla sicurezza il pezzo ha retto: 80 indirizzi interni scritti a mano e 400.000 a caso, nessuno passato.
+- **Il terzo rosso:** per la regola del collaudo decideva Nicola. Ha scelto «Ripara solo questo» (26/11 mattina).
+- **La riparazione:** commenti e script ora si tolgono in un passaggio solo, come fa il browser. È N8N#18, testa `bbd4cc6`. La prova nuova è rossa sul codice di prima e verde su questo. In tutto 273 prove verdi e nessuna rossa.
+- **In uso su n8n dalle 12:50:** il 12 alla versione `765b6b0e` (prima `0e29ac19`), il 26 alla `242dc419` (prima `42d412fc`). Su tutti e due `leggi-pagine.mjs --file` dice «uguale».
+- **Collaudo della riparazione:** un collaudatore nuovo dice che regge. Ha provato 27 varianti scomode confrontate con Chromium. Su 1.500 pagine casuali, 0 parole perse rispetto al codice di prima. Il tempo massimo è 69 ms su 3 MB.
+- **Non fatto apposta:** i 7 difetti minori del collaudo 3 e i 7 del collaudo 4. Nicola ha chiesto di riparare solo il grave. Sono in LAVORO-APERTO.
+- **Prova vera (25/11 23:05):** su Ora del Gusto la ricerca ha scritto 1 pagina da leggere e n8n ne ha lette 2. La scheda le ha scartate come possibile omonimo, giustamente.
+- Referti: `consegne/riparazioni/2026-11-25-leggi-pagine/collaudo-3-sicurezza.md` e `collaudo-4-pulizia.md`.
