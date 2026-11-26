@@ -1,5 +1,5 @@
 {
-  "aggiornato": "2026-11-26 15:06",
+  "aggiornato": "2026-11-26 15:08",
   "cartella": "consegne/radiografia/2026-11-26-ricontrollo",
   "commit_controllato": "19ca7a6d0effde93cd2dc838b12316ae76f7007e",
   "base_sito": "ed12ed8ec8190e1132b690f6e034c30f0a5d55ba",
@@ -7,7 +7,7 @@
   "conti": "verde",
   "rossi_conti": [],
   "conti_uscita": "referti 4 di 4 · difetti trovati 0 (bloccanti 0, gravi 0, minori 0) · scartati 0 · nel grezzo 0 · fuori dal grezzo 0 · copertura-dopo: perimetro 0 file, verde · lotti e referti allineati: 272 voci su 272 (S01 29, S01b 120, S01c 120, S01d 3), nessuna mancante né in più",
-  "riservatezza_stato": "aperta: i segni di S01c (2 falle) li passa la regista; S01 e S01b hanno mandato i dettagli in chat e sono confrontati",
+  "riservatezza_stato": "chiusa: segni di tutte e tre le sessioni (S01, S01b, S01c) ricevuti tramite la regista, più i dettagli di S01 e S01b in chat",
   "riservatezza": [
     {
       "dove": "referti/S01.json",
@@ -63,6 +63,16 @@
       "dove": "REGIA.md",
       "campo": "riga 52",
       "cosa": "dà l'area delle due falle di S01c, non solo il numero"
+    },
+    {
+      "dove": "registro-compatto.txt",
+      "campo": "righe 806, 2797, 2809",
+      "cosa": "tipo a+b, confidenza alta: tre voci pubbliche del registro (una grave riparata, due minori doppioni) descrivono il meccanismo di una falla aperta di S01; erano già nel registro prima di oggi"
+    },
+    {
+      "dove": "referti/S01.json, referti/S01b.json",
+      "campo": "S01 copertura righe 192 e voci 6, 13, 14, 18; S01b copertura riga 343; S01b riga 2270 (esito_prova)",
+      "cosa": "tipo b, debole (segni delle sessioni): nomi già presenti nel registro pubblico"
     }
   ],
   "riservatezza_note": [
@@ -70,7 +80,8 @@
     "Puliti: grezzo.json, doppioni.json, trovati.txt (solo intestazione e stato dei rami), diario-della-sorveglianza.txt (solo numeri), referti/S01d.json intero, la copertura di S01c, i conto, il corpo della PR #1030 (solo numeri).",
     "I file di lavoro della cartella (lotti, registro-compatto.txt, prepasso.json/tsv, da-ricontrollare.txt) portano i puntatori file:righe del registro anche per le 9 falle. Non è una fuga nuova: le stesse righe sono già su main in altre cartelle (per esempio onda-700 e 2026-11-12-sito-tutto). Resta però il buco di fondo: il registro tiene in chiaro il dettaglio di voci che le sessioni trattano come falle.",
     "Confronto delle otto parole: fatto con i dettagli che S01 e S01b hanno mandato in chat (7 falle su 9). Nessuna voce pubblica ripete otto parole di fila, e nessuna nomina le funzioni o i nomi distintivi delle falle. I file e le righe sì, solo nelle sezioni copertura (vedi i primi tre segni).",
-    "Proposta: togliere i segni di copertura (S01 e S01b) prima dell'unione, o raggrupparli sotto «file del referto privato». Il resto è da valutare voce per voce. I referti sono già sui rami delle sessioni: se Nicola vuole, decide lui se riscriverli."
+    "Proposta: togliere i segni di copertura (S01 e S01b) prima dell'unione, o raggrupparli sotto «file del referto privato». Il resto è da valutare voce per voce. I referti sono già sui rami delle sessioni: se Nicola vuole, decide lui se riscriverli.",
+    "Le sessioni, ognuna sulle sue falle, non hanno trovato otto parole di fila né un «come». I loro segni deboli coincidono in buona parte con quelli dei revisori (coperture di S01 e S01b, S01 ricontrolli[24] e [25], S01b ricontrolli[71])."
   ],
   "sorpresa": [],
   "sorpresa_nota": "Non applicabile: il grezzo ha 0 difetti, quindi non c'è nessun grave o bloccante da estrarre.",
@@ -81,7 +92,10 @@
   "da_riservare": [
     "S01b ricontrolli[41]",
     "S01b ricontrolli[25]",
-    "S01b ricontrolli[81]"
+    "S01b ricontrolli[81]",
+    "privacy-legale|il negozio può chiudere un reso senza rimborsare il cliente, anche se il cliente ha esercitato il recesso e la merce è già tornata",
+    "api-backend|il browser del negoziante può ancora scrivere i prodotti senza passare dalla porta che registra la traccia",
+    "rls-database|la regola per riga lascia ancora scrivere il catalogo dal browser saltando traccia e controlli: adesso è dichiarato, non chiuso"
   ],
   "buchi": [
     "17 voci non_verificabile che nessuno può chiudere da qui: S01 4 (1 bloccante: l'indirizzo in centro rifiutato dalla cassa; 3 gravi), S01b 9, S01c 4. Servono il database vero, le variabili di Vercel, la rete verso il servizio delle mappe o un browser vero.",
