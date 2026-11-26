@@ -1369,3 +1369,9 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa cambia:** la scheda Google si mostra solo nel riquadro ufficiale, in diretta. TripAdvisor resta spento finché non arriva un sì scritto. Con DataForSEO il rischio verso Google è nostro, e delle recensioni si tengono solo i temi.
 - **Cosa è stato fatto:** avviso urgente alle due sessioni alle 15:15; piano e carta #265 corretti.
 - **Cosa resta a Nicola:** dire se accetta il rischio di DataForSEO; far rileggere il parere a un legale abilitato.
+
+## 2026-11-26 15:25 — Il primo ricontrollo a onde del sito, lanciato senza consensi (🟡)
+- **Cosa:** Nicola alle 13:38: «Parti con la nuova strategia di radiografia», e niente richieste di consenso salvo all'estremo. Il freno dei conti (novembre 0,18) ferma le ricerche nuove, quindi solo il profilo `ricontrollo`: 4 sessioni, 272 voci, 45 chiuse, aperte del sito da 598 a 553, 64,73 $ contro 77,04 $ attesi.
+- **Scelte dell'AD al posto delle fermate:** regia nella sessione dell'AD (un'onda sola, sotto 100 $); tetto 100 $; sessioni senza ultracode perché il prompt «/effort» oggi non passa; il confronto di riservatezza fatto da ogni sessione sulle proprie falle, perché il controllo dei permessi blocca l'invio dei dettagli fra sessioni; tolte dai referti 13 righe di copertura che puntavano ai file delle falle (restano nella storia del ramo, nomi già nel registro pubblico); i titoli delle 9 falle NON nascosti nel registro (pubblici da settimane, servono alla riparazione in corso).
+- **Perché:** il ricontrollo è la chiusura più economica e non apre voci; le altre scelte sono reversibili e Nicola non voleva fermate.
+- **Cosa resta a Nicola:** unire la ad-mycity#1030; dire se vuole i titoli delle falle nascosti; firmare la riscrittura del passo F1 della skill `radiografia-sessioni` su ultracode.
