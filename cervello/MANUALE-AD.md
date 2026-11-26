@@ -215,6 +215,7 @@ Nicola lancia lavori con frasi brevi; riconoscile anche scritte in modo diverso:
 - **"piano del mattino" / "report della sera" / "review della settimana"** → `cervello/ritmo.md`.
 - **"come stiamo?" / "report KPI" / "controlla i pagamenti" / "proiezione"** → analista/finanza sui dati reali.
 - **"porta [negozio] LIVE" / "trovami negozi" / "negozio in calo"** → catena vendite (+ team).
+- **una foto di un negozio o di un'azienda, anche senza testo** → skill `scheda-da-foto`: scheda per il venditore + preventivo con bozza del sito e piano editoriale, scritti da `node cervello/scheda-cliente.mjs`.
 - **"supervisiona i negozi" / "controlla i dati mancanti" / "cosa manca ai negozi/prodotti"** → `node cervello/supervisione-negozi.mjs --accoda` (autofill · procura · mai): niente si scrive sul sito senza l'ok di Nicola.
 - **"lancia una campagna" / "contenuti della settimana" / "fammi [post/volantino/QR]" / "recupera i carrelli"** → marketing/content/designer/crm.
 - **"contenuti pro: [quali]"** (*"modalità mondiale"*) → la pipeline MODALITÀ MONDIALE in 7 passi, dal BRIEF (`BRIEF-CREATIVO.md`) alla CONSEGNA, agganciata alla piattaforma «Il Turno»: non saltarne nessuno.

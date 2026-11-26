@@ -1916,6 +1916,16 @@
         }
       ],
       "esenzioni": []
+    },
+    {
+      "id": "agenzia.scheda-da-foto",
+      "nome": "La scheda del venditore nasce dalla foto",
+      "valore": "La scheda del venditore nasce dalla foto (Nicola, 26/11/2026 verso le 13:35). Il venditore fotografa l'attività in cui entra e manda la foto a una sessione nuova: la sessione legge la foto, cerca sul web via e numero, telefono, sito, social e recensioni, e consegna due pagine. ① La scheda per il venditore, interna, subito: cosa ha, cosa non ha, cosa va migliorato, potenziale, offerta, domande. ② Il preventivo per il cliente con l'anteprima di cosa offriamo: punti forti e deboli, la bozza del sito secondo gli standard, il piano editoriale del mese già pronto, gli abbonamenti. Le pagine le scrive cervello/scheda-cliente.mjs da un dati.json; la skill è scheda-da-foto. È un'altra cosa dalla scheda del cliente che riempie la vetrina MyCity, che resta dopo l'abbonamento (agenzia.analisi-e-scheda).",
+      "fonte": "Nicola, chat all'AD session_01R8112NFY3AU2rJekrQw41G, 26/11/2026",
+      "aggiornato": "2026-11-26 14:02",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
     }
   ]
 }

@@ -51,11 +51,11 @@ Se va bene: la riparazione in corso lavora su una lista più corta e più vera.
 - **Reparto:** ad
 - **Dettagli tecnici:** referto `consegne/audit/2026-11-26-radiografia.md`, quaderno `consegne/radiografia/2026-11-26-ricontrollo/REGIA.md`, ramo `ccr-aa566c13-nvkbaw`.
 
-### 🔴 #265 — Apri Google Cloud e DataForSEO per il rapporto dell'imprenditore, e di' se accetti il rischio sulle recensioni · ⏳ accodata 2026-11-26 15:05 · @builder-automazioni
+### 🔴 #265 — Apri Google Cloud e DataForSEO per il rapporto dell'imprenditore, e di' se accetti il rischio sulle recensioni · ⏳ accodata 2026-11-26 14:55 · @builder-automazioni
 
-**Stato:** ⏳ in attesa di Nicola (corretta alle 15:20 col parere legale)
+**Stato:** ⏳ in attesa di Nicola (corretta alle 14:58 col parere legale)
 
-**In parole semplici.** Il rapporto sulle attività che si iscrivono userà fonti a pagamento. Alle 14:45 del 26/11 ne hai approvate tre. Il parere legale delle 15:10 ne tiene due. Le sessioni costruiscono i pezzi spenti: si accendono quando ci sono le chiavi.
+**In parole semplici.** Il rapporto sulle attività che si iscrivono userà fonti a pagamento. Alle 14:45 del 26/11 ne hai approvate tre. Il parere legale delle 14:53 ne tiene due. Le sessioni costruiscono i pezzi spenti: si accendono quando ci sono le chiavi.
 Per esempio: per La Ragazzetta il riquadro ufficiale di Google mostrerebbe la sua scheda, che il web non ha trovato.
 
 **Cosa cambia per te.** Google resta gratis sotto le sue quote, ma i suoi dati non si salvano: si vedono solo nel riquadro di Google. TripAdvisor resta spento finché non arriva un sì scritto. DataForSEO chiede 50 dollari di ricarica, una volta sola, e il rischio verso Google resta nostro.
@@ -1806,6 +1806,7 @@ Al posto di `"Bash(node cervello/*.mjs:*)"` — 144 righe:
       "Bash(node cervello/sblocco-capacita.mjs:*)",
       "Bash(node cervello/scadenzario-check.mjs:*)",
       "Bash(node cervello/scan-segreti.mjs:*)",
+      "Bash(node cervello/scheda-cliente.mjs:*)",
       "Bash(node cervello/schede-pacchetto.mjs:*)",
       "Bash(node cervello/scritture-a-rischio.mjs:*)",
       "Bash(node cervello/senior-sola-lettura.mjs:*)",

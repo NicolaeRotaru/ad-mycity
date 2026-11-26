@@ -127,6 +127,7 @@ const DESTINAZIONE = [
   ["consegne/pr/", "business"],
   ["consegne/seo/", "business"],
   ["consegne/vendite/", "business"],
+  ["consegne/clienti/", "business"], // 26/11/2026: scheda del venditore e preventivo nati dalla foto di un'attività (skill scheda-da-foto)
   ["consegne/marketing/", "business"],
   ["consegne/crm/", "business"],
   ["consegne/growth/", "business"],

@@ -125,6 +125,7 @@ export const DESCRIZIONI = {
     collaudo: "Il collaudo di ciò che deve reggere: chi ha costruito non collauda, e chi collauda ha il mandato di distruggere.",
     riparazione: "La riparazione in sessioni parallele, sullo stampo della radiografia in 12 sessioni: una regista divide, sorveglia e unisce, fino a 12 sessioni riparano e fino a 4 collaudano, per il sito e per la macchina.",
     "radiografia-sessioni": "La radiografia del sito in sessioni parallele, sullo stampo della riparazione: una regista divide e sorveglia, le sessioni cercano a lotti piccoli, un verificatore solo per gravi e falle, e un programma rifà i conti; profilo lancio finché i minori aperti sono più di 100.",
+    "scheda-da-foto": "La scheda del cliente dalla foto: il venditore fotografa l'attività, una sessione nuova cerca via, social, sito e recensioni e consegna la scheda interna per il venditore e il preventivo con bozza del sito e piano editoriale; le pagine le scrive cervello/scheda-cliente.mjs.",
     goku: "Il supervisore delle sessioni: con «sei: goku» una sessione guarda per un'ora tutte le sessioni attive, ripara quello che può, porta a Nicola solo quello che tocca a lui e lo avvisa dieci minuti prima di scadere.",
     // Qui si descrive solo ciò che sta in `.claude/skills/`: le skill di un pacchetto plugin
     // entrano quando il pacchetto le mette in quella cartella, non prima (il censimento segna
