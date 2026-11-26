@@ -1,13 +1,13 @@
 {
   "sessione": "S01c",
   "base_sito": "ed12ed8ec8190e1132b690f6e034c30f0a5d55ba",
-  "aggiornato": "2026-11-26 14:56",
-  "finita": false,
+  "aggiornato": "2026-11-26 15:01",
+  "finita": true,
   "lotti": [
     {
       "id": "L01",
-      "esito": "non_fatto",
-      "perche": "il subagente del lotto non è tornato (sessione scollegata alle 13:51); da rifare"
+      "esito": "fatto",
+      "perche": null
     },
     {
       "id": "L02",
@@ -94,6 +94,183 @@
   "scartati": [],
   "regressioni": [],
   "ricontrolli": [
+    {
+      "chiave": "qa-flussi|la rotta dei contanti non dichiara maxduration con le email in fila",
+      "esito": "ancora_vero",
+      "prova": "app/api/orders/cod/route.ts:51 (solo runtime) · vercel.json:13-22 (nessuna voce per orders/cod) · route.ts:1854-1911 (await alVenditore/alCliente in fila)",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "grep maxDuration su route e vercel.json: nessuna dichiarazione per la rotta COD; le email partono in fila con await",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "api-backend|il preventivo accettato due volte nello stesso giorno con scelte diverse lascia avvisi che si contraddicono",
+      "esito": "ancora_vero",
+      "prova": "app/api/seller/preventivo/route.ts:75-99",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "chiave unaVoltaPer include l'abbonamento scelto: Base poi Premium nello stesso giorno = due avvisi distinti, nessuno annulla o sostituisce il precedente",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "anche il flusso n8n parte due volte",
+      "falla": false
+    },
+    {
+      "chiave": "pagamenti-stripe|il credito mycity si spende solo pagando in contanti: chi paga con carta non può usare il buono regalo",
+      "esito": "ancora_vero",
+      "prova": "app/checkout/page.tsx:830-833,1596-1647 · grep credit su app/api/stripe/checkout/route.ts = 0 righe",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "usaCredito solo se paymentMethod==='cod'; la rotta carta non conosce il credito; la pagina lo dice al cliente",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "cambiata solo la comunicazione (avviso «per ora si usa solo pagando alla consegna»)",
+      "falla": false
+    },
+    {
+      "chiave": "qa-flussi|due veloci pagate con la carta nello stesso momento con un fattorino solo passano tutte e due",
+      "esito": "ancora_vero",
+      "prova": "app/api/stripe/checkout/route.ts:529-541 · lib/ordini/consegna-veloce.ts:148-165",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "controllo = conteggio fattorini online meno veloci in corso, senza blocco né prenotazione: due richieste simultanee leggono lo stesso conteggio prima che nasca l'ordine",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "corsa di lettura-poi-scrittura non serializzata",
+      "falla": false
+    },
+    {
+      "chiave": "privacy-legale|nessun consenso finisce a verbale: termini e scelte sui cookie restano solo nel browser, e nessuno riprova a registrarli",
+      "esito": "non_piu_vero",
+      "prova": "lib/consent.ts:51-58,85-130 (riprovaLaRegistrazione + CONSENT_DA_REGISTRARE) · app/api/consent/route.ts:138-153 (503 senza chiave, il browser tiene la scelta) · app/auth/callback/route.ts:89-120 · app/api/auth/signin/route.ts:115-135 · app/auth/confirm/route.ts:183",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "cookie: la scelta resta in attesa e si rimanda alla pagina successiva se 5xx/429; Termini: verbale scritto dal server in callback, confirm e accesso con password",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null
+    },
+    {
+      "chiave": "stati-ui|oncount della griglia non sa dire «non so»: con la griglia ferma al tetto la categoria può restare su un numero vecchio",
+      "esito": "ancora_vero",
+      "prova": "components/ProductGrid.tsx:164,541-547 · app/category/[slug]/page.tsx:197,622,653",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "onCount resta (count:number)=>void; con contoNonSiSa semplicemente non viene chiamato e resultCount della categoria resta al valore precedente (mai rimesso a null)",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "stati-ui|senza database la categoria e la scheda prodotto mostrano «qualcosa è andato storto» invece del loro errore con «riprova»",
+      "esito": "ancora_vero",
+      "prova": "lib/supabase/client.ts:49-73 · app/category/[slug]/page.tsx:53,242 · app/product/[id]/page.tsx:166,469",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "il client lancia appena lo si tocca se mancano le variabili; codice invariato rispetto alla segnalazione",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "non riprodotto in un browser: confidenza media, resta aperta",
+      "falla": false
+    },
+    {
+      "chiave": "flussi-conversione|chi sceglie il ritiro in negozio non dice mai a che ora passa",
+      "esito": "cambiato",
+      "prova": "lib/ritiro-in-negozio.ts:22 (RITIRO_IN_NEGOZIO_ATTIVO=false) · components/checkout/PaymentMethodSelector.tsx:175-188 · app/checkout/page.tsx:1032-1038",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "il ritiro in negozio è spento: la casella non compare, quindi oggi nessuno lo sceglie; il corpo dell'ordine continua a non avere un campo orario di ritiro",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "difetto dormiente: torna vero il giorno che si riaccende il ritiro",
+      "falla": false
+    },
+    {
+      "chiave": "qa-flussi|con due schede aperte il credito mycity si spende nella prima, e la seconda ordina mostrando ancora lo sconto del credito",
+      "esito": "ancora_vero",
+      "prova": "app/checkout/page.tsx:473-480,1035 · components/providers/QueryProvider.tsx:65-70 (staleTime 30s, refetchOnWindowFocus false) · app/api/orders/cod/route.ts:1453-1465",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "il saldo si legge una volta; tornando sulla seconda scheda non si rilegge; il server scala solo quello che c'è e nessun confronto col totale mostrato",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "il cliente paga il totale vero alla consegna, ma vede uno sconto che non c'è",
+      "falla": false
+    },
+    {
+      "chiave": "layout-responsive|a 280 px col testo al 200% scorrono di lato anche faq, negozi, resi e lavora con noi",
+      "esito": "non_piu_vero",
+      "prova": "app/stores/page.tsx:356-362 (R12-002) · app/returns/page.tsx:23-24 (R12-002 break-words ereditato) · app/faq/page.tsx:221,249,268,273 · app/lavora-con-noi/page.tsx:111-113 (R15-008)",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "correzioni mirate presenti in tutte e quattro le pagine (testo che va a capo, menu limitato alla riga)",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "non misurato a 280 px col testo al 200%: verifica solo da lettura"
+    },
+    {
+      "chiave": "qa-flussi|un cliente che esiste già non ha una strada da solo per diventare fattorino",
+      "esito": "cambiato",
+      "prova": "app/help/page.tsx:56-60,103-109",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "aggiunta (24/11) la frase «Hai già un account cliente e vuoi diventare rider? Scrivici dal modulo contatti»: c'è una strada spiegata, ma passa da una persona, non è fai-da-te",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "/lavora-con-noi porta ancora a /sign-up?role=rider, inutile per chi è già cliente",
+      "falla": false
+    },
+    {
+      "chiave": "qa-flussi|il precarico proposto nel layout pesa su ogni pagina (costo dichiarato, da far decidere a chi lo applica)",
+      "esito": "ancora_vero",
+      "prova": "app/layout.tsx:39-42,239-240,291-305",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "precaricaSito gira nel layout radice e il suo stato idratato entra in ogni pagina (in cache unstable_cache); il costo non è stato tolto né limitato a certe pagine",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "è una scelta dichiarata, non un guasto",
+      "falla": false
+    },
+    {
+      "chiave": "qa-flussi|la campanella del sito mostra le promozioni anche a chi le ha spente",
+      "esito": "ancora_vero",
+      "prova": "app/notifications/page.tsx:77-93 · confronto components/seller/SellerShell.tsx:112-123",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "la pagina legge tutte le notifiche dell'utente senza guardare notif_promos; il filtro esiste solo nel pannello del venditore",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": null,
+      "falla": false
+    },
+    {
+      "chiave": "qa-flussi|se la lettura dei reclami fallisce, la pagina del reclamo ripropone il modulo e un secondo reclamo su uno chiuso passa",
+      "esito": "non_piu_vero",
+      "prova": "app/orders/[id]/dispute/page.tsx:175-186",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "se la lettura dei reclami cade si imposta letturaFallita('reclami') e si esce: il modulo non si mostra",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "la pagina dell'ordine (app/orders/[id]/page.tsx:287-288) lascia «Apri reclamo» ma porta a questa pagina, che ora si ferma"
+    },
+    {
+      "chiave": "coerenza-brand|ombre nere fredde accanto alle ombre calde del brand; il token creato apposta non è usato mai",
+      "esito": "cambiato",
+      "prova": "tailwind.config:180-189 (boxShadow sotto extend) · grep: shadow-card 12 usi, shadow-sm-neutral 12 usi · shadow-sm/md/lg/xl/2xl di Tailwind ancora presenti (circa 26 shadow/shadow-sm, 19 md-2xl)",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "i token neutri/caldi ora sono usati; le ombre nere predefinite di Tailwind convivono ancora con quelle del brand",
+      "verificato": false,
+      "verificato_da": null,
+      "nota": "resta vera la prima metà del titolo, non più la seconda",
+      "falla": false
+    },
     {
       "chiave": "microcopy|il cliente e l'email leggono ancora «un rider passa a prenderlo», mentre il pulsante del negozio ora dice «fattorino»",
       "esito": "non_piu_vero",
@@ -1336,12 +1513,30 @@
   "prove_per_la_palestra": [],
   "domande_per_nicola": [],
   "conto": {
-    "agenti": 0,
+    "agenti": 9,
     "permesso_regista": null,
-    "usd": null,
+    "usd": 15.58,
     "usd_perche": null,
-    "token_sessione": {},
-    "token_subagenti": {},
-    "nota": ""
+    "token_sessione": {
+      "agenti": 1,
+      "agenti_misurati": 1,
+      "turni": 31,
+      "input": 66,
+      "scritti_cache": 412050,
+      "letti_cache": 6067338,
+      "uscita": 54060,
+      "entrata_totale": 6479454
+    },
+    "token_subagenti": {
+      "agenti": 9,
+      "agenti_misurati": 9,
+      "turni": 356,
+      "input": 712,
+      "scritti_cache": 567401,
+      "letti_cache": 22042598,
+      "uscita": 142992,
+      "entrata_totale": 22610711
+    },
+    "nota": "usd da get_session (cost_usd 15.576) alle 15:00 circa, prima della chiusura; 9 subagenti qa: 8 lotti + L01 rifatto (il primo lancio di L01 aveva il segnaposto LXX e non è tornato dopo la correzione)"
   }
 }
