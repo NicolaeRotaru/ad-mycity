@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-11-26 15:00",
+  "aggiornato": "2026-11-26 16:13",
   "fatti": [
     {
       "id": "ad.uso-e-crediti",
@@ -130,6 +130,16 @@
           "dal": "2026-11-26 15:00"
         }
       ],
+      "esenzioni": []
+    },
+    {
+      "id": "agenzia.scheda-da-foto",
+      "nome": "La scheda del venditore nasce dalla foto",
+      "valore": "La scheda del venditore nasce dalla foto (Nicola, 26/11/2026 verso le 13:35). Il venditore fotografa l'attività in cui entra e manda la foto a una sessione nuova: la sessione legge la foto, cerca sul web via e numero, telefono, sito, social e recensioni, e consegna due pagine. ① La scheda per il venditore, interna, subito: cosa ha, cosa non ha, cosa va migliorato, potenziale, offerta, domande. ② Il preventivo per il cliente con l'anteprima di cosa offriamo: punti forti e deboli, la bozza del sito secondo gli standard, il piano editoriale del mese già pronto, gli abbonamenti. Le pagine le scrive cervello/scheda-cliente.mjs da un dati.json; la skill è scheda-da-foto. È un'altra cosa dalla scheda del cliente che riempie la vetrina MyCity, che resta dopo l'abbonamento (agenzia.analisi-e-scheda).",
+      "fonte": "Nicola, chat all'AD session_01R8112NFY3AU2rJekrQw41G, 26/11/2026",
+      "aggiornato": "2026-11-26 14:02",
+      "storia": [],
+      "caccia": [],
       "esenzioni": []
     },
     {
@@ -407,6 +417,16 @@
       "valore": "Categorie al lancio, firmate da Nicola il 2026-10-29 00:05: niente abbigliamento per ora; tutto il resto sì, per i piccoli negozi che Glovo e Deliveroo non guardano: spesa fresca (pane e forno, frutta e verdura, macelleria, salumi e formaggi, latticini, gastronomia fresca, pasta fresca, dispensa), cura della persona, parafarmacia, regali e ricorrenze. L'albero va reso più ampio, con più sottocategorie di quello proposto il 29/10 alle 00:40. Pane Quotidiano vende pane, verdura fresca, alimentari e cura della persona.",
       "fonte": "Nicola in chat, 2026-10-29 00:05 (carta #219, punto 1)",
       "aggiornato": "2026-10-29 00:06",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
+      "id": "clienti.tropico-pagine",
+      "nome": "Le pagine su cui si pubblica il Tropico",
+      "valore": "Tropico Latino: tutto quello che Nicola approva si pubblica su tutte e quattro le pagine del locale, sempre (Nicola, 26/11/2026 verso le 16:10). Prima coppia, flusso 01: Instagram tropico.latino92 e Facebook «Tropico Latino». Seconda coppia, flusso 01b: Instagram eltropicolatino (l'account storico, 563 post) e Facebook «El Tropico Latino». Il flusso 01b è in modalità vera dal 26/11 alle 14:00 e resta acceso.",
+      "fonte": "Nicola in chat all'AD, 26/11/2026 verso le 16:10 («Sì, tutto deve essere pubblicato su tutte le pagine di Tropico»)",
+      "aggiornato": "2026-11-26 16:13",
       "storia": [],
       "caccia": [],
       "esenzioni": []
@@ -1915,16 +1935,6 @@
           "chiusa": "2026-08-23 15:05"
         }
       ],
-      "esenzioni": []
-    },
-    {
-      "id": "agenzia.scheda-da-foto",
-      "nome": "La scheda del venditore nasce dalla foto",
-      "valore": "La scheda del venditore nasce dalla foto (Nicola, 26/11/2026 verso le 13:35). Il venditore fotografa l'attività in cui entra e manda la foto a una sessione nuova: la sessione legge la foto, cerca sul web via e numero, telefono, sito, social e recensioni, e consegna due pagine. ① La scheda per il venditore, interna, subito: cosa ha, cosa non ha, cosa va migliorato, potenziale, offerta, domande. ② Il preventivo per il cliente con l'anteprima di cosa offriamo: punti forti e deboli, la bozza del sito secondo gli standard, il piano editoriale del mese già pronto, gli abbonamenti. Le pagine le scrive cervello/scheda-cliente.mjs da un dati.json; la skill è scheda-da-foto. È un'altra cosa dalla scheda del cliente che riempie la vetrina MyCity, che resta dopo l'abbonamento (agenzia.analisi-e-scheda).",
-      "fonte": "Nicola, chat all'AD session_01R8112NFY3AU2rJekrQw41G, 26/11/2026",
-      "aggiornato": "2026-11-26 14:02",
-      "storia": [],
-      "caccia": [],
       "esenzioni": []
     }
   ]

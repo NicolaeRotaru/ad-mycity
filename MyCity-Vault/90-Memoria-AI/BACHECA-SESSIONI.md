@@ -28,6 +28,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 26/11 ~16:10 | AD, chat del Tropico, risposta alla domanda sulle pagine | Tutto quello che approva per il Tropico si pubblica sempre su tutte e quattro le pagine del locale, anche dopo il 28/11. Il flusso 01b resta acceso. Fatto registrato come `clienti.tropico-pagine` |
 | 26/11 ~15:10 | AD (`…NFY3AU`) | Sulla scheda e sul preventivo dalla foto: «la proposta è strafiga», ma mancano tanti dati. Il preventivo deve essere un prodotto finito, che il cliente deve solo accettare. Servono quattro cose. Il valore in più detto chiaro all'imprenditore. Un'offerta su misura per ogni cliente. L'analisi vera dei social: ogni quanto pubblica, i post e le storie. Una bozza del sito fatta e finita, non un modello. Per ora nessun lavoro: ci si torna dopo le altre sessioni |
 | 26/11 15:05 | AD, quando ha ripreso dopo lo stop | Via alle risposte per la sessione dei contenuti: Calendario e cartella Drive come proposti dall'AD; le storie anche animate o video, non solo immagini |
 | 26/11 15:00 | la chat dei consensi, per tutte le sessioni | Regola base: non si cancella mai niente, si archivia. «Nulla è davvero nostro, noi stiamo gestendo le cose degli altri.» Vale sui social e su tutto quello che gestiamo per i clienti. Sta in `CLAUDE.md`, sotto la regola d'oro |

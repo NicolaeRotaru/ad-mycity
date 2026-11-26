@@ -1392,3 +1392,8 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa era sbagliato:** nella voce qui sopra «2026-11-26 15:20» avevo scritto orari che non erano ancora arrivati. Me l'ha fatto notare Goku, il supervisore delle sessioni, alle 15:08.
 - **Gli orari veri:** il parere legale è delle 14:53. L'avviso urgente alle due sessioni è partito verso le 14:56. Le correzioni al piano sono entrate alle 14:58. Quindi la voce vale come «2026-11-26 14:58».
 - **Cosa ho corretto:** gli orari nel piano, nella carta #265 e nel lavoro aperto. La voce qui sopra resta com'è, perché questo registro non si riscrive.
+
+## 2026-11-26 16:13 — Tropico Latino: si pubblica sempre su tutte e quattro le pagine (🔴 pubblicazione, firma di Nicola in chat)
+- **Chi e quando:** Nicola, in chat all'AD verso le 16:10, alla domanda se dopo il 28/11 le pagine eltropicolatino ed El Tropico Latino dovessero continuare a ricevere tutto: «Sì, tutto deve essere pubblicato su tutte le pagine di Tropico».
+- **Cosa vuol dire:** ogni contenuto approvato per il Tropico esce sulla prima coppia (flusso 01: tropico.latino92 e «Tropico Latino») e poi sulla seconda (flusso 01b: eltropicolatino ed «El Tropico Latino»). Vale anche per i contenuti di dicembre già approvati.
+- **Fatto:** nessun cambio su n8n, perché il 01b è già acceso in modalità vera dal 26/11 alle 14:00. Registrato il fatto `clienti.tropico-pagine` nel registro dei fatti. Tolta la domanda aperta da LAVORO-APERTO.
