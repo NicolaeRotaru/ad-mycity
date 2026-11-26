@@ -40,11 +40,18 @@ Che ogni domanda sia ancora attuale sul codice di oggi.
 - qa-flussi|una migrazione che aggiunge una colonna non si può consegnare da sola: i tipi generati vanno rigenerati nello stesso commit
 - api-backend|una notifica push presa dal giro del cron si perde per sempre se il giro muore prima di mandarla o ridarla
 
+- R13-002 · la regola dei raggi della Card: va decisa prima di migrare 141 riquadri che appartengono ad altre parti del sito
+- R13-011 · oggi nessun fattorino iscritto dal sito può essere approvato: aprire /rider/onboarding al fattorino in attesa, oppure togliere «Rider» dall'iscrizione
+- R13-010 · il cliente già registrato che vuole fare il fattorino: una strada dal sito o il modulo contatti (la scheda d'aiuto sbagliata è già corretta)
+
 ### Prove comuni che chiedono la tua firma (la correzione è pronta, tolta dal ramo)
 
 Una prova comune è un controllo che protegge più riparazioni insieme. Cambiarla chiede la tua firma, quindi la correzione è stata tolta e aspetta te.
 - R04-011 · il reso con la nota del negozio: per stare verde la correzione cambia lo scenario della prova comune del reso (correzione nel commit 51fd671b, tolta con 2a477dd2). R04-013 era nello stesso commit: si rifà da sola nel giro dopo.
 - R02-011 · l'esito di una recensione accolta parte solo quando la recensione non è più pubblicata: la correzione regge ma cambia una prova comune delle segnalazioni (correzione nel commit daecd9af, tolta con 23c3eb6f).
+
+- R13-013 · la prova comune della schermata d'aiuto: la modifica esatta è nel referto di R13
+- R12-002 · l'avvio del lotto del catalogo durante un'applicazione: oggi risponde 200, la correzione lo gira a 409 e cambia un caso della prova comune di R13 (modifica esatta nel referto di R12)
 
 ### Domande (campo domanda_per_nicola del registro)
 
