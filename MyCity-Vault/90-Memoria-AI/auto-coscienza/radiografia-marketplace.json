@@ -97099,6 +97099,18 @@
       "impatto": "Un'offerta fissa che il negoziante impara a ignorare.",
       "fix": "Scelta di prodotto: nasconderlo dopo l accettazione o dopo N giorni, oppure lasciarlo.",
       "fonte": "collaudo indipendente del preventivo dell'agenzia, 2026-11-23 01:40 (ramo claude/mycity-entrepreneur-signup-flexible-d66bey)"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "Legale",
+      "severita": "minore",
+      "stato": "aperto",
+      "titolo": "Le schede degli agenti restano in n8n dopo la cancellazione dell'account",
+      "file": "lib/account/cancellazione.ts",
+      "descrizione": "Le schede del cliente fatte da un agente stanno nella tabella n8n «Schede per il venditore», legate alla sua email. Quando l agente cancella l account MyCity, la cancellazione avvisa Stripe ma non n8n: email e storico delle schede restano. Anche lo scarico dei dati personali non le include.",
+      "impatto": "Una richiesta di cancellazione (diritto all oblio) non arriva fino in fondo per gli agenti; la stessa email, se registrata di nuovo, ritrova le schede vecchie.",
+      "fix": "Nel flusso 14c un azione «archivia» che toglie l email dalle righe dell agente (senza cancellare la riga, regola «si archivia»), chiamata da cancellaAccount come per Stripe; e le schede dentro lo scarico dei dati.",
+      "fonte": "collaudo indipendente degli agenti dentro MyCity, 2026-11-26 22:15 (ramo ccr-6186d974-q1ig43, commit 7339f4d)"
     }
   ],
   "sync_scan": {
