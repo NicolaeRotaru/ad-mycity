@@ -28,6 +28,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 26/11 13:45 | sessione «Strategia risoluzione difetti» (`session_015BmpnXuogkPZVts89PH67a`) | «Lavora su tutti i difetti, tranne quelli dove serve la mia approvazione o che devo fare io», «senza chiedere approvazione», e i difetti nuovi che non chiedono lui rientrano nell'ondata attuale. Il tetto resta il suo «ok 1.200» del 24/11. Quaderno `consegne/riparazioni/2026-11-26-tutti/REGIA.md`. |
 | 26/11 mattina | sessione «Lettura pagine da n8n» (`…KGbhsq`) | Lettura delle pagine dei clienti nuovi: al terzo collaudo bocciato ha scelto «Ripara solo questo». Riparato in NicolaeRotaru/N8N#18, in uso sul 12 e sul 26. Il quarto collaudo regge. I 14 difetti minori restano aperti, da non toccare adesso. |
 | 25/11 23:07-23:25 | AD, chat «Tropico: video e post» (`…0rxfdd`), via Telegram | Pacchetto di dicembre del Tropico, 5 contenuti **approvati**: il reel del 3/12, i post del 4 e del 6/12, il carosello dell'11/12, il reel del 15/12. Il post del burrito del 17/12 è **rifiutato** e torna in bozza. Restano 7 righe da approvare. |
 | 25/11 ~20:50 | sessione «Dati mancanti» (`…LJpfxZ`) | «Ripara»: le pagine dei clienti nuovi le legge n8n, nel 12 e nel 26. In uso dalle 22:15, N8N#18. Per il 12 e il 26 la rete della routine dell'AD non serve più |
@@ -167,10 +168,12 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 | 12/11 21:05 (entro) | regista | «Risolvi le due regole» del programma di riparazione: guardia sul risultato del ramo e prova dei file nuovi e delle migrazioni |
 
 ## Chi fa cosa, adesso
-Aggiornata il 2026-11-24 21:16. Le sessioni dell'onda dei 700, regie e figlie, sono finite: qui non ci sono più.
+Aggiornata il 2026-11-26 14:00 (righe nuove in cima; le altre sono del 24/11). Le sessioni dell'onda dei 700, regie e figlie, sono finite: qui non ci sono più.
 
 | Sessione | Lavoro | File suoi |
 |---|---|---|
+| «Strategia risoluzione difetti» (`…Xuogk`) | Regia della riparazione del 26/11: tutti i difetti del sito senza Nicola, tetto 1.200 $. Onda 1: R01-R11 dalle 13:55 | ad-mycity `ccr-a672a2b3-92w5w1` (`consegne/riparazioni/2026-11-26-tutti/`), mycity `ccr-a672a2b3-92w5w1` e `-mNN` |
+| «Radiografia strategia consensi» (`…XAVwP`) | Ricontrollo di 272 voci del sito, tetto 100 $ | ad-mycity `ccr-aa566c13-nvkbaw` |
 | «700 difetti risoluzione» (`…Lzth8W`) | AD della campagna. Fa la PR unica di ad-mycity chiesta da Nicola alle 21:11 | #991-#994 → PR unica |
 | «Ora del Gusto: iscrizione e preventivo» (`…LZXxKx`) | Ora del Gusto e servizi SDG. Migrazioni 703-710 in produzione alle 20:49. Aspetta 3 clic di Nicola | ramo di #992, fermo |
 | «Servizio Analisi del business e bozza del sito» (`…NW9NV7`) | Figlia di Ora del Gusto. Codice del sito, migrazione 711 | ramo suo su mycity |

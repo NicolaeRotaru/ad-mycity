@@ -1,0 +1,73 @@
+{
+ "regista": "session_015BmpnXuogkPZVts89PH67a",
+ "sessioni": {
+  "R01": {
+   "id": "session_015BmpnXys1AT7cESu2Msz5U",
+   "ramo": "ccr-a672a2b3-92w5w1-m01",
+   "onda": 1,
+   "aperta": "2026-11-26 13:55"
+  },
+  "R02": {
+   "id": "session_015BmpnWsaTUbwkaTwsiQQLd",
+   "ramo": "ccr-a672a2b3-92w5w1-m02",
+   "onda": 1,
+   "aperta": "2026-11-26 13:55"
+  },
+  "R03": {
+   "id": "session_015BmpnX9ApAay3P4BFSEiea",
+   "ramo": "ccr-a672a2b3-92w5w1-m03",
+   "onda": 1,
+   "aperta": "2026-11-26 13:55"
+  },
+  "R04": {
+   "id": "session_015BmpnWm15Et3xWeeDucxoY",
+   "ramo": "ccr-a672a2b3-92w5w1-m04",
+   "onda": 1,
+   "aperta": "2026-11-26 13:55"
+  },
+  "R05": {
+   "id": "session_015BmpnW48C13xd8btGwkZEj",
+   "ramo": "ccr-a672a2b3-92w5w1-m05",
+   "onda": 1,
+   "aperta": "2026-11-26 13:55"
+  },
+  "R06": {
+   "id": "session_015BmpnX4yowpJjojH947cu4",
+   "ramo": "ccr-a672a2b3-92w5w1-m06",
+   "onda": 1,
+   "aperta": "2026-11-26 13:55"
+  },
+  "R07": {
+   "id": "session_015BmpnYqffuXTpbqcQpQFe4",
+   "ramo": "ccr-a672a2b3-92w5w1-m07",
+   "onda": 1,
+   "aperta": "2026-11-26 13:55"
+  },
+  "R08": {
+   "id": "session_015BmpnY3fwuiHyUsjMGS8vV",
+   "ramo": "ccr-a672a2b3-92w5w1-m08",
+   "onda": 1,
+   "aperta": "2026-11-26 13:55"
+  },
+  "R09": {
+   "id": "session_015BmpnVHrtf4YAPXo1ju2wF",
+   "ramo": "ccr-a672a2b3-92w5w1-m09",
+   "onda": 1,
+   "aperta": "2026-11-26 13:55"
+  },
+  "R10": {
+   "id": "session_015BmpnVZks7zZo9b5SzZv2R",
+   "ramo": "ccr-a672a2b3-92w5w1-m10",
+   "onda": 1,
+   "aperta": "2026-11-26 13:55"
+  },
+  "R11": {
+   "id": "session_015BmpnWePCdfg1LVxdAqVxp",
+   "ramo": "ccr-a672a2b3-92w5w1-m11",
+   "onda": 1,
+   "aperta": "2026-11-26 13:55"
+  }
+ },
+ "collaudatori": {},
+ "controllori": {}
+}
