@@ -38,7 +38,7 @@ Ha trovato però due difetti che stanno nel «90», non nel montatore: quelli li
 ## Cosa non ho verificato
 - La routine vera dell'AD: come risponde davvero, e se apre gli allegati. Il controllore ha usato una routine finta.
 - Il giro intero del montatore dentro n8n: sono stati provati i tratti «guarda il materiale» e «controlla i reel» con i nodi veri, non correzione e ritocco.
-- La correzione dal lato montatore (un servizio alla volta) è in un secondo collaudo, ancora in corso mentre scrivo.
+- La correzione dal lato montatore (un servizio alla volta) ha avuto un secondo collaudo: il guardiano ora aspetta la fine stimata del giro, e vede anche i giri lanciati dal modulo. Restano i ritocchi da Telegram e gli altri flussi: per quelli serve la cura nel «90».
 
 ---
 Dettagli tecnici
