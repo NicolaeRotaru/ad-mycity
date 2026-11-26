@@ -105,6 +105,17 @@
     "R27",
     "R18"
    ]
+  },
+  "K09": {
+   "id": "session_015BmpnXxbcARpqmpSXNq8hL",
+   "ramo": "ccr-a672a2b3-92w5w1-k09",
+   "onda": 1,
+   "aperta": "2026-11-26 23:05",
+   "collauda": [
+    "R28",
+    "R19",
+    "R22"
+   ]
   }
  }
 }

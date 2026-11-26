@@ -92,6 +92,7 @@ Una prova comune è un controllo che protegge più riparazioni insieme. Cambiarl
 - R15-001, R15-003, R15-009 · prove comuni da cambiare (la cura di R15-009 è nel commit 6484d56a, toglierla le rompe 3): modifiche esatte nel referto di R15
 
 - R20-001 (seconda parte) · al primo messaggio della chat Assistenza l'assistente vede tag e descrizione dei prodotti e può proporre di cambiarli: cambia tre prove comuni della chat (patch intera in `2026-11-26-tutti-onda3/patch-R20-001.md`, si applica sopra la testa di R20, controllato alle 23:00)
+- R27-004 · la prova della cassa vera non diventa più verde a vuoto (il contrassegno gira anche senza Stripe di prova): cambia la prova comune della cassa e aggiunge un salto solo per la carta. Correzione nel commit 5c38ad57 (tocca anche ci.yml), tolta con db46a986; diff esatta nel referto di R27. Servono anche le variabili E2E_DATI_DI_PROVA, STRIPE_TEST_SECRET_KEY ed E2E_STRIPE_CONTO_NEGOZIO
 
 ### Domande (campo domanda_per_nicola del registro)
 
