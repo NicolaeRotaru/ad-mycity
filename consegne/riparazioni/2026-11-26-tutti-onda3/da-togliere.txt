@@ -1,5 +1,3 @@
 # Commit da togliere all'unione dell'onda 3 (git revert sopra le unioni), con chi l'ha deciso
-52b0a1638434c9783ae7ef4ce7ae8f14e9dab702 R20-002 rompe altro (K07: prova SQL della 158 rossa; online prima della 980 l'AI a pagamento si ferma o conta male)
-4468a8abc3fb949d397c995f60ff06b7a58261e3 R21-003 rompe altro (K07: con la 911 il prezzo pagato non si indicizza, 5 s su 20.000 prodotti)
-7f8588fa6cbf354216b164f92f4c07bce25a837d R21-016 rompe altro (K07: siti già salvati scartati in silenzio e cancellati al primo salvataggio)
-e62b8621b493d301694bfec3bedc6a4c4ebc9229 R21-012 non regge, stessa voce di R21-016 (K07)
+52b0a1638434c9783ae7ef4ce7ae8f14e9dab702 R20-002 rompe altro (K07: prova SQL della 158 rossa; online prima della 980 l'AI a pagamento si ferma o conta male). Revert provato: pulito.
+# R21-003, R21-016, R21-012: bocciati da K07, NON si tolgono col revert (quello di R21-003 litiga con 6 voci sopra): giro di correzione di R21 dalle 23:20, poi ricollaudo di K07.
