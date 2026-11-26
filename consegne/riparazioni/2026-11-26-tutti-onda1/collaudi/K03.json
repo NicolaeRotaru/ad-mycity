@@ -1,0 +1,13 @@
+{
+  "collaudatore": "K03",
+  "riparatori": ["R05"],
+  "aggiornato": "2026-11-26 15:20",
+  "finita": false,
+  "voci": [
+    { "id": "R05-001", "chiave": "pagamenti-stripe|i contanti vecchi ancora da versare spariscono dal pannello dei bonifici quando gli ordini consegnati superano mille", "verdetto": "regge", "giudizio": "pieno",
+      "lenti": ["chiude_tutta", "nata_rotta"],
+      "rimessa": { "uscita": 0, "comando": "git -C ../wt-R05-001 checkout --detach ce031c5db6763ead5e8357566dc80cb2a88b19c3 && timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R05-001 --base ed12ed8ec8190e1132b690f6e034c30f0a5d55ba --file app/admin/payouts/page.tsx --prove tests/unit/riparazione-r05-bonifici-aperti.test.tsx --json" },
+      "nota": "in corso" }
+  ],
+  "campione": {}
+}
