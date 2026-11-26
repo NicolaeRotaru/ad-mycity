@@ -1,9 +1,10 @@
 {
  "collaudatore": "K01",
  "riparatori": [
-  "R11"
+  "R11",
+  "R07"
  ],
- "aggiornato": "2026-11-26 14:52",
+ "aggiornato": "2026-11-26 14:57",
  "finita": false,
  "voci": [
   {
@@ -80,10 +81,84 @@
     "nata_rotta"
    ],
    "nota": "Voce parziale come nel referto: fatta la metà sulla rotta, resta la pagina della cassa. Una voce di sole prove non ha codice da togliere: ho fatto un mutante locale mai spinto (d7d6920aba6417d266572e18421ec2da63a5da65: controllo della fascia spostato dopo l'insert di order_items) e l'ho dato come base a prova-rimessa: la prova nuova cade sul comportamento, le due prove vecchie restano verdi col mutante (il difetto della voce). nata_rotta: orologio rimesso in afterEach, mock solo nel file, dentro l'include di vitest, verde con 4 fusi e con le altre 62 prove della rotta. chiude_tutta: la metà fatta è vera (inseriti registra ogni insert su orders, la controprova 200 passa da route.ts:1587), ma la prova guarda solo l'insert su orders: un mutante col controllo spostato dopo reserve_stock (route.ts:1451) la lascia verde con la merce riservata e non rilasciata; lo stesso per coupon (:1194) e credito (:1460). Il cosa_resta non lo dice."
+  },
+  {
+   "id": "R07-001",
+   "chiave": "sicurezza-auth|il gettone anti-robot si consuma due volte: accendendo il captcha su supabase, accesso e iscrizione con email si rompono",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07-001 --base 38c8ec0bfb73f3444e50bf2bf71d758677e6ca29^ --file app/api/auth/signin/route.ts --prove tests/unit/riparazione-r07-captcha-una-volta.test.ts --json"
+   },
+   "nota": "Grave, accessi: due subagenti qa (una lente ciascuno) sulla testa 64f68b97cf18d58b212f6163eb34d7e3309fd50b. La parte fatta regge: sull'accesso il gettone si usa una volta sola (route.ts:99-107); con la variabile spenta il comportamento è identico alla base (6048 combinazioni confrontate, unica differenza captcha_failed 401→400, che Supabase dà solo col suo captcha acceso); la variabile si legge solo da process.env lato server, non si inietta da corpo, header o cookie; il 400 nuovo non rivela se l'account esiste e la pagina rigenera il gettone (sign-in/page.tsx:220-227). La voce resta parziale. Il cosa_resta è incompleto: col captcha di Supabase acceso si rompono recupero password (sign-in/page.tsx:291, reset-password/page.tsx:260), cambio password (api/account/cambia-password/route.ts:86) e reinvio della mail di conferma (lib/auth/conferma-email.ts:262); il referto li ha fra i nuovi difetti come minori, ma bloccano l'accensione quanto la voce, e la nota non cita il reinvio. Rischio di configurazione non sorvegliato: con la variabile accesa e il captcha di Supabase spento nessuno verifica il gettone (restano i freni da 10 tentativi in 5 minuti); l'avviso sta solo nel commento route.ts:53-58, niente in .env.example, /api/health o log. L'iscrizione dal browser manda già il gettone solo a Supabase (sign-up/page.tsx:160,175); /api/auth/signup non la chiama nessuno."
+  },
+  {
+   "id": "R07-004",
+   "chiave": "performance-percepita|il traduttore degli errori dei moduli (zod) viaggia in ogni pagina, anche dove non c'è nessun modulo",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Già riparato alla base, verificato da un subagente qa con tre strade: il codice alla base (lib/errors.ts:18 importa solo FRASI_ZOD; QueryProvider.tsx:93 carica il traduttore con import dinamico in un useEffect; import statici di lib/zod-i18n solo lato server, app/api/contact/route.ts:21 e lib/api/responses.ts:4); il grafo degli import lato browser da layout, error, global-error, not-found, loading e instrumentation-client (124 moduli, nessuno zod; lo stesso script su due commit vecchi trova zod per le strade vere); una next build vera (uscita 0): i file di /layout e di avvio non contengono ZodError. nata_rotta: nessun codice cambiato. Imprecisione del referto senza effetto: alla base lib/site-branding.ts non importa più zod (commit 4ad1d73b)."
+  },
+  {
+   "id": "R07-005",
+   "chiave": "qa-flussi|collegare stripe da un'anteprima che usa il database vero sostituirebbe il conto del negozio con uno di prova",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07-005 --base 3e8e1885c23a03084737184b08374fdf94653998^ --file lib/stripe/client.ts --prove tests/unit/riparazione-r07-conto-stripe-anteprima.test.ts --json"
+   },
+   "nota": "Due subagenti qa. chiude_tutta: stripe_account_id si scrive in un solo punto (lib/stripe/salva-conto.ts:22-30), raggiunto solo da createConnectOnboardingLink, chiamata dalle rotte onboarding e rider-onboarding; il blocco sta prima di accounts.create e copre entrambe; webhook e refresh aggiornano solo i flag; conto vuoto = si crea normalmente. nata_rotta: in produzione il percorso è identico alla base; rete, 500, 429, 401 rilanciano prima del blocco e non creano conti; le rotte rispondono 500 «Errore Stripe» senza stato a metà. Dubbi minori: in un'anteprima su database di prova un conto di prova vecchio non si rifà più; la prova comune tests/unit/minori-s01-collegamento-stripe.test.ts:111 (non toccata) non fissa VERCEL_ENV e con VERCEL_ENV=preview nella shell dà 1 rosso su 7."
+  },
+  {
+   "id": "R07-006",
+   "chiave": "stati-ui|il link al reclamo nella scheda ordine porta all'elenco filtrato sui reclami aperti e non mostra quelli in esame",
+   "verdetto": "rompe_altro",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07-006 --base fe24a1fb7bc00a5b78173c795e9b846000575c61^ --file app/admin/disputes/page.tsx --prove tests/unit/riparazione-r07-reclami-in-esame.test.ts --json"
+   },
+   "nota": "Due subagenti qa, d'accordo. La parte fatta è vera: il filtro «Aperto» legge open e under_review (page.tsx:83, sintassi .in giusta), il contatore della pagina conta gli stessi stati (:209), le azioni accettano under_review (api/admin/disputes/[id]/resolve/route.ts:210,260), coerente con la scheda ordine. Rompe altro: il pallino «Reclami» della barra laterale (components/admin/AdminSidebar.tsx:116) e il riquadro «Reclami aperti» della pagina Oggi (lib/queries/cruscotto-oggi.ts:164, app/admin/today/page.tsx:133,163) contano ancora solo open e portano a questa lista: alla base coincidevano, ora divergono appena c'è un reclamo in valutazione (es. Oggi dice 2, la lista ne mostra 3). Probabilità bassa: nessun codice scrive under_review. Il cosa_resta non lo dice. Resta anche quanto dichiarato: indirizzo del singolo reclamo e link della scheda ordine."
+  },
+  {
+   "id": "R07-007",
+   "chiave": "stati-ui|nella pagina guadagni i due pulsanti di stripe possono dirsi il contrario",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07-007 --base b9be0570dfad5dcafaeca520a820a6a27c3e31de^ --file components/seller/StripeDashboardButton.tsx --prove tests/unit/riparazione-r07-pulsanti-stripe.test.ts --json"
+   },
+   "nota": "Due subagenti qa. chiude_tutta: i due pulsanti usano la stessa queryKey, la stessa select e la stessa regola stripePronto (StripeDashboardButton.tsx:76, StripeConnectButton.tsx:110); in tutte le combinazioni (nessun conto, conto senza versamenti, incassi senza versamenti, versamenti senza incassi, tutto attivo, utente nullo, errore di lettura) dicono la stessa cosa. nata_rotta: il pulsante sparisce rispetto a prima solo con indicatori accesi e nessun conto salvato, dove la rotta login rispondeva già 403; unico chiamante app/seller/earnings/page.tsx:380. Non verificato: che Stripe vero crei il link per un conto con incassi spenti."
   }
  ],
  "campione": {
   "R11": {
+   "accettato": true
+  },
+  "R07": {
    "accettato": true
   }
  },
@@ -103,6 +178,22 @@
    "file": "tests/unit/riparazione-r11-rotta-contanti-409-prima-dell-insert.test.ts:140-143 · app/api/orders/cod/route.ts:1451 · app/api/orders/cod/route.ts:1194 · app/api/orders/cod/route.ts:1460 · app/api/orders/cod/route.ts:759",
    "descrizione": "Mutante di K01 (annullato): controllo della fascia spostato dopo reserve_stock (route.ts:1451). La prova nuova di R11-008 resta verde (409, nessun ordine) ma la merce resta riservata: esciERilascia (route.ts:759) libera la chiave del tentativo, non lo stock. Lo stesso per il coupon (:1194) e il credito (:1460). Il codice di oggi è giusto (il controllo sta a :1017, prima di tutto): manca la prova. Il cosa_resta di R11-008 non lo nomina.",
    "visto_da": "K01, lente chiude_tutta su R11-008"
+  },
+  {
+   "titolo": "il pallino «Reclami» del menu e il riquadro della pagina Oggi contano solo i reclami aperti, la lista ora mostra anche quelli in valutazione",
+   "dimensione": "stati-ui",
+   "severita": "minore",
+   "file": "components/admin/AdminSidebar.tsx:116 · lib/queries/cruscotto-oggi.ts:164 · app/admin/today/page.tsx:133 · app/admin/today/page.tsx:163",
+   "descrizione": "Nato da R07-006: la lista «Aperto» di app/admin/disputes/page.tsx:83 legge open e under_review, i due contatori che ci portano contano solo open. Alla base coincidevano.",
+   "visto_da": "K01, tutte e due le lenti su R07-006"
+  },
+  {
+   "titolo": "accendere CAPTCHA_SU_SUPABASE_ACCESO prima del captcha di Supabase lascia l'accesso senza controllo anti-robot, e niente lo segnala",
+   "dimensione": "sicurezza-auth",
+   "severita": "minore",
+   "file": "app/api/auth/signin/route.ts:53-62 · app/api/auth/signin/route.ts:99-104",
+   "descrizione": "L'ordine sicuro è il captcha su Supabase prima della variabile (nella finestra l'accesso resta chiuso invece che aperto); su Vercel la variabile cambia solo con un deploy, quindi «nello stesso momento» non è atomico. L'avviso sta solo nel commento della rotta: niente in .env.example, /api/health o nei log, contro la regola di lib/captcha.ts:12-27.",
+   "visto_da": "K01, lente nata_rotta su R07-001"
   }
  ]
 }
