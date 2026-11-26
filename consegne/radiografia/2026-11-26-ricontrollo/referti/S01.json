@@ -38,15 +38,7 @@
       },
       {
         "file": "lib/account/cancellazione.ts",
-        "righe": "681-729"
-      },
-      {
-        "file": "lib/account/cancellazione.ts",
         "righe": "860-890"
-      },
-      {
-        "file": "lib/cassa/quadratura.ts",
-        "righe": "55-98"
       },
       {
         "file": "app/api/orders/cod/route.ts",
@@ -73,28 +65,12 @@
         "righe": "1-230"
       },
       {
-        "file": "app/api/returns/[id]/avanza/route.ts",
-        "righe": "60-240"
-      },
-      {
-        "file": "lib/rimborsi/regole-del-rimborso.ts",
-        "righe": "343-406"
-      },
-      {
         "file": "components/StoreLocationPicker.tsx",
         "righe": "150-240"
       },
       {
         "file": "app/api/geocode/route.ts",
         "righe": "25-50"
-      },
-      {
-        "file": "app/rider/profile/page.tsx",
-        "righe": "105-200"
-      },
-      {
-        "file": "migrations/001_create_tables.sql",
-        "righe": "80-100"
       },
       {
         "file": "lib/auth/decisione-portiere.ts",
@@ -220,11 +196,6 @@
         "esito": "235 migrazioni applicate, 0 fallite, due volte"
       },
       {
-        "file": "tests/sql/rls/riparazione-r03-scadenze-del-fattorino.test.sql",
-        "comando": "tests/sql/harness/run.sh mycity_s01_l01",
-        "esito": "5 verdi"
-      },
-      {
         "file": "tests/unit/riparazione-r29-allarme-ordine.test.ts",
         "comando": "npx vitest run",
         "esito": "15 verdi; 8 rossi con l'avviso spento a mano"
@@ -295,6 +266,22 @@
       {
         "cosa": "la parte «resta la posizione vecchia» della voce sulla posizione del negozio",
         "perche": "è logica del browser, non provata"
+      }
+    ],
+    "tolti_per_riservatezza": [
+      {
+        "campo": "file_letti_in_parte",
+        "quanti": 6,
+        "chi": "la regista, su proposta del controllore finale",
+        "quando": "2026-11-26 15:10",
+        "perche": "puntavano ai file di falle ancora aperte; l elenco intero resta nella chat della sessione"
+      },
+      {
+        "campo": "file_eseguiti",
+        "quanti": 1,
+        "chi": "la regista, su proposta del controllore finale",
+        "quando": "2026-11-26 15:10",
+        "perche": "puntavano ai file di falle ancora aperte; l elenco intero resta nella chat della sessione"
       }
     ]
   },

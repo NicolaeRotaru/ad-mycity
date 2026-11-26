@@ -192,10 +192,6 @@
         "righe": "20-35"
       },
       {
-        "file": "app/cookies/page.tsx",
-        "righe": "135-152"
-      },
-      {
         "file": "components/seller/SellerShell.tsx",
         "righe": "25-70"
       },
@@ -254,10 +250,6 @@
       {
         "file": "components/CookieBanner.tsx",
         "righe": "136-220"
-      },
-      {
-        "file": "components/Navbar.tsx",
-        "righe": "24-90"
       },
       {
         "file": "components/Navbar.tsx",
@@ -334,14 +326,6 @@
       {
         "file": "lib/guadagni/fattorino.ts",
         "righe": "1-84"
-      },
-      {
-        "file": "lib/stripe/webhook/rimborsi.ts",
-        "righe": "135-175"
-      },
-      {
-        "file": "lib/stripe/webhook/dispute.ts",
-        "righe": "235-275"
       },
       {
         "file": "app/rider/earnings/page.tsx",
@@ -432,10 +416,6 @@
         "righe": "840-880"
       },
       {
-        "file": "app/api/cron/operational-alerts/route.ts",
-        "righe": "504-514"
-      },
-      {
         "file": "app/api/account/delete/route.ts",
         "righe": "148-160"
       },
@@ -450,10 +430,6 @@
       {
         "file": "migrations/165_la_coda_email_ha_un_eta_massima.sql",
         "righe": "1-40"
-      },
-      {
-        "file": "app/checkout/page.tsx",
-        "righe": "400-420"
       },
       {
         "file": "app/checkout/page.tsx",
@@ -864,6 +840,15 @@
       {
         "cosa": "i file letti per le voci riservate",
         "perche": "tenuti fuori dal deposito pubblico finché le falle sono aperte"
+      }
+    ],
+    "tolti_per_riservatezza": [
+      {
+        "campo": "file_letti_in_parte",
+        "quanti": 6,
+        "chi": "la regista, su proposta del controllore finale",
+        "quando": "2026-11-26 15:10",
+        "perche": "puntavano ai file di falle ancora aperte; l elenco intero resta nella chat della sessione"
       }
     ]
   },

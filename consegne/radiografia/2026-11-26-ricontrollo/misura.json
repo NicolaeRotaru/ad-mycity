@@ -1,0 +1,39 @@
+{
+  "fase": "radiografia del 26/11 (ricontrollo)",
+  "cartella": "consegne/radiografia/2026-11-26-ricontrollo",
+  "data": "2026-11-26 15:11",
+  "profilo": "ricontrollo",
+  "base": "ed12ed8ec8190e1132b690f6e034c30f0a5d55ba",
+  "gruppi": [
+    {
+      "tipo": "ricontrollo",
+      "metodo": "lotti",
+      "ultracode": false,
+      "sessioni": 4,
+      "voci": 272,
+      "lotti": 19,
+      "subagenti": 28,
+      "usd": 41.52,
+      "chiusi": 45,
+      "esiti": {
+        "non_verificabile": 17,
+        "ancora_vero": 164,
+        "cambiato": 46,
+        "non_piu_vero": 45
+      },
+      "difetti": {
+        "bloccante": 0,
+        "grave": 0,
+        "minore": 0
+      }
+    }
+  ],
+  "usd_sessioni": 41.52,
+  "usd_regia": 10.75,
+  "usd_cf": 12.46,
+  "usd_regia_e_cf": 23.21,
+  "usd": 64.73,
+  "preventivo_atteso": 77.04,
+  "nota": "primo ricontrollo con le regole a onde; regia nella sessione dell'AD; nessuna sessione con ultracode (non si accende più col prompt); 9 falle fra le aperte",
+  "scritta_in": "cervello/radiografia/misure.json"
+}

@@ -99,7 +99,7 @@
       "angoli": [],
       "prefissi": [],
       "tetto": 12,
-      "ultracode": true,
+      "ultracode": false,
       "voci_gravi": true,
       "lotti": [
         {
@@ -111,7 +111,9 @@
           "voci": 14
         }
       ],
-      "onda": 1
+      "onda": 1,
+      "ultracode_previsto": true,
+      "nota_ultracode": "2026-11-26 15:13, regia: ultracode non si è acceso (create_session rifiuta un prompt che comincia con «/», e /effort mandato con send_message arriva come testo). La sessione ha girato allo sforzo di partenza: la misura lo deve dire."
     },
     "S01b": {
       "tema": "S01",

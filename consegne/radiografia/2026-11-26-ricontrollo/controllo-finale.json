@@ -21,7 +21,7 @@
     },
     {
       "dove": "referti/S01b.json",
-      "campo": "copertura.file_letti_in_parte (7 voci su 5 righe dell'elenco)",
+      "campo": "copertura.file_letti_in_parte (6 voci)",
       "cosa": "tipo b, confidenza 35-50%: intervalli che nessuna voce pubblica usa e che coprono o sfiorano i puntatori di falle; contraddice la riga di non_guardato che dice di averli tenuti fuori"
     },
     {
@@ -107,6 +107,6 @@
     "S01c si è fermata a metà (dalle 13:51) ed è ripartita dopo la sveglia. Il suo referto è completo (120 su 120), ma il lotto L01 è stato rifatto."
   ],
   "agenti": 2,
-  "usd": null,
-  "usd_nota": "get_session senza id non riporta usage.cost_usd per questa sessione."
+  "usd": 12.46,
+  "usd_nota": "Regia, 2026-11-26 15:12: get_session non dà cost_usd per il CF; 4,86 $ = total_cost_usd dell ultimo evento result del CF, più 7,60 $ dei tre turni di riservatezza fatti da S01 (2,69), S01b (2,89) e S01c (2,02), letti con get_session prima e dopo."
 }
