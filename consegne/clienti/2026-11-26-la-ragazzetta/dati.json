@@ -1,0 +1,507 @@
+{
+  "nome": "La Ragazzetta",
+  "tipo": "Caffè storico, ristorante e gastronomia",
+  "citta": "Piacenza",
+  "indirizzo": "Piazza Cavalli 1, 29121 Piacenza, sotto i portici di Palazzo Mercanti",
+  "data": "2026-11-26 14:00",
+  "foto": null,
+  "stato_mycity": "Su MyCity dal 25/11: nascosta, non approvata, registrata come «bar»",
+  "consigliato": "business",
+  "in_30_secondi": [
+    "È il caffè storico di Piazza Cavalli, sotto i portici di Palazzo Mercanti: ha aperto il 4 luglio 2026 al posto dell'ex «Barino».",
+    "Sabato 21 novembre ha aperto anche ristorante e gastronomia: circa 50 coperti, pranzo e cena, prodotti del territorio, menu che cambia ogni tre mesi.",
+    "Lo gestisce Monteleone Group, che ha dal Comune una concessione di 18 anni e segue anche l'ufficio turistico: chi decide è un gruppo, non un titolare solo.",
+    "In rete c'è tanta stampa e niente di suo: nessun sito, nessun profilo Instagram o Facebook trovato.",
+    "Da dicembre a febbraio ha in calendario 8 eventi culturali: musica, mostre, storia della città."
+  ],
+  "gancio": "Avete aperto il ristorante cinque giorni fa, e Libertà, Il Piacenza, PiacenzaSera e Piacenza Diario ne hanno parlato. Però chi vi cerca dal telefono trova gli articoli, non La Ragazzetta: niente sito, niente profilo, niente modo di prenotare. Gli 8 eventi dell'inverno meritano un posto dove vederli.",
+  "perche_consigliato": "Il Business dà un sito di più pagine, e qui servono tutte: caffè, ristorante, gastronomia, eventi. Dà anche una sessione di foto ogni tre mesi, lo stesso ritmo del loro menu. Se il gruppo vuole un video per ognuno degli 8 eventi e le storie ogni giorno, si propone il Premium per l'inverno: senza vincolo, a marzo si torna al Business.",
+  "perche_consigliato_cliente": "Per voi consigliamo il Business: un sito di più pagine per caffè, ristorante, gastronomia ed eventi, e una sessione di foto a ogni cambio di menu. Per coprire con un video tutti gli 8 eventi dell'inverno c'è il Premium, senza vincolo di durata.",
+  "campi": [
+    {
+      "voce": "Nome",
+      "valore": "La Ragazzetta",
+      "stato": "da_confermare",
+      "fonte": "https://www.liberta.it/news/attualita/la-ragazzetta-apre-i-battenti-piu-di-un-bar-uno-spazio-culturale/108156"
+    },
+    {
+      "voce": "Tipo",
+      "valore": "Caffè, ristorante e gastronomia; la stampa lo chiama anche «caffè culturale»",
+      "stato": "da_confermare",
+      "fonte": "https://www.ilpiacenza.it/attualita/la-ragazzetta-diventa-anche-ristorante-gastronomia-e-caffe-culturale.html"
+    },
+    {
+      "voce": "Indirizzo",
+      "valore": "Piazza Cavalli 1, 29121 Piacenza, sotto i portici di Palazzo Mercanti (l'ex «Barino»)",
+      "stato": "da_confermare",
+      "fonte": "https://www.piacenza24.eu/la-ragazzetta-ristorante-e-gastronomia/"
+    },
+    {
+      "voce": "Chi lo gestisce",
+      "valore": "Monteleone Group, con una concessione del Comune di 18 anni; segue anche l'ufficio turistico e la promozione della città",
+      "stato": "da_confermare",
+      "fonte": "https://www.piacenzasera.it/2026/07/apre-il-caffe-srico-la-ragazzetta-scelta-culturale-e-identitaria-per-piacenza/653187/"
+    },
+    {
+      "voce": "Aperto dal",
+      "valore": "4 luglio 2026, il caffè; 21 novembre 2026, ristorante e gastronomia",
+      "stato": "da_confermare",
+      "fonte": "https://www.piacenzasera.it/2026/11/la-ragazzetta-inaugura-il-nuovo-ristorante-e-gastronomia-sabato-il-taglio-del-nastro/671056"
+    },
+    {
+      "voce": "Ristorante",
+      "valore": "Circa 50 coperti, pranzo e cena; menu che cambia ogni tre mesi con i prodotti del territorio; pesce dalla primavera",
+      "stato": "da_confermare",
+      "fonte": "https://www.liberta.it/news/territorio/citta/piacenza/la-ragazzetta-apre-un-ristorante-nel-cuore-della-citta/111967"
+    },
+    {
+      "voce": "Cucina",
+      "valore": "Chef Salvatore Ammirati, dalla stampa",
+      "stato": "da_confermare",
+      "fonte": "https://www.piacenzadiario.it/la-ragazzetta-iapre-il-nuovo-ristorante-e-la-gastronomia-in-cucina-chef-salvatore-ammirati/"
+    },
+    {
+      "voce": "Vini",
+      "valore": "Produttori del territorio, per esempio La Tosa e Luretta",
+      "stato": "da_confermare",
+      "fonte": "https://www.liberta.it/news/territorio/citta/piacenza/la-ragazzetta-apre-un-ristorante-nel-cuore-della-citta/111967"
+    },
+    {
+      "voce": "Orari del bar",
+      "valore": "Dal lunedì al sabato, 7.30-22.30 (detto a luglio)",
+      "stato": "da_confermare",
+      "fonte": "https://www.liberta.it/news/attualita/la-ragazzetta-apre-i-battenti-piu-di-un-bar-uno-spazio-culturale/108156"
+    },
+    {
+      "voce": "Orari del ristorante",
+      "valore": null,
+      "stato": "non_trovato",
+      "fonte": null
+    },
+    {
+      "voce": "Telefono",
+      "valore": null,
+      "stato": "non_trovato",
+      "fonte": null
+    },
+    {
+      "voce": "Sito",
+      "valore": null,
+      "stato": "non_trovato",
+      "fonte": null
+    },
+    {
+      "voce": "Prenotazioni in rete",
+      "valore": null,
+      "stato": "non_trovato",
+      "fonte": null
+    },
+    {
+      "voce": "Scheda Google",
+      "valore": "Non vista: da questa sessione le pagine non si aprono",
+      "stato": "non_trovato",
+      "fonte": null
+    },
+    {
+      "voce": "Eventi",
+      "valore": "8 appuntamenti culturali da dicembre 2026 a febbraio 2027: musica, mostre, storia della città",
+      "stato": "da_confermare",
+      "fonte": "https://www.liberta.it/news/territorio/citta/piacenza/la-ragazzetta-apre-un-ristorante-nel-cuore-della-citta/111967"
+    },
+    {
+      "voce": "In più",
+      "valore": "Un angolo dell'ufficio turistico (IAT) nella sala del ristorante",
+      "stato": "da_confermare",
+      "fonte": "https://www.ilpiacenza.it/attualita/la-ragazzetta-diventa-anche-ristorante-gastronomia-e-caffe-culturale.html"
+    },
+    {
+      "voce": "Il nome",
+      "valore": "Da «Backfisch», un dipinto di Klimt creduto perduto: in italiano, la ragazzetta",
+      "stato": "da_confermare",
+      "fonte": "https://www.zerocinque23.com/attualita/dal-dipinto-perduto-di-klimt-al-nuovo-caffe-storico-ecco-la-ragazzetta/"
+    }
+  ],
+  "ha": [
+    "Il posto più centrale della città: Piazza Cavalli, sotto Palazzo Mercanti.",
+    "Tre attività in una: il caffè dal mattino, il ristorante a pranzo e cena, la gastronomia.",
+    "Una storia che nessun altro ha: il nome viene da un dipinto perduto di Klimt.",
+    "Tanta stampa all'apertura: almeno sei testate locali.",
+    "8 eventi culturali già in calendario fino a febbraio.",
+    "I turisti in casa: l'angolo dell'ufficio turistico è nella sala.",
+    "Prodotti e vini del territorio, con un menu che cambia ogni stagione."
+  ],
+  "non_ha": [
+    "Un sito: in rete non c'è niente di suo.",
+    "Profili social trovati: né Instagram, né Facebook, né TikTok.",
+    "Un modo chiaro per prenotare un tavolo (telefono o WhatsApp in vista).",
+    "Il menu in rete, che cambia ogni tre mesi e va aggiornato.",
+    "Il calendario degli eventi in un posto solo.",
+    "Testi in inglese per i turisti.",
+    "Un telefono pubblico trovato."
+  ],
+  "migliorare": [
+    "La scheda Google del ristorante, appena nato: foto, orari, menu, categoria giusta.",
+    "Il racconto: oggi lo fanno i giornali, non il locale.",
+    "Le foto dei piatti: con un menu nuovo ogni tre mesi servono foto nuove ogni stagione.",
+    "La categoria su MyCity: è registrata come «bar», ma ora è anche ristorante e gastronomia."
+  ],
+  "reputazione": {
+    "sintesi": "Troppo nuova per avere recensioni lette da qui: il ristorante ha cinque giorni. La stampa locale ne parla bene, come di una scelta «culturale e identitaria» per la città.",
+    "positivi": [
+      "«Più di un bar, uno spazio culturale» (Libertà, luglio 2026).",
+      "Prodotti e vini del territorio, con un menu che segue le stagioni (Libertà, novembre 2026).",
+      "Inaugurazione del ristorante seguita da tutta la stampa locale (21 novembre 2026)."
+    ],
+    "negativi": [
+      "Nessuna recensione letta: la scheda Google da qui non si apre. Guardala dal telefono prima di entrare."
+    ]
+  },
+  "sito": {
+    "livello": "nessuno",
+    "numeri": [],
+    "giudizio": "Nessun sito trovato con due ricerche. Per la tabella firmata da Nicola, senza sito la bozza parte già dal Base; il Business dà il sito di più pagine che qui serve.",
+    "fonte": null
+  },
+  "social": [
+    {
+      "canale": "Instagram",
+      "stato": "non_trovato",
+      "livello": "Non trovato",
+      "giudizio": "Nessun profilo del locale nei risultati.",
+      "fonte": null
+    },
+    {
+      "canale": "Facebook",
+      "stato": "non_trovato",
+      "livello": "Non trovato",
+      "giudizio": "Nessuna pagina del locale nei risultati.",
+      "fonte": null
+    },
+    {
+      "canale": "TikTok",
+      "stato": "non_trovato",
+      "livello": "Non trovato",
+      "giudizio": "Nessun profilo.",
+      "fonte": null
+    },
+    {
+      "canale": "Scheda Google Maps",
+      "stato": "non_trovato",
+      "livello": "Non vista",
+      "giudizio": "Da qui non si apre. Il ristorante è nuovo: la scheda potrebbe essere ancora quella del vecchio Barino.",
+      "fonte": null
+    }
+  ],
+  "potenziale": [
+    "I turisti: passano dall'ufficio turistico, che è nella sala. Un sito in italiano e inglese e una scheda Google curata li portano al tavolo.",
+    "Dicembre in centro: con le luci di Natale la piazza si riempie, e il ristorante appena aperto può riempire le cene.",
+    "Gli 8 eventi: ognuno vale un contenuto prima, un video durante e un grazie dopo.",
+    "La gastronomia: prodotti da portare via, adatti alla vetrina MyCity con ritiro nel locale.",
+    "Il cliente: un gruppo con una concessione di 18 anni può diventare un abbonamento lungo, e portare altri locali."
+  ],
+  "offerta": [
+    {
+      "servizio": "Un sito di più pagine, in italiano e inglese",
+      "perche": "Caffè, ristorante, gastronomia, eventi e come prenotare, con il menu che si aggiorna a ogni stagione."
+    },
+    {
+      "servizio": "Social e scheda Google",
+      "perche": "La scheda del ristorante sistemata subito, nelle prime settimane che decidono le recensioni. 12 contenuti al mese con 2 video, e le risposte alle recensioni."
+    },
+    {
+      "servizio": "Foto e video con scattiDG",
+      "perche": "Piatti, sala, portici e piazza. Una sessione nuova ogni tre mesi: lo stesso ritmo del loro menu."
+    },
+    {
+      "servizio": "Analisi ogni mese",
+      "perche": "Prenotazioni, recensioni ed eventi: cosa ha funzionato, cosa cambiare il mese dopo."
+    },
+    {
+      "servizio": "Vetrina su MyCity",
+      "perche": "La gastronomia da ordinare in rete e ritirare nel locale. Su questi ordini MyCity prende il 10%, che paga consegna e servizio."
+    }
+  ],
+  "domande": [
+    "Chi decide sulla comunicazione: il locale o Monteleone Group? C'è già un'agenzia o una persona interna?",
+    "Avete un sito o dei profili social in preparazione?",
+    "La scheda Google del ristorante esiste? Chi la gestisce? È ancora quella del Barino?",
+    "Quali sono gli orari di ristorante e gastronomia, e il giorno di chiusura?",
+    "Come si prenota oggi: telefono, WhatsApp, niente?",
+    "Ci date le date degli 8 eventi, per il piano di dicembre?",
+    "La gastronomia vende da portare via? Cosa?"
+  ],
+  "obiezioni": [
+    {
+      "obiezione": "Per la comunicazione abbiamo già il gruppo.",
+      "risposta": "Il gruppo promuove la città. Qui serve chi racconta il locale ogni settimana, con le foto dei piatti e degli eventi. Lavoriamo accanto a chi c'è già."
+    },
+    {
+      "obiezione": "Siamo appena aperti, ne parliamo più avanti.",
+      "risposta": "Le prime settimane decidono la scheda Google e le prime recensioni: conviene partire adesso. Il primo mese costa la metà."
+    },
+    {
+      "obiezione": "Il menu cambia ogni tre mesi, le foto invecchiano.",
+      "risposta": "Per questo nel Business c'è una sessione di foto ogni tre mesi: il menu nuovo arriva in rete con foto nuove."
+    }
+  ],
+  "attenzione": [
+    "Il 10% sui prodotti venduti tramite MyCity resta anche con l'abbonamento (regola del 26/11): dillo subito, mai «nessuna percentuale».",
+    "Chi decide è un gruppo con un rapporto diretto col Comune: niente promesse di risultati, niente nomi di persone nei contenuti senza permesso.",
+    "La sede è comunale e storica: le riprese del palazzo e dei portici vanno concordate prima.",
+    "Gli orari del bar sono quelli detti a luglio; il ristorante non ha orari pubblici trovati.",
+    "Tutti i dati vengono da articoli e riassunti di ricerca: questa sessione non può aprire le pagine.",
+    "Su MyCity è registrata come «bar»: con il ristorante va aggiornata la categoria, se il gruppo è d'accordo.",
+    "Prenotazioni in rete dal sito MyCity: non esistono ancora, non prometterle. La bozza del sito porta solo «Chiama per prenotare»."
+  ],
+  "fonti": [
+    {
+      "titolo": "PiacenzaSera: il bar di piazza Cavalli si chiamerà La Ragazzetta",
+      "url": "https://www.piacenzasera.it/2026/06/il-bar-di-piazza-cavalli-si-chiamera-la-ragazzetta-inaugurazione-il-4-luglio/651927/"
+    },
+    {
+      "titolo": "PiacenzaSera: apre il caffè storico, «scelta culturale e identitaria»",
+      "url": "https://www.piacenzasera.it/2026/07/apre-il-caffe-srico-la-ragazzetta-scelta-culturale-e-identitaria-per-piacenza/653187/"
+    },
+    {
+      "titolo": "Libertà: «Più di un bar, uno spazio culturale»",
+      "url": "https://www.liberta.it/news/attualita/la-ragazzetta-apre-i-battenti-piu-di-un-bar-uno-spazio-culturale/108156"
+    },
+    {
+      "titolo": "Libertà: La Ragazzetta apre un ristorante nel cuore della città",
+      "url": "https://www.liberta.it/news/territorio/citta/piacenza/la-ragazzetta-apre-un-ristorante-nel-cuore-della-citta/111967"
+    },
+    {
+      "titolo": "Piacenza24: inaugura ristorante e gastronomia",
+      "url": "https://www.piacenza24.eu/la-ragazzetta-ristorante-e-gastronomia/"
+    },
+    {
+      "titolo": "Il Piacenza: diventa anche ristorante, gastronomia e caffè culturale",
+      "url": "https://www.ilpiacenza.it/attualita/la-ragazzetta-diventa-anche-ristorante-gastronomia-e-caffe-culturale.html"
+    },
+    {
+      "titolo": "Il Piacenza: luci di Natale e debutto del ristorante",
+      "url": "https://www.ilpiacenza.it/attualita/piacenza-si-accende-per-il-natale-tra-le-luci-in-centro-e-il-debutto-del-ristorante-la-ragazzetta.html"
+    },
+    {
+      "titolo": "Piacenza Diario: ristorante e gastronomia, la cucina",
+      "url": "https://www.piacenzadiario.it/la-ragazzetta-iapre-il-nuovo-ristorante-e-la-gastronomia-in-cucina-chef-salvatore-ammirati/"
+    },
+    {
+      "titolo": "Zerocinque23: dal dipinto perduto di Klimt al nuovo caffè storico",
+      "url": "https://www.zerocinque23.com/attualita/dal-dipinto-perduto-di-klimt-al-nuovo-caffe-storico-ecco-la-ragazzetta/"
+    },
+    {
+      "titolo": "PiacenzaSera: il taglio del nastro del ristorante",
+      "url": "https://www.piacenzasera.it/2026/11/la-ragazzetta-inaugura-il-nuovo-ristorante-e-gastronomia-sabato-il-taglio-del-nastro/671056"
+    }
+  ],
+  "preventivo": {
+    "saluto": "Avete aperto il ristorante il 21 novembre, e la stampa di Piacenza ne ha parlato. Chi vi cerca dal telefono però trova gli articoli, non La Ragazzetta. Ecco come vi facciamo trovare, e prenotare.",
+    "forti": [
+      "Il posto più bello della città: Piazza Cavalli, sotto i portici di Palazzo Mercanti.",
+      "Caffè, ristorante e gastronomia nello stesso locale, dal mattino alla sera.",
+      "Un nome con una storia che nessun altro ha: il dipinto perduto di Klimt.",
+      "Prodotti e vini del territorio, con un menu che cambia ogni tre mesi.",
+      "Otto eventi culturali in calendario fino a febbraio.",
+      "L'ufficio turistico nella sala: i turisti entrano già."
+    ],
+    "deboli": [
+      "Chi vi cerca non trova un vostro sito: trova solo articoli di giornale.",
+      "Non abbiamo trovato profili Instagram o Facebook del locale.",
+      "Il menu non si trova in rete, e non c'è un modo chiaro per prenotare un tavolo.",
+      "Gli eventi non hanno un posto unico dove vederli.",
+      "Per i turisti non c'è niente in inglese."
+    ],
+    "cosa_facciamo": [
+      {
+        "tema": "Sito",
+        "oggi": "Non c'è",
+        "con_noi": "Un sito di più pagine, in italiano e inglese: caffè, ristorante, gastronomia, eventi, come prenotare"
+      },
+      {
+        "tema": "Google Maps",
+        "oggi": "La scheda del ristorante appena nato, da controllare",
+        "con_noi": "Scheda sistemata con foto, orari e menu; risposte alle recensioni scritte da noi"
+      },
+      {
+        "tema": "Social",
+        "oggi": "Nessun profilo trovato",
+        "con_noi": "12 contenuti al mese con 2 video brevi; ogni evento annunciato e raccontato; voi approvate l'anteprima su WhatsApp"
+      },
+      {
+        "tema": "Foto e video",
+        "oggi": "Solo le foto dei giornali",
+        "con_noi": "Una sessione con scattiDG all'avvio e una a ogni cambio di menu, più un video al mese"
+      },
+      {
+        "tema": "Vendite",
+        "oggi": "Solo in sala",
+        "con_noi": "Vetrina su MyCity per la gastronomia da ritirare; il 10% solo sugli ordini fatti da MyCity"
+      }
+    ],
+    "standard_sito": [
+      "Si apre in meno di 3 secondi dal telefono (la misura di Google per i siti veloci).",
+      "In italiano e in inglese, per i turisti che passano dall'ufficio turistico.",
+      "Dati per Google in formato schema.org: indirizzo, orari e cucina li leggono anche i motori di ricerca.",
+      "Leggibile da tutti: contrasto dei testi e descrizione delle immagini secondo le regole WCAG 2.1.",
+      "Menu ed eventi in pagine che si aggiornano senza rifare il sito.",
+      "Nessun cookie di profilazione, quindi nessun banner da chiudere."
+    ],
+    "piano": {
+      "mese": "dicembre 2026",
+      "nota": "12 contenuti, 3 a settimana, con 2 video brevi. Le date degli eventi e i piatti li confermiamo con voi prima di pubblicare: dove non li sappiamo ancora, il contenuto aspetta.",
+      "righe": [
+        {
+          "data": "mar 1/12",
+          "formato": "Reel",
+          "tema": "Benvenuti alla Ragazzetta",
+          "testo": "Trenta secondi dalla piazza al tavolo: i portici, la sala, il primo piatto. «Piazza Cavalli ha un nuovo posto a tavola.»"
+        },
+        {
+          "data": "gio 3/12",
+          "formato": "Carosello",
+          "tema": "Perché ci chiamiamo così",
+          "testo": "La storia del dipinto perduto di Klimt, «Backfisch», in cinque schede. Chiude con l'invito a venire a vedere il locale."
+        },
+        {
+          "data": "sab 5/12",
+          "formato": "Post",
+          "tema": "Il menu d'inverno",
+          "testo": "Un piatto simbolo del menu, con i prodotti del territorio. «Il menu cambia ogni tre mesi. Questo è l'inverno.»"
+        },
+        {
+          "data": "mar 8/12",
+          "formato": "Post",
+          "tema": "Immacolata in piazza",
+          "testo": "Gli orari della festa, confermati con voi, e la piazza illuminata."
+        },
+        {
+          "data": "gio 10/12",
+          "formato": "Carosello",
+          "tema": "I vini dei colli piacentini",
+          "testo": "Le cantine del territorio nella vostra carta, una per scheda."
+        },
+        {
+          "data": "sab 12/12",
+          "formato": "Post",
+          "tema": "Il primo evento della stagione",
+          "testo": "Il primo degli 8 appuntamenti culturali: data, ora e come partecipare, confermati con voi."
+        },
+        {
+          "data": "mar 15/12",
+          "formato": "Reel",
+          "tema": "In cucina",
+          "testo": "La preparazione di un piatto del menu, dalle mani dello chef, con il suo permesso."
+        },
+        {
+          "data": "gio 17/12",
+          "formato": "Post",
+          "tema": "La gastronomia per le feste",
+          "testo": "Cosa si può portare a casa per Natale, se la gastronomia lo prepara."
+        },
+        {
+          "data": "sab 19/12",
+          "formato": "Post",
+          "tema": "Il caffè sotto i portici",
+          "testo": "Il bar del mattino in piazza: colazione e giornale sotto Palazzo Mercanti."
+        },
+        {
+          "data": "mar 22/12",
+          "formato": "Post",
+          "tema": "Visiting Piacenza?",
+          "testo": "In italiano e in inglese: in sala c'è l'angolo dell'ufficio turistico, chiedete a noi cosa vedere in città."
+        },
+        {
+          "data": "gio 24/12",
+          "formato": "Post",
+          "tema": "Vigilia: orari e auguri",
+          "testo": "Gli orari di Natale e Santo Stefano, e gli auguri dalla piazza."
+        },
+        {
+          "data": "sab 26/12",
+          "formato": "Carosello",
+          "tema": "Il nostro primo dicembre",
+          "testo": "Le foto del primo mese del ristorante, e gli eventi di gennaio."
+        }
+      ]
+    },
+    "primi_30_giorni": [
+      {
+        "quando": "Settimana 1",
+        "cosa": "Un incontro con chi decide per il locale: orari, menu, date degli eventi, accessi alla scheda Google. Sessione di foto con scattiDG su piatti, sala e piazza."
+      },
+      {
+        "quando": "Settimana 2",
+        "cosa": "Il sito va online in italiano e inglese; la scheda Google del ristorante viene sistemata; aprono i profili social con i primi 3 contenuti."
+      },
+      {
+        "quando": "Settimana 3",
+        "cosa": "Il primo video; il primo evento annunciato; la vetrina MyCity per la gastronomia, se la volete."
+      },
+      {
+        "quando": "Settimana 4",
+        "cosa": "Il primo resoconto: visite al sito, richieste di prenotazione, chiamate da Google, quali contenuti hanno funzionato."
+      }
+    ]
+  },
+  "sito_bozza": {
+    "schema_tipo": "Restaurant",
+    "palette": {
+      "fondo": "#F4EEE2",
+      "testo": "#1C1A17",
+      "accento": "#8C6A14",
+      "tenue": "#6B6253",
+      "carta": "#FFFDF8"
+    },
+    "sfondo_eroe": "#1C1A17",
+    "testo_eroe": "#E7C66B",
+    "font": {
+      "titoli": "Cormorant Garamond",
+      "testo": "Inter"
+    },
+    "sopra_titolo": "Caffè · ristorante · gastronomia · Piazza Cavalli",
+    "claim": "Il caffè storico di Piacenza, sotto i portici di Palazzo Mercanti. Dal mattino a cena.",
+    "azione": "Chiama per prenotare",
+    "lingue": [
+      "it",
+      "en"
+    ],
+    "chi_siamo": "La Ragazzetta è il caffè storico di Piazza Cavalli, aperto nel luglio 2026 al posto del Barino. Il nome viene da «Backfisch», un dipinto di Klimt creduto perduto: in italiano, la ragazzetta. Da novembre siamo anche ristorante e gastronomia.",
+    "cosa_offriamo": [
+      {
+        "titolo": "Caffè",
+        "testo": "Dal mattino alla sera, sotto i portici: colazione, pausa e aperitivo in piazza."
+      },
+      {
+        "titolo": "Ristorante",
+        "testo": "Circa cinquanta coperti, a pranzo e a cena. Un menu che cambia ogni tre mesi, con i prodotti del territorio."
+      },
+      {
+        "titolo": "Gastronomia",
+        "testo": "Le specialità della nostra cucina, da portare a casa."
+      },
+      {
+        "titolo": "Vini dei colli",
+        "testo": "Una carta con i produttori del territorio piacentino."
+      }
+    ],
+    "extra": [
+      {
+        "titolo": "Eventi d'inverno",
+        "testo": "Da dicembre a febbraio, otto appuntamenti tra musica, mostre e storia della città. Il calendario è qui, appena confermato."
+      },
+      {
+        "titolo": "Informazioni turistiche",
+        "testo": "Nella sala c'è un angolo dell'ufficio turistico di Piacenza. Visiting Piacenza? Ask us what to see in town."
+      }
+    ],
+    "dove_siamo": "Piazza Cavalli 1, 29121 Piacenza, sotto i portici di Palazzo Mercanti.",
+    "orari": "Bar: dal lunedì al sabato, 7.30-22.30 (orari detti a luglio, da confermare). Ristorante e gastronomia: orari da confermare.",
+    "contatti": {
+      "indirizzo": "Piazza Cavalli 1, 29121 Piacenza",
+      "telefono": null,
+      "altro": "Telefono e WhatsApp per prenotare: si aggiungono appena il locale li conferma."
+    },
+    "foto_segnaposto": "Qui la foto della sala sotto i portici, scattata da scattiDG"
+  }
+}
