@@ -168,7 +168,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 | 12/11 21:05 (entro) | regista | «Risolvi le due regole» del programma di riparazione: guardia sul risultato del ramo e prova dei file nuovi e delle migrazioni |
 
 ## Chi fa cosa, adesso
-Aggiornata il 2026-11-26 14:00 (righe nuove in cima; le altre sono del 24/11). Le sessioni dell'onda dei 700, regie e figlie, sono finite: qui non ci sono più.
+Aggiornata il 2026-11-26 14:00. Le prime due righe sono nuove, le altre sono del 24/11. Le sessioni dell'onda dei 700 sono finite e qui non ci sono più.
 
 | Sessione | Lavoro | File suoi |
 |---|---|---|
