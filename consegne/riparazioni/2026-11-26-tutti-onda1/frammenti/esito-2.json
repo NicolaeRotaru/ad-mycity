@@ -1,0 +1,41 @@
+{
+  "corsia": 2,
+  "territorio": "R02",
+  "difetti": [
+    {
+      "chiave": "privacy-legale|il conto fatto prima di accendere le cancellazioni non mostra le foto di consegna che la notte toglierà",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r02-conto-prove-orfane.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base cee124c2f03d26a1627b4b2d74975034efb88d9c --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r02-conto-prove-orfane.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r02-006 --base 1ae51e708012e0ddb29b1da9a2d391e99faad261^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r02-conto-prove-orfane.test.ts --json → uscita 0 (K04)",
+      "nota_fix": "Il conto senza cancellare mette contaOrfaniDelleProve in fileDaTogliere accanto a contaOrfaniKyc, e il testo nonContati nomina le foto orfane. La prova gira la rotta vera con un magazzino finto: conta 2 foto e non ne toglie nessuna."
+    },
+    {
+      "chiave": "privacy-legale|il giro a mano delle cancellazioni non conta le foto di consegna orfane che la notte toglierà",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r02-giro-a-mano-e-a-orario-prove-orfane.test.ts tests/unit/riparazione-r02-conto-prove-orfane.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base cee124c2f03d26a1627b4b2d74975034efb88d9c --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r02-giro-a-mano-e-a-orario-prove-orfane.test.ts,tests/unit/riparazione-r02-conto-prove-orfane.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r02-007 --base cee124c2f03d26a1627b4b2d74975034efb88d9c --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r02-giro-a-mano-e-a-orario-prove-orfane.test.ts,tests/unit/riparazione-r02-conto-prove-orfane.test.ts --json → uscita 0 (K04)",
+      "nota_fix": "La correzione sta nella stessa funzione dell'altra voce del conto (contaSenzaCancellare, commit 1ae51e708012e0ddb29b1da9a2d391e99faad261): contaOrfaniDelleProve è chiamata anche dal giro a mano (?a_mano=1). Il commit di questa voce aggiunge la sua prova: giro a mano e conto della notte a cancellazioni spente contano 2 foto orfane e non ne tolgono nessuna; rossa con route.ts della base, verde con la correzione (prova rimessa con base il genitore della correzione)."
+    },
+    {
+      "chiave": "privacy-legale|chi segnala un contenuto illecito lasciando l'email non riceve nessuna conferma che la segnalazione è arrivata",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r02-segnalazione-ricevuta.test.ts tests/unit/riparazione-r02-segnalazione-ricevuta-modulo.test.tsx",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 1ae51e708012e0ddb29b1da9a2d391e99faad261 --file app/api/segnalazioni/route.ts,components/Segnala.tsx --prove tests/unit/riparazione-r02-segnalazione-ricevuta.test.ts,tests/unit/riparazione-r02-segnalazione-ricevuta-modulo.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r02-010 --base ac62569ce25abe430d12ba74ca55c52caa9fac09^ --file app/api/segnalazioni/route.ts,components/Segnala.tsx --prove tests/unit/riparazione-r02-segnalazione-ricevuta.test.ts,tests/unit/riparazione-r02-segnalazione-ricevuta-modulo.test.tsx --json → uscita 0 (K04)",
+      "nota_fix": "Dopo l'inserimento la rotta manda una ricevuta con sendEmail (transazionale, idempotencyKey) con numero, oggetto, motivo e data, mai il testo libero. Tetto di 3 ricevute al giorno per indirizzo (impronta sha256 dell'indirizzo normalizzato). L'esito torna in `conferma`, un invio fallito va nei log; il modulo mostra il numero e dice se la conferma è partita. Nelle prove sendEmail è finto."
+    },
+    {
+      "chiave": "privacy-legale|le mappe mandano a openstreetmap e a google la zona di casa del cliente, ma l'informativa nomina openstreetmap solo per cercare gli indirizzi",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r02-informativa-mappe.test.tsx",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 39cf874a2642d78fd7bada3ca1601e4010aa55ef --file app/privacy/page.tsx --prove tests/unit/riparazione-r02-informativa-mappe.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r02-015 --base cee124c2f03d26a1627b4b2d74975034efb88d9c^ --file app/privacy/page.tsx --prove tests/unit/riparazione-r02-informativa-mappe.test.tsx --json → uscita 0 (K04)",
+      "nota_fix": "Solo l'informativa, le mappe restano come sono: la voce OpenStreetMap ora dice che il browser scarica le tessere della mappa con l'IP e la zona mostrata; voce nuova per Google Maps (titolare autonomo): «Naviga» del fattorino apre Google Maps con la destinazione della consegna, la mappa della vetrina apre l'indirizzo del negozio. La prova controlla anche che i file delle mappe usino davvero tile.openstreetmap.org e google.com/maps/dir."
+    },
+    {
+      "chiave": "privacy-legale|il modulo di segnalazione non permette di dare il nome di chi segnala né di dichiarare la buona fede",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r02-segnalazione-nome-buona-fede.test.ts tests/unit/riparazione-r02-segnalazione-nome-buona-fede-modulo.test.tsx",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base ac62569ce25abe430d12ba74ca55c52caa9fac09 --file app/api/segnalazioni/route.ts,components/Segnala.tsx,app/privacy/page.tsx --prove tests/unit/riparazione-r02-segnalazione-nome-buona-fede.test.ts,tests/unit/riparazione-r02-segnalazione-nome-buona-fede-modulo.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r02-016 --base b9e4b39841c668e9568b28b9802b01d7d1d11ad9^ --file app/api/segnalazioni/route.ts,components/Segnala.tsx,app/privacy/page.tsx --prove tests/unit/riparazione-r02-segnalazione-nome-buona-fede.test.ts,tests/unit/riparazione-r02-segnalazione-nome-buona-fede-modulo.test.tsx --json → uscita 0 (K04)",
+      "nota_fix": "Modulo e schema hanno due campi facoltativi, nomeSegnalante (max 100, una riga) e buonaFede (casella); il server li mette in testa a `dettaglio`, nessuno schema nuovo. Senza i due campi il testo resta identico; con uno dei due il testo ha 1700 caratteri, il modulo lo dice prima di inviare e la rotta risponde 400 «accorcialo di N» invece di cadere sul CHECK 2000. L'informativa nomina il nome fra i dati."
+    }
+  ]
+}

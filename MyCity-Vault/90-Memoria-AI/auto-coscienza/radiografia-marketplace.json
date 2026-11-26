@@ -410,10 +410,10 @@
   "fonti_non_lette": [],
   "sintesi": "Il problema più grave trovato oggi era una chiave del database leggibile da chiunque, e Nicola l'ha già spenta. Dei difetti nuovi nessuno è bloccante, ma il rimborso di un ordine in contanti va ancora fatto a mano, fuori dal sito.",
   "meta": {
-    "findings": 3507,
+    "findings": 3554,
     "bloccanti": 37,
-    "gravi": 679,
-    "minori": 2791,
+    "gravi": 682,
+    "minori": 2835,
     "agenti": null,
     "aggiornato": "2026-11-24 22:41"
   },
@@ -846,6 +846,12 @@
         "prova": "cd marketplace && npx vitest run tests/unit/_s01/L08-11.test.ts ; lib/cassa/quadratura.ts:58-59",
         "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
         "nota": null
+      },
+      "riparazione_26_11": {
+        "esito": "riparato",
+        "sessione": "R06",
+        "collaudo": "K03 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -3029,6 +3035,12 @@
         "prova": "app/api/seller/orders/[id]/reject/route.ts:91; app/seller/orders/[id]/page.tsx:181,513,698; app/seller/help/domande.ts:52",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Riparato a metà. L'aiuto non promette più il rimborso a chi paga in contanti (R09-021). Restano l'avviso rosso al doppio clic (secondo annullo → GIA_ANNULLATO non tradotto) e il motivo detto obbligatorio."
+      },
+      "riparazione_26_11": {
+        "esito": "parziale",
+        "sessione": "R06",
+        "collaudo": "rompe_altro",
+        "perche": "parziale: 1) Un 409 «già annullato» SENZA un successo prima oggi chiude il riquadro con un avviso neutro (app/seller/orders/[id]/page.tsx:312 e :323-324): la voce chiedeva quel trattamento solo dopo un successo, altrimenti deve restare un errore visibile. 2) In app/seller/help/domande.ts restano le altre due frasi false della voce: :55 («Come segnalo l ordine pronto?» propone il cliente che passa in negozio, ma il ritiro in negozio al lancio è spento) e :77-78 («Quando ricevo i soldi» rimanda al prossimo importo previsto in Guadagni, che la pagina non mostra)."
       }
     },
     {
@@ -3348,6 +3360,12 @@
         "prova": "lib/stripe/webhook/ordini.ts:121 e 133 fermano solo i carrelli COMPLETED ed EXPIRED. ordini.ts:257-281 rilegge il pagamento ma prende solo l'id della charge, senza guardare refunded, amount_refunded o disputed; a 339 e 348 l'ordine nasce PAID/HELD. lib/stripe/webhook/rimborsi.ts:59-85: senza ordini prova buono e sponsorizzazione, poi esce senza errore.",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": null
+      },
+      "riparazione_26_11": {
+        "esito": "parziale",
+        "sessione": "R04",
+        "collaudo": "rompe_altro",
+        "perche": "parziale: Una finestra di pochi secondi su un carrello già pagato a metà da un tentativo di prima: se il gestore del pagamento ha già riletto la carta pulita e il rimborso pieno arriva proprio allora, il rimborso annulla i nati e risponde bene, poi nasce il resto PAID/HELD e nessuno lo annulla (lib/stripe/webhook/rimborsi.ts:73). La prima versione chiudeva la finestra facendo ripetere il rimborso finché il carrello era PENDING, ma un carrello pagato a metà resta PENDING per sempre e l'ordine nato non si annullava mai: tolta. Chiuderla tutta vuol dire, per esempio, lavorare i nati E farsi ripetere finché il carrello è PENDING, controllando che riconsegnare il rimborso sugli ordini già REFUNDED non cambi niente. Inoltre con la carta tornata a ordini nati a metà il carrello resta PENDING: la merce del resto resta tenuta e il codice sconto consumato finché un amministratore non interviene (l'avviso lo chiede)."
       }
     },
     {
@@ -6248,6 +6266,12 @@
         "prova": "cd marketplace && npx eslint --print-config lib/ai/run.ts | grep -A2 no-explicit-any ; npx eslint --ext .ts,.tsx lib app components -f unix (senza --cache), poi conteggio di 'no-explicit-any' e 'Unused eslint-disable'. Più lettura di .eslintrc.json:2, :54, :65-86",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "La regola è accesa e le direttive morte vengono segnalate. Restano però 37 any che passano come semplice avviso (il lint esce 0) e 29 direttive morte ancora nel codice: l'ultimo passo del fix (togliere le direttive morte) non è fatto. Il numero è sceso da 46/40 a 37/29."
+      },
+      "riparazione_26_11": {
+        "esito": "parziale",
+        "sessione": "R09",
+        "collaudo": "parziale",
+        "perche": "parziale: 28 direttive eslint-disable morte in file non di R09 e 36 any a livello warn in 15 file (10 nella rotta delle email a orario: tipizzarli va oltre la modifica più piccola). Quando saranno tipizzati si toglie l'elenco di override 'warn' da .eslintrc.json."
       }
     },
     {
@@ -6401,6 +6425,12 @@
         "prova": "tests/unit/webhook-diviso-per-mestiere.test.ts:51-60 · app/api/stripe/webhook/route.ts:113,148,237",
         "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
         "nota": "File identico alla descrizione della voce."
+      },
+      "riparazione_26_11": {
+        "esito": "parziale",
+        "sessione": "R09",
+        "collaudo": "parziale",
+        "perche": "parziale: La lettura sull'albero chiude i due casi della voce (processed:true senza spazio, marcatura su più righe nel catch) e boccia processed: !false prima dello switch. Ma: (1) la prova con i vitest figli (riparazione-r09-la-prova-del-webhook-non-si-inganna.test.ts:41) filtra con -t 'anti-doppione', che prende anche il caso «la rotta fa solo firma, anti-doppione e smistamento» (meno di 250 righe, la rotta ne ha 248): le copie guastate diventano rosse per il numero di righe, non per la marcatura; va filtrato col nome esatto del caso. (2) webhook-diviso-per-mestiere.test.ts:91 conta solo PropertyAssignment: non vede la forma breve (const processed = true; update({ processed })) né la chiave calcolata (['processed']: true). (3) :103 salta tutto ciò che sta dentro lo switch: una marcatura dentro un case prima del suo gestore passa (buco che c'era già)."
       }
     },
     {
@@ -7253,6 +7283,12 @@
         "sessione": "R03",
         "collaudo": "non_regge",
         "perche": "parziale: Corsa con la seconda accensione: se captureError accende Sentry nel browser prima che arrivi l import di instrumentation-client.ts, quel file chiama S.init una seconda volta senza controllare getClient (danno basso: la configurazione viene sostituita, ma nessuna prova copre la corsa)."
+      },
+      "riparazione_26_11": {
+        "esito": "non_fatto",
+        "sessione": "R04",
+        "collaudo": null,
+        "perche": "non_fatto: Non lavorata: il limite di spesa della sessione (25 $) era al 71% (17,69 $) dopo il lotto 1 con le sue due smentite e la correzione. Un altro lotto avrebbe passato l'80%. Da riassegnare."
       }
     },
     {
@@ -10057,6 +10093,12 @@
         "prova": "npx vitest run tests/unit/riparazione-r11-elenchi-admin-oltre-mille.test.tsx (verde); app/admin/products/page.tsx:89-112, 151, 166-172",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Il taglio adesso è dichiarato e la ricerca per nome guarda tutto il database. Restano due buchi. Il segnaposto promette «o negozio», ma per nome del negozio cerca solo fra i 1000 caricati. Se la ricerca al database cade, filtra in silenzio sui 1000 mentre l'avviso dice «li cerca tutti»."
+      },
+      "riparazione_26_11": {
+        "esito": "non_fatto",
+        "sessione": "R05",
+        "collaudo": null,
+        "perche": "non_fatto: Non cominciata: la sessione ha passato l'80% del tetto di spesa (25 $) dopo i tre gravi; da riassegnare. Dal revisore di R05-001, da chiudere insieme in app/admin/payouts/page.tsx: con 1.200 TRANSFERRED l'elenco dei pagati si taglia a 1000 righe senza avviso (righe ~278 e ~371); l'avviso della lettura dei ritiri tagliata dice «col bonifico ancora aperto» (~276); REVERSAL_FAILED è letto fra gli aperti e occupa posto sotto il loro tetto (~228)."
       }
     },
     {
@@ -10428,6 +10470,12 @@
         "sessione": "R21",
         "collaudo": "rompe_altro",
         "perche": "parziale: Il tetto per destinatario deve contare insieme le diverse scritture dello stesso indirizzo: prima dell'impronta, in app/api/segnalazioni/route.ts:130, va normalizzato l'indirizzo (dettagli alla regista)."
+      },
+      "riparazione_26_11": {
+        "esito": "riparato",
+        "sessione": "R02",
+        "collaudo": "K04 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -10478,6 +10526,12 @@
         "prova": "components/Segnala.tsx:139-178 — il modulo ha solo motivo, dettaglio ed email, niente nome e niente spunta di buona fede. app/api/segnalazioni/route.ts:29-38 — anche lo schema Corpo ha solo tipo, oggettoId, motivo, dettaglio ed emailContatto.",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Nel registro-fatti non c'è nessuna regola su nome o buona fede nelle segnalazioni."
+      },
+      "riparazione_26_11": {
+        "esito": "riparato",
+        "sessione": "R02",
+        "collaudo": "K04 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -10851,6 +10905,12 @@
         "prova": "app/api/newsletter/confirm/route.ts:15-58 — GET che fa subito l'UPDATE active=true/confirmed_at (:47-52), senza pagina di conferma con un pulsante e senza leggere NEWSLETTER_ACCESA; lib/funzioni-al-lancio.ts:62 NEWSLETTER_ACCESA=false",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Il commento a funzioni-al-lancio.ts:61 («Conferma e disiscrizione restano vive») è una scelta del codice, ma nel registro-fatti non c'è un fatto che dichiari voluta la conferma con un semplice GET: la voce resta aperta."
+      },
+      "riparazione_26_11": {
+        "esito": "serve_file_altrui",
+        "sessione": "R02",
+        "collaudo": null,
+        "perche": "serve_file_altrui: La correzione nei file di R02 è pronta e provata ma non è nel ramo, perché da sola fa diventare rosse le due prove comuni qui sopra. Va applicata tutta insieme in un commit: app/api/newsletter/confirm/route.ts (la GET risponde con una pagina e un pulsante, solo la POST conferma con 303 sullo stesso indirizzo, e tutte e due rifiutano se NEWSLETTER_ACCESA è false); lib/funzioni-al-lancio.ts (commento: resta viva solo la disiscrizione); prova nuova tests/unit/riparazione-r02-newsletter-conferma-col-pulsante.test.ts; le due prove comuni come sopra. La patch unica l'ha la regista nel messaggio finale di R02 (git apply --check ok sulla testa cee124c2f03d26a1627b4b2d74975034efb88d9c)."
       }
     },
     {
@@ -13662,6 +13722,12 @@
         "prova": "app/seller/stories/page.tsx:328-344 · components/seller/SellerShell.tsx:43",
         "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
         "nota": null
+      },
+      "riparazione_26_11": {
+        "esito": "non_fatto",
+        "sessione": "R05",
+        "collaudo": null,
+        "perche": "non_fatto: Non cominciata: la sessione ha passato l'80% del tetto di spesa (25 $) dopo i tre gravi; da riassegnare."
       }
     },
     {
@@ -17064,6 +17130,12 @@
         "sessione": "R01",
         "collaudo": null,
         "perche": "non_codice: Il passo della copia foto (backup-db.yml, copia-foto) esce rosso e lo dice quando manca SUPABASE_SERVICE_ROLE_KEY. Cosa fa Nicola: GitHub → Settings → Secrets and variables → Actions → New secret SUPABASE_SERVICE_ROLE_KEY (la chiave service_role di Supabase), piu le variabili STORAGE_SYNC_SOURCE/DEST se non ci sono."
+      },
+      "riparazione_26_11": {
+        "esito": "non_codice",
+        "sessione": "R01",
+        "collaudo": null,
+        "perche": "non_codice: Nicola: aggiungi nei segreti di GitHub Actions del deposito mycity (Settings → Secrets and variables → Actions) il segreto SUPABASE_SERVICE_ROLE_KEY con la chiave service_role di Supabase; poi lancia a mano «backup-db» e guarda che la riga «esito-file-foto» dica «copiati N file» e che ci sia l'artefatto backup-foto-<numero>."
       }
     },
     {
@@ -17373,6 +17445,12 @@
         "prova": "lib/push/subito.ts:109 · app/api/cron/send-push/route.ts:24-30 · vercel.json:26",
         "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
         "nota": "La cura è a metà strada: l'aiutante c'è, il collegamento alle rotte d'ordine no."
+      },
+      "riparazione_26_11": {
+        "esito": "serve_file_altrui",
+        "sessione": "R01",
+        "collaudo": null,
+        "perche": "serve_file_altrui: Nello stesso commit della cucitura vanno riscritti i due commenti in cima a app/api/cron/send-push/route.ts (righe 10-13 e 24-30, file di R01) togliendo «che oggi nessuna rotta chiama ancora» e «ma nessuna rotta lo chiama ancora»: appena c'è un chiamante, tests/unit/riparazione-r18-commento-push-nuovo-ordine.test.ts vuole che nessuna frase dica più «nessuna rotta … chiama» (oggi, senza chiamanti, vuole il contrario: per questo il commento non l'ho cambiato io). Patch non provata con tsc: modificare file altrui, anche per poco, mi è stato negato; i tipi combaciano perché il client di getAdminSupabase è già passato come SupabaseClient a sendPushToUser nel giro. Senza chiavi VAPID l'aiutante esce subito senza toccare il database, quindi le prove esistenti di contanti e webhook non dovrebbero cambiare; serve una prova nuova che controlli la chiamata con gli id degli ordini. Dal collaudo: in lib/stripe/webhook/ordini.ts è più preciso `nuovi.map((c) => c.orderId)` che `createdOrderIds.map(...)` (che include gli ordini già nati quando Stripe ripete il webhook; innocuo grazie al filtro su pushed_at vuoto)."
       }
     },
     {
@@ -17601,6 +17679,12 @@
         "prova": "cd marketplace && npx vitest run tests/unit/_s01/L08-12.test.ts ; lib/stripe/webhook/posta-non-partita.ts:15-37 ; lib/stripe/webhook/comune.ts:260-273 ; app/api/orders/cod/route.ts:1858-1859 ; lib/email/client.ts:109-113",
         "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
         "nota": "La parte «nessuno se ne accorge» è riparata (R03-003). Resta «nessuno la rimanda»: non c'è una coda né un nuovo tentativo, e l'avviso dice all'amministratore «Avvisa tu il destinatario». Finché manca la seconda parte del titolo, la voce non si può chiudere."
+      },
+      "riparazione_26_11": {
+        "esito": "non_fatto",
+        "sessione": "R04",
+        "collaudo": null,
+        "perche": "non_fatto: Non lavorata: il limite di spesa della sessione (25 $) era al 71% (17,69 $) dopo il lotto 1 con le sue due smentite e la correzione. Un altro lotto avrebbe passato l'80%. Da riassegnare."
       }
     },
     {
@@ -18376,6 +18460,12 @@
         "sessione": "R11",
         "collaudo": null,
         "perche": "scelta_di_nicola: Verificato sulla base: lib/rimborsi/bonifici-da-fare.ts:29-31 dice «sul sito non esiste un fatto»; il reclamo non passa resoChiestoIl e il testo dice «Va pagato presto». Se Nicola sceglie il tasto, la cura tocca file non miei: lib/stripe/payout.ts (refundOrder deve scrivere la riga del bonifico nello stesso passo del segno), app/api/cron/operational-alerts/route.ts (allarme a 3 giorni dal termine e a termine passato), una pagina admin nuova «Bonifici di rimborso da fare», più una migrazione (tabella bonifici_rimborso) e una RPC riservata agli admin; nei miei file solo il testo dell avviso (bonifici-da-fare.ts) e la data di partenza nella rotta dei reclami. Lo stesso registro della radiografia la segna «gialla: serve la firma di Nicola»."
+      },
+      "riparazione_26_11": {
+        "esito": "parziale",
+        "sessione": "R05",
+        "collaudo": "parziale",
+        "perche": "parziale: (1) L'allarme del termine nel cron, il link nel menu admin e la data di partenza dei reclami: serve_file_altrui. (2) Nell'avviso restano il link /admin/orders e la frase «prima di pagare cerca questa causale nei movimenti del conto. Se c'è, è già pagato», perché due prove comuni (che non importano il mio file per nome) li fissano: dopo la loro modifica (serve_file_altrui) in lib/rimborsi/bonifici-da-fare.ts, funzione avvisoDelBonificoDaFare, si toglie quella frase e il link diventa PAGINA_DEI_BONIFICI (com'era nel commit 3cfbf9bbd4c3be0325456804fd0960b04a25c3ad). (3) La migrazione 910 la applica Nicola: finché non c'è, la pagina dice «Non riesco a leggere i bonifici» e il pezzo del cron non va messo. (4) Il termine dei reclami: oggi «termine sconosciuto»; se si accetta l'apertura del reclamo come partenza, nella 910 (non ancora applicata) basta LEFT JOIN public.disputes d ON m[2] = 'dispute_' || d.id::text AND d.order_id = o.id e chiesto_il = coalesce(r.created_at, d.created_at). (5) Nessun revisore indipendente: fermata per il tetto di spesa."
       }
     },
     {
@@ -18442,6 +18532,12 @@
         "prova": "npx vitest run tests/unit/_s01b_l05_pannello_lunedi.test.tsx (copia in scratchpad/prove/L05/) + test del sito r11-pannello-bonifici, r11-da-versare-lunedi, r11-bonifico-non-due-volte",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Riparato nel grosso: cifra per negozio con arretrati, al netto degli storni, IBAN e «Bonifico fatto». Resta la regola registrata ritiro.in-negozio: il 10% dei ritiri pagati al banco va scalato dal bonifico del lunedì. CASH_IN_STORE è «fuori» (negozio.ts:264), quindi la cifra è troppo alta."
+      },
+      "riparazione_26_11": {
+        "esito": "parziale",
+        "sessione": "R05",
+        "collaudo": "rompe_altro",
+        "perche": "parziale: Dal collaudo: (1) la commissione dei ritiri al banco si toglie due volte se l'ordine segnato PAID_MANUALLY viene poi rimborsato per intero e diventa REFUNDED (page.tsx:110 guarda solo PAID_MANUALLY: va guardato un ordine in contanti con payout_at della settimana e senza transfer, anche REFUNDED); (2) quando la commissione supera i contanti, il resto da mettere in fattura sparisce dopo «Bonifico fatto» e niente lo somma sul mese (page.tsx:110-111, 159-161, 430-434); (3) la commissione di una settimana senza bonifico segnato si perde, perché il conto guarda solo la settimana prima mentre gli arretrati HELD entrano tutti (page.tsx:109-118, 313-317); (4) con PAGAMENTI_CONTANTI_DA_STRIPE_DAL accesa gli HELD che il giro paga con Stripe restano «Da versare»: cura senza toccare negozio.ts con una rotta nuova solo admin (app/api/admin/contanti-da-stripe/route.ts, withAdminAuth, restituisce solo l'istante da inizioContantiDaStripe()) letta dalla pagina, che toglie quegli HELD dal lunedì e li mostra «In sospeso · lo paga Stripe». Fermata per il tetto di spesa della sessione."
       }
     },
     {
@@ -18530,6 +18626,12 @@
         "prova": "Metà riparata: cd marketplace && npx vitest run tests/unit/riparazione-r17-guadagni-coi-contanti.test.ts (1 file, 10 verdi: commissione e lordo contano i contrassegni consegnati, lib/guadagni/negozio.ts:101-153). Metà rimasta, su Postgres locale con le migrazioni del commit (tests/sql/harness/apply.sh mycity_s01c_v_l05: 210 applicate, 0 fallite): select count(*) from pg_proc where proname='segna_bonifico_manuale' → 0, mentre app/admin/payouts/page.tsx:123 la chiama; UPDATE orders set payout_status='PAID_MANUALLY' su un contrassegno consegnato in HELD → «violates check constraint orders_payout_status_check».",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Cambiato: la commissione zero è riparata (R17-001); resta la metà dei soldi «mai versati» coi soli contanti, perché il bonifico a mano non si può registrare (dipende da R17-002; le migrazioni 350 e 410 non sono sul commit). Il lotto L05 aveva proposto non_piu_vero: il verificatore l'ha smentito, la voce resta aperta. La gravità grave regge."
+      },
+      "riparazione_26_11": {
+        "esito": "non_fatto",
+        "sessione": "R04",
+        "collaudo": null,
+        "perche": "non_fatto: Non lavorata: il limite di spesa della sessione (25 $) era al 71% (17,69 $) dopo il lotto 1 con le sue due smentite e la correzione. Un altro lotto avrebbe passato l'80%. Da riassegnare."
       }
     },
     {
@@ -18650,6 +18752,12 @@
         "prova": "La parte nel sito c'è: app/admin/payouts/page.tsx:100-160 ha il tasto «Bonifico fatto», che chiama rpc('segna_bonifico_manuale'), e lib/guadagni/negozio.ts:85-95 conta PAID_MANUALLY fra i versati. Ma nessun file SQL del repo definisce quella funzione: la «migrazione 350» non esiste in migrations/. Sul Postgres locale ricostruito da tutte le 210 migrazioni la funzione non c'è e il vincolo orders_payout_status_check non ammette PAID_MANUALLY.",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Cambiato: pagina Guadagni e pannello admin sono pronti a mostrare il bonifico fatto a mano, ma il pezzo nel database manca dal repo. Dal codice di oggi il tasto chiama una funzione che non esiste e risponde «Non sono riuscito a segnarlo», quindi il bonifico ancora non si segna. Non posso verificare se la 350 è stata applicata a mano solo in produzione: guardare lì è vietato."
+      },
+      "riparazione_26_11": {
+        "esito": "non_fatto",
+        "sessione": "R04",
+        "collaudo": null,
+        "perche": "non_fatto: Non lavorata: il limite di spesa della sessione (25 $) era al 71% (17,69 $) dopo il lotto 1 con le sue due smentite e la correzione. Un altro lotto avrebbe passato l'80%. Da riassegnare. Dal testo della voce la cura chiede un'azione admin «bonifico del lunedì fatto», una funzione del database con is_admin() e uno stato payout nuovo (migrazione): probabile serve_file_altrui per le pagine admin."
       }
     },
     {
@@ -19388,6 +19496,12 @@
         "sessione": "R02",
         "collaudo": null,
         "perche": "scelta_di_nicola: La regista ha confermato: nessun codice e nessun testo dei termini scritto da me."
+      },
+      "riparazione_26_11": {
+        "esito": "parziale",
+        "sessione": "R02",
+        "collaudo": "parziale",
+        "perche": "parziale: emettere il documento fiscale per la consegna: scelta di Nicola (quale documento, fornitore, regime)"
       }
     },
     {
@@ -19551,6 +19665,12 @@
         "sessione": "R02",
         "collaudo": "parziale",
         "perche": "parziale: I badge «-n%» delle pagine pubbliche leggono ancora discount_percent degli eventi già salvati: vedi serve_file_altrui."
+      },
+      "riparazione_26_11": {
+        "esito": "parziale",
+        "sessione": "R02",
+        "collaudo": "parziale",
+        "perche": "parziale: Dal collaudo, non fatto per il tetto di spesa: (1) la 880 azzera discount_percent su tutti gli eventi senza archiviarlo prima (il registro attività lo scrive come «***»): va prima copiato (evento, sconto, data) in una tabella d'archivio, perché è l'unica prova di chi ha visto «-20%» e ha pagato pieno; (2) la pulizia dei dati già salvati non è coperta dalla prova SQL (riga 81 conta solo gli eventi creati dalla prova); (3) il badge «-n%» resta in app/events/page.tsx:270-274 (non di R02): finché la 880 non è applicata si vede ancora — togliere quelle righe lo chiude col rilascio, senza perdere dati."
       }
     },
     {
@@ -19701,6 +19821,12 @@
         "sessione": "R12",
         "collaudo": "regge",
         "perche": "parziale: Il modulo del negozio riceve le categorie senza la colonna: finché le select non la leggono, una radice nuova con l'obbligo è protetta dal database ma il modulo non mostra i campi."
+      },
+      "riparazione_26_11": {
+        "esito": "serve_file_altrui",
+        "sessione": "R08",
+        "collaudo": null,
+        "perche": "serve_file_altrui: Mezza voce era già chiusa sulla base ed12ed8ec8190e1132b690f6e034c30f0a5d55ba da migrations/363_l_obbligo_degli_allergeni_e_una_proprieta_della_categoria.sql: categories.richiede_dichiarazioni_alimentari, trigger 195 sulla colonna, slug/obbligo/spostamento/cancellazione della radice alimentari bloccati; lib/category-attributes.ts:302/:312 leggono già la colonna (npx vitest run tests/unit/riparazione-r12-allergeni-per-proprieta.test.ts → 5 passate). Il collaudo ha provato sul Postgres locale che resta aperta l'altra metà: una radice nuova «gastronomia» creata come fa il pannello, con «pane» sotto, pubblica il pane senza allergeni né ingredienti (available). Quello che manca sta tutto in file non miei; nel mio file non c'è altro da cambiare."
       }
     },
     {
@@ -20427,7 +20553,7 @@
       "impatto": "Il primo fattorino, o un familiare, viene attivato senza la copertura che Nicola ha messo come condizione, e legge che basta la RC.",
       "fix": "Fra i documenti del fattorino esterno, la posizione INAIL obbligatoria per l'approvazione, tranne l'account di Nicola. Riscrivere «Sono assicurato?» con la regola del fatto.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "gia_riparato_prima",
       "prova": "cd /home/user/mycity && grep -rni \"inail\" app lib components --include=*.ts --include=*.tsx → nessun risultato; sed -n 77,78p app/rider/help/page.tsx → solo «polizza RC».",
       "prova_tipo": "comando",
       "prova_eseguita": true,
@@ -20469,6 +20595,14 @@
         "sessione": "R08",
         "collaudo": null,
         "perche": "scelta_di_nicola: Dopo la scelta: il controllo va in lib/admin/regole-approvazione.ts (non mio) e il documento nel modulo app/rider/onboarding (non mio); la rotta di moderazione lo usa già tramite motivoPerNonApprovare."
+      },
+      "chiuso_il": "2026-11-26 16:08",
+      "chiuso_da": "riparazione 2026-11-26-tutti-onda1 · R02 · collaudo K04",
+      "riparazione_26_11": {
+        "esito": "gia_riparato_prima",
+        "sessione": "R02",
+        "collaudo": "K04",
+        "prova": "app/rider/help/page.tsx:81-83 sulla base ed12ed8ec8190e1132b690f6e034c30f0a5d55ba: «Prima della prima consegna serve anche la copertura INAIL contro gli infortuni: senza, non si consegna». npx vitest run tests/unit/minori-s02-aiuto-fattorini.test.tsx è verde (caso «Sono assicurato? nomina l INAIL»)."
       }
     },
     {
@@ -20704,6 +20838,12 @@
         "sessione": "R18",
         "collaudo": null,
         "perche": "non_codice: Per Nicola, sul database vero (io non l'ho interrogato): (1) togliere il nome dalle 20 righe vecchie e dalle loro copie: `UPDATE public.audit_logs SET metadata = metadata - 'name' WHERE target_table = 'profiles' AND metadata ? 'name' AND NOT EXISTS (SELECT 1 FROM auth.users u WHERE u.id::text = audit_logs.target_id);` e lo stesso su public.activity_events (category = 'moderation', target_table = 'profiles'); prima contale con la stessa condizione in un SELECT count(*) (atteso 20 e 20). Se si preferisce aspettare, la potatura notturna azzera metadata dopo 12 mesi (lib/privacy/potature-ritenzione.ts:296, giugno-luglio 2027), solo se il giro notturno e' acceso. (2) togliere dal contenitore products l'unico file con un proprietario che non esiste piu' (storage.objects con owner non in auth.users). Correzione del revisore C: le copie in activity_events si azzerano a 14 mesi, non a 12 (lib/…/potature-ritenzione.ts:288-293): la riga per l informativa va scritta con 14 mesi."
+      },
+      "riparazione_26_11": {
+        "esito": "non_codice",
+        "sessione": "R02",
+        "collaudo": null,
+        "perche": "non_codice: Il codice è già a posto: le righe nuove non hanno il nome. Restano le righe vecchie (16 persone) nel database vero; una migrazione di soli dati non si prova con --sql (le righe della prova nascono dopo la migrazione). Nicola, sul database vero: prima SELECT count(*) con la stessa condizione, poi UPDATE public.audit_logs SET metadata = metadata - 'name' WHERE target_table='profiles' AND metadata ? 'name' AND NOT EXISTS (SELECT 1 FROM auth.users u WHERE u.id::text = audit_logs.target_id); e lo stesso su public.activity_events (category='moderation', target_table='profiles'). In alternativa si aspetta la potatura notturna (12 mesi audit_logs, 14 activity_events), che gira solo con CANCELLAZIONI_A_ORARIO accese."
       }
     },
     {
@@ -21052,6 +21192,12 @@
         "prova": "app/privacy/page.tsx: riga Contatti ({MESI_DEI_MESSAGGI_DEI_CONTATTI}=24 mesi) e riga Chat col negozio; lib/privacy/iban-per-email.ts:51-52 (e :37, :66)",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "La durata dei Contatti e della chat è sistemata. Resta il «finché non la cancelliamo» per l'email con l'IBAN."
+      },
+      "riparazione_26_11": {
+        "esito": "scelta_di_nicola",
+        "sessione": "R02",
+        "collaudo": null,
+        "perche": "scelta_di_nicola: Contatti e chat avevano già la loro riga sulla base: app/privacy/page.tsx:215 dice Contatti 24 mesi (MESI_DEI_MESSAGGI_DEI_CONTATTI, applicato in lib/privacy/potature-ritenzione.ts:376-380); app/privacy/page.tsx:222 dice che un messaggio della chat resta finché chi l'ha scritto non cancella l'account. Per l'IBAN non c'è durata nel codice: lib/privacy/iban-per-email.ts:9-11 dice già che il numero lo sceglie Nicola col legale."
       }
     },
     {
@@ -21115,6 +21261,12 @@
         "sessione": "R02",
         "collaudo": "parziale",
         "perche": "parziale: Non codice: per potare davvero quei documenti Nicola deve applicare la migrazione 171 (e mettere la chiave di servizio, senza la quale il lavoro è comunque fermo). Fino ad allora la notte non fallisce, ma i documenti delle iscrizioni a metà non vengono tolti (oggi il secchio kyc-docs è vuoto)."
+      },
+      "riparazione_26_11": {
+        "esito": "non_codice",
+        "sessione": "R02",
+        "collaudo": null,
+        "perche": "non_codice: Il codice è già pronto (lib/privacy/potature-ritenzione.ts:549-583, riparazione del 12/11): senza la 171 il passo si salta con un avviso e la notte non risponde più 500; con la 171 il passo lavora (provato sullo schema di tutte le migrazioni sul Postgres locale, ruolo service_role e grilletti veri). Nicola: applicare migrations/171_i_documenti_d_identita_scadono.sql nel database vero; poi, se kyc_file_da_togliere_rimetti manca, rilanciare il blocco 32 della migrazione 215; e tenere su Vercel la chiave di servizio, senza la quale il lavoro notturno è fermo."
       }
     },
     {
@@ -21213,6 +21365,12 @@
         "prova": "components/DeliveryMap.tsx:115 · components/NearbyStoresMap.tsx:73 · components/StoreLocationPicker.tsx:105 · app/rider/orders/[id]/page.tsx:449 · app/privacy/page.tsx:272 e :282",
         "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
         "nota": null
+      },
+      "riparazione_26_11": {
+        "esito": "riparato",
+        "sessione": "R02",
+        "collaudo": "K04 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -21484,6 +21642,12 @@
         "sessione": "R12",
         "collaudo": "parziale",
         "perche": "parziale: Rotta e pulsante sono in file altrui; la migrazione la applica Nicola. Finché non ci sono, in produzione il caso resta bloccato come prima (ma senza peggiorare)."
+      },
+      "riparazione_26_11": {
+        "esito": "parziale",
+        "sessione": "R06",
+        "collaudo": "parziale",
+        "perche": "parziale: La rotta e i pulsanti dell amministratore (file altrui, sotto) e l applicazione della migrazione 360 sul database (la decide Nicola): finché non ci sono, l ordine resta fermo come prima. PICKED_UP resta escluso per scelta del collaudo del 12/11 (la 360 lo rifiuta e dice «si annulla»), mentre il fix della voce lo chiedeva: lì resta solo l annullo."
       }
     },
     {
@@ -21543,6 +21707,12 @@
         "sessione": "R03",
         "collaudo": "parziale",
         "perche": "parziale: Due file non miei chiedono ancora patente e polizza a tutti: app/api/kyc/start-check/route.ts:77-83 (rifiuta la verifica) e lib/kyc/esame-rider.ts:60-61 (DOCUMENTI_RIDER obbligatorio:true, nella schermata dell'amministratore)."
+      },
+      "riparazione_26_11": {
+        "esito": "gia_riparato_prima",
+        "sessione": "R06",
+        "collaudo": "rompe_altro",
+        "perche": "collaudo: rompe_altro"
       }
     },
     {
@@ -22349,6 +22519,12 @@
         "sessione": "R06",
         "collaudo": null,
         "perche": "scelta_di_nicola: Non lavorata per decisione della regista (quarto giro): nessun file toccato."
+      },
+      "riparazione_26_11": {
+        "esito": "serve_file_altrui",
+        "sessione": "R06",
+        "collaudo": null,
+        "perche": "serve_file_altrui: Il ritiro non si può accendere solo dal mio file senza aprire un buco nei soldi: nessun codice conta il 10% di MyCity sugli ordini CASH_IN_STORE. Prima va chiuso il #30 (il codice di ritiro) e va controllato che le migrazioni 124 e 179 siano applicate in produzione (cosa da fare fuori dal codice, Nicola). Dopo: RITIRO_IN_NEGOZIO_ATTIVO = true e commento riscritto in lib/ritiro-in-negozio.ts:19."
       }
     },
     {
@@ -23217,6 +23393,12 @@
         "prova": "app/rider/page.tsx:345 · app/rider/page.tsx:366 · migrations/661_la_presa_persa_dice_se_l_ha_preso_un_altro.sql (UPDATE … WHERE id = p_order_id) · lib/ordini/prezzi.ts:312-315",
         "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
         "nota": "Il riquadro «Giro intelligente» citato nella descrizione è stato tolto (:645-646). Il difetto del titolo resta."
+      },
+      "riparazione_26_11": {
+        "esito": "non_fatto",
+        "sessione": "R06",
+        "collaudo": null,
+        "perche": "non_fatto: Non fatta: la sessione ha raggiunto l 80% del limite di spesa (21 $ su 25) prima del suo lotto (regola 4 della campagna). Per chiuderla serve una migrazione nuova (fascia 920-929) perché prendi_ordine assegni insieme gli ordini pronti dello stesso carrello (cod_checkout o transfer_group), più la bacheca di app/rider/page.tsx raggruppata per carrello."
       }
     },
     {
@@ -26293,6 +26475,12 @@
         "prova": "Barra riparata: app/product/[id]/page.tsx:539-541 calcola price scontato, e alle righe 1690-1694 passa price e prezzoPieno. components/StickyAddToCart.tsx:114-147 mostra il prezzo scontato e il pieno barrato. Caroselli no: components/SimilarProducts.tsx:94 mostra formatPrice(p.price) e lib/queries/fasce-prodotti.ts:109 (leggiSimili) non legge le promozioni. Nessun riferimento a promo o sconto in components/RecentlyViewed.tsx, components/home/TrendingNow.tsx e components/SponsoredCarousel.tsx.",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Riparata solo la barra d'acquisto. «Potrebbe piacerti» sotto la scheda e gli altri caroselli mostrano ancora il prezzo pieno per un prodotto in promozione."
+      },
+      "riparazione_26_11": {
+        "esito": "serve_file_altrui",
+        "sessione": "R11",
+        "collaudo": null,
+        "perche": "serve_file_altrui: La parte della scheda prodotto era già riparata sulla base: app/product/[id]/page.tsx:541-543 calcola price con discountedUnitCents e lo passa a prezzo grande (:1018), riquadro a lato (:1276), barra (:1705-1709, con prezzoPieno), addToCart (:708, :754) e al tetto dei contanti (:614/:619). StickyAddToCart.tsx non ha un difetto suo (non ricalcola, barra il pieno solo se è più alto), nessun commit. Restano i 4 caroselli, file di altri."
       }
     },
     {
@@ -26790,7 +26978,7 @@
       "impatto": "Il cliente con indirizzi salvati aveva scritto da ospite un indirizzo nuovo, per esempio quello dell'ufficio. Torna dall'accesso e vede tutte le mattonelle spente: non sa dove arriverà la spesa. Se ne tocca una, cambia senza saperlo l'indirizzo che aveva scritto.",
       "fix": "Se il modulo contiene un indirizzo che non coincide con nessuna mattonella, aprire il modulo (editing vero). In alternativa mostrare una mattonella «Indirizzo appena scritto» già selezionata.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "gia_riparato_prima",
       "prova": "Scenario: un account con un indirizzo salvato in Via Roma 1. Da ospite scrivi «Via Calzolai 5» e premi «Ordina»: la bozza si salva (page.tsx:1248) e si passa dall'accesso. Al ritorno, a più di 60 s dalla prima lettura per non incrociare il difetto dell'accesso, ci si aspetta «Via Calzolai 5» visibile e scelto. Reale: il form ha classe hidden e la mattonella di Via Roma ha aria-pressed=false. L'indirizzo che partirà non compare a schermo. Verificato leggendo il codice.",
       "prova_tipo": "lettura-codice",
       "prova_eseguita": false,
@@ -26831,6 +27019,14 @@
         "sessione": "R13",
         "collaudo": "regge",
         "perche": "il riparatore non l'ha scritta nel referto"
+      },
+      "chiuso_il": "2026-11-26 16:08",
+      "chiuso_da": "riparazione 2026-11-26-tutti-onda1 · R09 · collaudo K03",
+      "riparazione_26_11": {
+        "esito": "gia_riparato_prima",
+        "sessione": "R09",
+        "collaudo": "K03",
+        "prova": "app/checkout/page.tsx:561-586: la mattonella della bozza «Appena scritto» sta in testa a indirizziDaMostrare ed è passata come savedAddresses a ShippingAddressForm (:1501), scelta perché coincide col modulo (components/checkout/ShippingAddressForm.tsx:158-163). npx vitest run tests/unit/riparazione-r19-ho-gia-un-account-salva-la-bozza.test.ts --reporter=dot → 5 passate."
       }
     },
     {
@@ -26965,6 +27161,12 @@
         "sessione": "R10",
         "collaudo": null,
         "perche": "scelta_di_nicola: Nessun codice scritto: servirebbero logica in lib/store-hours.ts e nella funzione SQL (file non miei) e una migrazione, esclusa dalla regista."
+      },
+      "riparazione_26_11": {
+        "esito": "serve_file_altrui",
+        "sessione": "R11",
+        "collaudo": null,
+        "perche": "serve_file_altrui: Proposta senza migrazione: i due segni dentro il JSON store_hours, già salvato da app/seller/profile/page.tsx:64-71 e già fra i campi scrivibili. Se Nicola preferisce colonne vere, la migrazione andrebbe nella fascia 970-979 (ALTER TABLE public.profiles ADD COLUMN store_closed_until date, ADD COLUMN store_done_for_day_on date, più trigger dei campi consentiti e vista seller_public_profiles)."
       }
     },
     {
@@ -29618,6 +29820,12 @@
         "prova": "cd marketplace && npx vitest run tests/unit/le-prove-della-cassa-non-passano-senza-aver-guardato.test.ts (4 verdi); mutanti coi corpi vuoti o rimessi come nel difetto (scratchpad di S01b, prove/L02-2-mutante-cassa.spec.ts + L02-3-guardia-sul-mutante.test.ts copiati in tests/e2e e tests/unit): la guardia va rossa",
         "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
         "nota": "Il difetto del titolo (gusci vuoti che passano) non c'è più ed è sorvegliato dalla guardia. Resta il pezzo della riapertura del 31/10: nessuna prova porta davvero un ordine fino al database finché la variabile del repository e le chiavi di prova non ci sono. Il verificatore propone di abbassare la gravità a minore; per chiuderla serve un giro di CI con «La cassa vera» e il contrassegno «passata»."
+      },
+      "riparazione_26_11": {
+        "esito": "parziale",
+        "sessione": "R01",
+        "collaudo": "parziale",
+        "perche": "parziale: Resta un verde a vuoto a livello di job: con E2E_DATI_DI_PROVA=1 ma senza il segreto STRIPE_TEST_SECRET_KEY o la variabile E2E_STRIPE_CONTO_NEGOZIO, l'unico salto dello spec 12 (:267-269) ferma tutte e tre le prove, Playwright esce 0 («3 skipped»), il job e2e-cassa-vera (.github/workflows/ci.yml, `exit $STATUS` prima del riepilogo) è verde e il cancello Main lo conta ✅ (`success) PASSATI++`). Da fare in ci.yml (file di R01, non fatto per tetto di spesa/subagenti): il job espone `outputs.viste` = stats.expected+unexpected+flaky di risultati-cassa-vera.json e il cancello conta `success` con viste=0 come «⏭️ non conta» (non fa rosso, rispetta la regola «mai rosso per un segreto che manca»); oppure, se Nicola preferisce, exit 1 quando la variabile è 1 e le prove viste sono 0. Nello spec 12 (non di R01): separare il salto in modo che la prova del contrassegno, che non usa Stripe, giri anche senza le chiavi Stripe. Non codice per Nicola: variabile del repository E2E_DATI_DI_PROVA=1, segreto STRIPE_TEST_SECRET_KEY (sk_test_) e variabile E2E_STRIPE_CONTO_NEGOZIO (acct_ di prova)."
       }
     },
     {
@@ -30025,6 +30233,12 @@
         "sessione": "R11",
         "collaudo": "parziale",
         "perche": "parziale: Detto chiaro (collaudo K04): la prova sostituisce withSellerAuthRateLimit, withAuthRateLimit e withInternalAuth con un passacarte che fa entrare tutti e finge applyConnectAccountStatus. Quindi NON prova il 401 senza sessione, il 403 sul ruolo fatto dall'involucro, il 401 senza x-internal-secret, né il filtro .eq('id', user.id) di refresh-status. Prova solo i controlli scritti dentro le rotte e la mappatura dei codici. Non è una riparazione: nessun codice del sito cambiato."
+      },
+      "riparazione_26_11": {
+        "esito": "parziale",
+        "sessione": "R06",
+        "collaudo": "parziale",
+        "perche": "parziale: La prova non dimostra il controllo di ruolo su /api/stripe/connect/login: sostituendo withSellerAuthRateLimit con withAuthRateLimit le 32 prove restano verdi, perché il 403 all acquirente (tests/unit/riparazione-r06-stripe-connect-rotte.test.ts:222) nasce dal stripe_account_id mancante, non dal ruolo. Va dato all acquirente finto un stripe_account_id, così il 403 dipende solo dal ruolo."
       }
     },
     {
@@ -30093,6 +30307,12 @@
         "prova": ".github/workflows/ci.yml:250 (postgres:16), :277 (apply.sh) e :282 (run.sh sullo schema ricostruito); .github/workflows/backup-db.yml:735-739",
         "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
         "nota": "Le righe sono spostate (da 217-250 a 239-282) ma il difetto è lo stesso."
+      },
+      "riparazione_26_11": {
+        "esito": "non_fatto",
+        "sessione": "R01",
+        "collaudo": null,
+        "perche": "non_fatto: Il lotto aveva fatto un commit (439b57222b83c9d96ba55f0bfcf7985ecd70b558: rls-locale su postgres:17 e confronto notturno delle regole fra database ricostruito e database vero), ma il revisore lo ha smentito e l'ho annullato con fdbbd90c369db7102e564fabb5f5c1347e099c75: (1) il confronto stampava per intero le righe del database vero (espressioni delle regole, stato della RLS) nel log del flusso, che in un deposito pubblico è leggibile da tutti; (2) l'impronta non guardava le viste (definizione e opzioni), quindi una vista cambiata in produzione passava verde. Per rifarla, nei file di R01: rls-locale da postgres:16 a postgres:17 (provato verde dal lotto e dal revisore: apply 235/0, run.sh, db pieno, check-drift); nel flusso della deriva il confronto con l'impronta del lotto più le viste (pg_get_viewdef e reloptions), stampando solo i conteggi per tipo di oggetto, mai le righe; la prova del lotto con psql finto va adattata ai conteggi. Mai girato contro la produzione."
       }
     },
     {
@@ -30152,6 +30372,12 @@
         "prova": "playwright.config.ts:39-40 (progetto mobile-safari); .github/workflows/ci.yml:459, :590, :707, :861 (tutti --project=chromium); tests/e2e/03-cart-and-search.spec.ts:24-25",
         "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
         "nota": "La parte «su telefono una è già rossa» non l'ho rilanciata: servono un server locale e Playwright. Il selettore però non è cambiato."
+      },
+      "riparazione_26_11": {
+        "esito": "parziale",
+        "sessione": "R01",
+        "collaudo": "parziale",
+        "perche": "parziale: 1) correggere tests/e2e/03-cart-and-search.spec.ts (vedi serve_file_altrui); 2) poi togliere la riga continue-on-error: true dal passo «Percorri il sito sullo schermo di un telefono e dichiara cosa hai provato» del lavoro e2e-telefono in .github/workflows/ci.yml, così il telefono ferma la richiesta come gli altri. La prova rossa sul telefono è dedotta dal codice: qui WebKit non si scarica (download bloccato) e Playwright non è girato. Inoltre, dal collaudo: continue-on-error copre tutto il passo, quindi finiscono verdi anche una rossa nuova sul telefono, l'app che non parte e «nessuna prova ha guardato»; meglio tollerare solo la prova nota per nome finché lo spec 03 non è corretto. Se l'installazione di WebKit o la build falliscono, il cancello Main resta rosso per tutti. WebKit vero non l'ha mai fatto girare nessuno: va visto al primo giro in CI prima di togliere continue-on-error."
       }
     },
     {
@@ -30331,6 +30557,12 @@
         "run": "radiografia 2026-11-06 · S01 (session_015BmpnXbX6VZwivvy7fbRF2) · verifica wf_cb60977a-9e3",
         "codice": "db5164c52e856c0e3eab1c02197ae755fca76eb3",
         "nota": "Il reso resta su tutto l'ordine e propone di rimborsare tutto."
+      },
+      "riparazione_26_11": {
+        "esito": "parziale",
+        "sessione": "R06",
+        "collaudo": "parziale",
+        "perche": "parziale: Quantità parziali di una riga e più articoli nello stesso reso: returns ha solo order_item_id singolo e nessuna colonna quantità, e l'indice unico della migrazione 119 tiene un solo reso aperto per ordine. Serve una migrazione (returns.quantity o una tabella return_items) e poi modulo, scheda e rotte decide/avanza. Il campo importo resta precompilato con l'importo proposto perché una prova comune (minori-s06-reso-misto) lo chiede; il rimborso immediato non dipende più da quel valore."
       }
     },
     {
@@ -30406,6 +30638,12 @@
         "prova": "cd marketplace && npx vitest run tests/unit/_s01/L03-1.test.ts (lib/legal/titolare.ts:129-164, :203-212; lib/health/titolare-check.ts:57-79)",
         "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
         "nota": "Il nome è riparato nel codice. Sede, partita IVA e PEC compaiono solo con le variabili di Vercel produzione, che da qui non si possono guardare. Nicola il 26/10 ha firmato «partita IVA adesso», ma non so se le variabili sono state messe: la voce resta aperta."
+      },
+      "riparazione_26_11": {
+        "esito": "parziale",
+        "sessione": "R02",
+        "collaudo": "parziale",
+        "perche": "parziale: Codice (dal collaudo, non fatto per il tetto di spesa): lib/legal/titolare.ts:133-134 non scarta NEXT_PUBLIC_TITOLARE_NOME uguale al marchio o a un segnaposto: con NOME=«MyCity» l'informativa torna a «Il titolare del trattamento è MyCity» (e con «MyCity S.r.l.» stamperebbe una società che non esiste); va fatto passare da eSegnaposto/confronto col marchio. Nicola: mettere su Vercel produzione NEXT_PUBLIC_TITOLARE_NOME, _INDIRIZZO, _PIVA e _PEC e poi ripubblicare il sito (sono variabili NEXT_PUBLIC_ lette anche dal piede nel browser: senza una nuova pubblicazione non cambia niente). L'indirizzo (sede) è dovuto già oggi a prescindere dalla P.IVA (art. 7.1 d.lgs. 70/2003, art. 49.1.c Codice del Consumo) e il codice lo stampa anche da solo; la P.IVA serve solo con attività soggetta a IVA: la soglia dei 5000€ (lib/legal/titolare.ts:195-196) è una scelta di Nicola da verificare col legale."
       }
     },
     {
@@ -31614,6 +31852,12 @@
         "prova": "lib/category-attributes.ts:50 (peso: testo libero non obbligatorio) e :57-64 (obbligatori solo allergeni e ingredienti); app/product/[id]/page.tsx:547-548 (solo il suffisso dell'unità)",
         "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
         "nota": null
+      },
+      "riparazione_26_11": {
+        "esito": "parziale",
+        "sessione": "R08",
+        "collaudo": "parziale",
+        "perche": "parziale: Manca l'obbligo del peso netto come numero più unità per gli alimenti: va messo required e un controllo di formato sul campo 'peso' di alimentari in lib/category-attributes.ts:50 (file mio) insieme alle modifiche dei file altrui qui sotto, perché da solo rompe 11 casi di due prove comuni. I prodotti già pubblicati senza peso vanno completati dai negozi (non è codice)."
       }
     },
     {
@@ -33469,6 +33713,12 @@
         "prova": "app/seller/customers/page.tsx:37-39 (select solo delivery_full_name e totali, niente email/telefono); nessuna funzione o pulsante di esportazione nel file; :220-226 commento 'Il riquadro «i VIP valgono 4× di più, manda loro un'offerta» è stato tolto'; nessun testo di offerta renderizzato",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Tolto il consiglio inventato. Resta la mancanza di contatti ed esportazione, che aspetta una decisione di Nicola col legale."
+      },
+      "riparazione_26_11": {
+        "esito": "scelta_di_nicola",
+        "sessione": "R11",
+        "collaudo": null,
+        "perche": "scelta_di_nicola: La parte «subito» della voce era già fatta sulla base: app/seller/customers/page.tsx:222-230 non ha più il «4×» né il consiglio dell'offerta (tolti dal commit 7e4b287b9064a8119cc970ff5afc834154cafaf6, già nella base), provato da tests/unit/minori-s06-pagina-clienti.test.ts:50-52. Resta la query a righe 36-46 che legge solo il nome e i totali: contatti ed esportazione aspettano la scelta."
       }
     },
     {
@@ -33830,6 +34080,12 @@
         "prova": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/la-regola-main-aspetta-un-controllo-che-esiste.test.ts ; .github/workflows/ci.yml:910-960 (lavoro cancello-main, name «Main») ; .github/workflows/deploy-dopo-ci.yml:95-123 ; vercel.json:8",
         "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
         "nota": "Riparato solo il pezzo «aspetta un controllo che non esiste». Le parti «spenta» e «non guarda nessun ramo» sono impostazioni su GitHub, che da qui non posso leggere (gh e GitHub sono vietati). vercel.json:8 ha ancora \"main\": true. È un grave: resta aperto."
+      },
+      "riparazione_26_11": {
+        "esito": "non_codice",
+        "sessione": "R01",
+        "collaudo": null,
+        "perche": "non_codice: GitHub → Settings → Rules → Rulesets → «Main»: Target branches → Add target → «Include default branch»; lasciare «Require status checks» con «Main»; Enforcement status → Active; Save. Poi `gh api repos/NicolaeRotaru/mycity/rulesets/16879481 | node scripts/controlla-regola-main.mjs` deve dire ✅. Per fermare anche il rosso dopo l'unione serve \"main\": false in vercel.json:8, solo dopo tutti i passi della domanda di R01-001 (segreti Vercel e SUPABASE_DB_URL, al massimo 20 migrazioni mancanti, rilascio di prova). Poi il passo 6 di deploy-dopo-ci.yml:122-123: una richiesta di prova con una prova rossa deve avere il pulsante di unione bloccato. Rinforzo facoltativo: nella riga del controllo «Main» scegliere come fonte «GitHub Actions» invece di «Any source»."
       }
     },
     {
@@ -36666,6 +36922,12 @@
         "prova": "grep -rln \"useTotaliCarrello\" --include=*.ts --include=*.tsx app components lib tests · app/checkout/page.tsx:23 e :816 · tests/unit/lo-schermo-e-il-server-fanno-lo-stesso-conto.test.ts:2",
         "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
         "nota": null
+      },
+      "riparazione_26_11": {
+        "esito": "parziale",
+        "sessione": "R09",
+        "collaudo": "parziale",
+        "perche": "parziale: Cancellare components/checkout/useTotaliCarrello.ts dopo le due modifiche in serve_file_altrui; il controllo CI sui moduli orfani sta in .github/workflows/ci.yml (non di R09); per le due rotte AI serve la decisione di Nicola."
       }
     },
     {
@@ -38565,6 +38827,12 @@
         "prova": "lib/privacy/potature-ritenzione.ts:382-394: la potatura notturna (cron process-deletions, vercel.json:35) azzera email_contatto e dettaglio 12 mesi dopo deciso_at (riga 60). L'informativa lo dichiara (app/privacy/page.tsx:125 e 226). Verifica: cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r21-segnalazioni-email.test.ts. Resta un caso scoperto: il filtro .lt('deciso_at', …) esclude le righe con deciso_at vuoto. app/admin/segnalazioni/page.tsx:122 lascia deciso_at vuoto per le segnalazioni 'in_esame', e anche le 'ricevuta' non lo hanno.",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Cosa è cambiato: per le segnalazioni decise l'email si cancella dopo 12 mesi. Per quelle mai decise (stato ricevuta o in_esame) l'email resta ancora per sempre."
+      },
+      "riparazione_26_11": {
+        "esito": "scelta_di_nicola",
+        "sessione": "R02",
+        "collaudo": null,
+        "perche": "scelta_di_nicola: La durata decisa (12 mesi dalla decisione) è già applicata in lib/privacy/potature-ritenzione.ts:383-394 e dichiarata in app/privacy/page.tsx:235; restano scoperte le righe con deciso_at vuoto (riga 392). Cancellarle prima della decisione impedirebbe di mandare l'esito (DSA art. 16.5). Fuori dai file di R02: la cancellazione dell'account non ripulisce le segnalazioni per segnalante_id (lib/account/cancellazione.ts)."
       }
     },
     {
@@ -43642,6 +43910,12 @@
         "sessione": "R02",
         "collaudo": "regge",
         "perche": "parziale: 52 file fuori dal lotto hanno ancora etichette `uppercase` con tracking-wide / tracking-wider / tracking-widest / tracking-[0.03|0.05|0.06|0.08em]"
+      },
+      "riparazione_26_11": {
+        "esito": "serve_file_altrui",
+        "sessione": "R08",
+        "collaudo": null,
+        "perche": "serve_file_altrui: tailwind.config.ts non toccato: ridefinire tracking-wide/wider cambierebbe anche il testo normale. tracking-wide vale già 0.04em come tracking-label dal 5/11, quindi i maiuscoli con tracking-wide o tracking-[0.04em] sono già giusti nella resa. Elenco fatto sulle righe con uppercase e tracking insieme: le classi spezzate su più righe non sono coperte (da guardare a mano anche app/events/page.tsx:265). Un componente Eyebrow unico resta la cura migliore. Collaudo: 15 righe controllate a mano tutte esatte, e uno script su tutti i ts/tsx/css non trova righe uppercase con un tracking diverso fuori elenco, né classi spezzate o in cn()/clsx. Gruppo non contato: etichette maiuscole senza nessun tracking (0em) in app/rider/earnings/page.tsx:134,138, app/rider/profile/page.tsx:229,235, app/u/[handle]/page.tsx:160, app/admin/products/page.tsx:206, components/admin/ExternalDataPanel.tsx:77: lì va aggiunto tracking-label."
       }
     },
     {
@@ -45630,6 +45904,12 @@
         "sessione": "R13",
         "collaudo": "parziale",
         "perche": "parziale: le schermate per la finestra d'installazione: servono immagini vere del sito (larga e stretta). Il sito locale parte senza chiavi Supabase ma la home esce senza catalogo né negozi, quindi non ho prodotto schermate che mostrino il sito vero. Alla base `orientation` non c'è (mai stato in public/manifest.json), `id` (\"/\") e `display_override` ([\"standalone\",\"minimal-ui\"]) ci sono già: public/manifest.json:5 e :8."
+      },
+      "riparazione_26_11": {
+        "esito": "non_codice",
+        "sessione": "R07",
+        "collaudo": null,
+        "perche": "non_codice: Nicola deve fornire 2 PNG veri del sito con dati veri (uno narrow circa 1080x1920, uno wide circa 1280x720) in public/screenshots/; poi si aggiunge a public/manifest.json l'array screenshots con src, sizes, type, form_factor (narrow/wide) e label."
       }
     },
     {
@@ -47895,7 +48175,7 @@
       "impatto": "+12,9 KB gz (circa il 4% dei 365 KB gz del guscio comune) su ogni prima visita; su un telefono in 3G circa 100-150 ms in più prima che «Aggiungi al carrello» risponda. Piccolo, ma lo pagano tutti.",
       "fix": "Togliere l'import da QueryProvider e metterlo nei moduli client che usano zod (checkout, form prodotto venditore, login) o in un barrel lib/forms.ts importato solo lì; verificare dopo la build che la voce /layout del manifest non contenga più ZodError.",
       "fonte": "design",
-      "stato": "aperto",
+      "stato": "gia_riparato_prima",
       "prova": "node /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/performance-percepita-zod-nel-guscio.cjs  (rosso oggi: exit 1, chunk 5584 con ZodError nel guscio)",
       "prova_tipo": "comando",
       "prova_eseguita": true,
@@ -47951,6 +48231,14 @@
         "prova": "node /tmp/claude-0/-home-user-ad-mycity/5b2a0aa6-2f57-526e-8855-ef9714b18333/scratchpad/prove/L02-zod-guscio.cjs /home/user/ad-mycity/marketplace app/layout.tsx ; components/providers/QueryProvider.tsx:84-95 ; components/Footer.tsx:17 ; components/NewsletterForm.tsx:10 ; lib/errors.ts:17",
         "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
         "nota": "QueryProvider ora carica il traduttore a parte, quando serve. Il traduttore però arriva ancora in ogni pagina per un'altra strada: piè di pagina → modulo newsletter → lib/errors. Il pacchetto non l'ho misurato, perché la build è vietata: confidenza circa 85%."
+      },
+      "chiuso_il": "2026-11-26 16:08",
+      "chiuso_da": "riparazione 2026-11-26-tutti-onda1 · R07 · collaudo K01",
+      "riparazione_26_11": {
+        "esito": "gia_riparato_prima",
+        "sessione": "R07",
+        "collaudo": "K01",
+        "prova": "lib/errors.ts:18 importa solo FRASI_ZOD da './zod-frasi' (file senza zod); components/providers/QueryProvider.tsx:93 carica il traduttore con import('@/lib/zod-i18n') dentro un useEffect; gli unici import statici di lib/zod-i18n sono app/api/contact/route.ts:21 e lib/api/responses.ts:4 (lato server)."
       }
     },
     {
@@ -54556,6 +54844,12 @@
         "prova": "cd /home/user/ad-mycity/marketplace && node -e \"const v=require('./vercel.json'); const auto=v.git?.deploymentEnabled?.main; console.log(auto); process.exit(auto===false?0:1)\" — e vercel.json:6-10; .github/workflows/deploy-dopo-ci.yml:34-44, :261-267, :488-606",
         "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
         "nota": "render.yaml non c'è più e il rilascio dopo la CI ora applica le migrazioni prima di pubblicare. Ma la pubblicazione automatica di Vercel resta accesa e arriva prima, col codice nuovo sul database vecchio; il file stesso lo dice. Se i segreti del rilascio controllato ci siano non si vede da qui."
+      },
+      "riparazione_26_11": {
+        "esito": "scelta_di_nicola",
+        "sessione": "R01",
+        "collaudo": null,
+        "perche": "scelta_di_nicola: Il passo di vercel.json va fatto solo dopo i segreti e il rilascio di prova (deploy-dopo-ci.yml:34-51): farlo ora fermerebbe gli aggiornamenti del sito. Il cartello «cancello SPENTO» (deploy-dopo-ci.yml:255-267) non dice che la strada automatica di Vercel salta le migrazioni e omette SUPABASE_DB_URL e il tetto delle 20: da ritoccare quando Nicola accende il rilascio controllato."
       }
     },
     {
@@ -60984,6 +61278,12 @@
         "prova": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r03-reso-ripreso-non-rimborsa-due-volte.test.ts ; poi npx vitest run tests/unit/zz-s01-ver-L07-1.test.ts (5 varianti, file poi cancellato)",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Cambiato: la strada originale (decide che risponde 500, poi il reso chiuso coi passi normali) è chiusa dalla guardia R03-005, test riparazione-r03 verde e rosso a guardia spenta. Il difetto del titolo però c'è ancora per un'altra strada: se la funzione muore fra la quota tolta al negozio e la scrittura del segno «wallet:», o se quella scrittura cade (finisce solo nel log, nessun avviso), «avanza» registra 4000 centesimi rimborsati invece di 2000 e toglie al negozio 3600 invece di 1800. Probabilità più bassa dell'originale, impatto uguale. Ragionamento del verificatore nello scratchpad della sessione S01 (log/verifica-L07-2.md)."
+      },
+      "riparazione_26_11": {
+        "esito": "non_fatto",
+        "sessione": "R04",
+        "collaudo": null,
+        "perche": "non_fatto: Riparazione tentata (092af11e8a06a235ad41f3b23e23eefa805e1a56: in refundOrder il segno wallet:<chiave> scritto prima del credito, insieme alla quota del negozio) e TOLTA con 9c41ee20bc3936c7fef036f451f841a405083a7b: lo smentitore opus ha trovato tre strade peggiori della base in lib/stripe/payout.ts. (1) Ripresa fra segno e credito di un rimborso oltre metà ordine (30 su 40): payout.ts:2151 taglia la cifra al residuo che conta già la prenotazione del tentativo morto, accredita 10 € e chiude. (2) Rimborso pieno, stessa ripresa: RimborsoNonRitentabile «importo rimborso non valido» (payout.ts:2152), cliente senza credito, quota già tolta. (3) Seconda chiamata con la stessa chiave dopo il segno salta la prenotazione e la guardia 'in_corso' della 412 (2206-2208, 2255). Rifarla bene chiede più giri di quelli rimasti nel limite di spesa della sessione: va a una sessione dopo, con queste tre varianti come prove."
       }
     },
     {
@@ -62052,6 +62352,12 @@
         "prova": "npx vitest run tests/unit/al-primo-messaggio-la-chat-non-propone-quello-che-non-ha-letto.test.ts + tests/unit/_s01b_l07_scheda_descrizione.test.ts (copia in scratchpad/prove/L07/)",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Metà al primo messaggio riparata (catalog-chat/route.ts:171-172 e 450-464). Resta aperta la scheda: prontoPerLaVendita.ts:705 non mostra il testo, :724 non mostra i tag tolti. A scheda aperta il negoziante approva ancora una descrizione che non ha letto."
+      },
+      "riparazione_26_11": {
+        "esito": "parziale",
+        "sessione": "R03",
+        "collaudo": "parziale",
+        "perche": "parziale: La scheda della proposta con Applica dice ancora «Descrizione aggiornata» e «Tag →» con la sola lista nuova: deve mostrare lei il testo nuovo della descrizione (accorciato, con «leggi tutto») e i tag che spariscono, con una prova su righeDellaProposta. Il testo messo dalla rotta nella risposta della chat sta nella stessa bolla del modello, che a parole può contraddirlo; la scheda, calcolata dalla proposta, non è falsificabile dal modello."
       }
     },
     {
@@ -65979,6 +66285,12 @@
         "prova": "lib/kyc/providers.ts:113-180 (R04-024: carica documento e selfie prima del controllo; se un passo fallisce chiama togliScheda, :95-111, DELETE /applicants); app/api/kyc/start-check/route.ts:93-101 (con una verifica PENDING non ne apre un'altra); lib/account/cancellazione.ts:49-78 (azzera solo i campi locali; grep onfido/applicant vuoto)",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "La parte «senza documenti, schede orfane» è riparata. Resta vero che alla cancellazione dell'account nessuno toglie le schede da Onfido, che ora contengono i documenti."
+      },
+      "riparazione_26_11": {
+        "esito": "non_fatto",
+        "sessione": "R06",
+        "collaudo": null,
+        "perche": "non_fatto: Non fatta: la sessione ha raggiunto l 80% del limite di spesa (21 $ su 25) prima del suo lotto (regola 4 della campagna). Il file è lib/kyc/providers.ts (OnfidoProvider.startCheck, righe 41-85, chiamato da start-check riga 118): riusare la scheda Onfido già creata invece di crearne una a ogni chiamata, e toglierla alla cancellazione dell account."
       }
     },
     {
@@ -66880,6 +67192,12 @@
         "prova": "app/api/cron/expire-stale-orders/route.ts:200-209 (presa in carico propria), :345 (restore_stock_for_order), :356-366 (wallet_credit senza il ritentativo di lib/ordini/annulla.ts:146-170), :392-411 (campanelle proprie); annullaERimborsa (lib/ordini/annulla.ts:118) non è chiamata",
         "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
         "nota": "Una parte è stata messa in comune (buono, email, ricalcolo del carrello), ma il giro continua a non usare annullaERimborsa e tiene tre delle quattro copie."
+      },
+      "riparazione_26_11": {
+        "esito": "non_fatto",
+        "sessione": "R04",
+        "collaudo": null,
+        "perche": "non_fatto: Non lavorata: il limite di spesa della sessione (25 $) era al 71% (17,69 $) dopo il lotto 1 con le sue due smentite e la correzione. Un altro lotto avrebbe passato l'80%. Da riassegnare."
       }
     },
     {
@@ -70896,6 +71214,12 @@
         "prova": "components/checkout/ShippingAddressForm.tsx:310 · app/shipping/page.tsx:137-141 · lib/ordini/zona-di-consegna.ts:64 · components/LocationPill.tsx:221 · lib/promesse-pubbliche.ts:192, 225, 632, 680 · app/near/page.tsx:266",
         "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
         "nota": null
+      },
+      "riparazione_26_11": {
+        "esito": "parziale",
+        "sessione": "R09",
+        "collaudo": "parziale",
+        "perche": "parziale: Il revisore ha trovato due copie scritte a mano della frase nei metadati, fuori dai file di R09: app/near/layout.tsx:7 e app/category/[slug]/layout.tsx:18. Il commento di lib/ordini/zona-di-consegna.ts:4-5 («una volta sola») sarà vero solo dopo. Il titolo della prova nuova dice «sei posti» ma l'elenco ne ha cinque."
       }
     },
     {
@@ -73910,6 +74234,12 @@
         "sessione": "R15",
         "collaudo": null,
         "perche": "non_fatto: tolta dalla regia: delicata"
+      },
+      "riparazione_26_11": {
+        "esito": "scelta_di_nicola",
+        "sessione": "R09",
+        "collaudo": null,
+        "perche": "scelta_di_nicola: Il difetto c'è ancora: lib/db/migrazione-124.ts:139 (un PGRST204 che nomina una colonna della 124 vale sempre «schema indietro»). Da PGRST204 non si distingue colonna mancante da memoria vecchia senza una lettura asincrona del database (la stessa strada già bocciata da un collaudo, rompe_altro). Farla bene tocca lib/stripe/webhook/dispute.ts, lib/stripe/webhook/contestazione-parziale-vinta.ts:43 e lib/ordini/annulla.ts, non di R09. Caso raro: Supabase ricarica lo schema da solo."
       }
     },
     {
@@ -78176,6 +78506,12 @@
         "sessione": "R32",
         "collaudo": null,
         "perche": "non_fatto: tetto: la sessione ha superato la soglia di 38 $ (40,17 $ alle 12:17) e la regista ha fermato i lotti 3 e 4; la voce non è stata aperta."
+      },
+      "riparazione_26_11": {
+        "esito": "parziale",
+        "sessione": "R11",
+        "collaudo": "parziale",
+        "perche": "parziale: 1) Le due prove vecchie (tests/unit/la-cassa-passa-gli-orari-dei-negozi-al-selettore-e-al-freno.test.ts, tests/unit/la-rotta-rifiuta-una-fascia-a-meno-di-un-ora-dalla-fine.test.ts:90-91) restano basate sul sorgente: non sono mie. 2) Manca la prova che monta la pagina della cassa (app/checkout/page.tsx, circa 266-273) e controlla che gli orari arrivino al selettore e al freno: troppe dipendenze da simulare, è una prova a sé. 3) Una voce di sole prove non ha prova rimessa di programma: c'è il mutante a mano in nota."
       }
     },
     {
@@ -78281,6 +78617,12 @@
         "sessione": "R03",
         "collaudo": "parziale",
         "perche": "parziale: La rotta dei contanti (app/api/orders/cod/route.ts) copre già il caso riportando l'etichetta al giorno della cassa (fasciaDelGiornoDellaRichiesta, da delivery_date), quindi non ha bisogno di propostaIl. Resta la rotta della carta, che non riceve delivery_date né passa propostaIl. Anche il webhook degli ordini pagati con la carta (lib/stripe/webhook/ordini.ts:292) chiama motivoFasciaRifiutata senza propostaIl."
+      },
+      "riparazione_26_11": {
+        "esito": "serve_file_altrui",
+        "sessione": "R09",
+        "collaudo": null,
+        "perche": "serve_file_altrui: Resta solo la rotta della carta: non legge delivery_date e chiama motivoFasciaRifiutata senza propostaIl; il webhook usa session.created, già dopo mezzanotte."
       }
     },
     {
@@ -88015,6 +88357,12 @@
         "prova": "lib/stripe/client.ts:376-389: se accounts.retrieve risponde resource_missing, account_invalid o 404, si azzera accountId e si crea un conto nuovo, che salvaConto scrive sul profilo (410-427). chiaveStripeFuoriPosto (66-74) blocca solo la chiave vera nell'anteprima, non la chiave di prova.",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": null
+      },
+      "riparazione_26_11": {
+        "esito": "riparato",
+        "sessione": "R07",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -88125,7 +88473,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R02",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_26_11": {
+        "esito": "riparato",
+        "sessione": "R02",
+        "collaudo": "rompe_altro",
+        "perche": "collaudo: rompe_altro"
+      }
     },
     {
       "dimensione": "api-backend",
@@ -88486,6 +88840,12 @@
         "sessione": "R18",
         "collaudo": null,
         "perche": "non_fatto: tolta dalla regia: delicata (giorni del reso, rimborso); va ai delicati con ultracode"
+      },
+      "riparazione_26_11": {
+        "esito": "riparato",
+        "sessione": "R06",
+        "collaudo": "K03 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -88518,6 +88878,12 @@
         "prova": "app/api/admin/products/route.ts:279, :287/:290, :307, :309",
         "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
         "nota": null
+      },
+      "riparazione_26_11": {
+        "esito": "non_fatto",
+        "sessione": "R06",
+        "collaudo": null,
+        "perche": "non_fatto: Non fatta: la sessione ha raggiunto l 80% del limite di spesa (21 $ su 25) prima del suo lotto (regola 4 della campagna). Per chiuderla serve una funzione del database che scriva prodotto e varianti in una transazione sola (migrazione nuova nella fascia 920-929) e la rotta app/api/admin/products/route.ts:200-238 che la chiami."
       }
     },
     {
@@ -88858,7 +89224,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R10",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_26_11": {
+        "esito": "riparato",
+        "sessione": "R06",
+        "collaudo": "rompe_altro",
+        "perche": "collaudo: rompe_altro"
+      }
     },
     {
       "dimensione": "frontend-ux",
@@ -89044,7 +89416,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R12",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_26_11": {
+        "esito": "riparato",
+        "sessione": "R10",
+        "collaudo": "parziale",
+        "perche": "collaudo: parziale"
+      }
     },
     {
       "dimensione": "microcopy",
@@ -89095,7 +89473,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · C01",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_26_11": {
+        "esito": "riparato",
+        "sessione": "R05",
+        "collaudo": "parziale",
+        "perche": "collaudo: parziale"
+      }
     },
     {
       "dimensione": "dati-analytics",
@@ -89192,7 +89576,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · C01",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_26_11": {
+        "esito": "serve_file_altrui",
+        "sessione": "R02",
+        "collaudo": null,
+        "perche": "serve_file_altrui: Prova comune: serve la firma di Nicola. La correzione era nel commit daecd9af793aa71b0655aec190ce77305186bb08 (prova rimessa: regge, uscita 0, --base b9e4b39841c668e9568b28b9802b01d7d1d11ad9) ed è stata tolta con il revert 23c3eb6f0a0f0445c93bac67b9a688457d64ba13 perché cambia la prova comune riparazione-r02-segnalazione-esito-solo-se-tolto. Per chiudere tutta la voce servono anche le tre modifiche ai file di altre sessioni in coda (pulsante «Accolta» e rimozione della recensione). Domanda aperta: accogliere una recensione falsa vuol dire cancellarla? Oggi non c'è modo di nasconderla."
+      }
     },
     {
       "dimensione": "api-backend",
@@ -89339,6 +89729,12 @@
         "sessione": "R03",
         "collaudo": null,
         "perche": "scelta_di_nicola: rimandata da Nicola il 19/11: IA spenta al lancio. Quando si riaccende: la colonna nel database."
+      },
+      "riparazione_26_11": {
+        "esito": "serve_file_altrui",
+        "sessione": "R03",
+        "collaudo": null,
+        "perche": "serve_file_altrui: La cura è pronta nel commit 9136d2120cadb9e1b64beb22ef2303d951b2ca0c: migrazione 890 (colonna products.external_sync_error_at, additiva e idempotente) scritta nei due punti che segnano 'error' e letta da ritentoDopoErroreConsentito, con prove unit e SQL; la prova rimessa reggeva (uscita 0, anche con --sql). Senza i tipi rigenerati quattro prove di guardia del sito sono rosse (colonne che non esistono, tipi generati diversi dal generatore), e lib/database.types.ts non è di nessuna sessione in quest'onda: il commit è tolto dal ramo con 480b1369 (revert). Il rinvio di Nicola del 19/11 (AI per i negozi spenta al lancio) resta vero: la migrazione non è applicata. Strada senza codice: UPSTASH_REDIS_REST_URL e UPSTASH_REDIS_REST_TOKEN in produzione. Residuo minore del commit pronto, accettabile: il giro a orario scrive l'ora dell'errore solo dopo la chiamata (fino a 60 s) e non prenota il prodotto, quindi al massimo 2 chiamate per prodotto ogni 6 ore invece di 1 (app/api/cron/external-price-alerts/route.ts:103,169-172 al commit 9136d212)."
       }
     },
     {
@@ -89929,6 +90325,12 @@
         "sessione": "R04",
         "collaudo": null,
         "perche": "non_fatto: Cura pronta ma ferma: nel layout serve usePathname e tre prove comuni fingono next/navigation con solo useRouter (diventerebbero rosse); la cura nella pagina delle storie (non mia) ne farebbe rosse cinque. Diff mandato alla regia per la firma di Nicola."
+      },
+      "riparazione_26_11": {
+        "esito": "riparato",
+        "sessione": "R06",
+        "collaudo": "parziale",
+        "perche": "collaudo: parziale"
       }
     },
     {
@@ -90136,6 +90538,12 @@
         "prova": "app/api/returns/[id]/avanza/route.ts:312-315 — `if (giaSullaCarta) importoRimborso = giaSullaCarta.centesimi;` sovrascrive in silenzio la cifra chiesta (body.refundAmountCents o quella promessa); :369 la scrive sul reso; l'avviso va al cliente (:480) e la risposta (:494) non dice la cifra al negozio",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Il ramo dei contanti (giaSullOrdine, :294-296) usa invece la cifra promessa: il difetto riguarda la carta."
+      },
+      "riparazione_26_11": {
+        "esito": "riparato",
+        "sessione": "R04",
+        "collaudo": "K02 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -90501,7 +90909,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R21",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_26_11": {
+        "esito": "serve_file_altrui",
+        "sessione": "R06",
+        "collaudo": null,
+        "perche": "serve_file_altrui: Lo stesso testo va anche in ogni elenco dei sub-fornitori o registro dei trattamenti fuori da app/privacy/page.tsx, se esiste."
+      }
     },
     {
       "dimensione": "stati-ui",
@@ -90539,6 +90953,12 @@
         "prova": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/_s01/L05-1.test.ts · app/api/cron/process-deletions/route.ts:119 · lib/privacy/potature-ritenzione.ts:762",
         "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
         "nota": "Stesso difetto della voce precedente, visto dal lato della cura proposta: la funzione resta esportata e non chiamata."
+      },
+      "riparazione_26_11": {
+        "esito": "riparato",
+        "sessione": "R02",
+        "collaudo": "K04 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -90551,7 +90971,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R21",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_26_11": {
+        "esito": "parziale",
+        "sessione": "R07",
+        "collaudo": "rompe_altro",
+        "perche": "parziale: La pagina non ha un indirizzo per singolo reclamo: servirebbe un parametro in app/admin/disputes/page.tsx e il cambio del link nella scheda ordine (file non mio). L'etichetta «Aperto» ora copre anche gli «In valutazione»."
+      }
     },
     {
       "dimensione": "stati-ui",
@@ -90584,7 +91010,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R21",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_26_11": {
+        "esito": "riparato",
+        "sessione": "R10",
+        "collaudo": "K02 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      }
     },
     {
       "dimensione": "privacy-legale",
@@ -90683,7 +91115,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R23",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_26_11": {
+        "esito": "scelta_di_nicola",
+        "sessione": "R09",
+        "collaudo": null,
+        "perche": "scelta_di_nicola: Il caso di payout_tentativo lo decide prima lib/db/migrazione-148.ts:77 (eSchemaIndietro, la stessa scelta della voce sul PGRST204 della 124). La riga 81 serve a dispute.ts, contestazione-parziale-vinta.ts e giftcard.ts per scrivere senza le colonne 126/148 che in produzione non ci sono ancora: cambiarla le rompe. colonnaNonTrovata è sincrona e usata in cinque file non di R09."
+      }
     },
     {
       "dimensione": "pagamenti-stripe",
@@ -90695,7 +91133,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R23",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_26_11": {
+        "esito": "non_fatto",
+        "sessione": "R05",
+        "collaudo": null,
+        "perche": "non_fatto: Non cominciata: la sessione ha passato l'80% del tetto di spesa (25 $) dopo i tre gravi; da riassegnare."
+      }
     },
     {
       "dimensione": "architettura",
@@ -90733,7 +91177,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R23",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_26_11": {
+        "esito": "riparato",
+        "sessione": "R01",
+        "collaudo": "K04 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      }
     },
     {
       "dimensione": "performance",
@@ -90764,7 +91214,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R24",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_26_11": {
+        "esito": "parziale",
+        "sessione": "R07",
+        "collaudo": "parziale",
+        "perche": "parziale: La rotta app/api/auth/signup/route.ts ha lo stesso doppio uso (verifyTurnstileToken righe 39-43, poi captchaToken a Supabase riga 48); oggi non la chiama nessuno (app/sign-up/page.tsx:160 chiama Supabase dal browser), ma non è un mio file."
+      }
     },
     {
       "dimensione": "qa-flussi",
@@ -90993,7 +91449,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · C02",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_26_11": {
+        "esito": "riparato",
+        "sessione": "R07",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      }
     },
     {
       "dimensione": "architettura",
@@ -91005,7 +91467,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · C02",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_26_11": {
+        "esito": "parziale",
+        "sessione": "R09",
+        "collaudo": "parziale",
+        "perche": "parziale: La prova comune dice ancora «(con la scadenza)» nel titolo di un caso."
+      }
     },
     {
       "dimensione": "privacy-legale",
@@ -91036,6 +91504,12 @@
         "prova": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/_s01/L05-1.test.ts · app/api/cron/process-deletions/route.ts:118-119, :135-137 · lib/privacy/potature-ritenzione.ts:762, :785, :872",
         "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
         "nota": "La rotta conta solo i documenti d'identità orfani (riga 119), e il testo della risposta lo dice ancora. contaPotature usa per difetto l'elenco senza gli orfani."
+      },
+      "riparazione_26_11": {
+        "esito": "riparato",
+        "sessione": "R02",
+        "collaudo": "K04 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -91652,7 +92126,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R14",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_26_11": {
+        "esito": "riparato",
+        "sessione": "R08",
+        "collaudo": "parziale",
+        "perche": "collaudo: parziale"
+      }
     },
     {
       "dimensione": "performance",
@@ -91664,7 +92144,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R14",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_26_11": {
+        "esito": "riparato",
+        "sessione": "R08",
+        "collaudo": "K02 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      }
     },
     {
       "dimensione": "qa-flussi",
@@ -91752,6 +92238,12 @@
         "prova": "psql -X -d mycity_s01_l08 -v ON_ERROR_STOP=1 -f scratchpad/prove/L08-1.sql ; lib/account/cancellazione.ts:711-727 ; migrations/501_la_rimessa_conferma_solo_gli_ordini_visti.sql:66-69",
         "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
         "nota": "La guardia è identica: somma collected_cents delle giornate con remitted_at NULL. Però la riapertura di una giornata (migrazione 381 del lotto R14) non è in questo commit, quindi il testo gonfiato su una giornata riaperta oggi non si produce. Su una giornata con rimessa parziale il comportamento è un altro (è la voce aperta «confermata una rimessa, la giornata del fattorino risulta versata…», ricontrollata nel lotto L01: ancora vera). Resta aperta: torna vera il giorno che la 381 entra."
+      },
+      "riparazione_26_11": {
+        "esito": "non_fatto",
+        "sessione": "R04",
+        "collaudo": null,
+        "perche": "non_fatto: Non lavorata: il limite di spesa della sessione (25 $) era al 71% (17,69 $) dopo il lotto 1 con le sue due smentite e la correzione. Un altro lotto avrebbe passato l'80%. Da riassegnare."
       }
     },
     {
@@ -91798,6 +92290,12 @@
         "prova": "app/api/returns/[id]/avanza/route.ts:109 (PARTENZE_DEL_RITIRO), :173 (select con decided_at), :196-212 (controllo del ritiro), :359-373 (scrittura), :478-492 (campanella al negozio)",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": null
+      },
+      "riparazione_26_11": {
+        "esito": "serve_file_altrui",
+        "sessione": "R04",
+        "collaudo": null,
+        "perche": "serve_file_altrui: prova comune: serve la firma di Nicola. La correzione (51fd671bf67af8b3309b0bb674ff933a96426a5d) è stata tolta con 2a477dd2a1670f70ca1b2fb85cb9109d9145cc2c: per stare verde cambiava lo scenario di tests/unit/riparazione-r04-reso-nota-del-negozio.test.ts, che fa vi.mock anche di file di altre sessioni dell'onda. Rotta e prova sono tornate uguali alla base."
       }
     },
     {
@@ -91922,6 +92420,12 @@
         "prova": "app/api/returns/[id]/decide/route.ts:199-210 prende APPROVED, poi refundOrder (:264-277) dura qualche secondo; intanto app/api/returns/[id]/avanza/route.ts:109 (PARTENZE_DEL_RITIRO include APPROVED) e :81 lasciano passare il ritiro a CANCELED, con l'avviso al negozio «↩ Il cliente ha ritirato la richiesta di reso» (:480-488); decide poi scrive `.eq('status', statoRivendicato)` (:303-307), tocca 0 righe e risponde 500 con un avviso agli amministratori",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Il controllo dello stato sulla scrittura finale (5/11) fa scattare l'avviso agli amministratori, ma non impedisce l'incrocio."
+      },
+      "riparazione_26_11": {
+        "esito": "non_fatto",
+        "sessione": "R04",
+        "collaudo": null,
+        "perche": "non_fatto: tolta insieme a R04-011, da rifare da sola (la correzione stava nello stesso commit 51fd671bf67af8b3309b0bb674ff933a96426a5d, tolto con 2a477dd2a1670f70ca1b2fb85cb9109d9145cc2c)."
       }
     },
     {
@@ -92015,6 +92519,12 @@
         "prova": "lib/stripe/webhook/dispute.ts:89-116: quando non ci sono ordini, il codice prova il buono regalo e poi la sponsorizzazione, scrive un logger.warn ed esce. Non controlla mai pending_checkouts, quindi non risponde 500 se il carrello è PENDING o COMPLETED.",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": null
+      },
+      "riparazione_26_11": {
+        "esito": "non_fatto",
+        "sessione": "R05",
+        "collaudo": null,
+        "perche": "non_fatto: Non cominciata: la sessione ha passato l'80% del tetto di spesa (25 $) dopo i tre gravi; da riassegnare."
       }
     },
     {
@@ -92157,6 +92667,12 @@
         "sessione": "R02",
         "collaudo": null,
         "perche": "serve_file_altrui: il mio file da solo non si committa: tsc rosso in prezzi.ts e nelle prove"
+      },
+      "riparazione_26_11": {
+        "esito": "scelta_di_nicola",
+        "sessione": "R09",
+        "collaudo": null,
+        "perche": "scelta_di_nicola: Togliere il parametro rende rosso tsc in 7 prove (shipping.test.ts, una-sola-regola-per-la-spedizione, il-carrello-condiviso-non-perde-il-negozio, riparazione-r01/r02/r03 carrello, soldi-storni-sconti-e-compensi.test.ts:139,175 — quest'ultima comune, importa lib/stripe/payout.ts)."
       }
     },
     {
@@ -93548,6 +94064,12 @@
         "prova": "app/api/vision/extract-products/route.ts:230: max_tokens: 6000. Il commento alle righe 227-229 lo dichiara: «Non oltre 6000: il client chiude ogni chiamata a 60 s». lib/ai/client.ts:201-202 e 227: TEMPO_TENTATIVO_AI_MS = 60_000 e RITENTATIVI_AI = 0.",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Non ho misurato la velocità reale del modello (servizio esterno). La voce resta come scritta."
+      },
+      "riparazione_26_11": {
+        "esito": "scelta_di_nicola",
+        "sessione": "R03",
+        "collaudo": null,
+        "perche": "scelta_di_nicola: Difetto ancora presente: app/api/vision/extract-products/route.ts:230 (max_tokens 6000), lib/ai/client.ts TEMPO_TENTATIVO_AI_MS=60000 e RITENTATIVI_AI=0. Il numero giusto dipende dalla velocità reale del modello, non misurabile qui, e da quanta troncatura accettare: soglia di prodotto. Nessun file toccato."
       }
     },
     {
@@ -93749,6 +94271,12 @@
         "prova": "app/api/cron/external-price-alerts/route.ts:101-148",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Invariato: il giro non si ferma al primo 404."
+      },
+      "riparazione_26_11": {
+        "esito": "riparato",
+        "sessione": "R03",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -93991,6 +94519,12 @@
         "prova": "app/admin/products/[id]/edit/page.tsx:148-149 (testo «Ricarica la pagina…») e 152-156 (Riprova dentro {error && …}); query varianti 58-65 senza refetch",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Il codice resta come descritto dal titolo."
+      },
+      "riparazione_26_11": {
+        "esito": "riparato",
+        "sessione": "R03",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -94099,6 +94633,12 @@
         "prova": "TZ=America/New_York node -e \"console.log(new Date('2026-11-21').toLocaleDateString('it-IT',{weekday:'short',day:'numeric',month:'long'}))\" (stessa espressione di daily-drops/page.tsx:197)",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "La riga 197 fa ancora new Date(d.drop_date) su una data senza ora, che viene letta come mezzanotte UTC."
+      },
+      "riparazione_26_11": {
+        "esito": "riparato",
+        "sessione": "R06",
+        "collaudo": "K03 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -94392,6 +94932,12 @@
         "prova": "components/ui/LegalLayout.tsx:41 l'h1 ora ha break-words hyphens-auto (/privacy sistemata). In app/come-funziona/page.tsx:~76-80 la riga icona + h2 dentro un flex non ha ancora min-w-0, e nella pagina non c'è nessun overflow-wrap.",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Metà sistemata (/privacy). Su /come-funziona il rischio resta, e resta non misurato a schermo."
+      },
+      "riparazione_26_11": {
+        "esito": "serve_file_altrui",
+        "sessione": "R07",
+        "collaudo": null,
+        "perche": "serve_file_altrui"
       }
     },
     {
@@ -94637,6 +95183,12 @@
         "prova": "app/api/products/[id]/external-refresh/route.ts:165-167 — riconosce solo il 404 (modelloNonTrovato), tutto il resto riceve badGateway «Aggiornamento non riuscito. Riprova.»; l'errore del tetto di spesa (AiCallError motivo 'tetto_spesa', lib/ai/run.ts:491-492) arriva fin qui perché lib/products/externalSync.ts:191 non lo intercetta",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": null
+      },
+      "riparazione_26_11": {
+        "esito": "riparato",
+        "sessione": "R03",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -94952,6 +95504,12 @@
         "prova": "external-price-alerts/route.ts:30 (BATCH=10) e :101 (ciclo in fila); lib/ai/client.ts:201-202 (60 s, 0 ritentativi); vercel.json:13 (cron maxDuration 300)",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Invariato. Oggi il giro non parte perché l'AI per i negozi è spenta al lancio (AI_NEGOZI_ACCESA)."
+      },
+      "riparazione_26_11": {
+        "esito": "riparato",
+        "sessione": "R03",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -94971,6 +95529,12 @@
         "prova": "app/admin/products/[id]/edit/page.tsx:136 (guardia di caricamento senza fetchStatus 'paused') e :54 (variants = [] di default); a confronto app/seller/products/[id]/edit/page.tsx:47-55 e 316-325 (R16-020)",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "La riparazione R16-020 c'è solo nella pagina del negozio. La pagina admin ha ancora le due trappole: modulo smontato quando torna la rete e taglie [] con la lettura in pausa."
+      },
+      "riparazione_26_11": {
+        "esito": "riparato",
+        "sessione": "R03",
+        "collaudo": "rompe_altro",
+        "perche": "collaudo: rompe_altro"
       }
     },
     {
@@ -95347,6 +95911,12 @@
         "prova": "Lettura: app/api/admin/users/[id]/delete/route.ts:48-51 e app/api/admin/orders/[id]/cancel/route.ts:40-41; grep -nE 'logger|console' sul file cancel",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Riparato a metà: la cancellazione utente lascia la riga nel registro, l'annullo ordine no. Né apiError né withAdminAuth registrano i 500 (il log dei 500 esiste solo per i cron, middleware.ts:687)."
+      },
+      "riparazione_26_11": {
+        "esito": "non_fatto",
+        "sessione": "R04",
+        "collaudo": null,
+        "perche": "non_fatto: Non lavorata: il limite di spesa della sessione (25 $) era al 71% (17,69 $) dopo il lotto 1 con le sue due smentite e la correzione. Un altro lotto avrebbe passato l'80%. Da riassegnare."
       }
     },
     {
@@ -95587,6 +96157,12 @@
         "prova": "lib/queries/griglia-prodotti.ts:230-238,310-311",
         "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
         "nota": "Stesso codice della voce precedente: vale per ricerca, categoria e piccoli prezzi, che passano da griglia-prodotti senza riordinare."
+      },
+      "riparazione_26_11": {
+        "esito": "riparato",
+        "sessione": "R10",
+        "collaudo": "rompe_altro",
+        "perche": "collaudo: rompe_altro"
       }
     },
     {
@@ -95693,6 +96269,12 @@
         "prova": "app/seller/analytics/letture-dell-andamento.ts:47-56 · app/seller/analytics/page.tsx:364-368",
         "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
         "nota": "Nel registro-fatti non c'è nessuna soglia decisa da Nicola."
+      },
+      "riparazione_26_11": {
+        "esito": "scelta_di_nicola",
+        "sessione": "R11",
+        "collaudo": null,
+        "perche": "scelta_di_nicola: Sopra quale tasso di conversione la tessera smette di essere verde e mostra un avviso «dato forse gonfiato: conta solo chi accetta i cookie»? Oggi ogni tasso da 2% in su è verde, anche 80% (app/seller/analytics/page.tsx:365-368)."
       }
     },
     {
@@ -95712,6 +96294,12 @@
         "prova": "components/store-sections/CollectionSection.tsx:45 — la select non legge compare_at_price. Alle righe 82-92 ProductCard riceve price e discountPercent, ma non compareAtPrice. ProductCard lo saprebbe usare (components/ProductCard.tsx:39,62), e ProductGrid lo passa (components/ProductGrid.tsx:673).",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "R02-013 ha aggiunto lo sconto promo (discountPercent), non il prezzo barrato del venditore."
+      },
+      "riparazione_26_11": {
+        "esito": "riparato",
+        "sessione": "R11",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -95919,6 +96507,12 @@
         "prova": "app/api/admin/orders/[id]/cancel/route.ts:98; lib/ordini/annulla.ts:400; lib/api/responses.ts:49-60",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": "Righe invariate nella sostanza: nessuna traccia del motivo vero del fallimento."
+      },
+      "riparazione_26_11": {
+        "esito": "non_fatto",
+        "sessione": "R04",
+        "collaudo": null,
+        "perche": "non_fatto: Non lavorata: il limite di spesa della sessione (25 $) era al 71% (17,69 $) dopo il lotto 1 con le sue due smentite e la correzione. Un altro lotto avrebbe passato l'80%. Da riassegnare."
       }
     },
     {
@@ -95971,6 +96565,12 @@
         "prova": "lib/ordini/veloce-non-confermata.ts:202-215,927,161",
         "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
         "nota": "Ramo contanti: carrello solo da cod_checkout_attempts.order_ids; senza riga null (210), con meno di 2 id null (215); il chiamante (927) ripiega su un ordine solo."
+      },
+      "riparazione_26_11": {
+        "esito": "serve_file_altrui",
+        "sessione": "R09",
+        "collaudo": null,
+        "perche": "serve_file_altrui: Senza la riga non esiste una chiave certa per ritrovare il carrello in contanti sugli ordini. La parte «senza dirlo a nessuno» è chiusa nella voce gemella sullo stesso file (commit e72dec28e4965338080da800ca876e93e5b7437b)."
       }
     },
     {
@@ -96067,6 +96667,12 @@
         "prova": "app/api/cron/send-emails/route.ts:2 importa createClient da @supabase/supabase-js; :263-267 `requireSupabaseService()` + `createClient(supaCfg.url, supaCfg.key, …)` invece di getAdminSupabase()",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": null
+      },
+      "riparazione_26_11": {
+        "esito": "serve_file_altrui",
+        "sessione": "R09",
+        "collaudo": null,
+        "perche": "serve_file_altrui: La correzione nella rotta (commit 191f58354f899505d20d4eec245b4177b29e6433, prova rimessa uscita 0) rendeva rossa una prova comune (2 casi) che importa anche la rotta operational-alerts: tolta col commit 43bd832fdd30b3f9b1b84daa53464dedcb2589e5 per tenere verde npm run verify."
       }
     },
     {
@@ -96119,6 +96725,12 @@
         "prova": "lib/queries/griglia-prodotti.ts:230-238,310-311 · app/promozioni/page.tsx:67",
         "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
         "nota": "Solo /promozioni riordina sul prezzo mostrato."
+      },
+      "riparazione_26_11": {
+        "esito": "riparato",
+        "sessione": "R10",
+        "collaudo": "rompe_altro",
+        "perche": "collaudo: rompe_altro"
       }
     },
     {
@@ -96145,6 +96757,12 @@
         "prova": "lib/queries/griglia-prodotti.ts:173-180",
         "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
         "nota": "Solo maxPrice ha il ramo per i prodotti scontati (173-178)."
+      },
+      "riparazione_26_11": {
+        "esito": "riparato",
+        "sessione": "R10",
+        "collaudo": "rompe_altro",
+        "perche": "collaudo: rompe_altro"
       }
     },
     {
@@ -96199,6 +96817,12 @@
         "prova": "lib/ordini/veloce-non-confermata.ts:210,215,927",
         "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
         "nota": "Al ripiego nessun logger né notifyAdmins: gli altri ordini dello stesso carrello passano uno per volta, ognuno con la sua campanella."
+      },
+      "riparazione_26_11": {
+        "esito": "riparato",
+        "sessione": "R09",
+        "collaudo": "K03 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -96225,6 +96849,12 @@
         "prova": "cd marketplace && npx vitest run tests/unit/_s01/L08-2.test.ts ; lib/account/cancellazione.ts:564-575",
         "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
         "nota": "L'errore di getUserById è ancora scartato (riga 566). Con l'email a null si esce in silenzio alla riga 568."
+      },
+      "riparazione_26_11": {
+        "esito": "non_fatto",
+        "sessione": "R04",
+        "collaudo": null,
+        "perche": "non_fatto: Non lavorata: il limite di spesa della sessione (25 $) era al 71% (17,69 $) dopo il lotto 1 con le sue due smentite e la correzione. Un altro lotto avrebbe passato l'80%. Da riassegnare."
       }
     },
     {
@@ -96244,6 +96874,12 @@
         "prova": "lib/email/unsubscribe.ts:58-60: chiaveDiCifratura = createHmac('sha256', segreto()).update('disiscrizione:cifratura:v2'). apriFirmato (righe 88-102) usa lo stesso HMAC sul segreto.",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": null
+      },
+      "riparazione_26_11": {
+        "esito": "parziale",
+        "sessione": "R08",
+        "collaudo": "regge",
+        "perche": "parziale: I gettoni v2 già spediti (12/11-26/11) si aprono ancora, senza scadenza, con la chiave di prima HMAC(segreto, 'disiscrizione:cifratura:v2'): per loro il difetto della voce resta vero finché si accettano. Chiuderli con una data è una scelta di Nicola (un link di disiscrizione in un'email vecchia smetterebbe di funzionare)."
       }
     },
     {
@@ -96263,6 +96899,12 @@
         "prova": "lib/stripe/webhook/carrello-scaduto.ts:70-75 chiama solo release_coupon(p_code). Quella funzione (migrations/116) non tocca coupon_redemptions. La rivendicazione (delivery.rivendicazione) si chiude solo in app/api/stripe/checkout/route.ts:645-664, e solo per i carrelli «liberati» da quella pulizia.",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": null
+      },
+      "riparazione_26_11": {
+        "esito": "riparato",
+        "sessione": "R08",
+        "collaudo": "K02 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -96282,6 +96924,12 @@
         "prova": "app/api/orders/[id]/cancel/route.ts:80, app/api/seller/orders/[id]/reject/route.ts:91, app/api/rider/orders/[id]/cliente-assente/route.ts:89 — `return ApiErrors.internal(...)` senza logger; lib/ordini/annulla.ts:400 restituisce ANNULLAMENTO_FALLITO con `dettaglio: updErr.message` senza loggarlo; lib/api/responses.ts:75 `internal` non scrive nel registro",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": null
+      },
+      "riparazione_26_11": {
+        "esito": "non_fatto",
+        "sessione": "R04",
+        "collaudo": null,
+        "perche": "non_fatto: Non lavorata: il limite di spesa della sessione (25 $) era al 71% (17,69 $) dopo il lotto 1 con le sue due smentite e la correzione. Un altro lotto avrebbe passato l'80%. Da riassegnare."
       }
     },
     {
@@ -96407,6 +97055,12 @@
         "prova": "lib/ordini/prezzi.ts:51-54 (campi coordinateNegozio, consegnaLat, consegnaLng) e 262-268, dove vengono passati a shippingCentsFor. shippingCentsFor li ignora (lib/shipping.ts:43, parametro _opts). Li calcolano ancora i 5 file dell'app citati.",
         "codice": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
         "nota": null
+      },
+      "riparazione_26_11": {
+        "esito": "scelta_di_nicola",
+        "sessione": "R09",
+        "collaudo": null,
+        "perche": "scelta_di_nicola: Provato senza commit: prezziDelCarrello senza coordinate rende rossa tests/unit/riparazione-r03-carrello-consegna.test.ts, e tests/unit/il-carrello-e-la-cassa-dicono-lo-stesso-numero.test.ts:162-172 pretende le coordinate «per il giorno che torna»: toglierle cambia il senso di prove esistenti. Piano pronto per il «no»: campi facoltativi deprecati e ignorati in prezzi.ts, la cassa smette di passarli, poi app/cart/page.tsx:531-533, app/api/stripe/checkout/route.ts:830-832, app/api/orders/cod/route.ts:1237-1239 tolgono le tre righe, infine i campi escono dal tipo e da circa 30 prove."
       }
     },
     {
@@ -96520,6 +97174,12 @@
         "prova": "app/lists/[id]/page.tsx:101, :410",
         "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
         "nota": null
+      },
+      "riparazione_26_11": {
+        "esito": "riparato",
+        "sessione": "R11",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -96546,6 +97206,12 @@
         "prova": "app/product/[id]/opengraph-image.tsx:31 · lib/queries/metadati-vetrina.ts:39 · app/product/[id]/layout.tsx:176-179 · app/product/[id]/page.tsx:341-345 e :541",
         "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
         "nota": "Quale prezzo dichiarare a Google resta una scelta, come diceva già la voce."
+      },
+      "riparazione_26_11": {
+        "esito": "riparato",
+        "sessione": "R11",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -97176,6 +97842,12 @@
         "prova": "app/lists/[id]/page.tsx:123-127, :220-246 · app/lists/page.tsx:95-110",
         "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
         "nota": "Ragionamento sul comportamento della libreria, non provato nel browser."
+      },
+      "riparazione_26_11": {
+        "esito": "riparato",
+        "sessione": "R11",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -97278,6 +97950,12 @@
         "prova": "lib/supabase/lettura-per-metadati.ts:73,76,89,114",
         "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
         "nota": "Con un client da fuori si salta solo React.cache: leggiConMemoria usa la stessa chiave e la stessa mappa (89 get, 114 set). Nessun chiamante in produzione passa un client."
+      },
+      "riparazione_26_11": {
+        "esito": "riparato",
+        "sessione": "R06",
+        "collaudo": "K03 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -97577,6 +98255,12 @@
         "prova": "app/api/ai/catalog-apply-bulk/route.ts:65-66, 234-281, 327 · lib/ai/esitoCopilot.ts:46-80 · components/seller/CatalogCopilot.tsx:127-139 e :293-309",
         "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
         "nota": null
+      },
+      "riparazione_26_11": {
+        "esito": "riparato",
+        "sessione": "R10",
+        "collaudo": "K02 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -97622,6 +98306,12 @@
         "prova": "lib/api/dopo-la-risposta.ts:37-38 e :44-63 ; vercel.json",
         "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
         "nota": "Come dice la voce, pesa solo con Fluid compute acceso. In vercel.json non c'è, e le impostazioni del progetto non si possono leggere da qui."
+      },
+      "riparazione_26_11": {
+        "esito": "riparato",
+        "sessione": "R09",
+        "collaudo": "K03 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -97845,6 +98535,12 @@
         "prova": "npx vitest run tests/unit/riparazione-r13-indirizzi-servizio-giu-rotta.test.ts · app/api/geocode/route.ts:50-52 · app/profile/addresses/page.tsx:85-90, :95, :129-131",
         "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
         "nota": "Il pezzo della rotta è riparato, quello della pagina no. Per il cliente l'effetto resta lo stesso."
+      },
+      "riparazione_26_11": {
+        "esito": "non_fatto",
+        "sessione": "R04",
+        "collaudo": null,
+        "perche": "non_fatto: Non lavorata: il limite di spesa della sessione (25 $) era al 71% (17,69 $) dopo il lotto 1 con le sue due smentite e la correzione. Un altro lotto avrebbe passato l'80%. Da riassegnare."
       }
     },
     {
@@ -97967,6 +98663,12 @@
         "prova": "lib/analytics/posthog.tsx:447-458 ; lib/analytics/events.ts:36 ; lib/analytics/posthog.tsx:632-648",
         "codice": "e67ed29d86a207d58c0faf9afb55f8315bbf9d4a",
         "nota": null
+      },
+      "riparazione_26_11": {
+        "esito": "serve_file_altrui",
+        "sessione": "R09",
+        "collaudo": null,
+        "perche": "serve_file_altrui: Nessuna modifica dentro i file di R09 chiude la voce: l'aiutante comune ga non è esportato."
       }
     },
     {
@@ -99051,6 +99753,573 @@
         "nota": null
       },
       "nota_riparazione": "Già riparato nel codice unito (ricontrollo della radiografia del 26/11, S01c). app/seller/dashboard/page.tsx:315-316 · app/seller/dashboard/page.tsx:388 · components/seller/RiquadroAbbonamento.tsx:55-59"
+    },
+    {
+      "dimensione": "deploy-sre",
+      "reparto": "Rilascio e affidabilita'",
+      "titolo": "il giro delle notifiche push può mandare due volte la stessa notifica del nuovo ordine",
+      "severita": "minore",
+      "file": "app/api/cron/send-push/route.ts:59-65",
+      "descrizione": "Il giro legge le campanelle (:59-65), manda la push e le segna come mandate solo dopo (:224-227), senza prenderle prima. Quando la push subito del nuovo ordine sarà cucita, se la sua presa cade fra la lettura e l'invio del giro partono due push (stesso tag, il telefono suona due volte). Cura nel file del giro: prendere le righe con un aggiornamento condizionato su pushed_at vuoto prima di mandare.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-26-tutti-onda1 · R01",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "privacy-legale",
+      "reparto": "Privacy e legale",
+      "titolo": "L'informativa propone il modulo dei contatti come contatto del titolare anche quando il modulo non arriva a nessuno",
+      "severita": "minore",
+      "file": "app/privacy/page.tsx:73",
+      "descrizione": "La sezione 5 (righe 336-361) usa già stradaDeiDiritti per non promettere il modulo quando non arriva a nessuno; la riga 73 no.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-26-tutti-onda1 · R02",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "privacy-legale",
+      "reparto": "Privacy e legale",
+      "titolo": "I Termini dicono che il fattorino consegna i contanti a MyCity, ma il fattorino si tiene prima il suo compenso",
+      "severita": "minore",
+      "file": "app/terms/page.tsx:183",
+      "descrizione": "Già sulla base: compensoDalContante in lib/shipping.ts:168 trattiene il compenso del fattorino dal contante prima del versamento.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-26-tutti-onda1 · R02",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "privacy-legale",
+      "reparto": "Privacy e legale",
+      "titolo": "La cancellazione dell'account non ripulisce le segnalazioni fatte da quell'account",
+      "severita": "minore",
+      "file": "lib/account/cancellazione.ts",
+      "descrizione": "Le righe di segnalazioni con segnalante_id dell'account cancellato restano (il vincolo mette solo NULL sull'id), con email e testo.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-26-tutti-onda1 · R02",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "stati-ui",
+      "reparto": "Stati dell'interfaccia",
+      "titolo": "Nella chat Assistenza la bolla della risposta appiattisce a capo ed elenchi: una descrizione lunga diventa un muro di testo senza «leggi tutto»",
+      "severita": "minore",
+      "file": "components/SupportProductAssistant.tsx:400-413",
+      "descrizione": "La bolla non ha whitespace-pre-wrap: a capo ed elenchi si perdono e il markdown resta grezzo; fino a 4000 caratteri senza «leggi tutto».",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-26-tutti-onda1 · R03",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "ai-endpoints",
+      "reparto": "Endpoint AI",
+      "titolo": "Col budget AI finito il prodotto importato viene segnato in errore e resta frenato sei ore anche quando il budget torna",
+      "severita": "minore",
+      "file": "app/api/products/[id]/external-refresh/route.ts (doRefresh) e app/api/cron/external-price-alerts/route.ts",
+      "descrizione": "Il blocco del tetto di spesa segna 'error' e l'ora dell'errore come un guasto del prodotto: il prodotto sano resta dietro il freno di sei ore. È lo stesso schema che nel giro è già stato chiuso per il modello mancante.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-26-tutti-onda1 · R03",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "ai-endpoints",
+      "reparto": "Endpoint AI",
+      "titolo": "I prodotti ripresi dalla via dei falliti consumano il permesso di riprovare già in selezione: se il giro li lascia fuori restano fermi altre sei ore",
+      "severita": "minore",
+      "file": "app/api/cron/external-price-alerts/route.ts:103",
+      "descrizione": "ritentoDopoErroreConsentito si chiama mentre si scelgono i candidati; se poi il tetto di tempo o lo stop del modello mancante li esclude, il permesso è già speso.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-26-tutti-onda1 · R03",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "stati-ui",
+      "reparto": "Stati dell'interfaccia",
+      "titolo": "La modifica prodotto dell'amministratore senza rete si apre con le categorie vuote se non erano in memoria",
+      "severita": "minore",
+      "file": "app/admin/products/[id]/edit/page.tsx",
+      "descrizione": "Manca la guardia sulle categorie in pausa che la pagina del negozio ha (app/seller/products/[id]/edit/page.tsx:325), e manca «Riapri con i dati aggiornati»: dopo un 409 con rilettura delle taglie fallita il modulo si rimonta con le taglie vecchie.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-26-tutti-onda1 · R03",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "pagamenti-stripe",
+      "reparto": "Pagamenti",
+      "titolo": "una contestazione che arriva prima che l'ordine nasca (carrello ancora in attesa) esce in silenzio",
+      "severita": "minore",
+      "file": "lib/stripe/webhook/dispute.ts:90-114",
+      "descrizione": "In handleDisputeCreated, ramo orders.length===0 prima del buono: se il PaymentIntent ha metadata.pending_checkout_id di un carrello PENDING andrebbe lanciato un errore perché Stripe ripeta. File fuori da R04.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-26-tutti-onda1 · R04",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "pagamenti-stripe",
+      "reparto": "Pagamenti",
+      "titolo": "Un rimborso dopo il bonifico a mano al negozio fa sparire i soldi da recuperare",
+      "severita": "grave",
+      "file": "lib/stripe/payout.ts:1186",
+      "descrizione": "refundOrder tratta PAID_MANUALLY come non pagato: un rimborso pieno lo riscrive in REFUNDED (payout.ts:2276-2278), «Già pagato» scende e la quota finisce in seller_payout_reversed_cents come se il bonifico non fosse partito; l'avviso «quota da recuperare a mano» parte solo per REVERSAL_FAILED (payout.ts:2515).",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-26-tutti-onda1 · R05",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "stati-ui",
+      "reparto": "Stati dell'interfaccia",
+      "titolo": "Il negozio legge che la commissione dei ritiri al banco gliela chiediamo noi, non che la scaliamo dal bonifico del lunedì",
+      "severita": "minore",
+      "file": "app/seller/earnings/page.tsx:347",
+      "descrizione": "La frase dice «te la chiediamo noi» e la cifra è sul periodo filtrato, non sulla settimana del bonifico.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-26-tutti-onda1 · R05",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "pagamenti-stripe",
+      "reparto": "Pagamenti",
+      "titolo": "Il tasto «Bonifico fatto» del pannello dei bonifici risponde con un errore: la sua migrazione non è più nel deposito",
+      "severita": "grave",
+      "file": "migrations/130",
+      "descrizione": "La migrazione 350 (segna_bonifico_manuale, PAID_MANUALLY) è stata tolta il 13/11; il CHECK di payout_status della 130 non ammette PAID_MANUALLY. Se la 350 non è già in produzione, il tasto non segna niente.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-26-tutti-onda1 · R05",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "pagamenti-stripe",
+      "reparto": "Pagamenti",
+      "titolo": "La RPC del tasto «Bonifico fatto» dei negozi non è definita in nessuna migrazione del deposito",
+      "severita": "grave",
+      "file": "app/admin/payouts/page.tsx:165",
+      "descrizione": "segna_bonifico_manuale è chiamata dal tasto ma non c'è in migrations/ (i commenti citano 350 e 410, che non ci sono): un database ricostruito dalle migrazioni non ce l'ha. Stessa radice del difetto sul CHECK di payout_status.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-26-tutti-onda1 · R05",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "dimensione_dichiarata": "qualita-codice",
+      "reparto": "Flussi critici",
+      "titolo": "Nell elenco DOCS dell iscrizione del fattorino patente e polizza hanno ancora required: true, ma nessuno lo legge: dato morto che inganna",
+      "severita": "minore",
+      "file": "app/rider/onboarding/page.tsx:34-35",
+      "descrizione": "L asterisco viene da obbligatorio() (riga 382); il campo required di DOCS non lo usa nessuno.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-26-tutti-onda1 · R06",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "titolo": "Il rifiuto dell ordine può dire «già annullato» quando lo stato è solo cambiato fra lettura e scrittura",
+      "severita": "minore",
+      "file": "lib/ordini/annulla.ts:401",
+      "descrizione": "GIA_ANNULLATO esce anche se lo stato è passato da NEW ad ACCEPTED fra lettura e scrittura; la rotta del rifiuto ora lo traduce in «Ordine già annullato». Caso raro; si corregge rileggendo lo stato.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-26-tutti-onda1 · R06",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "titolo": "Nel modulo del reso il controllo del ripensamento guarda tutto l ordine, non l articolo scelto",
+      "severita": "minore",
+      "file": "app/orders/[id]/return/page.tsx:96-112",
+      "descrizione": "Se il cliente sceglie un articolo escluso dal recesso, il rifiuto arriva solo all invio (la rotta controlla la riga).",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-26-tutti-onda1 · R06",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "sicurezza-auth",
+      "reparto": "Sicurezza e accessi",
+      "titolo": "Col CAPTCHA acceso su Supabase il recupero password fallirebbe: resetPasswordForEmail parte senza gettone",
+      "severita": "minore",
+      "file": "app/sign-in/page.tsx:291",
+      "descrizione": "app/sign-in/page.tsx:291 e app/reset-password/page.tsx:260 chiamano resetPasswordForEmail senza captchaToken: latente finché il CAPTCHA su Supabase è spento.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-26-tutti-onda1 · R07",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "sicurezza-auth",
+      "reparto": "Sicurezza e accessi",
+      "titolo": "Col CAPTCHA acceso su Supabase il cambio password fallirebbe sempre, con l'errore letto come «password non corretta»",
+      "severita": "minore",
+      "file": "app/api/account/cambia-password/route.ts:86",
+      "descrizione": "signInWithPassword di controllo chiamato senza captchaToken: latente finché il CAPTCHA su Supabase è spento. Il captcha_failed diventa «Password attuale non corretta» (riga 107).",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-26-tutti-onda1 · R07",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "sicurezza-auth",
+      "reparto": "Sicurezza e accessi",
+      "titolo": "Col CAPTCHA acceso su Supabase il reinvio della mail di conferma fallirebbe: resend parte senza gettone",
+      "severita": "minore",
+      "file": "lib/auth/conferma-email.ts:262",
+      "descrizione": "resend chiamato senza captchaToken: latente finché il CAPTCHA su Supabase è spento.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-26-tutti-onda1 · R07",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "titolo": "Una prova del collegamento Stripe passa solo grazie al caso precedente: i tre flag non si azzerano tra un caso e l'altro",
+      "severita": "minore",
+      "file": "tests/unit/minori-s01-collegamento-stripe.test.ts:126",
+      "descrizione": "Il beforeEach non azzera st.flag, così il caso «tre flag tornano falsi» passa col valore lasciato dal caso prima e da solo non prova niente.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-26-tutti-onda1 · R07",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "stati-ui",
+      "reparto": "Stati dell'interfaccia",
+      "titolo": "Collegando Stripe in anteprima con un conto di prova vecchio la persona legge solo «Errore Stripe»: il consiglio di togliere il conto dal profilo resta nei registri",
+      "severita": "minore",
+      "file": "app/api/stripe/connect/onboarding/route.ts:48-53",
+      "descrizione": "L'errore ContoSconosciutoAllaChiaveDiProva finisce nel catch generico (anche rider-onboarding/route.ts:49-54) e diventa 500 «Errore Stripe»; non lascia stati a metà.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-26-tutti-onda1 · R07",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "stati-ui",
+      "reparto": "Stati dell'interfaccia",
+      "titolo": "Dopo «Aggiorna stato» il riquadro Stripe usa ancora la regola vecchia (incassi E versamenti) per il messaggio di conferma",
+      "severita": "minore",
+      "file": "components/seller/StripeConnectButton.tsx:85",
+      "descrizione": "Con incassi spenti e versamenti accesi il riquadro dice «Pagamenti attivi» ma dopo l'aggiornamento non compare «Pagamenti attivati!» e può comparire «completa l'onboarding».",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-26-tutti-onda1 · R07",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "layout-responsive",
+      "reparto": "Layout e schermi",
+      "titolo": "/come-funziona: anche il titolo grande e un h3 in riga flex possono uscire col testo al 200%",
+      "severita": "minore",
+      "file": "app/come-funziona/page.tsx:59",
+      "descrizione": "L'h1 text-3xl md:text-5xl non ha break-words; un h3 in riga flex senza min-w-0 nello stesso file. Non misurato.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-26-tutti-onda1 · R07",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "titolo": "L'elenco utenti e l'esportazione CSV perdono le email oltre le prime mille righe",
+      "severita": "minore",
+      "file": "app/admin/users/page.tsx:158",
+      "descrizione": "admin_list_user_emails() senza argomenti si legge in una chiamata sola: oltre il tetto di righe di PostgREST (1000 su Supabase) l'elenco e l'esportazione CSV (riga ~580) restano senza le email degli iscritti fuori dal tetto.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-26-tutti-onda1 · R08",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "titolo": "Una ricerca per email con la RPC caduta risponde «nessun utente» invece di dire che non ha potuto cercare",
+      "severita": "minore",
+      "file": "app/admin/users/page.tsx:183-185",
+      "descrizione": "Se la RPC fallisce con un errore diverso da PGRST202 la ricerca restituisce [] in silenzio e la pagina dice «Nessun utente corrisponde… Ho cercato su tutti». C'era già sulla base. La ricerca nuova lo mantiene, senza neanche un logger.warn: in una richiesta di cancellazione dati la pagina direbbe «non esiste» senza aver guardato le email. In ricerca sparisce anche l'avviso delle email non arrivate. L'esportazione CSV (riga ~579) con la RPC caduta esporta tutte le email vuote senza avviso.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-26-tutti-onda1 · R08",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "API",
+      "titolo": "Quando un pagamento viene rimborsato perché l'importo o la fascia non tornano, il codice di benvenuto torna ma la sua rivendicazione resta aperta",
+      "severita": "minore",
+      "file": "lib/stripe/webhook/quadratura.ts:114-118 · lib/stripe/webhook/fascia-al-pagamento.ts:97-101",
+      "descrizione": "Stessa classe del difetto del webhook della sessione scaduta: release_coupon senza chiudere coupon_redemptions; se si paga entro 2 minuti dalla rivendicazione il benvenuto resta bloccato per il resto dei 2 minuti.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-26-tutti-onda1 · R08",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "API",
+      "titolo": "La pulizia delle casse abbandonate chiude la rivendicazione anche se il codice non è tornato",
+      "severita": "minore",
+      "file": "lib/ordini/riserve-abbandonate.ts:289-294",
+      "descrizione": "La pulizia mette il carrello fra i liberati anche quando release_coupon fallisce e la cassa chiude comunque la rivendicazione, mentre il webhook e rilasciaCoupon la lasciano aperta. Nessun danno sui soldi, solo incoerenza.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-26-tutti-onda1 · R08",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "API",
+      "titolo": "Un link di disiscrizione vecchio (v1) senza il segreto in produzione dà errore 500 invece di «link non valido»",
+      "severita": "minore",
+      "file": "lib/email/unsubscribe.ts:113",
+      "descrizione": "apriFirmato chiama segreto() fuori da un try: senza UNSUBSCRIBE_SECRET in produzione un gettone v1, o qualunque gettone con un punto che non comincia per v2./v3., fa lanciare la rotta. C'era già sulla base.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-26-tutti-onda1 · R08",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "dimensione_dichiarata": "pagamenti",
+      "reparto": "Flussi critici",
+      "titolo": "La contestazione parziale vinta, con la memoria di PostgREST vecchia, scrive il tentativo nuovo ma lascia il promemoria della quota: una ripetizione di Stripe rifà il bonifico con una chiave nuova",
+      "severita": "minore",
+      "file": "lib/stripe/webhook/contestazione-parziale-vinta.ts:43",
+      "descrizione": "Il ripiego scritto a mano toglie dispute_seller_reversed_cents ma scrive payout_tentativo+1. Se qualcosa dopo nello stesso evento lancia, Stripe ripete l'evento: quota ancora presente, tentativo nuovo, chiave anti-doppione nuova, secondo bonifico.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-26-tutti-onda1 · R09",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "Interfaccia",
+      "titolo": "L'email della veloce dice sempre «la tua spesa arriva in una fascia» anche quando si è spostato un ordine solo del carrello",
+      "severita": "minore",
+      "file": "lib/email/templates.ts:302",
+      "descrizione": "Titolo e oggetto fissi (righe 302 e 314); la campanella invece dice «tranne l'ordine …».",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-26-tutti-onda1 · R09",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "flussi-conversione",
+      "reparto": "Flussi di conversione",
+      "titolo": "Il filtro «Sotto i 10 €» sui prodotti in promozione si ferma a 1000 righe e 100 id",
+      "severita": "minore",
+      "file": "lib/queries/griglia-prodotti.ts (idsCheInPromoScendonoSotto)",
+      "descrizione": "Il prezzo massimo usa ancora active_promo_products con tetto di 1000 righe e 100 id nell'indirizzo: oltre quei numeri il filtro è incompleto. Si chiuderebbe con prezzo_pagato anche sul massimo.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-26-tutti-onda1 · R10",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "Interfaccia",
+      "titolo": "La griglia chiama il vecchio calcolo dei prodotti in promozione accanto a quello nuovo",
+      "severita": "minore",
+      "file": "components/ProductGrid.tsx:277",
+      "descrizione": "ProductGrid chiama idsCheInPromoScendonoSotto mentre leggiProdottiDellaGriglia ha già il prezzo pagato: due strade per lo stesso conto (file altrui, non toccato).",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-26-tutti-onda1 · R10",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "flussi-conversione",
+      "reparto": "Flussi di conversione",
+      "titolo": "Chi si iscrive con Google dalla registrazione perde il ritorno",
+      "severita": "minore",
+      "file": "app/sign-up/page.tsx:367",
+      "descrizione": "<AuthAlternatives condizioniDalModulo={acceptTos} /> non passa returnTo: chi si iscrive con Google perde il ritorno (es. verso /checkout). Modifica: returnTo={safeInternalPath(returnTo, '/')}, ripulito perché alla riga 78 returnTo è grezzo. File non di R10.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-26-tutti-onda1 · R10",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "flussi-conversione",
+      "reparto": "Flussi di conversione",
+      "titolo": "Lo slider del prezzo massimo taglia ancora sul prezzo pieno",
+      "severita": "minore",
+      "file": "lib/queries/griglia-prodotti.ts:186",
+      "descrizione": "Senza gli id scontati (app/search/page.tsx:590, pagina categoria, StoreProductExplorer.tsx:229) il massimo guarda price: con la forchetta 5-10 € un 12 € al -25% (9 €) resta fuori, mentre il minimo guarda già il prezzo pagato. Si chiude usando prezzo_pagato anche sul massimo.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-26-tutti-onda1 · R10",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "titolo": "La prova «Sotto i 10 €» non controlla il taglio sul massimo",
+      "severita": "minore",
+      "file": "tests/unit/aiuti/finto-postgrest.ts:126",
+      "descrizione": "Il finto PostgREST tratta ogni filtro or come quello sulla giacenza, quindi le prove che passano un or sul prezzo non lo controllano davvero (aiuto comune, non toccato).",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-26-tutti-onda1 · R10",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "flussi-conversione",
+      "reparto": "Flussi di conversione",
+      "titolo": "Il ritorno dopo l'accesso guarda la stringa e non il percorso risolto per riconoscere l'area di un altro ruolo",
+      "severita": "minore",
+      "file": "app/sign-in/page.tsx:272-276",
+      "descrizione": "'/rider/..', '/admin/../', '/.' o '/%73eller/dashboard' (link costruiti apposta) non vengono riconosciuti come '/' o come area altrui e portano a '/' invece che alla home del ruolo. Le aree in page.tsx ricopiano a mano quelle del portiere (middleware.ts:68-72, 105: startsWith('/seller') senza barra), che non è esportato.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-26-tutti-onda1 · R10",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "flussi-conversione",
+      "reparto": "Flussi di conversione",
+      "titolo": "Dopo l'accesso con Google il ritorno non applica nessuna regola di ruolo",
+      "severita": "minore",
+      "file": "app/auth/callback/route.ts:154",
+      "descrizione": "Un fattorino con ritorno /seller (sessione del negozio scaduta sullo stesso dispositivo) finisce su '/' invece che su /rider: la regola sulle aree degli altri ruoli vale solo per email e password (file non di R10).",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-26-tutti-onda1 · R10",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "dimensione_dichiarata": "prestazioni",
+      "reparto": "Flussi critici",
+      "titolo": "il precarico non riempie lo sconto attivo del prodotto, che il browser rilegge",
+      "severita": "minore",
+      "file": "lib/queries/precarico.ts:124-128",
+      "descrizione": "queryKeys.products.activeDiscount(id) non è precaricata: il guscio legge lo sconto sul server e il browser rifà la stessa chiamata RPC a ogni visita.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-26-tutti-onda1 · R11",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "titolo": "un negozio che chiude solo uno o due giorni resta «sempre aperto» negli altri",
+      "severita": "minore",
+      "file": "lib/store-hours.ts:267-277",
+      "descrizione": "orariImpostati torna null per un negozio con meno di 4 giorni scritti e tutti vuoti, e il negozio viene trattato come senza orari.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-26-tutti-onda1 · R11",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "titolo": "una prova dei contanti sostituisce tutti gli orari con «può sempre servire»",
+      "severita": "minore",
+      "file": "tests/unit/contanti-la-chiave-si-prende-prima.test.ts:79-83",
+      "descrizione": "mocka tutto @/lib/store-hours con negozioPuoServire: () => true: le prove che passano da lì non vedono mai gli orari veri.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-26-tutti-onda1 · R11",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "titolo": "col ritiro in negozio riacceso, la rotta contanti non controlla gli orari della fascia",
+      "severita": "minore",
+      "file": "app/api/orders/cod/route.ts:1013-1017",
+      "descrizione": "il controllo della fascia gira solo se !body.pickupInStore; oggi il ritiro è spento in lancio, ma se si riaccende il ramo ritiro non ha controllo orari in quel punto.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-26-tutti-onda1 · R11",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "Interfaccia",
+      "titolo": "il riquadro della promozione può scrivere un centesimo diverso dalla cassa",
+      "severita": "minore",
+      "file": "components/ActivePromoBadge.tsx:47",
+      "descrizione": "calcola basePrice * (1 - d/100) senza discountedUnitCents: su circa 2.700 coppie prezzo/sconto su 1,4 milioni scrive un centesimo diverso dalla cassa (es. 0,29 € al -50%: riquadro 0,15 €, cassa 0,14 €).",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-26-tutti-onda1 · R11",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "titolo": "Il reso di un solo articolo: il cliente vede il prezzo pieno della riga, il negozio si vede proporre la riga meno la sua parte di sconto",
+      "severita": "minore",
+      "file": "app/seller/orders/[id]/page.tsx:201",
+      "descrizione": "Nato da R06-010. Esempio: righe da 10 € e 20 €, codice sconto da 6 €, reso della riga da 10 €. Il cliente (app/orders/[id]/return/page.tsx:391) si aspetta 10 €, il negozio si vede proporre 8 €: nasce una contestazione. La lettura dell’ordine lato negozio non chiede variant_label, quindi «Cosa torna» non mostra la variante.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-26-tutti-onda1 · C01",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "API",
+      "titolo": "La scadenza dei carrelli dal giro notturno ridà il codice sconto ma non chiude la rivendicazione",
+      "severita": "minore",
+      "file": "app/api/cron/expire-checkouts/route.ts:283",
+      "descrizione": "Stesso difetto di R08-002, in un altro file. Il webhook carrello-scaduto ora chiude la riga di coupon_redemptions, il giro notturno expire-checkouts no: il codice di benvenuto torna disponibile e la rivendicazione resta aperta.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-26-tutti-onda1 · C01",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "Architettura",
+      "titolo": "La fila per richiesta delle email si appoggia a un file interno di Next.js",
+      "severita": "minore",
+      "file": "lib/api/dopo-la-risposta.ts:2",
+      "descrizione": "Nato da R09-008. Importa next/dist/server/app-render/work-async-storage.external, un percorso interno. Se il bundler ne crea una seconda copia, getStore() torna sempre vuoto e tutto torna nella fila unica senza errori. Se un aggiornamento di Next sposta il file, cadono al caricamento contrassegno, checkout, webhook ordini, contatti, cancellazione account e chat. La prova finge il modulo, quindi non lo può vedere. Il commento alle righe 58-59 cita ancora annulla.ts, che non usa nellaFila.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-26-tutti-onda1 · C01",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "pagamenti-stripe",
+      "reparto": "Pagamenti",
+      "titolo": "Il freno del conto Stripe di prova vale solo sulle anteprime di Vercel, e il suo errore arriva al negoziante come errore generico",
+      "severita": "minore",
+      "file": "lib/stripe/client.ts:406",
+      "descrizione": "Nato da R07-005. Il freno guarda solo VERCEL_ENV===preview: un ambiente locale con la chiave di prova collegato al database vero salva ancora un conto di prova al posto di quello vero. ContoSconosciutoAllaChiaveDiProva non è tradotto da nessuna rotta, quindi esce un 500 generico (rotte chiamanti non aperte).",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-26-tutti-onda1 · C01",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "privacy-legale",
+      "reparto": "Privacy e legale",
+      "titolo": "Il prezzo al chilo usa il peso del prodotto base anche quando si sceglie un formato diverso",
+      "severita": "minore",
+      "file": "app/product/[id]/page.tsx:597",
+      "descrizione": "Nato da R08-005. Il peso si legge da product.attributes.peso, ma per gli alimenti peso è variabile per formato (lib/category-attributes.ts:50). Con un alimento da 500 g e 1 kg, scegliendo 1 kg la riga «€/kg» resta calcolata sul peso del base. Non verificato dove la variante tiene il suo peso.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-26-tutti-onda1 · C01",
+      "stato": "aperto"
     }
   ],
   "sync_scan": {
