@@ -91,6 +91,8 @@ Una prova comune è un controllo che protegge più riparazioni insieme. Cambiarl
 
 - R15-001, R15-003, R15-009 · prove comuni da cambiare (la cura di R15-009 è nel commit 6484d56a, toglierla le rompe 3): modifiche esatte nel referto di R15
 
+- R20-001 (seconda parte) · al primo messaggio della chat Assistenza l'assistente vede tag e descrizione dei prodotti e può proporre di cambiarli: cambia tre prove comuni della chat (patch intera in `2026-11-26-tutti-onda3/patch-R20-001.md`, si applica sopra la testa di R20, controllato alle 23:00)
+
 ### Domande (campo domanda_per_nicola del registro)
 
 - flussi-conversione|«vendi su mycity» è solo un muro di accesso: niente prezzo, niente vantaggi, nessuna persona da contattare
