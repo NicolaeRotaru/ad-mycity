@@ -17,7 +17,7 @@ Basta che più in basso ci sia un commento HTML vero, come ne hanno quasi tutte 
 Indirizzo, telefono e orari spariscono, e la pagina risulta comunque «letta».
 
 ## Cosa cambia per te
-Su un sito vecchio di un locale fatto così, la scheda tornerebbe con «non trovato».
+Per esempio, su un sito vecchio di un locale fatto così, la scheda tornerebbe con «non trovato».
 È proprio il guaio che questo pezzo doveva risolvere, e nessun avviso lo segnala.
 
 ## Cosa devi fare

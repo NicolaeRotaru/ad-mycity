@@ -7,11 +7,11 @@ verdetto: REGGE
 # Collaudo 4: la pulizia di commenti e script in un passaggio solo
 
 ## In parole semplici
-Il pezzo che toglie commenti e codice dalle pagine dei negozi non perde più l'indirizzo, il telefono e gli orari nel caso che il collaudo 3 aveva bocciato.
+Il pezzo che toglie commenti e codice dalle pagine dei negozi adesso regge. Nel caso bocciato dal collaudo 3 non perde più l'indirizzo, il telefono e gli orari.
 Ho cercato un caso reale in cui la versione nuova perda testo che la vecchia teneva. Non l'ho trovato, né a mano né con 1.500 pagine casuali.
 
 ## Cosa cambia per te
-Le pagine vecchie fatte con Dreamweaver, i commenti condizionali di WordPress e gli script con «<!--» adesso si leggono intere.
+Per esempio, le pagine vecchie fatte con Dreamweaver, i commenti condizionali di WordPress e gli script con «<!--» adesso si leggono intere.
 Prima uscivano vuote: è la stessa cosa detta al contrario.
 
 ## Cosa devi fare
@@ -23,7 +23,7 @@ Niente. Il ramo può andare avanti verso la firma.
 - Altri browser oltre Chromium.
 
 ---
-**Dettagli tecnici**
+## Dettagli tecnici
 
 VERDETTO: **REGGE**
 
