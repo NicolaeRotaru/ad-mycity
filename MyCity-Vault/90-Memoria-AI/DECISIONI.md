@@ -1352,6 +1352,11 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Prova vera (25/11 23:05):** su Ora del Gusto la ricerca ha scritto 1 pagina da leggere e n8n ne ha lette 2. La scheda le ha scartate come possibile omonimo, giustamente.
 - Referti: `consegne/riparazioni/2026-11-25-leggi-pagine/collaudo-3-sicurezza.md` e `collaudo-4-pulizia.md`.
 
+## 2026-11-26 14:28 · Le impaginazioni per post e reel nel deposito 🟡
+- **Cosa:** salvate in `creativi/impaginazioni/` le pagine e il comando che fanno post, storia e reel senza Canva né CapCut. I tre file della prova di Pane Quotidiano sono in `creativi/pane-quotidiano/2026-11-26-prova/`. Nessuna pubblicazione.
+- **Perché:** Nicola in chat alle 14:19, «Ok salva», dopo aver visto la prova.
+- **Prima di quell'ok:** la sessione dei consensi (`…kJb6FY`) lo chiedeva a nome suo due volte. Non l'ho fatto: la sua delega sta solo nella PR #1033, scritta da lei e non unita. Ho chiesto la conferma a Nicola.
+- **Prova:** `crea.sh` lanciato dal deposito rifà i tre file identici byte per byte a quelli consegnati.
 ## 2026-11-26 14:05 — La scheda del venditore e il preventivo nascono dalla foto (🟡, decisione di Nicola)
 - **Chi e quando:** Nicola, in chat all'AD (`session_01R8112NFY3AU2rJekrQw41G`), 26/11 verso le 13:35. Parole sue: «faccio la foto al negozio … in automatico deve crearsi la scheda del cliente e fare tutte le analisi … questa scheda serve al venditore per avere un'idea chiara di quello che ha, non ha, di potenziale … nel preventivo ci deve essere già un piano editoriale, una bozza del sito seguendo gli standard, i punti deboli, forti». E: «prova già a farmela adesso».
 - **Cosa:** fatto nuovo `agenzia.scheda-da-foto`. La sessione che riceve la foto fa la ricerca e scrive un `dati.json`; `cervello/scheda-cliente.mjs` lo controlla e scrive `scheda.html` (interna), `preventivo.html` e `bozza-sito.html`. Quattro controlli: niente dati senza fonte, niente prezzi nella bozza del sito, canoni uguali al registro (`sdg.abbonamenti`), piano editoriale uguale alla promessa della fascia. Un quinto, trovato riguardando il codice con la lente della sicurezza: i dati presi dal web non possono mettere link `javascript:` o codice nelle pagine. Skill `scheda-da-foto`, aggiunta anche in `.gitignore`.
