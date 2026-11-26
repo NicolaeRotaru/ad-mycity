@@ -2,10 +2,11 @@
  "collaudatore": "K01",
  "riparatori": [
   "R11",
+  "R03",
   "R07"
  ],
- "aggiornato": "2026-11-26 14:57",
- "finita": false,
+ "aggiornato": "2026-11-26 15:01",
+ "finita": true,
  "voci": [
   {
    "id": "R11-001",
@@ -152,6 +153,96 @@
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07-007 --base b9be0570dfad5dcafaeca520a820a6a27c3e31de^ --file components/seller/StripeDashboardButton.tsx --prove tests/unit/riparazione-r07-pulsanti-stripe.test.ts --json"
    },
    "nota": "Due subagenti qa. chiude_tutta: i due pulsanti usano la stessa queryKey, la stessa select e la stessa regola stripePronto (StripeDashboardButton.tsx:76, StripeConnectButton.tsx:110); in tutte le combinazioni (nessun conto, conto senza versamenti, incassi senza versamenti, versamenti senza incassi, tutto attivo, utente nullo, errore di lettura) dicono la stessa cosa. nata_rotta: il pulsante sparisce rispetto a prima solo con indicatori accesi e nessun conto salvato, dove la rotta login rispondeva già 403; unico chiamante app/seller/earnings/page.tsx:380. Non verificato: che Stripe vero crei il link per un conto con incassi spenti."
+  },
+  {
+   "id": "R03-001",
+   "chiave": "ai-endpoints|nella chat assistenza il negoziante approva una descrizione nuova senza poterla leggere, e al primo messaggio l'assistente riscrive tag e descrizione senza aver visto quelli che ci sono",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03-001 --base 084e9fe8378811d9cfaf2fb84b33d53062172c5e^ --file app/api/ai/catalog-chat/route.ts --prove tests/unit/riparazione-r03-catalog-chat.test.ts --json"
+   },
+   "nota": "Grave, dati: due subagenti qa (una lente ciascuno) sulla testa 1a3f66cd6f3433223ee8f342749ae35fe1cb083c. La parte fatta regge: in 13 casi limite (descrizione di 4500 caratteri, a capo, soli spazi, tag con maiuscole, doppioni, vuoti, 17 tag, solo tag, risposta del modello che finge il testo) descrizione e tag tolti mostrati sono identici a quelli che resolveAiPatch salva (stesse funzioni testoDelPatch e tagDelPatch, aiPatch.ts:582,828,1213,1282); ② e ③ erano chiusi alla base (route.ts:172-178,456,461-464; prompt NON INVENTARE :80-81). nata_rotta: forma della risposta invariata (reply, productId, patch, product), nessun crash in 11 casi limite, permessi per seller_id, nessun testo di altri negozi. La voce resta parziale. Il cosa_resta non dice: la bolla non ha whitespace-pre-wrap (components/SupportProductAssistant.tsx:402), quindi a capo ed elenchi si appiattiscono; la scheda (lib/products/prontoPerLaVendita.ts:724) mostra i tag grezzi e può contraddire la risposta sui tag che spariscono, e a :705 dice «Descrizione aggiornata» anche per una descrizione di soli spazi; la prova non fa girare catalog-apply e 2 mutazioni su 4 restano verdi (taglio a 200 invece di 4000, testo grezzo). Effetti accanto minori: il testo aggiunto torna al modello nella cronologia (SupportProductAssistant.tsx:163, route.ts:241,263); con un tag NULL la frase dice «spariscono: , dolci.» (route.ts:198-202). Oggi con l'AI spenta la chat non si apre (SupportChatModal.tsx:76-81): la correzione si vedrà alla riaccensione."
+  },
+  {
+   "id": "R03-002",
+   "chiave": "ai-endpoints|con il modello ai mancante il giro dei prezzi esterni segna in errore tutti i prodotti del giro e continua a chiamare",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03-002 --base 50ac47b3162c4bd5b9e297f2917c9bf4b0a0b081^ --file app/api/cron/external-price-alerts/route.ts --prove tests/unit/riparazione-r03-giro-prezzi-modello-mancante.test.ts --json"
+   },
+   "nota": "Subagente qa con le due lenti. Provato con l'SDK vero (0.100.1) passando da runMessage: un 404 not_found_error dà una sola chiamata e nessun prodotto in errore; 500, 529 e rete caduta non sono scambiati per un 404 e il giro continua. Accanto, fuori voce: il tetto di spesa e il 401 segnano ancora in errore tutti i prodotti del giro (route.ts:158-170); con un 404 la risposta conta errors:1 senza prodotti in errore (route.ts:154)."
+  },
+  {
+   "id": "R03-003",
+   "chiave": "ai-endpoints|il sorvegliante dei prezzi esterni può superare i suoi 300 s con 10 chiamate al modello in fila",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03-003 --base a3f42c8e7c4f3a26a5aebc9fd57d86ccb13b6aa4^ --file app/api/cron/external-price-alerts/route.ts --prove tests/unit/riparazione-r03-giro-prezzi-durata.test.ts --json"
+   },
+   "nota": "Subagente qa con le due lenti. Il tempo si conta dall'avvio (route.ts:55); l'ultima chiamata parte al massimo a 210 s e finisce entro 270 s; maxDuration 300 coerente con vercel.json:13. Dubbio non bloccante: i prodotti già in errore consumano il freno di 6 ore entrando nella lista (route.ts:105 con externalSync.ts:292-294); se poi restano esclusi dal tetto di tempo tornano dopo 6 ore, non al giro dopo come dicono il commento a route.ts:37 e il referto. Nessuna traccia del ritiro di R03-006."
+  },
+  {
+   "id": "R03-004",
+   "chiave": "ai-endpoints|«aggiorna ora» dei prezzi esterni: col budget ai finito l'admin legge ancora «riprova»",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03-004 --base 1703ffaad2aeaa411386bf0bf26befda27dba368^ --file \"app/api/products/[id]/external-refresh/route.ts\" --prove tests/unit/riparazione-r03-aggiorna-ora-budget-ai.test.ts --json"
+   },
+   "nota": "Subagente qa con le due lenti. Il messaggio arriva fino allo schermo: ExternalDataPanel.tsx:59 legge body.error.message; budget finito = 503 «Budget AI giornaliero esaurito. Riprova domani.», limite del fornitore = 429 con Retry-After. Accanto, già presente prima: con l'AI spenta (lo stato di oggi) «Aggiorna ora» risponde 502 «Riprova» e segna il prodotto in errore (external-refresh/route.ts:85-91,174)."
+  },
+  {
+   "id": "R03-007",
+   "chiave": "stati-ui|la modifica prodotto dell'amministratore, se non legge le varianti, dice «ricarica la pagina» ma non ha il bottone riprova",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03-007 --base 1d3f5b5f1c9fe3c80d7cf62e6faa0d7966590b3f^ --file \"app/admin/products/[id]/edit/page.tsx\" --prove tests/unit/riparazione-r03-admin-prodotto-varianti-riprova.test.tsx --json"
+   },
+   "nota": "Subagente qa con le due lenti. Riprova rilegge le varianti e il modulo si apre con le taglie; cliccato senza rete resta il pannello con Riprova, e il modulo si apre da solo quando la rete torna. Convive con R03-008 nello stesso file."
+  },
+  {
+   "id": "R03-008",
+   "chiave": "stati-ui|nella pagina di amministrazione del prodotto, quando torna la rete, il caricamento prende il posto del modulo e le modifiche si perdono; senza rete il modulo si apre con 0 taglie",
+   "verdetto": "rompe_altro",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03-008 --base da38e34ab9eb225e8b2570425424f99ffe593342^ --file \"app/admin/products/[id]/edit/page.tsx\" --prove tests/unit/riparazione-r03-admin-prodotto-rete-che-torna.test.tsx --json"
+   },
+   "nota": "Subagente qa con le due lenti. Tutte e due le metà sono chiuse e il rischio di cancellare le taglie non c'è (il modulo non si apre senza le taglie lette, il server cancella solo quelle viste). Rompe altro: il modulo aperto ora non si rimonta più quando la rete torna e resta coi dati di quando si è aperto, senza il blocco del Salva finché i dati non sono riletti né l'avviso «cambiato altrove» che ha la pagina del negozio (seller .../edit/page.tsx:386-416). Esperimento: modulo a 18 €, database a 25 €, nessun avviso, Salva manda price 18 e la PATCH scrive tutti i campi (app/api/admin/products/route.ts:231-244), quindi il prezzo nuovo del negozio verrebbe sovrascritto; alla base il modulo si rimontava con 25 (app/admin/products/[id]/edit/page.tsx:158-189). Raro. Inoltre il caso «la rete torna» della prova (riparazione-r03-admin-prodotto-rete-che-torna.test.tsx:177-188) passa anche sulla base: un solo act lungo nasconde il caricamento; con passi da 5 ms la base smonta il modulo una volta, la testa zero."
   }
  ],
  "campione": {
@@ -194,6 +285,30 @@
    "file": "app/api/auth/signin/route.ts:53-62 · app/api/auth/signin/route.ts:99-104",
    "descrizione": "L'ordine sicuro è il captcha su Supabase prima della variabile (nella finestra l'accesso resta chiuso invece che aperto); su Vercel la variabile cambia solo con un deploy, quindi «nello stesso momento» non è atomico. L'avviso sta solo nel commento della rotta: niente in .env.example, /api/health o nei log, contro la regola di lib/captcha.ts:12-27.",
    "visto_da": "K01, lente nata_rotta su R07-001"
+  },
+  {
+   "titolo": "il modulo prodotto dell'amministratore aperto senza rete può salvare dati vecchi sopra quelli nuovi del negozio",
+   "dimensione": "stati-ui",
+   "severita": "minore",
+   "file": "app/admin/products/[id]/edit/page.tsx:158-189 · app/api/admin/products/route.ts:231-244",
+   "descrizione": "Nato da R03-008: il modulo non si rimonta più quando la rete torna, ma manca il blocco del Salva finché i dati non sono riletti e l'avviso «cambiato altrove» della pagina del negozio (seller .../edit/page.tsx:386-416). La PATCH scrive tutti i campi alla cieca: un prezzo cambiato dal negozio nel frattempo torna quello vecchio.",
+   "visto_da": "K01, lenti su R03-008"
+  },
+  {
+   "titolo": "nella chat Assistenza la bolla appiattisce gli a capo della descrizione e la scheda può contraddire la risposta sui tag che spariscono",
+   "dimensione": "ai-endpoints",
+   "severita": "minore",
+   "file": "components/SupportProductAssistant.tsx:402 · lib/products/prontoPerLaVendita.ts:705 · lib/products/prontoPerLaVendita.ts:724",
+   "descrizione": "Resto di R03-001 non scritto nel cosa_resta: senza whitespace-pre-wrap il negoziante non legge la forma che va in vetrina; la scheda mostra i tag grezzi (con 17 tag la risposta dice «spariscono: dolci, natale» e la scheda li mostra tenuti) e «Descrizione aggiornata» anche per una descrizione di soli spazi che il server non scrive.",
+   "visto_da": "K01, lente chiude_tutta su R03-001"
+  },
+  {
+   "titolo": "il giro dei prezzi esterni consuma il freno di 6 ore dei prodotti in errore anche quando non li prova",
+   "dimensione": "ai-endpoints",
+   "severita": "minore",
+   "file": "app/api/cron/external-price-alerts/route.ts:105 · lib/products/externalSync.ts:292-294 · app/api/cron/external-price-alerts/route.ts:37",
+   "descrizione": "Con il tetto di tempo di R03-003 (o dopo un 404) un prodotto già in errore escluso dal giro torna dopo 6 ore, non al giro dopo come dicono il commento e il referto.",
+   "visto_da": "K01, lenti su R03-003"
   }
  ]
 }
