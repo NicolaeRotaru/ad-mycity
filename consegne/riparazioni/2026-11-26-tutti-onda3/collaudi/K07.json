@@ -5,7 +5,7 @@
   "R20",
   "R17"
  ],
- "aggiornato": "2026-11-26 20:30",
+ "aggiornato": "2026-11-26 23:20",
  "finita": true,
  "voci": [
   {
@@ -41,7 +41,7 @@
   {
    "id": "R21-003",
    "chiave": "flussi-conversione|il filtro «prezzo minimo» taglia sul prezzo pieno, non su quello che il cliente paga",
-   "verdetto": "rompe_altro",
+   "verdetto": "parziale",
    "giudizio": "pieno",
    "lenti": [
     "chiude_tutta",
@@ -49,9 +49,9 @@
    ],
    "rimessa": {
     "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base 4468a8abc3fb949d397c995f60ff06b7a58261e3^ --file lib/queries/griglia-prodotti.ts --prove tests/unit/riparazione-r21-prezzo-minimo.test.ts --json ; timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base 4468a8abc3fb949d397c995f60ff06b7a58261e3^ --file migrations/911_il_prezzo_che_si_paga_lo_calcola_il_database.sql --prove tests/sql/rls/riparazione-r21-prezzo-pagato.test.sql --json --sql k07_rimessa_r21_003"
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base e3071a093cd4fbdd96cb833f1f67024f8ed2d443^ --file lib/queries/griglia-prodotti.ts --prove tests/unit/riparazione-r21-prezzo-minimo.test.ts,tests/unit/riparazione-r21-prezzo-pagato-tempo-scaduto.test.ts --json ; timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base e3071a093cd4fbdd96cb833f1f67024f8ed2d443^ --file migrations/911_il_prezzo_che_si_paga_lo_calcola_il_database.sql --prove tests/sql/rls/riparazione-r21-prezzo-pagato.test.sql,tests/sql/rls/riparazione-r21-prezzo-pagato-veloce.test.sql --json --sql k07_rimessa_r21_003b"
    },
-   "nota": "Revisore qa. Lato funzioni chiude tutta: 14 controlli SQL verdi su 14; l'arrotondamento coincide con discountedUnitCents su 2.430.000 combinazioni; tetto 70, promozioni scadute, future e annullate, sconto per categoria e negozio: tutto uguale a product_active_discounts. Senza la 911 il ripiego regge: 42703, PGRST100, PGRST204 e il conteggio senza corpo danno 0 errori e 1 sonda su 80 richieste. Con tutte le migrazioni la 911 si applica, si riapplica, e la 940 e la 970 non la toccano. Ma: Difetto di scala nato con la 911: prezzo_pagato è una funzione con SET search_path, quindi non si srotola nella query e non si indicizza. Ogni filtro o ordine sul prezzo legge tutti i prodotti, con una sotto-ricerca per ognuno. Misurato da anon: 449 ms su 2.000 prodotti e 4.991 ms su 20.000, contro 1 ms su price. Oltre circa 6-7 mila prodotti si supera il limite di 3 secondi di anon, e il ripiego non riconosce l'errore 57014. In più griglia-prodotti.ts:593 (if (error && pagato)) riconta sul prezzo pieno per QUALUNQUE errore, timeout compreso: il numero sopra la griglia non corrisponde alla lista. Prima di applicare la 911 va contato il catalogo di produzione (sotto mille prodotti circa 0,25 s a richiesta, due richieste per pagina)."
+   "nota": "Ricollaudo del delta e3071a09 (revisore qa). Il prezzo coincide con la cassa: 0 differenze su 4.050.000 combinazioni, tetto 70 compreso; prova SQL 14/14. SECURITY INVOKER: per anon promotions_public_read coincide con i filtri di product_active_discounts, quindi nessuna fuga e nessun prezzo diverso da quello pagato. 241 migrazioni applicate, la 911 due volte senza errori. Il 57014 ora ripiega. La lentezza però è solo spostata: prezzo_pagato si srotola, sconto_che_si_paga no, perché ha SET search_path (911:51) e resta una chiamata per riga, eseguita due volte. Misure da anon: 125 ms su 2.000 prodotti, 1,15 s su 20.000, 2,19 s su 40.000, contro 6/26/51 ms sul prezzo pieno; i 3 s arrivano verso i 50 mila prodotti in locale (prima 7 mila). Minore: conteggio e lista partono in parallelo; se la lista supera i 3 s e il conteggio no, il numero sopra la griglia non torna per 60 s (griglia-prodotti.ts:365-372 contro 597-615). Prova di velocità: soglia assoluta di 3000 ms su 20.000 righe, misurata a 1,2-1,4 s in serie e 1,4-1,9 s con 4 in parallelo (margine 1,6). Sui runner di GitHub a 2 vCPU è al limite dell'instabile: meglio confrontarla con la stessa query sul prezzo pieno, o contare le chiamate per riga. Il 57014 spegne il prezzo pagato per 5 minuti solo in quel browser (client unico per browser, lib/supabase/client.ts:50-58). In quei minuti il filtro minimo e l'ordine seguono il prezzo pieno, il massimo resta giusto. Accettabile: nessun importo addebitato cambia."
   },
   {
    "id": "R21-005",
@@ -183,7 +183,7 @@
   {
    "id": "R21-016",
    "chiave": "frontend-ux|il campo sito del negozio accetta uno spazio nel percorso (https://negozio.it/a b) e lo salva con lo spazio",
-   "verdetto": "rompe_altro",
+   "verdetto": "regge",
    "giudizio": "pieno",
    "lenti": [
     "chiude_tutta",
@@ -191,14 +191,14 @@
    ],
    "rimessa": {
     "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base 7f8588fa6cbf354216b164f92f4c07bce25a837d^ --file lib/store-customization.ts --prove tests/unit/riparazione-r21-sito-percorso-con-spazio.test.ts --json"
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base 87d37e2f929ea16e0da464b5686faed7f016fc0b^ --file lib/store-customization.ts --prove tests/unit/riparazione-r21-sito-gia-salvato-resta.test.tsx --json"
    },
-   "nota": "Lo spazio finale e %20 vanno bene. Ma un sito già salvato con la regola vecchia, per esempio 'https://negozio.it/a b', ora viene scartato da normalizeCustomization. Il link sparisce dalla vetrina (components/store-sections/useStorePageData.ts:113). Poi viene cancellato dal database al primo cambio di colore (components/seller/site/ThemePicker.tsx:65) o di dettagli. È la stessa malattia di R21-012: normalizeCustomization cancella in silenzio i valori salvati che le regole di oggi rifiutano."
+   "nota": "Ricollaudo del delta 87d37e2f (revisore qa). Salvando i dettagli o cambiando colore, «https://negozio.it/a b» già salvato si riscrive uguale nel database e in vetrina resta un link; un valore nuovo con lo spazio è ancora rifiutato. Sicurezza: javascript:, data:, vbscript: (anche storpiati) vengono scartati; diventa link solo ciò che passa /^https?:\\/\\// in socialLinks (store-customization.ts:518-519), ancorato e già senza spazi; React fa l'escape; il JSON-LD sameAs usa solo quegli href. 203/203 prove su sito e social verdi."
   },
   {
    "id": "R21-012",
    "chiave": "frontend-ux|un sito già salvato con ftp:// o scritto male ora blocca il salvataggio di tutto il negozio",
-   "verdetto": "non_regge",
+   "verdetto": "parziale",
    "giudizio": "pieno",
    "lenti": [
     "chiude_tutta",
@@ -206,9 +206,9 @@
    ],
    "rimessa": {
     "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base e62b8621b493d301694bfec3bedc6a4c4ebc9229^ --file components/VendorForm.tsx --prove tests/unit/riparazione-r21-sito-salvato-non-blocca.test.tsx --json"
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base 87d37e2f929ea16e0da464b5686faed7f016fc0b^ --file lib/store-customization.ts --prove tests/unit/riparazione-r21-sito-gia-salvato-resta.test.tsx --json"
    },
-   "nota": "La correzione gira solo nella prova. Sul sito, StoreDetailsEditor.tsx:98 passa i dati salvati da normalizeCustomization (lib/store-customization.ts:257), che scarta 'ftp://sito.it' prima che arrivino al modulo. Quindi VendorForm.tsx:314-333 non scatta mai. La prova lo fa scattare solo con defaultValues grezzi. Effetto reale: il sito salvato non blocca più, ma sparisce in silenzio dal database al primo salvataggio. Sonda: normalizeCustomization({socials:{website:'ftp://sito.it',instagram:'x'}}) restituisce solo instagram."
+   "nota": "Ricollaudo del delta 87d37e2f (revisore qa). Il caso principale regge: con «ftp://sito.it» già salvato, cambiando solo nome o colore il sito resta salvato e il resto si salva. Ma la correzione apre un caso nuovo, che è proprio quello della voce. Se il sito già salvato è fuori regola (ftp o con lo spazio) e il negoziante lo riscrive con un altro valore sbagliato, non si salva più niente: 0 scritture, il nome nuovo si perde. VendorForm.tsx:321 rimette il valore salvato per il secondo controllo, :324 lo rifiuta di nuovo e :325-329 fa return. Senza un sito vecchio, lo stesso valore blocca solo il sito (1 scrittura). Prova sul percorso vero StoreDetailsEditor → VendorForm → profiles, con ftp salvato + «https://altro.it/x y» e con spazio salvato + «ftp://altro.it». Cura: per il secondo controllo trattare come vuoto il sito vecchio fuori regola. Restano fuori, come prima, Instagram, Facebook e TikTok salvati fuori regola: spariscono in lettura e ThemePicker:65 li cancella."
   },
   {
    "id": "R21-013",
