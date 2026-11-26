@@ -3,58 +3,88 @@
  "riparatori": [
   "R11"
  ],
- "aggiornato": "2026-11-26 14:44",
+ "aggiornato": "2026-11-26 14:52",
  "finita": false,
  "voci": [
   {
    "id": "R11-001",
    "chiave": "frontend-ux|nella pagina di una lista il prezzo dei prodotti non tiene conto della promozione",
    "verdetto": "regge",
-   "giudizio": "nessuno",
+   "giudizio": "pieno",
    "rimessa": {
     "uscita": 0,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R11-001 --base e43006ff9af07ccbebed97db7dc61fa27ab87b4f^ --file \"app/lists/[id]/page.tsx\" --prove tests/unit/riparazione-r11-lista-prezzo-scontato.test.ts --json"
-   }
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Due subagenti qa (una lente ciascuno) sulla testa d09057e7a15dbc3440cbea409478de05cddfccd8. chiude_tutta: il prezzo compare in un punto solo (page.tsx:435, barrato :438), stesso discountedUnitCents e stesso client della cassa (lib/ordini/valida-carrello.ts:185), niente totali né aggiunta al carrello dalla lista. nata_rotta: funzione sconti concessa ad anon e authenticated, una chiamata sola, lettura caduta = prezzo pieno, niente precarico né idratazione, chiavi di cache invariate. Dubbio non bloccante: la pagina non ha stato di caricamento e ora aspetta due letture, quindi «Questa lista è ancora vuota» si vede più a lungo (difetto vecchio)."
   },
   {
    "id": "R11-009",
    "chiave": "qa-flussi|eliminata una lista, la pagina «le mie liste» la mostra ancora finché la rilettura non torna",
    "verdetto": "regge",
-   "giudizio": "nessuno",
+   "giudizio": "pieno",
    "rimessa": {
     "uscita": 0,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R11-009 --base b9704fea60602d02c410203a4463270839f2c102^ --file \"app/lists/[id]/page.tsx\" --prove tests/unit/riparazione-r11-lista-eliminata-sparisce-da-le-mie.test.ts --json"
-   }
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Due subagenti qa sulla testa. chiude_tutta: chiavi scritte (lists.mine, lists.public, lists.inVetrina, costanti senza argomenti) uguali a quelle lette in app/lists/page.tsx:54/78/96; le liste compaiono solo lì e nel menu «Aggiungi a lista» (mineMin, già tolta). nata_rotta: tre cache ad array semplice (mine anche null), cache assente non scritta, onError non tocca le cache, navigazione a /lists invariata. Dubbi vecchi, fuori voce: manca cancelQueries su mine/public/inVetrina (una rilettura partita prima dell'eliminazione può rimettere la lista); l'eliminazione non controlla le righe cancellate (page.tsx:224)."
   },
   {
    "id": "R11-007",
    "chiave": "frontend-ux|le collezioni scelte a mano non passano il prezzo barrato del negozio",
    "verdetto": "regge",
-   "giudizio": "nessuno",
+   "giudizio": "pieno",
    "rimessa": {
     "uscita": 0,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R11-007 --base 205790afc59ad8e1addf0a0b88a5c8fbbde84068^ --file components/store-sections/CollectionSection.tsx --prove tests/unit/riparazione-r11-collezione-prezzo-barrato.test.ts --json"
-   }
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Due subagenti qa sulla testa. chiude_tutta: compare_at_price letto e passato a ProductCard in griglia e carosello, stessa conversione di ProductGrid.tsx:747; le collezioni per categoria passano già da ProductGrid. nata_rotta: la colonna esiste su products (migrazione 071:13), SELECT di tabella ad anon e authenticated (425:108), nessun GRANT o REVOKE di colonna; la griglia legge la stessa colonna dalla stessa tabella. Fuori voce, da aprire nuova: components/StoreFeaturedStrip.tsx:46 e :72-84 (striscia «In evidenza») non passa né sconto né prezzo barrato."
   },
   {
    "id": "R11-002",
    "chiave": "frontend-ux|l immagine di anteprima social del prodotto e i dati per i motori di ricerca mostrano il prezzo pieno durante una promozione",
    "verdetto": "regge",
-   "giudizio": "nessuno",
+   "giudizio": "pieno",
    "rimessa": {
     "uscita": 0,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R11-002 --base f18d2819c23d9d90d6098d5a3e07d61d92476e87^ --file \"app/product/[id]/layout.tsx,app/product/[id]/opengraph-image.tsx\" --prove tests/unit/riparazione-r11-anteprima-e-google-col-prezzo-scontato.test.ts --json"
-   }
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Due subagenti qa sulla testa. chiude_tutta: card social (opengraph-image.tsx:49-51) e JSON-LD (layout.tsx:200) scontati; generateMetadata, og e twitter non stampano prezzi, nessun altro Offer nel sito. nata_rotta: in edge lib/promotions aggiunge solo logger e client anonimo già presenti; sito già force-dynamic; sconto con tetto 70%, price stringa a 2 decimali in EUR. Dubbi non bloccanti: con un id non valido due letture inutili e un log fuorviante; l'anteprima non dice «in promo» e resta in cache sui social dopo la fine della promo (scelta di prodotto)."
   },
   {
    "id": "R11-008",
    "chiave": "frontend-ux|orari passati alla cassa e 409 della rotta contanti: le prove cercano parole nel sorgente, non fanno girare pagina e rotta",
-   "verdetto": "regge",
-   "giudizio": "nessuno",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
    "rimessa": {
     "uscita": 0,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R11-008 --base d7d6920aba6417d266572e18421ec2da63a5da65 --file app/api/orders/cod/route.ts --prove tests/unit/riparazione-r11-rotta-contanti-409-prima-dell-insert.test.ts --json"
-   }
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Voce parziale come nel referto: fatta la metà sulla rotta, resta la pagina della cassa. Una voce di sole prove non ha codice da togliere: ho fatto un mutante locale mai spinto (d7d6920aba6417d266572e18421ec2da63a5da65: controllo della fascia spostato dopo l'insert di order_items) e l'ho dato come base a prova-rimessa: la prova nuova cade sul comportamento, le due prove vecchie restano verdi col mutante (il difetto della voce). nata_rotta: orologio rimesso in afterEach, mock solo nel file, dentro l'include di vitest, verde con 4 fusi e con le altre 62 prove della rotta. chiude_tutta: la metà fatta è vera (inseriti registra ogni insert su orders, la controprova 200 passa da route.ts:1587), ma la prova guarda solo l'insert su orders: un mutante col controllo spostato dopo reserve_stock (route.ts:1451) la lascia verde con la merce riservata e non rilasciata; lo stesso per coupon (:1194) e credito (:1460). Il cosa_resta non lo dice."
   }
- ]
+ ],
+ "campione": {
+  "R11": {
+   "accettato": true
+  }
+ }
 }
