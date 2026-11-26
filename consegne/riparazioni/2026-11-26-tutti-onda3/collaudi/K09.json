@@ -1,0 +1,131 @@
+{
+  "collaudatore": "K09",
+  "riparatori": [
+    "R28"
+  ],
+  "aggiornato": "2026-11-26 23:10",
+  "finita": false,
+  "voci": [
+    {
+      "id": "R28-013",
+      "chiave": "sicurezza-auth|la registrazione non passa ancora dal server: niente freno sulle iscrizioni e niente verifica anti-robot",
+      "verdetto": "parziale",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R28 --base edabc206417eaa82d55cce03c33fcf1581da54f2^ --file app/api/auth/signup/route.ts --prove tests/unit/riparazione-r28-registrazione-dal-server.test.ts --json"
+      },
+      "nota": "Parziale come dichiarato: la rotta app/api/auth/signup/route.ts porta ruolo (solo buyer/seller/rider), nome e versione, ma nessuna pagina la chiama ancora. Attenzione da tenere: con CAPTCHA_SU_SUPABASE_ACCESO=1 e il CAPTCHA spento su Supabase nessuno verifica il gettone (la rotta lo dice: «insieme, mai prima»)."
+    },
+    {
+      "id": "R28-005",
+      "chiave": "microcopy|in registrazione e nel cambio password del profilo il rifiuto di una password debole o rubata non si traduce o si perde",
+      "verdetto": "PENDING",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R28 --base 22942d1f58977a5f7389cc6c5cca1d450ec5cb81^ --file app/api/account/cambia-password/route.ts,app/api/auth/signup/route.ts --prove tests/unit/riparazione-r28-password-debole.test.ts --json"
+      }
+    },
+    {
+      "id": "R28-012",
+      "chiave": "sicurezza-auth|col captcha acceso su supabase il cambio password fallirebbe sempre, con l'errore letto come «password non corretta»",
+      "verdetto": "parziale",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R28 --base 36b16db4936c66f64c0889e84aee754f0348a7fb^ --file app/api/account/cambia-password/route.ts --prove tests/unit/riparazione-r28-cambio-password-captcha.test.ts --json"
+      },
+      "nota": "Parziale come dichiarato: captcha_failed ora dà 400 onesto e la rotta accetta captchaToken, ma la pagina del profilo non lo manda; col CAPTCHA acceso il cambio password fallisce ancora."
+    },
+    {
+      "id": "R28-010",
+      "chiave": "qa-flussi|la contestazione parziale vinta, con la memoria di postgrest vecchia, scrive il tentativo nuovo ma lascia il promemoria della quota: una ripetizione di stripe rifà il bonifico con una chiave nuova",
+      "verdetto": "PENDING",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R28 --base fd6c217f06e91d8d2a513d8e32c44f4eadde3ea2^ --file lib/stripe/webhook/contestazione-parziale-vinta.ts --prove tests/unit/riparazione-r28-contestazione-parziale-ripiego.test.ts --json"
+      }
+    },
+    {
+      "id": "R28-009",
+      "chiave": "qa-flussi|il reso di un solo articolo: il cliente vede il prezzo pieno della riga, il negozio si vede proporre la riga meno la sua parte di sconto",
+      "verdetto": "parziale",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R28 --base ff3f564e4c36d616fc8c6dd42dd3c10e9baa8dad^ --file app/seller/orders/[id]/page.tsx --prove tests/unit/riparazione-r28-reso-di-una-riga.test.tsx --json"
+      },
+      "nota": "Parziale come dichiarato: la colonna order_items.variant_label esiste (migrations/080_product_variants.sql:37), quindi la select nuova non rompe la pagina del negozio; resta il prezzo pieno nella pagina del cliente (app/orders/[id]/return/page.tsx)."
+    },
+    {
+      "id": "R28-008",
+      "chiave": "qa-flussi|col doppio clic su «rifiuta ordine» compare anche un avviso rosso di errore, e l'aiuto dice che il motivo è obbligatorio e promette un rimborso che coi contanti non esiste",
+      "verdetto": "PENDING",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R28 --base 2a58b633cbd18f4213598e72004477cb43670552^ --file app/seller/orders/[id]/page.tsx,app/api/seller/orders/[id]/reject/route.ts,app/seller/help/domande.ts --prove tests/unit/riparazione-r28-rifiuto-del-negozio.test.ts,tests/unit/riparazione-r28-rifiuto-doppio-tocco.test.tsx --json"
+      }
+    },
+    {
+      "id": "R28-001",
+      "chiave": "dati-analytics|il cancello del filmato copia senza pulirle le chiavi dell'evento diverse da data",
+      "verdetto": "PENDING",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R28 --base 6c2f9a9561d1e7cbf1bbff996ae7c27e9bee3ebe^ --file lib/analytics/filmato-senza-dati-personali.ts --prove tests/unit/riparazione-r28-filmato-chiavi-dell-evento.test.ts --json"
+      }
+    },
+    {
+      "id": "R28-004",
+      "chiave": "layout-responsive|in chi siamo i due pulsanti della fascia scura finale escono dalla fascia a 280 px col testo al 200%",
+      "verdetto": "PENDING",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R28 --base bf54ece3a2847de66df39cd8cf269c56df08d974^ --file app/about/page.tsx --prove tests/unit/riparazione-r28-chi-siamo-fascia.test.ts --json"
+      }
+    },
+    {
+      "id": "R28-006",
+      "chiave": "privacy-legale|«chi siamo» e «lavora con noi» raccontano una flotta di rider, una crescita e quattro posti di lavoro che oggi non esistono",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Nessun commit, niente da rimettere. Meta (a) verificata alla base aac2350b: app/about/page.tsx non ha «flotta» né crescite promesse (righe 216-217 «Siamo all'inizio: cresceremo un quartiere alla volta»), metadata pulita. Meta (b) aperta: le 4 posizioni di app/lavora-con-noi/page.tsx restano. Parziale, come dichiarato.",
+      "rimessa": {
+        "uscita": 2,
+        "comando": "nessuno: la voce non ha commit (meta (a) già a posto alla base, meta (b) non toccata), quindi non c'è una correzione da togliere; controllo a mano su aac2350b:app/about/page.tsx"
+      }
+    },
+    {
+      "id": "R28-007",
+      "chiave": "privacy-legale|«lavora con noi» promette ancora un lavoro da rider con compenso fisso e turni, e «entra nel team» rimanda a posizioni che non ci sono",
+      "verdetto": "parziale",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R28 --base dfe98f7dbcd89c89a45d69e581197adba1ed4554^ --file app/lavora-con-noi/page.tsx --prove tests/unit/riparazione-r28-lavora-con-noi-onesto.test.tsx --json"
+      },
+      "nota": "Parziale come dichiarato: via turni, compenso fisso e «Vedi le posizioni»; restano le 4 posizioni con «Candidati» (legate a R28-006)."
+    },
+    {
+      "id": "R28-003",
+      "chiave": "frontend-ux|orari passati alla cassa e 409 della rotta contanti: le prove cercano parole nel sorgente, non fanno girare pagina e rotta",
+      "verdetto": "parziale",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R28 --base 0b0190a564e71ea3381a6562afeacab047d70466 --file app/checkout/page.tsx --prove tests/unit/riparazione-r28-cassa-orari.test.tsx --json  (base = mutante locale K09, mai spinto: useMemo di orariNegozi che dà [] alla riga 415, sulla testa ade4d1f8)"
+      },
+      "nota": "Parziale come dichiarato: la prova monta la pagina e cade col mutante (useMemo []), ma non guarda il ricontrollo all'invio (consegnaScelta, app/checkout/page.tsx:1384)."
+    }
+  ],
+  "campione": {}
+}
