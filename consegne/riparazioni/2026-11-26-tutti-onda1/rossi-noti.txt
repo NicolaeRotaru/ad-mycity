@@ -10,3 +10,4 @@ ramo R09 ccr-a672a2b3-92w5w1-m09
 ramo R10 ccr-a672a2b3-92w5w1-m10
 ramo R11 ccr-a672a2b3-92w5w1-m11
 guardia R10 ccr-a672a2b3-92w5w1-m10 prova comune
+ferma R05 2d9c700
