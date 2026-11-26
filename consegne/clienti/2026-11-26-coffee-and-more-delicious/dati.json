@@ -1,0 +1,470 @@
+{
+  "nome": "Coffee & More Delicious",
+  "tipo": "Bar e caffetteria di quartiere",
+  "citta": "Piacenza",
+  "indirizzo": "Via Francesco Saverio Bianchi 29, 29122 Piacenza",
+  "data": "2026-11-26 17:11",
+  "foto": null,
+  "link_google": "https://maps.app.goo.gl/jkXYaegN8jZjUghC6",
+  "stato_mycity": "Non è su MyCity (controllato il 26/11 alle 17:10)",
+  "consigliato": "base",
+  "in_30_secondi": [
+    "Bar in Via Francesco Saverio Bianchi 29, circa un chilometro e mezzo a sud-ovest del centro.",
+    "Su Google ha 5 stelle su 5, ma da sole 3 recensioni: l'ultima è di circa 8 mesi fa.",
+    "La scheda Google non è rivendicata: niente orari, niente telefono, la copertina è un'immagine di Street View e il «sito» è la pagina Facebook.",
+    "Le recensioni sono poche ma tutte da 5 stelle: il punto forte da verificare di persona è chi sta al banco.",
+    "Non è su MyCity. Attenzione all'omonima «Gastronomia Delicious» in Via Leonardo da Vinci: chiedi se c'è un legame."
+  ],
+  "gancio": "Su Google avete 5 stelle, ma chi vi cerca non trova né gli orari né un numero da chiamare, e la scheda non è nemmeno a vostro nome. In una settimana la mettiamo a posto, con le foto vere del vostro banco: così chi passa in Via Bianchi sa che siete aperti.",
+  "perche_consigliato": "Oggi non c'è un sito (Google rimanda a Facebook) e la scheda Google è vuota e non rivendicata: per la tabella firmata, nessun sito vuol dire bozza dal Base. Il Base copre esattamente quello che manca: sito di una pagina, scheda Google sistemata all'avvio, 8 contenuti al mese, una sessione di foto. Il Business serve quando ci sono recensioni a cui rispondere (oggi sono 3) e voglia di video: si propone come secondo passo, dopo due o tre mesi.",
+  "perche_consigliato_cliente": "Per voi consigliamo il Base: vi mette su Google con orari, telefono e foto vere, vi dà un sito vostro e 2 contenuti a settimana. È il passo giusto per farvi trovare da chi non vi conosce. Quando vorrete i video, si sale al Business.",
+  "campi": [
+    {
+      "voce": "Nome",
+      "valore": "Coffee & More Delicious",
+      "stato": "confermato",
+      "fonte": "https://maps.app.goo.gl/jkXYaegN8jZjUghC6"
+    },
+    {
+      "voce": "Tipo",
+      "valore": "Bar (categoria della scheda Google)",
+      "stato": "confermato",
+      "fonte": "https://maps.app.goo.gl/jkXYaegN8jZjUghC6"
+    },
+    {
+      "voce": "Indirizzo",
+      "valore": "Via Francesco Saverio Bianchi 29, 29122 Piacenza",
+      "stato": "confermato",
+      "fonte": "https://maps.app.goo.gl/jkXYaegN8jZjUghC6"
+    },
+    {
+      "voce": "Telefono del bar",
+      "valore": null,
+      "stato": "non_trovato",
+      "fonte": null
+    },
+    {
+      "voce": "Orari",
+      "valore": null,
+      "stato": "non_trovato",
+      "fonte": null
+    },
+    {
+      "voce": "Sito",
+      "valore": "Nessun sito: nella scheda Google il campo «sito web» porta alla pagina Facebook",
+      "stato": "confermato",
+      "fonte": "https://maps.app.goo.gl/jkXYaegN8jZjUghC6"
+    },
+    {
+      "voce": "Scheda Google",
+      "valore": "Non rivendicata (c'è il pulsante «Rivendica questa attività»); senza orari né telefono; copertina presa da Street View",
+      "stato": "confermato",
+      "fonte": "https://maps.app.goo.gl/jkXYaegN8jZjUghC6"
+    },
+    {
+      "voce": "Recensioni Google",
+      "valore": "5 su 5, da 3 recensioni: una di circa un anno fa, due di circa 8 mesi fa",
+      "stato": "confermato",
+      "fonte": "https://search.google.com/local/reviews?placeid=ChIJ15l9nP_dgEcREAVaBYkdfuA"
+    },
+    {
+      "voce": "Accessibilità",
+      "valore": "Ingresso accessibile in sedia a rotelle",
+      "stato": "confermato",
+      "fonte": "https://maps.app.goo.gl/jkXYaegN8jZjUghC6"
+    },
+    {
+      "voce": "Cani",
+      "valore": "«Cani ammessi» compare nei dati della scheda Google",
+      "stato": "frammento",
+      "fonte": "https://maps.app.goo.gl/jkXYaegN8jZjUghC6"
+    },
+    {
+      "voce": "Facebook",
+      "valore": "facebook.com/CoffeeMoreDelicious: circa 650 mi piace, 25 visite segnate; frase di presentazione «Non esiste buongiorno che non porti con sé il profumo dell'espresso»",
+      "stato": "da_confermare",
+      "fonte": "https://www.facebook.com/CoffeeMoreDelicious/"
+    },
+    {
+      "voce": "Instagram",
+      "valore": null,
+      "stato": "non_trovato",
+      "fonte": null
+    },
+    {
+      "voce": "TikTok",
+      "valore": null,
+      "stato": "non_trovato",
+      "fonte": null
+    },
+    {
+      "voce": "Tripadvisor",
+      "valore": null,
+      "stato": "non_trovato",
+      "fonte": null
+    },
+    {
+      "voce": "Cosa vende",
+      "valore": "Un elenco lo etichetta con caffè, dolci e negozio: il «& More» non è descritto da nessuna parte",
+      "stato": "frammento",
+      "fonte": "https://www.oraridiapertura24.it/filiale/Piacenza-coffee-1867174I.html"
+    },
+    {
+      "voce": "Vicini",
+      "valore": "Al civico 35 della stessa via c'è un altro bar (Bar Perla)",
+      "stato": "da_confermare",
+      "fonte": "https://www.tuttocitta.it/bar/piacenza/via-francesco-saverio-bianchi"
+    },
+    {
+      "voce": "Omonimo",
+      "valore": "Gastronomia Delicious, Via Leonardo da Vinci 79: gastronomia e pasticceria, 4,9 su 5 da 10 recensioni su Sluurpy. Legame non dimostrato",
+      "stato": "da_confermare",
+      "fonte": "https://www.paginebianche.it/scheda/piacenza/delicious-pollaroli-roberto-sakaue-chie.2271759"
+    }
+  ],
+  "ha": [
+    "Il voto pieno su Google: 5 su 5, anche se da sole 3 recensioni.",
+    "Recensioni tutte da 5 stelle (3 in tutto): i testi non si riportano, per la regola privacy del 26/11.",
+    "Una frase di presentazione su Facebook che è già un'idea di marchio: «Non esiste buongiorno che non porti con sé il profumo dell'espresso».",
+    "Una pagina Facebook con circa 650 mi piace.",
+    "L'ingresso accessibile in sedia a rotelle, segnato su Google."
+  ],
+  "non_ha": [
+    "Un sito: Google rimanda alla pagina Facebook.",
+    "Una scheda Google rivendicata: oggi chiunque può proporre modifiche al posto del titolare.",
+    "Orari e telefono sulla scheda Google.",
+    "Foto vere del locale come copertina: c'è un'immagine di Street View.",
+    "Un profilo Instagram o TikTok trovato.",
+    "Un modo per ordinare o prenotare senza venire al bar."
+  ],
+  "migliorare": [
+    "Le recensioni: 3 in tutto, l'ultima di circa 8 mesi fa. Vanno chieste ai clienti abituali.",
+    "Il «& More»: cosa c'è oltre il caffè (dolci? pranzo veloce? aperitivo?) non lo dice nessuna pagina in rete.",
+    "La pagina Facebook: ogni quanto pubblica non l'ho potuto vedere da qui.",
+    "La categoria su Google: oggi solo «Bar»; se fanno colazione o pasticceria va aggiunta."
+  ],
+  "reputazione": {
+    "sintesi": "5 su 5 su Google da 3 recensioni soltanto: la più recente è di circa 8 mesi fa. Sono poche per convincere chi non li conosce. I testi non si riportano: si usano solo i temi citati da almeno 3 recensioni, e qui non ce n'è nessuno (regola privacy del 26/11).",
+    "positivi": [
+      "Tutte e 3 le recensioni sono da 5 stelle; due hanno un breve testo, da leggere dal telefono prima di entrare."
+    ],
+    "negativi": [
+      "Nessuna recensione negativa trovata.",
+      "Il problema è il numero: con 3 recensioni la scheda pesa poco nelle ricerche, perché Google guarda anche quante sono e quanto sono recenti."
+    ]
+  },
+  "sito": {
+    "livello": "nessuno",
+    "numeri": [],
+    "giudizio": "Non c'è un sito: nella scheda Google il campo «sito web» porta alla pagina Facebook. Per la tabella firmata da Nicola è «nessun sito», quindi la bozza parte dal Base.",
+    "fonte": "https://maps.app.goo.gl/jkXYaegN8jZjUghC6"
+  },
+  "social": [
+    {
+      "canale": "Scheda Google Maps",
+      "stato": "trovato",
+      "livello": "Vuota, non rivendicata",
+      "giudizio": "5 su 5 da 3 recensioni. Niente orari, niente telefono, copertina di Street View, e il pulsante «Rivendica questa attività»: nessuno la sta curando.",
+      "fonte": "https://maps.app.goo.gl/jkXYaegN8jZjUghC6"
+    },
+    {
+      "canale": "Facebook",
+      "stato": "trovato",
+      "livello": "C'è, da vedere",
+      "giudizio": "Circa 650 mi piace e una bella frase di presentazione. Ogni quanto pubblica non l'ho potuto vedere da qui.",
+      "fonte": "https://www.facebook.com/CoffeeMoreDelicious/"
+    },
+    {
+      "canale": "Instagram",
+      "stato": "non_trovato",
+      "livello": "Non trovato",
+      "giudizio": "Ci sono vari «Coffee & More» su Instagram, ma nessuno di Piacenza.",
+      "fonte": null
+    },
+    {
+      "canale": "TikTok",
+      "stato": "non_trovato",
+      "livello": "Non trovato",
+      "giudizio": "Nessun profilo.",
+      "fonte": null
+    }
+  ],
+  "potenziale": [
+    "La scheda Google è il primo cliente da conquistare: rivendicata e completa (orari, telefono, foto vere, categorie giuste) si vede nelle ricerche «bar vicino a me» in una o due settimane.",
+    "Le recensioni: un bar con clienti abituali può passare da 3 a qualche decina in pochi mesi, se le chiede al banco (stima, da misurare).",
+    "Al civico 35 della stessa via c'è un altro bar: chi decide all'ultimo momento sceglie chi vede meglio su Google.",
+    "Chi sta al banco può essere il volto dei contenuti, se lo vuole: lo si capisce in negozio.",
+    "Su MyCity: colazioni e dolci da ordinare e ritirare, se li fanno. Sugli ordini fatti da MyCity c'è il 10%; quello che vendono al banco resta tutto loro."
+  ],
+  "offerta": [
+    {
+      "servizio": "La scheda Google rimessa a posto",
+      "perche": "Rivendicata a nome del titolare, con orari, telefono, foto vere e le categorie giuste. È la cosa che porta clienti nuovi più in fretta."
+    },
+    {
+      "servizio": "Un sito di una pagina",
+      "perche": "Oggi il «sito» è Facebook. Una pagina sola, veloce dal telefono, col nome, il caffè, gli orari e come arrivare."
+    },
+    {
+      "servizio": "8 contenuti al mese",
+      "perche": "Due a settimana su Facebook, e Instagram aperto da zero se lo vogliono. Testi e foto li prepariamo noi, il titolare approva l'anteprima su WhatsApp."
+    },
+    {
+      "servizio": "Foto con scattiDG",
+      "perche": "Una sessione all'avvio: il banco, il caffè, il locale. Prendono il posto dell'immagine di Street View che oggi fa da copertina."
+    },
+    {
+      "servizio": "Analisi d'avvio",
+      "perche": "Scheda Google, Facebook e concorrenza in via: cosa migliorare, messo per iscritto."
+    },
+    {
+      "servizio": "Vetrina su MyCity",
+      "perche": "Per ordinare in rete e ritirare al bar. Su questi ordini MyCity prende il 10%, che paga consegna e servizio; sulle vendite al banco niente."
+    }
+  ],
+  "domande": [
+    "Quali sono gli orari veri, giorno per giorno, festivi compresi?",
+    "Che cosa c'è nel «& More»: dolci, colazione, panini, pranzo, aperitivo?",
+    "La scheda Google l'avete mai gestita voi? Google la mostra come non rivendicata.",
+    "C'è un numero del bar da mettere su Google?",
+    "Chi pubblica sulla pagina Facebook, e ogni quanto?",
+    "Avete un legame con la Gastronomia Delicious di Via Leonardo da Vinci?",
+    "Cosa vendereste anche fuori dal bar: colazioni da portare via, vassoi, torte?"
+  ],
+  "obiezioni": [
+    {
+      "obiezione": "Ho già Facebook, mi basta.",
+      "risposta": "Facebook lo vede chi vi segue già. Chi cerca un bar su Google oggi trova una scheda senza orari né telefono. Noi sistemiamo la strada da cui arrivano i clienti nuovi."
+    },
+    {
+      "obiezione": "Non ho tempo per i social.",
+      "risposta": "Non vi serve: le foto le fa scattiDG, i testi li scriviamo noi, voi approvate l'anteprima su WhatsApp."
+    },
+    {
+      "obiezione": "300 euro al mese sono tanti per un bar.",
+      "risposta": "Il primo mese costa la metà e non c'è vincolo: si disdice con 30 giorni di preavviso. Per pareggiare basta l'incasso di una decina di caffè in più al giorno."
+    },
+    {
+      "obiezione": "Poi mi prendete una percentuale.",
+      "risposta": "Su quello che vendete al banco, niente. Sui prodotti venduti tramite MyCity c'è il 10%, anche con l'abbonamento: paga la consegna e il servizio."
+    }
+  ],
+  "attenzione": [
+    "Il 10% sui prodotti venduti tramite MyCity resta anche con l'abbonamento (regola del 26/11): dillo subito, mai «nessuna percentuale».",
+    "Omonimo: «Gastronomia Delicious», Via Leonardo da Vinci 79, gastronomia e pasticceria. Può essere della stessa famiglia oppure no: chiedilo, non darlo per scontato.",
+    "Su Instagram ci sono altri «Coffee & More» di altre città (Mesero, Mariano Comense): non citarli.",
+    "Nei dati Google una voce è firmata «Coffee & More Delicious (Proprietario)», ma la scheda ha il pulsante «Rivendica questa attività»: forse qualcuno l'ha gestita in passato. Chiedi chi ha l'accesso prima di promettere i tempi.",
+    "Orari e telefono non vanno scritti da nessuna parte finché il titolare non li dà.",
+    "I dati della scheda Google li ho letti direttamente; Facebook e gli elenchi solo dai riassunti della ricerca.",
+    "Regola del 26/11 (parere legale): i testi delle recensioni non si citano, né nella scheda né nella proposta; da Google si salva solo l'identificativo della scheda. Voti e dati letti da Google restano qui in attesa della decisione di Nicola."
+  ],
+  "fonti": [
+    {
+      "titolo": "Scheda Google Maps (il link del venditore)",
+      "url": "https://maps.app.goo.gl/jkXYaegN8jZjUghC6"
+    },
+    {
+      "titolo": "Recensioni Google",
+      "url": "https://search.google.com/local/reviews?placeid=ChIJ15l9nP_dgEcREAVaBYkdfuA"
+    },
+    {
+      "titolo": "Facebook, pagina Coffee & More Delicious",
+      "url": "https://www.facebook.com/CoffeeMoreDelicious/"
+    },
+    {
+      "titolo": "Orari di apertura 24, scheda Coffee & More Delicious",
+      "url": "https://www.oraridiapertura24.it/filiale/Piacenza-coffee-1867174I.html"
+    },
+    {
+      "titolo": "Tuttocittà, bar di Via Francesco Saverio Bianchi",
+      "url": "https://www.tuttocitta.it/bar/piacenza/via-francesco-saverio-bianchi"
+    },
+    {
+      "titolo": "PagineBianche, Gastronomia Delicious (omonimo)",
+      "url": "https://www.paginebianche.it/scheda/piacenza/delicious-pollaroli-roberto-sakaue-chie.2271759"
+    },
+    {
+      "titolo": "Sluurpy, recensioni di Gastronomia Delicious (omonimo)",
+      "url": "https://www.sluurpy.it/piacenza/ristorante/8582221/gastronomia-delicious/recensioni"
+    }
+  ],
+  "proposta": {
+    "saluto": "Abbiamo guardato Coffee & More Delicious come la vede chi vi cerca dal telefono. Chi vi conosce vi lascia recensioni ottime. Chi non vi conosce, oggi, su Google non trova né gli orari né un numero da chiamare.",
+    "forti": [
+      "Su Google avete il voto pieno: 5 su 5.",
+      "Chi vi ha recensito su Google ne è uscito contento.",
+      "Avete già una frase che vi racconta: «Non esiste buongiorno che non porti con sé il profumo dell'espresso».",
+      "Circa 650 persone hanno messo mi piace alla vostra pagina Facebook."
+    ],
+    "deboli": [
+      "Su Google non ci sono orari: chi vuole passare non sa se vi trova aperti.",
+      "Non c'è un numero da chiamare, e la scheda Google non è a vostro nome.",
+      "Le recensioni sono 3, l'ultima di circa 8 mesi fa: poche per farsi scegliere da chi non vi conosce.",
+      "Al posto delle vostre foto, su Google c'è un'immagine di Street View.",
+      "Non avete un sito: Google manda a Facebook, che non tutti aprono.",
+      "Su Instagram, oggi, non vi trova nessuno."
+    ],
+    "cosa_facciamo": [
+      {
+        "tema": "Google Maps",
+        "oggi": "Scheda non rivendicata, senza orari né telefono",
+        "con_noi": "Scheda a vostro nome, con orari, telefono, foto vere e le categorie giuste"
+      },
+      {
+        "tema": "Sito",
+        "oggi": "Nessun sito: Google manda a Facebook",
+        "con_noi": "Un sito di una pagina col vostro nome, veloce dal telefono"
+      },
+      {
+        "tema": "Social",
+        "oggi": "Facebook c'è, Instagram no",
+        "con_noi": "8 contenuti al mese, 2 a settimana; voi approvate l'anteprima su WhatsApp"
+      },
+      {
+        "tema": "Foto",
+        "oggi": "La copertina è un'immagine di Street View",
+        "con_noi": "Una sessione con scattiDG all'avvio: il banco, il caffè, il locale"
+      },
+      {
+        "tema": "Vendite",
+        "oggi": "Solo al banco",
+        "con_noi": "Vetrina su MyCity per ordinare e ritirare; il 10% solo sugli ordini fatti da MyCity"
+      }
+    ],
+    "standard_sito": [
+      "Si apre in meno di 3 secondi dal telefono (la misura di Google per i siti veloci).",
+      "Nome, indirizzo e telefono identici a quelli della scheda Google.",
+      "Dati per Google in formato schema.org: orari e indirizzo li leggono anche i motori di ricerca.",
+      "Leggibile da tutti: contrasto dei testi e descrizione delle immagini secondo le regole WCAG 2.1.",
+      "Pensato prima per il telefono, poi per il computer.",
+      "Nessun cookie di profilazione, quindi nessun banner da chiudere."
+    ],
+    "piano": {
+      "mese": "dicembre 2026",
+      "nota": "8 contenuti, 2 a settimana, come prevede il Base. I temi partono da quello che abbiamo letto in rete: prodotti, orari e persone li confermiamo con voi prima di pubblicare.",
+      "righe": [
+        {
+          "data": "mar 1/12",
+          "formato": "Post",
+          "tema": "Il buongiorno di Via Bianchi",
+          "testo": "La vostra frase su una foto della tazzina: «Non esiste buongiorno che non porti con sé il profumo dell'espresso.»"
+        },
+        {
+          "data": "ven 4/12",
+          "formato": "Carosello",
+          "tema": "Chi c'è dietro il banco",
+          "testo": "La titolare si presenta, se lo vuole: chi è, da quando c'è, come le piace il caffè. Partiamo dalle persone."
+        },
+        {
+          "data": "mar 8/12",
+          "formato": "Post",
+          "tema": "Immacolata: siamo aperti",
+          "testo": "Gli orari della festa, confermati con voi. Chi passa sa cosa trova."
+        },
+        {
+          "data": "ven 11/12",
+          "formato": "Carosello",
+          "tema": "Il «& More»",
+          "testo": "Quello che c'è oltre il caffè, una foto per ogni cosa. L'elenco lo scegliamo con voi."
+        },
+        {
+          "data": "mar 15/12",
+          "formato": "Post",
+          "tema": "Il caffè come piace a te",
+          "testo": "Le varianti che preparate, in una grafica semplice. «Chiedi e te lo facciamo come lo vuoi.»"
+        },
+        {
+          "data": "ven 18/12",
+          "formato": "Post",
+          "tema": "Una recensione, un grazie",
+          "testo": "Una delle vostre recensioni da 5 stelle in grafica, con un invito: «Sei passato da noi? Raccontalo su Google.»"
+        },
+        {
+          "data": "mar 22/12",
+          "formato": "Carosello",
+          "tema": "Il bar vestito per le feste",
+          "testo": "Il locale con gli addobbi di Natale e le foto della settimana."
+        },
+        {
+          "data": "gio 24/12",
+          "formato": "Post",
+          "tema": "Vigilia: orari e auguri",
+          "testo": "Gli orari di Natale e Santo Stefano, e un grazie a chi passa ogni mattina."
+        }
+      ]
+    },
+    "primi_30_giorni": [
+      {
+        "quando": "Settimana 1",
+        "cosa": "Mezz'ora al bar con voi: orari, telefono, cosa c'è nel «& More», accesso a Facebook. Rivendichiamo insieme la scheda Google. Sessione di foto con scattiDG."
+      },
+      {
+        "quando": "Settimana 2",
+        "cosa": "La scheda Google è completa: orari, telefono, foto vere. Il sito di una pagina va online. Vi consegniamo l'analisi d'avvio ed escono i primi 2 contenuti."
+      },
+      {
+        "quando": "Settimana 3",
+        "cosa": "Instagram aperto, se lo volete; la vetrina MyCity con quello che si può ordinare e ritirare, se la volete."
+      },
+      {
+        "quando": "Settimana 4",
+        "cosa": "Il piano di gennaio preparato con voi: i temi del mese dopo, da approvare su WhatsApp."
+      }
+    ],
+    "su_misura": {
+      "base": "Un sito di una pagina col caffè, gli orari giusti e come arrivare in Via Bianchi; 8 contenuti al mese su Facebook e Instagram; la scheda Google rivendicata e completata all'avvio.",
+      "business": "Un sito di più pagine (il caffè, il «& More», il locale); 3 contenuti a settimana con 2 video del banco; le risposte alle recensioni scritte da noi, per farne crescere il numero.",
+      "premium": "Foto e video del banco ogni mese, le storie quotidiane con la titolare, la scheda Google curata ogni mese e un incontro al mese per leggere i numeri insieme."
+    }
+  },
+  "sito_bozza": {
+    "schema_tipo": "CafeOrCoffeeShop",
+    "palette": {
+      "fondo": "#F3ECE2",
+      "testo": "#24170F",
+      "accento": "#9A4F12",
+      "tenue": "#6F5F52",
+      "carta": "#FFFFFF"
+    },
+    "sfondo_eroe": "#3B2416",
+    "testo_eroe": "#F3ECE2",
+    "font": {
+      "titoli": "Lora",
+      "testo": "Nunito Sans"
+    },
+    "sopra_titolo": "Bar · caffetteria",
+    "claim": "Il buongiorno comincia dal profumo dell'espresso.",
+    "azione": "Come arrivare",
+    "lingue": [
+      "it"
+    ],
+    "chi_siamo": "Siamo il bar di Via Francesco Saverio Bianchi. Per noi non esiste buongiorno senza il profumo dell'espresso: lo prepariamo come piace a voi, con un sorriso al banco.",
+    "cosa_offriamo": [
+      {
+        "titolo": "Caffetteria",
+        "testo": "L'espresso e le sue varianti, preparati al momento."
+      },
+      {
+        "titolo": "Colazione",
+        "testo": "Qualcosa di buono da accompagnare al caffè, ogni mattina."
+      },
+      {
+        "titolo": "& More",
+        "testo": "Quello che c'è oltre il caffè lo scopri al banco: chiedici cosa abbiamo preparato oggi."
+      },
+      {
+        "titolo": "Un posto per tutti",
+        "testo": "Ingresso accessibile in sedia a rotelle."
+      }
+    ],
+    "extra": [],
+    "dove_siamo": "Via Francesco Saverio Bianchi 29, 29122 Piacenza.",
+    "orari": "Orari da confermare con il titolare: oggi non sono scritti da nessuna parte.",
+    "contatti": {
+      "indirizzo": "Via Francesco Saverio Bianchi 29, 29122 Piacenza",
+      "telefono": null,
+      "altro": "Facebook: Coffee & More Delicious"
+    },
+    "foto_segnaposto": "Qui la foto del banco e della tazzina, scattata da scattiDG"
+  }
+}

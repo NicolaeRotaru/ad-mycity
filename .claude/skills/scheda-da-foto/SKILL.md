@@ -1,7 +1,10 @@
 ---
 name: scheda-da-foto
 description: >-
-  Aprila appena una sessione riceve la FOTO di un negozio, di un locale o di un'azienda (insegna, vetrina,
+  Aprila appena una sessione riceve il LINK GOOGLE MAPS di un'attività (maps.app.goo.gl/…, google.com/maps/…,
+  goo.gl/maps/…), anche senza una parola: è la strada veloce, proposta pronta in meno di un minuto con
+  `node cervello/da-link-maps.mjs <link> --lampo`. Aprila anche quando arriva la FOTO di un negozio, di un
+  locale o di un'azienda (insegna, vetrina,
   ingresso, biglietto da visita), anche senza una parola, oppure il solo NOME di un'attività con «fai la
   scheda», «scheda di questo negozio», «analizza questa attività», «proposta per [nome]», «preventivo per
   [nome]». Due momenti. ① La PROPOSTA, subito: la sessione legge chi è, cerca sul web indirizzo, telefono,
@@ -42,6 +45,39 @@ era la stessa pagina, oggi si chiama `proposta.html`.
 
 Le pagine le scrive **sempre** il programma `cervello/scheda-cliente.mjs`: la sessione scrive solo `dati.json`.
 Così due sessioni diverse consegnano la stessa forma, e i controlli non dipendono dalla memoria di chi scrive.
+
+## La strada veloce: dal link Google, in meno di un minuto
+
+> **Da dove viene.** Nicola, 26/11/2026 17:00: «noi ti mandiamo solamente il link Google dell'attività …
+> prepararcele il più velocemente possibile, in meno di un minuto, e darci già la presentazione». Prima prova:
+> Coffee & More Delicious, `consegne/clienti/2026-11-26-coffee-and-more-delicious/`. Il programma ha letto la
+> scheda Google in 1 secondo; con le pagine scritte e controllate, sotto i 3.
+
+> ⚠️ **Bloccata in attesa di Nicola (26/11/2026 17:35).** Il parere legale del 26/11 (fatto
+> `agenzia.rapporto-imprenditore`) dice che da Google si salva solo l'identificativo della scheda, e che le
+> recensioni entrano solo come temi, mai come testi. Il programma oggi salva solo `place_id` e `cid` e non cita
+> le recensioni. Restano da decidere due cose: se si può leggere la pagina pubblica di Google Maps senza
+> l'interfaccia ufficiale, e se i voti Google possono stare nella proposta. Finché Nicola non decide, la
+> proposta lampo non si mostra al titolare.
+
+Quando arriva un link Google Maps (o il nome con la città, se il link non c'è):
+
+1. `node cervello/da-link-maps.mjs "<link>" --lampo` — legge la scheda Google come la vede chiunque (nome,
+   categorie, indirizzo, telefono, orari, sito, voto, recensioni coi testi, descrizione, servizi, se è
+   rivendicata, se la copertina è Street View), scrive `google.json` e un `dati.json` completo con testi da
+   regole, e chiama `scheda-cliente.mjs`. Deve stampare ✓. I dati letti dalla scheda sono `confermato`, con
+   fonte il link. Dei recensori non legge mai i nomi; i testi delle recensioni non finiscono nelle pagine;
+   `google.json` tiene solo `place_id` e `cid`.
+2. **Guarda se c'è già** su MyCity (passo 2 qui sotto: una query, pochi secondi) e scrivilo in `stato_mycity`.
+3. **Pubblica subito** le due pagine (passo 7) e manda i due link a Nicola: la presentazione c'è già.
+4. **Poi arricchisci, senza far aspettare:** una tornata sola di ricerche in parallelo (social, omonimi,
+   stampa, vicini), correggi `dati.json` a mano dove serve, rilancia `scheda-cliente.mjs` e ripubblica sugli
+   **stessi** link. Con questa seconda passata il testo diventa su misura; la prima è già mostrabile.
+5. Traccia, commit e risposta come nei passi 8 e 9.
+
+Il consiglio della versione lampo segue la tabella firmata: nessun sito o solo un social → Base; sito proprio →
+Business provvisorio, da rivedere dopo averlo guardato e misurato. Se `dati.json` c'è già, `--lampo` non lo
+tocca: aggiorna solo `google.json`. Le prove: `node --test cervello/test/da-link-maps.test.mjs`.
 
 ## Primo momento: la proposta
 
@@ -128,6 +164,11 @@ fai il primo momento e chiedi in una riga: «Il titolare ha già detto sì? Se s
   l'abbonamento (`agenzia.analisi-e-scheda`).
 
 ## Il limite della rete (26/11/2026)
+
+> **Aggiornato il 26/11/2026 alle 17:05:** google.com risponde da questo ambiente, quindi la scheda Google si
+> legge direttamente con `cervello/da-link-maps.mjs` e i suoi dati sono `confermato`. Facebook, Instagram e
+> gli elenchi restano chiusi (risposta vuota): quelli si vedono ancora solo nei riassunti della ricerca.
+> Google PageSpeed risponde 429 senza chiave: la misura del sito la fa il flusso 16, che la chiave ce l'ha.
 
 L'ambiente «Default» lascia passare solo n8n e i pacchetti: `WebFetch` e `curl` sulle pagine dei locali
 rispondono 403. Il 26/11 Nicola non ha aperto la rete. Quindi, oggi, `WebSearch` funziona e le pagine no:

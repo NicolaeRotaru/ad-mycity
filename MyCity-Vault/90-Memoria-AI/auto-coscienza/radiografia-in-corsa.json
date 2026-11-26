@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-11-26 16:50",
+  "aggiornato": "2026-11-26 17:36",
   "scansioni": [
     {
       "quando": "2026-08-25 20:35",
@@ -8371,6 +8371,78 @@
       "nota": "",
       "file": {
         "cervello/scheda-cliente.mjs": "66ac4227a4fe"
+      }
+    },
+    {
+      "quando": "2026-11-26 17:22",
+      "casa": "macchina",
+      "dimensione": "cadenza-esecuzione",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        ".claude/skills/scheda-da-foto/SKILL.md": "d5a77864e22c"
+      }
+    },
+    {
+      "quando": "2026-11-26 17:22",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/da-link-maps.mjs": "8be2c2fdffc7"
+      }
+    },
+    {
+      "quando": "2026-11-26 17:27",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/da-link-maps.mjs": "d29d458946f0",
+        "cervello/scheda-cliente.mjs": "e401aaab8769"
+      }
+    },
+    {
+      "quando": "2026-11-26 17:36",
+      "casa": "macchina",
+      "dimensione": "cadenza-esecuzione",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        ".claude/skills/scheda-da-foto/SKILL.md": "9b1814ec4818"
+      }
+    },
+    {
+      "quando": "2026-11-26 17:36",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/da-link-maps.mjs": "6294747b8228",
+        "cervello/scheda-cliente.mjs": "e401aaab8769"
       }
     }
   ]
