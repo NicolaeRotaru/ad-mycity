@@ -1,0 +1,12 @@
+ramo R01 ccr-a672a2b3-92w5w1-m01
+ramo R02 ccr-a672a2b3-92w5w1-m02
+ramo R03 ccr-a672a2b3-92w5w1-m03
+ramo R04 ccr-a672a2b3-92w5w1-m04
+ramo R05 ccr-a672a2b3-92w5w1-m05
+ramo R06 ccr-a672a2b3-92w5w1-m06
+ramo R07 ccr-a672a2b3-92w5w1-m07
+ramo R08 ccr-a672a2b3-92w5w1-m08
+ramo R09 ccr-a672a2b3-92w5w1-m09
+ramo R10 ccr-a672a2b3-92w5w1-m10
+ramo R11 ccr-a672a2b3-92w5w1-m11
+guardia R10 ccr-a672a2b3-92w5w1-m10 prova comune
