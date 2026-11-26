@@ -58,6 +58,24 @@ Che ogni domanda sia ancora attuale sul codice di oggi.
 
 - R15-010 · quanto dura la prenotazione del fattorino pagata con la carta, e cosa si fa alla scadenza (le domande esatte, anche sul tetto morbido di R15-013, sono nel referto di R15)
 
+Dall'onda 3 (le domande esatte sono nel referto di ogni riparatore):
+- R28 · il CAPTCHA su Supabase e la strada della registrazione; si assumono fattorini, e si cercano?
+- R17 · l'aggiornamento automatico del sito: 4 segreti su GitHub, migrazioni allineate, un rilascio di prova, poi main:false
+- R17 · la fascia oraria scelta dal cliente è vincolante o indicativa?
+- R23 · i modelli email di Supabase vanno puntati verso /auth/confirm
+- R23 · il fattorino in attesa arriva alla pagina documenti: la decisione del 26/10 non è registrata
+- R23 · un tetto unico per il portiere delle richieste
+- R26 · le rotte AI answer-qa e reviews-summary: si collegano o si tolgono?
+- R26 · la bozza della cassa dura 2 ore: va bene?
+- R25 · la durata dei link v2, il corsivo di Inter, il precarico delle categorie
+- R24 · NEXT_PUBLIC_SENTRY_DSN va messa in produzione?
+- R21 · il recesso per categoria, con l'eccezione decisa dal negozio
+- R21 · un social salvato prima e oggi rifiutato blocca il salvataggio del negozio?
+- R18 · una recensione accolta: si nasconde o si cancella con archivio?
+- R22 · con la 916 la commissione arretrata si prende tutta al primo lunedì, o si segnano prima gli incassati?
+- R22 · la quota rimborsata dopo un bonifico fatto a mano: si toglie dal lunedì dopo o si chiede indietro?
+- R27 · un riquadro di circa 12 km per la posizione
+
 ### Prove comuni che chiedono la tua firma (la correzione è pronta, tolta dal ramo)
 
 Una prova comune è un controllo che protegge più riparazioni insieme. Cambiarla chiede la tua firma, quindi la correzione è stata tolta e aspetta te.
@@ -72,6 +90,9 @@ Una prova comune è un controllo che protegge più riparazioni insieme. Cambiarl
 - R16-003 · due prove comuni da cambiare: la modifica esatta è nel referto di R16
 
 - R15-001, R15-003, R15-009 · prove comuni da cambiare (la cura di R15-009 è nel commit 6484d56a, toglierla le rompe 3): modifiche esatte nel referto di R15
+
+- R20-001 (seconda parte) · al primo messaggio della chat Assistenza l'assistente vede tag e descrizione dei prodotti e può proporre di cambiarli: cambia tre prove comuni della chat (patch intera in `2026-11-26-tutti-onda3/patch-R20-001.md`, si applica sopra la testa di R20, controllato alle 23:00)
+- R27-004 · la prova della cassa vera non diventa più verde a vuoto (il contrassegno gira anche senza Stripe di prova): cambia la prova comune della cassa e aggiunge un salto solo per la carta. Correzione nel commit 5c38ad57 (tocca anche ci.yml), tolta con db46a986; diff esatta nel referto di R27. Servono anche le variabili E2E_DATI_DI_PROVA, STRIPE_TEST_SECRET_KEY ed E2E_STRIPE_CONTO_NEGOZIO
 
 ### Domande (campo domanda_per_nicola del registro)
 
