@@ -53,3 +53,6 @@ radiografia: consegne/radiografia/2026-11-26-ricontrollo
 - 14:04 · S01 finita (29 gravi: 5 chiusi verificati, 8 cambiati, 12 veri, 4 non verificabili, 4 falle; circa 6,99 $).
   S01c «ferma»: scollegata dalle 13:51, aspettava L01 (7 gruppi su 8 fatti, esiti solo nel suo scratchpad, 12,05 $).
   Svegliata con send_message: prima salva il parziale, poi rifà L01.
+- 15:03 · Onda finita. 4 referti verdi; doppioni, grezzo e conti verdi (0 difetti nuovi). Chiusi 45 su 272 (S01 5,
+  S01b 14, S01c 25, S01d 1). Costo da get_session: S01 10,49 · S01b 13,44 · S01c 15,58 · S01d 2,01 = 41,52 $; regia
+  8,34 $ alle 15:02. Falle fra le aperte: 9 (S01 4, S01b 3, S01c 2), dettagli solo nelle chat. Prossimo: il CF.
