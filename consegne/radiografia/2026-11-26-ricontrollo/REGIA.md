@@ -16,8 +16,11 @@ radiografia: consegne/radiografia/2026-11-26-ricontrollo
 - Profilo `ricontrollo`, ultracode «dove-serve»: S01 (29 voci gravi) con ultracode, S01b-S01d (minori) senza.
 - La regia la fa la sessione dell'AD (session_015BmpnXAVwPhPT7aWRMXdMi): una sola onda, nessuna ricerca, sotto i
   100 $. Una sessione in meno che potrebbe fermarsi su un permesso mentre Nicola non guarda.
-- Le figlie si aprono senza il parametro `effort` (con `create_session` pre-approvato verrebbe rifiutato): l'effort
-  si dà col primo messaggio (`/effort ultracode` o `/effort xhigh`), il compito subito dopo con `send_message`.
+- Le figlie si aprono senza il parametro `effort` (con `create_session` pre-approvato verrebbe rifiutato).
+  ⚠️ Scoperto alle 13:43: `create_session` rifiuta un prompt che comincia con «/», e `/effort …` mandato con
+  `send_message` arriva come testo, non come comando (S01 l'ha detto). Quindi **nessuna figlia ha ultracode**:
+  girano allo sforzo di partenza. Il preventivo (misurato con ultracode) resta un tetto. Debito per la skill: il
+  passo «prompt = /effort ultracode» oggi non funziona più.
 - Il freno sugli agenti in `ad-mycity` resta solo testo (lo incolla solo Nicola, card #262).
 
 ## I numeri della partenza
@@ -28,7 +31,7 @@ radiografia: consegne/radiografia/2026-11-26-ricontrollo
 
 ## Lo stato
 - [x] prepara, preventivo, schede, copertura-prima, segnaposti: verdi.
-- [ ] sessioni aperte (`sessioni.json`) · [ ] sorveglianza · [ ] referti · [ ] doppioni · [ ] CF · [ ] conti
+- [x] sessioni aperte alle 13:41-13:42 (`sessioni.json`) · [x] sorveglianza · [ ] referti · [ ] doppioni · [ ] CF · [ ] conti
 - [ ] misura --scrivi · [ ] applica --scrivi · [ ] digest · [ ] memoria · [ ] PR fuori dalla bozza
 
 ## Il prossimo passo e i comandi
