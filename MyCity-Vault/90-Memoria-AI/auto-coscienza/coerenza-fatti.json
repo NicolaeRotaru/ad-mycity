@@ -1,12 +1,12 @@
 {
-  "data": "2026-11-26 15:00",
+  "data": "2026-11-26 16:07",
   "esito": "ok",
-  "copertura": 2175,
+  "copertura": 2185,
   "origine": "cloud",
   "scritto_da": "coerenza-fatti.mjs",
-  "fatti_totali": 82,
-  "cacce_aperte": 61,
-  "file_scansionati": 2175,
+  "fatti_totali": 83,
+  "cacce_aperte": 62,
+  "file_scansionati": 2185,
   "incoerenze": [],
   "cacce": [
     {
@@ -55,6 +55,12 @@
       "fatto": "agenzia.rapporto-imprenditore",
       "pattern": "Il rapporto dell'imprenditore: 11 parti (Google, recensioni, concorrenti, zona, ricerche, sito, social, calendario della città, bandi, MyCity, piano dei 30 giorni). Nicola il 26/11/2026 alle 14:45 ha approvato Google Places, TripAdvisor e DataForSEO; il parere legale delle 15:10 (bozza) le corregge: di Google si salva solo place_id e la scheda si mostra col riquadro ufficiale in diretta; TripAdvisor spenta finché non arriva un sì scritto; DataForSEO solo temi delle recensioni, rischio verso Google nostro. Prima di pagare il titolare vede un assaggio di 3-4 numeri veri; il rapporto intero dopo l'abbonamento. Il preventivo dice quali parti dà ogni abbonamento.",
       "dal": "2026-11-26 15:00",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "agenzia.rapporto-imprenditore",
+      "pattern": "Il rapporto dell'imprenditore: 12 parti (Google, recensioni, concorrenti vicini, zona, ricerche, sito, social, calendario della città, bandi, MyCity, piano dei 30 giorni, concorrenti sui social e sul web). L'analisi si personalizza per abbonamento come contenuti, foto, video e sito: il preventivo mostra per ogni fascia le parti incluse e quelle escluse (Nicola, 26/11 14:54); quanto entra in ogni fascia è una proposta dell'AD da confermare. L'analisi dei concorrenti sui social e sul web è importantissima e va nei servizi (Nicola, 26/11 14:35). Fonti: Nicola alle 14:45 ha approvato Google Places, TripAdvisor e DataForSEO; il parere legale delle 15:10 (bozza) le corregge: di Google si salva solo place_id e la scheda si mostra col riquadro ufficiale in diretta; TripAdvisor spenta finché non arriva un sì scritto; DataForSEO solo temi delle recensioni, rischio verso Google nostro. Prima di pagare il titolare vede un assaggio di 3-4 numeri veri.",
+      "dal": "2026-11-26 16:07",
       "copie_trovate": 0
     },
     {

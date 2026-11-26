@@ -1,8 +1,8 @@
 ---
 tipo: piano
-data: 2026-11-26 15:00
+data: 2026-11-26 16:08
 fonte: chat di Nicola con l'AD del 25 e 26 novembre 2026
-stato: aggiornato alle 15:00 del 26/11
+stato: aggiornato alle 16:08 del 26/11
 ---
 
 # Il rapporto dell'imprenditore — piano
@@ -23,7 +23,6 @@ Detto in un altro modo: più fonti vere, e un preventivo che mostra cosa dà ogn
 
 ## Cosa devi fare
 - Dire se accetti il rischio di DataForSEO sulle recensioni. Il legale consiglia sì, tenendo solo i temi.
-- Dire quanto entra in ogni abbonamento. La mia proposta sta nella sezione del preventivo.
 - Aprire Google Cloud con un avviso di spesa, e DataForSEO con 50 dollari di ricarica. TripAdvisor per ora no.
 - Far rileggere il parere a un legale abilitato prima di accendere le fonti.
 - Unire le due richieste delle sessioni. Poi dare l'«ok ripubblica» per il flusso delle attività nuove.
@@ -78,7 +77,7 @@ Detto in un altro modo: più fonti vere, e un preventivo che mostra cosa dà ogn
   e informativa pubblicata (art. 14.5.b). MyCity è titolare autonomo del rapporto. Va aggiornata l'informativa dei titolari.
 - I termini d'uso di MyCity rimandano ai Google Maps Additional Terms e alla Google Privacy Policy (ToS 3.2.2).
 
-### Il preventivo, per abbonamento (proposta dell'AD: quanto entra in ogni fascia lo decide Nicola)
+### Il preventivo, per abbonamento (approvato da Nicola il 26/11 verso le 16:05: «ok fasce»)
 Nicola, 26/11 14:54: l'analisi si personalizza per abbonamento, come contenuti, foto, video e sito; il preventivo mostra
 per ogni fascia le parti incluse e quelle escluse. Una sola tabella nel codice, facile da cambiare (come `FASCE`).
 Prezzi invariati (Base 300 €, Business 500 €, Premium 999 €).
