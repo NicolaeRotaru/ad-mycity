@@ -28,6 +28,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 26/11 23:50 circa | alla sessione dei flussi (`…K1DyjU`) | «Ripublica 12 e 26». Fatto verso le 23:55, dopo la copia di sicurezza; le fonti a pagamento restano spente |
 | 26/11 20:15 circa | all'AD | «E fai le migrazione». Entrata la 864 alle 20:41; la 863 è ferma, perché il suo testo non torna col pagamento in contanti |
 | 26/11 19:50 circa | all'AD | «ok ripubblica il 12 e il 26». La sessione dei flussi è ferma per il suo controllo dei permessi: serve l'ok nella sua chat, oppure «fallo tu da qui» all'AD |
 | 26/11 ~19:40 | AD (`…KdhTFt`) | **Il Tropico Latino gira sul Premium, e non paga**: è l'unico cliente che non paga. Il Premium sul Tropico è la prova per distinguere bene Premium, Business e Base. Fatto `clienti.tropico-premium`. Chi fa i contenuti del Tropico segue il piano Premium di dicembre (`consegne/clienti/tropico-latino/piano-editoriale-2026-12.json`) |
