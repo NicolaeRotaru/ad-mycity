@@ -8,9 +8,9 @@
   ],
   "nuovi_difetti_visti": [
     { "titolo": "Un sito già salvato con ftp:// o scritto male ora blocca il salvataggio di tutto il negozio",
-      "dimensione": "frontend-ux", "severita": "medio",
+      "dimensione": "frontend-ux", "severita": "minore",
       "file": "components/VendorForm.tsx:312",
-      "descrizione": "Nato dall'incontro di R13-008 (lib/store-customization.ts:184-198, il sito accetta solo http/https) col ripiego «il social sbagliato resta com'era» di VendorForm. Un negozio che ha già salvato website='ftp://sito.it' (prima accettato da .url()) cambia solo il nome: il valore salvato viene rimesso nel modulo, la seconda verifica fallisce di nuovo e VendorForm mostra l'errore e fa return. Nome, logo e colore non si salvano finché non corregge il sito." }
+      "descrizione": "Nato dall'incontro di R13-008 (lib/store-customization.ts:184-198, il sito accetta solo http/https) col ripiego «il social sbagliato resta com'era» di VendorForm. Un negozio che ha già salvato website='ftp://sito.it' (prima accettato da .url()) cambia solo il nome: il valore salvato viene rimesso nel modulo, la seconda verifica fallisce di nuovo e VendorForm mostra l'errore e fa return. Nome, logo e colore non si salvano finché non corregge o svuota il sito (l errore si vede sotto il campo). Vale per ogni social salvato che le regole nuove di R13 ora rifiutano." }
   ],
   "file_toccati": 82, "file_guardati": 36,
   "file_non_guardati": "46 file non guardati con gli occhi, di proposito: 41 file di prova (eseguiti tutti, verdi) e 5 referti .riparazione/referto-R1x.json (solo dati). Guardati tutti i 36 file di codice, migrazioni, semine, script e documenti.",
