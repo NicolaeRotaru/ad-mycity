@@ -1768,6 +1768,7 @@ Al posto di `"Bash(node cervello/*.mjs:*)"` — 144 righe:
       "Bash(node cervello/sblocco-capacita.mjs:*)",
       "Bash(node cervello/scadenzario-check.mjs:*)",
       "Bash(node cervello/scan-segreti.mjs:*)",
+      "Bash(node cervello/scheda-cliente.mjs:*)",
       "Bash(node cervello/schede-pacchetto.mjs:*)",
       "Bash(node cervello/scritture-a-rischio.mjs:*)",
       "Bash(node cervello/senior-sola-lettura.mjs:*)",

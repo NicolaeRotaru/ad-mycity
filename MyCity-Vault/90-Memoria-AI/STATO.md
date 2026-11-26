@@ -1,8 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-11-24 22:57
+aggiornato: 2026-11-26 14:05
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🟡 **2026-11-26 14:05 — La scheda del cliente nasce dalla foto dell'attività.**
+>
+> Il venditore fotografa il negozio e manda la foto a una sessione nuova. La sessione cerca via, social, sito e recensioni. Poi consegna la scheda interna per il venditore e il preventivo con bozza del sito e piano editoriale. Prima prova su Ora del Gusto e La Ragazzetta: quattro pagine private, Business consigliato a tutte e due. La rete dell'ambiente è chiusa, quindi nessuno dei 35 dati è «confermato». Dettagli: `LAVORO-APERTO.md`, voce del 26/11 14:05.
 
 > 🟡 **2026-11-24 22:57 — La radiografia del sito lavora a onde, come la riparazione. È costruita e collaudata, ma non ancora lanciata.**
 >
