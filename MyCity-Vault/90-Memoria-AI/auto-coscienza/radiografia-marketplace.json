@@ -410,12 +410,12 @@
   "fonti_non_lette": [],
   "sintesi": "Il problema più grave trovato oggi era una chiave del database leggibile da chiunque, e Nicola l'ha già spenta. Dei difetti nuovi nessuno è bloccante, ma il rimborso di un ordine in contanti va ancora fatto a mano, fuori dal sito.",
   "meta": {
-    "findings": 3507,
+    "findings": 3508,
     "bloccanti": 37,
     "gravi": 679,
-    "minori": 2791,
+    "minori": 2792,
     "agenti": null,
-    "aggiornato": "2026-11-24 22:41"
+    "aggiornato": "2026-11-26 22:40"
   },
   "confronto_precedente": {
     "data": "2026-11-05",
@@ -97114,20 +97114,20 @@
     }
   ],
   "sync_scan": {
-    "aggiornato": "2026-11-26 16:45",
+    "aggiornato": "2026-11-26 22:44",
     "letto": true,
     "motivo": null,
     "forma": "elenco",
-    "findings_aperti": 598,
+    "findings_aperti": 599,
     "findings_chiusi": 2909,
-    "findings_tot": 3507,
+    "findings_tot": 3508,
     "aperti_per_severita": {
       "bloccante": 5,
       "grave": 67,
-      "minore": 526,
+      "minore": 527,
       "altre": 0
     },
-    "dichiarati_dal_referto": 3507,
+    "dichiarati_dal_referto": 3508,
     "divergenza_dal_dichiarato": 0,
     "data_scan": "2026-11-06",
     "nota": "Per trovare difetti NUOVI serve un nuovo audit marketplace; i fix sul codice non riaprono da soli la lista. Gli aperti qui sono quelli del referto in archivio, aggiornati dai lotti di riparazione."
