@@ -1,0 +1,56 @@
+{
+  "collaudatore": "K04",
+  "riparatori": [
+    "R01"
+  ],
+  "aggiornato": "2026-11-26 15:40",
+  "finita": false,
+  "voci": [
+    {
+      "id": "R01-003",
+      "chiave": "qa-flussi|le tre prove automatiche dell'acquisto vero sono vuote: passano in tre millesimi senza aprire niente",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-base --base 455c3f93e44e0d92296bb2782d06960518f04e02^ --file tests/e2e/12-la-cassa-dal-carrello-al-pagamento.spec.ts --prove tests/unit/riparazione-r29-la-cassa-e2e-non-diventa-verde-a-vuoto.test.ts,tests/unit/le-prove-della-cassa-non-passano-senza-aver-guardato.test.ts --json"
+      },
+      "nota": "in corso"
+    },
+    {
+      "id": "R01-006",
+      "chiave": "deploy-sre|anche il segreto delle rotte interne e quello del bordo cloudflare, con un «a capo» su vercel, chiudono la porta a chi ce l'ha",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-28729f77 --base 28729f778396bbbdeb887bc4ff0ea2ed0a399ad7^ --file app/api/track/route.ts --prove tests/unit/riparazione-r01-segreto-di-bordo-nel-registro-visite.test.ts --json"
+      },
+      "nota": "in corso"
+    },
+    {
+      "id": "R01-008",
+      "chiave": "qa-flussi|nessuna prova nel browser gira mai sullo schermo di un telefono, e su telefono una è già rossa",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-0f664938 --base 0f6649381d4399b3e0f43443a11d15a73ef06973^ --file .github/workflows/ci.yml --prove tests/unit/riparazione-r01-prove-sul-telefono.test.ts --json"
+      },
+      "nota": "in corso"
+    }
+  ],
+  "campione": {}
+}
