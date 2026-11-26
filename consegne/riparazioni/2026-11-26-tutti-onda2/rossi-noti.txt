@@ -1,10 +1,5 @@
 ramo R12 ccr-a672a2b3-92w5w1-m12
-finita R12
 ramo R13 ccr-a672a2b3-92w5w1-m13
-finita R13
 ramo R14 ccr-a672a2b3-92w5w1-m14
-finita R14
 ramo R15 ccr-a672a2b3-92w5w1-m15
-finita R15
 ramo R16 ccr-a672a2b3-92w5w1-m16
-finita R16
