@@ -177,4 +177,5 @@ Una prova comune è un controllo che protegge più riparazioni insieme. Cambiarl
 ### Dalla fine della campagna (regia, 2026-11-27 00:55)
 
 - Richiesta del sito mycity#342 (campagna intera): «ok migrazioni» sulle 9 migrazioni nuove prima di unire, conteggio del catalogo per la 911, poi l'unione.
+- Domanda: apro il controllore finale della campagna (circa 15 $, totale circa 1.015 $ su 1.200, quota in avviso)? Serve per togliere la #342 dalla bozza; senza, la richiesta resta in bozza ma si può unire lo stesso.
 
