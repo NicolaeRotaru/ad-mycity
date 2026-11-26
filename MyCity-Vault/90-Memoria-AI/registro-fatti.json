@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-11-25 19:52",
+  "aggiornato": "2026-11-26 15:00",
   "fatti": [
     {
       "id": "ad.uso-e-crediti",
@@ -100,6 +100,34 @@
         {
           "pattern": "scattiDG è l'azienda partner a cui MyCity si affida per foto e video (riprese, scatti, montaggio, ritocco). Il preventivo in dashboard lo firma MyCity; social, sito web e logo sono servizi di MyCity. Sul sito: LISTINO.foto_video.partner e NOME_AGENZIA_DI_RISERVA = MyCity in lib/agenzia/preventivo.ts.",
           "dal": "2026-11-23 02:47"
+        }
+      ],
+      "esenzioni": []
+    },
+    {
+      "id": "agenzia.rapporto-imprenditore",
+      "nome": "agenzia.rapporto-imprenditore",
+      "valore": "Il rapporto dell'imprenditore: 12 parti (Google, recensioni, concorrenti vicini, zona, ricerche, sito, social, calendario della città, bandi, MyCity, piano dei 30 giorni, concorrenti sui social e sul web). L'analisi si personalizza per abbonamento come contenuti, foto, video e sito: il preventivo mostra per ogni fascia le parti incluse e quelle escluse (Nicola, 26/11 14:54); quanto entra in ogni fascia è una proposta dell'AD da confermare. L'analisi dei concorrenti sui social e sul web è importantissima e va nei servizi (Nicola, 26/11 14:35). Fonti: Nicola alle 14:45 ha approvato Google Places, TripAdvisor e DataForSEO; il parere legale delle 15:10 (bozza) le corregge: di Google si salva solo place_id e la scheda si mostra col riquadro ufficiale in diretta; TripAdvisor spenta finché non arriva un sì scritto; DataForSEO solo temi delle recensioni, rischio verso Google nostro. Prima di pagare il titolare vede un assaggio di 3-4 numeri veri.",
+      "fonte": "Nicola: chat AD 26/11 ~14:45; chat Tropico 14:35 e chat consensi 14:54, girate all'AD; parere consegne/legale/2026-11-26-fonti-rapporto-imprenditore.md",
+      "aggiornato": "2026-11-26 15:00",
+      "storia": [
+        {
+          "valore": "Il rapporto dell'imprenditore: 11 parti (Google, recensioni, concorrenti, zona, ricerche, sito, social, calendario della città, bandi, MyCity, piano dei 30 giorni). Fonti a pagamento approvate da Nicola il 26/11/2026: Google Places, TripAdvisor Content API, DataForSEO (ricarica minima 50 $). Prima di pagare il titolare vede un assaggio di 3-4 numeri veri; il rapporto intero dopo l'abbonamento. Il preventivo dice quali parti dà ogni abbonamento.",
+          "fino_a": "2026-11-26 14:57"
+        },
+        {
+          "valore": "Il rapporto dell'imprenditore: 11 parti (Google, recensioni, concorrenti, zona, ricerche, sito, social, calendario della città, bandi, MyCity, piano dei 30 giorni). Nicola il 26/11/2026 alle 14:45 ha approvato Google Places, TripAdvisor e DataForSEO; il parere legale delle 15:10 (bozza) le corregge: di Google si salva solo place_id e la scheda si mostra col riquadro ufficiale in diretta; TripAdvisor spenta finché non arriva un sì scritto; DataForSEO solo temi delle recensioni, rischio verso Google nostro. Prima di pagare il titolare vede un assaggio di 3-4 numeri veri; il rapporto intero dopo l'abbonamento. Il preventivo dice quali parti dà ogni abbonamento.",
+          "fino_a": "2026-11-26 15:00"
+        }
+      ],
+      "caccia": [
+        {
+          "pattern": "Il rapporto dell'imprenditore: 11 parti (Google, recensioni, concorrenti, zona, ricerche, sito, social, calendario della città, bandi, MyCity, piano dei 30 giorni). Fonti a pagamento approvate da Nicola il 26/11/2026: Google Places, TripAdvisor Content API, DataForSEO (ricarica minima 50 $). Prima di pagare il titolare vede un assaggio di 3-4 numeri veri; il rapporto intero dopo l'abbonamento. Il preventivo dice quali parti dà ogni abbonamento.",
+          "dal": "2026-11-26 14:57"
+        },
+        {
+          "pattern": "Il rapporto dell'imprenditore: 11 parti (Google, recensioni, concorrenti, zona, ricerche, sito, social, calendario della città, bandi, MyCity, piano dei 30 giorni). Nicola il 26/11/2026 alle 14:45 ha approvato Google Places, TripAdvisor e DataForSEO; il parere legale delle 15:10 (bozza) le corregge: di Google si salva solo place_id e la scheda si mostra col riquadro ufficiale in diretta; TripAdvisor spenta finché non arriva un sì scritto; DataForSEO solo temi delle recensioni, rischio verso Google nostro. Prima di pagare il titolare vede un assaggio di 3-4 numeri veri; il rapporto intero dopo l'abbonamento. Il preventivo dice quali parti dà ogni abbonamento.",
+          "dal": "2026-11-26 15:00"
         }
       ],
       "esenzioni": []
@@ -1403,9 +1431,9 @@
     {
       "id": "pricing.commissione",
       "nome": "Commissione piattaforma MyCity",
-      "valore": "10% sul venduto tramite la piattaforma, su TUTTI gli ordini: anche quelli dei clienti che il negozio aveva già (arrivati dal suo cartello col QR, dal link «ordina da me» o che prima ordinavano per telefono) e anche sul ritiro in negozio. Copre tutto il servizio — sito, cassa, consegna, strumenti, clienti nuovi — non solo la consegna. Nicola, 1/11/2026: «il 10% non serve a ripagare solo la consegna, ma anche tutto quello che c'è dietro» e, alla domanda sui clienti già suoi, «10% su tutto». È una scelta firmata che cambia il paletto 1 nella forma di agosto. La dicitura «IVA inclusa» resta sospesa finché il commercialista non conferma il regime: col forfettario la commissione non ha IVA. Sui ritiri pagati in contanti al banco il 10% si toglie dal bonifico del lunedì al negozio; se non basta, va nella fattura del mese insieme all'abbonamento.",
-      "fonte": "Nicola, conversazione del 2026-11-01 mattina (fino alle 12:18), sessione «cosa serve per essere pronti»",
-      "aggiornato": "2026-11-01 12:18",
+      "valore": "10% sul venduto tramite la piattaforma, su TUTTI gli ordini: anche quelli dei clienti che il negozio aveva già (arrivati dal suo cartello col QR, dal link «ordina da me» o che prima ordinavano per telefono) e anche sul ritiro in negozio. Copre tutto il servizio — sito, cassa, consegna, strumenti, clienti nuovi — non solo la consegna. Nicola, 1/11/2026: «il 10% non serve a ripagare solo la consegna, ma anche tutto quello che c'è dietro» e, alla domanda sui clienti già suoi, «10% su tutto». È una scelta firmata che cambia il paletto 1 nella forma di agosto. La dicitura «IVA inclusa» resta sospesa finché il commercialista non conferma il regime: col forfettario la commissione non ha IVA. Sui ritiri pagati in contanti al banco il 10% si toglie dal bonifico del lunedì al negozio; se non basta, va nella fattura del mese insieme all'abbonamento. Vale anche per chi ha uno dei tre abbonamenti: il canone non toglie il 10% sui prodotti venduti tramite MyCity, perché la consegna va pagata (Nicola, 26/11/2026 verso le 14:15: «il 10% resta, ma resta solamente sui prodotti venduti tramite il sito»; la regola del 24/11, abbonati senza percentuale, è superata). APERTO: i servizi prenotati e pagati dal sito. Nicola preferirebbe il 10% anche su quelli, se si riesce.",
+      "fonte": "Nicola, 26/11/2026 14:15, chat «Gestione consensi sessioni»",
+      "aggiornato": "2026-11-26 14:19",
       "storia": [
         {
           "valore": "10% sul venduto",
@@ -1418,6 +1446,10 @@
         {
           "valore": "10% sul venduto tramite la piattaforma, scritto «IVA inclusa» (scelta 13 della carta #209, firmata il 2026-10-26; l'IVA la conferma il commercialista), e serve a pagare la consegna: non è un margine sullo scontrino che il negozio faceva già. Nicola, 11/8/2026. Regge insieme al paletto «zero commissioni» proprio per questo — la percentuale sta solo sugli ordini portati da MyCity, cioè su denaro nuovo, e copre il costo di portarli. In un pitch va detta così, mai la sola frase «zero commissioni».",
           "fino_a": "2026-11-01 12:18"
+        },
+        {
+          "valore": "10% sul venduto tramite la piattaforma, su TUTTI gli ordini: anche quelli dei clienti che il negozio aveva già (arrivati dal suo cartello col QR, dal link «ordina da me» o che prima ordinavano per telefono) e anche sul ritiro in negozio. Copre tutto il servizio — sito, cassa, consegna, strumenti, clienti nuovi — non solo la consegna. Nicola, 1/11/2026: «il 10% non serve a ripagare solo la consegna, ma anche tutto quello che c'è dietro» e, alla domanda sui clienti già suoi, «10% su tutto». È una scelta firmata che cambia il paletto 1 nella forma di agosto. La dicitura «IVA inclusa» resta sospesa finché il commercialista non conferma il regime: col forfettario la commissione non ha IVA. Sui ritiri pagati in contanti al banco il 10% si toglie dal bonifico del lunedì al negozio; se non basta, va nella fattura del mese insieme all'abbonamento.",
+          "fino_a": "2026-11-26 14:19"
         }
       ],
       "caccia": [
@@ -1449,6 +1481,10 @@
         {
           "pattern": "10% sul venduto tramite la piattaforma, scritto «IVA inclusa» (scelta 13 della carta #209, firmata il 2026-10-26; l'IVA la conferma il commercialista), e serve a pagare la consegna: non è un margine sullo scontrino che il negozio faceva già. Nicola, 11/8/2026. Regge insieme al paletto «zero commissioni» proprio per questo — la percentuale sta solo sugli ordini portati da MyCity, cioè su denaro nuovo, e copre il costo di portarli. In un pitch va detta così, mai la sola frase «zero commissioni».",
           "dal": "2026-11-01 12:18"
+        },
+        {
+          "pattern": "solo canone, niente 10%",
+          "dal": "2026-11-26 14:19"
         }
       ],
       "esenzioni": [
@@ -1636,13 +1672,17 @@
     {
       "id": "sdg.abbonamenti",
       "nome": "Abbonamenti di SDG Agenzia",
-      "valore": "Tre abbonamenti mensili ai servizi: Base 300 euro, Business 500 euro, Premium 999 euro. Sono servizi di MyCity realizzati da SDG Agenzia, il partner di MyCity per foto, video, social e web (Nicola, 24/11: «sono servizi che offre mycity, ma tramite SDG»). Ognuno comprende foto e video, social, sito web e scheda Google, in misura diversa (proposta dell'AD, da confermare). Solo canone, nessuna percentuale. Condizioni: nessun vincolo di durata, disdetta con 30 giorni di preavviso, primo mese a metà prezzo. Il negozio li sceglie e li paga dentro il sito, dalla pagina «Il tuo preventivo» (pagamento con carta via Stripe, abbonamento mensile), in un ramo che aspetta la firma di Nicola. Primo cliente: Ora del Gusto (bar e pasticceria, Piacenza).",
-      "fonte": "Nicola, chat 2026-11-24 ~04:10: «Non togliere la sezione servizi, sono servizi che offre mycity, ma tramite SDG» e «Ora del Gusto deve già poter selezionare il servizio e effettuare il pagamento»; ~04:40: «specifica che SDG agenzia è il partner di questi servizi»",
-      "aggiornato": "2026-11-24 04:17",
+      "valore": "Tre abbonamenti mensili ai servizi: Base 300 euro, Business 500 euro, Premium 999 euro. Sono servizi di MyCity realizzati da SDG Agenzia, il partner di MyCity per foto, video, social e web (Nicola, 24/11: «sono servizi che offre mycity, ma tramite SDG»). Ognuno comprende foto e video, social, sito web e scheda Google, in misura diversa (proposta dell'AD, da confermare). Oltre al canone resta il 10% sui prodotti venduti tramite MyCity, perché la consegna va pagata (Nicola, 26/11/2026 verso le 14:15; vedi pricing.commissione). Sui servizi prenotati e pagati dal sito è ancora aperto. Condizioni: nessun vincolo di durata, disdetta con 30 giorni di preavviso, primo mese a metà prezzo. Il negozio li sceglie e li paga dentro il sito, dalla pagina «Il tuo preventivo» (pagamento con carta via Stripe, abbonamento mensile), in un ramo che aspetta la firma di Nicola. Primo cliente: Ora del Gusto (bar e pasticceria, Piacenza).",
+      "fonte": "Nicola, 26/11/2026 14:15, chat «Gestione consensi sessioni»",
+      "aggiornato": "2026-11-26 14:19",
       "storia": [
         {
           "valore": "SDG Agenzia (l'agenzia di Nicola: web, marketing, foto e video) vende tre abbonamenti mensili: Base 300 euro, Business 500 euro, Premium 999 euro. Ognuno comprende tutti i servizi — foto e video, gestione dei social, sito web, scheda Google — in misura diversa (proposta dell'AD nel preventivo di Ora del Gusto, da confermare). Solo canone, nessuna percentuale. Condizioni scelte da Nicola il 24/11: nessun vincolo di durata, disdetta quando si vuole con 30 giorni di preavviso, primo mese a metà prezzo. Sono servizi di SDG, non di MyCity: dal 24/11 il menu «Servizi» è uscito dal marketplace. Primo cliente: Ora del Gusto (bar e pasticceria, Piacenza).",
           "fino_a": "2026-11-24 04:17"
+        },
+        {
+          "valore": "Tre abbonamenti mensili ai servizi: Base 300 euro, Business 500 euro, Premium 999 euro. Sono servizi di MyCity realizzati da SDG Agenzia, il partner di MyCity per foto, video, social e web (Nicola, 24/11: «sono servizi che offre mycity, ma tramite SDG»). Ognuno comprende foto e video, social, sito web e scheda Google, in misura diversa (proposta dell'AD, da confermare). Solo canone, nessuna percentuale. Condizioni: nessun vincolo di durata, disdetta con 30 giorni di preavviso, primo mese a metà prezzo. Il negozio li sceglie e li paga dentro il sito, dalla pagina «Il tuo preventivo» (pagamento con carta via Stripe, abbonamento mensile), in un ramo che aspetta la firma di Nicola. Primo cliente: Ora del Gusto (bar e pasticceria, Piacenza).",
+          "fino_a": "2026-11-26 14:19"
         }
       ],
       "caccia": [
@@ -1653,6 +1693,14 @@
         {
           "pattern": "SDG Agenzia (l'agenzia di Nicola: web, marketing, foto e video) vende tre abbonamenti mensili: Base 300 euro, Business 500 euro, Premium 999 euro. Ognuno comprende tutti i servizi — foto e video, gestione dei social, sito web, scheda Google — in misura diversa (proposta dell'AD nel preventivo di Ora del Gusto, da confermare). Solo canone, nessuna percentuale. Condizioni scelte da Nicola il 24/11: nessun vincolo di durata, disdetta quando si vuole con 30 giorni di preavviso, primo mese a metà prezzo. Sono servizi di SDG, non di MyCity: dal 24/11 il menu «Servizi» è uscito dal marketplace. Primo cliente: Ora del Gusto (bar e pasticceria, Piacenza).",
           "dal": "2026-11-24 04:17"
+        },
+        {
+          "pattern": "Solo canone, nessuna percentuale",
+          "dal": "2026-11-26 14:19"
+        },
+        {
+          "pattern": "Tre abbonamenti mensili ai servizi: Base 300 euro, Business 500 euro, Premium 999 euro. Sono servizi di MyCity realizzati da SDG Agenzia, il partner di MyCity per foto, video, social e web (Nicola, 24/11: «sono servizi che offre mycity, ma tramite SDG»). Ognuno comprende foto e video, social, sito web e scheda Google, in misura diversa (proposta dell'AD, da confermare). Solo canone, nessuna percentuale. Condizioni: nessun vincolo di durata, disdetta con 30 giorni di preavviso, primo mese a metà prezzo. Il negozio li sceglie e li paga dentro il sito, dalla pagina «Il tuo preventivo» (pagamento con carta via Stripe, abbonamento mensile), in un ramo che aspetta la firma di Nicola. Primo cliente: Ora del Gusto (bar e pasticceria, Piacenza).",
+          "dal": "2026-11-26 14:19"
         }
       ],
       "esenzioni": []

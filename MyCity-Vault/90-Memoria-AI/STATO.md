@@ -1,8 +1,23 @@
 ---
 tipo: stato
-aggiornato: 2026-11-26 14:05
+aggiornato: 2026-11-26 15:25
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> **2026-11-26 15:25 — Il primo ricontrollo a onde ha chiuso 45 difetti del sito: le voci aperte passano da 598 a 553.**
+>
+> Quattro sessioni hanno riletto 272 difetti aperti al commit ed12ed8 del sito. I gravi aperti scendono da 67 a 62, i minori da 526 a 486, i bloccanti restano 5. Nessun difetto nuovo. Costo misurato 64,73 $ contro 77,04 $ del preventivo, circa 1,44 $ per chiuso. Fra le aperte ci sono 9 falle, con i dettagli solo nelle chat. Referto: `consegne/audit/2026-11-26-radiografia.md`.
+
+> ✅ **2026-11-26 14:25 — Il 25 e il 26/11 sono entrate nella memoria 26 richieste unite. Le cose che contano sono sei.**
+>
+> - La radiografia a onde è unita. Oggi è al lavoro: il ricontrollo dei difetti aperti è in corso.
+> - È nata la routine «Chiedi all'AD», e ha passato la prova con n8n.
+> - Le schede dei clienti nuovi le legge n8n, nei flussi 12 e 26. Il quarto collaudo regge.
+> - La Ragazzetta è iscritta in MyCity, nascosta e senza accesso.
+> - Per il Tropico Latino ci sono 13 contenuti di dicembre: 5 approvati, 1 rifiutato, 7 da approvare.
+> - Con «sei: goku» una sessione sorveglia le altre per un'ora e avvisa prima di scadere.
+>
+> Questa pagina era ferma al 24/11 alle 22:57. Per esempio, l'ultimo lavoro unito è delle 13:08 di oggi: più di un giorno dopo. Per questo un controllo automatico bocciava tutte le richieste nuove. Cosa resta da fare, tuo e mio, sta in `LAVORO-APERTO.md`.
 
 > 🟡 **2026-11-26 14:05 — Riparo i difetti che non chiedono Nicola.**
 >

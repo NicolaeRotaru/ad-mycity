@@ -92,7 +92,7 @@ comando così com'è: il programma ti dice la fase.
    nel resoconto per Nicola: scrivi ogni numero col suo metro, per esempio «893 mila token, e la compressione scatta a
    901 mila».
 5. **A Nicola.** Niente di nuovo → una riga sola: «Giro 3 delle 22:45: 5 sessioni, tutto tranquillo. Prossimo alle
-   22:55.» Qualcosa di nuovo → «Il punto adesso» (✅ fatto · ⏳ in corso · 👉 tocca a te · 🕐 quando vuoi), poi «Cosa
+   22:55.» Qualcosa di nuovo → «Il punto adesso» (Fatto · In corso · Tocca a te · Quando vuoi, in parole e senza icone), poi «Cosa
    non ho verificato». Chiama le sessioni per titolo: gli id vanno sotto «Dettagli tecnici». Una cosa già detta non si
    ripete a ogni giro: torna solo se peggiora, e all'avviso.
 6. **Il prossimo risveglio.** `send_later` con `delay_minutes` e `message` copiati dalle righe «prossimo risveglio» e

@@ -1335,6 +1335,13 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa resta a Nicola:** aprire la rete dell'ambiente «Chiedi all'AD (n8n)» dalle impostazioni, se vuole. Poi l'AD rifà l'analisi delle due attività.
 
 
+## 2026-11-26 14:45 — Il rapporto dell'imprenditore e tre fonti a pagamento (🔴, firma di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD, 25-26/11. Prima: «recupera molti più dati sul cliente… l'analisi più figa che si possa creare per l'imprenditore, usando anche i dati che già analizza l'AD… e metterlo già dentro il preventivo, in base all'abbonamento». Alle 14:45 ha risposto alle tre domande dell'AD.
+- **Cosa ha deciso:** accese Google Places, TripAdvisor Content API e DataForSEO. Prima di pagare il titolare vede un assaggio di 3-4 numeri veri. Via alle due sessioni che costruiscono flussi e sito. Ha chiesto anche se ci sono altre fonti.
+- **Perché:** oggi l'analisi legge solo il sito e qualche elenco. Scheda Google, Instagram e TripAdvisor restano fuori, perché leggerli di nascosto è vietato. Per La Ragazzetta non si è trovato nemmeno l'indirizzo.
+- **I costi, letti il 26/11 sulle pagine ufficiali:** Google 1.000 richieste gratis al mese per tipo, poi 20-40 $ ogni 1.000. TripAdvisor gratis da 1.000 a 5.000 chiamate al mese: le due pagine ufficiali non concordano. DataForSEO 50 $ di ricarica minima, una volta sola. Uso stimato circa 600 richieste Google al mese, quindi 0 €.
+- **Cosa è stato fatto:** il piano (`consegne/strategia/2026-11-26-analisi-imprenditore/PIANO.md`), il fatto `agenzia.rapporto-imprenditore` nel registro, il parere legale chiesto a `legale-privacy`, due sessioni aperte alle 14:49 (ID in `LAVORO-APERTO.md`). I nodi a pagamento nascono spenti, finché non ci sono le chiavi.
+- **Cosa resta a Nicola:** aprire i tre account e mettere le chiavi nelle credenziali di n8n. Su Google Cloud, un tetto di spesa. Poi unire le due PR e dare l'«ok ripubblica».
 ## 2026-11-26 12:53 · La lettura delle pagine dei clienti nuovi: l'ultimo collaudo e la riparazione 🟡
 - **Cosa:** Nicola ha chiesto un ultimo collaudo indipendente della sicurezza (25/11 verso le 23:30, «Ultimo controllo»). Il collaudatore ha bocciato per un solo difetto grave. Era un difetto di funzionamento, non di sicurezza. Su un sito vecchio, uno script con «<!--» e un commento più in basso cancellavano indirizzo, telefono e orari. Sulla sicurezza il pezzo ha retto: 80 indirizzi interni scritti a mano e 400.000 a caso, nessuno passato.
 - **Il terzo rosso:** per la regola del collaudo decideva Nicola. Ha scelto «Ripara solo questo» (26/11 mattina).
@@ -1344,3 +1351,27 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Non fatto apposta:** i 7 difetti minori del collaudo 3 e i 7 del collaudo 4. Nicola ha chiesto di riparare solo il grave. Sono in LAVORO-APERTO.
 - **Prova vera (25/11 23:05):** su Ora del Gusto la ricerca ha scritto 1 pagina da leggere e n8n ne ha lette 2. La scheda le ha scartate come possibile omonimo, giustamente.
 - Referti: `consegne/riparazioni/2026-11-25-leggi-pagine/collaudo-3-sicurezza.md` e `collaudo-4-pulizia.md`.
+
+## 2026-11-26 14:45 — Nelle visite si parte dai servizi, la vetrina è un di più (🟡, decisione di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD (`session_01R8112KtpHnLaZuTdp128Ts`), 26/11 verso le 14:40. Parole sue: «bisogna mettere un pochino meno in risalto l'offerta che offre MyCity come marketplace e bisogna risaltare gli altri servizi» e «va appunto personalizzato».
+- **Cosa:** la scheda per le visite parte da social, Google, foto e video e sito. La vetrina su MyCity resta, come «in più», e cambia per tipo di attività (bar, ristorante, negozio, artigiano, servizi alla persona).
+- **Insieme:** Morgan, il videomaker, sulla scheda: «le rubo due minuti» diventa «mi dedichi due minuti», e «dobbiamo stare il più lontano possibile da qualsiasi fraintendimento: le parole che usi ti fanno assumere una posizione agli occhi del cliente». La regola entra nella scheda.
+- **Dove:** `consegne/vendite/2026-11-26-scheda-visita.html` (pagina e PDF). Prenotazioni dal sito non promesse: non esistono ancora.
+- **Colore:** 🟡 materiale di vendita interno; nessun messaggio a clienti.
+
+- 2026-11-26 14:00 · Una sessione dà i via libera di routine al posto di Nicola · Nicola, chat «Gestione consensi sessioni»: la sessione risponde «procedi» alle altre quando chiedono solo un via libera, e porta a lui solo le domande vere (strategia, prezzi, soldi, clienti veri). I pulsanti «Consenti» dell'app restano suoi: un'altra sessione non può premerli.
+- 2026-11-26 14:15 · Il 10% resta anche per chi ha l'abbonamento · Nicola: «il 10% resta, ma resta solamente sui prodotti venduti tramite il sito, perché c'è la delivery che bisogna pagarla». Supera la regola del 24/11 sugli abbonati senza percentuale. Sui servizi prenotati e pagati dal sito è aperto: «se riusciamo sarebbe meglio prendere il 10% anche da quello». Aggiornati `pricing.commissione` e `sdg.abbonamenti`. La vetrina da sola resta aperta: Nicola vuole ragionarci.
+- 2026-11-26 14:15 · Niente icone nei messaggi a Nicola, per tutte le sessioni · Nicola: «non usare le icone, fai un riassunto, sempre in modo semplice, esaustivo», poi «mi piace il modo in cui stai scrivendo adesso, cambia per tutti, metti una regola». Cambiata la Regola 3-ter di `cervello/scrittura-umana.md`, la riga di `CLAUDE.md` e la skill goku. Il controllo `si-capisce.mjs` non guardava le icone: non cambia.
+- 2026-11-26 14:25 · Il via libera della chat dei consensi non vale come quello di Nicola · Correzione della riga delle 14:00. La sessione «Contenuti Canva e Reel» ha rifiutato due volte un «procedi» arrivato dalla chat dei consensi: senza la firma di Nicola non basta. La riga in `CLAUDE.md` che l'avrebbe resa valida è stata fermata dal controllo di sicurezza della modalità Auto, e tolta. Resta così: la chat dei consensi dice a Nicola quale sessione aspetta, cosa premere o scrivere e cosa fa; il clic e l'«ok» restano suoi.
+
+## 2026-11-26 15:20 — Il parere legale corregge il rapporto dell'imprenditore (🔴, da confermare con Nicola)
+- **Cosa dice:** il parere dell'agente legale delle 15:10 (`consegne/legale/2026-11-26-fonti-rapporto-imprenditore.md`) è una bozza da far validare. Dall'8/7/2025 i termini europei di Google ammettono i dati Places solo per 9 usi. Un rapporto venduto non è fra questi. Si salva solo l'identificativo del luogo.
+- **Cosa cambia:** la scheda Google si mostra solo nel riquadro ufficiale, in diretta. TripAdvisor resta spento finché non arriva un sì scritto. Con DataForSEO il rischio verso Google è nostro, e delle recensioni si tengono solo i temi.
+- **Cosa è stato fatto:** avviso urgente alle due sessioni alle 15:15; piano e carta #265 corretti.
+- **Cosa resta a Nicola:** dire se accetta il rischio di DataForSEO; far rileggere il parere a un legale abilitato.
+
+## 2026-11-26 15:25 — Il primo ricontrollo a onde del sito, lanciato senza consensi (🟡)
+- **Cosa:** Nicola alle 13:38: «Parti con la nuova strategia di radiografia», e niente richieste di consenso salvo all'estremo. Il freno dei conti (novembre 0,18) ferma le ricerche nuove, quindi solo il profilo `ricontrollo`: 4 sessioni, 272 voci, 45 chiuse, aperte del sito da 598 a 553, 64,73 $ contro 77,04 $ attesi.
+- **Scelte dell'AD al posto delle fermate:** regia nella sessione dell'AD (un'onda sola, sotto 100 $); tetto 100 $; sessioni senza ultracode perché il prompt «/effort» oggi non passa; il confronto di riservatezza fatto da ogni sessione sulle proprie falle, perché il controllo dei permessi blocca l'invio dei dettagli fra sessioni; tolte dai referti 13 righe di copertura che puntavano ai file delle falle (restano nella storia del ramo, nomi già nel registro pubblico); i titoli delle 9 falle NON nascosti nel registro (pubblici da settimane, servono alla riparazione in corso).
+- **Perché:** il ricontrollo è la chiusura più economica e non apre voci; le altre scelte sono reversibili e Nicola non voleva fermate.
+- **Cosa resta a Nicola:** unire la ad-mycity#1030; dire se vuole i titoli delle falle nascosti; firmare la riscrittura del passo F1 della skill `radiografia-sessioni` su ultracode.

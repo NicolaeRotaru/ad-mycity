@@ -31,6 +31,44 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
+### 🟡 #266 — Guarda il ricontrollo del sito e unisci la richiesta, se ti va bene · ⏳ accodata 2026-11-26 15:30 · @ad
+
+**Stato:** ⏳ in attesa di Nicola, senza fretta
+
+**In parole semplici.** Oggi quattro sessioni hanno riletto 272 difetti aperti del sito: 45 su 272 non ci sono più. Le voci aperte passano da 598 a 553.
+Per esempio: l'avviso per un ordine non accettato ora parte dopo 5 minuti, non dopo un'ora, e la voce si chiude.
+
+**Cosa cambia per te.** Il registro dei difetti del sito dice il vero su 272 voci in più. È costato 64,73 $, contro 77,04 $ del preventivo.
+
+**Cosa devi fare tu.** Primo: guardare e unire la richiesta ad-mycity#1030. Secondo, solo se vuoi: dirmi se nascondere nel registro i titoli delle 9 falle trovate fra le voci aperte. Io non l'ho fatto, perché sono pubblici da settimane e la riparazione deve vederli. Terzo: firmare la riscrittura del passo della guida che accende lo sforzo massimo delle sessioni, che oggi non funziona più.
+
+**Cosa non ho verificato.** I 40 minori chiusi vengono dalla lettura del codice, senza un secondo agente. Diciassette voci non si potevano verificare da qui, perché serve il sito vero.
+
+Cosa cambia: il registro del sito scende a 553 voci aperte, con 62 gravi e 5 bloccanti.
+Se va bene: la riparazione in corso lavora su una lista più corta e più vera.
+
+- **Colore:** 🟡
+- **Reparto:** ad
+- **Dettagli tecnici:** referto `consegne/audit/2026-11-26-radiografia.md`, quaderno `consegne/radiografia/2026-11-26-ricontrollo/REGIA.md`, ramo `ccr-aa566c13-nvkbaw`.
+
+### 🔴 #265 — Apri Google Cloud e DataForSEO per il rapporto dell'imprenditore, e di' se accetti il rischio sulle recensioni · ⏳ accodata 2026-11-26 15:05 · @builder-automazioni
+
+**Stato:** ⏳ in attesa di Nicola (corretta alle 15:20 col parere legale)
+
+**In parole semplici.** Il rapporto sulle attività che si iscrivono userà fonti a pagamento. Alle 14:45 del 26/11 ne hai approvate tre. Il parere legale delle 15:10 ne tiene due. Le sessioni costruiscono i pezzi spenti: si accendono quando ci sono le chiavi.
+Per esempio: per La Ragazzetta il riquadro ufficiale di Google mostrerebbe la sua scheda, che il web non ha trovato.
+
+**Cosa cambia per te.** Google resta gratis sotto le sue quote, ma i suoi dati non si salvano: si vedono solo nel riquadro di Google. TripAdvisor resta spento finché non arriva un sì scritto. DataForSEO chiede 50 dollari di ricarica, una volta sola, e il rischio verso Google resta nostro.
+
+**Cosa devi fare tu.** Primo: dire se accetti il rischio di DataForSEO sulle recensioni; il legale consiglia sì, tenendo solo i temi. Secondo: su Google Cloud, nel progetto della chiave PageSpeed, attiva «Places API (New)» e «Places UI Kit», crea una chiave e metti un avviso di spesa a 10 euro. Terzo: apri DataForSEO e fai la ricarica. Le chiavi vanno nelle credenziali di n8n, mai in chat; i nomi esatti li porta la sessione dei flussi. Quarto: fai rileggere il parere a un legale abilitato.
+
+**Cosa non ho verificato.** Il legale ha letto le pagine di TripAdvisor e DataForSEO solo di seconda mano. Il prezzo del riquadro di Google non l'ho controllato.
+
+Cosa cambia: il rapporto di ogni attività nuova mostra la scheda Google in diretta e i temi di tutte le recensioni, invece del solo sito.
+Se va bene: l'AD rifà l'analisi di La Ragazzetta e di Ora del Gusto e ti mostra la differenza.
+
+---
+
 ### 🔴 #264 — Unisci la correzione che impedisce di crearsi una scheda da amministratore, poi applicala al database · ⏳ accodata 2026-11-25 16:19 · @security
 
 **Stato:** ✅ FATTO 2026-11-25 18:06. Nicola ha unito la correzione dentro la PR unica del sito e ha scritto «fai tu le migrazioni 861 e 862». L'AD ha applicato la 862 insieme alla 861 col pulsante «Migrazioni a mano», alle 18:06. Le due prove qui sotto, rilanciate in sola lettura alle 18:12, danno 0 e false.
