@@ -1344,3 +1344,11 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Non fatto apposta:** i 7 difetti minori del collaudo 3 e i 7 del collaudo 4. Nicola ha chiesto di riparare solo il grave. Sono in LAVORO-APERTO.
 - **Prova vera (25/11 23:05):** su Ora del Gusto la ricerca ha scritto 1 pagina da leggere e n8n ne ha lette 2. La scheda le ha scartate come possibile omonimo, giustamente.
 - Referti: `consegne/riparazioni/2026-11-25-leggi-pagine/collaudo-3-sicurezza.md` e `collaudo-4-pulizia.md`.
+
+## 2026-11-26 14:45 — Nelle visite si parte dai servizi, la vetrina è un di più (🟡, decisione di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD (`session_01R8112KtpHnLaZuTdp128Ts`), 26/11 verso le 14:40. Parole sue: «bisogna mettere un pochino meno in risalto l'offerta che offre MyCity come marketplace e bisogna risaltare gli altri servizi» e «va appunto personalizzato».
+- **Cosa:** la scheda per le visite parte da social, Google, foto e video e sito. La vetrina su MyCity resta, come «in più», e cambia per tipo di attività (bar, ristorante, negozio, artigiano, servizi alla persona).
+- **Insieme:** Morgan, il videomaker, sulla scheda: «le rubo due minuti» diventa «mi dedichi due minuti», e «dobbiamo stare il più lontano possibile da qualsiasi fraintendimento: le parole che usi ti fanno assumere una posizione agli occhi del cliente». La regola entra nella scheda.
+- **Dove:** `consegne/vendite/2026-11-26-scheda-visita.html` (pagina e PDF). Prenotazioni dal sito non promesse: non esistono ancora.
+- **Colore:** 🟡 materiale di vendita interno; nessun messaggio a clienti.
+
