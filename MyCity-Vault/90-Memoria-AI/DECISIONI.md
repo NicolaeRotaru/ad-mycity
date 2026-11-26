@@ -1413,3 +1413,9 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Fatto:** nuovo fatto `clienti.tropico-premium`; il piano del Tropico e la pagina dicono Premium; il programma scrive lo strato nelle note delle righe del Calendario. Coerenza-fatti verde.
 - **Aperto:** chi paga le spese vere fuori dal canone (budget della pubblicità, evento); se le quantità nuove si firmano subito per chi paga o dopo la prova.
 - **Colore:** 🟡. Nessuna riga scritta nel Calendario, niente pubblicato, nessun messaggio al titolare.
+
+## 2026-11-26 20:55 — La migrazione 864 è nel database vero; la ripubblicazione aspetta (🔴, firma di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD. Verso le 19:50: «ok ripubblica il 12 e il 26». Verso le 20:15: «E fai le migrazione».
+- **Cosa è stato fatto:** la 864 è andata su main da sola, con la mycity#339. L'AD aveva dimenticato la prova aggiornata, e l'ha aggiunta la sessione delle unioni. Poi «Migrazioni a mano» con APPLICA, 1 e 864 (esecuzione 45883488542), verde alle 20:41. Controllo in sola lettura: 0 regole su schede_clienti; anon e authenticated non leggono, service_role sì.
+- **Cosa non è stato fatto, e perché:** la 863 è ferma perché il suo testo contraddice il pagamento in contanti. La ripubblicazione del 12 e del 26 è stata bloccata dal controllo dei permessi della sessione dei flussi, e la sessione non l'ha aggirata.
+- **La lezione:** una migrazione che toglie un permesso porta con sé la prova che lo controlla. Senza, la CI diventa rossa.
