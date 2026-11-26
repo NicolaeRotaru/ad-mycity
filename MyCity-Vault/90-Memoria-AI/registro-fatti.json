@@ -1990,6 +1990,16 @@
       "esenzioni": []
     },
     {
+      "id": "clienti.tropico-premium",
+      "nome": "clienti.tropico-premium",
+      "valore": "Tropico Latino è nell'abbonamento Premium dal piano di dicembre 2026, e non paga: è l'unico cliente che non paga. Il Premium sul Tropico è la prova per distinguere bene Premium, Business e Base, cioè capire cosa offrire in ogni fascia. Ogni contenuto porta lo strato da cui viene (base, business, premium) e a fine mese si misura cosa ha reso ogni strato. Le spese vere fuori dal canone (budget della pubblicità, eventi) restano da decidere con Nicola.",
+      "fonte": "Nicola in chat all'AD session_01R8112KdhTFtbuViNhfHQc7, 26/11/2026 verso le 19:40: «Tropico Latino parte già con la versione premium … l'unico che non paga è Tropico Latino … è un test per distinguere bene il premium dal business, al base»",
+      "aggiornato": "2026-11-26 18:21",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
       "id": "agenzia.sito-venditore",
       "nome": "Gli agenti e la scheda del cliente dentro MyCity",
       "valore": "Chi visita i negozi per proporre i servizi di SDG si chiama AGENTE (in MyCity «venditore» vuol già dire negozio). Entra in MyCity solo dal link d'invito che Nicola crea in Admin → Agenti: non esiste nessun altro modo di diventarlo. Il link vale per una persona e per 14 giorni e si può ritirare. Con il link l'agente crea il suo account MyCity e apre la pagina /agente: incolla il link di Google Maps dell'attività, preme Analizza e riceve la scheda del cliente. La prima parte la fa il sito in pochi secondi; ricerca e giudizio li fa l'AD col piano Max (flussi n8n 14 e 14b con 90 · Chiedi all'AD). La proposta per il titolare non sta lì: va nel preventivo.",
