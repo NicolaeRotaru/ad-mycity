@@ -49,6 +49,9 @@ Che ogni domanda sia ancora attuale sul codice di oggi.
 
 - R16-010 e R16-008 · due scelte aperte da R16: il testo esatto delle domande è nel referto di R16
 
+- R12-001 · se il conto condiviso della spesa per l'AI non risponde, l'AI dei negozi si ferma: va bene così, o serve un contatore di riserva?
+- Prima di accendere l'AI dei negozi (da R12): la migrazione 158 va applicata sul database vero, e la variabile AI_GLOBAL_DAILY_BUDGET_EUR va messa su Vercel. Sono passi tuoi.
+
 ### Prove comuni che chiedono la tua firma (la correzione è pronta, tolta dal ramo)
 
 Una prova comune è un controllo che protegge più riparazioni insieme. Cambiarla chiede la tua firma, quindi la correzione è stata tolta e aspetta te.

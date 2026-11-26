@@ -7,3 +7,4 @@ finita R13
 ferma R15 6484d56
 finita R14
 finita R16
+finita R12
