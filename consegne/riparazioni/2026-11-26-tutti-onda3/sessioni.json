@@ -1,0 +1,77 @@
+{
+ "regista": "session_015BmpnXSyPksZEDoo4vMSYa",
+ "sessioni": {
+  "R17": {
+   "id": "session_015BmpnXmoDjAaTnDCHFYnQ8",
+   "ramo": "ccr-a672a2b3-92w5w1-m17",
+   "onda": 1,
+   "aperta": "2026-11-26 17:23"
+  },
+  "R18": {
+   "id": "session_015BmpnVEyGQPmpuPWcBoXdP",
+   "ramo": "ccr-a672a2b3-92w5w1-m18",
+   "onda": 1,
+   "aperta": "2026-11-26 17:23"
+  },
+  "R19": {
+   "id": "session_015BmpnVts4bV7JcCH2TVRk5",
+   "ramo": "ccr-a672a2b3-92w5w1-m19",
+   "onda": 1,
+   "aperta": "2026-11-26 17:23"
+  },
+  "R20": {
+   "id": "session_015BmpnYKHZDfxcedzXAnYqy",
+   "ramo": "ccr-a672a2b3-92w5w1-m20",
+   "onda": 1,
+   "aperta": "2026-11-26 17:23"
+  },
+  "R21": {
+   "id": "session_015BmpnWQAhEWyZDPEqwhBcH",
+   "ramo": "ccr-a672a2b3-92w5w1-m21",
+   "onda": 1,
+   "aperta": "2026-11-26 17:23"
+  },
+  "R22": {
+   "id": "session_015BmpnVWRCPCRbQyQHG2z4r",
+   "ramo": "ccr-a672a2b3-92w5w1-m22",
+   "onda": 1,
+   "aperta": "2026-11-26 17:23"
+  },
+  "R23": {
+   "id": "session_015BmpnZ5DzsWRABJwGBbThJ",
+   "ramo": "ccr-a672a2b3-92w5w1-m23",
+   "onda": 1,
+   "aperta": "2026-11-26 17:23"
+  },
+  "R24": {
+   "id": "session_015BmpnYnbckDRk5WievXe2j",
+   "ramo": "ccr-a672a2b3-92w5w1-m24",
+   "onda": 1,
+   "aperta": "2026-11-26 17:23"
+  },
+  "R25": {
+   "id": "session_015BmpnYnKkjuVfojsm8SZk8",
+   "ramo": "ccr-a672a2b3-92w5w1-m25",
+   "onda": 1,
+   "aperta": "2026-11-26 17:23"
+  },
+  "R26": {
+   "id": "session_015BmpnVZzkQbYuUDcLqobK1",
+   "ramo": "ccr-a672a2b3-92w5w1-m26",
+   "onda": 1,
+   "aperta": "2026-11-26 17:23"
+  },
+  "R27": {
+   "id": "session_015BmpnX5LPNnrGSYuzfhRRV",
+   "ramo": "ccr-a672a2b3-92w5w1-m27",
+   "onda": 1,
+   "aperta": "2026-11-26 17:23"
+  },
+  "R28": {
+   "id": "session_015BmpnXdSRomZJVLp6TBgsy",
+   "ramo": "ccr-a672a2b3-92w5w1-m28",
+   "onda": 1,
+   "aperta": "2026-11-26 17:23"
+  }
+ }
+}
