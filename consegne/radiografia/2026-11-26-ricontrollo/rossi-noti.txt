@@ -3,3 +3,4 @@ ramo S01b ccr-aa566c13-nvkbaw-s01b
 ramo S01c ccr-aa566c13-nvkbaw-s01c
 ramo S01d ccr-aa566c13-nvkbaw-s01d
 finita S01d
+finita S01b
