@@ -1379,3 +1379,8 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa cambia:** la scheda Google si mostra solo nel riquadro ufficiale, in diretta. TripAdvisor resta spento finché non arriva un sì scritto. Con DataForSEO il rischio verso Google è nostro, e delle recensioni si tengono solo i temi.
 - **Cosa è stato fatto:** avviso urgente alle due sessioni alle 15:15; piano e carta #265 corretti.
 - **Cosa resta a Nicola:** dire se accetta il rischio di DataForSEO; far rileggere il parere a un legale abilitato.
+
+## 2026-11-26 15:12 — Correzione degli orari del rapporto dell'imprenditore (AD)
+- **Cosa era sbagliato:** nella voce qui sopra «2026-11-26 15:20» avevo scritto orari che non erano ancora arrivati. Me l'ha fatto notare Goku, il supervisore delle sessioni, alle 15:08.
+- **Gli orari veri:** il parere legale è delle 14:53. L'avviso urgente alle due sessioni è partito verso le 14:56. Le correzioni al piano sono entrate alle 14:58. Quindi la voce vale come «2026-11-26 14:58».
+- **Cosa ho corretto:** gli orari nel piano, nella carta #265 e nel lavoro aperto. La voce qui sopra resta com'è, perché questo registro non si riscrive.
