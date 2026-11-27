@@ -1573,3 +1573,7 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Limiti:** niente prezzi e niente dati inventati; orari, menu e storia restano «da confermare» e il sito è nascosto a Google finché il titolare non dice sì. Vercel non pubblicato: il collegamento non può creare progetti (403).
 - **Colore:** 🟡: codice in un ramo, PR da unire da Nicola; la pubblicazione su Vercel ha la sua firma in chat.
 
+
+## 2026-11-27 18:35 — Correzione al concetto salvato: il manuale torna a 17.925 byte (🟡)
+- **Cosa:** la prova `due-elenchi-un-solo-metro` vuole circa 60 byte di margine sotto i 18.000 del manuale; con 17.997 era rossa (segnalato dalla sessione delle PR, …KTPLRu). La riga «Chi sei» di `CLAUDE.md` ora dice il concetto e il modello in breve, «(Amazon × eBay × Glovo)». Il modello per esteso resta in `MyCity-Vault/00-Index.md`, riga 6.
+- **Peso:** 17.925 byte, 7 in meno di prima del concetto. Prova verde in locale.
