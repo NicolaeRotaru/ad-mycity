@@ -262,3 +262,12 @@ quel servizio. Social, sito web e logo sono servizi di MyCity. Le regole vive so
 `agenzia.listino`, `agenzia.nome`). Un avviso per chi scrive il preventivo, dal §2.1: il negoziante diffida delle agenzie web.
 Per questo ogni voce del preventivo dice il motivo con il numero vero, per esempio «12 prodotti senza foto»,
 e non parla mai di «digitalizzazione».
+
+**④ Il concetto: cosa fa MyCity (Nicola, 27/11/2026 18:11).** Nicola l'ha dettato in chat all'AD
+chiedendo di salvarlo come concetto: *«MyCity si occupa di digitalizzare le attività locali e
+promuovere i loro servizi e prodotti attraverso il marketplace»*. È più largo del §1, che parte
+dalle botteghe: oggi MyCity serve tutte le attività che vendono qualcosa, e oltre al marketplace
+offre i servizi per portarle online (sito, social, scheda Google, foto e video). Il §1 resta vero
+come motore: il concetto dice *cosa fa* MyCity, il §1 e il §3 spiegano *perché* sposta la spesa.
+Una cosa non cambia: col negoziante la parola «digitalizzare» non si usa, come dice il §2.1. Gli
+si parla di incassi, clienti e tempo. *(`strategia.concetto` nel registro dei fatti.)*
