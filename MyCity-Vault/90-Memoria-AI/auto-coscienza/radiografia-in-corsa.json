@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-11-26 22:30",
+  "aggiornato": "2026-11-27 02:09",
   "scansioni": [
     {
       "quando": "2026-08-25 20:35",
@@ -8495,6 +8495,24 @@
         "lib/agenti/scheda.ts": "4e8986df1971",
         "lib/agenti/sito.ts": "242fad2a6c74",
         "lib/database.types.ts": "255f7c2b8626"
+      }
+    },
+    {
+      "quando": "2026-11-27 02:09",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 3,
+      "schede": [
+        "Dopo che il titolare accetta il preventivo un nuovo invio dello stesso negozio crea un secondo negozio",
+        "Un'attività rimasta a metà e rifiutata in Admin risponde «ha già accettato il preventivo»",
+        "Il controllo degli omonimi di «Aggiungi attività» non vede un'attività rimasta a metà"
+      ],
+      "nota": "",
+      "file": {
+        "lib/agenzia/nuova-attivita.ts": "575d199ce870"
       }
     }
   ]
