@@ -1,8 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-11-27 00:55
+aggiornato: 2026-11-27 01:50
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🔴 **2026-11-27 01:50 — Il sito ha le 97 riparazioni della campagna, il database aspetta 19 migrazioni.**
+>
+> Nicola ha chiesto di controllare e unire tutte le richieste aperte. Sono unite mycity#341 e mycity#342, ad-mycity#1061 e il quaderno della campagna. Le 97 voci sono chiuse nel registro: le aperte del sito passano da 646 a 549. Le 19 migrazioni non sono applicate e aspettano il suo «ok migrazioni». La richiesta ad-mycity#1048 resta ferma: aspetta la sua decisione legale su Google Maps.
 
 > 🟡 **2026-11-27 00:55 — La campagna sui difetti del sito che non chiedono Nicola è pronta da unire: 97 voci si chiudono con mycity#342.**
 >

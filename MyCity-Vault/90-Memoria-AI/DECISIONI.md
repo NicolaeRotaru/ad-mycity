@@ -1476,3 +1476,9 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Prima del via:** il controllo che confronta il codice col database vero era verde alle 18:17. Mancava solo la 865.
 - **Cosa resta:** la variabile `N8N_SCHEDA_SEGRETO` su Vercel (non c'è ancora) e il primo link in Admin → Agenti, tutte e due di Nicola.
 
+## 2026-11-27 01:50 — Unite le richieste aperte della notte, il database resta com'era (🔴, firma di Nicola sull'unione)
+- **Chi e quando:** Nicola, in chat all'AD, 27/11 poco dopo l'01:00: «Tu devi controllare tutte le pr di queste sessioni sistemarle, controllare che va tutto bene e margiarle».
+- **Cosa è stato fatto:** unite ad-mycity#1061, mycity#341 e mycity#342. Ognuna è stata prima aggiornata con main, e la CI è tornata verde. Il quaderno della campagna, ad-mycity#1032, aveva dieci conflitti di memoria e un controllo rosso sui testi: sistemati entrambi.
+- **Cosa non è stato fatto:** le 19 migrazioni non sono applicate. L'unione non le comprende: serve il suo «ok migrazioni». La ad-mycity#1048 non è unita: legge la pagina pubblica di Google Maps e mostra i voti di Google, e il parere legale dice di no.
+- **Da sapere:** il controllore finale chiesto dalla regia per la #342 non è stato aperto. La CI intera era verde, anche con la #338 e la #341 dentro.
+
