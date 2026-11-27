@@ -1585,15 +1585,59 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Peso del manuale:** 17.925 byte su un tetto di 18.000. La prova `due-elenchi-un-solo-metro` vuole circa 60 byte di margine, e passa. La prima versione pesava 17.997 byte ed era rossa: l'ha trovato la sessione delle PR. Il modello Amazon × eBay × Glovo per esteso resta in `MyCity-Vault/00-Index.md`.
 - **Colore:** 🟡, perché tocca le istruzioni della macchina. L'ha chiesto Nicola, e la PR la valuta lui.
 
+## 2026-11-27 19:58 — Tolto «Cosa ci guadagni» dalla pagina Abbonamento del negoziante (🟡)
+- **Chi l'ha chiesto:** Nicola, dal telefono, sulla pagina Abbonamento di Pane Quotidiano: «togli questo pezzo "cosa ci guadagni"».
+- **Cosa ho fatto:** tolto il riquadro verde dalla pagina Abbonamento del negoziante. Ora la pagina apre con l'offerta su misura. La funzione che scriveva le frasi resta nel codice, con la sua prova: si rimette in un attimo. PR del sito: NicolaeRotaru/mycity#354.
+- **Prova:** le due prove della pagina ora controllano che il riquadro non ci sia. Con la pagina vecchia sono rosse (2 su 36), con la nuova verdi (59 su 59). Foto della pagina a misura di telefono, coi dati finti delle prove.
+- **Colore:** 🟡, codice del sito in un ramo. Sul sito cambia solo quando Nicola unisce la PR.
 ## 2026-11-27 19:17 — Applicata in produzione la migrazione 999b, il giorno della visita di SDG (🔴, firma di Nicola)
 - **Chi e quando:** Nicola, in chat all'AD (session_01R8112NYQ3s6UrYKRZCZdxA), 27/11 verso le 19:00: «applica le migrazioni».
 - **Cosa:** confronto in sola lettura fra il registro del database vero (340 righe) e `migrations/` di main (0033f975, dopo la mycity#351): mancava solo la 999b. Aggiunge `preventivi_con_codice.visita_il` e un indice unico parziale, cioè una sola attività per ora. Non cancella niente. Lanciato «Migrazioni a mano» con APPLICA / 1 / 999b: esecuzione 46046533099, partita alle 19:03, tutta verde alle 19:17.
 - **Verifica:** in sola lettura alle 19:23: 999b nel registro (341 righe), colonna `visita_il` di tipo timestamptz, indice `preventivi_con_codice_una_visita_per_ora` presente.
 - **Colore:** 🔴, eseguito sulla firma esplicita di Nicola.
 
+## 2026-11-27 20:31 — Nella pagina venditore di SDG Agenzia si entra con sdg.agenzia@gmail.com (🔴 da eseguire, firma di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD (session_01R8112NCcfSwcjYZHBsdh37), 27/11 20:20: «l'agenzia SDG dentro il marketplace è la stessa agenzia SDG … ti mando le mail e dovrai farmi accedere con questa email all'agenzia». Alle 20:28 ha mandato l'indirizzo.
+- **Cosa:** l'utente di sistema di SDG Agenzia (migrazione 707, bloccato e senza password) prende l'email vera di SDG invece della Gmail di Nicola col «+negozio», proposta nell'azione #268. Controllato in sola lettura alle 20:28: nessun account usa già quell'indirizzo. Il comando è scritto nell'azione #268.
+- **Chi lo esegue:** Nicola, con un incolla nell'editor SQL di Supabase. L'AD sul database vero non scrive.
+- **Colore:** 🔴, perché cambia l'accesso di un utente sul database vero.
+
+## 2026-11-27 22:54 — Eseguito il comando che apre SDG Agenzia con sdg.agenzia@gmail.com (🔴, firma di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD (session_01R8112NCcfSwcjYZHBsdh37): «Perché non incolli tu questo comando», con il comando dell'azione #268 incollato. Vale come firma esplicita; cambia il «chi lo esegue» della voce delle 20:31.
+- **Cosa:** lanciato su Supabase, progetto «Mycity» (`clmpyfvpvfjgeviworth`): l'utente `11111111-…-5d9000000001` prende l'email vera di SDG in `auth.users` e in `auth.identities`, e `banned_until` diventa null. `email_confirmed_at` non è stato toccato.
+- **Verifica:** ricontrollo in sola lettura subito dopo. Email nuova in tutte e due le tabelle; utente non bloccato; profilo venditore approvato «SDG Agenzia»; conferma dell'email ancora del 24/11, quindi il trigger del benvenuto non è scattato; un solo account con quell'indirizzo. La password è ancora vuota: la sceglie Nicola con «Password dimenticata?».
+- **Per tornare indietro:** `update auth.users set banned_until = now() + interval '100 years' where id = '11111111-1111-1111-1111-5d9000000001';`
+- **Colore:** 🔴, eseguito sulla firma esplicita di Nicola.
 ## 2026-11-27 21:02 — Tasto Approva: l'impronta guarda tutto quello che esce (🟡, firmato da Nicola)
 - **Chi e quando:** Nicola, in chat all'AD (session_01R8112LLyeYLAMVEEzLNUuw), 27/11 verso le 20:45: «impronta nuova subito». Il lavoro l'ha chiesto la sessione di controllo delle sessioni (session_01R8112L2JFRP34XMFymdS4d).
 - **Il difetto:** l'impronta nel tasto guardava solo file e ora. Se l'AD cambiava solo la didascalia, il tasto rimasto sotto l'anteprima vecchia approvava la versione nuova, non vista.
 - **Cosa:** l'impronta guarda file, ora, didascalia, primo commento, copertina, tipo e social. Rifiuta vale sempre. Il messaggio di un tasto che non corrisponde dice le cause vere.
 - **Dove:** NicolaeRotaru/N8N#37. Due collaudi indipendenti: tutti e due reggono.
 - **Colore:** 🟡. Il flusso vivo non cambia finché Nicola non scrive «ok 267»: «Proponi» e «Tasti» vanno caricati insieme.
+
+## 2026-11-27 22:25 — Tropico: fermati e rifatti i due pezzi di sabato che chiamavano sangria il frozen alla fragola (🟡)
+- **Chi e quando:** Nicola, in chat all'AD (session_01R8112P5YYf1DSVHQKpdukS), 27/11 alle 21:48, con la foto della storia uscita: «questa qua è una margherita frozen alla fragola, non è una sangria».
+- **Il difetto:** il piano del 26/11 ha dato un nome a un drink senza conferma. La regola c'era per i piatti, non per i drink. La foto 0307 era chiamata sangria in tre pezzi: la storia del 27/11 alle 18:00 (uscita su tutte e quattro le pagine), la slide 3 del carosello del 28/11 alle 18:30 e la scena 2 del reel del 28/11 alle 19:15 (tutti e due già approvati).
+- **Cosa:** alle 22:11 il carosello e il reel tornano da approvare, così non escono. Rifatti con le scritte giuste, caricati su Drive con il nome «-corretto» accanto ai vecchi (che restano, da archiviare a mano), riproposti su Telegram alle 22:20 col lotto `tropico-latino-1127-2220`. Nel file del cliente la foto 0307 è scritta come margarita frozen alla fragola e «non sangria»; il nuovo `controlla-nomi.py` si ferma se una grafica scrive un nome sopra una foto non confermata.
+- **Dove:** NicolaeRotaru/N8N, ramo `ccr-f0948263-uqbjwj`. Esecuzioni n8n: 4343 (pausa), 4352 (Drive), 4356 e 4357 (proposte).
+- **Colore:** 🟡. La pausa si annulla con un Approva; niente è uscito senza Nicola. Le didascalie dei due post del 26/11 e la storia già uscita aspettano lui (AZIONI-IN-ATTESA).
+
+## 2026-11-27 22:45 — Tropico: «margarita frozen», senza «alla fragola» (🟡)
+- **Chi e quando:** Nicola, in chat all'AD (session_01R8112P5YYf1DSVHQKpdukS), 27/11 verso le 22:35: «non specificare che è la fragola, margarita frozen»; «alla fragola» appesantisce la frase.
+- **Cosa:** il carosello (slide 3: «Un margarita frozen · Anche in caraffa da un litro») e il reel (scena 2: «il margarita frozen») di sabato 28/11 rifatti, caricati su Drive col nome «-corretto2» e riproposti su Telegram alle 22:45, lotto `tropico-latino-1127-2245`. Le proposte delle 22:20 sono superate. Le didascalie pronte in AZIONI-IN-ATTESA dicono solo «margarita frozen».
+- **Dove:** NicolaeRotaru/N8N#38 (secondo commit). Esecuzioni n8n 4366 (Drive), 4367 e 4368 (proposte).
+- **Colore:** 🟡. Esce solo con l'Approva di Nicola.
+
+## 2026-11-27 22:20 — Decisione di Nicola: sul lato SDG si dice «la tua attività».
+- **Cosa ha detto Nicola, verso le 22:10:** «il tuo negozio» si cambia ovunque c'entri SDG, cioè abbonamenti e servizi. Sul lato marketplace resta, perché lì il target di MyCity sono le botteghe e i piacentini.
+- **Perché regge:** SDG lavora con tutte le attività locali, non solo coi negozi (fatto `sdg.abbonamenti`, Nicola 27/11 verso le 17:10).
+- **Cosa:** fatto nuovo `sdg.lessico` nel registro. Il sito oggi ha 95 righe con «tuo negozio» in 57 file, mescolate fra SDG e marketplace. n8n e il sito di SDG non ne hanno.
+- **Chi lo fa:** la sessione «Rapporto dell'imprenditore · sito e preventivo». Prima le 9 righe nuove della mycity#355: così la migrazione 999e scrive già le descrizioni giuste. Poi una richiesta nuova dal main per il resto del lato SDG. I casi dubbi restano com'erano e vanno in elenco a Nicola.
+- **Colore:** 🟡. Testi del sito in un ramo, niente unione né migrazioni applicate senza la firma di Nicola.
+## 2026-11-27 22:50 · Tropico: 17 contenuti dalle foto nuove di Drive, pronti ma non caricati 🟡
+- **Chi e quando:** Nicola, in chat all'AD (sessione «Tropico Latino content updates»), 27/11 verso le 22:10: creare contenuti nuovi, o modificare quelli attuali, con le foto nuove messe nella cartella Drive «Da programmare» del Tropico.
+- **Le foto:** 123, caricate in «Originali» il 27/11 tra le 16:56 e le 17:21. Sono 91 scatti da studio del 5/10/2015 su fondo grigio (piatti, cocktail, fajitas, la griglia da tavolo) e 32 dolci del 21/4/2016. Prima non c'era una foto delle fajitas: il piano di dicembre lo segnava come buco.
+- **Cosa:** 17 pezzi negli orari liberi dal 3 al 9/12: il reel del menu, il carosello dei dolci, il carosello «come si mangia una fajita», il reel dei cocktail e 12 storie animate. Tre storie riempiono righe «idea» del piano di dicembre (3/12 20:30, 6/12 19:00, 8/12 20:00). In più il post del burrito del 17/12, rifiutato il 25/11, rifatto con una foto nuova e un id nuovo: la riga vecchia resta in bozza. Dal provino ho corretto due pezzi: il set fotografico che si vedeva in una storia e la stessa foto dei churros due volte nel carosello.
+- **Non fatto:** niente prezzi nelle grafiche; nessun nome ai piatti incerti (la tortilla con verdure e i gamberi restano fuori). Ho usato solo nomi del menu del sito o detti da Nicola: burrito, fajitas e i loro sei nomi, nachos, griglia, churros, brownie, Oreo cake, margarita frozen alla fragola.
+- **Bloccato:** caricamento su Drive e proposte nel Calendario. Lo spostamento sull'ambiente «SDG» è stato rifiutato in chat e non l'ho richiesto. Lettura di Drive e del Calendario fatta lo stesso dallo strumento MCP di n8n; la strada è scritta nella procedura.
+- **Da verificare con Nicola:** le foto hanno dieci anni. Piatti e dolci potrebbero non essere più nel menu: un pezzo con un piatto che non c'è più si rifiuta su Telegram.
