@@ -26998,6 +26998,23 @@
         "tipo": "umano"
       },
       "nota": "Intanto la campagna dei 200 del 27/11 tiene le 43 voci con file di migrazione in un'onda a parte."
+    },
+    {
+      "id": "AR-1195",
+      "nato_come": "scoperta",
+      "titolo": "Il cancello dello stop prende le schede dei riparatori nelle cartelle d'onda per allarmi non messi in coda, e ferma la regia a ogni turno",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato": "2026-11-27 02:25",
+      "origine": "regia prima della campagna dei 200 del 27/11 (session_015BmpnYPczqtRmcwQzQzjV6), detto all'AD alle 02:25",
+      "dove": "cervello/cancello-stop.mjs, eSchedaRisolutore (verso la riga 103)",
+      "descrizione": "L'esenzione per le schede dei riparatori riconosce solo <C>/schede/. Le campagne dal 26/11 tengono ogni onda in una sottocartella (<C>/onda1/schede/), e lì le schede con «bloccante» o «🔴» si leggono come allarmi scritti per Nicola senza una riga in AZIONI-IN-ATTESA. La regia è stata fermata a ogni turno.",
+      "causa_radice": "Il percorso delle schede è scritto a mano nell'esenzione invece di venire dallo stesso posto dove riparazione-sessioni.mjs le scrive.",
+      "fix_proposto": "Riconoscere anche <C>/ondaN/schede/ (meglio: leggere il percorso dalle cartelle che hanno un piano.json), con una prova che diventi rossa togliendo il caso della sottocartella.",
+      "dimensione": "processi",
+      "verifica": {
+        "tipo": "umano"
+      }
     }
   ],
   "meta": {
