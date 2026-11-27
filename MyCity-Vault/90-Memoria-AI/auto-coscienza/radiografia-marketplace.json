@@ -102824,6 +102824,45 @@
       "stato": "aperto",
       "fonte": "collaudo indipendente dello sblocco in contanti al «Sì» dell agente, 2026-11-27 03:40 (repo mycity, ramo claude/confident-turing-z8z2i5)",
       "dove_si_ripara": "da decidere"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "Sicurezza",
+      "titolo": "Il link del preventivo che si ferma per troppi codici sbagliati non avvisa Nicola",
+      "file": "app/api/preventivo/[codice]/accetta/route.ts",
+      "descrizione": "Dopo 30 tentativi in un giorno il link si ferma, ma nessuno lo sa: chi prova a indovinare il codice resta nascosto.",
+      "impatto": "Basso: il tetto ferma il tentativo; manca solo l'avviso.",
+      "fix": "Al primo rifiuto per il tetto del giorno, un avviso a Nicola (notifyAdmins, una volta per link al giorno).",
+      "severita": "minore",
+      "stato": "aperto",
+      "fonte": "terzo collaudo indipendente della sicurezza della conferma col codice dell'email, 2026-11-27 18:30 (repo mycity, ramo claude/adoring-fermat-2d0bi6)",
+      "dove_si_ripara": "da decidere"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "Sicurezza",
+      "titolo": "Chi ha il link può esaurire i tentativi e bloccare per un giorno il titolare vero",
+      "file": "app/api/preventivo/[codice]/codice/route.ts",
+      "descrizione": "I tetti per link (15 codici e 30 tentativi al giorno) valgono per chiunque abbia il link: chi lo consuma ferma anche il titolare.",
+      "impatto": "Basso: chi ha il link può comunque accettare con la propria email, e Nicola lo vede nell'avviso.",
+      "fix": "Da decidere: un modo per Nicola di riaprire il link da Admin, o un tetto per email oltre a quello per link.",
+      "severita": "minore",
+      "stato": "aperto",
+      "fonte": "terzo collaudo indipendente della sicurezza della conferma col codice dell'email, 2026-11-27 18:30 (repo mycity, ramo claude/adoring-fermat-2d0bi6)",
+      "dove_si_ripara": "da decidere"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "Flussi critici",
+      "titolo": "Mancano le prove del doppio invio della conferma e di un secondo link chiesto a Supabase in pochi secondi",
+      "file": "lib/agenzia/preventivo-col-codice.ts",
+      "descrizione": "Il doppio invio simultaneo e il gettone d'accesso seguito subito dal link dell'email sono letti nel codice ma non provati; non si sa se Supabase limita due generateLink ravvicinati.",
+      "impatto": "Se Supabase li limita, il titolare legge «email non partita» ma l'accettazione resta valida ed è già dentro.",
+      "fix": "Una prova col doppio invio sulla presa del preventivo, e una prova sul server vero dei due generateLink.",
+      "severita": "minore",
+      "stato": "aperto",
+      "fonte": "terzo collaudo indipendente della sicurezza della conferma col codice dell'email, 2026-11-27 18:30 (repo mycity, ramo claude/adoring-fermat-2d0bi6)",
+      "dove_si_ripara": "da decidere"
     }
   ],
   "sync_scan": {
