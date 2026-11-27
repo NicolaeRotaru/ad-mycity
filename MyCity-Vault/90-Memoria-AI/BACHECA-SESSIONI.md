@@ -28,6 +28,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 27/11 ~23:30 | all'AD (`…MzQTbHfCkwbXDTvt6`) | Due richieste. **I venditori possono offrire anche servizi oltre ai prodotti**: costruisce la sessione «Servizi oltre ai prodotti per i venditori». **Un ordine di prova per SDG**: l'AD ha iscritto l'attività finta «PROVA SDG - attività finta», nascosta; l'ordine nasce quando Nicola conferma dal link col codice. Chi controlla il primo ordine vero sappia che quello di «PROVA SDG» è una prova. |
 | 27/11 ~23:10 | all'AD (`…R8112LANAw9VhLSs2fAbsL`) | **La parola «digitalizzare» si può usare anche col negoziante, sul sito e nei volantini.** Cade il divieto su questa parola del §2.1 di `CONTESTO_BUSINESS.md`. Il resto del §2.1 resta: niente «tecnologia» né «AI» col negoziante, e la promessa si dice in incassi, clienti e tempo. Aggiornati il fatto `strategia.concetto` e le note ⑥ e ⑦ del §13 |
 | 27/11 ~22:40 | all'AD, stessa chat della riga delle 17:25 | Alla domanda «lancio io Migrazioni a mano?» ha scelto «Sì, lanciale tu». Entrano insieme le tre migrazioni già unite che mancavano nel database. La 999c fa nascere l'ordine a SDG. La 999d mette i prezzi a 300, 600 e 900 euro. La 999f segna le email finte dei negozi già iscritti. L'AD l'ha lanciata su main con APPLICA, 3 e 999f. |
 | 27/11 ~22:35 | AD (session_01R8112P5YYf1DSVHQKpdukS) | «Non specificare che è la fragola, margarita frozen»: nelle grafiche e nei testi del Tropico il drink della foto 0307 si chiama solo «margarita frozen», perché «alla fragola» appesantisce la frase. Il carosello e il reel di sabato 28/11 sono stati rimandati su Telegram alle 22:45 così |
@@ -222,6 +223,7 @@ già la stessa cosa: se sì, scrivile invece di rifarlo (regola 3). Oggi tre gru
 
 | Sessione | Lavoro | File suoi |
 |---|---|---|
+| «Servizi oltre ai prodotti per i venditori» (`…L6m92yFKbgNBKNr7B`) | Prodotto o servizio nel modulo del venditore; il servizio si prenota in chat, non va nel carrello. Migrazione nuova dopo la 999f, non applicata | mycity, ramo suo: `lib/products/servizio.ts`, `components/seller/ProductForm.tsx`, `lib/ordini/valida-carrello.ts` |
 | «Link imprenditore e flusso abbonamenti» (`…NaCwxLRhwBxPjvCVC`) | La conferma dell'abbonamento dal link col codice dall'email. Finita: unita con mycity#349 col sì di Nicola, alle 17:56. Su quel ramo non cambia più niente | mycity `claude/adoring-fermat-2d0bi6`: `lib/agenzia/preventivo-col-codice.ts`, `lib/agenzia/codice-dal-link.ts`, `app/api/preventivo/[codice]/*` |
 | «Subscription confirmation flow» (`…NuFB3nq8tjMhb1KRu`) | Nella conferma dal link il titolare sceglie giorno e ora della visita di SDG: colonna `visita_il`, migrazione 999b | mycity `ccr-96d27df4-51gd0d`. Il ramo parte da quello della #349. |
 | «Piano editoriale per abbonamento» (`…KdhTFt`) | Il modello delle tre fasce e il piano di dicembre del Tropico per Base, Business e Premium. Non tocca le righe del Calendario né la pubblicazione: quelle restano a «Contenuti Canva e Reel» | `cervello/modelli/piano-editoriale-*`, `cervello/piano-editoriale.mjs`, `consegne/clienti/tropico-latino/` |
@@ -247,6 +249,7 @@ un elenco che da qui non si vede: il loro stato non è verificato.
 
 | Ruolo | Id |
 |---|---|
+| «Servizi oltre ai prodotti per i venditori», PR su mycity | `session_01R8112L6m92yFKbgNBKNr7B` |
 | «Verifica sessioni completate», AD, controllo delle sessioni | `session_01R8112L2JFRP34XMFymdS4d` |
 | «Verifica PR pronte per merge», unisce le richieste | `session_01R8112KTPLRuAkWr1PreRUu` |
 | «Seller link process workflow», controllore dell'ordine a SDG: migrazioni entrate alle 23:12, resta il primo ordine vero da vedere | `session_01R8112NuZmmktNkEcpG9ApN` |
