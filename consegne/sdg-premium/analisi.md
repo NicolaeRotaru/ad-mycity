@@ -7,15 +7,15 @@ fonte: richiesta di Nicola del 27/11/2026 ~16:00; ricerca web del 27/11/2026
 # Analisi del business di SDG Agenzia — versione Premium
 
 ## In parole semplici
-Questa è l'analisi di SDG come se fosse un'attività qualsiasi che compra il Premium: dove sta, chi ha intorno, cosa le manca, cosa fare per prima. In una riga: **SDG ha un'offerta chiara e a buon prezzo, ma sul web non si trova**. Non abbiamo trovato né un sito, né profili social, né una scheda Google intestati a SDG o a scattiDG. Per un'agenzia che vende visibilità è il primo problema da sistemare. Il secondo: i clienti paganti sono ancora uno.
+Questa è l'analisi di SDG come se fosse un'attività qualsiasi che compra il Premium: dove sta, chi ha intorno, cosa le manca, cosa fare per prima. SDG lavora con tutte le attività locali che devono digitalizzarsi (negozi, bar e ristoranti, artigiani, estetiste e parrucchieri, palestre, studi professionali, B&B) e gestisce tutta la loro infrastruttura online. In una riga: **SDG ha un'offerta chiara e a buon prezzo, ma sul web non si trova**. Non abbiamo trovato né un sito, né profili social, né una scheda Google intestati a SDG o a scattiDG. Per un'agenzia che vende visibilità è il primo problema da sistemare. Il secondo: i clienti paganti sono ancora uno.
 
 ## Cosa cambia per te
-- SDG si presenta con prezzi scritti (300 / 500 / 999 € al mese). Le agenzie locali che abbiamo trovato non pubblicano nessun prezzo: è un vantaggio che oggi nessuno sa.
-- Premium a 999 € costa meno di un'agenzia completa (oltre 2.000 € al mese secondo Cronoshare) ma è tanto per un negozio piccolo: va proposto a ristoranti e locali con margine, non al negozio di quartiere.
+- SDG si presenta con prezzi scritti (300 / 600 / 900 € al mese). Le agenzie locali che abbiamo trovato non pubblicano nessun prezzo: è un vantaggio che oggi nessuno sa.
+- Premium a 900 € costa meno della metà di un'agenzia completa (oltre 2.000 € al mese secondo Cronoshare) ma è tanto per un'attività piccola: va proposto a ristoranti, B&B e locali con margine.
 - Vendere ai primi 3 clienti non richiede soldi, richiede tempo tuo: circa 8 ore a settimana per quattro settimane.
 
 ## Cosa devi fare
-1. **Decidere se avviare la diagnosi gratuita di persona a 20 attività che conosci** (bar, ristoranti, pasticcerie, negozi del centro) dal 1° dicembre. È la mossa n. 1. Contattare persone vere è una decisione rossa: serve il tuo via.
+1. **Decidere se avviare la diagnosi gratuita di persona a 20 attività che conosci**, di settori diversi (bar, ristoranti, estetiste, palestre, B&B, artigiani, studi, negozi) dal 1° dicembre. È la mossa n. 1. Contattare persone vere è una decisione rossa: serve il tuo via.
 2. **Controllare a mano se SDG o scattiDG hanno già un profilo** su Instagram, Facebook, TikTok, LinkedIn o Google. Da qui non si vede.
 3. **Chiedere a Tropico Latino** di passare da prova a pagante entro il 15/01/2027, con tre numeri di prima e dopo e un permesso scritto per citarla.
 
@@ -35,13 +35,13 @@ SDG è l'agenzia di MyCity per web, social, foto e video. I servizi si vendono c
 | Fascia | Prezzo al mese | Cosa comprende (sintesi) |
 |---|---|---|
 | Base | 300 € | Foto all'avvio, sito di una pagina, 8 post al mese, scheda Google sistemata, rapporto all'avvio |
-| Business | 500 € | Foto all'avvio e ogni 3 mesi, sito completo, 12 post e 2 video al mese, risposte alle recensioni, rapporto mensile con 3 concorrenti |
-| Premium | 999 € | Foto e video ogni mese, sito aggiornato ogni mese, 20 post, 4 video, storie, scheda Google curata, rapporto ogni settimana con fino a 5 concorrenti, un incontro al mese, referente tutto tuo |
+| Business | 600 € | Foto all'avvio e ogni 3 mesi, sito completo, 12 post e 2 video al mese, risposte alle recensioni, rapporto mensile con 3 concorrenti |
+| Premium | 900 € | Foto e video ogni mese, sito aggiornato ogni mese, 20 post, 4 video, storie, scheda Google curata, rapporto ogni settimana con fino a 5 concorrenti, un incontro al mese, referente tutto tuo |
 
 Nessun vincolo, disdetta con 30 giorni, primo mese a metà prezzo, pagamento in contanti di persona. Il 10% resta solo sui prodotti venduti tramite MyCity con consegna. I clienti oggi: Tropico Latino (Premium di prova, 4 pagine social), Ora del Gusto (primo pagante, in corso), Pane Quotidiano (negozio su MyCity).
 
 ## 2. Il mercato locale
-- **25.649 imprese attive** in provincia di Piacenza al 30/09/2025, in calo dello 0,2%. Registrate a fine 2025: 27.676 (Camera di Commercio dell'Emilia). Per SDG il bersaglio non è tutto questo ma le attività che vendono al pubblico: negozi, bar, ristoranti, servizi alla persona.
+- **25.649 imprese attive** in provincia di Piacenza al 30/09/2025, in calo dello 0,2%. Registrate a fine 2025: 27.676 (Camera di Commercio dell'Emilia). Per SDG il bacino è questo intero numero: tutte le attività locali che hanno bisogno di digitalizzarsi, non solo i negozi. Una parte non serve (grandi aziende, agricole): quanta, non lo sappiamo.
 - **Social e sito in Italia**: il 59,0% delle imprese con almeno 10 addetti usa i social (nel commercio 72,8%), il 76,5% ha un sito (ISTAT, 15/12/2025). Per le microimprese il dato non c'è: è un'ipotesi che siano meno presenti (confidenza 60%), da misurare con la diagnosi gratuita.
 - **Quanto costa farsi gestire i social**: freelance 300-1.500 € al mese; agenzie anche oltre 2.000 €. Pacchetti base per piccole imprese 300-700 €. Un sito da 500 a 10.000 € una volta sola. La pubblicità è a parte (150-300 € al mese in media per le attività locali).
 - **Fiducia**: dalla nostra ricerca interna di agosto il negoziante diffida delle agenzie (circa 60% di insoddisfatti a livello nazionale). Prezzo in chiaro e prima prova a metà prezzo rispondono a questo.
@@ -63,20 +63,24 @@ Nessun vincolo, disdetta con 30 giorni, primo mese a metà prezzo, pagamento in 
 Nota di onestà: sui quattro locali ho solo schede di presentazione, nessun listino. Su due (MADE e SP Studio) non sono sicuro che siano ancora attivi o che facciano davvero questo lavoro.
 
 ## 4. SWOT onesta
-**Forze**: prezzi chiari; pacchetto completo (sito, social, foto, video, rapporto); Premium più economico di un'agenzia completa; anteprima da approvare su Telegram/WhatsApp, quindi niente app nuova; legame con la vetrina MyCity; due clienti reali in corso.
-**Debolezze**: SDG non si trova online; un solo cliente pagante; pagamento solo in contanti; dipendenza da Nicola e da scattiDG; 999 € è tanto per un negozio piccolo; la diagnosi gratuita non è ancora online.
-**Opportunità**: molte attività piccole con poca presenza (ipotesi); la diagnosi gratuita come esca onesta; la scheda Google gratuita come primo passo; bar e ristoranti che vendono con le immagini; i negozi nuovi di MyCity come clienti SDG; le agenzie locali senza prezzi.
+**Forze**: prezzi chiari; gestione di tutta l'infrastruttura online in un posto solo (sito, social, scheda Google, foto, video, rapporto, vetrina); Premium più economico di un'agenzia completa; anteprima da approvare su Telegram/WhatsApp, quindi niente app nuova; legame con la vetrina MyCity; due clienti reali in corso.
+**Debolezze**: SDG non si trova online; un solo cliente pagante; pagamento solo in contanti; dipendenza da Nicola e da scattiDG; 900 € è tanto per un'attività piccola; troppi settori da seguire insieme; la diagnosi gratuita non è ancora online.
+**Opportunità**: studi e artigiani senza presenza curata; molte attività piccole con poca presenza (ipotesi); la diagnosi gratuita come esca onesta; la scheda Google gratuita come primo passo; bar e ristoranti che vendono con le immagini; i negozi nuovi di MyCity come clienti SDG; le agenzie locali senza prezzi.
 **Minacce**: freelance e Canva costano meno; Italiaonline ha marchio e venditori; la diffidenza verso le agenzie; mercato locale non in crescita; regole di Meta e Google che cambiano; un errore pubblicato per sbaglio.
 
 ## 5. Che cliente per quale abbonamento
 - Bar e pasticcerie del centro → **Business**.
 - Ristoranti e locali con serate → **Premium**.
 - Negozi di quartiere → **Base**.
-- Parrucchieri e servizi su appuntamento → **Business**.
+- Parrucchieri, estetiste, centri benessere → **Business**.
+- Palestre e studi di danza o sport → **Business**.
+- Artigiani e imprese di servizi → **Base**.
+- Studi professionali → **Business** (testi prudenti: sanità e legale hanno regole sulla pubblicità).
+- B&B e strutture ricettive → **Premium**.
 - Attività nuove o con più sedi → **Premium**.
 
 ## 6. Prezzi
-Base 300 · Business 500 · Premium 999 € al mese, primo mese a metà prezzo (150 / 250 / 499,50 €). Base e Business sono nella fascia del freelance ma con sito e scheda; Premium è sotto un'agenzia completa. Il rischio è Premium: va venduto solo a chi ha margine.
+Base 300 · Business 600 · Premium 900 € al mese, primo mese a metà prezzo (150 / 300 / 450 €). Base è nella fascia del freelance ma con sito e scheda; Business è nella fascia dei pacchetti 300-700 €; Premium costa meno della metà di un'agenzia completa. Il rischio è Premium: va venduto solo a chi ha margine.
 
 ## 7. Presenza online di SDG (ricerca del 27/11/2026)
 | Canale | Stato |
@@ -88,12 +92,13 @@ Base 300 · Business 500 · Premium 999 € al mese, primo mese a metà prezzo (
 | scattiDG | nessun risultato |
 
 ## 8. Raccomandazioni in ordine di priorità
-1. **Diagnosi gratuita di persona a 20 attività conosciute**, con primo mese a metà prezzo. Obiettivo: 3 clienti paganti in 4 settimane. Dal 01/12 al 28/12; pagina online entro il 15/12. Costo: 0 € in cassa, circa 8 ore di Nicola a settimana. *(contattare persone reali: rosso)*
+1. **Diagnosi gratuita di persona a 20 attività conosciute di settori diversi**, con primo mese a metà prezzo. Obiettivo: 3 clienti paganti in 4 settimane. Dal 01/12 al 28/12; pagina online entro il 15/12. Costo: 0 € in cassa, circa 8 ore di Nicola a settimana. *(contattare persone reali: rosso)*
 2. **Tropico Latino da prova a pagante**, con 3 numeri di prima e dopo e permesso scritto. Entro il 15/01/2027. 0 €.
 3. **Rendere SDG visibile**: profilo Google (gratuito), Instagram e Facebook di SDG, sito online. Entro il 15/12. 0 €.
 4. **Pagamento con carta o addebito (Stripe)** accanto ai contanti. Entro il 31/01/2027. Commissioni Stripe da verificare.
 5. **Pagina «Google Maps è gratis: ecco cosa si paga davvero»** sul sito. Entro il 20/12. 0 €.
 6. **Preventivo anonimo a Meteora Web e MADE comunicazione** per vedere i loro prezzi. Entro il 20/12. 0 €.
+7. **3 pacchetti pronti per settore** (locali con cucina, servizi su appuntamento, studi e artigiani). Entro il 31/01/2027. Circa 15 ore di lavoro.
 
 **Effetto atteso sui KPI** (stima): 3 clienti paganti nuovi in 4 settimane se si fanno 20 contatti con risposta di circa 1 su 6 e conversione del 50%; è una stima mia, confidenza 40%. Se i primi 10 contatti non danno nessuna risposta, il prezzo o il messaggio sono sbagliati e si cambia prima di proseguire.
 

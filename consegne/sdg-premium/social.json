@@ -3,8 +3,8 @@
   "fascia": "premium",
   "mese": "2026-12",
   "aggiornato_il": "2026-11-27T16:30:00+01:00",
-  "obiettivo": "Far conoscere SDG ai titolari di negozi, bar e laboratori di Piacenza e portare 8 richieste di diagnosi gratuita e 10 messaggi WhatsApp nel primo mese. Sono obiettivi, non promesse.",
-  "a_chi_parliamo": "Ai titolari di negozi, bar, ristoranti e artigiani di Piacenza: poco tempo, nessuna voglia di imparare app nuove. Parliamo di clienti, incassi e tempo risparmiato, non di tecnologia. In più, su LinkedIn, ad aziende e associazioni di categoria che hanno una rete di commercianti.",
+  "obiettivo": "Far conoscere SDG ai titolari di attività di Piacenza (negozi, bar, studi, palestre, B&B) come l'agenzia che si occupa di tutto il loro online, e portare 8 richieste di diagnosi gratuita e 10 messaggi WhatsApp nel primo mese. Sono obiettivi, non promesse.",
+  "a_chi_parliamo": "Ai titolari di tutte le attività locali di Piacenza che hanno bisogno di digitalizzarsi: negozi, bar e ristoranti, artigiani, estetiste e parrucchieri, palestre, studi professionali, B&B e strutture. SDG gestisce tutto il loro online; loro pensano all'attività. Poco tempo, nessuna voglia di imparare app nuove: parliamo di clienti, incassi e tempo risparmiato, non di tecnologia. In più, su LinkedIn, ad aziende e associazioni di categoria che hanno una rete di commercianti.",
   "canali": [
     {
       "nome": "Instagram",
@@ -15,7 +15,7 @@
     {
       "nome": "Facebook",
       "account": null,
-      "ruolo": "Gli stessi contenuti di Instagram, pubblicati insieme: tra i titolari dai 45 anni in su Facebook è ancora molto usato.",
+      "ruolo": "Gli stessi contenuti di Instagram, pubblicati insieme: Facebook è ancora molto usato dai titolari di attività locali.",
       "da_aprire": true
     },
     {
@@ -27,7 +27,7 @@
     {
       "nome": "LinkedIn",
       "account": null,
-      "ruolo": "Un post a settimana per aziende e associazioni di categoria: sono loro che possono portarci tanti negozi insieme.",
+      "ruolo": "Un post a settimana per aziende e associazioni di categoria: sono loro che possono portarci tante attività insieme.",
       "da_aprire": true
     },
     {
@@ -62,7 +62,7 @@
     {
       "nome": "Dietro le quinte e Piacenza",
       "percentuale": 15,
-      "descrizione": "Chi siamo, come lavoriamo dentro un negozio, il Natale in centro a Piacenza. Mette un volto sull'agenzia."
+      "descrizione": "Chi siamo, come lavoriamo dentro un'attività, il Natale in centro a Piacenza. Mette un volto sull'agenzia."
     },
     {
       "nome": "Abbonamenti e auguri",
@@ -108,7 +108,7 @@
       "formato": "Reel",
       "pilastro": "Diagnosi in un minuto",
       "titolo": "Reel: scrivi il nome della tua attività, in un minuto vedi cosa ti manca",
-      "testo": "Hai un negozio, un bar, un laboratorio a Piacenza? Scrivi il nome della tua attività e in un minuto vedi cosa ti manca: scheda Google, foto, recensioni, sito. È gratis.\nLink in bio, oppure scrivici su WhatsApp.\n#piacenza #negozipiacenza",
+      "testo": "Hai un'attività a Piacenza: negozio, bar, studio, palestra, B&B? Scrivi il nome e in un minuto vedi cosa ti manca online: scheda Google, foto, recensioni, sito. È gratis.\nLink in bio, oppure scrivici su WhatsApp.\n#piacenza #negozipiacenza",
       "strato": "base",
       "stato": "da_approvare"
     },
@@ -129,8 +129,8 @@
       "canale": "LinkedIn",
       "formato": "LinkedIn",
       "pilastro": "Aziende e associazioni",
-      "titolo": "Per aziende e associazioni: i negozi hanno poco tempo",
-      "testo": "Per le aziende e le associazioni di Piacenza: i negozi del territorio hanno poco tempo per i social. SDG Agenzia, partner di MyCity, li aiuta con foto, video, social, sito e scheda Google, e ogni cosa passa da un'anteprima approvata dal titolare.\nSe lavorate con commercianti, parliamone.",
+      "titolo": "Per aziende e associazioni: le attività locali hanno poco tempo",
+      "testo": "Per le aziende e le associazioni di Piacenza: le attività del territorio (negozi, bar, studi, palestre, B&B) hanno poco tempo per il loro online. SDG Agenzia, partner di MyCity, se ne occupa per intero: foto, video, social, sito, scheda Google. Ogni cosa passa da un'anteprima approvata dal titolare.\nSe lavorate con attività locali, parliamone.",
       "strato": "premium",
       "stato": "da_approvare"
     },
@@ -185,7 +185,7 @@
       "formato": "Post Google",
       "pilastro": "Presenza su Google",
       "titolo": "Foto e video per negozi e locali",
-      "testo": "Foto e video per negozi, bar e laboratori di Piacenza: veniamo da te e li facciamo mentre lavori. Scrivici su WhatsApp per un appuntamento.",
+      "testo": "Foto e video per negozi, bar, studi, palestre e B&B di Piacenza: veniamo da te e li facciamo mentre lavori. Scrivici su WhatsApp per un appuntamento.",
       "strato": "base",
       "stato": "da_approvare"
     },
@@ -207,7 +207,7 @@
       "formato": "Post foto",
       "pilastro": "Dietro le quinte e Piacenza",
       "titolo": "Post foto: chi siamo (serve una foto vera del team SDG)",
-      "testo": "Siamo SDG Agenzia. Facciamo foto, video, social, sito e scheda Google per negozi e locali di Piacenza.\nTu fai il tuo mestiere, noi ci occupiamo del resto: ogni cosa ti arriva in anteprima su WhatsApp prima di uscire, e approvi tu.\nScrivici per conoscerci.\n#piacenza #negozipiacenza",
+      "testo": "Siamo SDG Agenzia. Ci occupiamo di tutto il tuo online: foto, video, social, sito, scheda Google, recensioni. Per negozi, bar, studi, palestre, B&B e ogni attività di Piacenza.\nTu pensi alla tua attività: ogni cosa ti arriva in anteprima su WhatsApp prima di uscire, e approvi tu.\nScrivici per conoscerci.\n#piacenza #negozipiacenza",
       "strato": "base",
       "stato": "da_approvare"
     },
@@ -229,7 +229,7 @@
       "formato": "Post Google",
       "pilastro": "Presenza su Google",
       "titolo": "Tre controlli sulla scheda",
-      "testo": "Il tuo negozio ha gli orari giusti su Google? Tre controlli in dieci minuti. Se vuoi una mano, scrivici su WhatsApp.",
+      "testo": "La tua attività ha gli orari giusti su Google? Tre controlli in dieci minuti. Se vuoi una mano, scrivici su WhatsApp.",
       "strato": "base",
       "stato": "da_approvare"
     },
@@ -295,7 +295,7 @@
       "formato": "LinkedIn",
       "pilastro": "Aziende e associazioni",
       "titolo": "Tre cose che controlliamo sulla scheda Google",
-      "testo": "La scheda Google è una delle vetrine che i clienti guardano per prime. Tre cose che controlliamo sempre: orari, foto, risposte alle recensioni.\nSe avete una rete di clienti commercianti, vi mostriamo la diagnosi gratuita.",
+      "testo": "La scheda Google è una delle vetrine che i clienti guardano per prime. Tre cose che controlliamo sempre: orari, foto, risposte alle recensioni.\nSe avete una rete di clienti con un'attività locale, vi mostriamo la diagnosi gratuita.",
       "strato": "premium",
       "stato": "da_approvare"
     },
@@ -328,7 +328,7 @@
       "formato": "Post Google",
       "pilastro": "Presenza su Google",
       "titolo": "Social, sito e scheda Google",
-      "testo": "Social, sito e scheda Google per la tua attività, con l'anteprima su WhatsApp prima che esca ogni cosa. Nessun vincolo.",
+      "testo": "Ci occupiamo di tutto il tuo online: social, sito, scheda Google, recensioni. Anteprima su WhatsApp prima che esca ogni cosa, nessun vincolo. Tu pensi alla tua attività.",
       "strato": "business",
       "stato": "da_approvare"
     },
@@ -338,8 +338,8 @@
       "canale": "Instagram + Facebook + TikTok",
       "formato": "Reel",
       "pilastro": "Dietro le quinte e Piacenza",
-      "titolo": "Reel (girato): come lavoriamo dentro un negozio",
-      "testo": "Come lavoriamo: veniamo da te, facciamo foto e video del tuo negozio mentre lavori, poi pensiamo noi a come usarli.\nTu non devi imparare niente. Scrivici su WhatsApp e ci mettiamo d'accordo.\n#piacenza #negozipiacenza",
+      "titolo": "Reel (girato): come lavoriamo dentro un'attività",
+      "testo": "Come lavoriamo: veniamo da te, facciamo foto e video della tua attività mentre lavori, poi pensiamo noi a tutto il tuo online: social, sito, scheda Google.\nTu non devi imparare niente, pensi alla tua attività. Scrivici su WhatsApp e ci mettiamo d'accordo.\n#piacenza #negozipiacenza",
       "strato": "premium",
       "stato": "da_approvare"
     },
@@ -350,7 +350,7 @@
       "formato": "Storia",
       "pilastro": "Dietro le quinte e Piacenza",
       "titolo": "Dietro le quinte",
-      "testo": "Dietro le quinte: la prima mezz'ora in un negozio. Sistemiamo la luce, spostiamo due cose, scattiamo.",
+      "testo": "Dietro le quinte: la prima mezz'ora in un'attività, che sia un bar, uno studio o una palestra. Sistemiamo la luce, spostiamo due cose, scattiamo.",
       "strato": "business",
       "stato": "da_approvare"
     },
@@ -394,7 +394,7 @@
       "formato": "Post Google",
       "pilastro": "Presenza su Google",
       "titolo": "Offerta: primo mese a metà",
-      "testo": "Il primo mese di abbonamento costa la metà. Base 300 €, Business 500 €, Premium 999 € al mese, disdetta con 30 giorni di preavviso.",
+      "testo": "Il primo mese di abbonamento costa la metà. Base 300 €, Business 600 €, Premium 900 € al mese, disdetta con 30 giorni di preavviso. Il primo mese: 150, 300 o 450 €.",
       "strato": "business",
       "stato": "da_approvare"
     },
@@ -449,7 +449,7 @@
       "formato": "Carosello",
       "pilastro": "Prima e dopo",
       "titolo": "Carosello: prima e dopo delle foto di un locale (serve il consenso scritto del cliente, oppure usare un lavoro di SDG)",
-      "testo": "Le foto sono la prima cosa che vede chi ti cerca. A sinistra prima, a destra dopo: stessa porta, stessa vetrina, altra impressione.\nVuoi foto nuove del tuo negozio prima di fine anno? Scrivici su WhatsApp.\n#piacenza #negozipiacenza",
+      "testo": "Le foto sono la prima cosa che vede chi ti cerca. A sinistra prima, a destra dopo: stessa porta, stessa vetrina, altra impressione.\nVuoi foto nuove della tua attività prima di fine anno? Scrivici su WhatsApp.\n#piacenza #negozipiacenza",
       "strato": "business",
       "stato": "da_approvare"
     },
@@ -504,7 +504,7 @@
       "formato": "Post foto",
       "pilastro": "Abbonamenti e auguri",
       "titolo": "Post foto: tre abbonamenti, nessun vincolo",
-      "testo": "Base 300 €, Business 500 €, Premium 999 € al mese. Nessun vincolo, disdetta con 30 giorni di preavviso. Il primo mese costa la metà.\nTi diciamo quale ti serve davvero. Scrivici su WhatsApp.\n#piacenza #negozipiacenza",
+      "testo": "Base 300 €, Business 600 €, Premium 900 € al mese. Nessun vincolo, disdetta con 30 giorni di preavviso. Il primo mese costa la metà: 150, 300 o 450 €.\nTi diciamo quale ti serve davvero. Scrivici su WhatsApp.\n#piacenza #negozipiacenza",
       "strato": "business",
       "stato": "da_approvare"
     },
@@ -559,7 +559,7 @@
       "formato": "LinkedIn",
       "pilastro": "Aziende e associazioni",
       "titolo": "Buone feste e un invito per il 2027",
-      "testo": "Buone feste da SDG Agenzia. Nel 2027 vogliamo lavorare con più negozi e più associazioni di Piacenza.\nSe avete una rete di commercianti e volete una diagnosi gratuita per i vostri soci, scriveteci.",
+      "testo": "Buone feste da SDG Agenzia. Nel 2027 vogliamo lavorare con più attività e più associazioni di Piacenza.\nSe avete una rete di attività e volete una diagnosi gratuita per i vostri soci, scriveteci.",
       "strato": "premium",
       "stato": "da_approvare"
     },
@@ -570,7 +570,7 @@
       "formato": "Reel",
       "pilastro": "Dietro le quinte e Piacenza",
       "titolo": "Reel (girato): il centro di Piacenza a Natale, visto da chi ci lavora",
-      "testo": "A Natale il centro è pieno di luci e di gente che cerca un regalo. Dietro ogni vetrina c'è qualcuno che si è alzato presto.\nNoi lavoriamo per loro: foto, video, social. Se vuoi che il tuo negozio si veda anche da casa, scrivici su WhatsApp.\n#piacenza #negozipiacenza",
+      "testo": "A Natale il centro è pieno di luci e di gente che cerca un regalo. Dietro ogni vetrina c'è qualcuno che si è alzato presto.\nNoi lavoriamo per loro: foto, video, social. Se vuoi che la tua attività si veda anche da casa, scrivici su WhatsApp.\n#piacenza #negozipiacenza",
       "strato": "premium",
       "stato": "da_approvare"
     },
@@ -625,7 +625,7 @@
       "formato": "Post foto",
       "pilastro": "Abbonamenti e auguri",
       "titolo": "Post foto: auguri di Natale",
-      "testo": "Buon Natale da SDG Agenzia a tutti i negozi, i bar e i laboratori di Piacenza.\nA chi apre presto e chiude tardi: buone feste e un 2027 pieno di clienti.\n#piacenza #negozipiacenza",
+      "testo": "Buon Natale da SDG Agenzia a tutte le attività di Piacenza: negozi, bar, studi, palestre, laboratori, B&B.\nA chi apre presto e chiude tardi: buone feste e un 2027 pieno di clienti.\n#piacenza #negozipiacenza",
       "strato": "premium",
       "stato": "da_approvare"
     },
@@ -669,7 +669,7 @@
       "formato": "Reel",
       "pilastro": "Diagnosi in un minuto",
       "titolo": "Reel (girato): il tuo 2027 comincia con una diagnosi",
-      "testo": "Gennaio è il mese giusto per mettere in ordine l'attività. Scrivi il nome del tuo negozio e in un minuto vedi cosa ti manca. Gratis, link in bio.\nIl primo mese di abbonamento costa la metà.\n#piacenza #negozipiacenza",
+      "testo": "Gennaio è il mese giusto per mettere in ordine l'attività. Scrivi il nome della tua attività e in un minuto vedi cosa ti manca. Gratis, link in bio.\nIl primo mese di abbonamento costa la metà.\n#piacenza #negozipiacenza",
       "strato": "premium",
       "stato": "da_approvare"
     },
@@ -752,7 +752,7 @@
     },
     {
       "voce": "Evento: diagnosi dal vivo",
-      "cosa": "Lunedì 14 dicembre, mattina (i negozi spesso aprono più tardi il lunedì): i titolari portano il nome dell'attività e vedono in 10 minuti cosa manca. Luogo, orario e numero di posti da decidere.",
+      "cosa": "Lunedì 14 dicembre, mattina (molte attività aprono più tardi il lunedì): i titolari portano il nome dell'attività e vedono in 10 minuti cosa manca. Luogo, orario e numero di posti da decidere.",
       "costo_fuori_canone": null
     },
     {

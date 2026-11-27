@@ -36,7 +36,7 @@ const CLIENTI = ['consegne/clienti/2026-11-26-ora-del-gusto/dati.json', 'consegn
 const copia = (o) => JSON.parse(JSON.stringify(o));
 
 test('i dati veri dei due locali passano tutti i controlli', () => {
-  assert.deepEqual(CANONI, { base: 30000, business: 50000, premium: 99900 });
+  assert.deepEqual(CANONI, { base: 30000, business: 60000, premium: 90000 });
   for (const f of CLIENTI) assert.deepEqual(controlla(leggi(f), CANONI, PAGAMENTO), [], f);
 });
 
@@ -66,7 +66,7 @@ test('③ un canone cambiato nel registro e non nel programma ferma il preventiv
   const r = copia(REGISTRO);
   const fatti = r.fatti ?? r;
   const voce = Array.isArray(fatti) ? fatti.find((f) => f.id === 'sdg.abbonamenti') : fatti['sdg.abbonamenti'];
-  voce.valore = voce.valore.replace('Business 500 euro', 'Business 550 euro');
+  voce.valore = voce.valore.replace('Business 600 euro', 'Business 650 euro');
   const errori = controlla(leggi(CLIENTI[0]), canoniDalRegistro(r), PAGAMENTO);
   assert.ok(errori.some((e) => e.startsWith('canone Business')), errori.join(' | '));
   assert.ok(controlla(leggi(CLIENTI[0]), null, PAGAMENTO).some((e) => e.startsWith('registro dei fatti')));
@@ -107,8 +107,8 @@ test('⑤ le pagine dicono quello che serve, e la scheda resta interna', () => {
   assert.match(scheda, /Domande da fare al titolare/);
   const prev = paginaProposta(d, PAGAMENTO);
   assert.doesNotMatch(prev, /Scheda interna/, 'la proposta per il cliente non porta le note interne');
-  assert.match(prev, /500 €<\/b> al mese/);
-  assert.match(prev, /Il primo mese 250 €/);
+  assert.match(prev, /600 €<\/b> al mese/);
+  assert.match(prev, /Il primo mese 300 €/);
   // Il 10% sui prodotti venduti tramite MyCity resta anche con l'abbonamento (pricing.commissione, 26/11).
   assert.match(prev, /sui prodotti venduti tramite MyCity resta il 10%/);
   assert.doesNotMatch(prev, /[Nn]essuna percentuale su quello che vendi/);
@@ -131,7 +131,7 @@ test('⑦ la proposta: prezzi, cosa cambia con ogni abbonamento, come si paga; i
   }
   assert.match(html, /<th scope="col" class="scelta">Business · consigliato<\/th>/, 'la colonna del consigliato si vede');
   assert.match(html, /300 €<\/b> al mese/);
-  assert.match(html, /999 €<\/b> al mese/);
+  assert.match(html, /900 €<\/b> al mese/);
   assert.ok(html.includes(PAGAMENTO.replace(/&/g, '&amp;')), 'come si paga, preso dal registro');
   assert.match(html, /vi mandiamo il preventivo con un link/);
   // Rotture apposta: manca una frase, due frasi uguali, il registro senza sdg.pagamento.

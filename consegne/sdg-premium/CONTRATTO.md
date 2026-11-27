@@ -41,7 +41,7 @@ Il sito MyCity li mostra nelle pagine `/seller/servizi/<servizio>` quando chi en
   ],
   "swot": { "forze": ["…"], "debolezze": ["…"], "opportunita": ["…"], "minacce": ["…"] },
   "clienti_tipo": [ { "nome": "Bar e pasticcerie del centro", "bisogno": "…", "abbonamento_adatto": "base|business|premium", "perche": "…" } ],
-  "prezzi": [ { "voce": "Base 300 € · Business 500 € · Premium 999 € al mese", "confronto": "…" } ],
+  "prezzi": [ { "voce": "Base 300 € · Business 600 € · Premium 900 € al mese", "confronto": "…" } ],
   "presenza_online_sdg": [ { "canale": "Instagram", "stato": "c'è | non c'è | da verificare", "indirizzo": "https://… o null", "nota": "…" } ],
   "raccomandazioni": [ { "priorita": 1, "cosa": "…", "perche": "…", "quando": "entro il 15/12", "costo": "0 € | ≈ 150 € | …" } ],
   "fonti": ["https://…"]

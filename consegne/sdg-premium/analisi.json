@@ -1,21 +1,57 @@
 {
   "titolo": "Analisi del business di SDG Agenzia",
   "aggiornata_il": "2026-11-27T16:40:00+01:00",
-  "sintesi": "SDG è un'agenzia di Piacenza che vende web, social, foto e video ai negozi e ai locali a un canone fisso: Base 300 €, Business 500 €, Premium 999 € al mese, senza vincolo. Il punto forte è il prezzo chiaro e il fatto di fare tutto insieme (sito, social, foto, video, rapporto), con una tecnologia che prepara i contenuti e li fa approvare al titolare su Telegram o WhatsApp. Il punto debole è che oggi SDG non si trova sul web aperto: non abbiamo trovato né un sito né profili social intestati a SDG né a scattiDG. Per un'agenzia che vende visibilità è un problema di credibilità. Le agenzie locali che abbiamo trovato (Meteora Web, MADE comunicazione) non pubblicano prezzi: SDG con prezzi in chiaro si distingue. La mossa numero uno è portare in 2-4 settimane i primi clienti paganti con la diagnosi gratuita, partendo da bar, ristoranti e negozi che SDG già conosce, e rendere SDG visibile online.",
+  "sintesi": "SDG è un'agenzia di Piacenza che gestisce tutta la presenza online delle attività locali: negozi, bar e ristoranti, artigiani, estetiste e parrucchieri, palestre, studi professionali, B&B e strutture. Fa sito, social, scheda Google, foto e video, analisi e vetrina MyCity, a un canone fisso: Base 300 €, Business 600 €, Premium 900 € al mese, senza vincolo. Il punto forte è il prezzo chiaro e il fatto di fare tutto insieme, con una tecnologia che prepara i contenuti e li fa approvare al titolare su Telegram o WhatsApp. Il punto debole è che oggi SDG non si trova sul web aperto: non abbiamo trovato né un sito né profili social intestati a SDG né a scattiDG. Le agenzie locali trovate non pubblicano prezzi: SDG con prezzi in chiaro si distingue. Il bacino sono tutte le attività della provincia (25.649 imprese attive). La mossa numero uno è portare in 2-4 settimane i primi clienti paganti con la diagnosi gratuita, partendo da attività che SDG già conosce, e rendere SDG visibile online.",
   "numeri_chiave": [
-    { "voce": "Imprese attive in provincia di Piacenza (al 30/09/2025)", "valore": "25.649", "fonte": "https://tavolodigitale.camcom.it/it/system/files/documenti/CS%20196.2025%20A%20Piacenza%20aumento%20significativo%20delle%20imprese%20guidate%20da%20stranieri.doc", "da_confermare": true },
-    { "voce": "Imprese registrate in provincia di Piacenza (fine 2025, anche non attive)", "valore": "27.676", "fonte": "https://www.emilia.camcom.it/promuovere-limpresa-e-il-territorio/informazione-economica/la-demografia-delle-imprese/le-imprese-a-piacenza/dinamiche-imprenditoriali-analisi/dinamica-imprenditoriale-nellarea-della-camera-di-commercio-dellemilia/@@download/file_principale", "da_confermare": true },
-    { "voce": "Imprese con almeno 10 addetti che usano i social media (Italia, 2025)", "valore": "59,0% (nel commercio 72,8%)", "fonte": "https://www.istat.it/comunicato-stampa/imprese-e-ict-anno-2025/" },
-    { "voce": "Imprese con almeno 10 addetti che hanno un sito web (Italia, 2025)", "valore": "76,5%", "fonte": "https://www.istat.it/comunicato-stampa/imprese-e-ict-anno-2025/", "da_confermare": true },
-    { "voce": "Costo di un social media manager freelance in Italia", "valore": "300-1.500 € al mese; le agenzie anche oltre 2.000 € al mese", "fonte": "https://www.cronoshare.it/quanto-costa/social-media-manager" },
-    { "voce": "Pacchetti social base per piccole imprese in Italia", "valore": "300-700 € al mese", "fonte": "https://www.kontentino.com/it/blog/pacchetti-social-media-piccole-imprese-prezzi/", "da_confermare": true },
-    { "voce": "Costo di un sito web per una piccola attività in Italia (stima di un fornitore)", "valore": "da 500 a 10.000 € una tantum", "fonte": "https://www.shopify.com/it/blog/quanto-costa-un-sito-web" },
-    { "voce": "Agenzie locali di Piacenza trovate con prezzi pubblici", "valore": "0 su 4 trovate", "fonte": "https://meteoraweb.com/creazione-siti-web-e-gestione-social-piacenza" }
+    {
+      "voce": "Imprese attive in provincia di Piacenza (al 30/09/2025): il bacino di SDG, che serve tutte le attività locali",
+      "valore": "25.649",
+      "fonte": "https://tavolodigitale.camcom.it/it/system/files/documenti/CS%20196.2025%20A%20Piacenza%20aumento%20significativo%20delle%20imprese%20guidate%20da%20stranieri.doc",
+      "da_confermare": true
+    },
+    {
+      "voce": "Imprese registrate in provincia di Piacenza (fine 2025, anche non attive)",
+      "valore": "27.676",
+      "fonte": "https://www.emilia.camcom.it/promuovere-limpresa-e-il-territorio/informazione-economica/la-demografia-delle-imprese/le-imprese-a-piacenza/dinamiche-imprenditoriali-analisi/dinamica-imprenditoriale-nellarea-della-camera-di-commercio-dellemilia/@@download/file_principale",
+      "da_confermare": true
+    },
+    {
+      "voce": "Imprese con almeno 10 addetti che usano i social media (Italia, 2025)",
+      "valore": "59,0% (nel commercio 72,8%)",
+      "fonte": "https://www.istat.it/comunicato-stampa/imprese-e-ict-anno-2025/"
+    },
+    {
+      "voce": "Imprese con almeno 10 addetti che hanno un sito web (Italia, 2025)",
+      "valore": "76,5%",
+      "fonte": "https://www.istat.it/comunicato-stampa/imprese-e-ict-anno-2025/",
+      "da_confermare": true
+    },
+    {
+      "voce": "Costo di un social media manager freelance in Italia",
+      "valore": "300-1.500 € al mese; le agenzie anche oltre 2.000 € al mese",
+      "fonte": "https://www.cronoshare.it/quanto-costa/social-media-manager"
+    },
+    {
+      "voce": "Pacchetti social base per piccole imprese in Italia",
+      "valore": "300-700 € al mese",
+      "fonte": "https://www.kontentino.com/it/blog/pacchetti-social-media-piccole-imprese-prezzi/",
+      "da_confermare": true
+    },
+    {
+      "voce": "Costo di un sito web per una piccola attività in Italia (stima di un fornitore)",
+      "valore": "da 500 a 10.000 € una tantum",
+      "fonte": "https://www.shopify.com/it/blog/quanto-costa-un-sito-web"
+    },
+    {
+      "voce": "Agenzie locali di Piacenza trovate con prezzi pubblici",
+      "valore": "0 su 4 trovate",
+      "fonte": "https://meteoraweb.com/creazione-siti-web-e-gestione-social-piacenza"
+    }
   ],
   "mercato": [
     {
       "titolo": "Quante attività ci sono a Piacenza",
-      "testo": "La Camera di Commercio dell'Emilia conta 25.649 imprese attive in provincia al 30 settembre 2025, in leggero calo (-0,2%). Le registrate sono 27.676 a fine 2025. Il numero esatto delle sole imprese di commercio e ristorazione non l'abbiamo trovato: serve chiederlo all'Ufficio Studi della Camera. Un dato parziale: le imprese guidate da stranieri sono 3.716, di cui 662 nel commercio e 379 in alloggio e ristorazione. Per SDG il mercato utile non è tutta la provincia ma i negozi, i bar, i ristoranti e i servizi alla persona: poche migliaia di attività, quasi tutte molto piccole.",
+      "testo": "La Camera di Commercio dell'Emilia conta 25.649 imprese attive in provincia al 30 settembre 2025, in leggero calo (-0,2%). Le registrate sono 27.676 a fine 2025. Per SDG il bacino sono tutte le attività locali che hanno bisogno di digitalizzarsi, quindi questo numero vale per intero: SDG non si limita ai negozi. Una parte non ci serve (grandi aziende, imprese agricole, studi che lavorano solo su passaparola): quanta, non lo sappiamo. Il numero esatto per settore non l'abbiamo trovato: serve chiederlo all'Ufficio Studi della Camera. Un dato parziale: le imprese guidate da stranieri sono 3.716, di cui 662 nel commercio e 379 in alloggio e ristorazione.",
       "fonti": [
         "https://tavolodigitale.camcom.it/it/system/files/documenti/CS%20196.2025%20A%20Piacenza%20aumento%20significativo%20delle%20imprese%20guidate%20da%20stranieri.doc",
         "https://www.emilia.camcom.it/promuovere-limpresa-e-il-territorio/informazione-economica/la-demografia-delle-imprese/le-imprese-a-piacenza/dinamiche-imprenditoriali-analisi/dinamica-imprenditoriale-nellarea-della-camera-di-commercio-dellemilia/@@download/file_principale",
@@ -32,7 +68,7 @@
     },
     {
       "titolo": "Quanto costa oggi in Italia farsi gestire i social e il sito",
-      "testo": "Un social media manager freelance costa in Italia indicativamente 300-1.500 € al mese; un'agenzia può superare i 2.000 € al mese (Cronoshare, cifre indicative). Una guida per piccole imprese indica pacchetti base da 300 a 700 € al mese. Un sito web costa da 500 a 10.000 € una tantum, secondo una stima di un fornitore di siti (Shopify). La pubblicità a pagamento è un costo a parte: per le piccole attività locali si indicano in media 150-300 € al mese (PMI.it, dicembre 2025). Il prezzo di SDG (300 / 500 / 999 € al mese con sito, foto e video inclusi) sta nella parte bassa e media del mercato. Premium a 999 € è sotto le agenzie complete oltre 2.000 €, ma include molto di più dei soli post.",
+      "testo": "Un social media manager freelance costa in Italia indicativamente 300-1.500 € al mese; un'agenzia può superare i 2.000 € al mese (Cronoshare, cifre indicative). Una guida per piccole imprese indica pacchetti base da 300 a 700 € al mese. Un sito web costa da 500 a 10.000 € una tantum, secondo una stima di un fornitore di siti (Shopify). La pubblicità a pagamento è un costo a parte: per le piccole attività locali si indicano in media 150-300 € al mese (PMI.it, dicembre 2025). Il prezzo di SDG (300 / 600 / 900 € al mese con sito, foto e video inclusi) sta nella parte bassa e media del mercato. Premium a 900 € è meno della metà delle agenzie complete oltre 2.000 €, e include molto di più dei soli post.",
       "fonti": [
         "https://www.cronoshare.it/quanto-costa/social-media-manager",
         "https://www.kontentino.com/it/blog/pacchetti-social-media-piccole-imprese-prezzi/",
@@ -62,8 +98,14 @@
       "tipo": "agenzia locale",
       "cosa_fanno": "Si presenta come agenzia digitale per le aziende di Piacenza e provincia: siti web, gestione social, e-commerce, SEO locale con campagne per attività con punto vendita fisico.",
       "prezzo_indicativo": "non pubblico (nella pagina non sono riportate tariffe)",
-      "punti_forti": ["Presenza online attiva e dichiaratamente locale", "Offre anche SEO e e-commerce"],
-      "punti_deboli": ["Prezzi non pubblicati: il titolare deve chiedere un preventivo", "Nella pagina non risultano foto e video propri come servizio centrale"],
+      "punti_forti": [
+        "Presenza online attiva e dichiaratamente locale",
+        "Offre anche SEO e e-commerce"
+      ],
+      "punti_deboli": [
+        "Prezzi non pubblicati: il titolare deve chiedere un preventivo",
+        "Nella pagina non risultano foto e video propri come servizio centrale"
+      ],
       "fonte": "https://meteoraweb.com/creazione-siti-web-e-gestione-social-piacenza"
     },
     {
@@ -71,8 +113,14 @@
       "tipo": "agenzia locale",
       "cosa_fanno": "Agenzia di comunicazione con sede a Piacenza: siti WordPress dal 2008, gestione social, web marketing, email marketing.",
       "prezzo_indicativo": "non pubblico",
-      "punti_forti": ["Esperienza lunga sui siti WordPress", "Rete locale (fondatori del Meetup WordPress di Piacenza)"],
-      "punti_deboli": ["La scheda trovata è del 2017: non abbiamo trovato un sito attuale né attività recente", "Prezzi non pubblici"],
+      "punti_forti": [
+        "Esperienza lunga sui siti WordPress",
+        "Rete locale (fondatori del Meetup WordPress di Piacenza)"
+      ],
+      "punti_deboli": [
+        "La scheda trovata è del 2017: non abbiamo trovato un sito attuale né attività recente",
+        "Prezzi non pubblici"
+      ],
       "fonte": "https://www.socialchallenges.eu/en-GB/city/36/Organisations/145"
     },
     {
@@ -80,8 +128,14 @@
       "tipo": "agenzia locale",
       "cosa_fanno": "Rete Pagine Sì: presenza online e siti per piccole attività; scheda di Piacenza nella categoria agenzie di marketing.",
       "prezzo_indicativo": "non pubblico",
-      "punti_forti": ["Marchio conosciuto dai negozianti", "Agente sul territorio"],
-      "punti_deboli": ["Della scheda non abbiamo letto i servizi nel dettaglio", "Prezzi non pubblici"],
+      "punti_forti": [
+        "Marchio conosciuto dai negozianti",
+        "Agente sul territorio"
+      ],
+      "punti_deboli": [
+        "Della scheda non abbiamo letto i servizi nel dettaglio",
+        "Prezzi non pubblici"
+      ],
       "fonte": "https://www.cylex-italia.it/piacenza/s%c3%ac4web---pagine-s%c3%ac-15216444.html"
     },
     {
@@ -89,17 +143,27 @@
       "tipo": "agenzia locale",
       "cosa_fanno": "Società registrata a Piacenza con attività di campagne di marketing. Dalla scheda non si capisce se faccia foto, video o social.",
       "prezzo_indicativo": "non pubblico",
-      "punti_forti": ["Società strutturata (srl)"],
-      "punti_deboli": ["Servizi non chiari dalla scheda: concorrente da verificare (confidenza 40%)"],
+      "punti_forti": [
+        "Società strutturata (srl)"
+      ],
+      "punti_deboli": [
+        "Servizi non chiari dalla scheda: concorrente da verificare (confidenza 40%)"
+      ],
       "fonte": "https://www.aziende.it/sp-studio-s-r-l"
     },
     {
       "nome": "Freelance e social media manager (Piacenza e Italia)",
       "tipo": "freelance",
-      "cosa_fanno": "Gestione dei post, a volte foto e grafica, spesso senza sito e senza rapporto sui concorrenti.",
+      "cosa_fanno": "Gestione dei post, a volte foto e grafica, quasi sempre senza sito, senza scheda Google curata e senza rapporto sui concorrenti: nessuno gestisce tutta l'infrastruttura online.",
       "prezzo_indicativo": "300-1.500 € al mese",
-      "punti_forti": ["Costo basso", "Rapporto personale"],
-      "punti_deboli": ["Dipende da una sola persona: ferie, malattia, abbandono", "Di solito niente foto e video professionali né rapporto settimanale"],
+      "punti_forti": [
+        "Costo basso",
+        "Rapporto personale"
+      ],
+      "punti_deboli": [
+        "Dipende da una sola persona: ferie, malattia, abbandono",
+        "Di solito niente foto e video professionali né rapporto settimanale"
+      ],
       "fonte": "https://www.cronoshare.it/quanto-costa/social-media-manager"
     },
     {
@@ -107,8 +171,14 @@
       "tipo": "nazionale",
       "cosa_fanno": "Pacchetti pronti di presenza online e vetrina per piccole e medie imprese; dichiara oltre 200 mila PMI clienti (comunicato 2023).",
       "prezzo_indicativo": "non pubblico (a preventivo)",
-      "punti_forti": ["Marchio nazionale noto (ex Pagine Gialle)", "Pacchetti standard, venditori sul territorio"],
-      "punti_deboli": ["Prezzi su preventivo", "Servizio standard, non locale: nessun legame con i negozi di Piacenza"],
+      "punti_forti": [
+        "Marchio nazionale noto (ex Pagine Gialle)",
+        "Pacchetti standard, venditori sul territorio"
+      ],
+      "punti_deboli": [
+        "Prezzi su preventivo",
+        "Servizio standard, non locale: nessun legame con i negozi di Piacenza"
+      ],
       "fonte": "https://www.italiaonline.it/corporate/wp-content/uploads/sites/10/2023/03/CS_Italiaonline_Offerta_Pubblicita_New2023.pdf"
     },
     {
@@ -116,16 +186,22 @@
       "tipo": "strumento fai-da-te",
       "cosa_fanno": "Il titolare fa da sé grafiche e post. Canva Pro costa circa 10-13 € al mese secondo fonti italiane (le cifre variano per data e fonti: da verificare sul listino ufficiale). Meta Business Suite è lo strumento di Meta per pianificare i post su Facebook e Instagram: prezzo non verificato da noi.",
       "prezzo_indicativo": "Canva Pro circa 10-13 € al mese; Meta Business Suite non verificato",
-      "punti_forti": ["Quasi gratis", "Il titolare controlla tutto"],
-      "punti_deboli": ["Costa tempo: il titolare lavora 10-12 ore al giorno in negozio", "Niente foto professionali, niente rapporto sui concorrenti"],
+      "punti_forti": [
+        "Quasi gratis",
+        "Il titolare controlla tutto"
+      ],
+      "punti_deboli": [
+        "Costa tempo: il titolare lavora 10-12 ore al giorno in negozio",
+        "Niente foto professionali, niente rapporto sui concorrenti"
+      ],
       "fonte": "https://www.canva.com/it_it/prezzi/"
     }
   ],
   "swot": {
     "forze": [
       "Prezzi chiari e pubblici, con disdetta a 30 giorni e primo mese a metà prezzo: nessuna agenzia locale trovata pubblica i prezzi.",
-      "Pacchetto completo in un solo posto: sito, social, foto, video, scheda Google e rapporto sui concorrenti.",
-      "Premium a 999 € al mese è meno di quanto costa un'agenzia completa (oltre 2.000 € secondo Cronoshare) e include foto e video ogni mese.",
+      "Gestisce tutta l'infrastruttura online in un solo posto: sito, social, scheda Google, foto, video, analisi e vetrina MyCity, per qualsiasi attività locale.",
+      "Premium a 900 € al mese è meno della metà di un'agenzia completa (oltre 2.000 € secondo Cronoshare) e include foto e video ogni mese.",
       "Tecnologia che riduce i tempi: i flussi n8n preparano e pubblicano i contenuti, il titolare approva l'anteprima su Telegram o WhatsApp senza imparare un'app nuova.",
       "Un solo referente, un solo fornitore e il legame con il marketplace MyCity: la vetrina con ordini e consegna è parte dell'abbonamento.",
       "Prove reali già in corso: Tropico Latino (4 pagine social gestite, Premium di prova) e Ora del Gusto (primo cliente pagante in corso)."
@@ -135,16 +211,18 @@
       "Pochissimi clienti paganti: uno in corso. Senza risultati misurati e recensioni è difficile convincere gli scettici.",
       "Pagamento solo in contanti di persona: non scala, è scomodo e poco tracciabile.",
       "Dipendenza da persone: Nicola da solo per vendita, relazione e controllo; scattiDG per tutte le foto e i video (un solo fornitore).",
-      "Premium a 999 € è un prezzo alto per un negozio di quartiere con utile netto di 25-40 mila € l'anno (dati interni CONTESTO_BUSINESS).",
-      "La pagina pubblica «diagnosi gratuita» non è ancora online."
+      "Premium a 900 € è un prezzo alto per un'attività piccola con utile netto di 25-40 mila € l'anno (dati interni CONTESTO_BUSINESS).",
+      "La pagina pubblica «diagnosi gratuita» non è ancora online.",
+      "Troppi settori diversi insieme (palestre, B&B, studi, bar): foto, testi e rapporto vanno adattati a ogni mestiere e il tempo è di poche persone."
     ],
     "opportunita": [
       "Quasi tutte le attività piccole di Piacenza non hanno un sito curato né post costanti (ipotesi 60%, da misurare con la diagnosi gratuita).",
       "La diagnosi gratuita è un'esca onesta: in un minuto il titolare vede cosa gli manca e quanto costa metterlo a posto.",
       "La scheda Google è gratuita: SDG può offrire di sistemarla a tutti come primo passo e venderla come servizio di cura, senza far pagare Google (Google non fa pagare la scheda).",
-      "Bar, ristoranti e pasticcerie del centro vendono bene con foto e video: sono il primo bersaglio, più dei negozi di servizi.",
+      "Bar, ristoranti, pasticcerie, B&B e palestre vendono bene con foto e video: sono i primi bersagli. Estetiste, parrucchieri e artigiani hanno più bisogno di sito, scheda Google e recensioni.",
       "Il marketplace MyCity porta negozi nuovi ogni mese: ogni negozio è un possibile cliente SDG, e SDG è un venditore dentro MyCity.",
-      "Le agenzie locali trovate non pubblicano prezzi né mostrano foto/video: spazio per posizionarsi come «l'agenzia con il prezzo scritto»."
+      "Le agenzie locali trovate non pubblicano prezzi né mostrano foto/video: spazio per posizionarsi come «l'agenzia con il prezzo scritto».",
+      "Studi professionali e artigiani spesso non hanno nessuna presenza online curata: la scheda Google gratuita sistemata bene è già una vendita."
     ],
     "minacce": [
       "Freelance e fai-da-te costano meno: 300-1.500 € al mese oppure quasi zero con Canva (Cronoshare; Canva).",
@@ -160,13 +238,13 @@
       "nome": "Bar e pasticcerie del centro",
       "bisogno": "Foto che fanno venire fame, post regolari, essere trovati su Google la mattina.",
       "abbonamento_adatto": "business",
-      "perche": "12 post al mese, 2 video e la scheda Google bastano per partire; Premium solo se c'è margine per 999 €."
+      "perche": "12 post, 2 video e la scheda Google bastano per partire; Premium solo se c'è margine per 900 €."
     },
     {
       "nome": "Ristoranti e locali con serate o eventi",
       "bisogno": "Riempire i tavoli nei giorni deboli, video del locale, recensioni gestite.",
       "abbonamento_adatto": "premium",
-      "perche": "Foto e video ogni mese e 4 video brevi sono ciò che fa la differenza; il rapporto sui concorrenti aiuta a decidere le serate."
+      "perche": "Foto e video ogni mese e 4 video brevi fanno la differenza; il rapporto sui concorrenti aiuta a scegliere le serate."
     },
     {
       "nome": "Piccoli negozi di quartiere (alimentari, regali, abbigliamento)",
@@ -175,13 +253,37 @@
       "perche": "300 € al mese, 8 post, sito di una pagina e vetrina MyCity: costo basso, prima prova senza rischio."
     },
     {
-      "nome": "Parrucchieri, centri estetici, servizi su appuntamento",
+      "nome": "Parrucchieri, estetiste e centri benessere",
       "bisogno": "Foto del prima e dopo, appuntamenti, recensioni.",
       "abbonamento_adatto": "business",
       "perche": "Chi vende su appuntamento ha bisogno di un flusso regolare di contenuti e di risposte alle recensioni."
     },
     {
-      "nome": "Attività nuove o di una catena locale (più sedi)",
+      "nome": "Palestre e studi di danza o sport",
+      "bisogno": "Nuovi iscritti a settembre e gennaio, video delle lezioni, orari sempre giusti su Google.",
+      "abbonamento_adatto": "business",
+      "perche": "Video mensili e scheda Google curata servono nei periodi di iscrizione; Premium se ha più sedi."
+    },
+    {
+      "nome": "Artigiani e imprese di servizi (idraulici, elettricisti, officine)",
+      "bisogno": "Essere trovati su Google quando serve, mostrare i lavori fatti, sembrare affidabili.",
+      "abbonamento_adatto": "base",
+      "perche": "Un sito di una pagina e la scheda Google con area di servizio bastano; sono il cliente più semplice da seguire."
+    },
+    {
+      "nome": "Studi professionali (commercialisti, avvocati, dentisti, fisioterapisti)",
+      "bisogno": "Sito serio, scheda Google con recensioni, qualche contenuto che spiega il mestiere.",
+      "abbonamento_adatto": "business",
+      "perche": "Sito completo e risposte alle recensioni; 12 post al mese con testi prudenti (sanità e legale hanno regole sulla pubblicità: da far rivedere)."
+    },
+    {
+      "nome": "B&B, affittacamere e strutture ricettive",
+      "bisogno": "Foto belle, prenotazioni dirette, recensioni, scheda Google e sito.",
+      "abbonamento_adatto": "premium",
+      "perche": "Foto e video ogni mese e un sito aggiornato portano prenotazioni dirette; il rapporto sui concorrenti mostra i prezzi della zona."
+    },
+    {
+      "nome": "Attività nuove o con più sedi",
       "bisogno": "Immagine curata, sito completo, presenza su più canali.",
       "abbonamento_adatto": "premium",
       "perche": "Hanno budget e bisogno di un referente solo; il rapporto settimanale sui concorrenti è il motivo principale per sceglierlo."
@@ -189,8 +291,8 @@
   ],
   "prezzi": [
     {
-      "voce": "Base 300 € · Business 500 € · Premium 999 € al mese. Nessun vincolo, disdetta con 30 giorni, primo mese a metà prezzo.",
-      "confronto": "Un freelance costa 300-1.500 € al mese solo per i post (Cronoshare); le agenzie oltre 2.000 € al mese. Base e Business stanno nella fascia del freelance ma includono sito e scheda Google; Premium costa meno di metà di un'agenzia completa e include foto e video ogni mese. Il rischio sta in Premium: 999 € sono tanti per un negozio piccolo, quindi va venduto a chi ha un locale con margini."
+      "voce": "Base 300 € · Business 600 € · Premium 900 € al mese. Nessun vincolo, disdetta con 30 giorni, primo mese a metà prezzo.",
+      "confronto": "Un freelance costa 300-1.500 € al mese solo per i post (Cronoshare); le agenzie oltre 2.000 € al mese. Base sta nella fascia bassa del freelance ma include sito e scheda Google; Business a 600 € è nella fascia dei pacchetti 300-700 €; Premium a 900 € costa meno della metà di un'agenzia completa e include foto e video ogni mese. Il rischio sta in Premium: 900 € sono tanti per un'attività piccola, quindi va venduto a chi ha margine."
     },
     {
       "voce": "Il 10% sui prodotti venduti tramite MyCity con consegna",
@@ -198,22 +300,57 @@
     },
     {
       "voce": "Primo mese a metà prezzo",
-      "confronto": "Base 150 €, Business 250 €, Premium 499,50 € il primo mese. Abbassa il rischio per il titolare e rende il test facile; non ci sono costi di attivazione."
+      "confronto": "Base 150 €, Business 300 €, Premium 450 € il primo mese. Abbassa il rischio per il titolare e rende il test facile; non ci sono costi di attivazione."
     }
   ],
   "presenza_online_sdg": [
-    { "canale": "Sito web", "stato": "non c'è", "indirizzo": null, "nota": "Non trovato a nome SDG con le ricerche web del 27/11/2026. Il sito è in costruzione nel repository SDG (non ancora pubblicato)." },
-    { "canale": "Instagram", "stato": "da verificare", "indirizzo": null, "nota": "Non trovato dal motore di ricerca; non possiamo vedere i profili social da qui. Nicola deve controllare se esiste un profilo." },
-    { "canale": "Facebook", "stato": "da verificare", "indirizzo": null, "nota": "Non trovato dal motore di ricerca. Da controllare a mano." },
-    { "canale": "TikTok", "stato": "da verificare", "indirizzo": null, "nota": "Non trovato. Da controllare a mano." },
-    { "canale": "LinkedIn", "stato": "da verificare", "indirizzo": null, "nota": "Non trovata una pagina di SDG Agenzia a Piacenza. Esistono altre società che si chiamano SDG (per esempio una di consulenza in Italia): non sono la nostra." },
-    { "canale": "Google Maps / Profilo dell'attività", "stato": "da verificare", "indirizzo": null, "nota": "Non trovata una scheda. Il profilo è gratuito." },
-    { "canale": "scattiDG", "stato": "non c'è", "indirizzo": null, "nota": "La ricerca del nome «scattiDG» non ha dato nessun risultato. Può esistere solo su un social non indicizzato: da controllare a mano." }
+    {
+      "canale": "Sito web",
+      "stato": "non c'è",
+      "indirizzo": null,
+      "nota": "Non trovato a nome SDG con le ricerche web del 27/11/2026. Il sito è in costruzione nel repository SDG (non ancora pubblicato)."
+    },
+    {
+      "canale": "Instagram",
+      "stato": "da verificare",
+      "indirizzo": null,
+      "nota": "Non trovato dal motore di ricerca; non possiamo vedere i profili social da qui. Nicola deve controllare se esiste un profilo."
+    },
+    {
+      "canale": "Facebook",
+      "stato": "da verificare",
+      "indirizzo": null,
+      "nota": "Non trovato dal motore di ricerca. Da controllare a mano."
+    },
+    {
+      "canale": "TikTok",
+      "stato": "da verificare",
+      "indirizzo": null,
+      "nota": "Non trovato. Da controllare a mano."
+    },
+    {
+      "canale": "LinkedIn",
+      "stato": "da verificare",
+      "indirizzo": null,
+      "nota": "Non trovata una pagina di SDG Agenzia a Piacenza. Esistono altre società che si chiamano SDG (per esempio una di consulenza in Italia): non sono la nostra."
+    },
+    {
+      "canale": "Google Maps / Profilo dell'attività",
+      "stato": "da verificare",
+      "indirizzo": null,
+      "nota": "Non trovata una scheda. Il profilo è gratuito."
+    },
+    {
+      "canale": "scattiDG",
+      "stato": "non c'è",
+      "indirizzo": null,
+      "nota": "La ricerca del nome «scattiDG» non ha dato nessun risultato. Può esistere solo su un social non indicizzato: da controllare a mano."
+    }
   ],
   "raccomandazioni": [
     {
       "priorita": 1,
-      "cosa": "Fare la diagnosi gratuita a mano e di persona a 20 attività che SDG già conosce (bar, ristoranti, pasticcerie, negozi del centro), con la pagina online appena pronta. Chi risponde riceve una pagina con 3 cose che gli mancano e il prezzo, con il primo mese a metà prezzo. Obiettivo: 3 clienti paganti entro 4 settimane.",
+      "cosa": "Fare la diagnosi gratuita a mano e di persona a 20 attività che SDG già conosce, di settori diversi (bar, ristoranti, estetiste, palestre, B&B, artigiani, studi), con la pagina online appena pronta. Chi risponde riceve una pagina con 3 cose che gli mancano online e il prezzo, con il primo mese a metà prezzo. Obiettivo: 3 clienti paganti entro 4 settimane.",
       "perche": "È la via più corta ai pagamenti: si parte da persone che conosciamo, non da annunci freddi. La diagnosi fa vedere il problema e il prezzo insieme. Contattare persone reali è una decisione da firmare (rosso).",
       "quando": "dal 01/12 al 28/12/2026; la pagina online entro il 15/12",
       "costo": "0 € in cassa; circa 8 ore di Nicola alla settimana"
@@ -252,6 +389,13 @@
       "perche": "Oggi i prezzi dei concorrenti locali sono un buco nei nostri dati; sapere se ci sono sopra o sotto cambia come vendiamo Business e Premium.",
       "quando": "entro il 20/12/2026",
       "costo": "0 €"
+    },
+    {
+      "priorita": 7,
+      "cosa": "Preparare 3 pacchetti pronti per settore (locali con cucina, servizi su appuntamento, studi e artigiani) con foto, testi e rapporto già adattati.",
+      "perche": "SDG serve molti mestieri: senza modelli per settore ogni cliente costa ore di lavoro in più.",
+      "quando": "entro il 31/01/2027",
+      "costo": "0 € in cassa, circa 15 ore di lavoro"
     }
   ],
   "fonti": [

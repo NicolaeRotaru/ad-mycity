@@ -9,7 +9,7 @@ colore: verde il piano (bozze); rosso pubblicità, WhatsApp alla lista e ogni pu
 # Piano editoriale Premium di SDG, dicembre 2026
 
 ## In parole semplici
-SDG vende ai negozi un piano dei social fatto bene; ora lo usa per sé. Questo è il piano di dicembre: 57 pezzi pronti da approvare, con la didascalia già scritta. Sono 20 contenuti (8 reel, 4 caroselli, 8 post con foto), 19 storie (una per ogni sera di lavoro), 12 post su Google, 4 su LinkedIn e 2 messaggi WhatsApp. Si parla ai titolari di Piacenza di clienti e tempo, mai di tecnologia. Il pezzo centrale è la diagnosi gratuita: scrivi il nome dell'attività e in un minuto vedi cosa ti manca. In più c'è un evento, lunedì 14 dicembre di mattina.
+SDG gestisce tutto l'online delle attività di Piacenza (negozi, bar, studi, palestre, B&B...) e ora lo fa anche per sé. Questo è il piano di dicembre: 57 pezzi pronti da approvare, con la didascalia già scritta. Sono 20 contenuti (8 reel, 4 caroselli, 8 post con foto), 19 storie (una per ogni sera di lavoro), 12 post su Google, 4 su LinkedIn e 2 messaggi WhatsApp. Si parla ai titolari di Piacenza di clienti e tempo, mai di tecnologia. Il pezzo centrale è la diagnosi gratuita: scrivi il nome dell'attività e in un minuto vedi cosa ti manca. In più c'è un evento, lunedì 14 dicembre di mattina.
 
 ## Cosa cambia per te
 - Non scrivi niente: ogni pezzo ti arriva in anteprima, tu approvi e solo allora esce.
@@ -40,7 +40,7 @@ SDG vende ai negozi un piano dei social fatto bene; ora lo usa per sé. Questo �
 |---|---|---|---|---|---|
 | mar 1/12 | 07:45 | Instagram + Facebook + TikTok | Reel | Reel: scrivi il nome della tua attività, in un minuto vedi cosa ti manca | base |
 | mar 1/12 | 20:45 | Instagram + Facebook | Storia | Diagnosi in un minuto | base |
-| mer 2/12 | 08:15 | LinkedIn | LinkedIn | Per aziende e associazioni: i negozi hanno poco tempo | premium |
+| mer 2/12 | 08:15 | LinkedIn | LinkedIn | Per aziende e associazioni: le attività locali hanno poco tempo | premium |
 | mer 2/12 | 13:30 | Scheda Google | Post Google | Novità: diagnosi gratuita | base |
 | mer 2/12 | 20:45 | Instagram + Facebook | Storia | Cosa serve per una buona foto | base |
 | gio 3/12 | 13:15 | Instagram + Facebook | Carosello | Carosello: 5 cose da controllare sulla scheda Google prima di Natale | base |
@@ -64,7 +64,7 @@ SDG vende ai negozi un piano dei social fatto bene; ora lo usa per sé. Questo �
 | gio 10/12 | 13:15 | Instagram + Facebook | Post foto | Post foto: lunedì 14 dicembre, diagnosi dal vivo (solo se Nicola conferma l'evento) | premium |
 | gio 10/12 | 20:45 | Instagram + Facebook | Storia | Sondaggio messaggi | business |
 | ven 11/12 | 13:30 | Scheda Google | Post Google | Social, sito e scheda Google | business |
-| ven 11/12 | 20:45 | Instagram + Facebook + TikTok | Reel | Reel (girato): come lavoriamo dentro un negozio | premium |
+| ven 11/12 | 20:45 | Instagram + Facebook + TikTok | Reel | Reel (girato): come lavoriamo dentro un'attività | premium |
 | ven 11/12 | 20:45 | Instagram + Facebook | Storia | Dietro le quinte | business |
 | sab 12/12 | 08:00 | Instagram + Facebook + TikTok | Reel | Reel: le 4 domande che il cliente si fa prima di venire | base |
 
@@ -123,7 +123,7 @@ Le didascalie complete sono nel file social.json, una per riga del calendario.
 - **Creator locali**: 1-2 creator di Piacenza (food, vita di città) invitati a vedere un lavoro nostro e a raccontarlo. Da scegliere e contattare: nessun nome ancora. Costo: non lo conosco.
 - **Comunicato ai giornali locali**: 1 comunicato sulla diagnosi dal vivo per i titolari, da mandare intorno al 9 dicembre. Parla di un servizio, non di risultati. Costo: non lo conosco.
 - **Aziende e associazioni di categoria**: 1 contatto con un'associazione di commercianti per proporre la diagnosi gratuita ai soci. Nessun contatto avviato. Costo: non lo conosco.
-- **Evento: diagnosi dal vivo**: Lunedì 14 dicembre, mattina (i negozi spesso aprono più tardi il lunedì): i titolari portano il nome dell'attività e vedono in 10 minuti cosa manca. Luogo, orario e numero di posti da decidere. Costo: non lo conosco.
+- **Evento: diagnosi dal vivo**: Lunedì 14 dicembre, mattina (molte attività aprono più tardi il lunedì): i titolari portano il nome dell'attività e vedono in 10 minuti cosa manca. Luogo, orario e numero di posti da decidere. Costo: non lo conosco.
 - **Lettera email**: 1 lettera a fine mese per chi si è iscritto: oggi la lista non esiste, va creata dalla diagnosi. Costo: non lo conosco.
 - **Foto nuove sulla scheda Google**: 15 foto caricate nel mese, accanto ai post. Non sono righe del calendario. Servono foto vere (scattiDG o Nicola). Costo: non lo conosco.
 

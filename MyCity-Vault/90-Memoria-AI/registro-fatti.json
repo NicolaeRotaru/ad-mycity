@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-11-27 03:05",
+  "aggiornato": "2026-11-27 17:26",
   "fatti": [
     {
       "id": "ad.uso-e-crediti",
@@ -1374,9 +1374,9 @@
     {
       "id": "pricing.abbonamento",
       "nome": "Abbonamento venditore MyCity",
-      "valore": "50€/mese di listino, SOSPESO finché il negozio non incassa: niente canone fino ai primi incassi portati da MyCity (scelta 13 della carta #209, firmata da Nicola il 2026-10-26 con «ok 209»). APERTO dal 2026-11-24: Nicola ha detto che il prezzo di MyCity cambia, ma il valore nuovo non l'ha ancora detto. I tre abbonamenti da 300/500/999 euro sono un'altra cosa: sono servizi di MyCity realizzati tramite SDG Agenzia, il partner (Nicola, 24/11: «sono servizi che offre mycity, ma tramite SDG»; fatto sdg.abbonamenti).",
-      "fonte": "Nicola, 24/11 verso le 04:10: «Non togliere la sezione servizi, sono servizi che offre mycity, ma tramite SDG» (DECISIONI.md)",
-      "aggiornato": "2026-11-24 21:34",
+      "valore": "50€/mese di listino, SOSPESO finché il negozio non incassa: niente canone fino ai primi incassi portati da MyCity (scelta 13 della carta #209, firmata da Nicola il 2026-10-26 con «ok 209»). APERTO dal 2026-11-24: Nicola ha detto che il prezzo di MyCity cambia, ma il valore nuovo non l'ha ancora detto. I tre abbonamenti da 300, 600 e 900 euro al mese sono un'altra cosa: sono servizi di MyCity realizzati tramite SDG Agenzia, il partner (Nicola, 24/11: «sono servizi che offre mycity, ma tramite SDG»; prezzi del 27/11, fatto sdg.abbonamenti).",
+      "fonte": "Nicola, chat all'AD session_01R8112N4XVyUmvkBap6F8ru, 27/11/2026 verso le 17:10: «SDG non vende solo negozi, ma le attività locali che hanno bisogno di digitalizzare… si occupa di gestire tutta l'infrastruttura online… gli abbonamenti sono 300 euro, 600 euro e 900 euro»",
+      "aggiornato": "2026-11-27 17:21",
       "storia": [
         {
           "valore": "50€/mese",
@@ -1397,6 +1397,10 @@
         {
           "valore": "50€/mese di listino, SOSPESO finché il negozio non incassa: niente canone fino ai primi incassi portati da MyCity (scelta 13 della carta #209, firmata da Nicola il 2026-10-26 con «ok 209»). APERTO dal 2026-11-24: Nicola ha detto che il prezzo di MyCity cambia, ma il valore nuovo non l'ha ancora detto. I tre abbonamenti da 300/500/999 euro NON sono di MyCity: sono di SDG (fatto sdg.abbonamenti).",
           "fino_a": "2026-11-24 21:34"
+        },
+        {
+          "valore": "50€/mese di listino, SOSPESO finché il negozio non incassa: niente canone fino ai primi incassi portati da MyCity (scelta 13 della carta #209, firmata da Nicola il 2026-10-26 con «ok 209»). APERTO dal 2026-11-24: Nicola ha detto che il prezzo di MyCity cambia, ma il valore nuovo non l'ha ancora detto. I tre abbonamenti da 300/500/999 euro sono un'altra cosa: sono servizi di MyCity realizzati tramite SDG Agenzia, il partner (Nicola, 24/11: «sono servizi che offre mycity, ma tramite SDG»; fatto sdg.abbonamenti).",
+          "fino_a": "2026-11-27 17:21"
         }
       ],
       "caccia": [
@@ -1442,6 +1446,10 @@
         {
           "pattern": "50€/mese di listino, SOSPESO finché il negozio non incassa: niente canone fino ai primi incassi portati da MyCity (scelta 13 della carta #209, firmata da Nicola il 2026-10-26 con «ok 209»). APERTO dal 2026-11-24: Nicola ha detto che il prezzo di MyCity cambia, ma il valore nuovo non l'ha ancora detto. I tre abbonamenti da 300/500/999 euro NON sono di MyCity: sono di SDG (fatto sdg.abbonamenti).",
           "dal": "2026-11-24 21:34"
+        },
+        {
+          "pattern": "50€/mese di listino, SOSPESO finché il negozio non incassa: niente canone fino ai primi incassi portati da MyCity (scelta 13 della carta #209, firmata da Nicola il 2026-10-26 con «ok 209»). APERTO dal 2026-11-24: Nicola ha detto che il prezzo di MyCity cambia, ma il valore nuovo non l'ha ancora detto. I tre abbonamenti da 300/500/999 euro sono un'altra cosa: sono servizi di MyCity realizzati tramite SDG Agenzia, il partner (Nicola, 24/11: «sono servizi che offre mycity, ma tramite SDG»; fatto sdg.abbonamenti).",
+          "dal": "2026-11-27 17:21"
         }
       ],
       "esenzioni": [
@@ -1692,9 +1700,9 @@
     {
       "id": "sdg.abbonamenti",
       "nome": "Abbonamenti di SDG Agenzia",
-      "valore": "Tre abbonamenti mensili ai servizi: Base 300 euro, Business 500 euro, Premium 999 euro. Sono servizi di MyCity realizzati da SDG Agenzia, il partner di MyCity per foto, video, social e web (Nicola, 24/11: «sono servizi che offre mycity, ma tramite SDG»). Ognuno comprende foto e video, social, sito web e scheda Google, in misura diversa (proposta dell'AD, da confermare). Oltre al canone resta il 10% sui prodotti venduti tramite MyCity, perché la consegna va pagata (Nicola, 26/11/2026 verso le 14:15; vedi pricing.commissione). Sui servizi prenotati e pagati dal sito è ancora aperto. Condizioni: nessun vincolo di durata, disdetta con 30 giorni di preavviso, primo mese a metà prezzo. Il titolare li vede coi prezzi nella proposta e li accetta dal link del preventivo; per ora li paga in contanti, di persona (sdg.pagamento, Nicola 26/11/2026 verso le 16:00): il pagamento con carta dentro il sito è spento finché la piattaforma dei pagamenti non è pronta. Primo cliente: Ora del Gusto (bar e pasticceria, Piacenza).",
-      "fonte": "Nicola, chat all'AD session_01R8112KveB4Fq8Lg47R6KMu, 26/11/2026: «non si può abbonare al momento tramite la piattaforma perché non è pronta». Correzione delle 16:40: la versione delle 16:24 era ripartita da un testo vecchio e aveva riportato «nessuna percentuale», già ritirato alle 14:19 (trovato dal collaudo).",
-      "aggiornato": "2026-11-26 16:31",
+      "valore": "Tre abbonamenti mensili ai servizi: Base 300 euro, Business 600 euro, Premium 900 euro (Nicola, 27/11/2026 verso le 17:10). Primo mese a metà prezzo: 150, 300 e 450 euro. SDG Agenzia non lavora solo coi negozi: lavora con tutte le attività locali che hanno bisogno di digitalizzarsi, e gestisce tutta la loro infrastruttura online, cioè tutto quello che riguarda l'online dell'attività (sito, social, scheda Google, foto e video, analisi, vetrina MyCity). Sono servizi di MyCity realizzati da SDG Agenzia, il partner di MyCity (Nicola, 24/11: «sono servizi che offre mycity, ma tramite SDG»). Ognuno comprende foto e video, social, sito web e scheda Google, in misura diversa (proposta dell'AD, da confermare). Oltre al canone resta il 10% sui prodotti venduti tramite MyCity, perché la consegna va pagata (Nicola, 26/11/2026 verso le 14:15; vedi pricing.commissione). Sui servizi prenotati e pagati dal sito è ancora aperto. Condizioni: nessun vincolo di durata, disdetta con 30 giorni di preavviso. Il titolare li vede coi prezzi nella proposta e li accetta dal link del preventivo; per ora li paga in contanti, di persona (sdg.pagamento, Nicola 26/11/2026 verso le 16:00): il pagamento con carta dentro il sito è spento finché la piattaforma dei pagamenti non è pronta. Primo cliente: Ora del Gusto (bar e pasticceria, Piacenza).",
+      "fonte": "Nicola, chat all'AD session_01R8112N4XVyUmvkBap6F8ru, 27/11/2026 verso le 17:10: «SDG non vende solo negozi, ma le attività locali che hanno bisogno di digitalizzare… si occupa di gestire tutta l'infrastruttura online… gli abbonamenti sono 300 euro, 600 euro e 900 euro»",
+      "aggiornato": "2026-11-27 17:21",
       "storia": [
         {
           "valore": "SDG Agenzia (l'agenzia di Nicola: web, marketing, foto e video) vende tre abbonamenti mensili: Base 300 euro, Business 500 euro, Premium 999 euro. Ognuno comprende tutti i servizi — foto e video, gestione dei social, sito web, scheda Google — in misura diversa (proposta dell'AD nel preventivo di Ora del Gusto, da confermare). Solo canone, nessuna percentuale. Condizioni scelte da Nicola il 24/11: nessun vincolo di durata, disdetta quando si vuole con 30 giorni di preavviso, primo mese a metà prezzo. Sono servizi di SDG, non di MyCity: dal 24/11 il menu «Servizi» è uscito dal marketplace. Primo cliente: Ora del Gusto (bar e pasticceria, Piacenza).",
@@ -1711,6 +1719,10 @@
         {
           "valore": "Tre abbonamenti mensili ai servizi: Base 300 euro, Business 500 euro, Premium 999 euro. Sono servizi di MyCity realizzati da SDG Agenzia, il partner di MyCity per foto, video, social e web (Nicola, 24/11: «sono servizi che offre mycity, ma tramite SDG»). Ognuno comprende foto e video, social, sito web e scheda Google, in misura diversa (proposta dell'AD, da confermare). Solo canone, nessuna percentuale. Condizioni: nessun vincolo di durata, disdetta con 30 giorni di preavviso, primo mese a metà prezzo. Il titolare li vede coi prezzi nella proposta e li accetta dal link del preventivo; per ora li paga in contanti, di persona (sdg.pagamento, Nicola 26/11): il pagamento con carta dentro il sito è spento finché la piattaforma dei pagamenti non è pronta. Primo cliente: Ora del Gusto (bar e pasticceria, Piacenza).",
           "fino_a": "2026-11-26 16:31"
+        },
+        {
+          "valore": "Tre abbonamenti mensili ai servizi: Base 300 euro, Business 500 euro, Premium 999 euro. Sono servizi di MyCity realizzati da SDG Agenzia, il partner di MyCity per foto, video, social e web (Nicola, 24/11: «sono servizi che offre mycity, ma tramite SDG»). Ognuno comprende foto e video, social, sito web e scheda Google, in misura diversa (proposta dell'AD, da confermare). Oltre al canone resta il 10% sui prodotti venduti tramite MyCity, perché la consegna va pagata (Nicola, 26/11/2026 verso le 14:15; vedi pricing.commissione). Sui servizi prenotati e pagati dal sito è ancora aperto. Condizioni: nessun vincolo di durata, disdetta con 30 giorni di preavviso, primo mese a metà prezzo. Il titolare li vede coi prezzi nella proposta e li accetta dal link del preventivo; per ora li paga in contanti, di persona (sdg.pagamento, Nicola 26/11/2026 verso le 16:00): il pagamento con carta dentro il sito è spento finché la piattaforma dei pagamenti non è pronta. Primo cliente: Ora del Gusto (bar e pasticceria, Piacenza).",
+          "fino_a": "2026-11-27 17:21"
         }
       ],
       "caccia": [
@@ -1741,9 +1753,81 @@
         {
           "pattern": "Tre abbonamenti mensili ai servizi: Base 300 euro, Business 500 euro, Premium 999 euro. Sono servizi di MyCity realizzati da SDG Agenzia, il partner di MyCity per foto, video, social e web (Nicola, 24/11: «sono servizi che offre mycity, ma tramite SDG»). Ognuno comprende foto e video, social, sito web e scheda Google, in misura diversa (proposta dell'AD, da confermare). Solo canone, nessuna percentuale. Condizioni: nessun vincolo di durata, disdetta con 30 giorni di preavviso, primo mese a metà prezzo. Il titolare li vede coi prezzi nella proposta e li accetta dal link del preventivo; per ora li paga in contanti, di persona (sdg.pagamento, Nicola 26/11): il pagamento con carta dentro il sito è spento finché la piattaforma dei pagamenti non è pronta. Primo cliente: Ora del Gusto (bar e pasticceria, Piacenza).",
           "dal": "2026-11-26 16:31"
+        },
+        {
+          "pattern": "Business 500 euro, Premium 999 euro",
+          "dal": "2026-11-27 17:21"
+        },
+        {
+          "pattern": "Business 500 €",
+          "dal": "2026-11-27 17:21"
+        },
+        {
+          "pattern": "Premium 999 €",
+          "dal": "2026-11-27 17:21"
+        },
+        {
+          "pattern": "300/500/999",
+          "dal": "2026-11-27 17:21"
+        },
+        {
+          "pattern": "300 / 500 / 999",
+          "dal": "2026-11-27 17:21"
+        },
+        {
+          "pattern": "Premium a 999",
+          "dal": "2026-11-27 17:21"
+        },
+        {
+          "pattern": "Business a 500",
+          "dal": "2026-11-27 17:21"
+        },
+        {
+          "pattern": "Business 500 · Premium 999",
+          "dal": "2026-11-27 17:21"
+        },
+        {
+          "pattern": "499,50 euro",
+          "dal": "2026-11-27 17:21"
+        },
+        {
+          "pattern": "Premium: 999 €",
+          "dal": "2026-11-27 17:21"
+        },
+        {
+          "pattern": "Premium, 999 €",
+          "dal": "2026-11-27 17:21"
+        },
+        {
+          "pattern": "Business, 500 €",
+          "dal": "2026-11-27 17:21"
+        },
+        {
+          "pattern": "premium 999€",
+          "dal": "2026-11-27 17:21"
+        },
+        {
+          "pattern": "business 500€",
+          "dal": "2026-11-27 17:21"
+        },
+        {
+          "pattern": "Business 500 euro",
+          "dal": "2026-11-27 17:21"
+        },
+        {
+          "pattern": "Premium 999 euro",
+          "dal": "2026-11-27 17:21"
+        },
+        {
+          "pattern": "Tre abbonamenti mensili ai servizi: Base 300 euro, Business 500 euro, Premium 999 euro. Sono servizi di MyCity realizzati da SDG Agenzia, il partner di MyCity per foto, video, social e web (Nicola, 24/11: «sono servizi che offre mycity, ma tramite SDG»). Ognuno comprende foto e video, social, sito web e scheda Google, in misura diversa (proposta dell'AD, da confermare). Oltre al canone resta il 10% sui prodotti venduti tramite MyCity, perché la consegna va pagata (Nicola, 26/11/2026 verso le 14:15; vedi pricing.commissione). Sui servizi prenotati e pagati dal sito è ancora aperto. Condizioni: nessun vincolo di durata, disdetta con 30 giorni di preavviso, primo mese a metà prezzo. Il titolare li vede coi prezzi nella proposta e li accetta dal link del preventivo; per ora li paga in contanti, di persona (sdg.pagamento, Nicola 26/11/2026 verso le 16:00): il pagamento con carta dentro il sito è spento finché la piattaforma dei pagamenti non è pronta. Primo cliente: Ora del Gusto (bar e pasticceria, Piacenza).",
+          "dal": "2026-11-27 17:21"
         }
       ],
-      "esenzioni": []
+      "esenzioni": [
+        "MyCity-Vault/90-Memoria-AI/BACHECA-SESSIONI.md",
+        "consegne/audit/2026-11-27-collaudo-flusso-16/terzo-collaudo.md",
+        "consegne/sessioni/2026-11-24-passaggio-ora-del-gusto.md"
+      ]
     },
     {
       "id": "sensori.posthog.project_id",

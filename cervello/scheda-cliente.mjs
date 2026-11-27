@@ -62,7 +62,7 @@ export const FASCE = {
     ],
   },
   business: {
-    nome: 'Business', centesimi: 50000, post: 12, video: 2,
+    nome: 'Business', centesimi: 60000, post: 12, video: 2,
     inPratica: { sito: 'Più pagine col vostro nome', piano: '12 contenuti al mese, di cui 2 video brevi', foto: 'Una sessione di foto ogni tre mesi, più un video al mese', analisi: 'Una ogni mese' },
     perChi: 'Per crescere ogni settimana: più contenuti, più clienti che ti trovano.',
     servizi: [
@@ -74,7 +74,7 @@ export const FASCE = {
     ],
   },
   premium: {
-    nome: 'Premium', centesimi: 99900, post: 20, video: 4,
+    nome: 'Premium', centesimi: 90000, post: 20, video: 4,
     inPratica: { sito: 'Più pagine, aggiornato da noi ogni mese', piano: '20 contenuti al mese, 4 sono video, più le storie', foto: 'Foto e video ogni mese', analisi: 'Una ogni settimana, e un incontro al mese' },
     perChi: 'Il servizio completo: foto e video ogni mese, un referente tutto tuo.',
     servizi: [

@@ -2094,8 +2094,8 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 - **Colore:** 🔴. Cambia cosa vendiamo ai clienti.
 - **Contenuto:** il modello delle tre fasce è in `cervello/modelli/piano-editoriale-fasce.json`. L'esempio del Tropico a dicembre è in `consegne/clienti/tropico-latino/piano-editoriale-2026-12.html`.
   - Base, 300 €: 8 contenuti con 2 reel dalle foto. Poi 4 storie, 4 post e 4 foto su Google, il sito di una pagina.
-  - Business, 500 €: 12 contenuti con 4 reel, di cui 2 girati. Poi 12 storie, 8 post e 8 foto su Google, TikTok e le risposte alle recensioni. In più un messaggio WhatsApp alla lista, una mossa al mese, un creator a trimestre e una spinta pubblicitaria.
-  - Premium, 999 €: 20 contenuti con 8 reel, di cui 4 girati. Una storia ogni sera di apertura, 12 post e 15 foto su Google, TikTok e YouTube Shorts. In più 2 WhatsApp, una email, l'evento, 2 creator, campagne su Meta e Google, giornali e aziende vicine.
+  - Business, 600 €: 12 contenuti con 4 reel, di cui 2 girati. Poi 12 storie, 8 post e 8 foto su Google, TikTok e le risposte alle recensioni. In più un messaggio WhatsApp alla lista, una mossa al mese, un creator a trimestre e una spinta pubblicitaria.
+  - Premium, 900 €: 20 contenuti con 8 reel, di cui 4 girati. Una storia ogni sera di apertura, 12 post e 15 foto su Google, TikTok e YouTube Shorts. In più 2 WhatsApp, una email, l'evento, 2 creator, campagne su Meta e Google, giornali e aziende vicine.
   - La frase del Premium: «tutti i mestieri di un'agenzia completa». Si dice chiaro che il lavoro ripetitivo lo fa l'intelligenza artificiale. Mai «50 persone».
   - Insieme decidi il tetto dei clienti Premium, io dico 5, e mi dici il costo di scattiDG.
 - **Cosa cambia:** dopo il tuo sì aggiorno il preventivo sul sito, la proposta che nasce dalla foto e il registro dei fatti. Lo faccio nello stesso lavoro. Il prossimo cliente vede le quantità nuove.
@@ -2105,8 +2105,8 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 
 ## Manda a Ora del Gusto il preventivo di SDG e fallo iscrivere su MyCity (aggiunta 2026-11-24 02:20, corretta 03:50)
 - **Reparto:** @onboarding-negozi · **Colore:** 🔴 (preventivo a un cliente vero; iscrizione sul sito vero)
-- **Contenuto:** preventivo di SDG Agenzia `consegne/preventivi/2026-11-24-ora-del-gusto/preventivo-sdg-ora-del-gusto.pdf` (Base 300 · Business 500 consigliato · Premium 999 €/mese, primo mese a metà, nessun vincolo con 30 giorni di preavviso). Prima di mandarlo scrivi a mano email e WhatsApp di SDG e il nome del titolare. Iscrizione MyCity: il titolare da mycity-marketplace.com/sell, tipo «Bar o caffetteria».
-- **Cosa cambia:** Ora del Gusto diventa il primo cliente degli abbonamenti di SDG; col Business sono 500 euro al mese, il primo mese 250.
+- **Contenuto:** preventivo di SDG Agenzia `consegne/preventivi/2026-11-24-ora-del-gusto/preventivo-sdg-ora-del-gusto.pdf` (Base 300 · Business 600 consigliato · Premium 900 €/mese, primo mese a metà, prezzi del 27/11 — il PDF è stato rifatto il 2026-11-27 17:35 coi prezzi nuovi; nessun vincolo con 30 giorni di preavviso). Prima di mandarlo scrivi a mano email e WhatsApp di SDG e il nome del titolare. Iscrizione MyCity: il titolare da mycity-marketplace.com/sell, tipo «Bar o caffetteria».
+- **Cosa cambia:** Ora del Gusto diventa il primo cliente degli abbonamenti di SDG; col Business sono 600 euro al mese, il primo mese 300 (prezzi cambiati da Nicola il 27/11).
 - **Se va bene:** firmato il preventivo, fissi l'incontro nel locale per foto, scheda Google e primi post.
 
 ---
