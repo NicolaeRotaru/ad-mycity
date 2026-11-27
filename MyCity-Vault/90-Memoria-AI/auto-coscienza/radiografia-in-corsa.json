@@ -8669,6 +8669,21 @@
       "file": {
         "migrations/999_l_abbonamento_in_contanti.sql": "440a27e55489"
       }
+    },
+    {
+      "quando": "2026-11-27 03:27",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "components/agenti/Scheda.tsx": "8b16f12e00fd",
+        "components/agenti/scheda.module.css": "6f78b391c40c"
+      }
     }
   ]
 }
