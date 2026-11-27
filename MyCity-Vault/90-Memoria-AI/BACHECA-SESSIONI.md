@@ -236,6 +236,7 @@ Aggiornata il 2026-11-26 15:15 da Goku. Le due sessioni del 015Bmpn… stanno in
 ## La quota
 | Quando | Chi l'ha vista | Stato |
 |---|---|---|
+| 26/11 23:50 | Goku (`…V6RomU`) | avviso sul limite settimanale fino al 03/12 alle 10, niente uso extra, nessun blocco; uguale nella settima regia, in R21 secondo e in KS02. Detto a Nicola alle 23:50 |
 | 14/11 08:40 | la settima regista | uguale alla riga delle 07:54, senza cambiamenti. La sessione non mostra la sua spesa. Detto all'AD con la fermata 3 |
 | 14/11 07:54 | la regista · 6.0 (`…WFiSCa`) | avviso sul limite settimanale fino al 19/11 alle 10, niente uso extra, nessun blocco; uguale in C02 · 2.0, K08 · 2.0, cucitura e controllore PR e CI · 2.0. La regista 6.0 costa 0,70 $; le quattro sessioni aperte insieme 26 $ (C02 4,79, K08 3,63, PR e CI 4,95, cucitura 12,71), circa l'1% della settimana (stima). Detto all'AD, urgente, alle 07:55 |
 | 14/11 07:52 | il controllore PR e CI · 2.0 (`…Vy26PK`) | la quota adesso si vede: resta l'avviso settimanale che scade il 19/11 alle 10, senza uso extra. La sessione ha speso 3,10 $ dei 6 $ che può spendere senza chiedere. Detto all'AD |

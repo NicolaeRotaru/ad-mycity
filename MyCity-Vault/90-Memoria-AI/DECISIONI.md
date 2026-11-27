@@ -1465,3 +1465,9 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Dove:** mycity#340, commit d8f3cd3. Corretti anche il posto del link che poteva valere per due persone, il consenso, i messaggi della pagina e l'accesso durante una cancellazione fermata a metà.
 - **La lezione:** un account creato «già confermato» da un modulo pubblico è un'impersonazione aperta, anche dietro un link segreto: chi ha il link non per questo possiede l'email che scrive.
 
+## 2026-11-27 00:27 — La migrazione 865 degli agenti è nel database vero (🔴, firma di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD, 27/11 verso le 00:01: «Ok migration», dopo la domanda «Hai fatto tutte le migrazioni?».
+- **Cosa è stato fatto:** «Migrazioni a mano» con APPLICA, 1 e 865 (esecuzione 45908473965), dalle 00:02 alle 00:18, verde: conteggio, riconteggio, scrittura, seconda passata e controlli finali. Controllo in sola lettura dell'AD: le tabelle `inviti_agente` e `agenti` esistono con RLS attiva, né i visitatori né gli utenti collegati le leggono, `agenti` cade insieme all'account, e le due funzioni del link non si eseguono dal browser.
+- **Prima del via:** il controllo che confronta il codice col database vero era verde alle 18:17. Mancava solo la 865.
+- **Cosa resta:** la variabile `N8N_SCHEDA_SEGRETO` su Vercel (non c'è ancora) e il primo link in Admin → Agenti, tutte e due di Nicola.
+
