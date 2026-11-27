@@ -26,3 +26,7 @@
 2026-11-27 02:36 · onda 1 · prova-unione ⏳
 2026-11-27 02:42 · R03 · in lavoro · guardia ✅ · referto – · unione – · nessuna
 2026-11-27 02:42 · R12 · in lavoro · guardia ✅ · referto – · unione – · nessuna
+2026-11-27 02:53 · R07 · ramo fermo da 20 min su bbe7165, spesa 17,68 $ (70%) · azione: niente lotti nuovi, tetto 23 $
+2026-11-27 02:53 · R09 · guardia 🔴 (2 prove comuni) · spesa 14,98 $ (75%) · azione: riportarle alla base, tetto 19 $
+2026-11-27 02:53 · R10 · guardia ✅ · spesa 11,97 $
+2026-11-27 02:53 · R11 · ramo non spinto · spesa 14,24 $ (71%) · azione: spingere, tetto 19 $
