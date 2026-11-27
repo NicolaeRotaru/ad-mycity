@@ -1610,3 +1610,10 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Non fatto:** niente prezzi nelle grafiche; nessun nome ai piatti incerti (la tortilla con verdure e i gamberi restano fuori). Ho usato solo nomi del menu del sito o detti da Nicola: burrito, fajitas e i loro sei nomi, nachos, griglia, churros, brownie, Oreo cake, margarita frozen alla fragola.
 - **Bloccato:** caricamento su Drive e proposte nel Calendario. Lo spostamento sull'ambiente «SDG» è stato rifiutato in chat e non l'ho richiesto. Lettura di Drive e del Calendario fatta lo stesso dallo strumento MCP di n8n; la strada è scritta nella procedura.
 - **Da verificare con Nicola:** le foto hanno dieci anni. Piatti e dolci potrebbero non essere più nel menu: un pezzo con un piatto che non c'è più si rifiuta su Telegram.
+
+## 2026-11-27 23:15 — La parola «digitalizzare» si può usare anche col negoziante
+- **Chi e quando:** Nicola, in chat all'AD, il 27/11 verso le 23:10. Sessione session_01R8112LANAw9VhLSs2fAbsL.
+- **Le sue parole:** «la parola «digitalizzare» si può usare anche col negoziante, sul sito e nei volantini». Rispondeva alla domanda dell'AD fatta dopo il salvataggio del concetto.
+- **Cosa cambia:** cade il divieto su questa parola scritto nel §2.1 di `CONTESTO_BUSINESS.md`. Il testo di Nicola resta com'è; il cambio è segnato nel §13. Il resto del §2.1 non cambia: niente «tecnologia» né «AI» col negoziante, e la promessa si dice in incassi, clienti e tempo.
+- **Dove l'ho scritto:** fatto `strategia.concetto` aggiornato, con la caccia sulle due frasi vecchie. Note ⑥ e ⑦ del §13 riscritte. La nota del concetto era numerata ④ per sbaglio, come un'altra: ora è la ⑦.
+- **Colore:** 🟡, perché cambia una regola di comunicazione. L'ha deciso Nicola.

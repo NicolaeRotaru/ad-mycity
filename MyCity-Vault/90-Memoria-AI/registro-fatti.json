@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-11-27 18:26",
+  "aggiornato": "2026-11-27 23:14",
   "fatti": [
     {
       "id": "ad.uso-e-crediti",
@@ -2161,11 +2161,29 @@
     {
       "id": "strategia.concetto",
       "nome": "Il concetto di MyCity: cosa fa",
-      "valore": "MyCity si occupa di digitalizzare le attività locali e di promuovere i loro servizi e prodotti attraverso il marketplace. È la frase che dice cosa fa MyCity, e le due metà vanno insieme. Digitalizzare vuol dire portare l'attività online: sito, social, scheda Google, foto e video, la vetrina sul marketplace (i servizi degli abbonamenti, vedi sdg.abbonamenti). Promuovere vuol dire farle arrivare clienti e ordini, e il posto dove succede è il marketplace. Vale per tutte le attività che vendono qualcosa, non solo per le botteghe (strategia.cliente-core). Regola d'uso, dal CONTESTO_BUSINESS.md §2.1: col negoziante la parola «digitalizzare» non si usa; gli si dice cosa ci guadagna in incassi, clienti e tempo.",
-      "fonte": "Nicola in chat all'AD (session_01R8112LANAw9VhLSs2fAbsL), 27/11/2026 verso le 18:10: «Questo va salvato come concetto: mycity si occupa di digitalizzare le attività locali e promuovere i loro servizi e prodotti attraverso il marketplace». Le due spiegazioni (digitalizzare, promuovere) e la regola d'uso sono la lettura dell'AD dai fatti già firmati citati nel valore.",
-      "aggiornato": "2026-11-27 18:13",
-      "storia": [],
-      "caccia": [],
+      "valore": "MyCity si occupa di digitalizzare le attività locali e di promuovere i loro servizi e prodotti attraverso il marketplace. È la frase che dice cosa fa MyCity, e le due metà vanno insieme. Digitalizzare vuol dire portare l'attività online: sito, social, scheda Google, foto e video, la vetrina sul marketplace (i servizi degli abbonamenti, vedi sdg.abbonamenti). Promuovere vuol dire farle arrivare clienti e ordini, e il posto dove succede è il marketplace. Vale per tutte le attività che vendono qualcosa, non solo per le botteghe (strategia.cliente-core). La parola «digitalizzare» si può usare anche col negoziante, sul sito e nei volantini (Nicola, 27/11 verso le 23:10). Così cade il divieto su questa parola scritto nel CONTESTO_BUSINESS.md §2.1. Il resto del §2.1 non cambia: col negoziante non si parla di «tecnologia» né di «AI», e la promessa si dice in incassi, clienti e tempo.",
+      "fonte": "Nicola in chat all'AD (session_01R8112LANAw9VhLSs2fAbsL), 27/11/2026: «Questo va salvato come concetto: mycity si occupa di digitalizzare le attività locali e promuovere i loro servizi e prodotti attraverso il marketplace» (verso le 18:10); poi, verso le 23:10, alla domanda dell'AD: «la parola «digitalizzare» si può usare anche col negoziante, sul sito e nei volantini».",
+      "aggiornato": "2026-11-27 23:14",
+      "storia": [
+        {
+          "valore": "MyCity si occupa di digitalizzare le attività locali e di promuovere i loro servizi e prodotti attraverso il marketplace. È la frase che dice cosa fa MyCity, e le due metà vanno insieme. Digitalizzare vuol dire portare l'attività online: sito, social, scheda Google, foto e video, la vetrina sul marketplace (i servizi degli abbonamenti, vedi sdg.abbonamenti). Promuovere vuol dire farle arrivare clienti e ordini, e il posto dove succede è il marketplace. Vale per tutte le attività che vendono qualcosa, non solo per le botteghe (strategia.cliente-core). Regola d'uso, dal CONTESTO_BUSINESS.md §2.1: col negoziante la parola «digitalizzare» non si usa; gli si dice cosa ci guadagna in incassi, clienti e tempo.",
+          "fino_a": "2026-11-27 23:14"
+        }
+      ],
+      "caccia": [
+        {
+          "pattern": "la parola «digitalizzare» non si usa",
+          "dal": "2026-11-27 23:14"
+        },
+        {
+          "pattern": "e non parla mai di «digitalizzazione»",
+          "dal": "2026-11-27 23:14"
+        },
+        {
+          "pattern": "MyCity si occupa di digitalizzare le attività locali e di promuovere i loro servizi e prodotti attraverso il marketplace. È la frase che dice cosa fa MyCity, e le due metà vanno insieme. Digitalizzare vuol dire portare l'attività online: sito, social, scheda Google, foto e video, la vetrina sul marketplace (i servizi degli abbonamenti, vedi sdg.abbonamenti). Promuovere vuol dire farle arrivare clienti e ordini, e il posto dove succede è il marketplace. Vale per tutte le attività che vendono qualcosa, non solo per le botteghe (strategia.cliente-core). Regola d'uso, dal CONTESTO_BUSINESS.md §2.1: col negoziante la parola «digitalizzare» non si usa; gli si dice cosa ci guadagna in incassi, clienti e tempo.",
+          "dal": "2026-11-27 23:14"
+        }
+      ],
       "esenzioni": []
     }
   ]
