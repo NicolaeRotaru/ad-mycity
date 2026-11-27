@@ -1477,3 +1477,9 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa ha scelto:** ① pagamento: contanti al primo servizio, ritirati da chi va comunque sul posto, per esempio scattiDG per le foto (fatto `sdg.pagamento` aggiornato); ② richiamo: lettera con QR e pubblicità su Facebook e Instagram, tutte e due 🔴 col suo via; ha chiesto se ci sono altri modi; ③ la pagina della diagnosi la costruisce una sessione nuova, in un ramo di mycity con la PR.
 - **Perché così:** la ricerca sui negozianti dice che l'iscrizione fatta tutta da soli produce iscritti che non usano niente (paletto 5, onboarding fatto dalla piattaforma). La diagnosi porta il titolare alla pagina; la telefonata di 15 minuti tiene la parte umana. Niente WhatsApp o email a freddo (paletto 8 e consenso).
 - **Cosa resta aperto:** chi ritira i contanti da chi compra solo social o sito; l'accordo scritto con scattiDG sui contanti; la diagnosi subito o via email. Passaggio: `consegne/sessioni/2026-11-27-diagnosi-a-distanza.md`.
+
+## 2026-11-27 01:49 — Il pulsante «Aggiungi attività» nella pagina dell'agente (🟡, chiesto da Nicola)
+- **Chi e quando:** Nicola, in chat all'AD (session_01R8112KveB4Fq8Lg47R6KMu), 27/11 verso le 00:55: «aggiungi un pulsante "aggiungi attività"», poi «secondo momento ma fatto con un clic dalla stessa pagina».
+- **Cosa:** in `/agente`, a scheda finita, il pulsante iscrive l'attività come il flusso 20 (nascosta, senza accesso, col link) e mostra il link del preventivo. Porta `POST /api/agente/aggiungi`, solo per l'agente padrone della scheda o per l'admin. Gli omonimi con un altro indirizzo si fermano.
+- **Dove:** mycity#343, unita col sì di Nicola dalla sessione che unisce le PR. È passata dal collaudo indipendente: 2 difetti gravi e 4 minori corretti prima dell'unione.
+- **Colore:** 🟡. Scrive sul database vero solo su conferma dell'agente; nessun messaggio parte verso il titolare.
