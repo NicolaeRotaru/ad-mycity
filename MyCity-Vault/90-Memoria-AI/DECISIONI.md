@@ -1476,12 +1476,37 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Prima del via:** il controllo che confronta il codice col database vero era verde alle 18:17. Mancava solo la 865.
 - **Cosa resta:** la variabile `N8N_SCHEDA_SEGRETO` su Vercel (non c'è ancora) e il primo link in Admin → Agenti, tutte e due di Nicola.
 
+## 2026-11-27 01:45 · Tropico: 29 contenuti nel Calendario, coi colori del sito 🟡
+- **Cosa:** 31 contenuti dal 26/11 sera al 2/12, fatti con le 13 foto del fotografo e il menu del sito (letto il 26/11 alle 15:55). Due storie del 26 sera sono scadute; le altre 29 sono nel Calendario «da approvare», con l'anteprima su Telegram.
+- **Perché:** Nicola, 26/11 verso le 15:00: il Tropico fa da esempio per i clienti, tanti contenuti da subito. Ritmo e orari concordati con la sessione che pubblica il Tropico.
+- **Correzione:** il 27/11 verso le 00:45 Nicola ha detto che il rosa non è il colore del marchio. Ho letto i colori dal foglio di stile del sito: il magenta compare 9 volte, l'ardesia 66. Ho rifatto tutto in ardesia, giallo, verde e bianco, e caricato la nuova versione in una cartella Drive nuova. La versione magenta non è mai stata proposta: la sua cartella resta da archiviare a mano, per la regola «niente si elimina».
+- **Non fatto:** nessun prezzo nelle grafiche, nessun nome ai piatti delle foto non confermati, niente «unico messicano di Piacenza» (non verificato).
+
+## 2026-11-27 01:20 — La scheda dell'agente a pagine, con le tre schede degli abbonamenti su misura (🟡, richiesta di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD, 26/11 verso le 23:50: «crea le 3 schede dell'abbonamento in cui inserisci i benefici in base all'abbonamento … dividile in più pagine dentro un menù a tendina», «senza togliere nulla». Poco dopo, verso le 00:40: «dentro ogni abbonamento deve esserci la personalizzazione esatta del servizio che offriamo al cliente, sono dati che già recuperi devi solo studiare e venderli all'azienda».
+- **Cosa è stato fatto (repo mycity, ramo `claude/awesome-lamport-0wk769`):** la scheda di /agente è divisa in 7 pagine scelte da un menu a tendina, con «Avanti» e «indietro»; testata e piede restano sempre in vista; nessuna sezione tolta. Pagina nuova «I tre abbonamenti»: per Base, Business e Premium prezzo, primo mese, per chi, e i sei benefici presi dal listino del sito (`lib/agenzia/preventivo.ts`, niente testi copiati). Sotto ogni servizio c'è la riga «Per <negozio>». La scrive l'AD (campo nuovo `su_misura` nel compito e nello schema del flusso 14, con «cosa ci guadagna» per fascia); finché l'AD non risponde, o se lascia vuoto, la compone il programma coi dati già letti: misura del sito, profili trovati, concorrenti sulla mappa libera, dati incerti, critiche. Le stesse regole valgono per tutti e due: tabelle firmate del sito e dei social, niente promesse fuori fascia (un controllo scarta le frasi dell'AD che le fanno), il 10% resta.
+- **Perché così:** la riga del programma c'è subito e regge anche quando l'AD non parte. Oggi l'AD non parte affatto finché `N8N_SCHEDA_SEGRETO` non è su Vercel: senza il programma le schede sarebbero di nuovo uguali per tutti.
+- **Prove:** 2 file nuovi, 14 prove; rosse sul codice di prima e coi mutanti (sezione tolta, beneficio tolto, controllo delle promesse spento, riga dell'AD che perde). Primo collaudo indipendente (pagine): 0 bloccanti, 0 gravi, 5 minori, 4 chiusi nello stesso lavoro.
+- **Lasciato aperto:** il prezzo delle tre schede viene dal codice, non dall'eventuale cambio in `site_settings.agenzia` che legge la pagina del negozio (c'era già prima, ora si vede di più).
+
+## 2026-11-27 01:32 — Il secondo collaudo della parte su misura: 2 gravi e 8 minori, chiusi (🟡, nel ramo)
+- **Cosa ha trovato:** il programma presentava come fatto un sito che nessuno aveva aperto («secondo l'AD curato, di più pagine», quando l'AD aveva scritto «medio» perché non sapeva). E il controllo delle promesse fuori fascia si spegneva con un «non» in un punto qualsiasi della frase: 18 promesse su 18 passavano e 10 frasi giuste su 10 venivano scartate.
+- **Cosa è cambiato:** senza misura del sito la riga dice di chiedere al titolare. La negazione conta solo nelle 5 parole prima della promessa. Post e video promessi si confrontano col listino. I 28 casi del collaudatore sono una prova. Chiusi anche gli 8 minori: la tabella dei social vale per il programma, i profili della mappa sono «da controllare», il doppione del negozio non è un concorrente, il Premium non promette di rifare un sito di pregio.
+- **Prove:** 67 prove della cartella agenti verdi (erano 51). I due mutanti rimasti vivi al collaudo («perché» senza paletti, gioco e tabacco spento) ora fanno diventare rossa la prova.
+- **Non fatto:** un terzo collaudo. La regola delle due ondate dice di fermarsi qui e chiedere a Nicola se ne vuole un altro.
+
 ## 2026-11-27 01:50 — Unite le richieste aperte della notte, il database resta com'era (🔴, firma di Nicola sull'unione)
 - **Chi e quando:** Nicola, in chat all'AD, 27/11 poco dopo l'01:00: «Tu devi controllare tutte le pr di queste sessioni sistemarle, controllare che va tutto bene e margiarle».
 - **Cosa è stato fatto:** unite ad-mycity#1061, mycity#341 e mycity#342. Ognuna è stata prima aggiornata con main, e la CI è tornata verde. Il quaderno della campagna, ad-mycity#1032, aveva dieci conflitti di memoria e un controllo rosso sui testi: sistemati entrambi.
 - **Cosa non è stato fatto:** le 19 migrazioni non sono applicate. L'unione non le comprende: serve il suo «ok migrazioni». La ad-mycity#1048 non è unita: legge la pagina pubblica di Google Maps e mostra i voti di Google, e il parere legale dice di no.
 - **Da sapere:** il controllore finale chiesto dalla regia per la #342 non è stato aperto. La CI intera era verde, anche con la #338 e la #341 dentro.
 
+
+## 2026-11-27 01:40 — Iscrivere le attività senza andarci: la diagnosi gratuita e i contanti al primo servizio (🟡, scelte di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD, 27/11 verso le 01:35: «voglio costruire una macchina/software … per far inscrivere i clienti senza dirigermi fisicamente all'attività». Poi le tre risposte alla domanda dell'AD.
+- **Cosa ha scelto:** ① pagamento: contanti al primo servizio, ritirati da chi va comunque sul posto, per esempio scattiDG per le foto (fatto `sdg.pagamento` aggiornato); ② richiamo: lettera con QR e pubblicità su Facebook e Instagram, tutte e due 🔴 col suo via; ha chiesto se ci sono altri modi; ③ la pagina della diagnosi la costruisce una sessione nuova, in un ramo di mycity con la PR.
+- **Perché così:** la ricerca sui negozianti dice che l'iscrizione fatta tutta da soli produce iscritti che non usano niente (paletto 5, onboarding fatto dalla piattaforma). La diagnosi porta il titolare alla pagina; la telefonata di 15 minuti tiene la parte umana. Niente WhatsApp o email a freddo (paletto 8 e consenso).
+- **Cosa resta aperto:** chi ritira i contanti da chi compra solo social o sito; l'accordo scritto con scattiDG sui contanti; la diagnosi subito o via email. Passaggio: `consegne/sessioni/2026-11-27-diagnosi-a-distanza.md`.
 
 ## 2026-11-27 01:49 — Il pulsante «Aggiungi attività» nella pagina dell'agente (🟡, chiesto da Nicola)
 - **Chi e quando:** Nicola, in chat all'AD (session_01R8112KveB4Fq8Lg47R6KMu), 27/11 verso le 00:55: «aggiungi un pulsante "aggiungi attività"», poi «secondo momento ma fatto con un clic dalla stessa pagina».

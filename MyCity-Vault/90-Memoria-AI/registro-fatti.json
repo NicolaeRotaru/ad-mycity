@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-11-26 21:30",
+  "aggiornato": "2026-11-27 01:40",
   "fatti": [
     {
       "id": "ad.uso-e-crediti",
@@ -1982,10 +1982,15 @@
     {
       "id": "sdg.pagamento",
       "nome": "Come si paga l'abbonamento ai servizi",
-      "valore": "Per ora l’abbonamento si paga in contanti, di persona: il pagamento online sul sito arriva più avanti.",
-      "fonte": "Nicola, chat all'AD session_01R8112KveB4Fq8Lg47R6KMu, 26/11/2026: «paga con i contanti per il momento finché non è pronta la piattaforma per i pagamenti». Sul sito l'interruttore è lib/agenzia/pagamento-servizi.ts (spento).",
-      "aggiornato": "2026-11-26 16:23",
-      "storia": [],
+      "valore": "Per ora l’abbonamento si paga in contanti, di persona: il pagamento online sul sito arriva più avanti. Chi si iscrive a distanza paga in contanti al primo servizio, a chi va comunque sul posto (per esempio scattiDG per le foto): Nicola non va dal cliente.",
+      "fonte": "Nicola, chat all'AD session_01R8112Mc8k7RTxo6DHqsxJN, 27/11/2026 01:40: scelta «Contanti al primo servizio» per l'iscrizione senza andare fisicamente all'attività. Prima: chat session_01R8112KveB4Fq8Lg47R6KMu, 26/11/2026.",
+      "aggiornato": "2026-11-27 01:40",
+      "storia": [
+        {
+          "valore": "Per ora l’abbonamento si paga in contanti, di persona: il pagamento online sul sito arriva più avanti.",
+          "fino_a": "2026-11-27 01:40"
+        }
+      ],
       "caccia": [],
       "esenzioni": []
     },
