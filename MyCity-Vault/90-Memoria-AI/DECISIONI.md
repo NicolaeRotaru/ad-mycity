@@ -1551,3 +1551,11 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa:** l'AD ha confrontato in sola lettura il registro del database vero con la cartella `migrations/` di main (85123f4a): mancavano 20 migrazioni, 863, 880, 900, 910, 911, 916, 926, 940, 961, 970, 990-999. Nessuna cancella dati alla partenza (le tre `DELETE` della 961 sono dentro funzioni che liberano la merce prenotata). La 863 era stata tenuta ferma il 26/11 per la frase sul pagamento: quella frase era già nel database, la 863 cambia solo le righe del rapporto, quindi è entrata. Lanciato «Migrazioni a mano» con APPLICA / 20 / 999: esecuzione 46012199323, partita alle 15:01, tutti i passi verdi alle 15:19.
 - **Verifica:** in sola lettura alle 15:25: le 20 nel registro, le funzioni e le tabelle di 910, 916, 940 e 961, colonna e indice della 999, testo della 863 sui tre prodotti.
 - **Colore:** 🔴, eseguito sulla firma esplicita di Nicola.
+
+## 2026-11-27 17:35 — Il sito Business del Caffè di Piacenza e la voce «Sito web» negozio per negozio (🟡)
+- **Chi e quando:** Nicola, in chat all'AD (session_01R8112Lh8bxtpgSCWy2ESsy), 27/11 verso le 17:05: «crea la versione business di questo sito… nella voce del menu sito web ci deve essere già il suo sito web versione business… entrambi i siti web devono già essere su Vercel».
+- **Cosa:** dalla bozza (artifact «Caffè di Piacenza») un sito di cinque pagine vere, con dati per Google, anteprima per WhatsApp, barra «Chiama / Indicazioni» sul telefono, mappa, collegamento alla vetrina. Nel marketplace, il lavoro consegnato della sessione SDG reso valido per ogni negozio, il Caffè aggiunto con fascia Business, il sito mostrato dal vivo quando è online; frame-src apre solo le origini esatte dei siti online.
+- **Perché:** il Caffè è iscritto dal 27/11 alle 16:45 con l'abbonamento Business attivo (pagato in contanti, tabella abbonamenti_servizi); il Business promette «un sito completo di più pagine, col tuo nome».
+- **Limiti:** niente prezzi e niente dati inventati; orari, menu e storia restano «da confermare» e il sito è nascosto a Google finché il titolare non dice sì. Vercel non pubblicato: il collegamento non può creare progetti (403).
+- **Colore:** 🟡: codice in un ramo, PR da unire da Nicola; la pubblicazione su Vercel ha la sua firma in chat.
+
