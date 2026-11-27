@@ -102736,7 +102736,7 @@
         "nota": "Nel repo mycity. Sei casi nuovi, tutti rossi sul main 6d22756 (expected 201 to be 409) e verdi con la correzione: accettazione e rinvio (409, 1 utente, 1 link), omonimi dopo l'accettazione, preventivo chiuso, utenti non leggibili, tetto della ricerca, due primi invii insieme. Collaudo a due lenti: 13 mutazioni, 10 rosse, 2 chiuse con prove nuove, 1 equivalente."
       },
       "chiuso_il": "2026-11-27 20:58",
-      "chiuso_da": "PR NicolaeRotaru/mycity#356 · b0d6448 / da08ceb (si chiude davvero con l'unione). Ai negozi iscritti prima il segno lo dà la migrazione 999f in NicolaeRotaru/mycity#357, che aspetta la firma di Nicola"
+      "chiuso_da": "PR NicolaeRotaru/mycity#356 · b0d6448 / da08ceb, unita il 2026-11-27 verso le 22:20 (merge e047537). Ai negozi iscritti prima il segno lo dà la migrazione 999f, unita con NicolaeRotaru/mycity#357 (merge a029cd7) ma non ancora applicata: aspetta Nicola col pulsante «Migrazioni a mano»"
     },
     {
       "dimensione": "architettura",
