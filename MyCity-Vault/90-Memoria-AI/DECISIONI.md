@@ -1560,10 +1560,10 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Verifica:** in sola lettura alle 15:25: le 20 nel registro, le funzioni e le tabelle di 910, 916, 940 e 961, colonna e indice della 999, testo della 863 sui tre prodotti.
 - **Colore:** 🔴, eseguito sulla firma esplicita di Nicola.
 
-## 2026-11-27 17:35 — Il sito Business del Caffè di Piacenza nella sua voce «Sito web» (🟡)
-- **Chi e quando:** Nicola in chat all'AD, il 27/11 verso le 17:05. Sessione session_01R8112Lh8bxtpgSCWy2ESsy. Ha chiesto la versione business del sito. «Nella voce del menu sito web ci deve essere già il suo sito web versione business.» E: «entrambi i siti web devono già essere su Vercel».
-- **Cosa:** dalla bozza (artifact «Caffè di Piacenza») un sito di cinque pagine vere, con dati per Google, anteprima per WhatsApp, barra «Chiama / Indicazioni» sul telefono, mappa, collegamento alla vetrina. Nel marketplace il lavoro consegnato della sessione SDG ora vale per ogni negozio. Il Caffè c'è con la fascia Business, e il suo sito si vede dal vivo quando è online. La politica di sicurezza apre solo gli indirizzi esatti dei siti online.
-- **Perché:** il Caffè è iscritto dal 27/11 alle 16:45, con l'abbonamento Business attivo e pagato in contanti. Il Business promette «un sito completo di più pagine, col tuo nome».
-- **Limiti:** niente prezzi e niente dati inventati; orari, menu e storia restano «da confermare» e il sito è nascosto a Google finché il titolare non dice sì. Vercel non pubblicato: il collegamento non può creare progetti (403).
-- **Colore:** 🟡: codice in un ramo, PR da unire da Nicola; la pubblicazione su Vercel ha la sua firma in chat.
-
+## 2026-11-27 18:15 — Salvato il concetto di MyCity su richiesta di Nicola
+- **Chi e quando:** Nicola, in chat all'AD, il 27/11 verso le 18:11. Sessione session_01R8112LANAw9VhLSs2fAbsL.
+- **Le sue parole:** «Questo va salvato come concetto: mycity si occupa di digitalizzare le attività locali e promuovere i loro servizi e prodotti attraverso il marketplace».
+- **Cosa ho fatto:** il concetto è un fatto nuovo del registro, `strategia.concetto`. La riga «Chi sei» di `CLAUDE.md` ora lo dice. Il §13 di `CONTESTO_BUSINESS.md` ha una nota in più. Il testo di Nicola non cambia.
+- **Perché:** la riga di prima diceva solo «il marketplace dei negozi». Dal 22/11 i clienti sono tutte le attività che vendono qualcosa (`strategia.cliente-core`). Dal 24/11 MyCity offre anche i servizi per portarle online (`sdg.abbonamenti`).
+- **Peso del manuale:** 17.925 byte su un tetto di 18.000. La prova `due-elenchi-un-solo-metro` vuole circa 60 byte di margine, e passa. La prima versione pesava 17.997 byte ed era rossa: l'ha trovato la sessione delle PR. Il modello Amazon × eBay × Glovo per esteso resta in `MyCity-Vault/00-Index.md`.
+- **Colore:** 🟡, perché tocca le istruzioni della macchina. L'ha chiesto Nicola, e la PR la valuta lui.
