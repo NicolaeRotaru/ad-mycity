@@ -1,7 +1,7 @@
 {
-  "aggiornato": "2026-11-16 01:31",
+  "aggiornato": "2026-11-27 01:49",
   "timbro": {
-    "quando": "2026-11-16 01:31",
+    "quando": "2026-11-27 01:49",
     "scade_dopo_ore": 26,
     "ambiente": "cloud",
     "scritto_da": "cervello/salute.mjs",
@@ -24,15 +24,15 @@
   },
   "ultime": {
     "claude": {
-      "quando": "2026-11-16 01:31",
-      "iso": "2026-11-16T00:31:47.274Z",
+      "quando": "2026-11-27 01:49",
+      "iso": "2026-11-27T00:49:29.138Z",
       "casa": "claude",
       "modo": "rapido",
       "ok": 11,
-      "rotti": 8,
+      "rotti": 7,
       "guasti": 0,
-      "nonvisti": 4,
-      "copertura": 0.83,
+      "nonvisti": 5,
+      "copertura": 0.78,
       "controlli": [
         {
           "id": "worker.ponte",
@@ -40,10 +40,10 @@
           "titolo": "Il VPS si sta ancora visitando",
           "impatto": 1,
           "esito": "rotto",
-          "detto": "l'ultima visita del VPS è di 1820 ore fa: da lassù non si sta più controllando nessuno",
+          "detto": "l'ultima visita del VPS è di 2084 ore fa: da lassù non si sta più controllando nessuno",
           "prova": null,
           "regressione": false,
-          "rosso_da": 16,
+          "rosso_da": 17,
           "cronico": true
         },
         {
@@ -52,10 +52,10 @@
           "titolo": "La macchina lascia tracce di essere passata",
           "impatto": 1,
           "esito": "rotto",
-          "detto": "nessun processo automatico lascia tracce da 878 ore (l'ultima è ultimo-briefing.json, 2026-10-10 12:05)",
+          "detto": "nessun processo automatico lascia tracce da 264 ore (l'ultima è ultimo-briefing.json, 2026-11-16 01:46)",
           "prova": null,
           "regressione": false,
-          "rosso_da": 5,
+          "rosso_da": 6,
           "cronico": true
         },
         {
@@ -67,7 +67,7 @@
           "detto": "il ritmo della macchina si è fermato. Non si alzano più 6 cadenze su 6: giro, ritmo-mattino, ritmo-mezzogiorno, ritmo-sera, ritmo-settimana, monitora. Altre 2 sono uscite saltando dei passi: giro, ritmo-settimana.",
           "prova": "node cervello/freschezza-cadenze.mjs",
           "regressione": false,
-          "rosso_da": 16,
+          "rosso_da": 17,
           "cronico": true
         },
         {
@@ -76,10 +76,10 @@
           "titolo": "I file che la Cabina mostra sono ancora validi",
           "impatto": 2,
           "esito": "rotto",
-          "detto": "6 file che la Cabina mostra sono più vecchi della loro scadenza: Le mosse di Nicola (442h), Il referto del checkup (749h), Com'è andato l'ultimo giro (1814h), Il battito delle cadenze (1814h), L'ultimo briefing (878h), Il quaderno dei pezzi nuovi (3213h)",
+          "detto": "6 file che la Cabina mostra sono più vecchi della loro scadenza: Le mosse di Nicola (264h), Il referto del checkup (264h), Com'è andato l'ultimo giro (2079h), Il battito delle cadenze (2079h), L'ultimo briefing (264h), Il quaderno dei pezzi nuovi (3478h)",
           "prova": null,
           "regressione": false,
-          "rosso_da": 16,
+          "rosso_da": 17,
           "cronico": true
         },
         {
@@ -88,10 +88,10 @@
           "titolo": "La review del venerdì lascia i suoi compiti",
           "impatto": 3,
           "esito": "rotto",
-          "detto": "la review del venerdì non lascia più i suoi compiti: Il confronto coi migliori (115 giorni), La peer review fra senior (115 giorni), La calibrazione previsto-vs-reale (30 giorni), La lettera a Nicola (109 giorni)",
+          "detto": "la review del venerdì non lascia più i suoi compiti: Il confronto coi migliori (126 giorni), La peer review fra senior (126 giorni), La lettera a Nicola (120 giorni)",
           "prova": null,
           "regressione": false,
-          "rosso_da": 16,
+          "rosso_da": 17,
           "cronico": true
         },
         {
@@ -159,11 +159,11 @@
           "organo": "cervello",
           "titolo": "La guardia in tempo reale ha davvero scattato",
           "impatto": 3,
-          "esito": "ok",
-          "detto": "✅ ultimo scatto 4 min fa (2026-11-16T00:28:00.123Z) — 9 file guardati, 0 voci, 0 gravi.",
+          "esito": "rotto",
+          "detto": "4 file modificati in questa copia e il sorvegliante non ha mai scattato: il canale in tempo reale è staccato",
           "prova": "node cervello/sorvegliante.mjs --battito",
-          "regressione": false,
-          "rosso_da": 0,
+          "regressione": true,
+          "rosso_da": 1,
           "cronico": false
         },
         {
@@ -183,8 +183,8 @@
           "organo": "cervello",
           "titolo": "Il lavoro consegnato dice com'è andato",
           "impatto": 2,
-          "esito": "ok",
-          "detto": "0 consegne su 36 degli ultimi 30 giorni senza una riga di esito (0%) · Cabina 0 giorni indietro (STATO al 2026-11-15 06:55)",
+          "esito": "nonvisto",
+          "detto": "non ho potuto contare: ⚪ CIECO: clone superficiale (--depth). Qui git vede solo gli ultimi commit, quindi conterei le consegne mute di mezza storia e chiamerei que",
           "prova": null,
           "regressione": false,
           "rosso_da": 0,
@@ -196,10 +196,10 @@
           "titolo": "Il cantiere dei difetti sta calando",
           "impatto": 2,
           "esito": "rotto",
-          "detto": "il cantiere dei difetti CRESCE invece di calare — il cantiere CRESCE: 11 difetti aperti in più rispetto a una settimana fa (354 allora, 365 adesso). Si aprono più difetti di quanti se ne chiudono.",
+          "detto": "il cantiere dei difetti CRESCE invece di calare — il cantiere CRESCE: 13 difetti aperti in più rispetto a una settimana fa (357 allora, 370 adesso). Si aprono più difetti di quanti se ne chiudono.",
           "prova": "node cervello/salute-onesta.mjs --gate",
           "regressione": false,
-          "rosso_da": 4,
+          "rosso_da": 5,
           "cronico": true
         },
         {
@@ -220,7 +220,7 @@
           "titolo": "Le braccia della macchina sono versionate",
           "impatto": 2,
           "esito": "ok",
-          "detto": "73 skill installate, tutte versionate o rigenerabili",
+          "detto": "11 skill installate, tutte versionate o rigenerabili",
           "prova": null,
           "regressione": false,
           "rosso_da": 0,
@@ -231,24 +231,24 @@
           "organo": "cabina",
           "titolo": "La Cabina risponde",
           "impatto": 1,
-          "esito": "rotto",
-          "detto": "la Cabina non risponde: fetch failed (indirizzo da ponte-cabina.json)",
+          "esito": "ok",
+          "detto": "risponde in 0.5s (indirizzo da ponte-cabina.json)",
           "prova": null,
           "regressione": false,
-          "rosso_da": 3,
-          "cronico": true
+          "rosso_da": 0,
+          "cronico": false
         },
         {
           "id": "cabina.cuore",
           "organo": "cabina",
           "titolo": "La Cabina è collegata alla memoria",
           "impatto": 2,
-          "esito": "rotto",
-          "detto": "il cuore della Cabina non risponde: fetch failed",
+          "esito": "ok",
+          "detto": "collegata, ultimo battito 2026-11-16 01:46",
           "prova": null,
           "regressione": false,
-          "rosso_da": 3,
-          "cronico": true
+          "rosso_da": 0,
+          "cronico": false
         },
         {
           "id": "senior.registro",
@@ -280,7 +280,7 @@
           "titolo": "I senior chiudono il loop",
           "impatto": 3,
           "esito": "ok",
-          "detto": "9 senior con almeno un esito registrato",
+          "detto": "13 senior con almeno un esito registrato",
           "prova": null,
           "regressione": false,
           "rosso_da": 0,
@@ -312,14 +312,13 @@
         }
       ],
       "cronicita": {
-        "worker.ponte": 16,
-        "worker.tracce": 5,
-        "worker.cadenze": 16,
-        "cervello.freschezza": 16,
-        "cervello.riti": 16,
-        "cervello.burndown": 4,
-        "cabina.viva": 3,
-        "cabina.cuore": 3
+        "worker.ponte": 17,
+        "worker.tracce": 6,
+        "worker.cadenze": 17,
+        "cervello.freschezza": 17,
+        "cervello.riti": 17,
+        "cervello.sorvegliante": 1,
+        "cervello.burndown": 5
       }
     },
     "vps": {
@@ -683,17 +682,6 @@
     }
   },
   "storico": [
-    {
-      "quando": "2026-07-29 11:36",
-      "iso": "2026-07-29T09:36:50.815Z",
-      "casa": "claude",
-      "modo": "rapido",
-      "ok": 8,
-      "rotti": 0,
-      "guasti": 0,
-      "nonvisti": 6,
-      "copertura": 0.57
-    },
     {
       "quando": "2026-07-29 11:42",
       "iso": "2026-07-29T09:42:17.018Z",
@@ -1342,6 +1330,17 @@
       "guasti": 0,
       "nonvisti": 4,
       "copertura": 0.83
+    },
+    {
+      "quando": "2026-11-27 01:49",
+      "iso": "2026-11-27T00:49:29.138Z",
+      "casa": "claude",
+      "modo": "rapido",
+      "ok": 11,
+      "rotti": 7,
+      "guasti": 0,
+      "nonvisti": 5,
+      "copertura": 0.78
     }
   ]
 }

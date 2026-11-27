@@ -1,7 +1,7 @@
 ---
 tipo: lavoro-aperto
 fonte: AD digitale
-aggiornato: 2026-11-27 01:50
+aggiornato: 2026-11-27 02:23
 regola: si legge PRIMA di cercare cosa manca; si aggiorna a ogni lavoro che si apre o si chiude
 ---
 
@@ -29,6 +29,10 @@ La pagina dice com'era il lavoro il 31 ottobre alle 01:45. Ogni voce va riletta 
 ---
 
 ## 1 · Cose che toccano a te
+
+**Contenuti social per qualsiasi attività: la procedura in bozza (27/11 02:40).** Nicola ha chiesto di rifare il lavoro del Tropico su qualsiasi attività, più veloce, e di salvarlo come bozza da seguire. La procedura sta in N8N `flussi/ad-studio/studio-canva/PROCEDURA.md` e nella skill `contenuti-cliente`. Stima: circa un'ora e mezza a cliente, contro le circa 10 ore e mezza del Tropico, da misurare al prossimo cliente. Tocca a Nicola leggerla e unire le due PR in bozza. Da firmare per andare più veloce: il flusso «AD · Proponi in blocco» e i colori del Tropico nell'officina (`rendi.py` ha ancora il magenta).
+
+**Tropico: 29 contenuti nel Calendario, da approvare su Telegram (27/11 01:25).** Vanno dal 27/11 alle 12:15 al 2/12 alle 21:30. Sono 19 storie animate, 4 post, 3 caroselli e 3 reel, coi colori veri del marchio, senza rosa. Esce solo quello che Nicola approva su Telegram: chi non viene approvato prima della sua ora non esce. Da archiviare a mano, non da cancellare: la cartella Drive «Proposte contenuti 2026-11-26», con la prima versione in magenta, mai proposta. Da decidere: i contenuti del 25/11 già approvati hanno ancora le fasce magenta. Strumenti: N8N `flussi/ad-studio/studio-canva/LEGGIMI.md`.
 
 **Post e reel fatti da programma (26/11 14:28).** Senza Canva e senza CapCut. La prova di Pane Quotidiano ha tre file: un reel di 15 secondi, un post e la copertina della storia. Dentro un telefono scorrono le pagine vere del negozio. Alle 14:19 Nicola ha scritto «Ok salva». Il 27/11 verso le 00:10 ha detto di unire la PR delle impaginazioni. Pronto quando lo chiede: i contenuti della settimana di Pane Quotidiano come bozze, senza pubblicare. Dettaglio: `creativi/impaginazioni/LEGGIMI.md`.
 
