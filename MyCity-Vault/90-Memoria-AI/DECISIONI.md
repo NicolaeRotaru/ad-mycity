@@ -1585,6 +1585,11 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Peso del manuale:** 17.925 byte su un tetto di 18.000. La prova `due-elenchi-un-solo-metro` vuole circa 60 byte di margine, e passa. La prima versione pesava 17.997 byte ed era rossa: l'ha trovato la sessione delle PR. Il modello Amazon × eBay × Glovo per esteso resta in `MyCity-Vault/00-Index.md`.
 - **Colore:** 🟡, perché tocca le istruzioni della macchina. L'ha chiesto Nicola, e la PR la valuta lui.
 
+## 2026-11-27 19:58 — Tolto «Cosa ci guadagni» dalla pagina Abbonamento del negoziante (🟡)
+- **Chi l'ha chiesto:** Nicola, dal telefono, sulla pagina Abbonamento di Pane Quotidiano: «togli questo pezzo "cosa ci guadagni"».
+- **Cosa ho fatto:** tolto il riquadro verde dalla pagina Abbonamento del negoziante. Ora la pagina apre con l'offerta su misura. La funzione che scriveva le frasi resta nel codice, con la sua prova: si rimette in un attimo. PR del sito: NicolaeRotaru/mycity#354.
+- **Prova:** le due prove della pagina ora controllano che il riquadro non ci sia. Con la pagina vecchia sono rosse (2 su 36), con la nuova verdi (59 su 59). Foto della pagina a misura di telefono, coi dati finti delle prove.
+- **Colore:** 🟡, codice del sito in un ramo. Sul sito cambia solo quando Nicola unisce la PR.
 ## 2026-11-27 19:17 — Applicata in produzione la migrazione 999b, il giorno della visita di SDG (🔴, firma di Nicola)
 - **Chi e quando:** Nicola, in chat all'AD (session_01R8112NYQ3s6UrYKRZCZdxA), 27/11 verso le 19:00: «applica le migrazioni».
 - **Cosa:** confronto in sola lettura fra il registro del database vero (340 righe) e `migrations/` di main (0033f975, dopo la mycity#351): mancava solo la 999b. Aggiunge `preventivi_con_codice.visita_il` e un indice unico parziale, cioè una sola attività per ora. Non cancella niente. Lanciato «Migrazioni a mano» con APPLICA / 1 / 999b: esecuzione 46046533099, partita alle 19:03, tutta verde alle 19:17.
@@ -1603,3 +1608,9 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Verifica:** ricontrollo in sola lettura subito dopo. Email nuova in tutte e due le tabelle; utente non bloccato; profilo venditore approvato «SDG Agenzia»; conferma dell'email ancora del 24/11, quindi il trigger del benvenuto non è scattato; un solo account con quell'indirizzo. La password è ancora vuota: la sceglie Nicola con «Password dimenticata?».
 - **Per tornare indietro:** `update auth.users set banned_until = now() + interval '100 years' where id = '11111111-1111-1111-1111-5d9000000001';`
 - **Colore:** 🔴, eseguito sulla firma esplicita di Nicola.
+## 2026-11-27 21:02 — Tasto Approva: l'impronta guarda tutto quello che esce (🟡, firmato da Nicola)
+- **Chi e quando:** Nicola, in chat all'AD (session_01R8112LLyeYLAMVEEzLNUuw), 27/11 verso le 20:45: «impronta nuova subito». Il lavoro l'ha chiesto la sessione di controllo delle sessioni (session_01R8112L2JFRP34XMFymdS4d).
+- **Il difetto:** l'impronta nel tasto guardava solo file e ora. Se l'AD cambiava solo la didascalia, il tasto rimasto sotto l'anteprima vecchia approvava la versione nuova, non vista.
+- **Cosa:** l'impronta guarda file, ora, didascalia, primo commento, copertina, tipo e social. Rifiuta vale sempre. Il messaggio di un tasto che non corrisponde dice le cause vere.
+- **Dove:** NicolaeRotaru/N8N#37. Due collaudi indipendenti: tutti e due reggono.
+- **Colore:** 🟡. Il flusso vivo non cambia finché Nicola non scrive «ok 267»: «Proponi» e «Tasti» vanno caricati insieme.

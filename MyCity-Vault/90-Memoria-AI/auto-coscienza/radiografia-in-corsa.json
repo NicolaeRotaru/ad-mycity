@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-11-27 19:23",
+  "aggiornato": "2026-11-27 20:59",
   "scansioni": [
     {
       "quando": "2026-08-25 20:35",
@@ -9018,6 +9018,24 @@
         "lib/agenzia/preventivo-col-codice.ts": "d5fd2bcbf626",
         "lib/agenzia/visita.ts": "99e754d6aa09",
         "lib/database.types.ts": "1ddd73274215"
+      }
+    },
+    {
+      "quando": "2026-11-27 20:59",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 3,
+      "schede": [
+        "Su un preventivo chiuso da Nicola il modulo 12 e il pulsante rispondono «ha già accettato»",
+        "Oltre 10.000 utenti ogni nuova iscrizione di un negozio risponde «Riprova fra poco»",
+        "I negozi che avevano già accettato prima della correzione possono ancora nascere doppi"
+      ],
+      "nota": "",
+      "file": {
+        "lib/agenzia/nuova-attivita.ts": "6ca3ded53479"
       }
     }
   ]

@@ -202,7 +202,7 @@ Se va bene: entri, apri Servizi e guardi Sito web, Gestione social e Analisi del
   ```
   Le pagine col lavoro consegnato arrivano con la richiesta di unione di mycity, ramo `ccr-3e25a9cc-8rdzdt`. Finché non è unita, entrando vedi ancora i preventivi.
 
-### 🟡 #267 — Carica su n8n il controllo che ferma i contenuti già usciti · ⏳ accodata 2026-11-27 15:21 · @builder-automazioni
+### 🟡 #267 — Carica su n8n i controlli sui contenuti già usciti o cambiati · ⏳ accodata 2026-11-27 15:21 · @builder-automazioni
 
 **Stato:** ⏳ in attesa di Nicola
 
@@ -211,7 +211,9 @@ Per esempio: un post del Tropico pubblicato sabato e riproposto domenica tornere
 
 **Cosa cambia per te.** Col controllo caricato, un contenuto già uscito ferma il flusso con «riga già pubblicata: usa un id nuovo». Un contenuto già approvato e riproposto torna da approvare, come hai deciso oggi verso le 14:50, e la domanda su Telegram te lo dice. Le note di prima restano.
 
-**Cosa devi fare tu.** Scrivere «ok 267». Se vuoi, prima guarda la richiesta di unione NicolaeRotaru/N8N#34.
+**Aggiunta delle 21:02.** Anche il tasto Approva cambia. Un tasto vecchio non approva più una didascalia cambiata. Rifiuta vale sempre. I tasti Approva dei contenuti già in attesa smettono di valere: per quelli usi «Approva tutti».
+
+**Cosa devi fare tu.** Scrivere «ok 267». Se vuoi, prima guarda le richieste di unione NicolaeRotaru/N8N#34 e NicolaeRotaru/N8N#37.
 
 **Cosa non ho verificato.** Il flusso nuovo non è mai girato sul Calendario vero: le prove usano un foglio finto con il codice vero di n8n. Dopo il caricamento faccio una prova sola, su una riga di prova, e te la mostro.
 
@@ -220,7 +222,7 @@ Se va bene: l'AD prova il flusso su una riga di prova già pubblicata, ti mostra
 
 - **Colore:** 🟡
 - **Reparto:** builder-automazioni
-- **Dettagli tecnici:** flusso n8n `q940FBnc4sfqdneZ` (resta spento, si avvia a mano). Al via, quattro passi. ① Si leggono foglio e chat dal flusso vivo. ② Si genera il flusso con `node flussi/ad-studio/consegna.mjs proponi --json --foglio … --chat …`, dal main del deposito N8N: contiene il commit `a05bbb7`, unito con la N8N#34. ③ Si aggiorna il flusso su n8n. ④ Si confrontano i 17 nodi con quelli generati. Il flusso vivo oggi è quello della N8N#33 (`c6bdd7b`): il caricamento non aspetta l'unione delle due richieste. Il flusso «AD · Tasti su Telegram» non cambia.
+- **Dettagli tecnici:** flusso n8n `q940FBnc4sfqdneZ` (resta spento, si avvia a mano). Al via, quattro passi. ① Si leggono foglio e chat dal flusso vivo. ② Si genera il flusso con `node flussi/ad-studio/consegna.mjs proponi --json --foglio … --chat …`, dal main del deposito N8N: contiene il commit `a05bbb7`, unito con la N8N#34. ③ Si aggiorna il flusso su n8n. ④ Si confrontano i 17 nodi con quelli generati. Con la N8N#37 cambia anche «AD · Tasti su Telegram» (`zSRD1vaX2SDyDgBm`, acceso). I due flussi si generano dallo stesso commit e si caricano insieme. Se ne entra uno solo, ogni tasto Approva risponde «non è più uguale».
 
 ### 🟡 #266 — Guarda il ricontrollo del sito e unisci la richiesta, se ti va bene · ⏳ accodata 2026-11-26 15:30 · @ad
 
