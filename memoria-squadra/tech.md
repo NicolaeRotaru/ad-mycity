@@ -8,6 +8,7 @@ reparto: tech
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-11-27 18:35 · Calendario della visita di SDG nel link del preventivo (mycity#351) · V4 C5 A5 K5 I3 M4 E3 (media 4.14) · atteso pronto al primo colpo, nessun difetto grave → reale collaudo: 1 grave (feste nel calendario) + 6 minori, al ricollaudo 1 minore; riparati tutti tranne la protezione senza 999b (scelta voluta). Lezione: un calendario si prova sulle feste e sugli orari attaccati, non solo sul fuso · #calendario #collaudo #feste
 - 2026-11-27 15:40 · Migrazioni 863-999 in produzione col pulsante, firma di Nicola · V5 C5 A5 K5 I3 M3 E5 (media 4.43) · atteso 20 su 20 col giro verde in circa 18 minuti → reale 20 su 20, giro verde in 18 minuti, ricontrollo in sola lettura verde · #migrazioni
 - 2026-11-27 17:42 · Link del preventivo: conferma dei tre abbonamenti e ingresso col codice dell'email (mycity#349) · V4 C5 A5 K5 I3 M4 E2 (media 4) · atteso una pagina coi tre abbonamenti e l'ingresso subito dopo il clic, in una ondata → reale tre giri di collaudo: l'ingresso senza prova dell'email e poi il codice di Supabase aprivano due falle; regge col codice fatto dal sito · #preventivo #sicurezza #collaudo
 - 2026-11-27 03:50 · Sblocco della pagina del negozio con l'abbonamento scelto al «Sì» dell'agente (mycity#348) · V5 C4 A4 K5 I3 M4 E3 (media 4) · atteso nessuna bocciatura al primo collaudo → reale 3 bocciature (sconto primo mese, avviso mancante, scheda aperta dopo Ferma), corrette; ricollaudo regge · #contanti #abbonamenti #collaudo

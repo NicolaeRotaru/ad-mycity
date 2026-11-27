@@ -1,6 +1,6 @@
 // Aperto o chiuso adesso (ora di Piacenza), il giorno di oggi negli orari, gli appuntamenti già passati.
 (function () {
-  var H = [null,[450,1170],[450,1170],[450,1170],[450,1170],[450,1170],[450,1170]];
+  var H = [[510,780],[450,1200],[450,1200],[450,1200],[450,1200],[450,1200],[450,1200]];
   var NOMI = ["Domenica","Lunedì","Martedì","Mercoledì","Giovedì","Venerdì","Sabato"];
   function hh(m) { return String(Math.floor(m / 60)).padStart(2, '0') + ':' + String(m % 60).padStart(2, '0'); }
   function ora() {
