@@ -35,7 +35,7 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 **Stato:** ⏳ in attesa di Nicola
 
-**In parole semplici.** Il collaudo ha scoperto che tre repository su GitHub sono pubblici: la memoria dell'AD (ad-mycity), il sito MyCity (mycity) e i flussi (N8N). Chiunque su internet può leggerli. Dentro la memoria ci sono le tue decisioni, i prezzi, i nomi dei clienti, le schede delle attività e, da oggi, l'analisi interna di SDG coi suoi punti deboli.
+**In parole semplici.** Il collaudo ha scoperto che tre repository su GitHub sono pubblici. Sono la memoria dell'AD, il sito MyCity e i flussi di n8n. Chiunque su internet può leggerli. Dentro la memoria ci sono le tue decisioni, i prezzi, i nomi dei clienti, le schede delle attività e, da oggi, l'analisi interna di SDG coi suoi punti deboli.
 Per esempio: l'analisi di SDG dice «pochissimi clienti paganti» e nomina sette concorrenti. Oggi la può leggere anche uno di loro.
 
 **Cosa cambia per te.** Con i repository privati li leggete solo tu e le sessioni dell'AD. Il sito e il Pannello continuano a pubblicarsi su Vercel, che legge anche i repository privati.
@@ -47,7 +47,7 @@ Per esempio: l'analisi di SDG dice «pochissimi clienti paganti» e nomina sette
 Cosa cambia: la memoria dell'azienda e le analisi interne smettono di essere leggibili da chiunque.
 Se va bene: riguardo se i flussi di lavoro e Vercel funzionano ancora coi repository privati, e te lo scrivo.
 
-- **Colore:** 🔴 (non si torna indietro su quello che è già stato letto; tocca impostazioni dei tuoi account)
+- **Colore:** 🔴. Quello che è già stato letto non torna indietro. Si toccano le impostazioni dei tuoi account.
 - **Reparto:** security
 - **Dettagli tecnici:** visibilità letta il 27/11 alle 18:35: mycity public, ad-mycity public, N8N public, SDG private. Collaudo: `memoria-squadra/security.md`, riga del 27/11. Alternativa più lunga: tenere i JSON del lavoro consegnato in una tabella Supabase con RLS invece che nel codice. La riscrittura della storia dei rami non basta, perché l'analisi è anche in ad-mycity, `consegne/sdg-premium/`.
 
@@ -88,7 +88,10 @@ Se va bene: la prossima bozza che ti arriva dice 600 euro per il Business.
 
 - **Colore:** 🔴 (cambia due flussi vivi che parlano di prezzi)
 - **Reparto:** builder-automazioni
-- **Dettagli tecnici:** repo NicolaeRotaru/N8N, commit 7deaba8: `flussi/19-bozze-abbonamenti/codice/prepara-bozze.js` (prezzoMese 60000 e 90000, testi dell'analisi allineati al sito), `flussi/16-attivita-da-visitare/costruisci.mjs` (LISTINO). La prova 8 del 19 confronta il listino col sito MyCity: è verde solo col ramo mycity dei prezzi nuovi.
+- **Dettagli tecnici:** repo NicolaeRotaru/N8N, commit 7deaba8.
+  - `flussi/19-bozze-abbonamenti/codice/prepara-bozze.js`: prezzoMese 60000 e 90000. I testi dell'analisi sono allineati al sito.
+  - `flussi/16-attivita-da-visitare/costruisci.mjs`: il LISTINO.
+  - La prova 8 del 19 confronta il listino col sito MyCity. È verde solo col ramo mycity dei prezzi nuovi.
 
 ### 🔴 #271 — Metti in vetrina i prezzi nuovi dei tre abbonamenti di SDG · ⏳ accodata 2026-11-27 18:20 · @ad
 
@@ -166,7 +169,7 @@ Adesso vuoi entrare come SDG e vedere, dentro «Servizi», il sito, il piano dei
 
 **Cosa devi fare tu.** Tre passi, cinque minuti.
 1. Scegli l'indirizzo. Due utenti non possono avere la stessa email: usa la tua Gmail con «+negozio» prima della chiocciola. Arriva nella stessa casella.
-2. Su Supabase, nell'editor SQL, incolla il comando dei dettagli tecnici, metti l'indirizzo al posto del segnaposto e premi Run.
+2. Esegui su Supabase il comando dei dettagli tecnici, con l'indirizzo al posto del segnaposto.
 3. Su MyCity premi «Password dimenticata», scrivi quell'indirizzo e scegli la password dal link che ti arriva.
 
 **Cosa non ho verificato.** Non ho provato l'accesso: da qui non posso scrivere sul database, ed è giusto così. Può darsi che al primo ingresso il sito ti chieda di accettare le condizioni del venditore: è normale.
@@ -174,7 +177,7 @@ Adesso vuoi entrare come SDG e vedere, dentro «Servizi», il sito, il piano dei
 Cosa cambia: SDG Agenzia smette di essere un negozio che non entra mai e diventa un negozio con cui entri tu, come cliente Premium di se stesso.
 Se va bene: entri, apri Servizi e guardi Sito web, Gestione social e Analisi del business; quello che non ti torna lo scrivi all'AD.
 
-- **Colore:** 🔴 (scrittura a mano sul database vero, sull'accesso di un utente)
+- **Colore:** 🔴. È una scrittura a mano sul database vero. Tocca l'accesso di un utente.
 - **Reparto:** ad
 - **Dettagli tecnici:** utente `11111111-1111-1111-1111-5d9000000001` creato dalla migrazione 707 (`sdg.servizi@mycity-system.local`, `encrypted_password` vuota, `banned_until` = +100 anni). Comando:
   ```sql
@@ -185,7 +188,11 @@ Se va bene: entri, apri Servizi e guardi Sito web, Gestione social e Analisi del
      set identity_data = identity_data || jsonb_build_object('email', 'INDIRIZZO-CON-+negozio'), updated_at = now()
    where user_id = '11111111-1111-1111-1111-5d9000000001' and provider = 'email';
   ```
-  Per tornare indietro: `update auth.users set banned_until = now() + interval '100 years' where id = '11111111-1111-1111-1111-5d9000000001';`. Le pagine con il lavoro consegnato arrivano dalla richiesta di unione di mycity sul ramo `ccr-3e25a9cc-8rdzdt`: senza quella unita, entrando vedi ancora i preventivi.
+  Per tornare indietro, si blocca di nuovo l'utente:
+  ```sql
+  update auth.users set banned_until = now() + interval '100 years' where id = '11111111-1111-1111-1111-5d9000000001';
+  ```
+  Le pagine col lavoro consegnato arrivano con la richiesta di unione di mycity, ramo `ccr-3e25a9cc-8rdzdt`. Finché non è unita, entrando vedi ancora i preventivi.
 
 ### 🟡 #267 — Carica su n8n il controllo che ferma i contenuti già usciti · ⏳ accodata 2026-11-27 15:21 · @builder-automazioni
 
@@ -2253,7 +2260,7 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 ## Manda a Ora del Gusto il preventivo di SDG e fallo iscrivere su MyCity (aggiunta 2026-11-24 02:20, corretta 03:50)
 - **Reparto:** @onboarding-negozi · **Colore:** 🔴 (preventivo a un cliente vero; iscrizione sul sito vero)
 - **Contenuto:** preventivo di SDG Agenzia `consegne/preventivi/2026-11-24-ora-del-gusto/preventivo-sdg-ora-del-gusto.pdf` (Base 300 · Business 600 consigliato · Premium 900 €/mese, primo mese a metà, prezzi del 27/11 — il PDF è stato rifatto il 2026-11-27 17:35 coi prezzi nuovi; nessun vincolo con 30 giorni di preavviso). Prima di mandarlo scrivi a mano email e WhatsApp di SDG e il nome del titolare. Iscrizione MyCity: il titolare da mycity-marketplace.com/sell, tipo «Bar o caffetteria».
-- **Cosa cambia:** Ora del Gusto diventa il primo cliente degli abbonamenti di SDG; col Business sono 600 euro al mese, il primo mese 300 (prezzi cambiati da Nicola il 27/11).
+- **Cosa cambia:** Ora del Gusto diventa il primo cliente degli abbonamenti di SDG. Col Business sono 600 euro al mese, il primo mese 300. Sono i prezzi decisi da Nicola il 27/11.
 - **Se va bene:** firmato il preventivo, fissi l'incontro nel locale per foto, scheda Google e primi post.
 
 ---

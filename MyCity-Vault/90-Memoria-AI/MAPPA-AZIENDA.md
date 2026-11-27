@@ -123,7 +123,7 @@ Fonte: file negozi.json (estratto in sola lettura). Venditori registrati: 4, di 
 
 - Al lancio i clienti pagano solo in contanti, alla consegna. Fonte: `pagamenti.al-lancio`.
 - Stripe non è collegato ai sensori dell'AD.
-- L'agenzia vende tre abbonamenti al mese: Base a 300 euro, Business a 600 euro e Premium a 900 euro, per tutte le attività locali che hanno bisogno di digitalizzarsi (corretta a mano il 2026-11-27 17:25: la mappa rifatta da qui perdeva i dati di n8n). Fonte: `sdg.abbonamenti`.
+- L'agenzia vende tre abbonamenti al mese: Base a 300 euro, Business a 600 euro e Premium a 900 euro. Le vende a tutte le attività locali che devono digitalizzarsi. Riga corretta a mano il 2026-11-27 17:25, perché la mappa rifatta da qui perdeva i dati di n8n. Fonte: `sdg.abbonamenti`.
 - Il marketplace prende il 10% sugli ordini che porta lui. Fonte: `pricing.commissione`.
 - Per l'IA non si paga nessuna API: quel lavoro lo fa l'AD col piano Max. Fonte: `ad.uso-e-crediti`.
 

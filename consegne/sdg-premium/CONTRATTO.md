@@ -1,10 +1,23 @@
 ---
 tipo: contratto-dati
 data: 2026-11-27 16:10
-fonte: richiesta di Nicola del 27/11/2026 ~16:00 — «SDG usa la sua tecnologia per i propri social, versione Premium; nella sua pagina venditore, dentro Servizi: Sito = il sito, Social = il piano editoriale, Analisi = l'analisi di SDG»
+fonte: richiesta di Nicola del 27/11/2026 verso le 16:00. SDG usa la sua tecnologia sui propri social, col Premium. Nella sua pagina venditore, dentro Servizi, ci sono il sito, il piano editoriale e l'analisi.
 ---
 
 # SDG cliente Premium di se stessa — il formato dei tre lavori consegnati
+
+## In parole semplici
+Questo foglio dice com'è fatto ogni file dei tre lavori di SDG. Serve perché tre senior diversi li scrivono, e la pagina di MyCity li legge tutti allo stesso modo.
+Per esempio: il piano social di dicembre ha 57 righe, e ognuna ha giorno, ora, canale, formato e didascalia.
+
+## Cosa cambia per te
+Quando SDG entra su MyCity, le voci di «Servizi» mostrano questi file come pagine. Un file scritto nella forma sbagliata non si vede, e la pagina torna al preventivo.
+
+## Cosa devi fare
+Niente: è un foglio per chi scrive i file e per chi scrive il codice.
+
+## Cosa non ho verificato
+Se domani serve un campo nuovo, va aggiunto qui e nello schema del sito, insieme.
 
 SDG Agenzia è un negozio di sistema su MyCity (id `11111111-1111-1111-1111-5d9000000001`).
 Diventa il primo cliente **Premium** di se stessa. Tre lavori, tre file JSON, una forma sola:
