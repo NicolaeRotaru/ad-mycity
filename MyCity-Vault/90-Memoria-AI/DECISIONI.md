@@ -1596,6 +1596,18 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Verifica:** in sola lettura alle 19:23: 999b nel registro (341 righe), colonna `visita_il` di tipo timestamptz, indice `preventivi_con_codice_una_visita_per_ora` presente.
 - **Colore:** 🔴, eseguito sulla firma esplicita di Nicola.
 
+## 2026-11-27 20:31 — Nella pagina venditore di SDG Agenzia si entra con sdg.agenzia@gmail.com (🔴 da eseguire, firma di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD (session_01R8112NCcfSwcjYZHBsdh37), 27/11 20:20: «l'agenzia SDG dentro il marketplace è la stessa agenzia SDG … ti mando le mail e dovrai farmi accedere con questa email all'agenzia». Alle 20:28 ha mandato l'indirizzo.
+- **Cosa:** l'utente di sistema di SDG Agenzia (migrazione 707, bloccato e senza password) prende l'email vera di SDG invece della Gmail di Nicola col «+negozio», proposta nell'azione #268. Controllato in sola lettura alle 20:28: nessun account usa già quell'indirizzo. Il comando è scritto nell'azione #268.
+- **Chi lo esegue:** Nicola, con un incolla nell'editor SQL di Supabase. L'AD sul database vero non scrive.
+- **Colore:** 🔴, perché cambia l'accesso di un utente sul database vero.
+
+## 2026-11-27 22:54 — Eseguito il comando che apre SDG Agenzia con sdg.agenzia@gmail.com (🔴, firma di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD (session_01R8112NCcfSwcjYZHBsdh37): «Perché non incolli tu questo comando», con il comando dell'azione #268 incollato. Vale come firma esplicita; cambia il «chi lo esegue» della voce delle 20:31.
+- **Cosa:** lanciato su Supabase, progetto «Mycity» (`clmpyfvpvfjgeviworth`): l'utente `11111111-…-5d9000000001` prende l'email vera di SDG in `auth.users` e in `auth.identities`, e `banned_until` diventa null. `email_confirmed_at` non è stato toccato.
+- **Verifica:** ricontrollo in sola lettura subito dopo. Email nuova in tutte e due le tabelle; utente non bloccato; profilo venditore approvato «SDG Agenzia»; conferma dell'email ancora del 24/11, quindi il trigger del benvenuto non è scattato; un solo account con quell'indirizzo. La password è ancora vuota: la sceglie Nicola con «Password dimenticata?».
+- **Per tornare indietro:** `update auth.users set banned_until = now() + interval '100 years' where id = '11111111-1111-1111-1111-5d9000000001';`
+- **Colore:** 🔴, eseguito sulla firma esplicita di Nicola.
 ## 2026-11-27 21:02 — Tasto Approva: l'impronta guarda tutto quello che esce (🟡, firmato da Nicola)
 - **Chi e quando:** Nicola, in chat all'AD (session_01R8112LLyeYLAMVEEzLNUuw), 27/11 verso le 20:45: «impronta nuova subito». Il lavoro l'ha chiesto la sessione di controllo delle sessioni (session_01R8112L2JFRP34XMFymdS4d).
 - **Il difetto:** l'impronta nel tasto guardava solo file e ora. Se l'AD cambiava solo la didascalia, il tasto rimasto sotto l'anteprima vecchia approvava la versione nuova, non vista.
@@ -1616,6 +1628,12 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Dove:** NicolaeRotaru/N8N#38 (secondo commit). Esecuzioni n8n 4366 (Drive), 4367 e 4368 (proposte).
 - **Colore:** 🟡. Esce solo con l'Approva di Nicola.
 
+## 2026-11-27 22:20 — Decisione di Nicola: sul lato SDG si dice «la tua attività».
+- **Cosa ha detto Nicola, verso le 22:10:** «il tuo negozio» si cambia ovunque c'entri SDG, cioè abbonamenti e servizi. Sul lato marketplace resta, perché lì il target di MyCity sono le botteghe e i piacentini.
+- **Perché regge:** SDG lavora con tutte le attività locali, non solo coi negozi (fatto `sdg.abbonamenti`, Nicola 27/11 verso le 17:10).
+- **Cosa:** fatto nuovo `sdg.lessico` nel registro. Il sito oggi ha 95 righe con «tuo negozio» in 57 file, mescolate fra SDG e marketplace. n8n e il sito di SDG non ne hanno.
+- **Chi lo fa:** la sessione «Rapporto dell'imprenditore · sito e preventivo». Prima le 9 righe nuove della mycity#355: così la migrazione 999e scrive già le descrizioni giuste. Poi una richiesta nuova dal main per il resto del lato SDG. I casi dubbi restano com'erano e vanno in elenco a Nicola.
+- **Colore:** 🟡. Testi del sito in un ramo, niente unione né migrazioni applicate senza la firma di Nicola.
 ## 2026-11-27 22:50 · Tropico: 17 contenuti dalle foto nuove di Drive, pronti ma non caricati 🟡
 - **Chi e quando:** Nicola, in chat all'AD (sessione «Tropico Latino content updates»), 27/11 verso le 22:10: creare contenuti nuovi, o modificare quelli attuali, con le foto nuove messe nella cartella Drive «Da programmare» del Tropico.
 - **Le foto:** 123, caricate in «Originali» il 27/11 tra le 16:56 e le 17:21. Sono 91 scatti da studio del 5/10/2015 su fondo grigio (piatti, cocktail, fajitas, la griglia da tavolo) e 32 dolci del 21/4/2016. Prima non c'era una foto delle fajitas: il piano di dicembre lo segnava come buco.

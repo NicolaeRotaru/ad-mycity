@@ -1,6 +1,6 @@
 ---
 tipo: bacheca
-aggiornato: 2026-11-27 19:35
+aggiornato: 2026-11-27 22:35
 regole: cervello/sessioni-insieme.md
 ---
 
@@ -29,8 +29,10 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
 | 27/11 ~22:35 | AD (session_01R8112P5YYf1DSVHQKpdukS) | «Non specificare che è la fragola, margarita frozen»: nelle grafiche e nei testi del Tropico il drink della foto 0307 si chiama solo «margarita frozen», perché «alla fragola» appesantisce la frase. Il carosello e il reel di sabato 28/11 sono stati rimandati su Telegram alle 22:45 così |
+| 27/11 ~22:10 | all'AD, chat «Verifica sessioni completate» (`…L2JFRP`) | **Sul lato SDG si dice «la tua attività», mai «il tuo negozio».** Vale per abbonamenti, servizi, preventivo, rapporto e tutto ciò in cui c'entra SDG. Sul lato marketplace resta «negozio»: lì il target di MyCity sono le botteghe e i piacentini. Fatto `sdg.lessico`. Il cambio nel sito lo fa la sessione «Rapporto dell'imprenditore · sito e preventivo»: prima nella mycity#355, poi in una richiesta nuova. |
 | 27/11 21:48 | AD (session_01R8112P5YYf1DSVHQKpdukS) | «Questa è una margherita frozen alla fragola, non è una sangria»: la foto 0307 del Tropico (il drink rosso nella caraffa) non si chiama mai sangria. La storia delle 18:00 è uscita sbagliata su quattro pagine. Il carosello e il reel di sabato 28/11 la chiamavano sangria. Sono stati fermati alle 22:11, rifatti e riproposti su Telegram alle 22:20. Chi fa contenuti del Tropico legge `foto_confermate` nel file del cliente e lancia `controlla-nomi.py` prima di montare |
 | 27/11 ~20:45 | AD (session_01R8112LLyeYLAMVEEzLNUuw) | «Impronta nuova subito»: l'impronta guarda anche testi, copertina e social, non solo file e ora. Un contenuto cambiato dopo l'anteprima non esce con un tocco vecchio. Per quelli già in coda vale «Approva tutti». |
+| 27/11 ~20:20 | all'AD (`…NCcfSwcjYZHBsdh37`) | **SDG Agenzia sul marketplace è la stessa agenzia SDG**: nella sua pagina venditore si entra con **le email vere di SDG**, non con la Gmail di Nicola col «+negozio» proposta nell'azione #268. Le email le manda in chat. Una email sola apre la pagina venditore di SDG: due account non possono avere la stessa email. Gli altri del team entrano come agenti, col link d'invito di Admin → Agenti. Risponde alla prima delle tre scelte aperte della mycity#353. |
 | 27/11 ~19:01 | all'AD, chat «Subscription confirmation flow» (`…NuFB3nq8tjMhb1KRu`) | «Vale il primo mese a metà prezzo»: niente due settimane gratuite. Risponde alla domanda della riga delle 17:40. Il registro lo diceva già, nel fatto `sdg.abbonamenti`. La pagina del link lo mostra già: sul Business c'è «Il primo mese 250,00 €». Nel sito non cambia niente.
 | 27/11 ~18:20 | AD, chat «Caffè di Piacenza business site» (`…Lh8bxtpgSCWy2ESsy`) | «Apri la rete»: l'ambiente Default ora apre anche le pagine e le foto delle attività clienti (sites.google.com, i server delle immagini di Google lh3-lh6, Tripadvisor e le sue immagini, Wanderlog, WeCake). Fatto alle 18:25. Il sito del Caffè è stato rifatto sullo stile vero del locale, con logo, disegni, foto e orari del loro sito |
 | 27/11 ~18:11 | all'AD (`…R8112LANAw9VhLSs2fAbsL`) | **Il concetto di MyCity**, da salvare come tale: «MyCity si occupa di digitalizzare le attività locali e promuovere i loro servizi e prodotti attraverso il marketplace». È nel registro come `strategia.concetto`. È scritto anche nella riga «Chi sei» di `CLAUDE.md` e nel §13 di `CONTESTO_BUSINESS.md`. Col negoziante resta la regola del §2.1: non si dice «digitalizzare», si parla di incassi, clienti e tempo |

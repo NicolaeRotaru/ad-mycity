@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-11-27 18:26",
+  "aggiornato": "2026-11-27 22:18",
   "fatti": [
     {
       "id": "ad.uso-e-crediti",
@@ -2166,6 +2166,26 @@
       "aggiornato": "2026-11-27 18:13",
       "storia": [],
       "caccia": [],
+      "esenzioni": []
+    },
+    {
+      "id": "sdg.lessico",
+      "nome": "Le parole del lato SDG: «la tua attività», non «il tuo negozio»",
+      "valore": "Sul lato SDG — abbonamenti, servizi, preventivo, rapporto dell'imprenditore e tutto ciò in cui c'entra SDG — al titolare si dice «la tua attività», mai «il tuo negozio», in ogni forma (della/alla/nella/dalla tua attività). Sul lato marketplace — prodotti, ordini, carrello, recensioni, vetrina, consegne — resta «negozio»: lì il target di MyCity sono le botteghe e i piacentini (Nicola, 27/11/2026 verso le 22:10). Motivo: SDG lavora con tutte le attività locali, non solo coi negozi (sdg.abbonamenti).",
+      "fonte": "Nicola, chat dell'AD «Verifica sessioni completate», 27/11/2026 verso le 22:10",
+      "aggiornato": "2026-11-27 22:18",
+      "storia": [
+        {
+          "valore": "Sul lato SDG — abbonamenti, servizi, preventivo, rapporto dell'imprenditore e tutto ciò in cui c'entra SDG — al titolare si dice «la tua attività», mai «il tuo negozio», in ogni forma (della/alla/nella/dalla tua attività). Sul lato marketplace — prodotti, ordini, carrello, recensioni, vetrina, consegne — resta «negozio»: lì il target di MyCity sono le botteghe e i piacentini (Nicola, 27/11/2026 verso le 21:25). Motivo: SDG lavora con tutte le attività locali, non solo coi negozi (sdg.abbonamenti).",
+          "fino_a": "2026-11-27 22:18"
+        }
+      ],
+      "caccia": [
+        {
+          "pattern": "Sul lato SDG — abbonamenti, servizi, preventivo, rapporto dell'imprenditore e tutto ciò in cui c'entra SDG — al titolare si dice «la tua attività», mai «il tuo negozio», in ogni forma (della/alla/nella/dalla tua attività). Sul lato marketplace — prodotti, ordini, carrello, recensioni, vetrina, consegne — resta «negozio»: lì il target di MyCity sono le botteghe e i piacentini (Nicola, 27/11/2026 verso le 21:25). Motivo: SDG lavora con tutte le attività locali, non solo coi negozi (sdg.abbonamenti).",
+          "dal": "2026-11-27 22:18"
+        }
+      ],
       "esenzioni": []
     }
   ]
