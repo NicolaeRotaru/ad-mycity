@@ -1,6 +1,6 @@
 ---
 tipo: bacheca
-aggiornato: 2026-11-27 22:40
+aggiornato: 2026-11-27 23:15
 regole: cervello/sessioni-insieme.md
 ---
 
@@ -243,7 +243,7 @@ un elenco che da qui non si vede: il loro stato non è verificato.
 |---|---|
 | «Verifica sessioni completate», AD, controllo delle sessioni | `session_01R8112L2JFRP34XMFymdS4d` |
 | «Verifica PR pronte per merge», unisce le richieste | `session_01R8112KTPLRuAkWr1PreRUu` |
-| «Seller link process workflow», controllore dell'ordine a SDG: aspetta l'ok di Nicola alla migrazione 999c | `session_01R8112NuZmmktNkEcpG9ApN` |
+| «Seller link process workflow», controllore dell'ordine a SDG: migrazioni entrate alle 23:12, resta il primo ordine vero da vedere | `session_01R8112NuZmmktNkEcpG9ApN` |
 | «Migrazioni mancanti», aspetta «applica la 999d» | `session_01R8112NYQ3s6UrYKRZCZdxA` |
 | «Testo da modificare», mycity#354 | `session_01R8112NsNZPHRnstKqUShZm` |
 | «Caffè di Piacenza business site», mycity#350 e Vercel | `session_01R8112Lh8bxtpgSCWy2ESsy` |
