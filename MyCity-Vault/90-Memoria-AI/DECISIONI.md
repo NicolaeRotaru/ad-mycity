@@ -1605,3 +1605,9 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Dove:** NicolaeRotaru/N8N, ramo `ccr-f0948263-uqbjwj`. Esecuzioni n8n: 4343 (pausa), 4352 (Drive), 4356 e 4357 (proposte).
 - **Colore:** 🟡. La pausa si annulla con un Approva; niente è uscito senza Nicola. Le didascalie dei due post del 26/11 e la storia già uscita aspettano lui (AZIONI-IN-ATTESA).
 
+## 2026-11-27 22:45 — Tropico: «margarita frozen», senza «alla fragola» (🟡)
+- **Chi e quando:** Nicola, in chat all'AD (session_01R8112P5YYf1DSVHQKpdukS), 27/11 verso le 22:35: «non specificare che è la fragola, margarita frozen»; «alla fragola» appesantisce la frase.
+- **Cosa:** il carosello (slide 3: «Un margarita frozen · Anche in caraffa da un litro») e il reel (scena 2: «il margarita frozen») di sabato 28/11 rifatti, caricati su Drive col nome «-corretto2» e riproposti su Telegram alle 22:45, lotto `tropico-latino-1127-2245`. Le proposte delle 22:20 sono superate. Le didascalie pronte in AZIONI-IN-ATTESA dicono solo «margarita frozen».
+- **Dove:** NicolaeRotaru/N8N#38 (secondo commit). Esecuzioni n8n 4366 (Drive), 4367 e 4368 (proposte).
+- **Colore:** 🟡. Esce solo con l'Approva di Nicola.
+
