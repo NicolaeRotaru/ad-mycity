@@ -5,3 +5,5 @@ ramo R06 ccr-819e0c8d-7ryjjr-m06
 ramo R04 ccr-819e0c8d-7ryjjr-m04
 ramo R07 ccr-819e0c8d-7ryjjr-m07
 ramo R09 ccr-819e0c8d-7ryjjr-m09
+ramo R03 ccr-819e0c8d-7ryjjr-m03
+ramo R12 ccr-819e0c8d-7ryjjr-m12
