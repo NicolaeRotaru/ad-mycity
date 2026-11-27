@@ -1,0 +1,55 @@
+{
+  "corsia": 24,
+  "territorio": "R24",
+  "difetti": [
+    {
+      "chiave": "api-backend|oltre mille iscritti la pagina utenti perde in silenzio email e ultimo accesso degli altri",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r24-email-utenti-oltre-mille.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base b9d736a0a070352196f2fd0f95a418dbacff6a0f^ --file app/admin/users/page.tsx --prove tests/unit/riparazione-r24-email-utenti-oltre-mille.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R24-001 --base b9d736a0a070352196f2fd0f95a418dbacff6a0f^ --file app/admin/users/page.tsx --prove tests/unit/riparazione-r24-email-utenti-oltre-mille.test.ts  --json → uscita 0 (K10)",
+      "nota_fix": "leggiContattiAuthOppureNull legge la RPC admin_list_user_emails a pagine di 1000 (order created_at,id + range) finché una pagina torna corta, con un freno a 100 pagine. Una pagina caduta (o il freno raggiunto) vale come lettura non riuscita: compare l'avviso già esistente «Le email degli utenti non sono arrivate» invece di un elenco con le email a metà."
+    },
+    {
+      "chiave": "api-backend|la rotta di annullo dell'amministrazione risponde 500 in silenzio quando l'annullo stesso fallisce",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r24-annullo-admin-nel-registro.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 40607c896ce88c296b68a1b7ac30ee4d8f560fc1^ --file app/api/admin/orders/[id]/cancel/route.ts --prove tests/unit/riparazione-r24-annullo-admin-nel-registro.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R24-002 --base 40607c896ce88c296b68a1b7ac30ee4d8f560fc1^ --file app/api/admin/orders/[id]/cancel/route.ts --prove tests/unit/riparazione-r24-annullo-admin-nel-registro.test.ts  --json → uscita 0 (K10)",
+      "nota_fix": "La rotta di annullo dell'amministrazione scrive logger.error (id ordine, motivo, dettaglio, id admin) prima del 500 'Annullamento fallito', e anche quando la lettura dell'ordine fallisce; risposta al client invariata."
+    },
+    {
+      "chiave": "api-backend|la scadenza dei carrelli dal giro notturno ridà il codice sconto ma non chiude la rivendicazione",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r24-carrello-scaduto-chiude-la-rivendicazione.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base e8ed882a692043c4a1a26202a5939cecbb410f50^ --file app/api/cron/expire-checkouts/route.ts --prove tests/unit/riparazione-r24-carrello-scaduto-chiude-la-rivendicazione.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R24-004 --base e8ed882a692043c4a1a26202a5939cecbb410f50^ --file app/api/cron/expire-checkouts/route.ts --prove tests/unit/riparazione-r24-carrello-scaduto-chiude-la-rivendicazione.test.ts  --json → uscita 0 (K10)",
+      "nota_fix": "Il giro legge anche delivery dei carrelli; dopo un release_coupon riuscito chiude la riga di coupon_redemptions scritta in delivery.rivendicazione (released_at, solo se ancora aperta), come il webhook carrello-scaduto. Se il codice non torna nel contatore la rivendicazione resta aperta. Aiutante condiviso non esiste (ogni strada lo scrive in linea), quindi stessa forma in linea."
+    },
+    {
+      "chiave": "api-backend|due segnali di accesso per lo stesso ingresso: la deduplica legge-e-poi-scrive senza vincolo sul database — e la migrazione che la reggerebbe non c'e' in questo lotto",
+      "esito": "riparato",
+      "verifica_comando": "bash tests/sql/harness/apply.sh r24_prova_accessi && psql -q -X -d r24_prova_accessi -v ON_ERROR_STOP=1 -f tests/sql/rls/riparazione-r24-un-accesso-una-riga.test.sql",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 489eb8c2850352615bb09808e01d3aa94a80c8fb^ --file migrations/926_un_accesso_una_riga_anche_coi_due_segnali_insieme.sql --prove tests/sql/rls/riparazione-r24-un-accesso-una-riga.test.sql --sql r24_rimessa_accessi --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R24-010 --base 489eb8c2850352615bb09808e01d3aa94a80c8fb^ --file migrations/926_un_accesso_una_riga_anche_coi_due_segnali_insieme.sql --prove tests/sql/rls/riparazione-r24-un-accesso-una-riga.test.sql --sql k10_r24_rimessa --json → uscita 0 (K10)",
+      "nota_fix": "Migrazione 926: trigger BEFORE INSERT su activity_events (solo login con user_id) che prende pg_advisory_xact_lock per persona e applica la stessa regola della rotta (stessa sessione <30 min, sessione mancante <60 s, sessione diversa sempre scritta, ultimi 5 accessi); la seconda copia si scarta in silenzio (RETURN NULL). Nessun indice unico, quindi si applica anche con le righe doppie già presenti."
+    },
+    {
+      "chiave": "api-backend|la rotta che registra le visite va in errore del server se riceve un corpo vuoto o rotto, o un cookie dei consensi storto",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r24-registro-visite-corpo-e-cookie-storti.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 3d97dcd7b52fb71edb67035a745a55d59628bce5^ --file app/api/track/route.ts,lib/consent.ts --prove tests/unit/riparazione-r24-registro-visite-corpo-e-cookie-storti.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R24-011 --base 3d97dcd7b52fb71edb67035a745a55d59628bce5^ --file app/api/track/route.ts,lib/consent.ts --prove tests/unit/riparazione-r24-registro-visite-corpo-e-cookie-storti.test.ts  --json → uscita 0 (K10)",
+      "nota_fix": "Corpo vuoto, rotto o non-oggetto: 204 'ignorato' come gli altri input non validi; parseConsentCookie con percentuale rotta restituisce consenso assente invece di lanciare. lib/api/corpo.ts non toccato (l'altro chiamante, remove-bg, non cambia)."
+    },
+    {
+      "chiave": "api-backend|il modulo dell'indirizzo alla cassa non annulla le ricerche vecchie mentre si scrive",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r24-ricerca-zona-vecchia-si-annulla.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base ad4270baee4e67acb82f9337809d142c37b4ddf1^ --file components/checkout/ShippingAddressForm.tsx --prove tests/unit/riparazione-r24-ricerca-zona-vecchia-si-annulla.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R24-013 --base ad4270baee4e67acb82f9337809d142c37b4ddf1^ --file components/checkout/ShippingAddressForm.tsx --prove tests/unit/riparazione-r24-ricerca-zona-vecchia-si-annulla.test.ts  --json → uscita 0 (K10)",
+      "nota_fix": "La ricerca della zona usa un AbortController annullato a ogni cambio di indirizzo e allo smontaggio (prima una guardia `vale` ignorava solo la risposta, la richiesta partiva comunque)."
+    },
+    {
+      "chiave": "api-backend|se la lettura dell'email cade, la cancellazione dell'account lascia l'indirizzo nella newsletter e nessuno lo sa",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r24-newsletter-email-non-letta.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 285b17e5e2d6d4e40a3fa11cf0a8e8d0d2a316c6^ --file lib/account/cancellazione.ts --prove tests/unit/riparazione-r24-newsletter-email-non-letta.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R24-015 --base 285b17e5e2d6d4e40a3fa11cf0a8e8d0d2a316c6^ --file lib/account/cancellazione.ts --prove tests/unit/riparazione-r24-newsletter-email-non-letta.test.ts  --json → uscita 0 (K10)",
+      "nota_fix": "togliDallaNewsletter legge anche l’errore di getUserById e lo scrive nel registro; ogni pulizia non riuscita (errore o eccezione nella lettura, delete rifiutato) torna come riga che sopravvive (newsletter_subscribers) e cancellaAccount si ferma prima di deleteUser: logger.error, notte rossa, si riprova. Un utente senza email, un utente di accesso già tolto (404 user_not_found) e un client senza getUserById vanno avanti come prima."
+    }
+  ]
+}

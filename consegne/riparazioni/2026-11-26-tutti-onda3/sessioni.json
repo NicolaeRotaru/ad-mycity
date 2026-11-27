@@ -1,0 +1,148 @@
+{
+ "regista": "session_015BmpnWreePW2cQU4FxGk5Q",
+ "sessioni": {
+  "R17": {
+   "id": "session_015BmpnXmoDjAaTnDCHFYnQ8",
+   "ramo": "ccr-a672a2b3-92w5w1-m17",
+   "onda": 1,
+   "aperta": "2026-11-26 17:23"
+  },
+  "R18": {
+   "id": "session_015BmpnVEyGQPmpuPWcBoXdP",
+   "ramo": "ccr-a672a2b3-92w5w1-m18",
+   "onda": 1,
+   "aperta": "2026-11-26 17:23"
+  },
+  "R19": {
+   "id": "session_015BmpnVts4bV7JcCH2TVRk5",
+   "ramo": "ccr-a672a2b3-92w5w1-m19",
+   "onda": 1,
+   "aperta": "2026-11-26 17:23"
+  },
+  "R20": {
+   "id": "session_015BmpnYKHZDfxcedzXAnYqy",
+   "ramo": "ccr-a672a2b3-92w5w1-m20",
+   "onda": 1,
+   "aperta": "2026-11-26 17:23"
+  },
+  "R21": {
+   "id": "session_015BmpnWQAhEWyZDPEqwhBcH",
+   "ramo": "ccr-a672a2b3-92w5w1-m21",
+   "onda": 1,
+   "aperta": "2026-11-26 17:23",
+   "secondo": {
+    "id": "session_015BmpnYfgeg1hNf5wr5gGxr",
+    "aperta": "2026-11-26 23:19",
+    "partenza": "a483dc10307191bf99a36817703ee28b85cc877f"
+   }
+  },
+  "R22": {
+   "id": "session_015BmpnVWRCPCRbQyQHG2z4r",
+   "ramo": "ccr-a672a2b3-92w5w1-m22",
+   "onda": 1,
+   "aperta": "2026-11-26 17:23"
+  },
+  "R23": {
+   "id": "session_015BmpnZ5DzsWRABJwGBbThJ",
+   "ramo": "ccr-a672a2b3-92w5w1-m23",
+   "onda": 1,
+   "aperta": "2026-11-26 17:23"
+  },
+  "R24": {
+   "id": "session_015BmpnYnbckDRk5WievXe2j",
+   "ramo": "ccr-a672a2b3-92w5w1-m24",
+   "onda": 1,
+   "aperta": "2026-11-26 17:23"
+  },
+  "R25": {
+   "id": "session_015BmpnYnKkjuVfojsm8SZk8",
+   "ramo": "ccr-a672a2b3-92w5w1-m25",
+   "onda": 1,
+   "aperta": "2026-11-26 17:23"
+  },
+  "R26": {
+   "id": "session_015BmpnVZzkQbYuUDcLqobK1",
+   "ramo": "ccr-a672a2b3-92w5w1-m26b",
+   "onda": 1,
+   "aperta": "2026-11-26 17:23",
+   "ramo_originale": "ccr-a672a2b3-92w5w1-m26",
+   "nota": "2026-11-26 23:58 copia lineare della regia: -m26 senza l unione interna d3975f44, alberi identici; solo gli SHA di R26-012 e la testa cambiano"
+  },
+  "R27": {
+   "id": "session_015BmpnX5LPNnrGSYuzfhRRV",
+   "ramo": "ccr-a672a2b3-92w5w1-m27",
+   "onda": 1,
+   "aperta": "2026-11-26 17:23"
+  },
+  "R28": {
+   "id": "session_015BmpnXdSRomZJVLp6TBgsy",
+   "ramo": "ccr-a672a2b3-92w5w1-m28",
+   "onda": 1,
+   "aperta": "2026-11-26 17:23"
+  },
+  "K07": {
+   "id": "session_015BmpnW5UJVj5kuFk86pmss",
+   "ramo": "ccr-a672a2b3-92w5w1-k07",
+   "onda": 1,
+   "aperta": "2026-11-26 22:55",
+   "collauda": [
+    "R21",
+    "R20",
+    "R17"
+   ]
+  },
+  "K08": {
+   "id": "session_015BmpnXkPPduuZvaWJq3RAr",
+   "ramo": "ccr-a672a2b3-92w5w1-k08",
+   "onda": 1,
+   "aperta": "2026-11-26 22:55",
+   "collauda": [
+    "R23",
+    "R25",
+    "R26"
+   ]
+  },
+  "K10": {
+   "id": "session_015BmpnXM2DGTXQryqn1Uxy7",
+   "ramo": "ccr-a672a2b3-92w5w1-k10",
+   "onda": 1,
+   "aperta": "2026-11-26 23:04",
+   "collauda": [
+    "R24",
+    "R27",
+    "R18"
+   ]
+  },
+  "K09": {
+   "id": "session_015BmpnXxbcARpqmpSXNq8hL",
+   "ramo": "ccr-a672a2b3-92w5w1-k09",
+   "onda": 1,
+   "aperta": "2026-11-26 23:05",
+   "collauda": [
+    "R28",
+    "R19",
+    "R22"
+   ]
+  },
+  "U03": {
+   "id": "session_015BmpnWs6vXd8HbKjVty8iT",
+   "ramo": "ccr-a672a2b3-92w5w1",
+   "onda": 1,
+   "aperta": "2026-11-27 00:15"
+  }
+ },
+ "collaudatori": {
+  "K07": {
+   "partenza": "078a7d77bcc9e51a43ab4ac640446f2239e6e099"
+  },
+  "K08": {
+   "partenza": "078a7d77bcc9e51a43ab4ac640446f2239e6e099"
+  },
+  "K09": {
+   "partenza": "0baed7db5a174908cdf9aa01a238bfb1dd7d7f62"
+  },
+  "K10": {
+   "partenza": "0baed7db5a174908cdf9aa01a238bfb1dd7d7f62"
+  }
+ }
+}

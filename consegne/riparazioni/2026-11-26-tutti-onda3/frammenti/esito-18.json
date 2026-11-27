@@ -1,0 +1,41 @@
+{
+  "corsia": 18,
+  "territorio": "R18",
+  "difetti": [
+    {
+      "chiave": "flussi-conversione|con la promozione e il prezzo barrato insieme, la scheda prodotto mostra due prezzi barrati e un risparmio sbagliato",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r18-listino-con-promo.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 9ca26a90e79c201230e86f5761bde65b681407b0^ --file app/product/[id]/page.tsx --prove tests/unit/riparazione-r18-listino-con-promo.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R18-006 --base 9ca26a90e79c201230e86f5761bde65b681407b0^ --file app/product/[id]/page.tsx --prove tests/unit/riparazione-r18-listino-con-promo.test.tsx  --json → uscita 0 (K10)",
+      "nota_fix": "Con lo sconto della promozione attivo il listino barrato, il «Risparmi» e il badge -% del listino non si mostrano più (compareValid guarda scontoPromo), come già fa la scheda delle griglie. La prova monta la scheda vera con la promo sull'orologio finto: dentro la finestra un solo prezzo barrato, fuori restano listino e «Risparmi 2,00»."
+    },
+    {
+      "chiave": "frontend-ux|la scheda prodotto aperta oltre la fine della promozione continua a mostrare il prezzo scontato",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r18-promo-scaduta-a-scheda-aperta.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base afad25c3310de9e580632182e4c0a69bcd010357^ --file app/product/[id]/page.tsx --prove tests/unit/riparazione-r18-promo-scaduta-a-scheda-aperta.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R18-007 --base afad25c3310de9e580632182e4c0a69bcd010357^ --file app/product/[id]/page.tsx --prove tests/unit/riparazione-r18-promo-scaduta-a-scheda-aperta.test.tsx  --json → uscita 0 (K10)",
+      "nota_fix": "La domanda dello sconto della scheda ha refetchInterval: 60_000: la scheda lasciata aperta rilegge lo sconto ogni minuto e a promo finita torna al prezzo pieno. La prova usa la scheda vera, React Query e l'orologio finto: aperta alle 21:50 mostra 8 €, passate le 22:00 mostra 10 € senza ricaricare."
+    },
+    {
+      "chiave": "privacy-legale|l'informativa propone il modulo dei contatti come contatto del titolare anche quando il modulo non arriva a nessuno",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r18-contatti-del-titolare.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 0d3ab694d545ab8e69bf07bee9d4f5b76c52e44e^ --file app/privacy/page.tsx --prove tests/unit/riparazione-r18-contatti-del-titolare.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R18-009 --base 0d3ab694d545ab8e69bf07bee9d4f5b76c52e44e^ --file app/privacy/page.tsx --prove tests/unit/riparazione-r18-contatti-del-titolare.test.tsx  --json → uscita 0 (K10)",
+      "nota_fix": "«Contatti del Titolare» (app/privacy/page.tsx:72-85) usa stradaDeiDiritti come la sezione 5: la casella se c'è, il modulo solo se arriva a qualcuno; se no una frase onesta che il guasto è nostro e che resta il reclamo al Garante; se c'è la PEC, quella. La prova copre 5 casi."
+    },
+    {
+      "chiave": "privacy-legale|il prezzo al chilo usa il peso del prodotto base anche quando si sceglie un formato diverso",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r18-prezzo-al-chilo-del-formato.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 5598ded857a42cfbad6a07bfd3c59d1715d4cbc1^ --file app/product/[id]/page.tsx --prove tests/unit/riparazione-r18-prezzo-al-chilo-del-formato.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R18-010 --base 5598ded857a42cfbad6a07bfd3c59d1715d4cbc1^ --file app/product/[id]/page.tsx --prove tests/unit/riparazione-r18-prezzo-al-chilo-del-formato.test.tsx  --json → uscita 0 (K10)",
+      "nota_fix": "Se il peso è un asse delle varianti (options.peso), il €/kg usa il peso della variante scelta (10 € su 1 kg = 10 €/kg, su 500 g = 20 €/kg); finché non se ne sceglie una non scrive nessuna riga. Senza varianti resta il peso del prodotto. Il calcolo di prezzoUnitario è spostato dopo statoSceltaVarianti."
+    },
+    {
+      "chiave": "privacy-legale|i termini dicono che il fattorino consegna i contanti a mycity, ma il fattorino si tiene prima il suo compenso",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r18-termini-contanti-del-rider.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 45962b39e281d73ac1049620e509e9cba14da3cf^ --file app/terms/page.tsx --prove tests/unit/riparazione-r18-termini-contanti-del-rider.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R18-013 --base 45962b39e281d73ac1049620e509e9cba14da3cf^ --file app/terms/page.tsx --prove tests/unit/riparazione-r18-termini-contanti-del-rider.test.tsx  --json → uscita 0 (K10)",
+      "nota_fix": "§5 (app/terms/page.tsx:185) ora dice che i contanti li riceve il Rider alla consegna, ne trattiene il proprio compenso e consegna il resto a MyCity, come fa compensoDalContante (lib/shipping.ts:168). La prova controlla anche il calcolo: 19 € incassati, 3 € trattenuti, 16 € rimessi."
+    }
+  ]
+}

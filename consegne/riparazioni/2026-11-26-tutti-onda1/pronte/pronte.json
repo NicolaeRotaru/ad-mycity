@@ -1,0 +1,828 @@
+{
+  "creato": "2026-11-26 17:16",
+  "conti": {
+    "A": 0,
+    "B": 15,
+    "C": 2,
+    "D": 26
+  },
+  "righe_B": 15,
+  "precedenti": {
+    "deploy-sre|il rilascio non applica le migrazioni: il codice nuovo arriva su un database vecchio": {
+      "id": "R01-001",
+      "elenco": "D",
+      "esito": "scelta_di_nicola",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "deploy-sre|la regola che dovrebbe fermare il codice rosso esiste su github ma è spenta, non guarda nessun ramo e aspetta un controllo che non esiste": {
+      "id": "R01-002",
+      "elenco": "D",
+      "esito": "non_codice",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "qa-flussi|le tre prove automatiche dell'acquisto vero sono vuote: passano in tre millesimi senza aprire niente": {
+      "id": "R01-003",
+      "elenco": "D",
+      "esito": "parziale",
+      "cosa_resta": "Resta un verde a vuoto a livello di job: con E2E_DATI_DI_PROVA=1 ma senza il segreto STRIPE_TEST_SECRET_KEY o la variabile E2E_STRIPE_CONTO_NEGOZIO, l'unico salto dello spec 12 (:267-269) ferma tutte e tre le prove, Playwright esce 0 («3 skipped»), il job e2e-cassa-vera (.github/workflows/ci.yml, `exit $STATUS` prima del riepilogo) è verde e il cancello Main lo conta ✅ (`success) PASSATI++`). Da fare in ci.yml (file di R01, non fatto per tetto di spesa/subagenti): il job espone `outputs.viste` = stats.expected+unexpected+flaky di risultati-cassa-vera.json e il cancello conta `success` con viste=0 come «⏭️ non conta» (non fa rosso, rispetta la regola «mai rosso per un segreto che manca»); oppure, se Nicola preferisce, exit 1 quando la variabile è 1 e le prove viste sono 0. Nello spec 12 (non di R01): separare il salto in modo che la prova del contrassegno, che non usa Stripe, giri anche senza le chiavi Stripe. Non codice per Nicola: variabile del repository E2E_DATI_DI_PROVA=1, segreto STRIPE_TEST_SECRET_KEY (sk_test_) e variabile E2E_STRIPE_CONTO_NEGOZIO (acct_ di prova).",
+      "modifiche": [
+        {
+          "file": "tests/e2e/12-la-cassa-dal-carrello-al-pagamento.spec.ts",
+          "modifica": "il salto unico a :267-269 (manca la chiave Stripe di prova o il conto negozio) va applicato solo alle due prove che usano Stripe (:528 checkout con carta, :559 webhook/payout); la prova del contrassegno (:486, /api/orders/cod) deve girare con la sola E2E_DATI_DI_PROVA=1"
+        }
+      ],
+      "file_che_servono": [
+        "tests/e2e/12-la-cassa-dal-carrello-al-pagamento.spec.ts"
+      ]
+    },
+    "deploy-sre|le foto dei negozi non sono ancora in nessuna copia di sicurezza: manca una chiave nei segreti": {
+      "id": "R01-004",
+      "elenco": "D",
+      "esito": "non_codice",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "deploy-sre|la notifica sul telefono per un nuovo ordine arriva fino a 5 minuti dopo, non in pochi secondi": {
+      "id": "R01-005",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "app/api/orders/cod/route.ts",
+          "modifica": "aggiungere `import { mandaSubitoLaPushDelNuovoOrdine } from '@/lib/push/subito';` e, nel blocco `if (campanelle.length > 0)` dopo `await admin.from('notifications').insert(campanelle)`, quando `errCampanelle` è vuoto (un `else` dopo il logger.warn): `dopoLaRisposta(async () => { await mandaSubitoLaPushDelNuovoOrdine(admin, comunicazioni.map((c) => c.orderId)); }, 'push subito del nuovo ordine in contanti');`"
+        },
+        {
+          "file": "lib/stripe/webhook/ordini.ts",
+          "modifica": "aggiungere `import { mandaSubitoLaPushDelNuovoOrdine } from '@/lib/push/subito';` e, subito dopo `const nuovi = createdOrderIds.filter((c) => daAvvisare.has(c.orderId));` (che segue `suonaLaCampanellaAiNegozi`): `dopoLaRisposta(async () => { await mandaSubitoLaPushDelNuovoOrdine(admin, createdOrderIds.map((c) => c.orderId)); }, 'push subito del nuovo ordine pagato con la carta');`"
+        }
+      ],
+      "file_che_servono": [
+        "app/api/orders/cod/route.ts",
+        "lib/stripe/webhook/ordini.ts"
+      ]
+    },
+    "privacy-legale|lo sconto scritto su un evento appare ai clienti come «-20%», ma la cassa non lo applica mai": {
+      "id": "R02-002",
+      "elenco": "D",
+      "esito": "parziale",
+      "cosa_resta": "Dal collaudo, non fatto per il tetto di spesa: (1) la 880 azzera discount_percent su tutti gli eventi senza archiviarlo prima (il registro attività lo scrive come «***»): va prima copiato (evento, sconto, data) in una tabella d'archivio, perché è l'unica prova di chi ha visto «-20%» e ha pagato pieno; (2) la pulizia dei dati già salvati non è coperta dalla prova SQL (riga 81 conta solo gli eventi creati dalla prova); (3) il badge «-n%» resta in app/events/page.tsx:270-274 (non di R02): finché la 880 non è applicata si vede ancora — togliere quelle righe lo chiude col rilascio, senza perdere dati.",
+      "modifiche": [
+        {
+          "file": "app/events/page.tsx",
+          "modifica": "Togliere il blocco 270-274 ({ev.discount_percent ? (<Badge variant=\"discount\" …>-{ev.discount_percent}%</Badge>) : null}), come già fatto in components/home/HomeEvents.tsx."
+        }
+      ],
+      "file_che_servono": [
+        "app/events/page.tsx"
+      ]
+    },
+    "privacy-legale|la pulizia notturna dei documenti d'identità lasciati a metà iscrizione fallisce ogni notte nel database vero": {
+      "id": "R02-004",
+      "elenco": "D",
+      "esito": "non_codice",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "privacy-legale|i nomi di sedici account cancellati restano nel registro delle azioni": {
+      "id": "R02-005",
+      "elenco": "D",
+      "esito": "non_codice",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "privacy-legale|la conferma della newsletter scatta appena il link viene aperto, anche da un antivirus, e funziona anche con la newsletter spenta": {
+      "id": "R02-008",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "tests/unit/le-porte-pubbliche-che-scrivono-hanno-un-freno.test.ts",
+          "modifica": "Prova comune (importa lib/rate-limit, di un'altra sessione). Tre cambi: `import { GET as CONFERMA } from '@/app/api/newsletter/confirm/route'` diventa `import { POST as CONFERMA } …`; dopo il vi.mock del logger si aggiunge `vi.mock('@/lib/funzioni-al-lancio', async (o) => ({ ...((await o()) as Record<string, unknown>), NEWSLETTER_ACCESA: true }));`; nel caso «IL CASO CHE ROMPEVA» `toBe(307)` diventa `toBe(303)`."
+        },
+        {
+          "file": "tests/unit/riparazione-r32-newsletter-riscritto-dopo-disiscrizione.test.ts",
+          "modifica": "Prova comune (importa lib/rate-limit, di un'altra sessione). Due cambi: `import { GET as conferma }` diventa `import { POST as conferma }`, e la Request della conferma riceve `method: 'POST',`."
+        }
+      ],
+      "file_che_servono": [
+        "tests/unit/le-porte-pubbliche-che-scrivono-hanno-un-freno.test.ts",
+        "tests/unit/riparazione-r32-newsletter-riscritto-dopo-disiscrizione.test.ts"
+      ]
+    },
+    "privacy-legale|chi fa una segnalazione lascia la sua email lì per sempre": {
+      "id": "R02-009",
+      "elenco": "D",
+      "esito": "scelta_di_nicola",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "privacy-legale|una recensione segnalata come falsa non si può accogliere né togliere": {
+      "id": "R02-011",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "tests/unit/riparazione-r02-segnalazione-esito-solo-se-tolto.test.ts",
+          "modifica": "Prova comune (usa anche file di altre sessioni dell'onda): serve la firma di Nicola. Va cambiata insieme alla rotta, nello stesso commit: il 409 lo pretende solo per una recensione ancora pubblicata. Diff esatto:\ndiff --git a/tests/unit/riparazione-r02-segnalazione-esito-solo-se-tolto.test.ts b/tests/unit/riparazione-r02-segnalazione-esito-solo-se-tolto.test.ts\nindex c60c2f87..e3a167c3 100644\n--- a/tests/unit/riparazione-r02-segnalazione-esito-solo-se-tolto.test.ts\n+++ b/tests/unit/riparazione-r02-segnalazione-esito-solo-se-tolto.test.ts\n@@ -5,8 +5,8 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';\n  * segnalazione «accolta» («il contenuto è stato rimosso») se il contenuto è ancora online.\n  */\n \n-const db: { segnalazione: Record<string, unknown> | null; prodotto: Record<string, unknown> | null; negozio: Record<string, unknown> | null; cade: string | null } = {\n-  segnalazione: null, prodotto: null, negozio: null, cade: null,\n+const db: { segnalazione: Record<string, unknown> | null; prodotto: Record<string, unknown> | null; negozio: Record<string, unknown> | null; recensione?: Record<string, unknown> | null; cade: string | null } = {\n+  segnalazione: null, prodotto: null, negozio: null, recensione: null, cade: null,\n };\n const comunicate: string[] = [];\n \n@@ -32,7 +32,7 @@ vi.mock('@/lib/supabase/server', () => ({\n       q.maybeSingle = async () => (db.cade === t\n         ? { data: null, error: { message: 'rete caduta' } }\n         : {\n-            data: t === 'segnalazioni' ? db.segnalazione : t === 'products' ? db.prodotto : t === 'profiles' ? db.negozio : null,\n+            data: t === 'segnalazioni' ? db.segnalazione : t === 'products' ? db.prodotto : t === 'profiles' ? db.negozio : t === 'reviews' ? (db.recensione ?? null) : null,\n             error: null,\n           });\n       return q;\n@@ -49,7 +49,7 @@ const chiama = () =>\n   }));\n \n describe('R02-003 · l esito «rimosso» parte solo se il contenuto è davvero fuori', () => {\n-  beforeEach(() => { comunicate.length = 0; db.prodotto = null; db.negozio = null; db.cade = null; });\n+  beforeEach(() => { comunicate.length = 0; db.prodotto = null; db.negozio = null; db.recensione = null; db.cade = null; });\n \n   it('prodotto accolto ma ancora in vetrina: 409, niente esito', async () => {\n     db.segnalazione = { stato: 'accolta', tipo: 'prodotto', oggetto_id: 'p-1' };\n@@ -72,9 +72,13 @@ describe('R02-003 · l esito «rimosso» parte solo se il contenuto è davvero f\n     expect(comunicate).toEqual([]);\n   });\n \n-  it('recensione accolta: da qui non si toglie, 409', async () => {\n+  // 26/11/2026 (R02-011) — Prima: «recensione accolta: da qui non si toglie, 409» per qualunque\n+  // recensione. Ora il 409 resta solo finché la recensione è pubblicata (riparazione-r02-recensione-accolta).\n+  it('recensione accolta ma ancora pubblicata: 409', async () => {\n     db.segnalazione = { stato: 'accolta', tipo: 'recensione', oggetto_id: 'r-1' };\n+    db.recensione = { id: 'r-1' };\n     expect((await chiama()).status).toBe(409);\n+    expect(comunicate).toEqual([]);\n   });\n \n   it('respinta: l esito parte senza controlli', async () => {\n"
+        },
+        {
+          "file": "app/api/segnalazioni/route.ts",
+          "modifica": "(file di R02, ma va solo insieme alla prova comune qui sopra, se no quella diventa rossa) contenutoAncoraOnline non risponde più 409 a ogni recensione: controlla reviews e store_reviews, «rimosso» parte solo se la recensione non c'è più; se la lettura cade si ferma. Diff esatto:\ndiff --git a/app/api/segnalazioni/route.ts b/app/api/segnalazioni/route.ts\nindex 7885f1c9..7dcf07ce 100644\n--- a/app/api/segnalazioni/route.ts\n+++ b/app/api/segnalazioni/route.ts\n@@ -364,6 +364,18 @@ async function contenutoAncoraOnline(\n       ? 'Il negozio è ancora attivo: sospendilo prima di comunicare «rimosso».'\n       : null;\n   }\n+  // 26/11/2026 (R02-011) — Una recensione segnalata come falsa si può accogliere: «rimosso» parte\n+  // quando la recensione non è più pubblicata. Prima ogni recensione accolta riceveva 409, e\n+  // l'esito non partiva mai. «recensione» vale per due tabelle (come nel POST qui sopra): basta\n+  // che sia ancora in una delle due per fermarsi. Una lettura caduta si ferma, come sopra.\n+  if (s.tipo === 'recensione') {\n+    for (const tabella of ['reviews', 'store_reviews']) {\n+      const { data: r, error: e } = await admin.from(tabella).select('id').eq('id', s.oggetto_id).maybeSingle();\n+      if (e) return NON_VERIFICATO;\n+      if (r) return 'La recensione è ancora pubblicata: toglila prima di comunicare «rimosso».';\n+    }\n+    return null;\n+  }\n   return 'Questo tipo di contenuto non si toglie da qui: l\\'esito «rimosso» non può partire.';\n }\n \n"
+        },
+        {
+          "file": "tests/unit/riparazione-r02-recensione-accolta.test.ts",
+          "modifica": "Prova nuova della voce, da aggiungere nello stesso commit. Diff esatto:\ndiff --git a/tests/unit/riparazione-r02-recensione-accolta.test.ts b/tests/unit/riparazione-r02-recensione-accolta.test.ts\nnew file mode 100644\nindex 00000000..35265501\n--- /dev/null\n+++ b/tests/unit/riparazione-r02-recensione-accolta.test.ts\n@@ -0,0 +1,90 @@\n+import { describe, it, expect, vi, beforeEach } from 'vitest';\n+\n+/**\n+ * R02-011 — UNA RECENSIONE SEGNALATA COME FALSA SI PUÒ ACCOGLIERE.\n+ *\n+ * PATCH /api/segnalazioni rispondeva 409 («questo tipo non si toglie da qui») a ogni recensione\n+ * accolta, anche quando la recensione non c'era più: l'esito non partiva mai. Ora parte quando la\n+ * recensione non è più pubblicata, né fra quelle dei prodotti né fra quelle dei negozi; finché è\n+ * pubblicata, o se la lettura cade, resta il 409.\n+ */\n+\n+const db = vi.hoisted(() => ({\n+  segnalazione: null as Record<string, unknown> | null,\n+  tabelle: {} as Record<string, Record<string, unknown> | null>,\n+  cade: null as string | null,\n+}));\n+const comunicate = vi.hoisted(() => [] as string[]);\n+\n+vi.mock('@/lib/api/middleware', () => ({\n+  withAdminAuth: (handler: (ctx: { user: { id: string }; req: Request }) => unknown) =>\n+    (req: Request) => handler({ user: { id: 'admin-1' }, req }),\n+}));\n+vi.mock('@/lib/logger', () => ({ logger: { error: vi.fn(), warn: vi.fn(), info: vi.fn() } }));\n+vi.mock('@/app/api/segnalazioni/esito/comunica', () => ({\n+  MOTIVAZIONE_MINIMA: 20,\n+  comunicaEsito: async (_a: unknown, id: string) => {\n+    comunicate.push(id);\n+    return { ok: true, segnalanteEmail: 'inviata', segnalanteNotifica: 'nessun_recapito', venditore: 'non_previsto' };\n+  },\n+}));\n+vi.mock('@/lib/supabase/server', () => ({\n+  getServerSupabase: () => ({}),\n+  getAdminSupabase: () => ({\n+    from: (t: string) => {\n+      const q: Record<string, unknown> = {};\n+      q.select = () => q;\n+      q.eq = () => q;\n+      q.maybeSingle = async () => (db.cade === t\n+        ? { data: null, error: { message: 'rete caduta' } }\n+        : { data: t === 'segnalazioni' ? db.segnalazione : (db.tabelle[t] ?? null), error: null });\n+      return q;\n+    },\n+  }),\n+}));\n+\n+import { PATCH } from '@/app/api/segnalazioni/route';\n+\n+const ID = '00000000-0000-4000-8000-000000000011';\n+const chiama = () =>\n+  (PATCH as unknown as (r: Request) => Promise<Response>)(new Request('http://x/api/segnalazioni', {\n+    method: 'PATCH', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ id: ID }),\n+  }));\n+\n+describe('R02-011 — la recensione segnalata come falsa', () => {\n+  beforeEach(() => {\n+    comunicate.length = 0;\n+    db.tabelle = {};\n+    db.cade = null;\n+    db.segnalazione = { stato: 'accolta', tipo: 'recensione', oggetto_id: 'r-1' };\n+  });\n+\n+  it('IL CASO CHE ROMPEVA — accolta e tolta: l\\'esito «rimosso» parte', async () => {\n+    const r = await chiama();\n+    expect(r.status, 'una recensione accolta e tolta non riceve mai il suo esito').toBe(200);\n+    expect(comunicate).toEqual([ID]);\n+  });\n+\n+  it('accolta ma ancora pubblicata fra le recensioni dei negozi: 409, niente esito', async () => {\n+    db.tabelle.store_reviews = { id: 'r-1' };\n+    expect((await chiama()).status).toBe(409);\n+    expect(comunicate).toEqual([]);\n+  });\n+\n+  it('accolta ma ancora pubblicata fra le recensioni dei prodotti: 409', async () => {\n+    db.tabelle.reviews = { id: 'r-1' };\n+    expect((await chiama()).status).toBe(409);\n+    expect(comunicate).toEqual([]);\n+  });\n+\n+  it('se la lettura delle recensioni cade, si ferma: non manda «rimosso» senza saperlo', async () => {\n+    db.cade = 'store_reviews';\n+    expect((await chiama()).status).toBe(409);\n+    expect(comunicate).toEqual([]);\n+  });\n+\n+  it('un messaggio accolto resta fermo: da qui non si toglie', async () => {\n+    db.segnalazione = { stato: 'accolta', tipo: 'messaggio', oggetto_id: 'm-1' };\n+    expect((await chiama()).status).toBe(409);\n+  });\n+});\n"
+        },
+        {
+          "file": "app/api/admin/segnalazioni/accogli/route.ts",
+          "modifica": "Al posto di `if (s.tipo !== 'prodotto') return conflict(...)`, un ramo per s.tipo === 'recensione': `admin.from('reviews').delete().eq('id', s.oggetto_id).select('id')`; se non tocca righe, lo stesso su 'store_reviews'. Errore → 500. Poi writeAudit({action:'review.remove', targetTable:<tabella>, targetId:s.oggetto_id, metadata:{origine:'segnalazione-accolta', segnalazione:s.id}}), senza il testo della recensione. Risposta {ok:true, tolto}. Gli altri tipi restano a 409."
+        },
+        {
+          "file": "lib/audit-azioni.ts",
+          "modifica": "Aggiungere 'review.remove' all'elenco delle azioni con l'etichetta 'Recensione tolta'."
+        },
+        {
+          "file": "app/admin/segnalazioni/page.tsx",
+          "modifica": "Riga 74: puoTogliere = prodotto || negozio || recensione. Nel mutationFn (circa riga 101) la condizione diventa `decisione === 'accolta' && (s.tipo === 'prodotto' || s.tipo === 'recensione')` e chiama /api/admin/segnalazioni/accogli; per la recensione prima un window.confirm, perché la cancellazione non si torna indietro. Messaggio d'errore: 'Il contenuto non è stato tolto: decisione non registrata. Riprova.'"
+        }
+      ],
+      "file_che_servono": [
+        "tests/unit/riparazione-r02-segnalazione-esito-solo-se-tolto.test.ts",
+        "app/api/segnalazioni/route.ts",
+        "tests/unit/riparazione-r02-recensione-accolta.test.ts",
+        "app/api/admin/segnalazioni/accogli/route.ts",
+        "lib/audit-azioni.ts",
+        "app/admin/segnalazioni/page.tsx"
+      ]
+    },
+    "privacy-legale|l'informativa non dice quanto teniamo i messaggi dei contatti e della chat, e per l'email con l'iban scrive «finché non la cancelliamo»": {
+      "id": "R02-012",
+      "elenco": "D",
+      "esito": "scelta_di_nicola",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "privacy-legale|il venditore può rimettere in vendita da solo un prodotto tolto dopo una segnalazione accolta": {
+      "id": "R02-014",
+      "elenco": "D",
+      "esito": "riparato",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "ai-endpoints|la lettura di più prodotti da foto chiede 6000 token in un tentativo da 60 secondi": {
+      "id": "R03-005",
+      "elenco": "D",
+      "esito": "scelta_di_nicola",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "ai-endpoints|il freno di sei ore sui prodotti importati in errore regge solo con upstash: senza, ogni copia del sito ripaga le chiamate ai": {
+      "id": "R03-006",
+      "elenco": "D",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "lib/database.types.ts",
+          "modifica": "rigenerare con npm run db:types dopo la migrazione 890: in products aggiunge external_sync_error_at: string | null (Row), external_sync_error_at?: string | null (Insert e Update). Va fatto insieme al cherry-pick del commit 9136d2120cadb9e1b64beb22ef2303d951b2ca0c, che porta la migrazione 890 e il codice che la usa."
+        }
+      ],
+      "file_che_servono": [
+        "lib/database.types.ts"
+      ]
+    },
+    "api-backend|il negozio riceve «il cliente ha ritirato il reso» anche quando il rimborso approvato nello stesso momento è poi partito": {
+      "id": "R04-011",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "app/api/returns/[id]/avanza/route.ts",
+          "modifica": "Nel ramo del ritiro del cliente (dopo il controllo «La merce è già in viaggio o in negozio», circa riga 210), aggiungere: if (ret.status === 'APPROVED' && Number(ret.refund_amount_cents ?? 0) > 0) { return ApiErrors.conflict('Il negozio ha già approvato il reso con il rimborso: la richiesta non si può più ritirare. Se il rimborso non arriva, scrivi al negozio.'); } — solo decide scrive refund_amount_cents e lo toglie se il rimborso non parte, quindi APPROVED con la cifra vuol dire rimborso in corso o già uscito. Prova nuova: tests/unit/riparazione-r04-ritiro-durante-il-rimborso.test.ts, contenuto intero nel commit 51fd671bf67af8b3309b0bb674ff933a96426a5d (rimessa uscita 0 su quel commit)."
+        },
+        {
+          "file": "tests/unit/riparazione-r04-reso-nota-del-negozio.test.ts",
+          "modifica": "Nei due casi del ritiro (describe «la nota del negozio la scrive solo il negozio», «il cliente ritira la richiesta…» e «il cliente ritira con una nota sua…»), subito dopo stato.chiamante = ANNA aggiungere stato.reso.refund_amount_cents = null; (reso approvato senza rimborso immediato), asserzioni invariate. Prova comune: serve la firma di Nicola."
+        }
+      ],
+      "file_che_servono": [
+        "app/api/returns/[id]/avanza/route.ts",
+        "tests/unit/riparazione-r04-reso-nota-del-negozio.test.ts"
+      ]
+    },
+    "pagamenti-stripe|il bonifico di rimborso al cliente non si può segnare come fatto, e nessuno controlla la scadenza dei 14 giorni": {
+      "id": "R05-003",
+      "elenco": "D",
+      "esito": "parziale",
+      "cosa_resta": "(1) L'allarme del termine nel cron, il link nel menu admin e la data di partenza dei reclami: serve_file_altrui. (2) Nell'avviso restano il link /admin/orders e la frase «prima di pagare cerca questa causale nei movimenti del conto. Se c'è, è già pagato», perché due prove comuni (che non importano il mio file per nome) li fissano: dopo la loro modifica (serve_file_altrui) in lib/rimborsi/bonifici-da-fare.ts, funzione avvisoDelBonificoDaFare, si toglie quella frase e il link diventa PAGINA_DEI_BONIFICI (com'era nel commit 3cfbf9bbd4c3be0325456804fd0960b04a25c3ad). (3) La migrazione 910 la applica Nicola: finché non c'è, la pagina dice «Non riesco a leggere i bonifici» e il pezzo del cron non va messo. (4) Il termine dei reclami: oggi «termine sconosciuto»; se si accetta l'apertura del reclamo come partenza, nella 910 (non ancora applicata) basta LEFT JOIN public.disputes d ON m[2] = 'dispute_' || d.id::text AND d.order_id = o.id e chiesto_il = coalesce(r.created_at, d.created_at). (5) Nessun revisore indipendente: fermata per il tetto di spesa.",
+      "modifiche": [
+        {
+          "file": "app/api/cron/operational-alerts/route.ts",
+          "modifica": "Solo DOPO che la migrazione 910 è applicata. Dopo la riga 19 («} from '@/lib/privacy/cancellazioni-in-sospeso';») aggiungere: import { allarmiDeiBonifici, type RigaDelBonifico } from '@/lib/rimborsi/bonifici-da-fare'; — Subito prima del commento «5/11/2026 — UN CONTROLLO SALTATO NON BUTTA VIA GLI ALLARMI VERI» (riga 775, prima di const incompleto) un blocco try: const { data, error } = await admin.rpc('admin_bonifici_rimborso'); se error → controlliSaltati.push('bonifici di rimborso ai clienti'); altrimenti alerts.push(...allarmiDeiBonifici((data ?? []) as RigaDelBonifico[], new Date())); nel catch logger.error('[operational-alerts] bonifici di rimborso non letti', …) e controlliSaltati.push(...). Le prove del cron con un client finto senza rpc (riparazione-r33-reclamo-fermo, minori-s03-sorvegliante, riparazione-r29-allarme-ordine, la-campanella-degli-allarmi-suona-una-volta-anche-senza-posta e le altre che importano la rotta) vanno completate con rpc: async () => ({ data: [], error: null })."
+        },
+        {
+          "file": "app/api/admin/disputes/[id]/resolve/route.ts",
+          "modifica": "Riga 109: aggiungere created_at alla select del reclamo ('id, status, order_id, opener_id, against_id, refund_cents, created_at'). Nella chiamata refundOrder (righe 319-331), dopo «notifyBuyer: true,» aggiungere resoChiestoIl: (dispute as { created_at?: string | null }).created_at ?? null, così l'avviso del reclamo dice il termine."
+        },
+        {
+          "file": "components/admin/AdminSidebar.tsx",
+          "modifica": "Dopo la riga 50 «{ href: '/admin/payouts', icon: Wallet, label: 'Payout venditori' },» aggiungere «{ href: '/admin/bonifici-rimborso', icon: Banknote, label: 'Bonifici di rimborso' },» (Banknote è già importato alla riga 9)."
+        },
+        {
+          "file": "tests/unit/il-rimborso-dei-contanti-arriva-col-bonifico.test.ts",
+          "modifica": "Fissa il difetto. Riga 121: expect(avviso.link).toBe('/admin/orders') → toBe('/admin/bonifici-rimborso'). Riga 130: expect(testo).toContain(\"cerca questa causale nei movimenti del conto. Se c'è, è già pagato.\") → expect(testo).toContain('premi «Fatto» nella pagina «Bonifici di rimborso»'); expect(testo).not.toContain('movimenti del conto'). Insieme alla modifica di avvisoDelBonificoDaFare descritta in cosa_resta (2)."
+        },
+        {
+          "file": "tests/unit/un-reclamo-su-contanti-mai-incassati-non-regala-credito.test.ts",
+          "modifica": "Fissa il difetto. Riga 158: expect(avvisi[0].link).toBe('/admin/orders') → toBe('/admin/bonifici-rimborso'). Insieme alla modifica di avvisoDelBonificoDaFare descritta in cosa_resta (2)."
+        }
+      ],
+      "file_che_servono": [
+        "app/api/cron/operational-alerts/route.ts",
+        "app/api/admin/disputes/[id]/resolve/route.ts",
+        "components/admin/AdminSidebar.tsx",
+        "tests/unit/il-rimborso-dei-contanti-arriva-col-bonifico.test.ts",
+        "tests/unit/un-reclamo-su-contanti-mai-incassati-non-regala-credito.test.ts"
+      ]
+    },
+    "privacy-legale|l'informativa non dice che la partita iva del venditore viene controllata nel registro europeo vies della commissione europea": {
+      "id": "R06-006",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "app/privacy/page.tsx",
+          "modifica": "Nella sezione «4. Destinatari dei dati» (LegalSection id=\"destinatari\"), nella lista dei fornitori, dopo la voce OpenStreetMap Foundation: <li><strong>Commissione europea</strong> (Unione europea) — sistema VIES: la partita IVA di chi si registra come Venditore viene inviata al servizio VIES della Commissione europea per verificarne la validità; per una ditta individuale è un dato personale. Il servizio risponde con la validità e, se disponibile, la ragione sociale registrata.</li>. La Commissione non è un Responsabile art. 28 nominato da MyCity: se si preferisce, la riga va in un paragrafo a parte prima dell'elenco dei Responsabili (scelta di forma, non di contenuto)."
+        }
+      ],
+      "file_che_servono": [
+        "app/privacy/page.tsx"
+      ]
+    },
+    "qa-flussi|il collegamento del negozio a stripe e il bonifico manuale non hanno nessuna prova": {
+      "id": "R06-009",
+      "elenco": "D",
+      "esito": "parziale",
+      "cosa_resta": "La prova non dimostra il controllo di ruolo su /api/stripe/connect/login: sostituendo withSellerAuthRateLimit con withAuthRateLimit le 32 prove restano verdi, perché il 403 all acquirente (tests/unit/riparazione-r06-stripe-connect-rotte.test.ts:222) nasce dal stripe_account_id mancante, non dal ruolo. Va dato all acquirente finto un stripe_account_id, così il 403 dipende solo dal ruolo.",
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "qa-flussi|il ritiro in negozio è ancora spento, mentre nicola ha deciso che al lancio è acceso e gratis per il cliente": {
+      "id": "R06-016",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "lib/guadagni/negozio.ts",
+          "modifica": "Alle righe 68-71 oggi gli ordini CASH_IN_STORE sono solo esclusi: calcolare per negozio e per settimana la commissione MyCity (10%) su quegli ordini e toglierla dal bonifico del lunedì; il resto va in fattura (migrations/124_radiografia_21_agosto.sql:131-158 dice che resta da regolare)."
+        },
+        {
+          "file": "app/admin/delivery/page.tsx",
+          "modifica": "Righe 139-140: sostituire «Messo da parte: non se n è ancora parlato coi negozi» con lo stato vero secondo la regola ritiro.in-negozio dell 1/11: acceso dal lancio, gratis per il cliente, pagato con carta o in contanti al banco, con MyCity che prende comunque il 10%."
+        },
+        {
+          "file": "app/api/orders/cod/route.ts e app/api/stripe/checkout/route.ts",
+          "modifica": "Controllare che :309 e :133 spengano il ritiro solo leggendo RITIRO_IN_NEGOZIO_ATTIVO, così che all accensione si accenda anche lì."
+        }
+      ],
+      "file_che_servono": [
+        "lib/guadagni/negozio.ts",
+        "app/admin/delivery/page.tsx",
+        "app/api/orders/cod/route.ts e app/api/stripe/checkout/route.ts"
+      ]
+    },
+    "sicurezza-auth|il gettone anti-robot si consuma due volte: accendendo il captcha su supabase, accesso e iscrizione con email si rompono": {
+      "id": "R07-001",
+      "elenco": "D",
+      "esito": "parziale",
+      "cosa_resta": "La rotta app/api/auth/signup/route.ts ha lo stesso doppio uso (verifyTurnstileToken righe 39-43, poi captchaToken a Supabase riga 48); oggi non la chiama nessuno (app/sign-up/page.tsx:160 chiama Supabase dal browser), ma non è un mio file.",
+      "modifiche": [
+        {
+          "file": "app/api/auth/signup/route.ts",
+          "modifica": "righe 39-43: eseguire verifyTurnstileToken solo se CAPTCHA_SU_SUPABASE_ACCESO non vale 1/true (stessa regola /^(1|true)$/i.test(trim) di signin); dentro if (error) dopo authServer.signUp: se error.code === 'captcha_failed' rispondere ApiErrors.invalidRequest('CAPTCHA non valido')"
+        },
+        {
+          "file": ".env.example",
+          "modifica": "dopo TURNSTILE_SECRET_KEY (riga 82) aggiungere CAPTCHA_SU_SUPABASE_ACCESO= col commento: 1 solo insieme al CAPTCHA Turnstile acceso su Supabase, mai prima"
+        }
+      ],
+      "file_che_servono": [
+        "app/api/auth/signup/route.ts",
+        ".env.example"
+      ]
+    },
+    "layout-responsive|/privacy e /come-funziona possono scorrere di lato col testo al 200%": {
+      "id": "R07-002",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "app/come-funziona/page.tsx",
+          "modifica": "riga 76: <div className=\"mb-2 flex items-center gap-2.5\"> diventa className=\"mb-2 flex min-w-0 items-center gap-2.5\"; riga 77: aggiungere shrink-0 allo <span> dell'icona (h-10 w-10 shrink-0); riga 80: <h2 className=\"font-serif font-bold text-ink-900\"> diventa className=\"min-w-0 font-serif font-bold text-ink-900 [overflow-wrap:anywhere]\""
+        }
+      ],
+      "file_che_servono": [
+        "app/come-funziona/page.tsx"
+      ]
+    },
+    "mobile-pwa|il manifest blocca l'app in verticale e non ha le schermate per la finestra d'installazione": {
+      "id": "R07-003",
+      "elenco": "D",
+      "esito": "non_codice",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "api-backend|la chiave di cifratura del link di disiscrizione si ricava con lo stesso calcolo usato per firmare i link vecchi": {
+      "id": "R08-001",
+      "elenco": "D",
+      "esito": "parziale",
+      "cosa_resta": "I gettoni v2 già spediti (12/11-26/11) si aprono ancora, senza scadenza, con la chiave di prima HMAC(segreto, 'disiscrizione:cifratura:v2'): per loro il difetto della voce resta vero finché si accettano. Chiuderli con una data è una scelta di Nicola (un link di disiscrizione in un'email vecchia smetterebbe di funzionare).",
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "privacy-legale|l'obbligo di dichiarare allergeni e ingredienti vale solo finché la categoria principale si chiama esattamente «alimentari», e dal pannello quel nome si può cambiare": {
+      "id": "R08-004",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "app/api/admin/categories/route.ts",
+          "modifica": "POST (righe ~80-88) e PATCH (righe ~111-119): accettare e scrivere richiede_dichiarazioni_alimentari per le categorie principali; alla creazione di una radice nuova rispondere con un avviso che nasce senza campi obbligatori se il flag è falso. Righe ~92 e ~124: non tradurre ogni 23514 in «Foto non ammessa dal database…» (oggi è il messaggio anche quando il database blocca la modifica dello slug della radice alimentare)."
+        },
+        {
+          "file": "app/admin/categories/page.tsx",
+          "modifica": "per le categorie principali, una casella «richiede allergeni e ingredienti (alimenti)» collegata a richiede_dichiarazioni_alimentari, e l'avviso quando si crea una radice senza."
+        },
+        {
+          "file": "app/seller/products/new/page.tsx",
+          "modifica": "riga ~81: aggiungere richiede_dichiarazioni_alimentari al select delle categorie ('id, name, slug, parent_id, richiede_dichiarazioni_alimentari'), così getAttributesForCategory legge la colonna e non ricade sul nome."
+        },
+        {
+          "file": "app/seller/products/[id]/edit/page.tsx",
+          "modifica": "riga ~193: lo stesso select allargato con richiede_dichiarazioni_alimentari."
+        },
+        {
+          "file": "app/admin/products/new/page.tsx",
+          "modifica": "lo stesso select delle categorie allargato con richiede_dichiarazioni_alimentari."
+        },
+        {
+          "file": "app/admin/products/[id]/edit/page.tsx",
+          "modifica": "lo stesso select delle categorie allargato con richiede_dichiarazioni_alimentari."
+        },
+        {
+          "file": "app/api/ai/* (catalog-chat, catalog-apply, catalog-batch/start, copilot) e app/api/seller/products/import",
+          "modifica": "dove si legge l'albero delle categorie passato a getAttributesForCategory o statoAlCaricamentoDaFile, aggiungere richiede_dichiarazioni_alimentari al select."
+        }
+      ],
+      "file_che_servono": [
+        "app/api/admin/categories/route.ts",
+        "app/admin/categories/page.tsx",
+        "app/seller/products/new/page.tsx",
+        "app/seller/products/[id]/edit/page.tsx",
+        "app/admin/products/new/page.tsx",
+        "app/admin/products/[id]/edit/page.tsx",
+        "app/api/ai/* (catalog-chat, catalog-apply, catalog-batch/start, copilot) e app/api/seller/products/import"
+      ]
+    },
+    "tipografia|otto spaziature diverse per la stessa etichetta maiuscola": {
+      "id": "R08-007",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "app/admin/disputes/page.tsx",
+          "modifica": "riga 332: tracking-wider → tracking-label"
+        },
+        {
+          "file": "app/admin/funnel/page.tsx",
+          "modifica": "righe 440, 447, 451, 469: tracking-wider → tracking-label"
+        },
+        {
+          "file": "app/admin/payouts/page.tsx",
+          "modifica": "riga 358: tracking-[0.03em] → tracking-label"
+        },
+        {
+          "file": "app/admin/today/page.tsx",
+          "modifica": "riga 184: tracking-wider → tracking-label"
+        },
+        {
+          "file": "app/category/[slug]/page.tsx",
+          "modifica": "righe 311, 330, 357: tracking-wider → tracking-label"
+        },
+        {
+          "file": "app/come-funziona/page.tsx",
+          "modifica": "riga 56: tracking-wider → tracking-label"
+        },
+        {
+          "file": "app/favorites/page.tsx",
+          "modifica": "riga 105: tracking-[0.05em] → tracking-label"
+        },
+        {
+          "file": "app/profile/achievements/page.tsx",
+          "modifica": "riga 155: tracking-wider → tracking-label"
+        },
+        {
+          "file": "app/profile/gift-cards/page.tsx",
+          "modifica": "riga 226: tracking-wider → tracking-label"
+        },
+        {
+          "file": "app/profile/loyalty/page.tsx",
+          "modifica": "righe 198, 263, 273: tracking-wider → tracking-label"
+        },
+        {
+          "file": "app/profile/referral/page.tsx",
+          "modifica": "riga 126: tracking-widest → tracking-label (la riga 129 è un codice non maiuscolo, da lasciare)"
+        },
+        {
+          "file": "app/profile/returns/page.tsx",
+          "modifica": "riga 42: tracking-[0.05em] → tracking-label"
+        },
+        {
+          "file": "app/rider/help/page.tsx",
+          "modifica": "riga 116: tracking-[0.03em] → tracking-label"
+        },
+        {
+          "file": "app/rider/history/page.tsx",
+          "modifica": "riga 149: tracking-[0.03em] → tracking-label"
+        },
+        {
+          "file": "app/rider/orders/[id]/page.tsx",
+          "modifica": "riga 528: tracking-[0.03em] → tracking-label"
+        },
+        {
+          "file": "app/rider/page.tsx",
+          "modifica": "righe 121, 575: tracking-[0.03em] → tracking-label"
+        },
+        {
+          "file": "app/rider/profile/page.tsx",
+          "modifica": "righe 254, 283: tracking-[0.03em] → tracking-label"
+        },
+        {
+          "file": "app/seller/earnings/page.tsx",
+          "modifica": "riga 397: tracking-[0.03em] → tracking-label"
+        },
+        {
+          "file": "app/seller/orders/[id]/page.tsx",
+          "modifica": "riga 565: tracking-widest → tracking-label"
+        },
+        {
+          "file": "app/seller/promotions/page.tsx",
+          "modifica": "riga 262: tracking-wider → tracking-label"
+        },
+        {
+          "file": "components/CollectionHeader.tsx",
+          "modifica": "riga 79: tracking-[0.05em] → tracking-label"
+        },
+        {
+          "file": "components/LiveActivityFeed.tsx",
+          "modifica": "righe 60, 158: tracking-wider → tracking-label"
+        },
+        {
+          "file": "components/SponsoredCarousel.tsx",
+          "modifica": "riga 112: tracking-wider → tracking-label"
+        },
+        {
+          "file": "components/StoreProductExplorer.tsx",
+          "modifica": "righe 127, 145, 163, 190: tracking-wider → tracking-label"
+        },
+        {
+          "file": "components/account/AccountSidebar.tsx",
+          "modifica": "riga 143: tracking-[0.08em] → tracking-label"
+        },
+        {
+          "file": "components/admin/AdminUI.tsx",
+          "modifica": "riga 27: tracking-[0.06em] → tracking-label; riga 40: tracking-[0.03em] → tracking-label"
+        },
+        {
+          "file": "components/home-sections/HomeSectionRenderer.tsx",
+          "modifica": "righe 230, 322, 354: tracking-wider → tracking-label"
+        },
+        {
+          "file": "components/home-sections/ReorderRail.tsx",
+          "modifica": "riga 179: tracking-wider → tracking-label"
+        },
+        {
+          "file": "components/home/PromoDeals.tsx",
+          "modifica": "riga 43: tracking-wider → tracking-label"
+        },
+        {
+          "file": "components/home/TrendingNow.tsx",
+          "modifica": "riga 64: tracking-wider → tracking-label"
+        },
+        {
+          "file": "components/products/VendutoDa.tsx",
+          "modifica": "riga 59: tracking-[0.03em] → tracking-label"
+        },
+        {
+          "file": "components/seller/SellerHealthScore.tsx",
+          "modifica": "riga 172: tracking-wider → tracking-label"
+        },
+        {
+          "file": "components/seller/SellerPageTitle.tsx",
+          "modifica": "riga 37: tracking-[0.06em] → tracking-label"
+        },
+        {
+          "file": "components/store-sections/HoursSection.tsx",
+          "modifica": "riga 58: tracking-wider → tracking-label"
+        }
+      ],
+      "file_che_servono": [
+        "app/admin/disputes/page.tsx",
+        "app/admin/funnel/page.tsx",
+        "app/admin/payouts/page.tsx",
+        "app/admin/today/page.tsx",
+        "app/category/[slug]/page.tsx",
+        "app/come-funziona/page.tsx",
+        "app/favorites/page.tsx",
+        "app/profile/achievements/page.tsx",
+        "app/profile/gift-cards/page.tsx",
+        "app/profile/loyalty/page.tsx",
+        "app/profile/referral/page.tsx",
+        "app/profile/returns/page.tsx",
+        "app/rider/help/page.tsx",
+        "app/rider/history/page.tsx",
+        "app/rider/orders/[id]/page.tsx",
+        "app/rider/page.tsx",
+        "app/rider/profile/page.tsx",
+        "app/seller/earnings/page.tsx",
+        "app/seller/orders/[id]/page.tsx",
+        "app/seller/promotions/page.tsx",
+        "components/CollectionHeader.tsx",
+        "components/LiveActivityFeed.tsx",
+        "components/SponsoredCarousel.tsx",
+        "components/StoreProductExplorer.tsx",
+        "components/account/AccountSidebar.tsx",
+        "components/admin/AdminUI.tsx",
+        "components/home-sections/HomeSectionRenderer.tsx",
+        "components/home-sections/ReorderRail.tsx",
+        "components/home/PromoDeals.tsx",
+        "components/home/TrendingNow.tsx",
+        "components/products/VendutoDa.tsx",
+        "components/seller/SellerHealthScore.tsx",
+        "components/seller/SellerPageTitle.tsx",
+        "components/store-sections/HoursSection.tsx"
+      ]
+    },
+    "architettura|la rotta delle email a orario si crea un suo client admin": {
+      "id": "R09-002",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "tests/unit/l-allarme-della-coda-email-segue-quanto-in-fretta-la-svuotiamo.test.ts",
+          "modifica": "Nel vi.mock('@/lib/supabase/server') (riga ~77) far restituire a getAdminSupabase lo stesso oggetto che oggi restituisce il mock di '@supabase/supabase-js' createClient (righe ~79-87): { rpc: (nome, argomenti) => { if (nome === 'claim_pending_emails') stato.presiDaUnGiro = Number(argomenti.p_max); return Promise.resolve({ data: stato.righeDaSpedire, error: null }); }, from: (t) => fintaTabella(t), auth: { admin: { getUserById: async () => ({ data: null }) } } }. Poi il vi.mock('@supabase/supabase-js') non serve più."
+        },
+        {
+          "file": "app/api/cron/send-emails/route.ts (di R09, solo dopo la modifica sopra)",
+          "modifica": "Riapplicare il commit 191f58354f899505d20d4eec245b4177b29e6433: il client viene da getAdminSupabase() di lib/supabase/server.ts invece di createClient + requireSupabaseService; se la configurazione manca resta il 503."
+        }
+      ],
+      "file_che_servono": [
+        "tests/unit/l-allarme-della-coda-email-segue-quanto-in-fretta-la-svuotiamo.test.ts",
+        "app/api/cron/send-emails/route.ts (di R09, solo dopo la modifica sopra)"
+      ]
+    },
+    "architettura|il conto del carrello ha una seconda copia che nessuna pagina usa, e la prova «lo schermo fa lo stesso conto del server» controlla proprio quella": {
+      "id": "R09-006",
+      "elenco": "C",
+      "esito": "parziale",
+      "cosa_resta": "Cancellare components/checkout/useTotaliCarrello.ts dopo le due modifiche in serve_file_altrui; il controllo CI sui moduli orfani sta in .github/workflows/ci.yml (non di R09); per le due rotte AI serve la decisione di Nicola.",
+      "modifiche": [
+        {
+          "file": "tests/unit/la-consegna-costa-3-o-4-euro-per-negozio.test.ts",
+          "modifica": "Togliere la riga 4 (import calcolaTotali da @/components/checkout/useTotaliCarrello), il blocco const schermo = calcolaTotali({...}).centesimi (righe 74-83) e le due righe che confrontano schermo.gruppi[k]; dopo il forEach aggiungere if (Math.round(cassa.feeConsegna * 100) !== server.gruppi.reduce((t, g) => t + g.deliveryFeeCents, 0)) errori.push(`consegna a schermo diversa: ${merci.join('+')}`);"
+        },
+        {
+          "file": "tests/unit/la-consegna-e-una-sola-per-tutto-il-carrello.test.ts",
+          "modifica": "Togliere la riga 50 (import calcolaTotali). Al posto delle righe 164-171 (const schermo = calcolaTotali(...) e il suo forEach): const cassa = riepilogoDaMostrare({ ...i, usaCredito: false, creditoDisponibileCents: 0 }); if (Math.round(cassa.feeConsegna * 100) !== server.grandDeliveryFeeCents) errori.push(`schermo diverso ${merci.join('+')}`);"
+        }
+      ],
+      "file_che_servono": [
+        "tests/unit/la-consegna-costa-3-o-4-euro-per-negozio.test.ts",
+        "tests/unit/la-consegna-e-una-sola-per-tutto-il-carrello.test.ts"
+      ]
+    },
+    "architettura|la misura della velocità manda a ga4 da una porta sua, fuori dall'aiutante comune": {
+      "id": "R09-007",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "lib/analytics/events.ts",
+          "modifica": "Esportare ga (oggi function ga(...) privata a riga 36), col cancello del consenso dentro; oppure spostarla in un file nuovo lib/analytics/ga4.ts importato da events.ts e da posthog.tsx (evita l'import circolare events.ts↔posthog.tsx)."
+        },
+        {
+          "file": "lib/analytics/posthog.tsx (di R09, dopo il passo sopra)",
+          "modifica": "In mandaMisuraDiVelocita sostituire il blocco if (!window.gtag) return; try { window.gtag('event','web_vital',{...}) } con ga('web_vital', { metric_name: name, value: Math.round(name === 'CLS' ? metric.value * 1000 : metric.value), metric_rating: metric.rating, non_interaction: true }). Le prove riparazione-r15-velocita-clienti-veri e riparazione-r23-velocita-vista-dai-clienti devono restare verdi."
+        }
+      ],
+      "file_che_servono": [
+        "lib/analytics/events.ts",
+        "lib/analytics/posthog.tsx (di R09, dopo il passo sopra)"
+      ]
+    },
+    "architettura|il codice pgrst204 su una colonna della 124 ora fa scattare il ripiego per tutti: con la cache dello schema di postgrest vecchia, la scrittura salta gross_total_cents anche a migrazione applicata": {
+      "id": "R09-009",
+      "elenco": "D",
+      "esito": "scelta_di_nicola",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "architettura|la scrittura della contestazione vinta toglie il numero del tentativo del bonifico anche quando a mancare è solo la cache di postgrest": {
+      "id": "R09-010",
+      "elenco": "D",
+      "esito": "scelta_di_nicola",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "architettura|il conto della cassa riceve ancora le coordinate di negozio e consegna, che non entrano più in nessun conto": {
+      "id": "R09-011",
+      "elenco": "D",
+      "esito": "scelta_di_nicola",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "architettura|anche il freno della veloce trova il carrello in contanti solo dalla riga di cod_checkout_attempts": {
+      "id": "R09-012",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "migrations/95x_gli_ordini_in_contanti_portano_la_chiave_del_carrello.sql (nuova, fascia di R09, da scrivere solo insieme alla rotta)",
+          "modifica": "ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS carrello_contanti text; CREATE INDEX IF NOT EXISTS orders_carrello_contanti_idx ON public.orders (user_id, carrello_contanti) WHERE carrello_contanti IS NOT NULL; NOTIFY pgrst, 'reload schema';"
+        },
+        {
+          "file": "app/api/orders/cod/route.ts",
+          "modifica": "Dopo i blocchi che scrivono la riga del tentativo e del carrello (righe ~2014-2050): if (createdOrderIds.length > 1) { const { error: e } = await admin.from('orders').update({ carrello_contanti: chiaveCarrello }).in('id', createdOrderIds); if (e) logger.warn('[cod] chiave del carrello non scritta sugli ordini', { chiave: chiaveCarrello, message: e.message }); } — in una scrittura a parte, non dentro rigaOrdine."
+        },
+        {
+          "file": "lib/ordini/veloce-non-confermata.ts e lib/ordini/annulla.ts (dopo i due passi sopra)",
+          "modifica": "In ordiniDelCarrello, quando la riga manca: leggere admin.from('orders').select(c).eq('user_id', o.user_id).eq('carrello_contanti', <chiave dell'ordine>) (colonna aggiunta a COLONNE e tolta nel ripiego); solo senza chiave chiamare segnalaIlCarrelloSenzaRiga. Lo stesso in annulla.ts."
+        }
+      ],
+      "file_che_servono": [
+        "migrations/95x_gli_ordini_in_contanti_portano_la_chiave_del_carrello.sql (nuova, fascia di R09, da scrivere solo insieme alla rotta)",
+        "app/api/orders/cod/route.ts",
+        "lib/ordini/veloce-non-confermata.ts e lib/ordini/annulla.ts (dopo i due passi sopra)"
+      ]
+    },
+    "architettura|la funzione della spedizione in centesimi accetta ancora i sette ingressi che non servono": {
+      "id": "R09-014",
+      "elenco": "D",
+      "esito": "scelta_di_nicola",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "architettura|una fascia «domani» inviata alle 23:59 e arrivata alla rotta dopo mezzanotte si giudica sul giorno dopo": {
+      "id": "R09-015",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "app/api/stripe/checkout/route.ts",
+          "modifica": "(a) In Body (righe 69-91) aggiungere delivery_date: z.string().max(40).optional().nullable(), (la cassa lo manda già, app/checkout/page.tsx:1168; oggi zod lo scarta). (b) Dopo la riga 142 (if (!body.pickupInStore && !body.deliverySlot) return …) lo stesso blocco di app/api/orders/cod/route.ts:416-425: if (!body.pickupInStore && body.deliverySlot && body.delivery_date) { const riportata = fasciaDelGiornoDellaRichiesta(body.deliverySlot, body.delivery_date, new Date()); if (riportata === null) return ApiErrors.conflict('La fascia che hai scelto è già passata. Scegline una ancora disponibile, oppure ordina per domani.'); body.deliverySlot = riportata; }. Prova: come tests/unit/riparazione-r05-fascia-domani-dopo-mezzanotte.test.ts, sulla rotta della carta."
+        },
+        {
+          "file": "app/api/orders/cod/route.ts",
+          "modifica": "Spostare fasciaDelGiornoDellaRichiesta (righe 52-72) in lib/ordini/fascia-leggibile.ts come export e importarla nelle due rotte (oppure copiarla nella rotta della carta senza toccare questa)."
+        }
+      ],
+      "file_che_servono": [
+        "app/api/stripe/checkout/route.ts",
+        "app/api/orders/cod/route.ts"
+      ]
+    },
+    "flussi-conversione|il filtro «prezzo minimo» taglia sul prezzo pieno, non su quello che il cliente paga": {
+      "id": "R10-003",
+      "elenco": "D",
+      "esito": "riparato",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "flussi-conversione|l'ordine «prezzo crescente» ordina sul prezzo pieno, mentre la griglia mostra il prezzo scontato": {
+      "id": "R10-004",
+      "elenco": "D",
+      "esito": "riparato",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "frontend-ux|ordinando per prezzo, le griglie guardano il prezzo pieno e non quello che si paga": {
+      "id": "R10-005",
+      "elenco": "D",
+      "esito": "riparato",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "frontend-ux|un tasso di conversione fra il 50% e il 99% resta verde anche se gonfiato dal consenso ai cookie": {
+      "id": "R11-003",
+      "elenco": "D",
+      "esito": "scelta_di_nicola",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "frontend-ux|la pagina clienti del negozio mostra solo i nomi, senza contatti né esportazione, e consiglia offerte che non si possono mandare": {
+      "id": "R11-004",
+      "elenco": "D",
+      "esito": "scelta_di_nicola",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "frontend-ux|mancano «finito per oggi» e «chiuso fino al…», promessi ai negozi della prima ondata": {
+      "id": "R11-005",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "lib/store-hours.ts",
+          "modifica": "(1) Nel tipo StoreHours (riga 11) due chiavi opzionali: `chiusoFinoAl?: string` (AAAA-MM-GG, ultimo giorno di chiusura incluso) e `finitoOggiIl?: string` (AAAA-MM-GG di Roma del giorno in cui il negoziante ha premuto «finito per oggi»). (2) Nuova `export function sospesoIl(storeHours: unknown, giorno: string): boolean` che torna true se `typeof chiusoFinoAl === 'string' && giorno <= chiusoFinoAl` oppure `typeof finitoOggiIl === 'string' && finitoOggiIl === giorno`, con `giorno` = AAAA-MM-GG di Roma del giorno della fascia (oggi o domani), così «chiuso fino al» rifiuta anche le fasce dei giorni dopo e «finito per oggi» lascia servibile la fascia di domani (scade da solo a mezzanotte). (3) orariImpostati (riga 267): far valere i segni anche per un negozio senza orari impostati. (4) isStoreClosedForOrder (riga 112), prima del controllo orari: `if (sospesoIl(storeHours, <giorno di now a Roma>)) return true;`. (5) negozioPuoServire (riga 307), come prima riga: `if (sospesoIl(storeHours, <giorno della fascia>)) return false;` (da lì passano rotta contanti, rotta carta e cassa). (6) motivoNegozioChiuso (riga 392): dire il motivo vero, «chiuso fino al <data>» o «ha finito per oggi». Le rotte contanti e carta arrivano a negozioPuoServire attraverso motivoFasciaRifiutata (lib/quando-arriva.ts:222-236): controllare lì che il giorno della fascia passato a negozioPuoServire sia quello giusto per «chiuso fino al»."
+        },
+        {
+          "file": "components/store-sections/orari-schema.ts",
+          "modifica": "Riga 47 usa orariImpostati per le fasce e la scheda pubblica del negozio: fargli leggere anche sospesoIl, così la vetrina non mostra «aperto» a un negozio che ha premuto «finito per oggi» o è chiuso fino a una data."
+        },
+        {
+          "file": "components/seller/StoreHoursEditor.tsx",
+          "modifica": "(file mio, da fare SOLO dopo lib/store-hours.ts) un pulsante «Finito per oggi» che chiama onChange({...value, finitoOggiIl: <oggi AAAA-MM-GG di Roma>}) e un campo data «Chiuso fino al» che scrive chiusoFinoAl (vuoto = toglie la chiave). La rotta di salvataggio (app/seller/profile/page.tsx:64-71, update diretto di store_hours) passa già il valore intero. La prova deve montare l'editor e il rifiuto dell'ordine insieme."
+        }
+      ],
+      "file_che_servono": [
+        "lib/store-hours.ts",
+        "components/store-sections/orari-schema.ts",
+        "components/seller/StoreHoursEditor.tsx"
+      ]
+    },
+    "frontend-ux|con una promozione attiva la barra d'acquisto e i caroselli mostrano il prezzo pieno, mentre sopra c'è quello scontato": {
+      "id": "R11-006",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "components/SimilarProducts.tsx",
+          "modifica": "Aggiungere `import { discountedUnitCents, fetchActiveDiscounts } from '@/lib/promotions';`. :18 diventa `type Item = ProdottoSimile & { sconto?: number };`. :39 diventa `queryFn: async (): Promise<Item[]> => { const righe = await leggiSimili(supabase, { productId, categoryId, sellerId }); const sconti = await fetchActiveDiscounts(supabase, righe.map((p) => p.id)).catch(() => new Map<string, number>()); return righe.map((p) => ({ ...p, sconto: sconti.get(p.id) ?? 0 })); },`. :94 diventa `{formatPrice(p.sconto ? discountedUnitCents(p.price, p.sconto) / 100 : p.price)}`."
+        },
+        {
+          "file": "components/RecentlyViewed.tsx",
+          "modifica": "Stesso import. :17 diventa `type Item = VistoDiRecente & { sconto?: number };`. :71 diventa `queryFn: async (): Promise<Item[]> => { const visti = await leggiVistiDiRecente(supabase, { userId: userId! }); const sconti = await fetchActiveDiscounts(supabase, visti.map((it) => it.product.id)).catch(() => new Map<string, number>()); return visti.map((it) => ({ ...it, sconto: sconti.get(it.product.id) ?? 0 })); },`. :110 diventa `{formatPrice(it.sconto ? discountedUnitCents(p.price, it.sconto) / 100 : p.price)}`."
+        },
+        {
+          "file": "components/SponsoredCarousel.tsx",
+          "modifica": "Stesso import. :21 diventa `type SponsoredItem = Sponsorizzato & { sconto?: number };`. :49-50 diventa `queryFn: async (): Promise<SponsoredItem[]> => { const annunci = await leggiSponsorizzati(supabase, { placement, categorySlug, oggi: giornoPiacenza() }); const sconti = await fetchActiveDiscounts(supabase, annunci.flatMap((a) => (a.product ? [a.product.id] : []))).catch(() => new Map<string, number>()); return annunci.map((a) => ({ ...a, sconto: a.product ? (sconti.get(a.product.id) ?? 0) : 0 })); },`. :136 diventa `{formatPrice(it.sconto ? discountedUnitCents(p.price, it.sconto) / 100 : p.price)}`."
+        },
+        {
+          "file": "components/SearchBar.tsx",
+          "modifica": "Stesso import. :18 diventa `type Suggestion = Suggerimento & { sconto?: number };`. :57 diventa `queryFn: async (): Promise<Suggestion[]> => { const trovati = await leggiSuggerimentiRicerca(supabase, debounced); const sconti = await fetchActiveDiscounts(supabase, trovati.flatMap((s) => (s.kind === 'product' ? [s.id] : []))).catch(() => new Map<string, number>()); return trovati.map((s) => (s.kind === 'product' ? { ...s, sconto: sconti.get(s.id) ?? 0 } : s)); },`. :249 diventa `{formatPrice(s.sconto ? discountedUnitCents(s.price, s.sconto) / 100 : s.price)}`."
+        }
+      ],
+      "file_che_servono": [
+        "components/SimilarProducts.tsx",
+        "components/RecentlyViewed.tsx",
+        "components/SponsoredCarousel.tsx",
+        "components/SearchBar.tsx"
+      ]
+    },
+    "frontend-ux|orari passati alla cassa e 409 della rotta contanti: le prove cercano parole nel sorgente, non fanno girare pagina e rotta": {
+      "id": "R11-008",
+      "elenco": "C",
+      "esito": "parziale",
+      "cosa_resta": "1) Le due prove vecchie (tests/unit/la-cassa-passa-gli-orari-dei-negozi-al-selettore-e-al-freno.test.ts, tests/unit/la-rotta-rifiuta-una-fascia-a-meno-di-un-ora-dalla-fine.test.ts:90-91) restano basate sul sorgente: non sono mie. 2) Manca la prova che monta la pagina della cassa (app/checkout/page.tsx, circa 266-273) e controlla che gli orari arrivino al selettore e al freno: troppe dipendenze da simulare, è una prova a sé. 3) Una voce di sole prove non ha prova rimessa di programma: c'è il mutante a mano in nota.",
+      "modifiche": [],
+      "file_che_servono": []
+    }
+  }
+}

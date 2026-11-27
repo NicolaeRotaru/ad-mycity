@@ -1,0 +1,350 @@
+{
+  "collaudatore": "K08",
+  "riparatori": [
+    "R23",
+    "R25",
+    "R26"
+  ],
+  "aggiornato": "2026-11-26 23:28",
+  "finita": true,
+  "voci": [
+    {
+      "id": "R23-004",
+      "chiave": "flussi-conversione|dopo l'accesso con google il ritorno non applica nessuna regola di ruolo",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R23 --base 15ec90de01df5eaea5a6d28637db2c491c5a4951^ --file app/auth/callback/route.ts --prove tests/unit/riparazione-r23-ritorno-google-ruolo.test.ts --json"
+      },
+      "nota": "Callback Google (app/auth/callback/route.ts:38-48): database muto → ritorno richiesto (:118-121); senza ruolo o cliente → ritorno; admin sulla sua home solo con /; vale anche via /accetta-condizioni (:185). Tabelle area/home identiche a sign-in (route.ts:22-23 = page.tsx:63-64). Ritorni ostili (//evil.com, /\\\\evil, https://…, vuoto) finiscono su /. Rimessa anche larga, dalla base del primo commit 5dfdf843^: uscita 0."
+    },
+    {
+      "id": "R23-005",
+      "chiave": "flussi-conversione|chi è amministratore, negozio o fattorino perde il ritorno dopo l'accesso, e col pulsante google il ritorno si perde per tutti",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R23 --base afd13b5ee39b37bfae749d23fecc21e9eefbd469^ --file app/sign-in/page.tsx --prove tests/unit/riparazione-r23-ritorno-amministratore.test.tsx --json"
+      },
+      "nota": "app/sign-in/page.tsx:285-291: admin conserva il ritorno su /seller e /rider, / porta su /admin, negozio e fattorino invariati; profilo illeggibile → ritorno richiesto (:293)."
+    },
+    {
+      "id": "R23-006",
+      "chiave": "flussi-conversione|il ritorno dopo l'accesso guarda la stringa e non il percorso risolto per riconoscere l'area di un altro ruolo",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R23 --base 50593e7513d94d0f0b7056f6dd4a9d82c63b7387^ --file app/sign-in/page.tsx,app/auth/callback/route.ts --prove tests/unit/riparazione-r23-ritorno-percorso-risolto.test.tsx,tests/unit/riparazione-r23-ritorno-google-percorso-risolto.test.ts --json"
+      },
+      "nota": "Stessa funzione di risoluzione nei due file (page.tsx:70, route.ts:30); restituisce solo la home del ruolo o il ritorno già pulito, niente rimandi esterni; doppia codifica decodificata una volta come Next."
+    },
+    {
+      "id": "R23-008",
+      "chiave": "qa-flussi|la campanella del sito mostra le promozioni anche a chi le ha spente",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Alla base aac2350b: app/notifications/page.tsx:99-112 e :251 tolgono le promozioni a chi non le ha accese; components/hooks/useNotificationsCount.ts:18-29 e :60-62 tolgono dal conto promo e newsletter spente."
+    },
+    {
+      "id": "R23-009",
+      "chiave": "qa-flussi|nell elenco docs dell iscrizione del fattorino patente e polizza hanno ancora required: true, ma nessuno lo legge: dato morto che inganna",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R23 --base c830d57da23f3d4010491103958293100eb88f47^ --file app/rider/onboarding/page.tsx --prove tests/unit/riparazione-r23-documenti-fattorino-senza-required.test.ts --json"
+      },
+      "nota": "Il campo obbligatorio scritto a mano è sparito (app/rider/onboarding/page.tsx:19, :32-39); asterisco (:384) e controllo tutti caricati (:286) seguono la regola per mezzo (lib/admin/regole-approvazione.ts:57-70), la stessa del server (app/api/kyc/start-check/route.ts:101). Rimessa rifatta sulla testa del ramo. Vecchio, non nato qui: la pagina usa il mezzo del modulo, il server quello salvato."
+    },
+    {
+      "id": "R23-010",
+      "chiave": "qa-flussi|un admin che pubblica una storia dall'area negozio lascia una foto orfana nel deposito: dopo la 404 l'inserimento gli è rifiutato",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Alla base aac2350b: app/seller/layout.tsx:150-167 ferma l amministratore su /seller/stories prima di qualunque caricamento. La foto orfana per altre cause (rete, negozio sospeso) non è la voce così scritta: il referto lo dice."
+    },
+    {
+      "id": "R23-011",
+      "chiave": "qa-flussi|l accesso con google non porta il ritorno alla pagina di partenza",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R23 --base 9bd177a207a0d2819a390131e3163d70ac65ce16^ --file components/ui/AuthShell.tsx --prove tests/unit/riparazione-r23-google-ritorno-iscrizione.test.tsx --json"
+      },
+      "nota": "components/ui/AuthShell.tsx: senza ritorno passato dalla pagina usa quello dell indirizzo, ripulito dallo stesso filtro; //host scartato; con la pagina d accesso vale quello della pagina."
+    },
+    {
+      "id": "R23-013",
+      "chiave": "sicurezza-auth|col captcha acceso su supabase il recupero password fallirebbe: resetpasswordforemail parte senza gettone",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R23 --base 1957c39fe39ecd44586bcf4bd567b35e0937b6e2^ --file app/sign-in/page.tsx,app/reset-password/page.tsx --prove tests/unit/riparazione-r23-captcha-recupero-password.test.tsx --json"
+      },
+      "nota": "Accesso (sign-in:316-326) e richiesta link (reset-password:263-279): il gettone esce dallo stato prima dell attesa e si rigenera nel finally; un Accedi premuto nel frattempo si ferma (:193). Rimessa anche larga su reset-password dalla base del primo commit 66548ed0^: uscita 0."
+    },
+    {
+      "id": "R23-014",
+      "chiave": "sicurezza-auth|col captcha acceso su supabase il reinvio della mail di conferma fallirebbe: resend parte senza gettone",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R23 --base 6f3bb56efe47d1686c088f93a9c0d952475f2b8b^ --file lib/auth/conferma-email.ts --prove tests/unit/riparazione-r23-captcha-reinvio-conferma.test.ts --json"
+      },
+      "nota": "lib/auth/conferma-email.ts:259-270 passa il gettone se c è. Resta dichiarato: app/auth/verify-email/page.tsx:74, unico chiamante, non passa ancora il gettone."
+    },
+    {
+      "id": "R25-007",
+      "chiave": "qa-flussi|il collegamento del negozio a stripe e il bonifico manuale non hanno nessuna prova",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 2,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R25 --base b93d5935^ --file tests/unit/riparazione-r25-stripe-connect-ruolo.test.ts --prove tests/unit/riparazione-r25-stripe-connect-ruolo.test.ts --json → «un file non può essere insieme correzione e prova»: voce di sole prove, nessun file corretto da togliere. Al suo posto 7 mutazioni a mano sulle rotte (controllo del ruolo spento in rider-onboarding, withAuthRateLimit nel login, controllo dell approvazione rovesciato, payout senza withInternalAuth, refresh-status senza filtro sull utente, rider-onboarding aperto al negozio, admin tolto da rider-onboarding)"
+      },
+      "nota": "Parziale come dichiara il referto. 6 mutazioni su 7 fanno diventare rosse le prove; resta verde solo quella che toglie admin da rider-onboarding (restringe, non apre; il caso amministratore lì non è provato). La macchina non può decidere una voce di sole prove: la lascio parziale invece di regge."
+    },
+    {
+      "id": "R25-012",
+      "chiave": "stati-ui|collegando stripe in anteprima con un conto di prova vecchio la persona legge solo «errore stripe»: il consiglio di togliere il conto dal profilo resta nei registri",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R25 --base 546867b9d60d7221abfc855f8618fcebe4c6282e^ --file app/api/stripe/connect/onboarding/route.ts,app/api/stripe/connect/rider-onboarding/route.ts --prove tests/unit/riparazione-r25-stripe-anteprima-conto-di-prova.test.ts --json"
+      },
+      "nota": "Le due rotte rispondono 409 con la frase spiegata (onboarding/route.ts:58, rider-onboarding/route.ts:59); un guasto vero di Stripe resta 500. friendlyError (lib/errors.ts:227) lascia passare la frase; i due bottoni la mostrano (StripeConnectButton.tsx:60-66, RiderConnectButton.tsx:93-96)."
+    },
+    {
+      "id": "R25-002",
+      "chiave": "api-backend|un link di disiscrizione vecchio (v1) senza il segreto in produzione dà errore 500 invece di «link non valido»",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R25 --base d6a66d27152aa6b9113be8d584441851e79a629f^ --file lib/email/unsubscribe.ts --prove tests/unit/riparazione-r25-disiscrizione-v1-senza-segreto.test.ts --json"
+      },
+      "nota": "Il segreto si calcola dentro un try (lib/email/unsubscribe.ts:120-126): senza segreto il link v1 dà null e la pagina dice «link non valido». Unico chiamante app/api/unsubscribe/route.ts:4."
+    },
+    {
+      "id": "R25-009",
+      "chiave": "qa-flussi|il campanello del sito conta ancora gruppi e aggiornamenti d'ordine di chi li ha spenti",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R25 --base 0df091a970c05f847ca1a7664055e39b120fed13 --file components/hooks/useNotificationsCount.ts --prove tests/unit/riparazione-r25-campanello-gruppi-ordini.test.tsx --json"
+      },
+      "nota": "Parte dichiarata chiusa: i gruppi spenti escono dal conto (useNotificationsCount.ts:41), la lista resta coerente (app/notifications/page.tsx:252). Gli avvisi d'ordine con gli aggiornamenti spenti restano contati: il referto lo dichiara, con i file altrui da toccare."
+    },
+    {
+      "id": "R25-005",
+      "chiave": "architettura|se il registro degli invii non si legge, l'allarme dice «non partita, non è un intoppo di una notte» anche alla prima notte e per un'email forse arrivata",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R25 --base f27ebc347fadb37938c8b6dfc3989ac37f2b3152^ --file lib/privacy/avvisi-a-chi-aspetta.ts --prove tests/unit/riparazione-r25-registro-invii-illeggibile.test.ts --json"
+      },
+      "nota": "Il nuovo esito 'registro-illeggibile' sta solo nel segno interno (lib/privacy/avvisi-a-chi-aspetta.ts:470): la rotta non lo legge (app/api/cron/process-deletions/route.ts:787) e l'allarme all'amministratore dice ancora la frase della voce (route.ts:811-813). Sul sito non cambia niente di visibile finché non si tocca la rotta; il referto lo dichiara parziale. Nessun chiamante si rompe."
+    },
+    {
+      "id": "R26-005",
+      "chiave": "architettura|il conto del carrello ha una seconda copia che nessuna pagina usa, e la prova «lo schermo fa lo stesso conto del server» controlla proprio quella",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 3,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R26 --base 7c6b45287c^ --file app/checkout/page.tsx,lib/ordini/riepilogo-cassa.ts --prove tests/unit/riparazione-r26-la-cassa-passa-al-conto-quello-che-vede.test.ts --json (uscita 3 solo per lib/ordini/riepilogo-cassa.ts, nomi nuovi; app/checkout/page.tsx rossa sul comportamento). Difetti rimessi a mano: sconto a zero nel calcolo, appliedCoupon null nella pagina, sconto a zero scritto dopo, credito anche con la carta, ritiro forzato a falso: tutti rossi"
+      },
+      "nota": "Totale mostrato e pagato restano uguali con coupon, credito, spedizione gratis e ritiro. Ma la seconda copia components/checkout/useTotaliCarrello.ts esiste ancora e la usano due prove (la-consegna-costa-3-o-4-euro-per-negozio.test.ts:4, la-consegna-e-una-sola-per-tutto-il-carrello.test.ts:50); la regola del credito del server è ricopiata nella prova invece di far girare la rotta (riparazione-r26-la-cassa-passa…test.ts:58). Parziale come dichiara il referto."
+    },
+    {
+      "id": "R26-013",
+      "chiave": "layout-responsive|alla cassa, col testo del telefono al massimo, la scheda «contanti alla consegna» esce dallo schermo e la pagina scorre di lato",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R26 --base 3f2e14ae5fde5244fb5fb553d8bb04f7cfaaad13^ --file components/checkout/PaymentMethodSelector.tsx,app/checkout/page.tsx --prove tests/unit/riparazione-r26-col-testo-grande-la-scheda-contanti-resta-nello-schermo.test.ts --json"
+      },
+      "nota": "min-w-0 e break-words al loro posto (PaymentMethodSelector.tsx:106,127,163,165,203; app/checkout/page.tsx:1601). Ma la prova stessa (righe 17-18) dice che a 320 px col testo al 200% il bollino «Zero rischio» esce ancora: sta dentro la scheda dei contanti (PaymentMethodSelector.tsx:166), quindi la scheda della voce a quella larghezza scorre ancora di lato. Il referto la dà coperta tutta. La prova guarda le classi, non misura la larghezza."
+    },
+    {
+      "id": "R26-003",
+      "chiave": "architettura|una prova sul webhook di stripe controlla l'ordine delle righe cercando una parola, e basta togliere uno spazio per ingannarla",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R26 --base 55e47c067c^ --file tests/unit/webhook-diviso-per-mestiere.test.ts --prove tests/unit/riparazione-r09-la-prova-del-webhook-non-si-inganna.test.ts --json"
+      },
+      "nota": "La guardia ora può diventare rossa (spenta la forma breve, rimessa la ricerca della parola, tolto il controllo nei case: rosse). Resta un buco della stessa specie: se il controllo principale di webhook-diviso-per-mestiere.test.ts:58 si indebolisce (toEqual([]) → toBeDefined()) la guardia resta verde, perché riconosce il caso cercando le parole «fuoriPosto» e «dopo» nel testo (riparazione-r09-la-prova-del-webhook-non-si-inganna.test.ts:84)."
+    },
+    {
+      "id": "R26-014",
+      "chiave": "performance|al consenso statistico posthog si avvia due o tre volte in parallelo",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R26 --base 87da3a728b6415e733c366b5b61a9c4eef93e96f^ --file lib/analytics/posthog.tsx --prove tests/unit/riparazione-r26-posthog-un-solo-avvio.test.ts --json"
+      },
+      "nota": "Le chiamate in parallelo aspettano un solo avvio (lib/analytics/posthog.tsx:409-414), il consenso si controlla prima. Rimessa uscita 0 anche sulla testa 51f5a265 dalla base aac2350b (dopo l'unione interna d3975f44). Difetto più vecchio, non nato qui: consenso tolto durante l'avvio, chi già aspettava manda l'evento."
+    },
+    {
+      "id": "R26-006",
+      "chiave": "architettura|la misura della velocità manda a ga4 da una porta sua, fuori dall'aiutante comune",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R26 --base 7dbeee2368417d359c38adfd57b3b46acdd9fe5d^ --file lib/analytics/posthog.tsx --prove tests/unit/riparazione-r26-velocita-a-ga4-dalla-porta-comune.test.ts --json"
+      },
+      "nota": "ga() esportata da lib/analytics/events.ts:36 ricontrolla il consenso, posthog.tsx:462 la usa. events.ts e posthog.tsx si importano a vicenda ma solo dentro le funzioni: tipi e 599 prove verdi."
+    },
+    {
+      "id": "R26-015",
+      "chiave": "performance|la velocità del sito vista dai clienti veri non la misura nessuno",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Alla base aac2350b il difetto è assente: lib/analytics/posthog.tsx:636-649 importa web-vitals dopo il consenso e manda CLS/LCP/INP/FCP/TTFB a mandaMisuraDiVelocita (:447), che va a PostHog e GA4; package.json ha web-vitals ^4.2.0; le prove r15 e r23 della velocità ci sono. Il referto cita i numeri di riga della testa (645-651), non della base."
+    },
+    {
+      "id": "R26-008",
+      "chiave": "architettura|l'azione 'order.delivery_closed_by_admin' non è nel catalogo delle azioni: in /admin/audit non ha etichetta e il filtro non la offre",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R26 --base c241e73f45e22ea4a97f9bad49a40a1df6725115^ --file lib/audit-azioni.ts --prove tests/unit/riparazione-r26-audit-chiusura-consegna-dallo-staff.test.ts --json"
+      },
+      "nota": "lib/audit-azioni.ts:33,73: etichetta e filtro; stessa stringa scritta da migrations/360_l_amministratore_chiude_la_consegna.sql:122."
+    },
+    {
+      "id": "R26-012",
+      "chiave": "frontend-ux|mancano «finito per oggi» e «chiuso fino al…», promessi ai negozi della prima ondata",
+      "verdetto": "rompe_altro",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 3,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R26 --base 673e50c5e55436cf4ea1ee5f70358c15a4cdedf6^ --file lib/store-hours.ts,lib/quando-arriva.ts,components/seller/StoreHoursEditor.tsx,components/store-sections/orari-schema.ts --prove tests/unit/riparazione-r26-finito-per-oggi-chiuso-fino-al.test.tsx,tests/unit/riparazione-r26-scheda-del-negozio-sospeso.test.ts --json (testa 51f5a265; uscita 3 solo per lib/store-hours.ts, gli altri file rossi sul comportamento). Difetto rimesso a mano in lib/store-hours.ts:118 (sospesoIl ritorna false, export lasciati): 4 prove su 6 rosse, in entrambi i file"
+      },
+      "nota": "La parte dichiarata (rotte d'ordine, cassa, scheda pubblica) regge. Nasce un difetto: il bottone «Finito per oggi» (components/seller/StoreHoursEditor.tsx:133-140) non mostra nessuno stato e non ha un modo per annullarlo. Il negoziante che lo preme per sbaglio e salva resta chiuso agli ordini fino a mezzanotte senza saperlo e senza poter riaprire dall'editor; il segno vale solo dopo «Salva» e il bottone non lo dice. Minori: la funzione SQL dei negozi aperti adesso ignora la sospensione (migrations/127, rientra nelle viste dichiarate); SellerOnboardingChecklist.tsx:95 dà gli orari per fatti col solo segno."
+    }
+  ],
+  "campione": {
+    "R23": {
+      "accettato": true
+    },
+    "R25": {
+      "accettato": true
+    },
+    "R26": {
+      "accettato": false
+    }
+  },
+  "verify_ripetuto": {
+    "R23": {
+      "testa": "c90ef7ffd3195d13f7709f46bfafc90deea35d95",
+      "punta": "7082bc6579ac1781389c9b0ee86537b590f4cc9c",
+      "comando": "npm run verify",
+      "esito": "verde",
+      "nota": "rifatto dal collaudatore sulla testa nuova: typecheck pulito, lint 0 errori (121 avvisi), vitest 2242 file passati 1 saltato, 13719 prove passate 1 saltata"
+    }
+  }
+}
