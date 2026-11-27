@@ -69,3 +69,4 @@ Tetto 3.000 $ rigido: a 2.250 $ misurati non si apre niente di nuovo senza l'AD.
 - 2026-11-27 03:09 R09 finito e verde, passato a K02: 1 riparato, 7 parziali, 2 già riparati, 4 file altrui, 1 scelta di Nicola, 1 non fatto per 17,77 $. Anche qui oltre 12 $ a chiusa. La correzione di R09-006 (d7e3261) non va ripresa così: il revisore ha trovato un passo indietro.
 - 2026-11-27 03:10 R12 ha rinominato l'aiutante (punta aed60125): guardia e referto verdi, passato a K01, che ora ha R11, R03, R12.
 - 2026-11-27 03:11 R10 finito e verde, passato a K02 (ora R07, R09, R10). R10 ha lasciato una terza falla riservata solo in chat (area: il registro degli errori): va all'AD alla fermata.
+- 2026-11-27 03:12 R05 a 21,31 $ su 25 (85%) senza avvisare: detto di fermarsi subito, tetto duro 24 $. Lezione per l'onda 2: la spesa delle figlie va letta dalla regia a ogni risveglio, non solo al 70% dichiarato da loro.
