@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-11-26 22:30",
+  "aggiornato": "2026-11-27 01:33",
   "scansioni": [
     {
       "quando": "2026-08-25 20:35",
@@ -8495,6 +8495,38 @@
         "lib/agenti/scheda.ts": "4e8986df1971",
         "lib/agenti/sito.ts": "242fad2a6c74",
         "lib/database.types.ts": "255f7c2b8626"
+      }
+    },
+    {
+      "quando": "2026-11-27 01:33",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "lib/agenti/compito.ts": "310798205db2",
+        "lib/agenti/fasce.ts": "c01c49a5f970",
+        "lib/agenti/scheda.ts": "a3c585d530a6",
+        "lib/agenti/su-misura.ts": "9c58e175e28d"
+      }
+    },
+    {
+      "quando": "2026-11-27 01:33",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "components/agenti/Scheda.tsx": "a4bf20e842d5",
+        "components/agenti/scheda.module.css": "4888347c86dd"
       }
     }
   ]
