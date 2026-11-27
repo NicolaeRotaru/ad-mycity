@@ -31,6 +31,38 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
+### 🔴 #268 — Dai a SDG una chiave per entrare nella sua pagina venditore · ⏳ accodata 2026-11-27 16:35 · @ad
+
+**Stato:** ⏳ in attesa di Nicola
+
+**In parole semplici.** SDG Agenzia è un negozio su MyCity, ma il 24/11 l'abbiamo creato con un utente che non può entrare: niente password e bloccato per 100 anni. Serviva solo a mostrare i tre abbonamenti in vetrina.
+Adesso vuoi entrare come SDG e vedere, dentro «Servizi», il sito, il piano dei social e l'analisi. Per farlo l'utente di SDG deve avere un indirizzo email vero e una password.
+
+**Cosa cambia per te.** Entri su MyCity come SDG, con un indirizzo diverso dal tuo da amministratore, e vedi la tua area venditore come la vede un cliente Premium. Il tuo accesso da amministratore resta com'è.
+
+**Cosa devi fare tu.** Tre passi, cinque minuti.
+1. Scegli l'indirizzo. Due utenti non possono avere la stessa email: usa la tua Gmail con «+negozio» prima della chiocciola. Arriva nella stessa casella.
+2. Su Supabase, nell'editor SQL, incolla il comando dei dettagli tecnici, metti l'indirizzo al posto del segnaposto e premi Run.
+3. Su MyCity premi «Password dimenticata», scrivi quell'indirizzo e scegli la password dal link che ti arriva.
+
+**Cosa non ho verificato.** Non ho provato l'accesso: da qui non posso scrivere sul database, ed è giusto così. Può darsi che al primo ingresso il sito ti chieda di accettare le condizioni del venditore: è normale.
+
+Cosa cambia: SDG Agenzia smette di essere un negozio che non entra mai e diventa un negozio con cui entri tu, come cliente Premium di se stesso.
+Se va bene: entri, apri Servizi e guardi Sito web, Gestione social e Analisi del business; quello che non ti torna lo scrivi all'AD.
+
+- **Colore:** 🔴 (scrittura a mano sul database vero, sull'accesso di un utente)
+- **Reparto:** ad
+- **Dettagli tecnici:** utente `11111111-1111-1111-1111-5d9000000001` creato dalla migrazione 707 (`sdg.servizi@mycity-system.local`, `encrypted_password` vuota, `banned_until` = +100 anni). Comando:
+  ```sql
+  update auth.users
+     set email = 'INDIRIZZO-CON-+negozio', email_confirmed_at = now(), banned_until = null, updated_at = now()
+   where id = '11111111-1111-1111-1111-5d9000000001';
+  update auth.identities
+     set identity_data = identity_data || jsonb_build_object('email', 'INDIRIZZO-CON-+negozio'), updated_at = now()
+   where user_id = '11111111-1111-1111-1111-5d9000000001' and provider = 'email';
+  ```
+  Per tornare indietro: `update auth.users set banned_until = now() + interval '100 years' where id = '11111111-1111-1111-1111-5d9000000001';`. Le pagine con il lavoro consegnato arrivano dalla richiesta di unione di mycity sul ramo `ccr-3e25a9cc-8rdzdt`: senza quella unita, entrando vedi ancora i preventivi.
+
 ### 🟡 #267 — Carica su n8n il controllo che ferma i contenuti già usciti · ⏳ accodata 2026-11-27 15:21 · @builder-automazioni
 
 **Stato:** ⏳ in attesa di Nicola
