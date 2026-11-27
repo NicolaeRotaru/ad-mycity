@@ -1615,6 +1615,19 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Dove:** NicolaeRotaru/N8N#37. Due collaudi indipendenti: tutti e due reggono.
 - **Colore:** 🟡. Il flusso vivo non cambia finché Nicola non scrive «ok 267»: «Proponi» e «Tasti» vanno caricati insieme.
 
+## 2026-11-27 22:25 — Tropico: fermati e rifatti i due pezzi di sabato che chiamavano sangria il frozen alla fragola (🟡)
+- **Chi e quando:** Nicola, in chat all'AD (session_01R8112P5YYf1DSVHQKpdukS), 27/11 alle 21:48, con la foto della storia uscita: «questa qua è una margherita frozen alla fragola, non è una sangria».
+- **Il difetto:** il piano del 26/11 ha dato un nome a un drink senza conferma. La regola c'era per i piatti, non per i drink. La foto 0307 era chiamata sangria in tre pezzi: la storia del 27/11 alle 18:00 (uscita su tutte e quattro le pagine), la slide 3 del carosello del 28/11 alle 18:30 e la scena 2 del reel del 28/11 alle 19:15 (tutti e due già approvati).
+- **Cosa:** alle 22:11 il carosello e il reel tornano da approvare, così non escono. Rifatti con le scritte giuste, caricati su Drive con il nome «-corretto» accanto ai vecchi (che restano, da archiviare a mano), riproposti su Telegram alle 22:20 col lotto `tropico-latino-1127-2220`. Nel file del cliente la foto 0307 è scritta come margarita frozen alla fragola e «non sangria»; il nuovo `controlla-nomi.py` si ferma se una grafica scrive un nome sopra una foto non confermata.
+- **Dove:** NicolaeRotaru/N8N, ramo `ccr-f0948263-uqbjwj`. Esecuzioni n8n: 4343 (pausa), 4352 (Drive), 4356 e 4357 (proposte).
+- **Colore:** 🟡. La pausa si annulla con un Approva; niente è uscito senza Nicola. Le didascalie dei due post del 26/11 e la storia già uscita aspettano lui (AZIONI-IN-ATTESA).
+
+## 2026-11-27 22:45 — Tropico: «margarita frozen», senza «alla fragola» (🟡)
+- **Chi e quando:** Nicola, in chat all'AD (session_01R8112P5YYf1DSVHQKpdukS), 27/11 verso le 22:35: «non specificare che è la fragola, margarita frozen»; «alla fragola» appesantisce la frase.
+- **Cosa:** il carosello (slide 3: «Un margarita frozen · Anche in caraffa da un litro») e il reel (scena 2: «il margarita frozen») di sabato 28/11 rifatti, caricati su Drive col nome «-corretto2» e riproposti su Telegram alle 22:45, lotto `tropico-latino-1127-2245`. Le proposte delle 22:20 sono superate. Le didascalie pronte in AZIONI-IN-ATTESA dicono solo «margarita frozen».
+- **Dove:** NicolaeRotaru/N8N#38 (secondo commit). Esecuzioni n8n 4366 (Drive), 4367 e 4368 (proposte).
+- **Colore:** 🟡. Esce solo con l'Approva di Nicola.
+
 ## 2026-11-27 22:20 — Decisione di Nicola: sul lato SDG si dice «la tua attività».
 - **Cosa ha detto Nicola, verso le 22:10:** «il tuo negozio» si cambia ovunque c'entri SDG, cioè abbonamenti e servizi. Sul lato marketplace resta, perché lì il target di MyCity sono le botteghe e i piacentini.
 - **Perché regge:** SDG lavora con tutte le attività locali, non solo coi negozi (fatto `sdg.abbonamenti`, Nicola 27/11 verso le 17:10).
