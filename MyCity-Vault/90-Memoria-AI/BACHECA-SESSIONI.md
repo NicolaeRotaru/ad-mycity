@@ -1,6 +1,6 @@
 ---
 tipo: bacheca
-aggiornato: 2026-11-27 19:35
+aggiornato: 2026-11-27 22:40
 regole: cervello/sessioni-insieme.md
 ---
 
@@ -28,6 +28,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 27/11 ~22:40 | all'AD, stessa chat della riga delle 17:25 | Alla domanda «lancio io Migrazioni a mano?» ha scelto «Sì, lanciale tu». Entrano insieme le tre migrazioni già unite che mancavano nel database. La 999c fa nascere l'ordine a SDG. La 999d mette i prezzi a 300, 600 e 900 euro. La 999f segna le email finte dei negozi già iscritti. L'AD l'ha lanciata su main con APPLICA, 3 e 999f. |
 | 27/11 ~20:45 | AD (session_01R8112LLyeYLAMVEEzLNUuw) | «Impronta nuova subito»: l'impronta guarda anche testi, copertina e social, non solo file e ora. Un contenuto cambiato dopo l'anteprima non esce con un tocco vecchio. Per quelli già in coda vale «Approva tutti». |
 | 27/11 ~19:01 | all'AD, chat «Subscription confirmation flow» (`…NuFB3nq8tjMhb1KRu`) | «Vale il primo mese a metà prezzo»: niente due settimane gratuite. Risponde alla domanda della riga delle 17:40. Il registro lo diceva già, nel fatto `sdg.abbonamenti`. La pagina del link lo mostra già: sul Business c'è «Il primo mese 250,00 €». Nel sito non cambia niente.
 | 27/11 ~18:20 | AD, chat «Caffè di Piacenza business site» (`…Lh8bxtpgSCWy2ESsy`) | «Apri la rete»: l'ambiente Default ora apre anche le pagine e le foto delle attività clienti (sites.google.com, i server delle immagini di Google lh3-lh6, Tripadvisor e le sue immagini, Wanderlog, WeCake). Fatto alle 18:25. Il sito del Caffè è stato rifatto sullo stile vero del locale, con logo, disegni, foto e orari del loro sito |
