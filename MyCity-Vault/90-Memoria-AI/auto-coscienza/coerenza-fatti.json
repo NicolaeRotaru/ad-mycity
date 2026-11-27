@@ -1,11 +1,11 @@
 {
-  "data": "2026-11-27 02:09",
+  "data": "2026-11-27 03:05",
   "esito": "ok",
   "copertura": 2373,
   "origine": "cloud",
   "scritto_da": "coerenza-fatti.mjs",
   "fatti_totali": 87,
-  "cacce_aperte": 67,
+  "cacce_aperte": 69,
   "file_scansionati": 2373,
   "incoerenze": [],
   "cacce": [
@@ -217,6 +217,18 @@
       "fatto": "negozi.modalita-demo",
       "pattern": "Le attività che si iscrivono e non hanno ancora pagato entrano in «modalità demo»: entrano nella dashboard, preparano vetrina e prodotti e vedono il preventivo, ma la loro vetrina non è visibile sul marketplace. Escono dalla demo quando pagano un abbonamento ai servizi (Base, Business o Premium, MyCity tramite SDG); serve comunque l'approvazione dell'admin. Vale solo per i nuovi: Pane Quotidiano resta visibile com'è, e così i negozi di sistema (MyCity, SDG). Lavoro affidato il 24/11 alla sessione «Servizi SDG» (session_01R8112L8Qbu42abzNPKaAkQ), non ancora nel sito.",
       "dal": "2026-11-24 17:02",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "negozi.modalita-demo",
+      "pattern": "Escono dalla demo quando pagano un abbonamento ai servizi",
+      "dal": "2026-11-27 03:05",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "negozi.modalita-demo",
+      "pattern": "Le attività che si iscrivono e non hanno ancora pagato entrano in «modalità demo»: entrano nella dashboard, preparano vetrina e prodotti (anche prima dell'approvazione dell'admin: Nicola, 24/11 «Sì, li prepara subito») e vedono il preventivo, ma la loro vetrina e i loro prodotti non sono visibili sul marketplace. Escono dalla demo quando pagano un abbonamento ai servizi (Base, Business o Premium, MyCity tramite SDG) e l'admin li approva. Vale solo per i nuovi: Pane Quotidiano resta visibile com'è, e così i negozi di sistema (MyCity, SDG). Nel codice: mycity#313, migrazione 709 (public.negozio_in_vetrina); i prodotti prima dell'approvazione in arrivo dalla sessione «Servizi SDG».",
+      "dal": "2026-11-27 03:05",
       "copie_trovate": 0
     },
     {
