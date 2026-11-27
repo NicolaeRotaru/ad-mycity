@@ -1654,3 +1654,8 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa:** ogni «Esci» del sito, e il ritorno all'accesso dopo il cambio password, passa da una funzione sola. La funzione chiude la sessione e cambia pagina una volta, senza «rinfresca». Prima l'area riservata e il tasto chiedevano due volte la pagina di accesso, e il «rinfresca» si agganciava alla richiesta scartata da Next: non partiva mai. PR NicolaeRotaru/mycity#361, ramo ccr-f5be6987-qmq91e.
 - **Verifica:** riprodotto dal vivo su telefono simulato. Prima era fermo dopo 20 s; dopo si arriva all'accesso in 1 s, da admin, negozio e fattorino. La prova usa la coda vera di Next: rossa col vecchio, verde col nuovo. Batteria 14.534 verdi. Collaudo indipendente: REGGE, e il suo minore sulla prova è chiuso nel secondo commit.
 - **Colore:** 🟡, codice in un ramo con PR aperta. L'unione e l'uscita online restano tue (🔴).
+
+## 2026-11-28 00:45 — Unita la correzione di «Esci» (🔴, firma di Nicola)
+- **Chi e quando:** Nicola ha unito la NicolaeRotaru/mycity#361 alle 00:45 (merge f020a34a sulla testa b3f82d33).
+- **Cosa:** dopo «Esci» si arriva alla pagina di accesso invece di restare su «Caricamento…». Vale per le aree admin, negozio e fattorino, e per il cambio password.
+- **Verifica:** 11 controlli della PR verdi (uno saltato come sempre), nessun conflitto. Resta da riprovare dal telefono vero sul sito pubblicato.
