@@ -23,7 +23,7 @@ Che le voci rimaste a metà il 26/11 siano ancora a metà sul codice di oggi: la
 
 ## Dettagli tecnici
 - AD: session_015BmpnWXi7guL4RmfTAwzbU (fermate ed esito con send_message). Ramo ad-mycity e sito: `ccr-819e0c8d-7ryjjr`; riparatori `ccr-819e0c8d-7ryjjr-mNN`.
-- Base del sito: integrazione del 26/11 `ccr-a672a2b3-92w5w1` @ f1b35670eb1d54d2fbe32f5df25a23745678fad3 (onde 1-3 del 26/11 unite con main alle 01:35). Se il controllore finale del 26/11 cambia l'integrazione, la si unisce nella nostra all'unione dell'onda 1.
+- Base del sito: **main @ 2ba05a74de2e9ad96fa94178df89711923119b0e** (Nicola ha unito la #342 alle 01:49; correzione dell'AD alle 02:25). Prima era l'integrazione del 26/11 `f1b35670`, che è un genitore di main. Integrazione della campagna sul sito: `ccr-819e0c8d-7ryjjr` @ 2ba05a74. Le 9 migrazioni della #342 non sono applicate: non toccare il database vero.
 - Registro: `registro-26-11.json`, fuori da git perché pesa 11,7 MB: lo ricrei con `git show de5836c5fd91b249cc62f94462c454bb2b49c51a:MyCity-Vault/90-Memoria-AI/auto-coscienza/radiografia-marketplace.json > <C>/registro-26-11.json` (il registro del ramo del 26/11, con i suoi 41 nati: 646 aperti). Si passa con `--registro`.
 - Perimetro (`tutto/`): 466 lavorabili. `lavorabili-ora.mjs`: fuori 97 che si chiudono con la #342, 49 che chiedono Nicola → **320** (1 che blocca il lancio, 33 gravi, 286 minori). Di questi 122 lavorati il 26/11 (39 parziali, 30 file altrui, 36 non fatti, 15 riparati senza verdetto, 2 già riparati), 198 mai toccati.
 - Le 43 con file di migrazione (`chiavi-con-migrazione.txt`) vanno in un'onda a parte, alla fine: `dividi` dà fasce da 1000 in su e il sito ordina i file per byte (1000_ prima di 100_). Difetto AR-1194. Nelle onde 1-2 **nessuna migrazione nuova**: se una voce la chiede, resta parziale con l'SQL nel referto.
@@ -47,3 +47,9 @@ Tetto 3.000 $ rigido: a 2.250 $ misurati non si apre niente di nuovo senza l'AD.
 - 2026-11-27 01:15 «Riesci a riparare 200 difetto adesso, e dico 200 esatti».
 - 2026-11-27 01:35 «A», poi fermata dall'AD: si sovrapponeva al 26/11 (vedi `superata/`).
 - 2026-11-27 ~01:55 «No scusa la B. 200 esatti difetti risolti. E se ne riesci cerca di arrivare anche a 400. C'è la puoi fare.» Alle domande dell'AD: tetto **3.000 $**, limite settimanale **sotto il 50%**.
+
+## Diario della regia
+- 2026-11-27 02:35 Regista nata (session_015BmpnYPczqtRmcwQzQzjV6). Limite settimanale `allowed_warning`, senza uso extra: il via di Nicola copre le onde dentro il tetto.
+- 2026-11-27 02:50 Schede dell'onda 1 scritte, con in fondo le note del 26/11 voce per voce (`regole-campagna.md` entra nel primo messaggio). Il registro del 26/11 serve anche ai riparatori: lo ricreano fuori dal deposito e lo passano con `--registro`.
+- 2026-11-27 02:58 Arriva la correzione dell'AD sulla base. Fermate le aperture: era nata solo R05 (0,25 $), interrotta. Rifatti `perimetro` e `dividi --per-sessione 16` su 2ba05a74: divisione identica (12 sessioni, 174 voci, 26 gravi; 103 all'onda 2). Schede riscritte, controlli verdi, SHA_REGISTA 0c9469a8.
+- 2026-11-27 03:05 R05 rimessa in moto con la correzione (stessa sessione, ramo rifatto da 2ba05a74). Aperte le altre 11.
