@@ -1476,6 +1476,20 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Prima del via:** il controllo che confronta il codice col database vero era verde alle 18:17. Mancava solo la 865.
 - **Cosa resta:** la variabile `N8N_SCHEDA_SEGRETO` su Vercel (non c'è ancora) e il primo link in Admin → Agenti, tutte e due di Nicola.
 
+## 2026-11-27 01:46 — Nasce la macchina che trova i clienti, e gira in vero (🟡, via di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD, 27/11 verso le 01:30: «fallo», dopo la proposta della macchina che trova i clienti.
+- **Cosa è stato fatto:** il flusso n8n «16 · Attività da visitare» (id `Yp60H6Eo9DkuGxxf`) e la tabella «Attività da visitare» (id `ym5WaeuBbBf0ZuQe`). Giro in prova (esecuzione 3458): 1.037 attività lette sulla mappa entro 5 km da Pane Quotidiano, 117 catene, 84 categorie escluse, 11 doppioni, 1 già su MyCity, 169 senza nome, 655 in fila. Giro vero (esecuzione 3460, 01:44-01:45): 10 dossier dall'AD, 4 messaggi a Nicola su Telegram, 10 righe nella tabella. 11 prove verdi su 11; cinque mutazioni a mano, tutte prese.
+- **Perché:** la regola `negozi.ingresso` («la squadra mappa tutti i negozi di fresco entro 5 km e li mette in fila; dossier sui primi 10») era scritta e nessuno la eseguiva. C'erano la scheda per l'agente (14) e il preventivo (20), mancava il passo prima.
+- **Il limite scelto:** il flusso non scrive mai alle attività. Il primo contatto è di persona o al telefono: privacy (art. 130 del Codice), regole di WhatsApp, `CONTESTO_BUSINESS.md` §4.8. Il controllo del flusso boccia ogni canale verso fuori.
+- **Scelte fatte dall'AD senza chiedere:** 10 attività a settimana (dalla regola), tutte le attività che vendono nel censimento (registro `strategia.cliente-core`) ma prima il fresco, la lista solo a Nicola finché non dice chi visita.
+- **Cosa resta:** il collaudo indipendente (in corso); l'accensione del lunedì dopo il collaudo; chi visita e quante a settimana, da Nicola; la fase 2 (la lista nella pagina dell'agente, lo stato «iscritta» che si segna da solo).
+
+## 2026-11-27 02:30 — La macchina dei clienti: due collaudi bocciati, riparata, spenta in attesa di Nicola (🟡)
+- **Cosa è successo:** il primo collaudo (referto `consegne/audit/2026-11-27-collaudo-flusso-16/referto.md`) ha bocciato per due gravi: gli stati scritti a mano («sì», «iscritto») non si contavano, e le prove leggevano la risposta della mappa in `body` mentre n8n vero la mette in `data`. Riparato (N8N `72cf6f2`). Il ricollaudo (`ricollaudo.md`) ha bocciato di nuovo: le frasi («sì, non ancora iscritta») contavano come iscritte, e la tabella rotta in n8n non si vedeva. Riparato (N8N `f9311bd`).
+- **La scelta della riparazione:** rendere impossibile invece di indovinare. Lo stato vale solo se è una delle quattro parole; il resto si conta e si mostra col nome. La tabella che non risponde ferma il flusso e avvisa il 99.
+- **Le misure:** 19 prove verdi; 44 mutazioni su 44 rosse (quelle dei due collaudatori, adattate, più le nuove: `prove/mutazioni-dopo-ricollaudo.mjs`); sulla mappa vera del 27/11 1.037 su 1.037 conti tornano e la lista della seconda settimana è pulita.
+- **Perché è spento:** è il terzo giro sullo stesso pezzo. La regola (MANUALE-AD ①, skill collaudo) dice di chiedere a Nicola: accendere così, terzo collaudo, o lasciarlo spento. Il flusso scrive solo a Nicola e nella sua tabella.
+
 ## 2026-11-27 01:45 · Tropico: 29 contenuti nel Calendario, coi colori del sito 🟡
 - **Cosa:** 31 contenuti dal 26/11 sera al 2/12, fatti con le 13 foto del fotografo e il menu del sito (letto il 26/11 alle 15:55). Due storie del 26 sera sono scadute; le altre 29 sono nel Calendario «da approvare», con l'anteprima su Telegram.
 - **Perché:** Nicola, 26/11 verso le 15:00: il Tropico fa da esempio per i clienti, tanti contenuti da subito. Ritmo e orari concordati con la sessione che pubblica il Tropico.
