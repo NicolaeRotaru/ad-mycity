@@ -1670,4 +1670,8 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa:** quando il titolare apre il link del preventivo vede il suo sito già pronto, sopra i tre abbonamenti. In Admin c'è la pagina «Lavoro dei clienti», in sola lettura. Merge 63031fc1 sulla testa 19176d19.
 - **Verifica:** 11 controlli verdi sulla PR. Batteria intera in locale: 14.528 prove passate, 1 saltata. Due collaudi indipendenti: un grave trovato e corretto, il riquadro che prometteva il sito Business anche col Base.
 - **Colore:** 🔴, unione che va online, fatta sulla firma esplicita di Nicola.
-
+## 2026-11-28 00:50 — L'amministratore torna sul suo pannello dopo l'accesso (🟡, PR aperta)
+- **Chi e quando:** Nicola in chat all'AD il 28/11 verso le 00:45, con la foto del cruscotto del negozio aperto dall'account di assistenza. Ha scritto: «hai fatto un danno enorme, hai reso l'admin un venditore». Sessione session_01R8112NrSFfkLVigXnTUifp.
+- **Cosa ho trovato:** nel database il profilo «Assistenza MyCity» ha ancora `role = admin`, ultimo accesso 27/11 23:41 UTC. Il guasto stava nell'atterraggio dopo l'accesso: R23-005 (afd13b5e, 26/11 17:05) e R23-004 (15ec90de) lasciavano l'admin sul ritorno verso /seller o /rider.
+- **Cosa ho fatto:** tolta l'eccezione in `app/sign-in/page.tsx` e `app/auth/callback/route.ts`. L'admin atterra di nuovo su /admin. Le due prove che chiedevano il contrario ora chiedono /admin: col codice vecchio danno 3 rosse su 13. Passano 18 file di prove sull'accesso, 177 prove in tutto. PR mycity#362.
+- **Colore:** 🟡 il codice sul ramo. L'unione va online, quindi è 🔴: la firma è di Nicola.
