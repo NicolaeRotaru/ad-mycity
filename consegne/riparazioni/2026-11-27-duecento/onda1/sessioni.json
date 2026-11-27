@@ -82,6 +82,16 @@
         "R09",
         "R10"
       ]
+    },
+    "K03": {
+      "id": "session_015BmpnVPPGx99q7A4c57EGb",
+      "ramo": "ccr-819e0c8d-7ryjjr-k03",
+      "partenza": "2c94bf42d50ba0af428e00d546176833e8ba3632",
+      "riparatori": [
+        "R04",
+        "R05",
+        "R08"
+      ]
     }
   }
 }

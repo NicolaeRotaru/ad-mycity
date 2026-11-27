@@ -19,3 +19,11 @@ finita R07
 finita R09
 finita R10
 ferma R05 85bcea0
+finita R01
+finita R02
+finita R04
+finita R05
+finita R06
+ramo R08 ccr-819e0c8d-7ryjjr-m08
+finita R08
+ramo K02 ccr-819e0c8d-7ryjjr-k02
