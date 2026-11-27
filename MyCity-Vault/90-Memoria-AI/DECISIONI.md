@@ -1641,3 +1641,10 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Non fatto:** niente prezzi nelle grafiche; nessun nome ai piatti incerti (la tortilla con verdure e i gamberi restano fuori). Ho usato solo nomi del menu del sito o detti da Nicola: burrito, fajitas e i loro sei nomi, nachos, griglia, churros, brownie, Oreo cake, margarita frozen alla fragola.
 - **Bloccato:** caricamento su Drive e proposte nel Calendario. Lo spostamento sull'ambiente «SDG» è stato rifiutato in chat e non l'ho richiesto. Lettura di Drive e del Calendario fatta lo stesso dallo strumento MCP di n8n; la strada è scritta nella procedura.
 - **Da verificare con Nicola:** le foto hanno dieci anni. Piatti e dolci potrebbero non essere più nel menu: un pezzo con un piatto che non c'è più si rifiuta su Telegram.
+
+## 2026-11-27 23:41 — Unita la PR del sito nel link del venditore (🔴)
+- **Chi e quando:** Nicola in chat all'AD il 27/11 verso le 23:40. Ha scritto: «sì, unisci la 358». Sessione session_01R8112Lh8bxtpgSCWy2ESsy, PR mycity#358.
+- **Cosa:** quando il titolare apre il link del preventivo vede il suo sito già pronto, sopra i tre abbonamenti. In Admin c'è la pagina «Lavoro dei clienti», in sola lettura. Merge 63031fc1 sulla testa 19176d19.
+- **Verifica:** 11 controlli verdi sulla PR. Batteria intera in locale: 14.528 prove passate, 1 saltata. Due collaudi indipendenti: un grave trovato e corretto, il riquadro che prometteva il sito Business anche col Base.
+- **Colore:** 🔴, unione che va online, fatta sulla firma esplicita di Nicola.
+
