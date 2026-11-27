@@ -11,3 +11,5 @@ ferma R07 bbe7165
 ramo R10 ccr-819e0c8d-7ryjjr-m10
 ramo R11 ccr-819e0c8d-7ryjjr-m11
 ferma R04 9382fe0
+ferma R06 b3fab50
+finita R12
