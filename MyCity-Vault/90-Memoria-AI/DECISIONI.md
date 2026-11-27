@@ -1642,6 +1642,12 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Bloccato:** caricamento su Drive e proposte nel Calendario. Lo spostamento sull'ambiente «SDG» è stato rifiutato in chat e non l'ho richiesto. Lettura di Drive e del Calendario fatta lo stesso dallo strumento MCP di n8n; la strada è scritta nella procedura.
 - **Da verificare con Nicola:** le foto hanno dieci anni. Piatti e dolci potrebbero non essere più nel menu: un pezzo con un piatto che non c'è più si rifiuta su Telegram.
 
+## 2026-11-27 23:12 — Applicate in produzione la 999c, la 999d e la 999f: ordine a SDG, prezzi 300/600/900, segno dell'email (🔴, firma di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD (session_01R8112NYQ3s6UrYKRZCZdxA), 27/11 verso le 22:45: «Applica tutte le migrazioni». Prima l'AD aveva fermato la 999d, perché cambia due prezzi ed era entrata in main dopo il suo «applica le migrazioni» delle 19:00.
+- **Cosa:** su main (a029cd7e) mancavano 3 migrazioni su 261. La 999c crea la tabella `ordini_sdg` e due colonne del preventivo (`lavoro`, `agente_email`). La 999d porta i prezzi SDG a Base 300, Business 600, Premium 900 euro. La 999f mette il segno `email_di_sistema` agli utenti con un preventivo. Nessuna cancella dati. Preferiti sui prodotti SDG: 0, quindi l'avviso «prezzo abbassato» non è partito per nessuno. Lanciato «Migrazioni a mano» con APPLICA / 3 / 999f: esecuzione 46072967937, partita alle 22:51, tutta verde alle 23:12.
+- **Verifica:** in sola lettura alle 23:11 e alle 23:20: registro a 344 righe con 999c, 999d e 999f; tabella `ordini_sdg` e le due colonne presenti; prezzi 300 / 600 / 900; 3 utenti col segno; 0 negozi senza segno.
+- **Non toccati:** i due abbonamenti in contanti già venduti restano a 500 euro al mese (canone 50000). Decide Nicola.
+- **Colore:** 🔴, eseguito sulla firma esplicita di Nicola.
 ## 2026-11-27 23:15 — La parola «digitalizzare» si può usare anche col negoziante
 - **Chi e quando:** Nicola, in chat all'AD, il 27/11 verso le 23:10. Sessione session_01R8112LANAw9VhLSs2fAbsL.
 - **Le sue parole:** «la parola «digitalizzare» si può usare anche col negoziante, sul sito e nei volantini». Rispondeva alla domanda dell'AD fatta dopo il salvataggio del concetto.
