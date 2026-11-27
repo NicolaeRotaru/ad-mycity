@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-11-27 17:39",
+  "aggiornato": "2026-11-27 18:35",
   "scansioni": [
     {
       "quando": "2026-08-25 20:35",
@@ -8768,6 +8768,96 @@
         "lib/agenzia/preventivo-col-codice.ts": "0742ba7f3588",
         "lib/agenzia/richiesta-dal-sito.ts": "f0cb5837714e",
         "lib/email/templates.ts": "70abc962bf85"
+      }
+    },
+    {
+      "quando": "2026-11-27 18:35",
+      "casa": "marketplace",
+      "dimensione": "api-backend",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "app/api/preventivo/[codice]/accetta/route.ts": "6c0ae1cb025f",
+        "app/api/seller/visita-sdg/route.ts": "5c22c8592928"
+      }
+    },
+    {
+      "quando": "2026-11-27 18:35",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 4,
+      "schede": [
+        "Un orario rifiutato dal server restava mostrato libero nella pagina del link",
+        "«Cosa succede dopo» diceva «già attivo» anche col pagamento online e «il giorno che scegli» a calendario pieno",
+        "Il nome accessibile dei giorni della visita non conteneva la scritta visibile",
+        "Se l'ultima ora libera la prendeva un altro, il titolare restava bloccato"
+      ],
+      "nota": "",
+      "file": {
+        "app/admin/preventivi/page.tsx": "d0d1079dc7f3",
+        "app/preventivo/[codice]/ConfermaAbbonamento.tsx": "42a32fad4613",
+        "app/preventivo/[codice]/page.tsx": "0c87a2d6bc8b",
+        "app/seller/abbonamento/page.tsx": "da60dd9e222a",
+        "components/seller/VisitaSdg.tsx": "8c03f1f8d877"
+      }
+    },
+    {
+      "quando": "2026-11-27 18:35",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 2,
+      "schede": [
+        "Il calendario della visita di SDG proponeva i giorni di festa",
+        "Visite di SDG attaccate senza tempo per spostarsi"
+      ],
+      "nota": "",
+      "file": {
+        "lib/agenzia/preventivo-col-codice.ts": "cf7fc6b7cf0a",
+        "lib/agenzia/visita-sdg.ts": "58625ef9595d",
+        "lib/database.types.ts": "9a8c068f9c2b",
+        "lib/email/templates.ts": "ccfefdf56ba1"
+      }
+    },
+    {
+      "quando": "2026-11-27 18:35",
+      "casa": "marketplace",
+      "dimensione": "rls-database",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "Senza la migrazione 999b la stessa ora della visita si dà a due attività"
+      ],
+      "nota": "",
+      "file": {
+        "migrations/999b_il_giorno_della_visita_di_sdg.sql": "1a4ee9d93765"
+      }
+    },
+    {
+      "quando": "2026-11-27 18:35",
+      "casa": "marketplace",
+      "dimensione": "sicurezza-auth",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "Le visite di SDG fissate non si rileggevano da nessuna parte"
+      ],
+      "nota": "",
+      "file": {
+        "app/api/admin/preventivi-col-link/route.ts": "c41e1eeb590e"
       }
     }
   ]

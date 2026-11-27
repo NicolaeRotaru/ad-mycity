@@ -1560,6 +1560,17 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Verifica:** in sola lettura alle 15:25: le 20 nel registro, le funzioni e le tabelle di 910, 916, 940 e 961, colonna e indice della 999, testo della 863 sui tre prodotti.
 - **Colore:** 🔴, eseguito sulla firma esplicita di Nicola.
 
+## 2026-11-27 18:00 — Nel link del preventivo il titolare sceglie anche il giorno della visita di SDG
+- **Cosa:** nella pagina /preventivo/<codice>, dove il titolare conferma abbonamento ed email col codice, ora sceglie anche giorno e ora della prima visita del team creativo di SDG (piano editoriale, foto e video), e legge «Cosa succede dopo». Il giorno si salva sul preventivo (`visita_il`, migrazione 999b, una attività per ora), va nell'avviso a Nicola, nell'email al titolare e in cima a /seller/abbonamento. Ramo `ccr-96d27df4-51gd0d` di mycity, sopra `claude/adoring-fermat-2d0bi6`.
+- **Perché:** richiesta di Nicola del 27/11 verso le 17:40 («dentro in quel reparto link dove lui conferma le mail dell'abbonamento deve esserci anche il calendario»). Giorni e orari sono una scelta dell'AD, lontani dalle ore di punta di bar e ristoranti, da confermare con Nicola e SDG.
+- **Colore:** 🟡 codice in un ramo, con PR; nessun rilascio. La migrazione 999b la applica Nicola. Le «2 settimane gratuite» dette da Nicola NON sono state applicate: il registro dice primo mese a metà prezzo (🔴, prezzi), da chiarire con lui.
+## 2026-11-27 17:35 — Il sito Business del Caffè di Piacenza nella sua voce «Sito web» (🟡)
+- **Chi e quando:** Nicola in chat all'AD, il 27/11 verso le 17:05. Sessione session_01R8112Lh8bxtpgSCWy2ESsy. Ha chiesto la versione business del sito. «Nella voce del menu sito web ci deve essere già il suo sito web versione business.» E: «entrambi i siti web devono già essere su Vercel».
+- **Cosa:** dalla bozza (artifact «Caffè di Piacenza») un sito di cinque pagine vere, con dati per Google, anteprima per WhatsApp, barra «Chiama / Indicazioni» sul telefono, mappa, collegamento alla vetrina. Nel marketplace il lavoro consegnato della sessione SDG ora vale per ogni negozio. Il Caffè c'è con la fascia Business, e il suo sito si vede dal vivo quando è online. La politica di sicurezza apre solo gli indirizzi esatti dei siti online.
+- **Perché:** il Caffè è iscritto dal 27/11 alle 16:45, con l'abbonamento Business attivo e pagato in contanti. Il Business promette «un sito completo di più pagine, col tuo nome».
+- **Limiti:** niente prezzi e niente dati inventati; orari, menu e storia restano «da confermare» e il sito è nascosto a Google finché il titolare non dice sì. Vercel non pubblicato: il collegamento non può creare progetti (403).
+- **Colore:** 🟡: codice in un ramo, PR da unire da Nicola; la pubblicazione su Vercel ha la sua firma in chat.
+
 ## 2026-11-27 18:15 — Salvato il concetto di MyCity su richiesta di Nicola
 - **Chi e quando:** Nicola, in chat all'AD, il 27/11 verso le 18:11. Sessione session_01R8112LANAw9VhLSs2fAbsL.
 - **Le sue parole:** «Questo va salvato come concetto: mycity si occupa di digitalizzare le attività locali e promuovere i loro servizi e prodotti attraverso il marketplace».
