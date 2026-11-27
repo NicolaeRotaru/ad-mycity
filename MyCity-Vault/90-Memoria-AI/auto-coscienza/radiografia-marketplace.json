@@ -410,7 +410,7 @@
   "fonti_non_lette": [],
   "sintesi": "Il problema più grave trovato oggi era una chiave del database leggibile da chiunque, e Nicola l'ha già spenta. Dei difetti nuovi nessuno è bloccante, ma il rimborso di un ordine in contanti va ancora fatto a mano, fuori dal sito.",
   "meta": {
-    "findings": 3634,
+    "findings": 3637,
     "bloccanti": 37,
     "gravi": 685,
     "minori": 2896,
@@ -102723,7 +102723,7 @@
       "dimensione": "architettura",
       "reparto": "Flussi critici",
       "severita": "grave",
-      "stato": "aperto",
+      "stato": "riparato",
       "titolo": "Dopo che il titolare accetta il preventivo un nuovo invio dello stesso negozio crea un secondo negozio",
       "file": "lib/agenzia/nuova-attivita.ts",
       "descrizione": "Quando il titolare accetta dal link, accettaPreventivoColCodice sostituisce l'email di sistema con quella vera. Da quel momento un nuovo invio dal modulo 12, o una nuova pressione di «Aggiungi attività», trova libera l'email di sistema: createUser riesce e nasce un secondo utente col suo profilo e il suo link. Il controllo «ha già accettato» non viene mai raggiunto, e attivitaGiaIscritta non lo vede. C'era già prima della correzione del 27/11: il collaudo l'ha misurato identico sul codice vecchio (finta base dati: 201, utenti 2, negozi «Bar Prova» 2, link 2).",
@@ -102731,9 +102731,12 @@
       "fix": "Salvare alla createUser app_metadata.email_di_sistema e farla riconoscere alla ricerca per email (utenteDallEmail, arriva con NicolaeRotaru/mycity#346) anche dopo il cambio di email; nel ramo dell'utente ritrovato, se lo stato del link non è 'aperto', rispondere «ha già accettato». Per gli utenti già iscritti serve aggiungere il dato a posteriori (migrazione: con la firma di Nicola).",
       "fonte": "collaudo indipendente della correzione di iscriviAttivita (attività rimasta a metà), 2026-11-27 01:50 (repo mycity, ramo claude/wonderful-hamilton-b62kpl, richiesta NicolaeRotaru/mycity#345, poi tenuta la #346)",
       "verifica": {
-        "tipo": "umano",
-        "come": "Prova in tests/unit/il-modulo-12-iscrive-un-cliente-nuovo-in-mycity.test.ts: iscrivi «Bar Prova», simula l'accettazione (email dell'utente cambiata), rimanda lo stesso invio: deve rispondere 409 «ha già accettato» con un solo utente e un solo link. Oggi risponde 201 e crea il doppione."
-      }
+        "tipo": "comando",
+        "comando": "npx vitest run tests/unit/il-modulo-12-iscrive-un-cliente-nuovo-in-mycity.test.ts",
+        "nota": "Nel repo mycity. Sei casi nuovi, tutti rossi sul main 6d22756 (expected 201 to be 409) e verdi con la correzione: accettazione e rinvio (409, 1 utente, 1 link), omonimi dopo l'accettazione, preventivo chiuso, utenti non leggibili, tetto della ricerca, due primi invii insieme. Collaudo a due lenti: 13 mutazioni, 10 rosse, 2 chiuse con prove nuove, 1 equivalente."
+      },
+      "chiuso_il": "2026-11-27 20:58",
+      "chiuso_da": "PR NicolaeRotaru/mycity#356 · b0d6448 / da08ceb (si chiude davvero con l'unione). Ai negozi iscritti prima il segno lo dà la migrazione 999f in NicolaeRotaru/mycity#357, che aspetta la firma di Nicola"
     },
     {
       "dimensione": "architettura",
@@ -102751,14 +102754,16 @@
       "dimensione": "architettura",
       "reparto": "Flussi critici",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "titolo": "Il controllo degli omonimi di «Aggiungi attività» non vede un'attività rimasta a metà",
       "file": "lib/agenzia/nuova-attivita.ts",
       "descrizione": "attivitaGiaIscritta (entrata con NicolaeRotaru/mycity#343) cerca l'attività passando dal link col codice e dal nome nel profilo. Su un'attività rimasta a metà quei dati non ci sono: «Bar Prova, Via Roma 1» col link caduto, poi un altro agente preme «Bar Prova, Via Milano 9» → 201, i due negozi si fondono e l'indirizzo diventa Via Milano 9.",
       "impatto": "Raro (serve un primo invio caduto più un omonimo nella stessa città), ma fonde due negozi diversi.",
       "fix": "Lo ripara NicolaeRotaru/mycity#346 (27/11): attivitaGiaIscritta cerca anche dall'email, solo fra gli utenti creati dal sito (bloccati), e legge store_address dal profilo. La voce si chiude quando la #346 è unita.",
       "fonte": "collaudo indipendente della correzione di iscriviAttivita (attività rimasta a metà), 2026-11-27 01:50 (repo mycity, ramo claude/wonderful-hamilton-b62kpl, richiesta NicolaeRotaru/mycity#345, poi tenuta la #346)",
-      "dove_si_ripara": "NicolaeRotaru/mycity#346"
+      "dove_si_ripara": "NicolaeRotaru/mycity#346",
+      "chiuso_il": "2026-11-27 20:58",
+      "chiuso_da": "PR NicolaeRotaru/mycity#346, unita il 2026-11-27 alle 02:52: attivitaGiaIscritta cerca anche dall'email fra gli utenti creati dal sito (lib/agenzia/nuova-attivita.ts, main 6d22756)"
     },
     {
       "dimensione": "architettura",
@@ -102975,6 +102980,42 @@
       "stato": "riparato",
       "chiuso_il": "2026-11-27 18:35",
       "chiuso_da": "PR #351 · ac8c721c / 832f9a41 (si chiude davvero con l'unione)"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "Flussi critici",
+      "severita": "minore",
+      "stato": "aperto",
+      "file": "app/api/agente/aggiungi/route.ts",
+      "fonte": "collaudo indipendente a due lenti della correzione del negozio doppio dopo l'accettazione, 2026-11-27 20:40 (repo mycity, ramo claude/doppione-dopo-accettazione, PR NicolaeRotaru/mycity#356)",
+      "titolo": "Su un preventivo chiuso da Nicola il modulo 12 e il pulsante rispondono «ha già accettato»",
+      "descrizione": "Con la correzione del negozio doppio, un link con stato diverso da 'aperto' risponde gia-con-accesso. Il modulo 12 (app/api/agenzia/nuova-attivita/route.ts:61) e il pulsante (app/api/agente/aggiungi/route.ts:94) traducono quel motivo sempre con «ha già accettato il preventivo», anche per un preventivo chiuso. Nessuna parte del codice scrive stato 'chiuso': oggi succede solo con una modifica a mano sul database.",
+      "impatto": "L'agente può dire al titolare che è già dentro MyCity quando non lo è. Prima rispondeva 200 con un link morto, quindi oggi è meglio di prima.",
+      "fix": "Un motivo suo per il preventivo chiuso (per esempio 'preventivo-chiuso'), con un testo che dice di scrivere a Nicola."
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "Flussi critici",
+      "severita": "minore",
+      "stato": "aperto",
+      "file": "lib/agenzia/nuova-attivita.ts",
+      "fonte": "collaudo indipendente a due lenti della correzione del negozio doppio dopo l'accettazione, 2026-11-27 20:40 (repo mycity, ramo claude/doppione-dopo-accettazione, PR NicolaeRotaru/mycity#356)",
+      "titolo": "Oltre 10.000 utenti ogni nuova iscrizione di un negozio risponde «Riprova fra poco»",
+      "descrizione": "iscriviAttivita legge gli utenti di Supabase Auth a pagine da 1000, al massimo 10, prima di creare un negozio. Se la ricerca tocca il tetto senza arrivare alla pagina vuota non crea niente e risponde guasto (503), per non creare un doppione alla cieca. Il pulsante legge due volte (attivitaGiaIscritta e iscriviAttivita): vicino al tetto sono fino a 20 letture dentro un limite di 60 secondi.",
+      "impatto": "Da 10.000 utenti in su il modulo 12 e il pulsante non iscrivono più negozi. In memoria i profili erano 8 ad agosto: lontanissimo.",
+      "fix": "Prima dei 5.000 utenti, una ricerca nel database su raw_app_meta_data->>'email_di_sistema' e sull'email (funzione SQL o colonna con indice), come ha fatto la migrazione 940. Serve una migrazione con la firma di Nicola."
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "Flussi critici",
+      "severita": "minore",
+      "stato": "aperto",
+      "file": "lib/agenzia/nuova-attivita.ts",
+      "fonte": "collaudo indipendente a due lenti della correzione del negozio doppio dopo l'accettazione, 2026-11-27 20:40 (repo mycity, ramo claude/doppione-dopo-accettazione, PR NicolaeRotaru/mycity#356)",
+      "titolo": "I negozi che avevano già accettato prima della correzione possono ancora nascere doppi",
+      "descrizione": "La correzione riconosce un negozio dal segno app_metadata.email_di_sistema. I negozi iscritti prima non ce l'hanno. Finché il titolare non accetta, li ritrova dall'email finta; dopo l'accettazione no. La migrazione 999f (NicolaeRotaru/mycity#357) dà il segno a chi ha ancora l'email finta. A chi ha già accettato quasi certamente no, perché GoTrue riscrive anche l'identità quando cambia l'email.",
+      "impatto": "Per un negozio che aveva già accettato prima della correzione, un nuovo invio dal modulo 12 o dal pulsante crea ancora un secondo negozio nascosto. Quanti sono non è misurato: da qui non c'era accesso al database.",
+      "fix": "Applicata la 999f, contare con la query in testa al file i negozi senza segno e scrivere il segno a mano per ognuno (l'email di emailDiSistema col nome e la città dell'iscrizione). In alternativa, dare il segno nel codice quando l'utente si riconosce dall'email finta e il segno manca: è una scrittura su Supabase Auth, decisione di Nicola."
     }
   ],
   "sync_scan": {
@@ -102982,16 +103023,16 @@
     "letto": true,
     "motivo": null,
     "forma": "elenco",
-    "findings_aperti": 561,
-    "findings_chiusi": 3073,
-    "findings_tot": 3634,
+    "findings_aperti": 562,
+    "findings_chiusi": 3075,
+    "findings_tot": 3637,
     "aperti_per_severita": {
       "bloccante": 4,
-      "grave": 68,
-      "minore": 489,
+      "grave": 67,
+      "minore": 491,
       "altre": 0
     },
-    "dichiarati_dal_referto": 3634,
+    "dichiarati_dal_referto": 3637,
     "divergenza_dal_dichiarato": 0,
     "data_scan": "2026-11-06",
     "nota": "Per trovare difetti NUOVI serve un nuovo audit marketplace; i fix sul codice non riaprono da soli la lista. Gli aperti qui sono quelli del referto in archivio, aggiornati dai lotti di riparazione."
