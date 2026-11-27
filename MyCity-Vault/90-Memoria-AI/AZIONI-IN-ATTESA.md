@@ -2230,6 +2230,18 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 > la conferma del dato dal negozio (restano «da procurare», non li scrive nessun autofill).
 <!-- SUPERVISIONE-NEGOZI:FINE -->
 
+## Correggi la didascalia di due post del Tropico che chiamano sangria il frozen alla fragola (aggiunta 2026-11-27 22:25)
+- **Reparto:** @content-social, con l'AD.
+- **Colore:** 🟡. Si cambia il testo di post già pubblicati sulle pagine di un cliente: niente si elimina, ma lo vedono i suoi clienti.
+- **Il perché:** alle 21:48 Nicola ha detto che il drink rosso nella caraffa (foto 0307) è un margarita frozen alla fragola, non una sangria. Due post usciti il 26/11 lo mettono accanto alla parola sangria.
+- **Contenuto, post 1 · il carosello «Bienvenidos al bancone» (26/11 14:55).** Nei testi si scrive solo «margarita frozen», senza «alla fragola» (Nicola, 27/11 verso le 22:35). Nella didascalia cambia una frase. Prima: «La sangria c'è anche in caraffa, da dividere al tavolo.» Dopo: «Anche il margarita frozen c'è in caraffa, da dividere al tavolo.» L'hashtag `#sangria` diventa `#margarita`. Link: instagram.com/p/DgNQvXNijOb · instagram.com/p/DgNRX1NioZ8 · facebook.com/122109746361543064/posts/122112444549543064 · facebook.com/1677537854385261/posts/1677560664382980
+- **Contenuto, post 2 · il reel «Una sera al Tropico» (26/11 14:15).** Nella didascalia, «un margarita, la sangria,» diventa «un margarita classico e uno frozen,». Link: instagram.com/reel/DgNMJdltQtp · instagram.com/reel/DgNNWZtSOqc · facebook.com/reel/2380643796108279 · facebook.com/reel/1534300138526276
+- **Come:** su Instagram la didascalia si cambia solo dall'app (tre puntini sul post → Modifica): quattro modifiche, due per account. Su Facebook la cambio io col flusso «AD · Calendario e Meta (a mano)», dopo il tuo via.
+- **Cosa cambia:** chi guarda i due post del Tropico non legge più «sangria» accanto alla caraffa del margarita frozen, su nessuna delle quattro pagine.
+- **Se va bene:** niente altro da fare: le nuove grafiche passano dal controllo dei nomi prima di uscire.
+
+---
+
 ## Dai a Claude il permesso di pubblicare su Vercel (aggiunta 2026-11-27 17:35)
 - **Reparto:** @devops-sre, con l'AD.
 - **Colore:** 🟡. Il via a pubblicare i due siti l'hai già dato in chat il 27/11 verso le 17:05; manca solo il permesso tecnico.
