@@ -5,8 +5,8 @@
   "R09",
   "R10"
  ],
- "aggiornato": "2026-11-27 04:15",
- "finita": false,
+ "aggiornato": "2026-11-27 03:48",
+ "finita": true,
  "voci": [
   {
    "id": "R07-001",
@@ -123,6 +123,88 @@
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /tmp/claude-0/-home-user-ad-mycity/998fdb55-dcb0-5e71-8bbd-5a0f7326fed0/scratchpad/wt-R09 --base 491c92a4^ --file app/product/[id]/page.tsx,app/product/[id]/opengraph-image.tsx --prove tests/unit/riparazione-r09-direttive-morte-nei-file-della-scheda-prodotto.test.ts --json"
    },
    "nota": "Il pezzo fatto è vero: tolte 2 direttive morte (page.tsx:976, opengraph-image.tsx:85); eslint sui due file dà 0 errori e gli stessi 4 avvisi della base, meno i due «Unused eslint-disable». Mutanti: una direttiva morta aggiunta in opengraph-image.tsx e un no-explicit-any a livello file in page.tsx → rossi. Regge come parziale, ma la voce resta quasi tutta aperta: no-explicit-any ancora a warn in .eslintrc.json per 16 file, 36 any, 29 direttive morte in file altrui, tsconfig. tsc non lanciato (tolte solo righe di commento)."
+  },
+  {
+   "id": "R09-002",
+   "chiave": "architettura|una prova sul webhook di stripe controlla l'ordine delle righe cercando una parola, e basta togliere uno spazio per ingannarla",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "55e47c0 è antenato della base; alla base tests/unit/riparazione-r09-la-prova-del-webhook-non-si-inganna.test.ts usa già marcatureDellaRotta sull'albero TS e webhook-diviso-per-mestiere.test.ts conta chiave calcolata, forma breve e assegnazione; 15 su 15 verdi. Limite noto e dichiarato nel commento della prova: una marcatura fatta da un aiutante importato, una chiave composta ('proc'+'essed') o uno spread di JSON.parse non si vedono; restano alle prove che eseguono il webhook."
+  },
+  {
+   "id": "R09-004",
+   "chiave": "architettura|la frase della zona vive in quattro posti (cassa, spedizioni, rifiuto, tendina della posizione) piu' faq e «vicino a te»: le tiene allineate solo una prova",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /tmp/claude-0/-home-user-ad-mycity/998fdb55-dcb0-5e71-8bbd-5a0f7326fed0/scratchpad/wt-R09 --base 23d5a7bf^ --file lib/ordini/zona-di-consegna.ts --prove tests/unit/riparazione-r09-la-frase-della-zona-cosa-resta.test.ts --json"
+   },
+   "nota": "La prova rimessa morde, ma su un commento: il commit 23d5a7bf cambia 8 righe di commento in lib/ordini/zona-di-consegna.ts e due prove, nessuna riga eseguibile. Per chi usa il sito non cambia niente. I quattro posti della voce (cassa, Spedizioni, rifiuto, tendina) leggevano già la fonte unica alla base (4 su 4, 6 su 6 con FAQ e «Vicino a te»). Restano 4 copie scritte a mano: app/near/layout.tsx:7, app/category/[slug]/layout.tsx:18, components/home-sections/HomeSectionRenderer.tsx:83, app/about/page.tsx:32; mettendo «5 km» fisso in about/page.tsx:32 le prove restano verdi."
+  },
+  {
+   "id": "R09-005",
+   "chiave": "architettura|il conto del carrello ha una seconda copia che nessuna pagina usa, e la prova «lo schermo fa lo stesso conto del server» controlla proprio quella",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 2,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /tmp/claude-0/-home-user-ad-mycity/998fdb55-dcb0-5e71-8bbd-5a0f7326fed0/scratchpad/wt-R09 --base 2ba05a74de2e9ad96fa94178df89711923119b0e --file components/checkout/useTotaliCarrello.ts --json (⛔ manca --prove: la voce non ha commit né prova; il file è identico alla base)"
+   },
+   "nota": "Nessun commit. Vero che la prova controlla già il conto vero, riepilogoDaMostrare (app/checkout/page.tsx:23, :826): due mutanti su lib/ordini/riepilogo-cassa.ts:84 la fanno rossa. Ma la seconda copia components/checkout/useTotaliCarrello.ts esiste ancora e due prove comuni la certificano (la-consegna-costa-3-o-4-euro-per-negozio.test.ts:4, la-consegna-e-una-sola-per-tutto-il-carrello.test.ts:50); mancano il guardiano CI sui moduli orfani e la decisione sulle due rotte AI. Il referto lo dice onestamente."
+  },
+  {
+   "id": "R09-007",
+   "chiave": "architettura|anche il freno della veloce trova il carrello in contanti solo dalla riga di cod_checkout_attempts",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 2,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /tmp/claude-0/-home-user-ad-mycity/998fdb55-dcb0-5e71-8bbd-5a0f7326fed0/scratchpad/wt-R09 --base 2ba05a74de2e9ad96fa94178df89711923119b0e --file lib/ordini/veloce-non-confermata.ts --json (⛔ manca --prove: la voce non ha commit né prova; il file è identico alla base)"
+   },
+   "nota": "Nessun codice cambiato: il difetto è intatto in lib/ordini/veloce-non-confermata.ts:206-216 (senza la riga del tentativo si segnala e si restituisce null). Serve una migrazione, e la regola dell'onda vuole la voce parziale con l'SQL esatto nella nota: c'è, ed è coerente con migrations/122_radiografia_20_agosto.sql:394-399 (chiave, user_id, order_ids jsonb) e con orders.user_id; cod_cart_key non esiste ancora; il numero 1080 è libero. Non eseguito l'SQL e non verificato se l'UPDATE su orders fa scattare trigger."
+  },
+  {
+   "id": "R09-011",
+   "chiave": "layout-responsive|alla cassa, col testo del telefono al massimo, la scheda «contanti alla consegna» esce dallo schermo e la pagina scorre di lato",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Righe presenti alla base (PaymentMethodSelector.tsx:106, :127; app/checkout/page.tsx:1602). Provato davvero: il selettore renderizzato in Chromium col CSS del sito e il testo al 200%, a 390 e 360 px non scorre di lato; il mutante senza min-w-0 a 390 px scorre (407 su 390). A 320 px col 200% scorre ancora di 2 px per il bollino «Zero rischio» di components/ui/Badge.tsx: è la voce separata R07-003 (non fatta in quest'onda), già dichiarata nella prova r26. Montato solo il selettore, non la pagina intera."
+  },
+  {
+   "id": "R09-012",
+   "chiave": "microcopy|in tanti punti l'euro è ancora scritto all'inglese: «€12.50», «€0 – €500+», «€ 2,50»",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 2,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /tmp/claude-0/-home-user-ad-mycity/998fdb55-dcb0-5e71-8bbd-5a0f7326fed0/scratchpad/wt-R09 --base 2ba05a74de2e9ad96fa94178df89711923119b0e --file lib/format.ts --json (⛔ manca --prove: la voce non ha commit né prova; il file è identico alla base)"
+   },
+   "nota": "Nessun commit. Nei suoi 8 file il grep dà 0 e nemmeno forme alternative trovano niente. Ma l'esempio stesso della voce, «€0 – €500+», è ancora vivo in app/search/page.tsx:295 e app/category/[slug]/page.tsx:341; sul sito il suo grep trova 77 righe non di commento (il referto ne dichiara 74). Forme che quel grep non vede producono «12.50 €» col punto: app/api/returns/[id]/avanza/route.ts:327, app/api/returns/[id]/decide/route.ts:143, lib/rimborsi/regole-del-rimborso.ts:457. Tutti file altrui."
   },
   {
    "id": "R09-013",
