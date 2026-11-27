@@ -1671,3 +1671,8 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Verifica:** 11 controlli verdi sulla PR. Batteria intera in locale: 14.528 prove passate, 1 saltata. Due collaudi indipendenti: un grave trovato e corretto, il riquadro che prometteva il sito Business anche col Base.
 - **Colore:** 🔴, unione che va online, fatta sulla firma esplicita di Nicola.
 
+## 2026-11-28 00:44 — Unita la riparazione di «Esci» che lasciava la pagina su «Caricamento…» (🔴)
+- **Chi e quando:** Nicola in chat all'AD il 28/11 alle 00:43. Aveva scritto «la pagina continua a caricarsi all'infinito»; alla domanda ha risposto che è il caso dopo «Esci» e «sì, mettila online». Sessione session_01R8112LbktuXLFPYd4xLh8V, PR mycity#361.
+- **Cosa:** ogni tasto «Esci» del sito (area amministratore, negozio, fattorino, account, cambio password) chiude la sessione e cambia pagina una volta sola, senza il «rinfresca» che Next agganciava a un cambio pagina scartato. Merge f020a34a sulla testa b3f82d33. La riparazione l'ha costruita la sessione session_015BmpnVTZZTYbKEpXbPK5wx, che da qui non si vede.
+- **Verifica:** 11 controlli verdi sulla PR, unione senza conflitti. Collaudo indipendente della sessione che l'ha costruita: «regge», 10 varianti del difetto provate. Sul sito vero l'uscita non l'ho provata: serve un account, la prova la fa Nicola dal telefono.
+- **Colore:** 🔴, unione che va online, fatta sulla firma esplicita di Nicola.
