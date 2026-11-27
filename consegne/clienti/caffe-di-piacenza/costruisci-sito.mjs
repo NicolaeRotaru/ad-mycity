@@ -67,6 +67,7 @@ const esc = (t) => String(t).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&
 const hh = (m) => `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`;
 const giornoDic = (iso) => Number(iso.slice(8, 10));
 const MAPPA = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${L.nome}, ${L.via}, ${L.citta}`)}`;
+const EST = ' target="_blank" rel="noopener"'; // dentro il pannello MyCity il sito sta in un riquadro: i siti esterni si aprono a parte
 const OSM = `https://www.openstreetmap.org/export/embed.html?bbox=${L.lon - 0.003}%2C${L.lat - 0.0015}%2C${L.lon + 0.003}%2C${L.lat + 0.0015}&layer=mapnik&marker=${L.lat}%2C${L.lon}`;
 
 const PAGINE = [
@@ -191,13 +192,13 @@ ${corpo}
 <div><p class="piede-nome">${esc(L.nome)}</p><p class="small">Bar storico di Piazza Duomo</p><p class="small"><span class="stato-mini" data-stato>Orari: lunedì–sabato 7:30–19:30</span></p></div>
 <div><p>${esc(L.via)}, ${L.cap} ${esc(L.citta)}</p><p><a href="tel:${L.telefonoLink}">${esc(L.telefono)}</a></p><p><a href="mailto:${L.email}">${esc(L.email)}</a></p></div>
 <div><nav aria-label="Pagine del sito, in fondo" class="piede-nav">${PAGINE.map((q) => `<a href="${q.href}">${q.voce}</a>`).join('')}</nav>
-<p class="small">Ci trovi anche su <a href="${L.vetrina}">MyCity</a>, il marketplace dei negozi di Piacenza.</p>
-<p class="small">Sito realizzato da ${L.sdg ? `<a href="${L.sdg}">SDG Agenzia</a>` : 'SDG Agenzia'} per MyCity.</p></div>
+<p class="small">Ci trovi anche su <a href="${L.vetrina}"${EST}>MyCity</a>, il marketplace dei negozi di Piacenza.</p>
+<p class="small">Sito realizzato da ${L.sdg ? `<a href="${L.sdg}"${EST}>SDG Agenzia</a>` : 'SDG Agenzia'} per MyCity.</p></div>
 </div>
 </footer>
 <div class="azioni" aria-label="Azioni rapide">
 <a href="tel:${L.telefonoLink}">Chiama</a>
-<a href="${MAPPA}">Indicazioni</a>
+<a href="${MAPPA}"${EST}>Indicazioni</a>
 </div>
 </body>
 </html>
@@ -247,7 +248,7 @@ ${scena()}
 <div>
 <h2>Ti aspettiamo in piazza</h2>
 <p class="lead">${esc(L.via)}, sotto i portici, di fronte al Duomo. Il mercoledì e il sabato mattina la piazza si riempie con il mercato cittadino.</p>
-<div class="row"><a class="btn" href="tel:${L.telefonoLink}">Chiama lo ${esc(L.telefono)}</a><a class="btn ghost" href="${MAPPA}">Indicazioni</a></div>
+<div class="row"><a class="btn" href="tel:${L.telefonoLink}">Chiama lo ${esc(L.telefono)}</a><a class="btn ghost" href="${MAPPA}"${EST}>Indicazioni</a></div>
 </div>
 <div class="card"><h3>Orari</h3>${tabellaOrari()}<p class="muted fine">Orari in verifica con il titolare.</p></div>
 </div>
@@ -260,7 +261,7 @@ const BAR = `<section class="band intestazione"><div class="wrap"><p class="occh
 <p class="lead">${esc(L.nome)} è un bar storico della città, in Piazza Duomo, sotto i portici e di fronte alla cattedrale.</p>
 <p>Dal 2021 ha una nuova gestione, che ha tenuto lo spirito del caffè di piazza: servizio cortese, tavolini all'aperto riparati dal porticato e la vista sul Duomo dalla colazione al tardo pomeriggio.</p>
 <p>Il mercoledì e il sabato mattina la piazza si riempie con il mercato cittadino: è il momento giusto per un cappuccino al tavolo.</p>
-<div class="row"><a class="btn ghost" href="${L.tripadvisor}">Leggi le recensioni su Tripadvisor</a></div>
+<div class="row"><a class="btn ghost" href="${L.tripadvisor}"${EST}>Leggi le recensioni su Tripadvisor</a></div>
 </div>
 <div class="card">
 <h3>Da sapere</h3>
@@ -313,7 +314,7 @@ const CONTATTI = `<section class="band intestazione"><div class="wrap"><p class=
 <div class="row">
 <a class="btn" href="tel:${L.telefonoLink}">Chiama</a>
 <a class="btn ghost" href="mailto:${L.email}">Scrivi una email</a>
-<a class="btn ghost" href="${MAPPA}">Indicazioni</a>
+<a class="btn ghost" href="${MAPPA}"${EST}>Indicazioni</a>
 </div>
 </div>
 <div class="card">
@@ -327,7 +328,7 @@ ${tabellaOrari()}
 <section class="band mappa-band">
 <div class="wrap">
 <iframe class="mappa" title="Mappa: ${esc(L.nome)}, ${esc(L.via)}, ${esc(L.citta)}" src="${OSM}" loading="lazy" referrerpolicy="no-referrer"></iframe>
-<p class="muted fine"><a href="${MAPPA}">Apri in Google Maps</a> · mappa © OpenStreetMap</p>
+<p class="muted fine"><a href="${MAPPA}"${EST}>Apri in Google Maps</a> · mappa © OpenStreetMap</p>
 </div>
 </section>`;
 
@@ -492,7 +493,7 @@ const VERCEL = {
         { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
         { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
         // Il sito si vede anche dentro il pannello MyCity del negozio (voce «Sito web»): solo lì e qui.
-        { key: 'Content-Security-Policy', value: "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; frame-src https://www.openstreetmap.org; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'self' https://mycity-marketplace.com https://*.mycity-marketplace.com https://*.vercel.app http://localhost:3000" },
+        { key: 'Content-Security-Policy', value: "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; frame-src https://www.openstreetmap.org; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'self' https://mycity-marketplace.com https://*.mycity-marketplace.com" },
       ],
     },
     { source: '/assets/(.*)', headers: [{ key: 'Cache-Control', value: 'public, max-age=3600' }] },
