@@ -1,13 +1,225 @@
 {
  "collaudatore": "K02",
  "riparatori": [
+  "R02",
+  "R06",
   "R07",
   "R09",
   "R10"
  ],
  "aggiornato": "2026-11-27 03:48",
- "finita": true,
+ "finita": false,
  "voci": [
+  {
+   "id": "R02-003",
+   "chiave": "ai-endpoints|il segno di fine dell'applicazione del catalogo non lo scrive nessuno",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 2,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /tmp/claude-0/-home-user-ad-mycity/998fdb55-dcb0-5e71-8bbd-5a0f7326fed0/scratchpad/wt-R02 --base 2ba05a74de2e9ad96fa94178df89711923119b0e --file app/api/ai/catalog-batch/apply/route.ts --json (⛔ manca --prove: nessun commit né prova, serve una migrazione)"
+   },
+   "nota": "Nessun codice: serve la colonna catalog_ai_jobs.applicazione_finita_il, che non esiste (tabella in migrations/099, 119, 640). L'SQL e le due scritture in /apply sono nella nota, come vuole la regola dell'onda. Corretto non scrivere una colonna che non c'è: farebbe cadere /apply."
+  },
+  {
+   "id": "R02-004",
+   "chiave": "ai-endpoints|l attesa per un applicazione del catalogo ancora in corso non scatta mai: legge una colonna che nessuna migrazione crea",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /tmp/claude-0/-home-user-ad-mycity/998fdb55-dcb0-5e71-8bbd-5a0f7326fed0/scratchpad/wt-R02 --base ae45ed5b^ --file app/api/ai/catalog-batch/start/route.ts --prove tests/unit/riparazione-r02-attesa-applicazione.test.ts --json"
+   },
+   "nota": "Senza la colonna l'avvio ora aspetta davvero: al massimo 120 s da updated_at, che dopo /apply non cambia; un avvio subito dopo un'applicazione finita resta fermo fino a 120 s (dichiarato), mai per sempre (start/route.ts:128-165). 42703 e PGRST204 gestiti. Mutanti: tolto Date.now()- e tolto PGRST204 dal set → rossi. Prova comune riparazione-r13-avvio-durante-applicazione.test.ts: rossa sul ramo come atteso, verde con la modifica scritta nella nota (vedi R02-001)."
+  },
+  {
+   "id": "R02-005",
+   "chiave": "ai-endpoints|nella chat assistenza la scheda da approvare mostra nome e unità come li scrive il modello, non come li salva il server",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /tmp/claude-0/-home-user-ad-mycity/998fdb55-dcb0-5e71-8bbd-5a0f7326fed0/scratchpad/wt-R02 --base f323000a^ --file app/api/ai/catalog-chat/route.ts,lib/products/prontoPerLaVendita.ts --prove tests/unit/riparazione-r02-chat-nome-unita.test.ts --json"
+   },
+   "nota": "Scheda e server usano la stessa normalizzazione: nome di soli spazi → nessuna riga, nome di 200 caratteri tagliato a 120, spazi ai lati puliti, unità vuota, 'KG' e 'zzz' come il server. Mutanti: tolto il controllo unità nella rotta, tolto l'elenco unità in prontoPerLaVendita.ts → rossi."
+  },
+  {
+   "id": "R02-006",
+   "chiave": "ai-endpoints|i prodotti ripresi dalla via dei falliti consumano il permesso di riprovare già in selezione: se il giro li lascia fuori restano fermi altre sei ore",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /tmp/claude-0/-home-user-ad-mycity/998fdb55-dcb0-5e71-8bbd-5a0f7326fed0/scratchpad/wt-R02 --base fcdb029b^ --file app/api/cron/external-price-alerts/route.ts --prove tests/unit/riparazione-r02-falliti-permesso-riprovare.test.ts --json"
+   },
+   "nota": "Il permesso di riprovare si chiede solo dentro il giro e dopo il controllo del tempo: chi resta fuori non lo spende; sani e falliti sono insiemi disgiunti. Mutante: rifiuto del permesso ignorato → rosso (riparazione-r04-cron-prezzi-esterni-errore). Prova debole: togliendo il limite presi < BATCH nessuno dei 12 file del cron diventa rosso (senza limite, con pochi sani, fino a 4 volte BATCH chiamate AI). Residuo: il prodotto su cui il giro si ferma ha già speso il permesso (vedi R02-007)."
+  },
+  {
+   "id": "R02-007",
+   "chiave": "ai-endpoints|col budget ai finito il prodotto importato viene segnato in errore e resta frenato sei ore anche quando il budget torna",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /tmp/claude-0/-home-user-ad-mycity/998fdb55-dcb0-5e71-8bbd-5a0f7326fed0/scratchpad/wt-R02 --base e0de00c3^ --file app/api/cron/external-price-alerts/route.ts,app/api/products/[id]/external-refresh/route.ts --prove tests/unit/riparazione-r02-spesa-ai-non-e-errore-del-prodotto.test.ts --json"
+   },
+   "nota": "Fatto: con AiCallError tetto_spesa o spesa_sconosciuta, doRefresh rimette lo stato di prima (esce anche da pending) invece di 'error', e il giro a orario si ferma al primo senza segnare nessuno. Non chiuso: un prodotto già in errore, ripreso mentre il budget è finito, ha già speso il permesso delle sei ore prima della chiamata e resta frenato sei ore anche quando il budget torna; nel giro a orario succede al prodotto su cui il giro si ferma. È il sintomo della voce, per i prodotti già in errore: il referto lo dichiara come caso di bordo, ma lo dà riparato. La cura tocca lib/rate-limit.ts (file altrui)."
+  },
+  {
+   "id": "R02-009",
+   "chiave": "ai-endpoints|nella chat assistenza un tag che finisce con spazio e virgola compare come doppione sulla scheda ma il server non lo salva",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /tmp/claude-0/-home-user-ad-mycity/998fdb55-dcb0-5e71-8bbd-5a0f7326fed0/scratchpad/wt-R02 --base 165e5d95^ --file lib/products/aiPatch.ts --prove tests/unit/riparazione-r02-chat-tag-virgola.test.ts --json"
+   },
+   "nota": "tagDelPatch è idempotente con virgole, tab, a capo, doppi spazi; il punto e virgola non separa né sulla scheda né sul server (coerenti). Prova debole: cambiando [\\s,]+$ in [ ,]+$ (lib/products/aiPatch.ts:835) resta verde, nessuna prova copre tab o a capo finali."
+  },
+  {
+   "id": "R02-010",
+   "chiave": "ai-endpoints|il freno di sei ore sui prodotti importati in errore regge solo con upstash: senza, ogni copia del sito ripaga le chiamate ai",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 2,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /tmp/claude-0/-home-user-ad-mycity/998fdb55-dcb0-5e71-8bbd-5a0f7326fed0/scratchpad/wt-R02 --base 2ba05a74de2e9ad96fa94178df89711923119b0e --file lib/products/externalSync.ts --json (⛔ manca --prove: nessun commit né prova, serve una migrazione)"
+   },
+   "nota": "Nessun codice: serve products.external_sync_error_at, che non esiste; SQL nella nota e codice pronto nel commit 9136d212 (presente nel deposito). Strada senza codice dichiarata per Nicola: UPSTASH_REDIS_REST_URL e UPSTASH_REDIS_REST_TOKEN in produzione, con cui il freno regge già oggi."
+  },
+  {
+   "id": "R02-012",
+   "chiave": "stati-ui|il link al reclamo nella scheda ordine porta all'elenco filtrato sui reclami aperti e non mostra quelli in esame",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /tmp/claude-0/-home-user-ad-mycity/998fdb55-dcb0-5e71-8bbd-5a0f7326fed0/scratchpad/wt-R02 --base 5b198423^ --file app/admin/disputes/page.tsx --prove tests/unit/riparazione-r02-reclami-da-gestire.test.tsx --json"
+   },
+   "nota": "Il link della scheda ordine porta a /admin/disputes senza parametri, quindi al filtro di partenza, che ora è «Da gestire» (open più under_review); i filtri per singolo stato restano. Prova comune minori-s05-reclami-pagina.test.tsx: rossa sul ramo come atteso, verde con la modifica della nota (riga 92 «Aperto» → «Da gestire»)."
+  },
+  {
+   "id": "R02-013",
+   "chiave": "stati-ui|dopo «aggiorna stato» il riquadro stripe usa ancora la regola vecchia (incassi e versamenti) per il messaggio di conferma",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /tmp/claude-0/-home-user-ad-mycity/998fdb55-dcb0-5e71-8bbd-5a0f7326fed0/scratchpad/wt-R02 --base f14a7f0f^ --file components/seller/StripeConnectButton.tsx --prove tests/unit/riparazione-r02-stripe-aggiorna-stato.test.ts --json"
+   },
+   "nota": "Dopo «Aggiorna stato» il messaggio segue stripePronto (conto più versamenti), come il riquadro; gli incassi non contano; refresh-status risponde payouts=false senza conto, nessun falso verde. Mutante: aggiunto && charges_enabled → rosso."
+  },
+  {
+   "id": "R06-007",
+   "chiave": "api-backend|quando è il servizio delle mappe a rispondere «troppe richieste», la rotta della ricerca indirizzi risponde 200 senza coordinate e la pagina salva l'indirizzo come «posizione non trovata»",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /tmp/claude-0/-home-user-ad-mycity/998fdb55-dcb0-5e71-8bbd-5a0f7326fed0/scratchpad/wt-R06 --base 9d6dda4d^ --file app/api/geocode/route.ts --prove tests/unit/riparazione-r06-mappe-troppe-richieste.test.ts --json"
+   },
+   "nota": "Il 429 delle mappe resta 429 con error servizio_non_disponibile; la rubrica (app/profile/addresses/page.tsx:86) entra nel suo ramo 429: niente salvataggio, «riprova». Gli altri chiamanti: la cassa (ShippingAddressForm.tsx:80) tratta ogni !res.ok allo stesso modo, il picker distingue il proprio limite (vedi R06-015). Prova comune riparazione-r13-indirizzi-servizio-giu-rotta.test.ts: rossa sul ramo (1 su 7), verde con il diff della nota (7 su 7), che coincide col revert 79f5bb30; con la nota anche 113 file di prove sui file toccati da R06 sono verdi (748 prove)."
+  },
+  {
+   "id": "R06-008",
+   "chiave": "api-backend|doppio tocco sull annullo con la carta: il secondo dice «rimborso fallito» e manda agli amministratori un falso «carrello da sistemare a mano»",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /tmp/claude-0/-home-user-ad-mycity/998fdb55-dcb0-5e71-8bbd-5a0f7326fed0/scratchpad/wt-R06 --base 15fdcc9^ --file lib/ordini/annulla.ts --prove tests/unit/riparazione-r06-doppio-tocco-carta.test.ts --json"
+   },
+   "nota": "Nel catch del ramo carta, se sull'ordine risulta ora reso tutto il totale e più di quanto letto prima, l'esito è GIA_ANNULLATO e il carrello non si rimette; un reso parziale in mezzo resta RIMBORSO_FALLITO. Mutanti: contare come «tutto» anche un reso parziale (reso > 0) → rosso; togliere la condizione «più di quanto letto prima» → verde (la prova non la difende). Regge come parziale: il dubbio dichiarato dal riparatore (la scrittura di ricalcolaLaConsegnaDelGiro del secondo tocco a :333 resta senza rimetti) non è fissato da una prova."
+  },
+  {
+   "id": "R06-010",
+   "chiave": "architettura|il codice sconto monouso guarda solo il carrello della carta, non quello in contanti",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /tmp/claude-0/-home-user-ad-mycity/998fdb55-dcb0-5e71-8bbd-5a0f7326fed0/scratchpad/wt-R06 --base d7006a5^ --file lib/ordini/annulla.ts --prove tests/unit/riparazione-r06-codice-monouso-contanti.test.ts --json"
+   },
+   "nota": "Coi contanti tieneIlCodice ritrova il carrello dalla riga di cod_checkout_attempts (order_ids sono oggetti {id, sellerId, totalCents}, scritti da app/api/orders/cod/route.ts:749; stesso filtro contains usato a :891 e :954); user_id c'è in OrdineDaAnnullare e nella select del giro degli scaduti (expire-stale-orders/route.ts:164). Mutanti: contare anche i fratelli annullati → rosso; togliere il filtro contains (prenderebbe un tentativo qualunque del cliente, cioè un altro carrello) → verde: la prova non lo difende. Limite dichiarato: senza la riga del tentativo il codice torna come prima (serve la colonna carrello, la migrazione di R09-007)."
+  },
+  {
+   "id": "R06-015",
+   "chiave": "frontend-ux|il picker degli indirizzi legge il limite della rotta come «servizio che non risponde»",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /tmp/claude-0/-home-user-ad-mycity/998fdb55-dcb0-5e71-8bbd-5a0f7326fed0/scratchpad/wt-R06 --base 0e65e59a^ --file components/StoreLocationPicker.tsx --prove tests/unit/riparazione-r06-picker-limite-della-rotta.test.ts --json"
+   },
+   "nota": "I due 429 non si confondono: la rotta dà rate_limited per il suo limite (geocode/route.ts:28) e servizio_non_disponibile con 429 o 503 per le mappe (:49); il picker distingue solo su error === 'rate_limited'. Mutante: tolto il 429 dal ramo → rosso. Prova debole: invertendo la condizione in !== 'servizio_non_disponibile' resta verde (direbbe «troppe ricerche» a torto su un 5xx con corpo non JSON)."
+  },
+  {
+   "id": "R06-016",
+   "chiave": "pagamenti-stripe|carrello carta spostato dal freno: se dopo un negozio rifiuta, la consegna dei rimasti non si ricalcola piu'",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /tmp/claude-0/-home-user-ad-mycity/998fdb55-dcb0-5e71-8bbd-5a0f7326fed0/scratchpad/wt-R06 --base d38708d^ --file lib/ordini/annulla.ts --prove tests/unit/riparazione-r06-freno-carta-rifiuto.test.ts --json"
+   },
+   "nota": "Il carrello carta spostato dal freno si riconosce di nuovo: si toglie l'euro della veloce (consegnaSenzaLaVeloce), si rifà il conto della fascia, l'euro si rimette su ogni riga com'era. La prova fissa il caso della voce (la frutta rimasta sola ha consegna e fattorino della regola, il cliente paga solo la frutta, il rimborso della frutta toglie l'euro già reso). Prova debole proprio sull'euro: togliendo la rimessa dell'euro dall'annullato o dai rimasti resta verde (nei dati della prova l'euro sta su un ordine solo, quindi i due mutanti lì sono equivalenti); la garanzia «non si rende due volte» con l'euro distribuito su più ordini non è provata."
+  },
   {
    "id": "R07-001",
    "chiave": "sicurezza-auth|il gettone anti-robot si consuma due volte: accendendo il captcha su supabase, accesso e iscrizione con email si rompono",
