@@ -1513,3 +1513,10 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa:** in `/agente`, a scheda finita, il pulsante iscrive l'attività come il flusso 20 (nascosta, senza accesso, col link) e mostra il link del preventivo. Porta `POST /api/agente/aggiungi`, solo per l'agente padrone della scheda o per l'admin. Gli omonimi con un altro indirizzo si fermano.
 - **Dove:** mycity#343, unita col sì di Nicola dalla sessione che unisce le PR. È passata dal collaudo indipendente: 2 difetti gravi e 4 minori corretti prima dell'unione.
 - **Colore:** 🟡. Scrive sul database vero solo su conferma dell'agente; nessun messaggio parte verso il titolare.
+
+## 2026-11-27 04:30 — Approvare i contenuti con un tocco dentro Telegram (🟡, chiesto da Nicola)
+- **Chi e quando:** Nicola, in chat all'AD (session_01R8112L9oSZcRFsmSf8hEZ2), 27/11 verso le 02:50: «non mi piace che devo sempre aprire questa pagina per confermare, non c'è un altro modo più semplice e veloce?». Poi alle 03:05 circa: «Vai».
+- **Cosa:** il tasto di prima era il link di sendAndWait di n8n. Adesso «AD · Proponi nel Calendario» manda tasti callback_data con id e versione, e non aspetta più. Il nuovo flusso acceso «AD · Tasti su Telegram» riceve il tocco. Conta solo la chat di Nicola. Cambia la riga solo se è ancora da approvare, poi trasforma la domanda nella riga di stato. «Approva tutti» vale per il gruppo della consegna.
+- **Collaudo:** un agente che non l'ha costruito ha trovato 3 difetti gravi e 2 minori. Gravi: «Approva tutti» su un contenuto mai arrivato, due tocchi ravvicinati, righe doppie. Minori: tasto di una versione vecchia, spazi nell'id. Corretti tutti, con una prova ciascuno: 18 prove, rosse sul codice di prima e verdi ora. In più, approvare dopo l'ora scritta non vale più, come dice la procedura.
+- **Dove:** deposito N8N, ramo `ccr-6c484b65-gq6q05`; n8n: flusso nuovo `zSRD1vaX2SDyDgBm`, cambiato `q940FBnc4sfqdneZ`.
+- **Colore:** 🟡. È una modifica alla macchina, firmata da Nicola con «Vai». Non pubblica niente da sola: esce solo quello che Nicola approva.
