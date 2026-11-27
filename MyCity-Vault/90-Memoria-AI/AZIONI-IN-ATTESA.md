@@ -2068,6 +2068,18 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 
 ---
 
+## Unisci la pagina nuova del link del preventivo, coi tre abbonamenti e il codice dell'email (aggiunta 2026-11-27 17:40)
+
+> ✅ 2026-11-27 17:55 — Fatto: Nicola ha detto sì, la sessione delle PR ha unito la mycity#349.
+
+- **Reparto:** @tech, con @security per il collaudo.
+- **Colore:** 🔴. L'unione manda il sito online.
+- **Contenuto:** NicolaeRotaru/mycity#349. Il link apre la pagina coi tre abbonamenti, la scelta del venditore già segnata. Il titolare conferma col codice dell'email ed entra nella sua pagina. Nessun aggiornamento del database e nessuna chiave obbligatoria: il segreto `CODICE_PREVENTIVO_SECRET` su Vercel è facoltativo.
+- **Cosa cambia:** il prossimo titolare che apre il link, per esempio quello di Grida Caffè, vede subito il Business segnato. Conferma, scrive il codice ed entra con l'abbonamento sbloccato, senza passare dalla demo.
+- **Se va bene:** al primo titolare vero si guarda che il codice arrivi e che l'ingresso funzioni. Poi si chiudono i tre minori del registro, a partire dall'avviso quando un link si ferma per troppi tentativi.
+
+---
+
 ## Firma quanto promette ogni abbonamento ai social (aggiunta 2026-11-26 19:30)
 - **Reparto:** @content-social, con @marketing e @finanza.
 - **Colore:** 🔴. Cambia cosa vendiamo ai clienti.
