@@ -8861,6 +8861,89 @@
       }
     },
     {
+      "quando": "2026-11-27 18:38",
+      "casa": "marketplace",
+      "dimensione": "api-backend",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "app/api/seller/lavoro-consegnato/route.ts": "b48895af4dd2"
+      }
+    },
+    {
+      "quando": "2026-11-27 18:38",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "app/seller/servizi/[servizio]/page.tsx": "046cfb0660e5",
+        "components/seller/lavoro-consegnato/AnalisiConsegnata.tsx": "b55f82b660b1",
+        "components/seller/lavoro-consegnato/PianoEditorialeConsegnato.tsx": "89b6710fc7e7",
+        "components/seller/lavoro-consegnato/SitoConsegnato.tsx": "af599ab9d200",
+        "components/seller/lavoro-consegnato/comuni.tsx": "b71dad0e619f",
+        "components/seller/preventivo-agenzia.ts": "235e3e66e50b"
+      }
+    },
+    {
+      "quando": "2026-11-27 18:38",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "lib/agenzia/lavoro-consegnato/quale-parte.ts": "8720858e487e",
+        "lib/agenzia/lavoro-consegnato/registro.ts": "f024a12cce43",
+        "lib/agenzia/lavoro-consegnato/sdg/analisi.json": "92edbf80abde",
+        "lib/agenzia/lavoro-consegnato/sdg/sito.json": "55175c13fef1",
+        "lib/agenzia/lavoro-consegnato/sdg/social.json": "4917b578be54",
+        "lib/agenzia/lavoro-consegnato/tipi.ts": "b3fd78a58d9e",
+        "lib/agenzia/preventivo.ts": "69529ff15c44"
+      }
+    },
+    {
+      "quando": "2026-11-27 18:38",
+      "casa": "marketplace",
+      "dimensione": "rls-database",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "migrations/999d_i_tre_abbonamenti_di_sdg_costano_300_600_900.sql": "c6317b7728d7"
+      }
+    },
+    {
+      "quando": "2026-11-27 19:11",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/allocazione-check.mjs": "242d0bff26fd",
+        "cervello/mappa-azienda.mjs": "a075257cfbdc",
+        "cervello/scheda-cliente.mjs": "ba4749420acf"
+      }
+    },
+    {
       "quando": "2026-11-27 19:23",
       "casa": "marketplace",
       "dimensione": "api-backend",
