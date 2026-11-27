@@ -1,0 +1,27 @@
+{
+  "corsia": 26,
+  "territorio": "R26",
+  "difetti": [
+    {
+      "chiave": "architettura|la misura della velocità manda a ga4 da una porta sua, fuori dall'aiutante comune",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r26-velocita-a-ga4-dalla-porta-comune.test.ts tests/unit/riparazione-r15-velocita-clienti-veri.test.tsx tests/unit/riparazione-r23-velocita-vista-dai-clienti.test.ts --reporter=dot",
+      "non_vacuita": "cd /home/user/mycity && timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 7dbeee2368417d359c38adfd57b3b46acdd9fe5d^ --file lib/analytics/posthog.tsx --prove tests/unit/riparazione-r26-velocita-a-ga4-dalla-porta-comune.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R26 --base 7dbeee2368417d359c38adfd57b3b46acdd9fe5d^ --file lib/analytics/posthog.tsx --prove tests/unit/riparazione-r26-velocita-a-ga4-dalla-porta-comune.test.ts --json → uscita 0 (K08)",
+      "nota_fix": "ga() esportata da lib/analytics/events.ts col cancello del consenso dentro; mandaMisuraDiVelocita la usa al posto della chiamata diretta a gtag. Le prove r15, r23 e le altre che importano events/posthog restano verdi."
+    },
+    {
+      "chiave": "architettura|l'azione 'order.delivery_closed_by_admin' non è nel catalogo delle azioni: in /admin/audit non ha etichetta e il filtro non la offre",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r26-audit-chiusura-consegna-dallo-staff.test.ts --reporter=dot",
+      "non_vacuita": "cd /home/user/mycity && timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base c241e73f45e22ea4a97f9bad49a40a1df6725115^ --file lib/audit-azioni.ts --prove tests/unit/riparazione-r26-audit-chiusura-consegna-dallo-staff.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R26 --base c241e73f45e22ea4a97f9bad49a40a1df6725115^ --file lib/audit-azioni.ts --prove tests/unit/riparazione-r26-audit-chiusura-consegna-dallo-staff.test.ts --json → uscita 0 (K08)",
+      "nota_fix": "'order.delivery_closed_by_admin' entra nel catalogo AZIONI_AUDIT con l'etichetta «Consegna chiusa dallo staff» e compare tra le opzioni del filtro."
+    },
+    {
+      "chiave": "performance|al consenso statistico posthog si avvia due o tre volte in parallelo",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r26-posthog-un-solo-avvio.test.ts --reporter=dot",
+      "non_vacuita": "cd /home/user/mycity && timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 87da3a728b6415e733c366b5b61a9c4eef93e96f^ --file lib/analytics/posthog.tsx --prove tests/unit/riparazione-r26-posthog-un-solo-avvio.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R26 --base 87da3a728b6415e733c366b5b61a9c4eef93e96f^ --file lib/analytics/posthog.tsx --prove tests/unit/riparazione-r26-posthog-un-solo-avvio.test.ts --json → uscita 0 (K08)",
+      "nota_fix": "Le chiamate in parallelo (consenso, evento, identify) condividono una sola promessa di avvio: posthog-js si avvia una volta. Prova: tre chiamate in parallelo, un solo init, eventi tutti partiti."
+    }
+  ]
+}

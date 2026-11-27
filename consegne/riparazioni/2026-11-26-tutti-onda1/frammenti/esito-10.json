@@ -1,0 +1,20 @@
+{
+  "corsia": 10,
+  "territorio": "R10",
+  "difetti": [
+    {
+      "chiave": "flussi-conversione|il copilot del catalogo in blocco dice «rimandalo» per le voci rimaste fuori, ma la scheda non ha un modo per rimandare solo quelle",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r10-rimanda-le-rimaste.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 9f7bcffe39c11f296ffe08f362c29c058d179c16^ --file components/seller/CatalogCopilot.tsx --prove tests/unit/riparazione-r10-rimanda-le-rimaste.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r10 --base 9f7bcffe39c11f296ffe08f362c29c058d179c16^ --file components/seller/CatalogCopilot.tsx --prove tests/unit/riparazione-r10-rimanda-le-rimaste.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "La scheda legge `rimaste` della rotta (id di prodotto) e mostra «Rimanda le N voci rimaste fuori», che rifà la chiamata in blocco con le stesse modifiche già proposte, filtrate su quelle voci; una voce data per scritta non riparte mai e il doppio clic manda una sola richiesta. La prova monta lo schermo vero (5 casi, 4 cadono senza la cura)."
+    },
+    {
+      "chiave": "microcopy|la schermata di accesso dice ancora «100% commercianti locali verificati»",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r10-testo-accesso.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 21efdc86da166beb8053773b5faa446d01f106e2^ --file components/ui/AuthShell.tsx --prove tests/unit/riparazione-r10-testo-accesso.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r10 --base 21efdc86da166beb8053773b5faa446d01f106e2^ --file components/ui/AuthShell.tsx --prove tests/unit/riparazione-r10-testo-accesso.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "La riga del testo ora dice «Commercianti locali», come la home; la prova legge il file e controlla che la frase assoluta non ci sia più e che ci sia la nuova."
+    }
+  ]
+}

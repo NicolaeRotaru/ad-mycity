@@ -1,6 +1,6 @@
 {
   "_cosa_e": "I tassi misurati delle campagne di riparazione. Il preventivo di un'onda si fa SOLO da qui (lezione 3 del 15/11), mai da un rimedio sperato. Si aggiunge una riga a ogni fase misurata; le righe vecchie non si riscrivono.",
-  "_aggiornato": "2026-11-24 20:50",
+  "_aggiornato": "2026-11-27 00:50",
   "calibrazione_limite": {
     "usd_per_punto": 30.5,
     "fonte": "Nicola 12/11 sera: onda 1 (610 $) = 20% del limite settimanale",
@@ -268,6 +268,17 @@
       "usd_per_voce_chiusa": 3.0,
       "nati": 4,
       "nota": "Riparatori (get_session): R11 6,06 (limite 4,5, sforato prima che la regia lo fermasse) · R12 3,07. Collaudo K06 3,23 · controllo C03 1,6. Regia undicesima circa 6,9 (6,22 misurati alle 20:45, a 294 mila token: la regia costa per il contesto, non per il lavoro). Non contata qui la quota della regia decima che ha scritto i primi messaggi di R11 e R12 (51 e 37 mila caratteri). Esiti: reggono R11-001, -003, -004, -005 e R12-003, -004, -005; R11-006 non regge (nessun mutante del sorgente diventa rosso); R11-002 e R12-002 a metà; R12-001 rompe altro (push persa per sempre se la seconda scrittura fallisce) e revertita. Le chiusure si scrivono dopo l'unione di mycity#315. Controllore finale CF della campagna 2,15 $, pagato dal tetto della prossima ondata. Campagna onda dei 700 (passi 1-3) circa 398,7 $ su 400."
+    },
+    {
+      "fase": "campagna del 26/11 «tutti senza Nicola», onde 1-3 (senza ultracode, regia corta con 7 passaggi)",
+      "voci_lavorate": 341,
+      "voci_che_reggono": 112,
+      "voci_chiuse": 97,
+      "usd": 1000,
+      "usd_per_voce_lavorata": 2.9,
+      "usd_per_voce_chiusa": 10.3,
+      "nati": 43,
+      "nota": "Stima, non tutta misurata: ~815 $ fino alla sesta regia (riparatori, collaudi K01-K10, U01-U02, C01-C02, regie 1-6) + riservate 101,03 (S01 25,15 · S01 secondo 28,94 · KS01 29,82 · S02 11,82 · KS02 5,30) + AD della campagna ~45 + settima regia (get_session): K09 7,60 · R21 secondo 5,06 · K07 ricollaudo 3,53 · U03 0,47 · C03 5,79 · K08 ~10 (non letto) · regia settima 6,77. Voci lavorate = somma delle decisioni delle tre onde (116+70+155, con ripassaggi: le voci distinte sono meno). Si chiudono dopo l unione di mycity#342: 27+31+39, più 15 già riparate. Revert all unione: onda 1 17, onda 2 4, onda 3 8 (R20-002, R19-004, R26-012 ×6). Lezioni: la PR finale va unita con main prima di aprirla (3 PR entrate nel frattempo: 1 import e 1 prova da ricucire); un ramo con unione interna non passa prova-unione: copia lineare in un ramo nuovo invece del push forzato; la regia ha passato i 250 mila token (295 mila) chiudendo la PR invece di passare la mano."
     }
   ],
   "casi_base_per_il_preventivo": {

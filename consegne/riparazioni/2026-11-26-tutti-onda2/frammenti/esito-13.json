@@ -1,0 +1,69 @@
+{
+  "corsia": 13,
+  "territorio": "R13",
+  "difetti": [
+    {
+      "chiave": "accessibilita|la card senza href scarta aria-label, e la card con href non passa al link il resto delle prop (id, role)",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r13-ui.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 3cd761af02bf11f095ac421f3bbac8cb09e49d32^ --file components/ui/Card.tsx --prove tests/unit/riparazione-r13-ui.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R13 --base 3cd761af02bf11f095ac421f3bbac8cb09e49d32^ --file components/ui/Card.tsx --prove tests/unit/riparazione-r13-ui.test.tsx --json → uscita 0 (K05)",
+      "nota_fix": "aria-label non viene più tolto dalle prop: senza href va sull'elemento insieme a id, role, data-*; con href il Link riceve tutto il resto delle prop. Le 9 prove esistenti che importano Card restano verdi."
+    },
+    {
+      "chiave": "deploy-sre|la guida al backup non dice che con un remote cifrato o alias lo storico va impostato a mano",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r13-backup-guida.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base f252a9b716b739aa43a1ec27e0dc3837796910c1^ --file docs/backup-restore.md --prove tests/unit/riparazione-r13-backup-guida.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R13 --base f252a9b716b739aa43a1ec27e0dc3837796910c1^ --file docs/backup-restore.md --prove tests/unit/riparazione-r13-backup-guida.test.ts --json → uscita 0 (K05)",
+      "nota_fix": "Aggiunto nella sezione rclone un avviso: con un remote crypt o alias (o usato alla radice) lo script non ha un secchio storico predefinito, la notte resta rossa finché non si imposta STORAGE_SYNC_STORICO a mano su un secchio diverso da quello della copia, con esempio."
+    },
+    {
+      "chiave": "frontend-ux|anche i campi brevi delle categorie nel pannello admin tagliano in silenzio con maxlength",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r13-categorie-campi-brevi.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base ca78bd01b464783927202273d963ec8d8980dd65^ --file app/admin/categories/page.tsx --prove tests/unit/riparazione-r13-categorie-campi-brevi.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R13 --base ca78bd01b464783927202273d963ec8d8980dd65^ --file app/admin/categories/page.tsx --prove tests/unit/riparazione-r13-categorie-campi-brevi.test.tsx --json → uscita 0 (K05)",
+      "nota_fix": "Tolti i 7 maxLength (nome e slug 60, icona 8, foto 500: stessi tetti dell'API) dal modulo di creazione e dalle righe; il testo resta intero e sotto il campo compare «Troppo lungo: N caratteri su M», come negli altri moduli già riparati."
+    },
+    {
+      "chiave": "frontend-ux|alcune sottopagine vere di un profilo facebook (/nome/timeline, /nome/info, /nome/photos_by) vengono rifiutate invece di tenere il nome",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r13-social.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 16a2f0268cfc8e187943f2e1587465eb297d1a2c^ --file lib/store-customization.ts --prove tests/unit/riparazione-r13-social.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R13 --base 16a2f0268cfc8e187943f2e1587465eb297d1a2c^ --file lib/store-customization.ts --prove tests/unit/riparazione-r13-social.test.ts --json → uscita 0 (K05)",
+      "nota_fix": "Aggiunte all'elenco delle sottopagine di profilo timeline, info, photos_by e simili (photos_of, photos_albums, videos_by, about_details, likes, following…), e nel giro di correzione anche about_* (about_overview, about_contact_and_basic_info…), friends_* (friends_all…), offers e jobs: ora tengono il nome. Una sottopagina inventata resta fermata."
+    },
+    {
+      "chiave": "frontend-ux|il link tiktok di un profilo vero chiamato come un percorso riservato (tiktok.com/@live) viene rifiutato anche con la @",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r13-social.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 78f946006c7b14b1b0efb18371d630c222f6cc59^ --file lib/store-customization.ts --prove tests/unit/riparazione-r13-social.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R13 --base 78f946006c7b14b1b0efb18371d630c222f6cc59^ --file lib/store-customization.ts --prove tests/unit/riparazione-r13-social.test.ts --json → uscita 0 (K05)",
+      "nota_fix": "Su TikTok la @ nel link rende il nome un profilo anche se coincide con un percorso riservato (tiktok.com/@live dà «live»); tiktok.com/live senza @ resta riservato. Instagram e Facebook invariati."
+    },
+    {
+      "chiave": "frontend-ux|il sito del negozio accetta un indirizzo con schema sbagliato, come ftp:// o http//",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r13-social.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 11a2ba9cb962a1f2d966f72144b563112e670f5f^ --file lib/store-customization.ts --prove tests/unit/riparazione-r13-social.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R13 --base 11a2ba9cb962a1f2d966f72144b563112e670f5f^ --file lib/store-customization.ts --prove tests/unit/riparazione-r13-social.test.ts --json → uscita 0 (K05)",
+      "nota_fix": "Il sito del negozio non mette più https:// davanti a un indirizzo che ha già uno schema, e lo schema accetta solo http/https con un messaggio chiaro. Rifiutati ftp://, mailto:, javascript:, file:, http//, https:/, htp://; il dominio nudo (anche con porta) diventa https:// come prima."
+    },
+    {
+      "chiave": "frontend-ux|nel link facebook.com/nome_col_trattino_basso il primo messaggio che si legge è quello generico, «scrivi solo il nome del profilo…», non quello del trattino basso",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r13-social.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 4e7a3801fc53227c86073c2105c3a72b418867a7^ --file lib/store-customization.ts --prove tests/unit/riparazione-r13-social.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R13 --base 4e7a3801fc53227c86073c2105c3a72b418867a7^ --file lib/store-customization.ts --prove tests/unit/riparazione-r13-social.test.ts --json → uscita 0 (K05)",
+      "nota_fix": "Il campo Facebook ha un suo controllo che emette prima il messaggio del trattino basso e poi quello generico: incollando facebook.com/nome_x il primo messaggio è quello del trattino."
+    },
+    {
+      "chiave": "qa-flussi|il negozio che risponde alla propria domanda senza answered_by si avvisa da solo",
+      "esito": "riparato",
+      "verifica_comando": "PGHOST=/var/run/postgresql PGUSER=root bash tests/sql/harness/apply.sh r13_prova_risposta && psql -X -d r13_prova_risposta -v ON_ERROR_STOP=1 -f tests/sql/rls/riparazione-r13-risposta-a-se-stesso.test.sql",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 0f335515ef4d02bcd7f1ee86cf9bd4cb02bdd8d6^ --file migrations/900_il_negozio_che_risponde_a_se_stesso_non_si_avvisa.sql --prove tests/sql/rls/riparazione-r13-risposta-a-se-stesso.test.sql --sql r13_rimessa_risposta --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R13 --base 0f335515ef4d02bcd7f1ee86cf9bd4cb02bdd8d6^ --file migrations/900_il_negozio_che_risponde_a_se_stesso_non_si_avvisa.sql --prove tests/sql/rls/riparazione-r13-risposta-a-se-stesso.test.sql --json --sql k05_rimessa_r13 → uscita 0 (K05)",
+      "nota_fix": "Migrazione nuova 900 che ridefinisce public.risposta_avvisa_chi_ha_chiesto() (nessuna migrazione dopo la 822 la cambia): l'avviso non parte quando chi ha chiesto è il negozio del prodotto, letto dal database e non da answered_by. Le domande dei clienti, e quelle di un negozio a un altro negozio, avvisano come prima anche senza answered_by."
+    },
+    {
+      "chiave": "stati-ui|il modulo prodotto ricalcola la spunta «escluso dal recesso» dell'apertura a ogni disegno",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r13-recesso-all-apertura.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 9c85946b3f4e070647333d155d54836ed001d19a^ --file components/seller/ProductForm.tsx --prove tests/unit/riparazione-r13-recesso-all-apertura.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R13 --base 9c85946b3f4e070647333d155d54836ed001d19a^ --file components/seller/ProductForm.tsx --prove tests/unit/riparazione-r13-recesso-all-apertura.test.tsx --json → uscita 0 (K05)",
+      "nota_fix": "Il valore d'apertura della spunta è ora useState con inizializzatore pigro: se il padre passa initialValues nuovi a modulo aperto, il salvataggio non riscrive più non_recedibile per una spunta mai toccata; una spunta toccata si salva lo stesso."
+    }
+  ]
+}
