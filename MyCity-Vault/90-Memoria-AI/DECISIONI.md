@@ -1566,3 +1566,10 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Perché:** la vecchia definizione diceva «negozi» e «marketplace» soltanto; dal 22/11 i clienti sono tutte le attività che vendono qualcosa (`strategia.cliente-core`) e dal 24/11 MyCity offre anche i servizi per portarle online (`sdg.abbonamenti`). Il concetto mette insieme le due cose.
 - **Peso del manuale:** `CLAUDE.md` passa da 17.932 a 17.997 byte, sotto il tetto di 18.000 (`agent-registry-check.mjs`). Margine rimasto: 3 byte. La prossima aggiunta dovrà togliere qualcosa.
 - **Colore:** 🟡 (auto-modifica della macchina), su richiesta esplicita di Nicola; la PR la valuta lui.
+## 2026-11-27 17:35 — Il sito Business del Caffè di Piacenza nella sua voce «Sito web» (🟡)
+- **Chi e quando:** Nicola in chat all'AD, il 27/11 verso le 17:05. Sessione session_01R8112Lh8bxtpgSCWy2ESsy. Ha chiesto la versione business del sito. «Nella voce del menu sito web ci deve essere già il suo sito web versione business.» E: «entrambi i siti web devono già essere su Vercel».
+- **Cosa:** dalla bozza (artifact «Caffè di Piacenza») un sito di cinque pagine vere, con dati per Google, anteprima per WhatsApp, barra «Chiama / Indicazioni» sul telefono, mappa, collegamento alla vetrina. Nel marketplace il lavoro consegnato della sessione SDG ora vale per ogni negozio. Il Caffè c'è con la fascia Business, e il suo sito si vede dal vivo quando è online. La politica di sicurezza apre solo gli indirizzi esatti dei siti online.
+- **Perché:** il Caffè è iscritto dal 27/11 alle 16:45, con l'abbonamento Business attivo e pagato in contanti. Il Business promette «un sito completo di più pagine, col tuo nome».
+- **Limiti:** niente prezzi e niente dati inventati; orari, menu e storia restano «da confermare» e il sito è nascosto a Google finché il titolare non dice sì. Vercel non pubblicato: il collegamento non può creare progetti (403).
+- **Colore:** 🟡: codice in un ramo, PR da unire da Nicola; la pubblicazione su Vercel ha la sua firma in chat.
+

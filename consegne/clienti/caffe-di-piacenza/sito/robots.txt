@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+# Anteprima: le pagine portano noindex finché il titolare non conferma.
