@@ -26983,6 +26983,7 @@
     },
     {
       "id": "AR-1194",
+      "nato_come": "scoperta",
       "titolo": "La divisione dà alle sessioni del sito numeri di migrazione da 1000 in su, ma il sito le applica in ordine alfabetico e il 1000 finirebbe prima del 100",
       "severita": "grave",
       "stato": "aperto",
