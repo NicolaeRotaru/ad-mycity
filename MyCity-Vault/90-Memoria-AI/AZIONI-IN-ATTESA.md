@@ -49,7 +49,7 @@ Se va bene: l'AD prova il flusso su una riga di prova già pubblicata, ti mostra
 
 - **Colore:** 🟡
 - **Reparto:** builder-automazioni
-- **Dettagli tecnici:** flusso n8n `q940FBnc4sfqdneZ` (resta spento, si avvia a mano). Al via: si leggono foglio e chat dal flusso vivo, si genera `node flussi/ad-studio/consegna.mjs proponi --json --foglio … --chat …` dal ramo `claude/jolly-hypatia-5lwhg7` del deposito N8N (commit `a05bbb7`), si aggiorna il flusso e si confrontano i 17 nodi con quelli generati. Il flusso vivo oggi è quello della N8N#33 (`c6bdd7b`): il caricamento non aspetta l'unione delle due richieste. Il flusso «AD · Tasti su Telegram» non cambia.
+- **Dettagli tecnici:** flusso n8n `q940FBnc4sfqdneZ` (resta spento, si avvia a mano). Al via si leggono foglio e chat dal flusso vivo. Poi si genera il flusso con `node flussi/ad-studio/consegna.mjs proponi --json --foglio … --chat …`, dal deposito N8N al commit `a05bbb7`. Infine si aggiorna il flusso e si confrontano i 17 nodi con quelli generati. Il flusso vivo oggi è quello della N8N#33 (`c6bdd7b`): il caricamento non aspetta l'unione delle due richieste. Il flusso «AD · Tasti su Telegram» non cambia.
 
 ### 🟡 #266 — Guarda il ricontrollo del sito e unisci la richiesta, se ti va bene · ⏳ accodata 2026-11-26 15:30 · @ad
 
