@@ -1479,3 +1479,9 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Scelte fatte dall'AD senza chiedere:** 10 attività a settimana (dalla regola), tutte le attività che vendono nel censimento (registro `strategia.cliente-core`) ma prima il fresco, la lista solo a Nicola finché non dice chi visita.
 - **Cosa resta:** il collaudo indipendente (in corso); l'accensione del lunedì dopo il collaudo; chi visita e quante a settimana, da Nicola; la fase 2 (la lista nella pagina dell'agente, lo stato «iscritta» che si segna da solo).
 
+## 2026-11-27 02:30 — La macchina dei clienti: due collaudi bocciati, riparata, spenta in attesa di Nicola (🟡)
+- **Cosa è successo:** il primo collaudo (referto `consegne/audit/2026-11-27-collaudo-flusso-16/referto.md`) ha bocciato per due gravi: gli stati scritti a mano («sì», «iscritto») non si contavano, e le prove leggevano la risposta della mappa in `body` mentre n8n vero la mette in `data`. Riparato (N8N `72cf6f2`). Il ricollaudo (`ricollaudo.md`) ha bocciato di nuovo: le frasi («sì, non ancora iscritta») contavano come iscritte, e la tabella rotta in n8n non si vedeva. Riparato (N8N `f9311bd`).
+- **La scelta della riparazione:** rendere impossibile invece di indovinare. Lo stato vale solo se è una delle quattro parole; il resto si conta e si mostra col nome. La tabella che non risponde ferma il flusso e avvisa il 99.
+- **Le misure:** 19 prove verdi; 44 mutazioni su 44 rosse (quelle dei due collaudatori, adattate, più le nuove: `prove/mutazioni-dopo-ricollaudo.mjs`); sulla mappa vera del 27/11 1.037 su 1.037 conti tornano e la lista della seconda settimana è pulita.
+- **Perché è spento:** è il terzo giro sullo stesso pezzo. La regola (MANUALE-AD ①, skill collaudo) dice di chiedere a Nicola: accendere così, terzo collaudo, o lasciarlo spento. Il flusso scrive solo a Nicola e nella sua tabella.
+
