@@ -410,12 +410,12 @@
   "fonti_non_lette": [],
   "sintesi": "Il problema più grave trovato oggi era una chiave del database leggibile da chiunque, e Nicola l'ha già spenta. Dei difetti nuovi nessuno è bloccante, ma il rimborso di un ordine in contanti va ancora fatto a mano, fuori dal sito.",
   "meta": {
-    "findings": 3614,
+    "findings": 3615,
     "bloccanti": 37,
     "gravi": 684,
-    "minori": 2893,
+    "minori": 2894,
     "agenti": null,
-    "aggiornato": "2026-11-24 22:41"
+    "aggiornato": "2026-11-27 01:30"
   },
   "confronto_precedente": {
     "data": "2026-11-05",
@@ -102415,23 +102415,35 @@
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-26-tutti-onda3 · R28",
       "stato": "aperto"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "Legale",
+      "severita": "minore",
+      "stato": "aperto",
+      "titolo": "Le schede degli agenti restano in n8n dopo la cancellazione dell'account",
+      "file": "lib/account/cancellazione.ts",
+      "descrizione": "Le schede del cliente fatte da un agente stanno nella tabella n8n «Schede per il venditore», legate alla sua email. Quando l agente cancella l account MyCity, la cancellazione avvisa Stripe ma non n8n: email e storico delle schede restano. Anche lo scarico dei dati personali non le include.",
+      "impatto": "Una richiesta di cancellazione (diritto all oblio) non arriva fino in fondo per gli agenti; la stessa email, se registrata di nuovo, ritrova le schede vecchie.",
+      "fix": "Nel flusso 14c un azione «archivia» che toglie l email dalle righe dell agente (senza cancellare la riga, regola «si archivia»), chiamata da cancellaAccount come per Stripe; e le schede dentro lo scarico dei dati.",
+      "fonte": "collaudo indipendente degli agenti dentro MyCity, 2026-11-26 22:15 (ramo ccr-6186d974-q1ig43, commit 7339f4d)"
     }
   ],
   "sync_scan": {
-    "aggiornato": "2026-11-26 15:22",
+    "aggiornato": "2026-11-27 01:23",
     "letto": true,
     "motivo": null,
     "forma": "elenco",
-    "findings_aperti": 553,
-    "findings_chiusi": 2954,
-    "findings_tot": 3507,
+    "findings_aperti": 646,
+    "findings_chiusi": 2969,
+    "findings_tot": 3615,
     "aperti_per_severita": {
       "bloccante": 5,
-      "grave": 62,
-      "minore": 486,
+      "grave": 67,
+      "minore": 574,
       "altre": 0
     },
-    "dichiarati_dal_referto": 3507,
+    "dichiarati_dal_referto": 3615,
     "divergenza_dal_dichiarato": 0,
     "data_scan": "2026-11-06",
     "nota": "Per trovare difetti NUOVI serve un nuovo audit marketplace; i fix sul codice non riaprono da soli la lista. Gli aperti qui sono quelli del referto in archivio, aggiornati dai lotti di riparazione."

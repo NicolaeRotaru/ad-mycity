@@ -1,8 +1,8 @@
 ---
 tipo: piano
-data: 2026-11-26 15:30
+data: 2026-11-26 16:08
 fonte: chat di Nicola con l'AD del 25 e 26 novembre 2026
-stato: aggiornato alle 15:30 del 26/11
+stato: aggiornato alle 16:08 del 26/11
 ---
 
 # Il rapporto dell'imprenditore — piano
@@ -23,7 +23,6 @@ Detto in un altro modo: più fonti vere, e un preventivo che mostra cosa dà ogn
 
 ## Cosa devi fare
 - Dire se accetti il rischio di DataForSEO sulle recensioni. Il legale consiglia sì, tenendo solo i temi.
-- Dire quanto entra in ogni abbonamento. La mia proposta sta nella sezione del preventivo.
 - Aprire Google Cloud con un avviso di spesa, e DataForSEO con 50 dollari di ricarica. TripAdvisor per ora no.
 - Far rileggere il parere a un legale abilitato prima di accendere le fonti.
 - Unire le due richieste delle sessioni. Poi dare l'«ok ripubblica» per il flusso delle attività nuove.
@@ -63,7 +62,7 @@ Detto in un altro modo: più fonti vere, e un preventivo che mostra cosa dà ogn
   professionale di MyCity collegato all'app Meta (`instagram_basic`, da verificare).
 - Dopo l'abbonamento, col permesso del titolare: Google Business Profile e Instagram Insights.
 
-**A pagamento, approvate da Nicola il 26/11 alle 14:45, corrette dal parere legale delle 15:10**
+**A pagamento, approvate da Nicola il 26/11 alle 14:45, corrette dal parere legale delle 14:53**
 | Fonte | Cosa si può fare | Costo |
 |---|---|---|
 | Google Places | Solo `place_id` (salvato senza scadenza) e coordinate (30 giorni). La scheda si mostra col riquadro `<gmp-place-details>` (Places UI Kit) in diretta. Niente voto, recensioni, orari, nome o indirizzo salvati o copiati; niente temi AI né medie dei concorrenti dai dati Google | 1.000 richieste gratis al mese per tipo; prezzo del UI Kit da verificare |
@@ -78,7 +77,7 @@ Detto in un altro modo: più fonti vere, e un preventivo che mostra cosa dà ogn
   e informativa pubblicata (art. 14.5.b). MyCity è titolare autonomo del rapporto. Va aggiornata l'informativa dei titolari.
 - I termini d'uso di MyCity rimandano ai Google Maps Additional Terms e alla Google Privacy Policy (ToS 3.2.2).
 
-### Il preventivo, per abbonamento (proposta dell'AD: quanto entra in ogni fascia lo decide Nicola)
+### Il preventivo, per abbonamento (approvato da Nicola il 26/11 verso le 16:05: «ok fasce»)
 Nicola, 26/11 14:54: l'analisi si personalizza per abbonamento, come contenuti, foto, video e sito; il preventivo mostra
 per ogni fascia le parti incluse e quelle escluse. Una sola tabella nel codice, facile da cambiare (come `FASCE`).
 Prezzi invariati (Base 300 €, Business 500 €, Premium 999 €).
@@ -120,8 +119,8 @@ Lo chiude la sessione dei flussi: `N8N/flussi/16-nuovo-cliente-da-mycity/CONTRAT
 7. Un tema citato da 2 recensioni → non si mostra; da 3 → si mostra con il numero.
 8. Il preventivo di ogni fascia elenca le parti incluse e quelle escluse, lette dalla stessa tabella; il Base mostra la parte 12 come esclusa.
 
-### Stato adesso (2026-11-26 15:20)
-- Fatto: scelte di Nicola nel registro (`agenzia.rapporto-imprenditore`); parere legale arrivato alle 15:10 e girato alle due
+### Stato adesso (2026-11-26 15:00)
+- Fatto: scelte di Nicola nel registro (`agenzia.rapporto-imprenditore`); parere legale arrivato alle 14:53 e girato alle due
   sessioni come avviso urgente; carta #265 in `AZIONI-IN-ATTESA.md`.
 - In corso: le due sessioni.
 - Da Nicola: rischio DataForSEO sì o no; i due account (Google Cloud, DataForSEO); legale abilitato; unione delle PR.

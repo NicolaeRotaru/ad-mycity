@@ -26,6 +26,9 @@ fonte: AD digitale (giro, cervello/giro.md)
 > 🟡 **2026-11-26 14:05 — Riparo i difetti che non chiedono Nicola.**
 >
 > Nicola il 26/11 ha chiesto di lavorare tutti i difetti che non chiedono lui, senza approvazioni. Sul registro ci sono 598 difetti aperti: circa 410 si chiudono senza di lui. Per esempio, i contanti vecchi da versare che spariscono dal pannello dei bonifici oltre i mille ordini. Alle 13:55 sono partite 11 sessioni su 116 difetti, fra cui 17 gravi. Il tetto resta il suo «ok 1.200» del 24/11: con quella cifra si chiudono circa 150-250 difetti. La sessione della radiografia intanto ricontrolla altri 272 difetti. Quaderno: `consegne/riparazioni/2026-11-26-tutti/REGIA.md`.
+> 🟡 **2026-11-26 14:05 — La scheda del cliente nasce dalla foto dell'attività.**
+>
+> Il venditore fotografa il negozio e manda la foto a una sessione nuova. La sessione cerca via, social, sito e recensioni. Poi consegna la scheda interna per il venditore e il preventivo con bozza del sito e piano editoriale. Prima prova su Ora del Gusto e La Ragazzetta: quattro pagine private, Business consigliato a tutte e due. La rete dell'ambiente è chiusa, quindi nessuno dei 35 dati è «confermato». Dettagli: `LAVORO-APERTO.md`, voce del 26/11 14:05.
 
 > 🟡 **2026-11-24 22:57 — La radiografia del sito lavora a onde, come la riparazione. È costruita e collaudata, ma non ancora lanciata.**
 >
