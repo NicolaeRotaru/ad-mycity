@@ -2058,7 +2058,9 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 <!-- SUPERVISIONE-NEGOZI:FINE -->
 
 ## Unisci la pagina nuova del link del preventivo, coi tre abbonamenti e il codice dell'email (aggiunta 2026-11-27 17:40)
+
 > ✅ 2026-11-27 17:55 — Fatto: Nicola ha detto sì, la sessione delle PR ha unito la mycity#349.
+
 - **Reparto:** @tech, con @security per il collaudo.
 - **Colore:** 🔴. L'unione manda il sito online.
 - **Contenuto:** NicolaeRotaru/mycity#349. Il link apre la pagina coi tre abbonamenti, la scelta del venditore già segnata. Il titolare conferma col codice dell'email ed entra nella sua pagina. Nessun aggiornamento del database e nessuna chiave obbligatoria: il segreto `CODICE_PREVENTIVO_SECRET` su Vercel è facoltativo.
