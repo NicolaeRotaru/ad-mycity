@@ -8,6 +8,7 @@ reparto: content-social
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-11-27 22:45 · Tropico, 17 contenuti dalle 123 foto nuove di Drive (3-9/12) · V5 C4 A3 K5 I2 M4 E3 (media 3.71) · atteso 17 pezzi nel Calendario da approvare su Telegram → reale 17 pezzi montati e controllati; consegna ferma: senza la rete SDG non si carica su Drive · #tropico #consegna-bloccata
 - 2026-11-27 22:25 · Tropico: foto 0307 chiamata sangria, storia 27/11 18:00 uscita su 4 pagine; corretto da Nicola alle 21:48 · V5 C5 A4 K4 I3 M5 E4 (media 4.29) · atteso nessun nome di drink sopra una foto senza conferma → reale 3 pezzi scrivevano sangria sul frozen alla fragola: 2 fermati e rifatti prima di uscire, la storia era già fuori. Lezione: un nome sopra una foto solo se è in foto_confermate (controlla-nomi.py) · #nomi-foto #tropico
 - 2026-11-27 02:25 · Skill contenuti-cliente e studio Canva del Tropico Latino (26-27/11) · V4 C4 A4 K5 I2 M4 E3 (media 3.71) · atteso una procedura che un'altra sessione ripete da sola → reale procedura scritta e provata una volta, sul Tropico; nessun secondo cliente ancora · #contenuti-cliente #tropico
 - 2026-11-26 18:29 · piano editoriale per abbonamento, modello 1.0 provato sul Tropico a dicembre (PR #1050) · V3 C5 A4 K5 I2 M4 E3 (media 3.71) · atteso modello pronto da firmare, 0 difetti al collaudo → reale pronto da firmare dopo 20 difetti trovati dal collaudo indipendente e corretti; la riserva è diventata un controllo del programma · #piano-editoriale #fasce #tropico

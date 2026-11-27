@@ -1616,3 +1616,10 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Dove:** NicolaeRotaru/N8N#38 (secondo commit). Esecuzioni n8n 4366 (Drive), 4367 e 4368 (proposte).
 - **Colore:** 🟡. Esce solo con l'Approva di Nicola.
 
+## 2026-11-27 22:50 · Tropico: 17 contenuti dalle foto nuove di Drive, pronti ma non caricati 🟡
+- **Chi e quando:** Nicola, in chat all'AD (sessione «Tropico Latino content updates»), 27/11 verso le 22:10: creare contenuti nuovi, o modificare quelli attuali, con le foto nuove messe nella cartella Drive «Da programmare» del Tropico.
+- **Le foto:** 123, caricate in «Originali» il 27/11 tra le 16:56 e le 17:21. Sono 91 scatti da studio del 5/10/2015 su fondo grigio (piatti, cocktail, fajitas, la griglia da tavolo) e 32 dolci del 21/4/2016. Prima non c'era una foto delle fajitas: il piano di dicembre lo segnava come buco.
+- **Cosa:** 17 pezzi negli orari liberi dal 3 al 9/12: il reel del menu, il carosello dei dolci, il carosello «come si mangia una fajita», il reel dei cocktail e 12 storie animate. Tre storie riempiono righe «idea» del piano di dicembre (3/12 20:30, 6/12 19:00, 8/12 20:00). In più il post del burrito del 17/12, rifiutato il 25/11, rifatto con una foto nuova e un id nuovo: la riga vecchia resta in bozza. Dal provino ho corretto due pezzi: il set fotografico che si vedeva in una storia e la stessa foto dei churros due volte nel carosello.
+- **Non fatto:** niente prezzi nelle grafiche; nessun nome ai piatti incerti (la tortilla con verdure e i gamberi restano fuori). Ho usato solo nomi del menu del sito o detti da Nicola: burrito, fajitas e i loro sei nomi, nachos, griglia, churros, brownie, Oreo cake, margarita frozen alla fragola.
+- **Bloccato:** caricamento su Drive e proposte nel Calendario. Lo spostamento sull'ambiente «SDG» è stato rifiutato in chat e non l'ho richiesto. Lettura di Drive e del Calendario fatta lo stesso dallo strumento MCP di n8n; la strada è scritta nella procedura.
+- **Da verificare con Nicola:** le foto hanno dieci anni. Piatti e dolci potrebbero non essere più nel menu: un pezzo con un piatto che non c'è più si rifiuta su Telegram.
