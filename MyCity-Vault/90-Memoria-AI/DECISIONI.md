@@ -1597,3 +1597,10 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa:** l'impronta guarda file, ora, didascalia, primo commento, copertina, tipo e social. Rifiuta vale sempre. Il messaggio di un tasto che non corrisponde dice le cause vere.
 - **Dove:** NicolaeRotaru/N8N#37. Due collaudi indipendenti: tutti e due reggono.
 - **Colore:** 🟡. Il flusso vivo non cambia finché Nicola non scrive «ok 267»: «Proponi» e «Tasti» vanno caricati insieme.
+
+## 2026-11-27 22:20 — Decisione di Nicola: sul lato SDG si dice «la tua attività».
+- **Cosa ha detto Nicola, verso le 22:10:** «il tuo negozio» si cambia ovunque c'entri SDG, cioè abbonamenti e servizi. Sul lato marketplace resta, perché lì il target di MyCity sono le botteghe e i piacentini.
+- **Perché regge:** SDG lavora con tutte le attività locali, non solo coi negozi (fatto `sdg.abbonamenti`, Nicola 27/11 verso le 17:10).
+- **Cosa:** fatto nuovo `sdg.lessico` nel registro. Il sito oggi ha 95 righe con «tuo negozio» in 57 file, mescolate fra SDG e marketplace. n8n e il sito di SDG non ne hanno.
+- **Chi lo fa:** la sessione «Rapporto dell'imprenditore · sito e preventivo». Prima le 9 righe nuove della mycity#355: così la migrazione 999e scrive già le descrizioni giuste. Poi una richiesta nuova dal main per il resto del lato SDG. I casi dubbi restano com'erano e vanno in elenco a Nicola.
+- **Colore:** 🟡. Testi del sito in un ramo, niente unione né migrazioni applicate senza la firma di Nicola.
