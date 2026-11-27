@@ -1,6 +1,6 @@
 ---
 tipo: bacheca
-aggiornato: 2026-11-27 17:58
+aggiornato: 2026-11-27 19:35
 regole: cervello/sessioni-insieme.md
 ---
 
@@ -212,7 +212,7 @@ già la stessa cosa: se sì, scrivile invece di rifarlo (regola 3). Oggi tre gru
 |---|---|---|
 | «Link imprenditore e flusso abbonamenti» (`…NaCwxLRhwBxPjvCVC`) | La conferma dell'abbonamento dal link col codice dall'email. Finita: unita con mycity#349 col sì di Nicola, alle 17:56. Su quel ramo non cambia più niente | mycity `claude/adoring-fermat-2d0bi6`: `lib/agenzia/preventivo-col-codice.ts`, `lib/agenzia/codice-dal-link.ts`, `app/api/preventivo/[codice]/*` |
 | «Subscription confirmation flow» (`…NuFB3nq8tjMhb1KRu`) | Nella conferma dal link il titolare sceglie giorno e ora della visita di SDG: colonna `visita_il`, migrazione 999b | mycity `ccr-96d27df4-51gd0d`. Il ramo parte da quello della #349. |
-| «Ordine a SDG» (`…MJSt6dVjkZY9ffa8F`). L'ha aperta «Seller link process workflow». | La pagina dell'agente che si aggiorna e porta a «Adesso tocca a SDG»; l'ordine di servizio con il piano editoriale nella pagina di SDG Agenzia | mycity, in un ramo suo che parte dalla #349. File nuovo `lib/agenzia/ordine-sdg.ts`. Ritocchi in `preventivo-col-codice.ts`, `app/api/agente/aggiungi` e `components/agenti/AggiungiAttivita.tsx` |
+| «Ordine a SDG secondo» (`…NfxDnkgnpY7Exsrf3`). Ha preso il posto di «Ordine a SDG», che ha finito alle 19:22. | Segue la mycity#353 finché si unisce: la CI e i conflitti dopo la mycity#351. Niente funzioni nuove. | mycity, ramo `claude/ordine-a-sdg-su-main`. |
 | «Piano editoriale per abbonamento» (`…KdhTFt`) | Il modello delle tre fasce e il piano di dicembre del Tropico per Base, Business e Premium. Non tocca le righe del Calendario né la pubblicazione: quelle restano a «Contenuti Canva e Reel» | `cervello/modelli/piano-editoriale-*`, `cervello/piano-editoriale.mjs`, `consegne/clienti/tropico-latino/` |
 | «Migliorare analisi clienti» (`…KJEvB4`) | Dirige il lavoro sull'analisi dei clienti nuovi, con il piano, le fonti e le scelte di Nicola. Aspetta «ok fasce» | ad-mycity#1038, `consegne/strategia/2026-11-26-analisi-imprenditore/` |
 | «Rapporto dell'imprenditore · flussi n8n» (`…K1DyjU`) | Contratto dei fatti e codice del flusso 16. **È la sola che ripubblica il 16**, da main, al via di Nicola | N8N `claude/rapporto-imprenditore-flussi`, `flussi/16-nuovo-cliente-da-mycity/` |
@@ -235,7 +235,7 @@ Aggiornata il 2026-11-26 15:15 da Goku. Le due sessioni del 015Bmpn… stanno in
 | Ruolo | Id |
 |---|---|
 | «Seller link process workflow», controllore dell'ordine a SDG | `session_01R8112NuZmmktNkEcpG9ApN` |
-| «Ordine a SDG» | `session_01R8112MJSt6dVjkZY9ffa8F` |
+| «Ordine a SDG secondo», segue la mycity#353 | `session_01R8112NfxDnkgnpY7Exsrf3` |
 | «Link imprenditore e flusso abbonamenti» | `session_01R8112NaCwxLRhwBxPjvCVC` |
 | «Subscription confirmation flow» | `session_01R8112NuFB3nq8tjMhb1KRu` |
 | «Migliorare analisi clienti», AD del rapporto | `session_01R8112KJEvB4uRMQLAYZ3Uo` |
