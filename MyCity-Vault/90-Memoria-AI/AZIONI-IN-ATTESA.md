@@ -160,7 +160,7 @@ Se va bene: metto i dati, rifaccio il collaudo e il sito si pubblica dal ramo, p
 
 ### 🔴 #268 — Dai a SDG una chiave per entrare nella sua pagina venditore · ⏳ accodata 2026-11-27 16:35 · @ad
 
-**Stato:** ⏳ in attesa di Nicola
+**Stato:** ⏳ in attesa di Nicola · aggiornata 2026-11-27 20:24: Nicola ha deciso di usare **le email vere di SDG**, non la sua Gmail col «+negozio». Le manda in chat; il comando si riscrive con quell'indirizzo.
 
 **In parole semplici.** SDG Agenzia è un negozio su MyCity, ma il 24/11 l'abbiamo creato con un utente che non può entrare: niente password e bloccato per 100 anni. Serviva solo a mostrare i tre abbonamenti in vetrina.
 Adesso vuoi entrare come SDG e vedere, dentro «Servizi», il sito, il piano dei social e l'analisi. Per farlo l'utente di SDG deve avere un indirizzo email vero e una password.
@@ -168,7 +168,7 @@ Adesso vuoi entrare come SDG e vedere, dentro «Servizi», il sito, il piano dei
 **Cosa cambia per te.** Entri su MyCity come SDG, con un indirizzo diverso dal tuo da amministratore, e vedi la tua area venditore come la vede un cliente Premium. Il tuo accesso da amministratore resta com'è.
 
 **Cosa devi fare tu.** Tre passi, cinque minuti.
-1. Scegli l'indirizzo. Due utenti non possono avere la stessa email: usa la tua Gmail con «+negozio» prima della chiocciola. Arriva nella stessa casella.
+1. Scegli l'indirizzo: una email vera di SDG (decisione del 27/11 20:20). Due utenti non possono avere la stessa email: se quell'indirizzo ha già un account su MyCity, va scelto un altro.
 2. Esegui su Supabase il comando dei dettagli tecnici, con l'indirizzo al posto del segnaposto.
 3. Su MyCity premi «Password dimenticata», scrivi quell'indirizzo e scegli la password dal link che ti arriva.
 
