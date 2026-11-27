@@ -36,7 +36,7 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 **Stato:** ⏳ in attesa.
 
 **In parole semplici.** La campagna «i 200 risolti» ripara i difetti del sito con più sessioni in parallelo. Ha una regola: non usare più della metà del limite settimanale dell'account. Oggi è ferma, perché aspetta la tua autorizzazione a lavorare sul sito.
-Esempio vero: alle 06:21 la scheda del collaudatore K01 mostrava il limite settimanale «in avviso». Da qui la percentuale non si vede.
+Esempio vero: alle 06:21 la scheda del collaudatore K01 mostrava il limite settimanale «in avviso». Da qui la percentuale non si vede. Verso le 02:00 avevi risposto all'AD «meno del 50%», con l'avviso già acceso. Da allora la campagna ha speso ancora, quindi l'AD te la richiede insieme all'autorizzazione.
 
 **Cosa cambia per te.** Se sei sopra la metà, far ripartire adesso l'unione e i collaudi consuma la parte del limite che ti serve per il resto della settimana.
 
