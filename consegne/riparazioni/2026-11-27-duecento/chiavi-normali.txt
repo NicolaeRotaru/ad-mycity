@@ -1,0 +1,41 @@
+# Onda 1 · i normali — 40 voci, una chiave per riga (AD, 2026-11-27)
+coerenza-brand|la primitiva card è usata in 10 file, mentre 141 card sono ridisegnate a mano con quattro raggi diversi
+tipografia|otto spaziature diverse per la stessa etichetta maiuscola
+architettura|email partita ma non segnata: la notte dopo riparte, e se fallisce l'allarme dice «non partita» per un'email già arrivata
+architettura|il finto clienteavvisi è riscritto in quattro posti e la prova da 1033 righe mescola rotte, notte e una scansione del sorgente
+architettura|una fascia «domani» inviata alle 23:59 e arrivata alla rotta dopo mezzanotte si giudica sul giorno dopo
+qa-flussi|faccine nei titoli delle notifiche scritte dal codice del sito
+stati-ui|senza database la categoria e la scheda prodotto mostrano «qualcosa è andato storto» invece del loro errore con «riprova»
+qa-flussi|un cliente che esiste già non ha una strada da solo per diventare fattorino
+frontend-ux|altri percorsi di facebook non elencati possono essere salvati come nome del profilo
+layout-responsive|la home a 320 px col testo al 200% scorre ancora di lato di 18 px
+architettura|commenti delle rotte della veloce dicono ancora «un fattorino approvato e online»
+api-backend|l'invio subito delle notifiche push prende le righe guardando solo pushed_at, e può correre col giro del cron
+architettura|il parametro propostail di negoziopuoservire non lo passa nessuno
+stati-ui|sotto un lavoro sul catalogo chiuso che dice di chiedere all'assistenza prima di ripartire, il pulsante «avvia sul catalogo» resta lì
+ai-endpoints|l attesa per un applicazione del catalogo ancora in corso non scatta mai: legge una colonna che nessuna migrazione crea
+stati-ui|la pagina del lavoro sul catalogo non legge l avviso dell applica e mostra solo i primi tre motivi
+microcopy|un tetto del nome negozio respinto dal database esce col messaggio generico «il valore inserito non è valido.»
+qa-flussi|un contesto circolare passato al logger fa lanciare un errore invece di scrivere la riga
+layout-responsive|l'occhiello maiuscolo di collectionheader esce dalla colonna a 280 px col testo al 200%
+layout-responsive|il titolo di collectionheader da 640 px in su ha una misura in pixel fissi
+layout-responsive|in chi siamo i due pulsanti della fascia scura finale escono dalla fascia a 280 px col testo al 200%
+microcopy|sulla bacheca del fattorino una casella dice ancora «rating» in inglese
+stati-ui|oncount della griglia non sa dire «non so»: con la griglia ferma al tetto la categoria può restare su un numero vecchio
+dati-analytics|il cancello del filmato in eccezione lascia passare il filmato originale
+layout-responsive|col testo al 200% il voto del negozio nella scheda resta tagliato
+deploy-sre|chat e recensioni del negozio, senza la 181, scrivono un avviso a ogni apertura e non usano il ripiego dei nomi
+deploy-sre|senza la 164 la lettura dei nomi pubblici scrive «vista nomi_pubblici assente» a ogni chiamata
+deploy-sre|la guida al backup non dice che con un remote cifrato o alias lo storico va impostato a mano
+frontend-ux|il fattorino respinto o sospeso legge nel profilo «caricato · in attesa di verifica» sui documenti
+qa-flussi|il sorvegliante avvisa per una verifica d'identità «in attesa» anche dopo che lo staff ha approvato il fattorino o il negozio
+frontend-ux|alcune sottopagine vere di un profilo facebook (/nome/timeline, /nome/info, /nome/photos_by) vengono rifiutate invece di tenere il nome
+frontend-ux|il link tiktok di un profilo vero chiamato come un percorso riservato (tiktok.com/@live) viene rifiutato anche con la @
+frontend-ux|con due social sbagliati, uno vuoto e uno già salvato, il messaggio dice «sono rimasti com'erano» anche per quello vuoto
+frontend-ux|sotto il logo del negozio c'è ancora scritto «(png, jpg)» mentre la casella accetta sette formati
+frontend-ux|nel link facebook.com/nome_col_trattino_basso il primo messaggio che si legge è quello generico, «scrivi solo il nome del profilo…», non quello del trattino basso
+accessibilita|la card senza href scarta aria-label, e la card con href non passa al link il resto delle prop (id, role)
+deploy-sre|il commento del ritorno indietro dice ancora che un rilascio senza commit resta un posto buono, come prima
+deploy-sre|il commento del lavoro di rilascio dice ancora «se i candidati sono piu di uno»
+qa-flussi|nel cron delle notifiche restano altri codici di sessione nei commenti, come quello appena tolto
+api-backend|il preventivo accettato due volte nello stesso giorno con scelte diverse lascia avvisi che si contraddicono

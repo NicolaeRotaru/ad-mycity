@@ -1,0 +1,21 @@
+# Onda 1 · il pilota dei delicati, senza ultracode (Nicola 24/11 20:30) — 20 voci, una chiave per riga (AD, 2026-11-27)
+pagamenti-stripe|un conto stripe non più valido sul profilo fa ritentare il bonifico ogni 15 minuti e «aggiorna stato» risponde «errore stripe»
+qa-flussi|con una promozione del negozio la vetrina scrive un prezzo e la cassa ne fa pagare un altro, di un centesimo per pezzo
+flussi-conversione|nel pannello del negozio non c'è un posto dove vedere e approvare le anteprime
+sicurezza-auth|sette rotte di negozio e fattorino leggono il profilo dal cookie invece che dal gettone: chi entra solo col gettone riceve «profilo non trovato»
+privacy-legale|ai negozi scriviamo «iva inclusa» sulla commissione, mentre la regola decisa sospende quella dicitura finché il commercialista non conferma il regime
+stati-ui|creando una storia il negoziante non vede la foto scelta, solo il nome del file e il peso
+frontend-ux|nella scheda ordine del negozio compaiono «il rider sta gestendo la consegna» su un ordine annullato e «il rider incassa» su uno già consegnato
+performance|la velocità del sito vista dai clienti veri non la misura nessuno
+ai-endpoints|il freno di sei ore sui prodotti importati in errore regge solo con upstash: senza, ogni copia del sito ripaga le chiamate ai
+microcopy|in tanti punti l'euro è ancora scritto all'inglese: «€12.50», «€0 – €500+», «€ 2,50»
+dati-analytics|l'elenco prodotti dell'amministratore si ferma a mille senza dirlo, e la ricerca non trova i prodotti più vecchi
+layout-responsive|alla cassa, col testo del telefono al massimo, la scheda «contanti alla consegna» esce dallo schermo e la pagina scorre di lato
+mobile-pwa|quando la sessione scade da sola, il telefono perde le notifiche in silenzio e al nuovo accesso nessuno le riaccende
+coerenza-brand|la scala tipografica è aggirata 330 volte con misure a mano
+tipografia|con un solo elemento il sito scrive «1 negozi», «1 articoli», «1 ordini», «1 giorni fa»: il plurale è fisso
+performance-percepita|il traduttore degli errori dei moduli (zod) viaggia in ogni pagina, anche dove non c'è nessun modulo
+immagini-media|le prove di sviluppo seminano 240 foto di prodotto da placehold.co
+pagamenti-stripe|una contestazione persa su una parte del carrello segna persi anche gli ordini degli altri negozi
+flussi-conversione|chi è amministratore, negozio o fattorino perde il ritorno dopo l'accesso, e col pulsante google il ritorno si perde per tutti
+sicurezza-auth|il cambio di ruolo di un utente non finisce nel registro delle azioni amministrative
