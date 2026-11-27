@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-11-27 17:26",
+  "aggiornato": "2026-11-27 17:29",
   "fatti": [
     {
       "id": "ad.uso-e-crediti",
@@ -65,11 +65,21 @@
     {
       "id": "agenzia.listino",
       "nome": "agenzia.listino",
-      "valore": "Listino del preventivo di MyCity (22/11/2026; foto e video col partner scattiDG): sito web professionale 500 € una volta; gestione automatica dei social (flusso n8n) 300 € al mese; foto e video (riprese, scatti, montaggio, ritocco) da 50 a 300 € al mese; logo e grafica su richiesta; vetrina sul marketplace 50 € al mese (= pricing.abbonamento). Sul sito: lib/agenzia/preventivo.ts (LISTINO), modificabile da site_settings.agenzia senza rifare il sito.",
-      "fonte": "Nicola, chat della notte fra il 22 e il 23/11/2026 (messaggio con i prezzi)",
-      "aggiornato": "2026-11-23 01:08",
-      "storia": [],
-      "caccia": [],
+      "valore": "Listino del preventivo di MyCity (22/11/2026; foto e video col partner scattiDG): sito web professionale 500 € una volta; gestione automatica dei social (flusso n8n) 300 € al mese; foto e video (riprese, scatti, montaggio, ritocco) da 50 a 300 € al mese; logo e grafica su richiesta; la vetrina sul marketplace è dentro i tre abbonamenti di MyCity da 300, 600 e 900 euro al mese (= pricing.abbonamento, dal 27/11/2026). Sul sito: lib/agenzia/preventivo.ts (LISTINO), modificabile da site_settings.agenzia senza rifare il sito.",
+      "fonte": "Nicola, chat all'AD session_01R8112N4XVyUmvkBap6F8ru, 27/11/2026 verso le 17:45: «Annotalo questo anche per MyCity. MyCity offre questi abbonamenti €300, €600 e €900»",
+      "aggiornato": "2026-11-27 17:29",
+      "storia": [
+        {
+          "valore": "Listino del preventivo di MyCity (22/11/2026; foto e video col partner scattiDG): sito web professionale 500 € una volta; gestione automatica dei social (flusso n8n) 300 € al mese; foto e video (riprese, scatti, montaggio, ritocco) da 50 a 300 € al mese; logo e grafica su richiesta; vetrina sul marketplace 50 € al mese (= pricing.abbonamento). Sul sito: lib/agenzia/preventivo.ts (LISTINO), modificabile da site_settings.agenzia senza rifare il sito.",
+          "fino_a": "2026-11-27 17:29"
+        }
+      ],
+      "caccia": [
+        {
+          "pattern": "Listino del preventivo di MyCity (22/11/2026; foto e video col partner scattiDG): sito web professionale 500 € una volta; gestione automatica dei social (flusso n8n) 300 € al mese; foto e video (riprese, scatti, montaggio, ritocco) da 50 a 300 € al mese; logo e grafica su richiesta; vetrina sul marketplace 50 € al mese (= pricing.abbonamento). Sul sito: lib/agenzia/preventivo.ts (LISTINO), modificabile da site_settings.agenzia senza rifare il sito.",
+          "dal": "2026-11-27 17:29"
+        }
+      ],
       "esenzioni": []
     },
     {
@@ -1374,9 +1384,9 @@
     {
       "id": "pricing.abbonamento",
       "nome": "Abbonamento venditore MyCity",
-      "valore": "50€/mese di listino, SOSPESO finché il negozio non incassa: niente canone fino ai primi incassi portati da MyCity (scelta 13 della carta #209, firmata da Nicola il 2026-10-26 con «ok 209»). APERTO dal 2026-11-24: Nicola ha detto che il prezzo di MyCity cambia, ma il valore nuovo non l'ha ancora detto. I tre abbonamenti da 300, 600 e 900 euro al mese sono un'altra cosa: sono servizi di MyCity realizzati tramite SDG Agenzia, il partner (Nicola, 24/11: «sono servizi che offre mycity, ma tramite SDG»; prezzi del 27/11, fatto sdg.abbonamenti).",
-      "fonte": "Nicola, chat all'AD session_01R8112N4XVyUmvkBap6F8ru, 27/11/2026 verso le 17:10: «SDG non vende solo negozi, ma le attività locali che hanno bisogno di digitalizzare… si occupa di gestire tutta l'infrastruttura online… gli abbonamenti sono 300 euro, 600 euro e 900 euro»",
-      "aggiornato": "2026-11-27 17:21",
+      "valore": "Il listino di MyCity sono tre abbonamenti mensili: Base 300 euro, Business 600 euro, Premium 900 euro (Nicola, 27/11/2026 verso le 17:45). Comprendono la vetrina su MyCity e i servizi realizzati col partner SDG Agenzia (foto e video, social, sito web, scheda Google, analisi), in misura crescente: vedi sdg.abbonamenti. Primo mese a metà prezzo (150, 300 e 450 euro), nessun vincolo, disdetta con 30 giorni di preavviso. Resta il 10% sui prodotti venduti tramite MyCity (pricing.commissione). Chiude la domanda aperta dal 24/11 sul nuovo prezzo di MyCity: il vecchio canone della sola vetrina, sospeso finché il negozio non incassava, non vale più per i negozi nuovi. Pane Quotidiano resta com'è finché Nicola non dice altro.",
+      "fonte": "Nicola, chat all'AD session_01R8112N4XVyUmvkBap6F8ru, 27/11/2026 verso le 17:45: «Annotalo questo anche per MyCity. MyCity offre questi abbonamenti €300, €600 e €900»",
+      "aggiornato": "2026-11-27 17:29",
       "storia": [
         {
           "valore": "50€/mese",
@@ -1401,6 +1411,10 @@
         {
           "valore": "50€/mese di listino, SOSPESO finché il negozio non incassa: niente canone fino ai primi incassi portati da MyCity (scelta 13 della carta #209, firmata da Nicola il 2026-10-26 con «ok 209»). APERTO dal 2026-11-24: Nicola ha detto che il prezzo di MyCity cambia, ma il valore nuovo non l'ha ancora detto. I tre abbonamenti da 300/500/999 euro sono un'altra cosa: sono servizi di MyCity realizzati tramite SDG Agenzia, il partner (Nicola, 24/11: «sono servizi che offre mycity, ma tramite SDG»; fatto sdg.abbonamenti).",
           "fino_a": "2026-11-27 17:21"
+        },
+        {
+          "valore": "50€/mese di listino, SOSPESO finché il negozio non incassa: niente canone fino ai primi incassi portati da MyCity (scelta 13 della carta #209, firmata da Nicola il 2026-10-26 con «ok 209»). APERTO dal 2026-11-24: Nicola ha detto che il prezzo di MyCity cambia, ma il valore nuovo non l'ha ancora detto. I tre abbonamenti da 300, 600 e 900 euro al mese sono un'altra cosa: sono servizi di MyCity realizzati tramite SDG Agenzia, il partner (Nicola, 24/11: «sono servizi che offre mycity, ma tramite SDG»; prezzi del 27/11, fatto sdg.abbonamenti).",
+          "fino_a": "2026-11-27 17:29"
         }
       ],
       "caccia": [
@@ -1450,10 +1464,27 @@
         {
           "pattern": "50€/mese di listino, SOSPESO finché il negozio non incassa: niente canone fino ai primi incassi portati da MyCity (scelta 13 della carta #209, firmata da Nicola il 2026-10-26 con «ok 209»). APERTO dal 2026-11-24: Nicola ha detto che il prezzo di MyCity cambia, ma il valore nuovo non l'ha ancora detto. I tre abbonamenti da 300/500/999 euro sono un'altra cosa: sono servizi di MyCity realizzati tramite SDG Agenzia, il partner (Nicola, 24/11: «sono servizi che offre mycity, ma tramite SDG»; fatto sdg.abbonamenti).",
           "dal": "2026-11-27 17:21"
+        },
+        {
+          "pattern": "abbonamento marketplace da 50 euro",
+          "dal": "2026-11-27 17:29"
+        },
+        {
+          "pattern": "vetrina sul marketplace 50 € al mese",
+          "dal": "2026-11-27 17:29"
+        },
+        {
+          "pattern": "Nicola ha detto che il prezzo di MyCity cambia, ma il valore nuovo non l'ha ancora detto",
+          "dal": "2026-11-27 17:29"
+        },
+        {
+          "pattern": "50€/mese di listino, SOSPESO finché il negozio non incassa: niente canone fino ai primi incassi portati da MyCity (scelta 13 della carta #209, firmata da Nicola il 2026-10-26 con «ok 209»). APERTO dal 2026-11-24: Nicola ha detto che il prezzo di MyCity cambia, ma il valore nuovo non l'ha ancora detto. I tre abbonamenti da 300, 600 e 900 euro al mese sono un'altra cosa: sono servizi di MyCity realizzati tramite SDG Agenzia, il partner (Nicola, 24/11: «sono servizi che offre mycity, ma tramite SDG»; prezzi del 27/11, fatto sdg.abbonamenti).",
+          "dal": "2026-11-27 17:29"
         }
       ],
       "esenzioni": [
-        "consegne/legale/contratto-pane-quotidiano-bozza.md"
+        "consegne/legale/contratto-pane-quotidiano-bozza.md",
+        "MyCity-Vault/90-Memoria-AI/BACHECA-SESSIONI.md"
       ]
     },
     {
@@ -1523,9 +1554,9 @@
     {
       "id": "pricing.worker-negozi",
       "nome": "Prezzo del Worker per i negozi",
-      "valore": "Il Worker è INCLUSO nell'abbonamento marketplace da 50 euro/mese fino a circa 50-100 negozi; oltre quella soglia diventa un servizio in più da altri 50 euro/mese (totale 100 euro/mese per negozio). Valore ripristinato il 2026-11-24: la riscrittura delle 02:15 legava il Worker ai tre abbonamenti, che invece sono di SDG (sdg.abbonamenti). Il prezzo di MyCity cambierà (pricing.abbonamento, APERTO).",
-      "fonte": "Nicola, chat 2026-11-24 ~03:30: «questa zona di servizi non c'entra niente con mycity, sono servizi offerti da SDG»; alla domanda «sono di SDG?»: «Sono di SDG, MyCity cambia» (il nuovo prezzo di MyCity non ancora detto)",
-      "aggiornato": "2026-11-24 03:38",
+      "valore": "Il Worker (social, recensioni, richiami, report) è compreso nei tre abbonamenti di MyCity (Base 300, Business 600, Premium 900 euro al mese), in misura crescente: vedi pricing.abbonamento (27/11/2026). Sostituisce «incluso nel canone della sola vetrina da 50 euro al mese fino a circa 50-100 negozi, poi altri 50 euro» dell'11/8 e del 24/11. Quanto Worker entra in ogni fascia: proposta dell'AD, da confermare con Nicola.",
+      "fonte": "Nicola, chat all'AD session_01R8112N4XVyUmvkBap6F8ru, 27/11/2026 verso le 17:45: «Annotalo questo anche per MyCity. MyCity offre questi abbonamenti €300, €600 e €900» (conseguenza: il Worker stava nel canone di MyCity, che ora sono i tre abbonamenti)",
+      "aggiornato": "2026-11-27 17:29",
       "storia": [
         {
           "valore": "Vetrina 99€/mese · Autopilot 299€/mese · Direttore Digitale 699-999€/mese (+ setup una tantum). Prodotto DIVERSO dall'abbonamento venditore marketplace (pricing.abbonamento = 50€/mese)",
@@ -1538,6 +1569,10 @@
         {
           "valore": "Il Worker (social, recensioni, richiami, report) è compreso in tutti e tre gli abbonamenti (Base 300, Business 500, Premium 999 euro/mese), in misura crescente: vedi pricing.abbonamento. Sostituisce «Worker incluso nell'abbonamento da 50 euro/mese fino a 50-100 negozi, poi altri 50 euro» dell'11/8.",
           "fino_a": "2026-11-24 03:38"
+        },
+        {
+          "valore": "Il Worker è INCLUSO nell'abbonamento marketplace da 50 euro/mese fino a circa 50-100 negozi; oltre quella soglia diventa un servizio in più da altri 50 euro/mese (totale 100 euro/mese per negozio). Valore ripristinato il 2026-11-24: la riscrittura delle 02:15 legava il Worker ai tre abbonamenti, che invece sono di SDG (sdg.abbonamenti). Il prezzo di MyCity cambierà (pricing.abbonamento, APERTO).",
+          "fino_a": "2026-11-27 17:29"
         }
       ],
       "caccia": [
@@ -1576,6 +1611,10 @@
         {
           "pattern": "Il Worker (social, recensioni, richiami, report) è compreso in tutti e tre gli abbonamenti (Base 300, Business 500, Premium 999 euro/mese), in misura crescente: vedi pricing.abbonamento. Sostituisce «Worker incluso nell'abbonamento da 50 euro/mese fino a 50-100 negozi, poi altri 50 euro» dell'11/8.",
           "dal": "2026-11-24 03:38"
+        },
+        {
+          "pattern": "Il Worker è INCLUSO nell'abbonamento marketplace da 50 euro/mese fino a circa 50-100 negozi; oltre quella soglia diventa un servizio in più da altri 50 euro/mese (totale 100 euro/mese per negozio). Valore ripristinato il 2026-11-24: la riscrittura delle 02:15 legava il Worker ai tre abbonamenti, che invece sono di SDG (sdg.abbonamenti). Il prezzo di MyCity cambierà (pricing.abbonamento, APERTO).",
+          "dal": "2026-11-27 17:29"
         }
       ],
       "esenzioni": []

@@ -1,6 +1,6 @@
 ---
 tipo: bacheca
-aggiornato: 2026-11-27 01:45
+aggiornato: 2026-11-27 17:55
 regole: cervello/sessioni-insieme.md
 ---
 
@@ -28,6 +28,9 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 27/11 ~17:45 | all'AD (`…N4XVyUmvkBap6F8ru`) | **MyCity offre gli stessi tre abbonamenti: 300, 600 e 900 euro al mese.** Chiude la domanda aperta dal 24/11 sul nuovo prezzo di MyCity: il canone della sola vetrina da 50 euro non vale più per i negozi nuovi (Pane Quotidiano resta com'è). Fatti `pricing.abbonamento`, `agenzia.listino`, `pricing.worker-negozi` |
+| 27/11 ~17:10 | all'AD (`…N4XVyUmvkBap6F8ru`) | **Abbonamenti a 300, 600 e 900 euro al mese** (non più 500 e 999); primo mese a metà: 150, 300, 450. **SDG lavora con tutte le attività locali che devono digitalizzarsi**, non solo coi negozi, e cura tutto il loro online. Fatto `sdg.abbonamenti`. Chi scrive prezzi o testi di SDG li prende da lì |
+| 27/11 ~16:00 | all'AD (`…N4XVyUmvkBap6F8ru`) | **SDG usa la sua tecnologia sui propri social, in versione Premium.** SDG è cliente Premium di se stessa: nella sua area venditore MyCity, dentro «Servizi», Sito web = il suo sito, Gestione social = il piano editoriale, Analisi del business = la sua analisi. Lavori in `consegne/sdg-premium/`, codice sul ramo `ccr-3e25a9cc-8rdzdt` di mycity e SDG |
 | 27/11 ~14:50 | AD (session_01R8112LLyeYLAMVEEzLNUuw) | «AD · Proponi nel Calendario»: un contenuto già **approvato** e riproposto con lo stesso nome di riga **torna da approvare**. La versione di prima non esce più; esce quella nuova solo se la riapprova su Telegram. Le note di prima restano. Una riga già uscita (pubblicata, in pubblicazione, o con un link già pieno) invece ferma il flusso: «riga già pubblicata: usa un id nuovo». |
 | 27/11 ~03:05 | all'AD, chat «Conferma pagina semplificazione» (`…L9oSZcRFsmSf8hEZ2`) | «Vai» ai tasti Approva e Rifiuta dentro Telegram, senza aprire la pagina del browser, e al tasto «Approva tutti» in fondo a ogni consegna. Prima aveva scritto: «non mi piace che devo sempre aprire questa pagina per confermare». Fatto: flusso nuovo acceso «AD · Tasti su Telegram» e «AD · Proponi nel Calendario» cambiato (N8N, ramo `ccr-6c484b65-gq6q05`). Chi propone contenuti manda `lotto` in ogni proposta e alla fine `riepilogo.json` |
 | 27/11 ~02:30 | all'AD (`…NWDpfn`) | Nel riquadro «Il titolare ha detto sì?» della pagina dell'agente si **sceglie l'abbonamento** detto dal titolare. La **pagina del negozio si sblocca da sola** in quella fascia. Si sblocca **subito**, prima dei contanti, che si ritirano al primo servizio. Resta sbloccata **fino alla disdetta**. Se il titolare non paga, Nicola la ferma da Admin. Fatto `negozi.modalita-demo` aggiornato. Il lavoro è nel ramo `claude/confident-turing-z8z2i5` di mycity, migrazione 999 |
