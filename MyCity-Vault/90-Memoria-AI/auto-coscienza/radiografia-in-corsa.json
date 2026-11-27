@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-11-27 18:35",
+  "aggiornato": "2026-11-27 19:23",
   "scansioni": [
     {
       "quando": "2026-08-25 20:35",
@@ -8858,6 +8858,166 @@
       "nota": "",
       "file": {
         "app/api/admin/preventivi-col-link/route.ts": "c41e1eeb590e"
+      }
+    },
+    {
+      "quando": "2026-11-27 18:38",
+      "casa": "marketplace",
+      "dimensione": "api-backend",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "app/api/seller/lavoro-consegnato/route.ts": "b48895af4dd2"
+      }
+    },
+    {
+      "quando": "2026-11-27 18:38",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "app/seller/servizi/[servizio]/page.tsx": "046cfb0660e5",
+        "components/seller/lavoro-consegnato/AnalisiConsegnata.tsx": "b55f82b660b1",
+        "components/seller/lavoro-consegnato/PianoEditorialeConsegnato.tsx": "89b6710fc7e7",
+        "components/seller/lavoro-consegnato/SitoConsegnato.tsx": "af599ab9d200",
+        "components/seller/lavoro-consegnato/comuni.tsx": "b71dad0e619f",
+        "components/seller/preventivo-agenzia.ts": "235e3e66e50b"
+      }
+    },
+    {
+      "quando": "2026-11-27 18:38",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "lib/agenzia/lavoro-consegnato/quale-parte.ts": "8720858e487e",
+        "lib/agenzia/lavoro-consegnato/registro.ts": "f024a12cce43",
+        "lib/agenzia/lavoro-consegnato/sdg/analisi.json": "92edbf80abde",
+        "lib/agenzia/lavoro-consegnato/sdg/sito.json": "55175c13fef1",
+        "lib/agenzia/lavoro-consegnato/sdg/social.json": "4917b578be54",
+        "lib/agenzia/lavoro-consegnato/tipi.ts": "b3fd78a58d9e",
+        "lib/agenzia/preventivo.ts": "69529ff15c44"
+      }
+    },
+    {
+      "quando": "2026-11-27 18:38",
+      "casa": "marketplace",
+      "dimensione": "rls-database",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "migrations/999d_i_tre_abbonamenti_di_sdg_costano_300_600_900.sql": "c6317b7728d7"
+      }
+    },
+    {
+      "quando": "2026-11-27 19:11",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/allocazione-check.mjs": "242d0bff26fd",
+        "cervello/mappa-azienda.mjs": "a075257cfbdc",
+        "cervello/scheda-cliente.mjs": "ba4749420acf"
+      }
+    },
+    {
+      "quando": "2026-11-27 19:23",
+      "casa": "marketplace",
+      "dimensione": "api-backend",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "app/api/account/export/route.ts": "4f3981df022e",
+        "app/api/agente/aggiungi/route.ts": "c10f3cc727e4",
+        "app/api/agente/attivita/route.ts": "62f2bcc790f7",
+        "app/api/agente/schede/route.ts": "b2c36680e615",
+        "app/api/sdg/ordini/route.ts": "46c6244e9517"
+      }
+    },
+    {
+      "quando": "2026-11-27 19:23",
+      "casa": "marketplace",
+      "dimensione": "rls-database",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "migrations/999c_l_ordine_di_servizio_arriva_a_sdg.sql": "9d8022efe674"
+      }
+    },
+    {
+      "quando": "2026-11-27 19:23",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "app/admin/ordini-sdg/page.tsx": "b72f8246ed68",
+        "app/agente/page.tsx": "7acc3524d51d",
+        "app/agente/tocca-a-sdg/page.tsx": "3acce05d8b89",
+        "app/seller/ordini-sdg/page.tsx": "9c72c8af1dd9",
+        "components/admin/AdminSidebar.tsx": "2a41da3fcc40",
+        "components/agenti/AggiungiAttivita.tsx": "a547391cea3b",
+        "components/agenti/scheda.module.css": "6c630c2db6d2",
+        "components/agenti/tocca-a-sdg.module.css": "fdc05a5df4ff",
+        "components/sdg/OrdiniSdg.tsx": "b0dee20c9766"
+      }
+    },
+    {
+      "quando": "2026-11-27 19:23",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "lib/agenti/aggiungi.ts": "738b3369555c",
+        "lib/agenti/attivita.ts": "231dd1a59f75",
+        "lib/agenti/passi-di-sdg.ts": "40bb07b91391",
+        "lib/agenzia/contenuti-servizi.ts": "662b9f48870e",
+        "lib/agenzia/ordine-sdg.ts": "172334529369",
+        "lib/agenzia/piano-completo-ad.ts": "d18580083db8",
+        "lib/agenzia/piano-del-primo-mese.ts": "c335f70e7725",
+        "lib/agenzia/preventivo-col-codice.ts": "d5fd2bcbf626",
+        "lib/agenzia/visita.ts": "99e754d6aa09",
+        "lib/database.types.ts": "1ddd73274215"
       }
     }
   ]

@@ -378,7 +378,7 @@ function pagina({ n8n, negozi, codice, peso }) {
   L.push('## I soldi', '');
   L.push("- Al lancio i clienti pagano solo in contanti, alla consegna. Fonte: `pagamenti.al-lancio`.");
   L.push("- Stripe non è collegato ai sensori dell'AD.");
-  L.push("- L'agenzia vende tre abbonamenti al mese: Base a 300 euro, Business a 500 euro e Premium a 999 euro. Fonte: `sdg.abbonamenti`.");
+  L.push("- L'agenzia vende tre abbonamenti al mese: Base a 300 euro, Business a 600 euro e Premium a 900 euro, per tutte le attività locali che hanno bisogno di digitalizzarsi. Fonte: `sdg.abbonamenti`.");
   L.push("- Il marketplace prende il 10% sugli ordini che porta lui. Fonte: `pricing.commissione`.");
   L.push("- Per l'IA non si paga nessuna API: quel lavoro lo fa l'AD col piano Max. Fonte: `ad.uso-e-crediti`.", '');
 

@@ -80,7 +80,7 @@ Detto in un altro modo: più fonti vere, e un preventivo che mostra cosa dà ogn
 ### Il preventivo, per abbonamento (approvato da Nicola il 26/11 verso le 16:05: «ok fasce»)
 Nicola, 26/11 14:54: l'analisi si personalizza per abbonamento, come contenuti, foto, video e sito; il preventivo mostra
 per ogni fascia le parti incluse e quelle escluse. Una sola tabella nel codice, facile da cambiare (come `FASCE`).
-Prezzi invariati (Base 300 €, Business 500 €, Premium 999 €).
+Prezzi invariati il 26/11; dal 27/11 sono Base 300 €, Business 600 €, Premium 900 € (fatto `sdg.abbonamenti`).
 - **Base**: il rapporto all'avvio, parti 1-4, 6, 7 (solo i suoi social), 8, 9 e 11, più un avviso quando esce un bando adatto.
   Esclusi: parte 5, parte 12, aggiornamenti periodici.
 - **Business**: tutto il Base, più la parte 5 e la parte 12 sui 3 concorrenti principali. Ogni mese: cosa è cambiato
