@@ -27,3 +27,4 @@ finita R06
 ramo R08 ccr-819e0c8d-7ryjjr-m08
 finita R08
 ramo K02 ccr-819e0c8d-7ryjjr-k02
+finita K02
