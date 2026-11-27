@@ -1578,3 +1578,9 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Perché:** la riga di prima diceva solo «il marketplace dei negozi». Dal 22/11 i clienti sono tutte le attività che vendono qualcosa (`strategia.cliente-core`). Dal 24/11 MyCity offre anche i servizi per portarle online (`sdg.abbonamenti`).
 - **Peso del manuale:** 17.925 byte su un tetto di 18.000. La prova `due-elenchi-un-solo-metro` vuole circa 60 byte di margine, e passa. La prima versione pesava 17.997 byte ed era rossa: l'ha trovato la sessione delle PR. Il modello Amazon × eBay × Glovo per esteso resta in `MyCity-Vault/00-Index.md`.
 - **Colore:** 🟡, perché tocca le istruzioni della macchina. L'ha chiesto Nicola, e la PR la valuta lui.
+
+## 2026-11-27 19:17 — Applicata in produzione la migrazione 999b, il giorno della visita di SDG (🔴, firma di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD (session_01R8112NYQ3s6UrYKRZCZdxA), 27/11 verso le 19:00: «applica le migrazioni».
+- **Cosa:** confronto in sola lettura fra il registro del database vero (340 righe) e `migrations/` di main (0033f975, dopo la mycity#351): mancava solo la 999b. Aggiunge `preventivi_con_codice.visita_il` e un indice unico parziale, cioè una sola attività per ora. Non cancella niente. Lanciato «Migrazioni a mano» con APPLICA / 1 / 999b: esecuzione 46046533099, partita alle 19:03, tutta verde alle 19:17.
+- **Verifica:** in sola lettura alle 19:23: 999b nel registro (341 righe), colonna `visita_il` di tipo timestamptz, indice `preventivi_con_codice_una_visita_per_ora` presente.
+- **Colore:** 🔴, eseguito sulla firma esplicita di Nicola.
