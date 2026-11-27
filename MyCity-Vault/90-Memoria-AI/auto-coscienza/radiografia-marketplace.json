@@ -102835,7 +102835,7 @@
       "fix": "Al primo rifiuto per il tetto del giorno, un avviso a Nicola (notifyAdmins, una volta per link al giorno).",
       "severita": "minore",
       "stato": "aperto",
-      "fonte": "terzo collaudo indipendente della sicurezza della conferma col codice dell'email, 2026-11-27 18:30 (repo mycity, ramo claude/adoring-fermat-2d0bi6)",
+      "fonte": "terzo collaudo indipendente della sicurezza della conferma col codice dell'email, 2026-11-27 17:20 (repo mycity, ramo claude/adoring-fermat-2d0bi6)",
       "dove_si_ripara": "da decidere"
     },
     {
@@ -102848,7 +102848,7 @@
       "fix": "Da decidere: un modo per Nicola di riaprire il link da Admin, o un tetto per email oltre a quello per link.",
       "severita": "minore",
       "stato": "aperto",
-      "fonte": "terzo collaudo indipendente della sicurezza della conferma col codice dell'email, 2026-11-27 18:30 (repo mycity, ramo claude/adoring-fermat-2d0bi6)",
+      "fonte": "terzo collaudo indipendente della sicurezza della conferma col codice dell'email, 2026-11-27 17:20 (repo mycity, ramo claude/adoring-fermat-2d0bi6)",
       "dove_si_ripara": "da decidere"
     },
     {
@@ -102861,7 +102861,7 @@
       "fix": "Una prova col doppio invio sulla presa del preventivo, e una prova sul server vero dei due generateLink.",
       "severita": "minore",
       "stato": "aperto",
-      "fonte": "terzo collaudo indipendente della sicurezza della conferma col codice dell'email, 2026-11-27 18:30 (repo mycity, ramo claude/adoring-fermat-2d0bi6)",
+      "fonte": "terzo collaudo indipendente della sicurezza della conferma col codice dell'email, 2026-11-27 17:20 (repo mycity, ramo claude/adoring-fermat-2d0bi6)",
       "dove_si_ripara": "da decidere"
     }
   ],
