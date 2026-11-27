@@ -1585,6 +1585,11 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Peso del manuale:** 17.925 byte su un tetto di 18.000. La prova `due-elenchi-un-solo-metro` vuole circa 60 byte di margine, e passa. La prima versione pesava 17.997 byte ed era rossa: l'ha trovato la sessione delle PR. Il modello Amazon × eBay × Glovo per esteso resta in `MyCity-Vault/00-Index.md`.
 - **Colore:** 🟡, perché tocca le istruzioni della macchina. L'ha chiesto Nicola, e la PR la valuta lui.
 
+## 2026-11-27 19:58 — Tolto «Cosa ci guadagni» dalla pagina Abbonamento del negoziante (🟡)
+- **Chi l'ha chiesto:** Nicola, dal telefono, sulla pagina Abbonamento di Pane Quotidiano: «togli questo pezzo "cosa ci guadagni"».
+- **Cosa ho fatto:** tolto il riquadro verde dalla pagina Abbonamento del negoziante. Ora la pagina apre con l'offerta su misura. La funzione che scriveva le frasi resta nel codice, con la sua prova: si rimette in un attimo. PR del sito: NicolaeRotaru/mycity#354.
+- **Prova:** le due prove della pagina ora controllano che il riquadro non ci sia. Con la pagina vecchia sono rosse (2 su 36), con la nuova verdi (59 su 59). Foto della pagina a misura di telefono, coi dati finti delle prove.
+- **Colore:** 🟡, codice del sito in un ramo. Sul sito cambia solo quando Nicola unisce la PR.
 ## 2026-11-27 19:17 — Applicata in produzione la migrazione 999b, il giorno della visita di SDG (🔴, firma di Nicola)
 - **Chi e quando:** Nicola, in chat all'AD (session_01R8112NYQ3s6UrYKRZCZdxA), 27/11 verso le 19:00: «applica le migrazioni».
 - **Cosa:** confronto in sola lettura fra il registro del database vero (340 righe) e `migrations/` di main (0033f975, dopo la mycity#351): mancava solo la 999b. Aggiunge `preventivi_con_codice.visita_il` e un indice unico parziale, cioè una sola attività per ora. Non cancella niente. Lanciato «Migrazioni a mano» con APPLICA / 1 / 999b: esecuzione 46046533099, partita alle 19:03, tutta verde alle 19:17.
