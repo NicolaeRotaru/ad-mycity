@@ -1,0 +1,26 @@
+{
+ "collaudatore": "K02",
+ "riparatori": [
+  "R07"
+ ],
+ "aggiornato": "2026-11-27 03:30",
+ "finita": false,
+ "voci": [
+  {
+   "id": "R07-009",
+   "chiave": "qa-flussi|la cassa accetta ordini senza limite nella stessa fascia oraria, mentre il tetto deciso è 5",
+   "verdetto": "non_regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 2,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base 2ba05a74de2e9ad96fa94178df89711923119b0e --file lib/quando-arriva.ts --json (⛔ manca --prove: la voce non ha né commit né prova)"
+   },
+   "nota": "Nessun commit e nessuna prova: il referto stesso dice «fermata dallo stop di spesa, senza commit». Alla testa 598568c lib/quando-arriva.ts è identico alla base 2ba05a74, e la rotta dei contanti non conta i giri per fascia. Nella base il tetto c'è solo nella rotta della carta. La voce resta aperta: in pratica è un non fatto, con la ricetta e le due modifiche ad altri file scritte nella nota del referto."
+  }
+ ],
+ "campione": {}
+}
