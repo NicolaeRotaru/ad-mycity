@@ -160,7 +160,7 @@ Se va bene: metto i dati, rifaccio il collaudo e il sito si pubblica dal ramo, p
 
 ### 🔴 #268 — Dai a SDG una chiave per entrare nella sua pagina venditore · ⏳ accodata 2026-11-27 16:35 · @ad
 
-**Stato:** ⏳ in attesa di Nicola
+**Stato:** ✅ FATTO 2026-11-27 22:54. Nicola ha chiesto «perché non incolli tu questo comando» e l'AD l'ha lanciato su Supabase (progetto «Mycity»), sulla sua firma. Subito dopo l'ha ricontrollato in sola lettura. L'utente di SDG Agenzia ha l'email sdg.agenzia@gmail.com, anche nell'identità. Non è più bloccato. È venditore approvato «SDG Agenzia». La conferma dell'email è rimasta quella del 24/11, quindi non è partita l'email di benvenuto. C'è un solo account con quell'indirizzo. La password non c'è ancora: Nicola la sceglie con «Password dimenticata?» su MyCity. Prima, alle 20:31, Nicola aveva deciso di usare l'email vera di SDG e non la sua Gmail col «+negozio».
 
 **In parole semplici.** SDG Agenzia è un negozio su MyCity, ma il 24/11 l'abbiamo creato con un utente che non può entrare: niente password e bloccato per 100 anni. Serviva solo a mostrare i tre abbonamenti in vetrina.
 Adesso vuoi entrare come SDG e vedere, dentro «Servizi», il sito, il piano dei social e l'analisi. Per farlo l'utente di SDG deve avere un indirizzo email vero e una password.
@@ -168,9 +168,9 @@ Adesso vuoi entrare come SDG e vedere, dentro «Servizi», il sito, il piano dei
 **Cosa cambia per te.** Entri su MyCity come SDG, con un indirizzo diverso dal tuo da amministratore, e vedi la tua area venditore come la vede un cliente Premium. Il tuo accesso da amministratore resta com'è.
 
 **Cosa devi fare tu.** Tre passi, cinque minuti.
-1. Scegli l'indirizzo. Due utenti non possono avere la stessa email: usa la tua Gmail con «+negozio» prima della chiocciola. Arriva nella stessa casella.
-2. Esegui su Supabase il comando dei dettagli tecnici, con l'indirizzo al posto del segnaposto.
-3. Su MyCity premi «Password dimenticata», scrivi quell'indirizzo e scegli la password dal link che ti arriva.
+1. L'indirizzo è deciso: sdg.agenzia@gmail.com. È libero su MyCity (controllato il 27/11 alle 20:28).
+2. Il comando dei dettagli tecnici si lancia nell'editor SQL di Supabase. L'AD l'ha già lanciato alle 22:54.
+3. Su MyCity apri «Accedi», scrivi sdg.agenzia@gmail.com, premi «Password dimenticata?» e scegli la password dal link che arriva in quella casella.
 
 **Cosa non ho verificato.** Non ho provato l'accesso: da qui non posso scrivere sul database, ed è giusto così. Può darsi che al primo ingresso il sito ti chieda di accettare le condizioni del venditore: è normale.
 
@@ -181,13 +181,21 @@ Se va bene: entri, apri Servizi e guardi Sito web, Gestione social e Analisi del
 - **Reparto:** ad
 - **Dettagli tecnici:** utente `11111111-1111-1111-1111-5d9000000001` creato dalla migrazione 707 (`sdg.servizi@mycity-system.local`, `encrypted_password` vuota, `banned_until` = +100 anni). Comando:
   ```sql
+  begin;
   update auth.users
-     set email = 'INDIRIZZO-CON-+negozio', email_confirmed_at = now(), banned_until = null, updated_at = now()
-   where id = '11111111-1111-1111-1111-5d9000000001';
+     set email = 'sdg.agenzia@gmail.com', banned_until = null, updated_at = now()
+   where id = '11111111-1111-1111-1111-5d9000000001'
+     and email = 'sdg.servizi@mycity-system.local';
   update auth.identities
-     set identity_data = identity_data || jsonb_build_object('email', 'INDIRIZZO-CON-+negozio'), updated_at = now()
+     set identity_data = identity_data || jsonb_build_object('email', 'sdg.agenzia@gmail.com'), updated_at = now()
    where user_id = '11111111-1111-1111-1111-5d9000000001' and provider = 'email';
+  commit;
+  select email, banned_until from auth.users where id = '11111111-1111-1111-1111-5d9000000001';
   ```
+  L'ultima riga deve mostrare `sdg.agenzia@gmail.com` e `banned_until` vuoto. `email_confirmed_at` non si tocca: è già
+  pieno dal 24/11, così non parte l'email di benvenuto (trigger `trg_email_confermata_accoda_benvenuto`, che scatta solo
+  da vuoto a pieno). La condizione sull'email vecchia impedisce di rilanciarlo per sbaglio su un utente già cambiato.
+  Il comando va nel progetto «Mycity», codice `clmpyfvpvfjgeviworth`.
   Per tornare indietro, si blocca di nuovo l'utente:
   ```sql
   update auth.users set banned_until = now() + interval '100 years' where id = '11111111-1111-1111-1111-5d9000000001';
@@ -2221,6 +2229,18 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 > è un valore DEDOTTO dalla macchina, non fornito dal negozio; per prezzo/orari/descrizione serve prima
 > la conferma del dato dal negozio (restano «da procurare», non li scrive nessun autofill).
 <!-- SUPERVISIONE-NEGOZI:FINE -->
+
+## Correggi la didascalia di due post del Tropico che chiamano sangria il frozen alla fragola (aggiunta 2026-11-27 22:25)
+- **Reparto:** @content-social, con l'AD.
+- **Colore:** 🟡. Si cambia il testo di post già pubblicati sulle pagine di un cliente: niente si elimina, ma lo vedono i suoi clienti.
+- **Il perché:** alle 21:48 Nicola ha detto che il drink rosso nella caraffa (foto 0307) è un margarita frozen alla fragola, non una sangria. Due post usciti il 26/11 lo mettono accanto alla parola sangria.
+- **Contenuto, post 1 · il carosello «Bienvenidos al bancone» (26/11 14:55).** Nei testi si scrive solo «margarita frozen», senza «alla fragola» (Nicola, 27/11 verso le 22:35). Nella didascalia cambia una frase. Prima: «La sangria c'è anche in caraffa, da dividere al tavolo.» Dopo: «Anche il margarita frozen c'è in caraffa, da dividere al tavolo.» L'hashtag `#sangria` diventa `#margarita`. Link: instagram.com/p/DgNQvXNijOb · instagram.com/p/DgNRX1NioZ8 · facebook.com/122109746361543064/posts/122112444549543064 · facebook.com/1677537854385261/posts/1677560664382980
+- **Contenuto, post 2 · il reel «Una sera al Tropico» (26/11 14:15).** Nella didascalia, «un margarita, la sangria,» diventa «un margarita classico e uno frozen,». Link: instagram.com/reel/DgNMJdltQtp · instagram.com/reel/DgNNWZtSOqc · facebook.com/reel/2380643796108279 · facebook.com/reel/1534300138526276
+- **Come:** su Instagram la didascalia si cambia solo dall'app (tre puntini sul post → Modifica): quattro modifiche, due per account. Su Facebook la cambio io col flusso «AD · Calendario e Meta (a mano)», dopo il tuo via.
+- **Cosa cambia:** chi guarda i due post del Tropico non legge più «sangria» accanto alla caraffa del margarita frozen, su nessuna delle quattro pagine.
+- **Se va bene:** niente altro da fare: le nuove grafiche passano dal controllo dei nomi prima di uscire.
+
+---
 
 ## Dai a Claude il permesso di pubblicare su Vercel (aggiunta 2026-11-27 17:35)
 - **Reparto:** @devops-sre, con l'AD.

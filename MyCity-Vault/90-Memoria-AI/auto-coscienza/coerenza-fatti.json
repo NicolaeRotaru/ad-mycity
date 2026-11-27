@@ -1,11 +1,11 @@
 {
-  "data": "2026-11-27 23:14",
+  "data": "2026-11-27 23:51",
   "esito": "ok",
   "copertura": 2391,
   "origine": "cloud",
   "scritto_da": "coerenza-fatti.mjs",
-  "fatti_totali": 88,
-  "cacce_aperte": 96,
+  "fatti_totali": 89,
+  "cacce_aperte": 97,
   "file_scansionati": 2391,
   "incoerenze": [],
   "cacce": [
@@ -583,6 +583,12 @@
       "fatto": "strategia.concetto",
       "pattern": "MyCity si occupa di digitalizzare le attività locali e di promuovere i loro servizi e prodotti attraverso il marketplace. È la frase che dice cosa fa MyCity, e le due metà vanno insieme. Digitalizzare vuol dire portare l'attività online: sito, social, scheda Google, foto e video, la vetrina sul marketplace (i servizi degli abbonamenti, vedi sdg.abbonamenti). Promuovere vuol dire farle arrivare clienti e ordini, e il posto dove succede è il marketplace. Vale per tutte le attività che vendono qualcosa, non solo per le botteghe (strategia.cliente-core). Regola d'uso, dal CONTESTO_BUSINESS.md §2.1: col negoziante la parola «digitalizzare» non si usa; gli si dice cosa ci guadagna in incassi, clienti e tempo.",
       "dal": "2026-11-27 23:14",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "sdg.lessico",
+      "pattern": "Sul lato SDG — abbonamenti, servizi, preventivo, rapporto dell'imprenditore e tutto ciò in cui c'entra SDG — al titolare si dice «la tua attività», mai «il tuo negozio», in ogni forma (della/alla/nella/dalla tua attività). Sul lato marketplace — prodotti, ordini, carrello, recensioni, vetrina, consegne — resta «negozio»: lì il target di MyCity sono le botteghe e i piacentini (Nicola, 27/11/2026 verso le 21:25). Motivo: SDG lavora con tutte le attività locali, non solo coi negozi (sdg.abbonamenti).",
+      "dal": "2026-11-27 22:18",
       "copie_trovate": 0
     }
   ],
