@@ -31,6 +31,91 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
+### 🔴 #272 — Ripubblica i flussi n8n 16 e 19 coi prezzi nuovi · ⏳ accodata 2026-11-27 18:20 · @builder-automazioni
+
+**Stato:** ⏳ in attesa di Nicola
+
+**In parole semplici.** Due flussi di n8n scrivono ancora i prezzi vecchi. Il 19 prepara le bozze degli abbonamenti che ti arrivano su Telegram. Il 16 dice alla ricerca delle attività da visitare quanto costano gli abbonamenti.
+Per esempio: oggi la bozza Business direbbe «500 € al mese, primo mese 250 €», invece di 600 e 300.
+
+**Cosa cambia per te.** Le bozze e le schede delle attività da visitare dicono 300, 600 e 900 euro, come il sito.
+
+**Cosa devi fare tu.** Unire la richiesta di unione del repo N8N sul ramo `ccr-3e25a9cc-8rdzdt`, poi scrivere «ok 272». Ripubblico io i due flussi, oppure la sessione dei flussi se è aperta.
+
+**Cosa non ho verificato.** I flussi vivi non li ho toccati. Le prove del codice sono verdi: 11 su 11 per il 19, 24 su 24 per il 16.
+
+Cosa cambia: le bozze degli abbonamenti su Telegram e la ricerca delle attività usano i prezzi nuovi.
+Se va bene: la prossima bozza che ti arriva dice 600 euro per il Business.
+
+- **Colore:** 🔴 (cambia due flussi vivi che parlano di prezzi)
+- **Reparto:** builder-automazioni
+- **Dettagli tecnici:** repo NicolaeRotaru/N8N, commit 7deaba8: `flussi/19-bozze-abbonamenti/codice/prepara-bozze.js` (prezzoMese 60000 e 90000, testi dell'analisi allineati al sito), `flussi/16-attivita-da-visitare/costruisci.mjs` (LISTINO). La prova 8 del 19 confronta il listino col sito MyCity: è verde solo col ramo mycity dei prezzi nuovi.
+
+### 🔴 #271 — Metti in vetrina i prezzi nuovi dei tre abbonamenti di SDG · ⏳ accodata 2026-11-27 18:20 · @ad
+
+**Stato:** ⏳ in attesa di Nicola, dopo l'unione della richiesta di mycity
+
+**In parole semplici.** Nella vetrina di SDG su MyCity i tre abbonamenti sono prodotti, coi prezzi scritti nel database. Oggi lì c'è ancora «Abbonamento Business — 500 € al mese». La modifica 999b li riscrive a 300, 600 e 900 euro, con le descrizioni del listino.
+
+**Cosa cambia per te.** Chi guarda la vetrina di SDG vede gli stessi prezzi del preventivo e del sito SDG.
+
+**Cosa devi fare tu.** Prima unire la richiesta di unione di mycity sul ramo `ccr-3e25a9cc-8rdzdt`. Poi lanciare «Migrazioni a mano» con 999b, oppure scrivermi «ok 271» e la lancio io.
+
+**Cosa non ho verificato.** La modifica non è mai girata su un database. La prova del sito controlla che i testi coincidano col listino, parola per parola.
+
+Cosa cambia: i tre prodotti di SDG in vetrina passano a 300, 600 e 900 euro al mese.
+Se va bene: controllo in sola lettura che i tre prezzi siano cambiati e te lo scrivo.
+
+- **Colore:** 🔴 (scrittura sul database vero, prezzi)
+- **Reparto:** ad
+- **Dettagli tecnici:** `migrations/999b_i_tre_abbonamenti_di_sdg_costano_300_600_900.sql`. UPDATE solo sui prodotti `11111111-1111-1111-1111-5d90000001{01,02,03}`; si può rieseguire. Il nome 999b viene dopo la 999 nell'ordine `LC_ALL=C`, e il campo «ultima» del pulsante accetta tre cifre più una lettera.
+
+### 🟡 #270 — Dimmi quali profili social ha SDG, o aprili, per far partire il piano di dicembre · ⏳ accodata 2026-11-27 18:20 · @content-social
+
+**Stato:** ⏳ in attesa di Nicola
+
+**In parole semplici.** Il piano Premium di dicembre per i social di SDG è pronto: 57 pezzi, tutti da approvare. Per pubblicarli servono le pagine. Cercando sul web non ho trovato né un profilo né una scheda Google di SDG.
+
+**Cosa cambia per te.** Con le pagine collegate, i contenuti ti arrivano su Telegram come quelli del Tropico. Esce solo quello che approvi.
+
+**Cosa devi fare tu.** Quattro risposte.
+1. Quali pagine esistono già: Instagram, Facebook, LinkedIn, TikTok.
+2. Il numero WhatsApp di SDG.
+3. Se apriamo la scheda Google. È gratis, e ti serve un indirizzo vero per la verifica.
+4. Se lunedì 14/12 mattina fai la «diagnosi dal vivo» per i titolari, e dove.
+
+**Cosa non ho verificato.** I profili li ho cercati solo sul web aperto: se sono privati o nuovi, non li vedo. I tre post «prima e dopo» vogliono il consenso scritto del cliente, oppure un lavoro di SDG stessa.
+
+Cosa cambia: SDG comincia a usare su di sé la stessa tecnologia che vende, col piano Premium.
+Se va bene: produco i primi sette contenuti coi colori del sito SDG e li metto nel Calendario da approvare.
+
+- **Colore:** 🟡
+- **Reparto:** content-social
+- **Dettagli tecnici:** piano in `consegne/sdg-premium/social.json` e `social.md`. Per produrre si usa la skill `contenuti-cliente`, che crea `clienti/sdg.json` nel repo N8N. La pubblicità su Meta (circa 150 € proposti) resta 🔴 a parte.
+
+### 🔴 #269 — Metti i contatti veri nel sito SDG prima di pubblicarlo · ⏳ accodata 2026-11-27 18:20 · @ad
+
+**Stato:** ⏳ in attesa di Nicola
+
+**In parole semplici.** Il sito SDG rifatto per il Premium è pronto: parla alle attività locali di Piacenza, ha i tre abbonamenti a 300, 600 e 900 euro, e non c'è niente di inventato. Ma email e WhatsApp sono vuoti, quindi il modulo dei contatti resta spento.
+
+**Cosa cambia per te.** Con i contatti veri, chi apre il sito può chiedere la diagnosi gratuita e scriverti su WhatsApp.
+
+**Cosa devi fare tu.** Tre cose.
+1. Dimmi l'email e il numero WhatsApp di SDG.
+2. Dimmi il dominio, se ce l'hai.
+3. Dimmi se i prezzi sono con l'IVA o senza.
+Per Vercel: la sessione del sito del Caffè di Piacenza ti ha chiesto un token e dice di avere il tuo via a pubblicare. Pubblicare è un tuo via, e va dato dall'ultimo commit del ramo.
+
+**Cosa non ho verificato.** Il modulo non l'ho provato su una posta vera. Nessun controllo coi validatori di Google.
+
+Cosa cambia: il sito SDG può andare online con contatti che funzionano.
+Se va bene: metto i dati, rifaccio il collaudo e il sito si pubblica dal ramo, poi la sua pagina compare dentro «Sito web» di SDG su MyCity.
+
+- **Colore:** 🔴 (pubblicazione e dati veri)
+- **Reparto:** ad
+- **Dettagli tecnici:** repo NicolaeRotaru/SDG, ramo `ccr-3e25a9cc-8rdzdt`, ultimo commit 1fb96b3. Campi in `src/lib/site.ts`: `email`, `whatsapp`, `phone`, `socials`; su Vercel la variabile `NEXT_PUBLIC_SITE_URL`.
+
 ### 🔴 #268 — Dai a SDG una chiave per entrare nella sua pagina venditore · ⏳ accodata 2026-11-27 16:35 · @ad
 
 **Stato:** ⏳ in attesa di Nicola
