@@ -27015,6 +27015,23 @@
       "verifica": {
         "tipo": "umano"
       }
+    },
+    {
+      "id": "AR-1196",
+      "nato_come": "scoperta",
+      "titolo": "Il controllo dei referti ferma un riparatore che ha rimesso com'erano le prove comuni, perché la sua verifica esce rossa solo in quelle",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato": "2026-11-27 03:51",
+      "origine": "regia terza della campagna dei 200 del 27/11 (session_015BmpnXCNZDPwoc9LQi6wa1), detto all'AD alle 03:51",
+      "dove": "cervello/riparazione-sessioni.mjs, valida-referto: «a referto finito la verifica deve essere verde» (verso la riga 1379); REGOLE_DEROGABILI non copre la verifica",
+      "descrizione": "Un riparatore non può cambiare le prove comuni: le rimette com'erano e la regia le adegua all'unione. La sua verifica esce quindi rossa proprio in quelle prove, e valida-referto la ferma come un rosso vero. R06 aveva 1 caso rosso su 14.321, quello della prova comune. R02, nello stesso caso, ha scritto «verde» con una nota: due referti uguali letti in due modi.",
+      "causa_radice": "L'esito della verifica è un solo valore, verde o no, senza un posto per dire quali rossi sono attesi e perché.",
+      "fix_proposto": "Un esito della verifica che il programma accetta solo se ogni rosso cade in una prova comune che guardia-ramo vede rimessa com'era alla base, con una prova che diventi rossa se un rosso cade in una prova che non è comune.",
+      "dimensione": "processi",
+      "verifica": {
+        "tipo": "umano"
+      }
     }
   ],
   "meta": {
