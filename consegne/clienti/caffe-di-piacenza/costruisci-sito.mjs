@@ -529,7 +529,7 @@ const VERCEL = {
         { key: 'Content-Security-Policy', value: "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; frame-src https://www.openstreetmap.org; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'self' https://mycity-marketplace.com https://*.mycity-marketplace.com" },
       ],
     },
-    { source: '/assets/(.*)', headers: [{ key: 'Cache-Control', value: 'public, max-age=86400' }] },
+    { source: '/assets/(.*)', headers: [{ key: 'Cache-Control', value: 'public, max-age=3600' }] },
   ],
 };
 
