@@ -1590,3 +1590,9 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa:** confronto in sola lettura fra il registro del database vero (340 righe) e `migrations/` di main (0033f975, dopo la mycity#351): mancava solo la 999b. Aggiunge `preventivi_con_codice.visita_il` e un indice unico parziale, cioè una sola attività per ora. Non cancella niente. Lanciato «Migrazioni a mano» con APPLICA / 1 / 999b: esecuzione 46046533099, partita alle 19:03, tutta verde alle 19:17.
 - **Verifica:** in sola lettura alle 19:23: 999b nel registro (341 righe), colonna `visita_il` di tipo timestamptz, indice `preventivi_con_codice_una_visita_per_ora` presente.
 - **Colore:** 🔴, eseguito sulla firma esplicita di Nicola.
+
+## 2026-11-27 20:31 — Nella pagina venditore di SDG Agenzia si entra con sdg.agenzia@gmail.com (🔴 da eseguire, firma di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD (session_01R8112NCcfSwcjYZHBsdh37), 27/11 20:20: «l'agenzia SDG dentro il marketplace è la stessa agenzia SDG … ti mando le mail e dovrai farmi accedere con questa email all'agenzia». Alle 20:28 ha mandato l'indirizzo.
+- **Cosa:** l'utente di sistema di SDG Agenzia (migrazione 707, bloccato e senza password) prende l'email vera di SDG invece della Gmail di Nicola col «+negozio», proposta nell'azione #268. Controllato in sola lettura alle 20:28: nessun account usa già quell'indirizzo. Il comando è scritto nell'azione #268.
+- **Chi lo esegue:** Nicola, con un incolla nell'editor SQL di Supabase. L'AD sul database vero non scrive.
+- **Colore:** 🔴, perché cambia l'accesso di un utente sul database vero.

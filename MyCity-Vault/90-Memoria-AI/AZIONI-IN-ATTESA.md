@@ -160,7 +160,7 @@ Se va bene: metto i dati, rifaccio il collaudo e il sito si pubblica dal ramo, p
 
 ### 🔴 #268 — Dai a SDG una chiave per entrare nella sua pagina venditore · ⏳ accodata 2026-11-27 16:35 · @ad
 
-**Stato:** ⏳ in attesa di Nicola · aggiornata 2026-11-27 20:24: Nicola ha deciso di usare **le email vere di SDG**, non la sua Gmail col «+negozio». Le manda in chat; il comando si riscrive con quell'indirizzo.
+**Stato:** ⏳ in attesa di Nicola · aggiornata 2026-11-27 20:31: Nicola ha deciso di usare **l'email vera di SDG**, sdg.agenzia@gmail.com (non la sua Gmail col «+negozio»). Controllato in sola lettura alle 20:28: nessun account su MyCity usa quell'indirizzo, e l'utente di SDG è ancora quello del 24/11 (senza password, bloccato fino al 2126, mai entrato). Il comando qui sotto è già scritto con l'indirizzo vero.
 
 **In parole semplici.** SDG Agenzia è un negozio su MyCity, ma il 24/11 l'abbiamo creato con un utente che non può entrare: niente password e bloccato per 100 anni. Serviva solo a mostrare i tre abbonamenti in vetrina.
 Adesso vuoi entrare come SDG e vedere, dentro «Servizi», il sito, il piano dei social e l'analisi. Per farlo l'utente di SDG deve avere un indirizzo email vero e una password.
@@ -168,9 +168,9 @@ Adesso vuoi entrare come SDG e vedere, dentro «Servizi», il sito, il piano dei
 **Cosa cambia per te.** Entri su MyCity come SDG, con un indirizzo diverso dal tuo da amministratore, e vedi la tua area venditore come la vede un cliente Premium. Il tuo accesso da amministratore resta com'è.
 
 **Cosa devi fare tu.** Tre passi, cinque minuti.
-1. Scegli l'indirizzo: una email vera di SDG (decisione del 27/11 20:20). Due utenti non possono avere la stessa email: se quell'indirizzo ha già un account su MyCity, va scelto un altro.
-2. Esegui su Supabase il comando dei dettagli tecnici, con l'indirizzo al posto del segnaposto.
-3. Su MyCity premi «Password dimenticata», scrivi quell'indirizzo e scegli la password dal link che ti arriva.
+1. L'indirizzo è deciso: sdg.agenzia@gmail.com. È libero su MyCity (controllato il 27/11 alle 20:28).
+2. Apri l'editor SQL del progetto «Mycity» su Supabase, incolla il comando dei dettagli tecnici e premi Run.
+3. Su MyCity apri «Accedi», scrivi sdg.agenzia@gmail.com, premi «Password dimenticata?» e scegli la password dal link che arriva in quella casella.
 
 **Cosa non ho verificato.** Non ho provato l'accesso: da qui non posso scrivere sul database, ed è giusto così. Può darsi che al primo ingresso il sito ti chieda di accettare le condizioni del venditore: è normale.
 
@@ -181,13 +181,21 @@ Se va bene: entri, apri Servizi e guardi Sito web, Gestione social e Analisi del
 - **Reparto:** ad
 - **Dettagli tecnici:** utente `11111111-1111-1111-1111-5d9000000001` creato dalla migrazione 707 (`sdg.servizi@mycity-system.local`, `encrypted_password` vuota, `banned_until` = +100 anni). Comando:
   ```sql
+  begin;
   update auth.users
-     set email = 'INDIRIZZO-CON-+negozio', email_confirmed_at = now(), banned_until = null, updated_at = now()
-   where id = '11111111-1111-1111-1111-5d9000000001';
+     set email = 'sdg.agenzia@gmail.com', banned_until = null, updated_at = now()
+   where id = '11111111-1111-1111-1111-5d9000000001'
+     and email = 'sdg.servizi@mycity-system.local';
   update auth.identities
-     set identity_data = identity_data || jsonb_build_object('email', 'INDIRIZZO-CON-+negozio'), updated_at = now()
+     set identity_data = identity_data || jsonb_build_object('email', 'sdg.agenzia@gmail.com'), updated_at = now()
    where user_id = '11111111-1111-1111-1111-5d9000000001' and provider = 'email';
+  commit;
+  select email, banned_until from auth.users where id = '11111111-1111-1111-1111-5d9000000001';
   ```
+  L'ultima riga deve mostrare `sdg.agenzia@gmail.com` e `banned_until` vuoto. `email_confirmed_at` non si tocca: è già
+  pieno dal 24/11, così non parte l'email di benvenuto (trigger `trg_email_confermata_accoda_benvenuto`, che scatta solo
+  da vuoto a pieno). La condizione sull'email vecchia impedisce di rilanciarlo per sbaglio su un utente già cambiato.
+  Progetto Supabase del marketplace: `clmpyfvpvfjgeviworth` («Mycity»).
   Per tornare indietro, si blocca di nuovo l'utente:
   ```sql
   update auth.users set banned_until = now() + interval '100 years' where id = '11111111-1111-1111-1111-5d9000000001';
