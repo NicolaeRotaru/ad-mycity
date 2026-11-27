@@ -34,3 +34,4 @@
 2026-11-27 02:59 · R04 · ramo fermo da 20 min su 9382fe0, ma il subagente del lotto 2 lavora (VendorForm, prove alle 02:59) · nessuna
 2026-11-27 03:02 · R12 · finita · guardia 🔴 (nome del file d'aiuto) · referto ✅ con --registro · azione: rinomino chiesto
 2026-11-27 03:05 · R06 · ramo fermo da 20 min su b3fab50, il subagente lavora sulle 6 voci minori · spesa 16,28 $ (65%) · nessuna
+2026-11-27 03:06 · R11 · finita · guardia ✅ · referto ✅ con --registro (3 riparati, 2 parziali, 1 già, 1 file altrui, 6 non fatti; 16,44 $) · azione: a K01
