@@ -1648,6 +1648,12 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Verifica:** in sola lettura alle 23:11 e alle 23:20: registro a 344 righe con 999c, 999d e 999f; tabella `ordini_sdg` e le due colonne presenti; prezzi 300 / 600 / 900; 3 utenti col segno; 0 negozi senza segno.
 - **Non toccati:** i due abbonamenti in contanti già venduti restano a 500 euro al mese (canone 50000). Decide Nicola.
 - **Colore:** 🔴, eseguito sulla firma esplicita di Nicola.
+## 2026-11-27 23:15 — La parola «digitalizzare» si può usare anche col negoziante
+- **Chi e quando:** Nicola, in chat all'AD, il 27/11 verso le 23:10. Sessione session_01R8112LANAw9VhLSs2fAbsL.
+- **Le sue parole:** «la parola «digitalizzare» si può usare anche col negoziante, sul sito e nei volantini». Rispondeva alla domanda dell'AD fatta dopo il salvataggio del concetto.
+- **Cosa cambia:** cade il divieto su questa parola scritto nel §2.1 di `CONTESTO_BUSINESS.md`. Il testo di Nicola resta com'è; il cambio è segnato nel §13. Il resto del §2.1 non cambia: niente «tecnologia» né «AI» col negoziante, e la promessa si dice in incassi, clienti e tempo.
+- **Dove l'ho scritto:** fatto `strategia.concetto` aggiornato, con la caccia sulle due frasi vecchie. Note ⑥ e ⑦ del §13 riscritte. La nota del concetto era numerata ④ per sbaglio, come un'altra: ora è la ⑦.
+- **Colore:** 🟡, perché cambia una regola di comunicazione. L'ha deciso Nicola.
 ## 2026-11-27 23:41 — Unita la PR del sito nel link del venditore (🔴)
 - **Chi e quando:** Nicola in chat all'AD il 27/11 verso le 23:40. Ha scritto: «sì, unisci la 358». Sessione session_01R8112Lh8bxtpgSCWy2ESsy, PR mycity#358.
 - **Cosa:** quando il titolare apre il link del preventivo vede il suo sito già pronto, sopra i tre abbonamenti. In Admin c'è la pagina «Lavoro dei clienti», in sola lettura. Merge 63031fc1 sulla testa 19176d19.
