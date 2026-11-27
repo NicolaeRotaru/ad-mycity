@@ -1,0 +1,138 @@
+{
+ "regista": "session_015BmpnXuogkPZVts89PH67a",
+ "sessioni": {
+  "R01": {
+   "id": "session_015BmpnXys1AT7cESu2Msz5U",
+   "ramo": "ccr-a672a2b3-92w5w1-m01",
+   "onda": 1,
+   "aperta": "2026-11-26 13:55",
+   "finita": "2026-11-26 15:07"
+  },
+  "R02": {
+   "id": "session_015BmpnWsaTUbwkaTwsiQQLd",
+   "ramo": "ccr-a672a2b3-92w5w1-m02",
+   "onda": 1,
+   "aperta": "2026-11-26 13:55"
+  },
+  "R03": {
+   "id": "session_015BmpnX9ApAay3P4BFSEiea",
+   "ramo": "ccr-a672a2b3-92w5w1-m03",
+   "onda": 1,
+   "aperta": "2026-11-26 13:55",
+   "finita": "2026-11-26 14:39"
+  },
+  "R04": {
+   "id": "session_015BmpnWm15Et3xWeeDucxoY",
+   "ramo": "ccr-a672a2b3-92w5w1-m04",
+   "onda": 1,
+   "aperta": "2026-11-26 13:55",
+   "finita": "2026-11-26 14:58"
+  },
+  "R05": {
+   "id": "session_015BmpnW48C13xd8btGwkZEj",
+   "ramo": "ccr-a672a2b3-92w5w1-m05",
+   "onda": 1,
+   "aperta": "2026-11-26 13:55",
+   "finita": "2026-11-26 14:59"
+  },
+  "R06": {
+   "id": "session_015BmpnX4yowpJjojH947cu4",
+   "ramo": "ccr-a672a2b3-92w5w1-m06",
+   "onda": 1,
+   "aperta": "2026-11-26 13:55",
+   "finita": "2026-11-26 15:05"
+  },
+  "R07": {
+   "id": "session_015BmpnYqffuXTpbqcQpQFe4",
+   "ramo": "ccr-a672a2b3-92w5w1-m07",
+   "onda": 1,
+   "aperta": "2026-11-26 13:55",
+   "finita": "2026-11-26 14:42"
+  },
+  "R08": {
+   "id": "session_015BmpnY3fwuiHyUsjMGS8vV",
+   "ramo": "ccr-a672a2b3-92w5w1-m08",
+   "onda": 1,
+   "aperta": "2026-11-26 13:55",
+   "finita": "2026-11-26 14:51"
+  },
+  "R09": {
+   "id": "session_015BmpnVHrtf4YAPXo1ju2wF",
+   "ramo": "ccr-a672a2b3-92w5w1-m09",
+   "onda": 1,
+   "aperta": "2026-11-26 13:55",
+   "finita": "2026-11-26 15:04"
+  },
+  "R10": {
+   "id": "session_015BmpnVZks7zZo9b5SzZv2R",
+   "ramo": "ccr-a672a2b3-92w5w1-m10",
+   "onda": 1,
+   "aperta": "2026-11-26 13:55",
+   "finita": "2026-11-26 14:48"
+  },
+  "R11": {
+   "id": "session_015BmpnWePCdfg1LVxdAqVxp",
+   "ramo": "ccr-a672a2b3-92w5w1-m11",
+   "onda": 1,
+   "aperta": "2026-11-26 13:55",
+   "finita": "2026-11-26 14:36"
+  }
+ },
+ "collaudatori": {
+  "K01": {
+   "id": "session_015BmpnYeZfvpg1D28N83v91",
+   "ramo": "ccr-a672a2b3-92w5w1-k01",
+   "partenza": "bfb7f1e0ef6b0534e8a9415fa44d12f6f35a4032",
+   "riparatori": [
+    "R11",
+    "R03",
+    "R07"
+   ]
+  },
+  "K02": {
+   "id": "session_015BmpnV6dE5xhqECUuZnVSN",
+   "ramo": "ccr-a672a2b3-92w5w1-k02",
+   "partenza": "ed190f0ea01c5d30743a515c8a441eb40ca1a05f",
+   "riparatori": [
+    "R10",
+    "R08",
+    "R04"
+   ]
+  },
+  "K03": {
+   "id": "session_015BmpnWgMH75yfHvVuJBocm",
+   "ramo": "ccr-a672a2b3-92w5w1-k03",
+   "partenza": "a394e0e9399318c9920e44231ff4c429807c8bd1",
+   "riparatori": [
+    "R05",
+    "R09",
+    "R06"
+   ]
+  },
+  "K04": {
+   "id": "session_015BmpnYdBaMKhL4fw54TdXB",
+   "ramo": "ccr-a672a2b3-92w5w1-k04",
+   "partenza": "d048b33b199198330cc9055618110e85b2d96c54",
+   "riparatori": [
+    "R01"
+   ]
+  }
+ },
+ "controllori": {
+  "C01": {
+   "id": "session_015BmpnVvHeXzYqNeYDhUBTo",
+   "ramo": "ccr-a672a2b3-92w5w1-c01",
+   "aperta": "2026-11-26 15:55",
+   "integrazione": "a60799bdcd19e5fe35358b7f494fa5a2c09ab211"
+  }
+ },
+ "unione": {
+  "U01": {
+   "id": "session_015BmpnY88LV2YEwP5rc3XuJ",
+   "ramo": "ccr-a672a2b3-92w5w1",
+   "deposito": "NicolaeRotaru/mycity",
+   "partenza": "ed12ed8ec8190e1132b690f6e034c30f0a5d55ba",
+   "aperta": "2026-11-26 15:42"
+  }
+ }
+}

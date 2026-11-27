@@ -1,0 +1,468 @@
+{
+ "collaudatore": "K05",
+ "riparatori": [
+  "R13",
+  "R14",
+  "R16"
+ ],
+ "aggiornato": "2026-11-26 16:10",
+ "finita": true,
+ "voci": [
+  {
+   "id": "R13-001",
+   "chiave": "accessibilita|la card senza href scarta aria-label, e la card con href non passa al link il resto delle prop (id, role)",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Q1: variant/padding/hover/radius/as non arrivano al DOM; aria-label, id e role arrivano a div e Link; typecheck pulito. Resta un commento obsoleto (riga ~71), senza effetti.",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R13 --base 3cd761af02bf11f095ac421f3bbac8cb09e49d32^ --file components/ui/Card.tsx --prove tests/unit/riparazione-r13-ui.test.tsx --json"
+   }
+  },
+  {
+   "id": "R13-003",
+   "chiave": "deploy-sre|la guida al backup non dice che con un remote cifrato o alias lo storico va impostato a mano",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Q1: la guida dice che con remote cifrato o alias lo storico va impostato a mano, che la notte resta rossa e che il secchio va diverso. Solo documentazione.",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R13 --base f252a9b716b739aa43a1ec27e0dc3837796910c1^ --file docs/backup-restore.md --prove tests/unit/riparazione-r13-backup-guida.test.ts --json"
+   }
+  },
+  {
+   "id": "R13-004",
+   "chiave": "frontend-ux|anche i campi brevi delle categorie nel pannello admin tagliano in silenzio con maxlength",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Q1: tolti i 7 maxLength; i tetti dell avviso (60/60/8/500) coincidono con lo schema zod della rotta, conteggio con trim come zod.",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R13 --base ca78bd01b464783927202273d963ec8d8980dd65^ --file app/admin/categories/page.tsx --prove tests/unit/riparazione-r13-categorie-campi-brevi.test.tsx --json"
+   }
+  },
+  {
+   "id": "R13-005",
+   "chiave": "frontend-ux|alcune sottopagine vere di un profilo facebook (/nome/timeline, /nome/info, /nome/photos_by) vengono rifiutate invece di tenere il nome",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Q2: ~100 input veri e ostili su normalizzaSocials: timeline/info/photos_by (maiuscole, query, m., fb.com) tengono il nome; host ostili e sottopagine inventate restano rifiutati.",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R13 --base 16a2f0268cfc8e187943f2e1587465eb297d1a2c^ --file lib/store-customization.ts --prove tests/unit/riparazione-r13-social.test.ts --json"
+   }
+  },
+  {
+   "id": "R13-006",
+   "chiave": "frontend-ux|altri percorsi di facebook non elencati possono essere salvati come nome del profilo",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Q2: profile/story/permalink/topic/groups rifiutati; il resto (un percorso di una parola non in elenco) e indistinguibile da un nome vero: cosa_resta onesto.",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R13 --base 841ed83863e415ae61755f2ec69d94f5fbc951dc^ --file lib/store-customization.ts --prove tests/unit/riparazione-r13-social.test.ts --json"
+   }
+  },
+  {
+   "id": "R13-007",
+   "chiave": "frontend-ux|il link tiktok di un profilo vero chiamato come un percorso riservato (tiktok.com/@live) viene rifiutato anche con la @",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Q2: tiktok.com/@live (anche www, ?lang, /video/1) da il nome; /live senza @ rifiutato; instagram invariato.",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R13 --base 78f946006c7b14b1b0efb18371d630c222f6cc59^ --file lib/store-customization.ts --prove tests/unit/riparazione-r13-social.test.ts --json"
+   }
+  },
+  {
+   "id": "R13-008",
+   "chiave": "frontend-ux|il sito del negozio accetta un indirizzo con schema sbagliato, come ftp:// o http//",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Q2: ftp://, http//, javascript: (anche maiuscole e %0a), mailto:, data:, //x.it rifiutati col messaggio chiaro; x.it e HTTP://X.IT accettati. Nota senza peso: localhost:3000 e rifiutato, il referto dice che passa.",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R13 --base 11a2ba9cb962a1f2d966f72144b563112e670f5f^ --file lib/store-customization.ts --prove tests/unit/riparazione-r13-social.test.ts --json"
+   }
+  },
+  {
+   "id": "R13-009",
+   "chiave": "frontend-ux|nel link facebook.com/nome_col_trattino_basso il primo messaggio che si legge è quello generico, «scrivi solo il nome del profilo…», non quello del trattino basso",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Q2: per nome_x in tutte le forme il primo messaggio e quello del trattino basso; gli altri casi invariati.",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R13 --base 4e7a3801fc53227c86073c2105c3a72b418867a7^ --file lib/store-customization.ts --prove tests/unit/riparazione-r13-social.test.ts --json"
+   }
+  },
+  {
+   "id": "R13-010",
+   "chiave": "qa-flussi|un cliente che esiste già non ha una strada da solo per diventare fattorino",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Q1: il testo dell aiuto non promette piu la candidatura a tutti e rimanda al modulo contatti. Vicino: la scheda punta ancora a /lavora-con-noi, il cui pulsante va a /sign-up?role=rider, la stessa strada senza uscita per un cliente loggato (app/lavora-con-noi riga 36): non detto nel cosa_resta.",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R13 --base 897182db181e03c33bafb02f0c7161a6a49b7a14^ --file app/help/page.tsx --prove tests/unit/riparazione-r13-aiuto-rider.test.ts --json"
+   }
+  },
+  {
+   "id": "R13-012",
+   "chiave": "qa-flussi|il negozio che risponde alla propria domanda senza answered_by si avvisa da solo",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Q7+Q8: da sola la 900 chiude la voce e non spegne gli avvisi dovuti; suite tests/sql/rls verde. ATTENZIONE cucitura: la 930 di R14 ridefinisce la stessa funzione risposta_avvisa_chi_ha_chiesto() dalla 822 e, unite in ordine 900->930, questa correzione si perde (provato sul DB: 1 avviso invece di 0).",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R13 --base 0f335515ef4d02bcd7f1ee86cf9bd4cb02bdd8d6^ --file migrations/900_il_negozio_che_risponde_a_se_stesso_non_si_avvisa.sql --prove tests/sql/rls/riparazione-r13-risposta-a-se-stesso.test.sql --json --sql k05_rimessa_r13"
+   }
+  },
+  {
+   "id": "R13-014",
+   "chiave": "stati-ui|il modulo prodotto ricalcola la spunta «escluso dal recesso» dell'apertura a ogni disegno",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Q1: spunta e stato partono dallo stesso valore con inizializzatore pigro e non si ricalcolano; il salvataggio scrive non_recedibile solo se toccata.",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R13 --base 9c85946b3f4e070647333d155d54836ed001d19a^ --file components/seller/ProductForm.tsx --prove tests/unit/riparazione-r13-recesso-all-apertura.test.tsx --json"
+   }
+  },
+  {
+   "id": "R14-001",
+   "chiave": "api-backend|il preventivo accettato due volte nello stesso giorno con scelte diverse lascia avvisi che si contraddicono",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Q5 (chiude_tutta) + Q6 (nata_rotta): giro Base->Premium->Base lascia solo l ultima scelta; primo accetto e doppio clic invariati, permessi invariati, errori di pulizia assorbiti. Residuo dichiarato: due fasce nello stesso istante.",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 5ec787d5fb746855fffc11764889f509aeb23b4a^ --file app/api/seller/preventivo/route.ts --prove tests/unit/riparazione-r14-preventivo-scelte-diverse.test.ts --json"
+   }
+  },
+  {
+   "id": "R14-002",
+   "chiave": "api-backend|la rotta delle cancellazioni copia una stringa privata della libreria degli avvisi",
+   "verdetto": "non_regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Rimessa uscita 3 (rosso strutturale): la correzione aggiunge solo l export emailRisultaPartita, senza nessun chiamante. La rotta app/api/cron/process-deletions/route.ts copia ancora la stringa privata (righe 529, 550, 553): rimettendo il difetto come scritto nella voce, niente cambia, e ora la stringa vive in due posti. Nessun comportamento e cambiato (Q6: nulla di rotto; Q7: parziale debole).",
+   "rimessa": {
+    "uscita": 3,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base de93ca89d08e621191806fa881a6016fe19cad5f^ --file lib/privacy/avvisi-a-chi-aspetta.ts --prove tests/unit/riparazione-r14-email-partita-dalla-libreria.test.ts --json"
+   }
+  },
+  {
+   "id": "R14-005",
+   "chiave": "architettura|avvisi-a-chi-aspetta.ts tiene insieme pannello, lucchetto email, indirizzo, html e invio; l'email parte solo se il pannello riesce",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Q3 alla BASE: il continue dopo il catch del pannello non c e, si arriva sempre all invio (avvisi-a-chi-aspetta.ts:206-216). Il comportamento e chiuso; la struttura monolitica resta, come dichiarato."
+  },
+  {
+   "id": "R14-007",
+   "chiave": "layout-responsive|la home a 320 px col testo al 200% scorre ancora di lato di 18 px",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Q3 alla BASE: HowItWorks.tsx:75-81 ha flex-wrap, min-w-0, break-words e padding con min(): la riga che sborda e assente. Giudizio dal CSS (la home intera vuole Supabase), misura del componente isolato a 0 px fatta dallo smentitore."
+  },
+  {
+   "id": "R14-008",
+   "chiave": "mobile-pwa|quando la sessione scade da sola, il telefono perde le notifiche in silenzio e al nuovo accesso nessuno le riaccende",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Q3 alla BASE: Navbar.tsx:228-247 a SIGNED_OUT segna le notifiche spente e al rientro mostra il toast Riattiva. Le righe del registro sono di una versione vecchia."
+  },
+  {
+   "id": "R14-009",
+   "chiave": "privacy-legale|la pagina cms (chi siamo) carica ancora i video senza chiedere",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Q3 alla BASE: CmsBlockRenderer.tsx:98 usa VideoAlClic; nessun iframe prima del clic."
+  },
+  {
+   "id": "R14-010",
+   "chiave": "qa-flussi|la campanella del sito mostra le promozioni anche a chi le ha spente",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Q4: il filtro delle promozioni nella pagina notifiche regge (anche se la preferenza non si legge). Il numerino della campanella (useNotificationsCount.ts) conta ancora le promozioni: dichiarato nel cosa_resta, file altrui.",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 17946354d243253f3289437fa342d66ce65361c4^ --file app/notifications/page.tsx --prove tests/unit/riparazione-r14-notifiche-promozioni-spente.test.tsx --json"
+   }
+  },
+  {
+   "id": "R14-012",
+   "chiave": "qa-flussi|la risposta del negozio svuotata e riscritta dall api riavvisa il cliente ogni volta",
+   "verdetto": "rompe_altro",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Q7+Q8: da sola la 930 chiude la voce (id fisso md5 + ON CONFLICT DO NOTHING) e non toglie avvisi dovuti. Ma ridefinisce risposta_avvisa_chi_ha_chiesto() ripartendo dalla 822 senza il controllo author_id = seller_id della 900 di R13: unite nell ordine dei numeri (900 poi 930) la correzione R13-012 si perde, provato sul database (negozio che risponde a se stesso: 1 avviso, atteso 0). Nell ordine inverso si perde questa. Serve una funzione sola con le due correzioni e una prova SQL che le copra insieme.",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 20b107a48c2d66adea796f9d3f4ac50d8529291b^ --file migrations/930_la_risposta_riscritta_non_riavvisa_chi_ha_chiesto.sql --prove tests/sql/rls/riparazione-r14-risposta-riscritta.test.sql --json --sql k05_rimessa_r14"
+   }
+  },
+  {
+   "id": "R14-013",
+   "chiave": "stati-ui|oncount della griglia non sa dire «non so»: con la griglia ferma al tetto la categoria può restare su un numero vecchio",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Q3: il conto legato a chiaveFiltri e onCount che accetta null reggono, test verdi. Il caso del titolo (griglia ferma al tetto) resta aperto perche ProductGrid.tsx non manda mai null: cosa_resta onesto. Nota: al cambio filtri il conto vecchio puo finire sotto la chiave nuova finche caricando non lo ferma; non peggiora rispetto a prima.",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base ce1b25a5c85d7a82d8c604a9ec9bd9f33d612349^ --file app/category/[slug]/page.tsx --prove tests/unit/riparazione-r14-categoria-conto-sconosciuto.test.tsx --json"
+   }
+  },
+  {
+   "id": "R14-014",
+   "chiave": "stati-ui|sotto un lavoro sul catalogo chiuso che dice di chiedere all'assistenza prima di ripartire, il pulsante «avvia sul catalogo» resta lì",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Q3 alla BASE: statoLavoroCatalogo.ts:39 vieta di ripartire; l unico chiamante passa job intero."
+  },
+  {
+   "id": "R16-001",
+   "chiave": "coerenza-brand|ombre nere fredde accanto alle ombre calde del brand; il token creato apposta non è usato mai",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Q4: profile/page.tsx:136 passa a shadow-warm-lg; le altre righe citate erano gia a posto alla base. Restano 34 ombre nere, come dichiarato.",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base cd293e13dd8284868589c868129b41c0e498de4c^ --file app/profile/page.tsx --prove tests/unit/riparazione-r16-ombre-calde.test.ts --json"
+   }
+  },
+  {
+   "id": "R16-014",
+   "chiave": "tipografia|la scala delle dimensioni del testo viene scavalcata circa trecentotrenta volte",
+   "verdetto": "non_regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Nessuna modifica: alla base ProductCard.tsx non aveva gia classi text-[Npx] (solo un commento). Nessun comportamento e cambiato: restano ~220 scavalcamenti della scala e la scelta di Nicola sul gradino. Il cosa_resta e onesto (conteggi per file esatti), ma la voce resta aperta tutta.",
+   "rimessa": {
+    "uscita": 1,
+    "comando": "nessun commit da rimettere (il riparatore non ha cambiato codice): git -C ../wt-R16 show ed12ed8ec8190e1132b690f6e034c30f0a5d55ba:components/ProductCard.tsx | grep -nE \"text-\\[[0-9.]+(px|rem)\\]\" trova solo il commento della riga 241, come alla testa: togliere la correzione non cambia niente"
+   }
+  },
+  {
+   "id": "R16-004",
+   "chiave": "frontend-ux|da approvato, l'attestato haccp appena caricato passa subito a «caricato · ok» senza che nessuno lo guardi",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Q4: HACCP senza scadenza e account approvato resta In verifica, mai ok; la query include approval_status.",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 940731e258536cd91c7cb8770d5e0defbc7aa15b^ --file app/rider/profile/page.tsx --prove tests/unit/riparazione-r16-profilo-fattorino-documenti.test.tsx --json"
+   }
+  },
+  {
+   "id": "R16-005",
+   "chiave": "frontend-ux|il fattorino respinto o sospeso legge nel profilo «caricato · in attesa di verifica» sui documenti",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Q4: rejected e suspended hanno la precedenza su is_approved; Da caricare invariato.",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 940731e258536cd91c7cb8770d5e0defbc7aa15b^ --file app/rider/profile/page.tsx --prove tests/unit/riparazione-r16-profilo-fattorino-documenti.test.tsx --json"
+   }
+  },
+  {
+   "id": "R16-006",
+   "chiave": "frontend-ux|il bollino dello sconto della scheda prodotto mostra la percentuale grezza, oltre il 70% che il prezzo applica",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Q4: la percentuale usa discountedUnitCents, lo stesso calcolo e tetto del prezzo; ramo compareAtPrice intatto.",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 1fd4f2563a6219802dc4ca3eaaa5f4d12ba573a6^ --file components/ProductCard.tsx --prove tests/unit/riparazione-r16-bollino-sconto.test.tsx --json"
+   }
+  },
+  {
+   "id": "R16-007",
+   "chiave": "microcopy|un tetto del nome negozio respinto dal database esce col messaggio generico «il valore inserito non è valido.»",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Q5: il testo del trigger della 830 combacia con la regex di lib/errors.ts, solo sul codice 23514; gli altri 23514 restano generici.",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 3a3115e5d6cfa9ebb7964aeeba02295dae414c2c^ --file lib/errors.ts --prove tests/unit/riparazione-r16-nome-negozio-troppo-lungo.test.ts --json"
+   }
+  },
+  {
+   "id": "R16-012",
+   "chiave": "qa-flussi|con una promozione del negozio la vetrina scrive un prezzo e la cassa ne fa pagare un altro, di un centesimo per pezzo",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Q5 (chiude_tutta) + Q6 (nata_rotta): prezzi 0,99-9,99, sconti 5-70%, quantita 1-7: 0 discordanze; bollino, card, carrello, checkout e valida-carrello usano tutti discountedUnitCents. Nessuna rottura su soglie e codici promo.",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 9e6c55123f87de15ce0a55c3ae0b322bd651caf4^ --file components/ActivePromoBadge.tsx,app/cart/page.tsx --prove tests/unit/riparazione-r16-prezzo-promo-al-centesimo.test.tsx --json"
+   }
+  },
+  {
+   "id": "R16-013",
+   "chiave": "qa-flussi|con una promozione la vetrina scrive un prezzo e la cassa ne fa pagare un altro, di un centesimo per pezzo (voce già nel registro, non assegnata in onda 2)",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Gemella di R16-012, stesso commit e stessi conti; la riga ProductCard.tsx:56 era gia corretta alla base.",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 9e6c55123f87de15ce0a55c3ae0b322bd651caf4^ --file components/ActivePromoBadge.tsx,app/cart/page.tsx --prove tests/unit/riparazione-r16-prezzo-promo-al-centesimo.test.tsx --json"
+   }
+  },
+  {
+   "id": "R16-002",
+   "chiave": "dati-analytics|la percentuale dei pagamenti con carta oltre ventimila tentativi diventa un campione senza dirlo",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Q5: sopra 20.000 righe etichetta e riga sotto dicono campione; sotto il tetto il testo e identico; nessun altro lettore.",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 72d99c5b216455f0d8a2fc7345ad6e583b593dc2^ --file app/admin/page.tsx --prove tests/unit/riparazione-r16-tasso-pagamenti-campione.test.tsx --json"
+   }
+  },
+  {
+   "id": "R16-009",
+   "chiave": "privacy-legale|le domande sotto i prodotti si pubblicano subito, non si possono segnalare una per una e nessuno può toglierle",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Q7+Q8: la 970 da il DELETE solo all autore, solo authenticated, nessuna cascata; la domanda nascosta dall admin non si cancella; ProductQA non scrive tolta a vuoto; suite SQL verde. Restano la segnalazione per singola domanda (file altrui) e la moderazione (scelta di Nicola). Da far firmare: l autore puo togliere anche una domanda a cui il negozio ha gia risposto pubblicamente.",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base ee2791dc0c11884e92f7b0472bbcb4ccbafe77b9^ --file components/ProductQA.tsx --prove tests/unit/riparazione-r16-domanda-si-toglie.test.tsx --json && timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base ee2791dc0c11884e92f7b0472bbcb4ccbafe77b9^ --file migrations/970_chi_ha_fatto_la_domanda_la_toglie.sql --prove tests/sql/rls/riparazione-r16-domanda-tolta-dall-autore.test.sql --json --sql k05_rimessa_r16"
+   }
+  }
+ ],
+ "campione": {
+  "R13": {
+   "accettato": true
+  },
+  "R14": {
+   "accettato": false
+  },
+  "R16": {
+   "accettato": true
+  }
+ }
+}

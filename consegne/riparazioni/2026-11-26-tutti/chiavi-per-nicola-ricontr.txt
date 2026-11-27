@@ -1,0 +1,8 @@
+architettura|gli strumenti degli sviluppatori portano altre 19 falle note, 10 alte, ma nessuna arriva al sito
+architettura|da controllare sui dati: un negozio che oggi ha salvato 7 giorni vuoti diventa chiuso sempre appena esce la modifica
+qa-flussi|le prove unitarie montano i componenti con react 18.3.1, ma il sito gira con il react 19.2 di next
+architettura|zod, resend, @sentry/nextjs, minimatch e glob, librerie che vanno nel sito, hanno 10 avvisi pubblici di npm audit (zod alto) che si chiudono solo con aggiornamenti che rompono
+deploy-sre|l'avviso «registratore degli errori acceso solo sul server» resta finché non si rifà il deploy
+microcopy|lo stesso invio del lotto ai rimasto senza risposta dice «scartalo e avviane un altro» a 3 minuti e «chiedi all'assistenza prima di avviarne un altro» a 24 ore
+qa-flussi|una migrazione che aggiunge una colonna non si può consegnare da sola: i tipi generati vanno rigenerati nello stesso commit
+api-backend|una notifica push presa dal giro del cron si perde per sempre se il giro muore prima di mandarla o ridarla

@@ -1,0 +1,20 @@
+{
+  "corsia": 25,
+  "territorio": "R25",
+  "difetti": [
+    {
+      "chiave": "api-backend|un link di disiscrizione vecchio (v1) senza il segreto in produzione dà errore 500 invece di «link non valido»",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r25-disiscrizione-v1-senza-segreto.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base d6a66d27152aa6b9113be8d584441851e79a629f^ --file lib/email/unsubscribe.ts --prove tests/unit/riparazione-r25-disiscrizione-v1-senza-segreto.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R25 --base d6a66d27152aa6b9113be8d584441851e79a629f^ --file lib/email/unsubscribe.ts --prove tests/unit/riparazione-r25-disiscrizione-v1-senza-segreto.test.ts --json → uscita 0 (K08)",
+      "nota_fix": "In apriFirmato il segreto si calcola dentro un try, come per i gettoni cifrati: senza UNSUBSCRIBE_SECRET in produzione un v1 dà null e GET /api/unsubscribe porta a «link-non-valido» invece di 500. Col segreto i v1 si aprono ancora."
+    },
+    {
+      "chiave": "stati-ui|collegando stripe in anteprima con un conto di prova vecchio la persona legge solo «errore stripe»: il consiglio di togliere il conto dal profilo resta nei registri",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r25-stripe-anteprima-conto-di-prova.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 546867b9d60d7221abfc855f8618fcebe4c6282e^ --file app/api/stripe/connect/onboarding/route.ts,app/api/stripe/connect/rider-onboarding/route.ts --prove tests/unit/riparazione-r25-stripe-anteprima-conto-di-prova.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R25 --base 546867b9d60d7221abfc855f8618fcebe4c6282e^ --file app/api/stripe/connect/onboarding/route.ts,app/api/stripe/connect/rider-onboarding/route.ts --prove tests/unit/riparazione-r25-stripe-anteprima-conto-di-prova.test.ts --json → uscita 0 (K08)",
+      "nota_fix": "L'errore del conto sconosciuto alla chiave di prova non finisce più nel 500 «Errore Stripe»: la rotta del negozio e quella del fattorino rispondono 409 con una frase semplice che dice di togliere il conto dal profilo e riprovare, senza l'id del conto. Un guasto vero di Stripe resta 500."
+    }
+  ]
+}

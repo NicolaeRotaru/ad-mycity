@@ -1,0 +1,41 @@
+{
+  "corsia": 28,
+  "territorio": "R28",
+  "difetti": [
+    {
+      "chiave": "dati-analytics|il cancello del filmato copia senza pulirle le chiavi dell'evento diverse da data",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r28-filmato-chiavi-dell-evento.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 6c2f9a9561d1e7cbf1bbff996ae7c27e9bee3ebe^ --file lib/analytics/filmato-senza-dati-personali.ts --prove tests/unit/riparazione-r28-filmato-chiavi-dell-evento.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R28 --base 6c2f9a9561d1e7cbf1bbff996ae7c27e9bee3ebe^ --file lib/analytics/filmato-senza-dati-personali.ts --prove tests/unit/riparazione-r28-filmato-chiavi-dell-evento.test.ts --json → uscita 0 (K09)",
+      "nota_fix": "Al posto di { ...valore, data: … } ogni chiave dell'evento diversa da data passa per la stessa pulizia per contenuto (ripulisci); vale anche sugli eventi del DOM, dove resta intero solo data. Un evento che non cambia torna lo stesso oggetto."
+    },
+    {
+      "chiave": "layout-responsive|in chi siamo i due pulsanti della fascia scura finale escono dalla fascia a 280 px col testo al 200%",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r28-chi-siamo-fascia.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base bf54ece3a2847de66df39cd8cf269c56df08d974^ --file app/about/page.tsx --prove tests/unit/riparazione-r28-chi-siamo-fascia.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R28 --base bf54ece3a2847de66df39cd8cf269c56df08d974^ --file app/about/page.tsx --prove tests/unit/riparazione-r28-chi-siamo-fascia.test.ts --json → uscita 0 (K09)",
+      "nota_fix": "Sotto sm i due pulsanti stanno in colonna a tutta larghezza, con l'icona che puo' andare sopra il testo (flex-wrap) e le parole che vanno a capo intere; il margine della fascia si stringe solo sotto i 320 px (max-sm:p-[min(2rem,10vw)]) e fino a 300 px il testo e' text-sm. Niente overflow-wrap:anywhere; p-8 e px-5 restano come prima sopra le soglie."
+    },
+    {
+      "chiave": "microcopy|in registrazione e nel cambio password del profilo il rifiuto di una password debole o rubata non si traduce o si perde",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r28-password-debole.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 22942d1f58977a5f7389cc6c5cca1d450ec5cb81^ --file app/api/account/cambia-password/route.ts,app/api/auth/signup/route.ts --prove tests/unit/riparazione-r28-password-debole.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R28 --base 22942d1f58977a5f7389cc6c5cca1d450ec5cb81^ --file app/api/account/cambia-password/route.ts,app/api/auth/signup/route.ts --prove tests/unit/riparazione-r28-password-debole.test.ts --json → uscita 0 (K09)",
+      "nota_fix": "Nelle due rotte un weak_password (riconosciuto da codice, nome o reasons) diventa un 400 con la frase di traduciErroreNuovaPassword. Se l'aiutante non dà una frase sulla password (testo sconosciuto, che lo farebbe ripiegare su «richiedi un nuovo link qui sotto»), si usa PASSWORD_SEMPLICE. Le altre risposte restano uguali: email già usata e limiti nella registrazione, guasto 500 nel cambio password."
+    },
+    {
+      "chiave": "qa-flussi|col doppio clic su «rifiuta ordine» compare anche un avviso rosso di errore, e l'aiuto dice che il motivo è obbligatorio e promette un rimborso che coi contanti non esiste",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r28-rifiuto-del-negozio.test.ts tests/unit/riparazione-r28-rifiuto-doppio-tocco.test.tsx",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 2a58b633cbd18f4213598e72004477cb43670552^ --file app/seller/orders/[id]/page.tsx,app/api/seller/orders/[id]/reject/route.ts,app/seller/help/domande.ts --prove tests/unit/riparazione-r28-rifiuto-del-negozio.test.ts,tests/unit/riparazione-r28-rifiuto-doppio-tocco.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R28 --base 2a58b633cbd18f4213598e72004477cb43670552^ --file app/seller/orders/[id]/page.tsx,app/api/seller/orders/[id]/reject/route.ts,app/seller/help/domande.ts --prove tests/unit/riparazione-r28-rifiuto-del-negozio.test.ts,tests/unit/riparazione-r28-rifiuto-doppio-tocco.test.tsx --json → uscita 0 (K09)",
+      "nota_fix": "Ripreso il tentativo bocciato (a9adb1a6f13e282cd8b331d2e2e88392e36df35a) con la correzione chiesta: dopo GIA_ANNULLATO la rotta rilegge lo stato e risponde 409 «Ordine già annullato» solo se l'ordine è davvero CANCELED, altrimenti 409 «L'ordine è cambiato nel frattempo: ricarica la pagina.», che la pagina mostra come errore rosso. Nel riquadro un freno sincrono useRef oltre a isPending; il 409 «Ordine già annullato» (confronto esatto) non accende avvisi rossi né un secondo avviso dopo il rifiuto riuscito. Nell'aiuto: rifiuto col motivo facoltativo e niente da restituire coi contanti, «pronto» senza il ritiro in negozio finché RITIRO_IN_NEGOZIO_ATTIVO è spento, e «Quando ricevo i soldi» col già versato e l'in attesa del bonifico che la pagina Guadagni mostra davvero."
+    },
+    {
+      "chiave": "qa-flussi|la contestazione parziale vinta, con la memoria di postgrest vecchia, scrive il tentativo nuovo ma lascia il promemoria della quota: una ripetizione di stripe rifà il bonifico con una chiave nuova",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r28-contestazione-parziale-ripiego.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base fd6c217f06e91d8d2a513d8e32c44f4eadde3ea2^ --file lib/stripe/webhook/contestazione-parziale-vinta.ts --prove tests/unit/riparazione-r28-contestazione-parziale-ripiego.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R28 --base fd6c217f06e91d8d2a513d8e32c44f4eadde3ea2^ --file lib/stripe/webhook/contestazione-parziale-vinta.ts --prove tests/unit/riparazione-r28-contestazione-parziale-ripiego.test.ts --json → uscita 0 (K09)",
+      "nota_fix": "Il ripiego della scrittura dopo il bonifico non toglie più mai il promemoria della quota: toglie solo payout_tentativo, e solo se è lui la colonna che manca. Così promemoria, tentativo e stornato si scrivono insieme o per niente, come nella scrittura intera: con PostgREST che non conosce la colonna la scrittura obbligatoria lancia, Stripe ripete col tentativo di prima e la stessa chiave restituisce lo stesso bonifico."
+    }
+  ]
+}

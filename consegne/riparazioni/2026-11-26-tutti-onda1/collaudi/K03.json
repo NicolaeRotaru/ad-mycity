@@ -1,0 +1,345 @@
+{
+  "collaudatore": "K03",
+  "riparatori": [
+    "R05",
+    "R09",
+    "R06"
+  ],
+  "aggiornato": "2026-11-26 15:42",
+  "finita": true,
+  "voci": [
+    {
+      "id": "R05-001",
+      "chiave": "pagamenti-stripe|i contanti vecchi ancora da versare spariscono dal pannello dei bonifici quando gli ordini consegnati superano mille",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "git -C ../wt-R05-001 checkout --detach ce031c5db6763ead5e8357566dc80cb2a88b19c3 && timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R05-001 --base ed12ed8ec8190e1132b690f6e034c30f0a5d55ba --file app/admin/payouts/page.tsx --prove tests/unit/riparazione-r05-bonifici-aperti.test.tsx --json"
+      },
+      "nota": "Due revisori, uno per lente; vale il peggiore. Nata_rotta: regge (letture aperti/chiusi/finestra senza doppioni né buchi, errore mostrato se una cade, tsc ed eslint puliti, 18 file di prove verdi). Chiude_tutta: parziale. (1) page.tsx:229 legge gli aperti dal più recente (ascending:false) e page.tsx:280 ne tiene 1000: se gli aperti superano mille spariscono proprio i contanti più vecchi; esperimento: 1.001 HELD da 9,00 € dall'1/10 più un HELD da 18,00 € del 2/8, la pagina dice «almeno 9000,00 €» e manda alla RPC 1.000 ordini senza quello del 2/8 (l'avviso «Elenco tagliato» compare). (2) La cura regge solo se i pagati escono dagli aperti come PAID_MANUALLY, ma segna_bonifico_manuale non esiste in nessuna migrazione (pg_proc = 0 sul Postgres locale) e il CHECK della 130 rifiuta PAID_MANUALLY: al lancio, solo contanti e nessun TRANSFERRED, ogni contante resta HELD e dal 1.001° consegnato torna il sintomo della voce. Minori: REVERSAL_FAILED occupa posto fra gli aperti (page.tsx:228), avviso della finestra tagliata impreciso (page.tsx:276)."
+    },
+    {
+      "id": "R05-002",
+      "chiave": "pagamenti-stripe|il pannello dei bonifici non dice a nicola quanto versare a ogni negozio il lunedì",
+      "verdetto": "rompe_altro",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "git -C ../wt-R05-002 checkout --detach 2d9c70020f3210936cf1d5a3e49c4d2e4c696fc4 && timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R05-002 --base ce031c5db6763ead5e8357566dc80cb2a88b19c3 --file app/admin/payouts/page.tsx --prove tests/unit/riparazione-r05-commissione-ritiri-al-banco.test.tsx --json"
+      },
+      "nota": "Nata_rotta: rompe_altro. (D1) La commissione dei ritiri al banco tolta dal bonifico non si scrive da nessuna parte: alla RPC vanno solo gli id (page.tsx:165-169). Prova misurata: dopo «Bonifico fatto · 28,00 €» il riquadro «Già pagato» e la riga del negozio dicono 31,50 €; la pagina del negozio (app/seller/earnings/page.tsx:341-350) dice «già versato 31,50 €» quando ne sono arrivati 28,00 e «commissione 3,50 €, te la chiediamo noi» quando è già trattenuta: prima di R05-002 bonifico e pagine coincidevano. (D2) Con la commissione sopra i contanti il tasto dice «Bonifico fatto · 0,00 €» e chiede il CRO di un bonifico che non esiste (page.tsx:155-161): premuto, i 2,00 € da fatturare spariscono; non premuto, il lunedì dopo l'arretrato si versa pieno e la commissione si perde. Chiude_tutta: dei 5 punti della voce, 1, 2, 4 erano chiusi già prima della BASE; il 5 è a metà (nota «automatico» sempre mostrata, page.tsx:367 e :393, senza guardare CARTA_ACCESA); il 3 (stato «pagato a mano») non è chiuso: page.tsx:165 chiama segna_bonifico_manuale, che non c'è in nessuna migrazione, e il CHECK della 130 rifiuta PAID_MANUALLY; esperimento: il bonifico del 23/11 non resta segnato e il 30/11 «Da versare» dice 26,00 € invece di 8,00 € (si paga due volte ogni settimana). Il riparatore lo mette in nota e fra i nuovi difetti, non nel cosa_resta. I 4 punti del cosa_resta sono veri (tre provati con esperimenti). La prova morde (rimessa 0); il suo caso «non si toglie due volte» passa anche sulla base. Commissione sulla settimana giusta (lunedì-domenica precedenti, ora di Roma) e cifre in centesimi interi, mai sotto zero: verificati."
+    },
+    {
+      "id": "R05-003",
+      "chiave": "pagamenti-stripe|il bonifico di rimborso al cliente non si può segnare come fatto, e nessuno controlla la scadenza dei 14 giorni",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 3,
+        "comando": "git -C ../wt-R05-003 checkout --detach ae3078760a6c4a1311f3ac4340fb440dd0caad2b && timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R05-003 --base 2d9c70020f3210936cf1d5a3e49c4d2e4c696fc4 --file lib/rimborsi/bonifici-da-fare.ts --prove tests/unit/riparazione-r05-bonifici-rimborso-avviso.test.ts --json (uscita 0) ; PGHOST=/var/run/postgresql PGUSER=root timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R05-003 --base 2d9c70020f3210936cf1d5a3e49c4d2e4c696fc4 --file migrations/910_il_bonifico_di_rimborso_si_segna_fatto.sql --prove tests/sql/rls/riparazione-r05-bonifici-rimborso.test.sql --sql k03_r05_rimessa --json (uscita 3: la prova nomina tabella e RPC che crea solo la 910) ; con anche app/admin/bonifici-rimborso/page.tsx e la prova della pagina: uscita 3, nomi nuovi"
+      },
+      "nota": "Primo revisore indipendente della voce: due lenti, tutte e due parziale. Regge quello che è fatto: permessi (venditore, cliente, fattorino, pending, anon: 42501 o niente EXECUTE; service_role legge ma non segna; SECURITY DEFINER con search_path e nomi qualificati; schema private chiuso), dati (chiave, cifra, ordine sbagliati → SEGNO_DIVERSO; FATTO→RESPINTO→FATTO; corsa vera con due psql → una riga sola e GIA_FATTO col nome), 910 idempotente e verde anche su database pieno, termine in ora di Roma col giorno 14 compreso, tre bonifici sullo stesso ordine tutti in lista. Prove: 14/14 vitest, 22 controlli SQL, run.sh 99/99, suite 13.199/13.200 (il rosso è r16-storie, instabile, non c'entra), tsc ed eslint puliti; le due prove comuni intatte e verdi. Non chiude: allarmiDeiBonifici non la chiama nessuno (bonifici-da-fare.ts:270), la pagina non ha link, l'avviso porta ancora a /admin/orders e tiene «se c'è nei movimenti del conto, è già pagato», che contraddice «Respinto dalla banca». Il cosa_resta è incompleto: (a) reclami e annulli hanno sempre «termine sconosciuto» (910:107 legge la partenza solo dai resi, bonifici-da-fare.ts:275 scarta i termini sconosciuti): anche con tutti i serve_file_altrui l'allarme non suona mai sui reclami, che per il fatto del 29/10 sono il canale principale; il JOIN serve nella 910 (file del riparatore) e il cosa_resta (4) lo dà come facoltativo; (b) la pagina non mostra l'IBAN che il fatto del 29/10 chiede, scostamento non dichiarato; (c) applicata la 910, ogni segno storico, anche già pagato, compare da fare a termine passato; (d) admin_bonifici_rimborso non ha ORDER BY né limite: oltre 1000 righe PostgREST taglia; (e) nella rotta resolve la select è a route.ts:108, non 109. Minori: respinto_da e respinto_il restano dopo un nuovo FATTO (910:169-172); un segno bonifico:0 resterebbe da fare per sempre."
+    },
+    {
+      "id": "R09-001",
+      "chiave": "architettura|la regola che vieta i tipi «qualunque» non è accesa: 46 sono passati, e 40 permessi di saltare il controllo non saltano niente",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "git -C ../wt-R09-001 checkout --detach 1f5a9ad76f8454dbb94c8efb8db537077c744510 && timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R09-001 --base 046137a201d91636564b112acafd1646883a56ca --file app/api/cron/send-emails/route.ts --prove tests/unit/riparazione-r09-lint-regola-any-e-direttive.test.ts --json"
+      },
+      "nota": "Un revisore, due lenti (minore, non di soldi). Chiude_tutta: alla base la regola era già accesa («warn», .eslintrc.json:52); R09 toglie una direttiva sola (send-emails/route.ts:333), le 28 rimaste coincidono col suo elenco. Il cosa_resta sbaglia un conto (gli any sono 36 in 16 file, non 15) e tace che npm run lint li tratta da avvisi ed esce 0: una direttiva morta nuova o un any nuovo passano la CI. Nata_rotta: niente di rotto; il primo caso della prova era già verde alla base."
+    },
+    {
+      "id": "R09-003",
+      "chiave": "architettura|una prova sul webhook di stripe controlla l'ordine delle righe cercando una parola, e basta togliere uno spazio per ingannarla",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "git -C ../wt-R09-003 checkout --detach 40ee988e4e28d4685b9a48f1a01e04322d549d6f && timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R09-003 --base 43bd832fdd30b3f9b1b84daa53464dedcb2589e5 --file tests/unit/webhook-diviso-per-mestiere.test.ts --prove tests/unit/riparazione-r09-la-prova-del-webhook-non-si-inganna.test.ts --json"
+      },
+      "nota": "Un revisore, due lenti. La prova esistente modificata (tests/unit/webhook-diviso-per-mestiere.test.ts, file di R09 nella scheda, che però legge anche i file di lib/stripe/webhook di altre sessioni: segnalata alla regia) è più forte di prima e tiene tutti i controlli vecchi; nessun caso rosso prima e verde adesso; ROTTA_DEL_WEBHOOK_DA_LEGGERE non la imposta nessuna CI. Difetto: la guardia riparazione-r09-la-prova-del-webhook-non-si-inganna.test.ts non controlla niente: la rotta fa 249 righe, una riga in più fa fallire «<250» e il filtro -t 'anti-doppione' prende anche quel caso; rimettendo l'indexOf la guardia resta verde (provato). Costa 3 vitest figli a ogni giro. Il resto del cosa_resta è onesto."
+    },
+    {
+      "id": "R09-004",
+      "chiave": "architettura|il commento e la prova dicono che la bozza della cassa scade, ma la scadenza è stata tolta",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "git -C ../wt-R09-004 checkout --detach 0dfa00b0097e4fed9c1fad936e2b097ffef32a3d && timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R09-004 --base 191f58354f899505d20d4eec245b4177b29e6433 --file app/checkout/page.tsx --prove tests/unit/riparazione-r09-la-bozza-della-cassa-non-scade.test.ts --json"
+      },
+      "nota": "Un revisore, due lenti. Il commento di app/checkout/page.tsx:1315 ora è vero; la prova R19 della bozza è identica alla BASE (diff vuoto, controllato anche da me) e verde 5/5. Al cosa_resta manca una riga: la prova R19 semina ancora scadeIl nella bozza finta (:65), oltre al titolo (:18). Nata_rotta: niente di rotto; la prova nuova cerca parole, ammesso su un minore."
+    },
+    {
+      "id": "R09-005",
+      "chiave": "architettura|la frase della zona vive in quattro posti (cassa, spedizioni, rifiuto, tendina della posizione) piu' faq e «vicino a te»: le tiene allineate solo una prova",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "git -C ../wt-R09-005 checkout --detach 046137a201d91636564b112acafd1646883a56ca && timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R09-005 --base 0dfa00b0097e4fed9c1fad936e2b097ffef32a3d --file components/checkout/ShippingAddressForm.tsx,app/shipping/page.tsx,lib/ordini/zona-di-consegna.ts,components/LocationPill.tsx,lib/promesse-pubbliche.ts,app/near/page.tsx --prove tests/unit/riparazione-r09-la-frase-della-zona-ha-una-fonte-sola.test.ts --json"
+      },
+      "nota": "Un revisore, due lenti. Nata_rotta: il testo per il cliente è identico nei 9 punti cambiati, le 6 pagine importano davvero da zona-di-consegna, nessun ciclo, niente codice server in LocationPill; 670 prove su 88 file verdi. Chiude_tutta: il cosa_resta cita solo i due layout, mancano due copie scritte a mano: components/home-sections/HomeSectionRenderer.tsx:83 («Fino a ${RAGGIO_CONSEGNA_KM} km dal negozio», in home) e app/about/page.tsx:32. La prova controlla che il file importi, non che usi la frase: un «5 km» a mano in shipping passerebbe."
+    },
+    {
+      "id": "R09-006",
+      "chiave": "architettura|il conto del carrello ha una seconda copia che nessuna pagina usa, e la prova «lo schermo fa lo stesso conto del server» controlla proprio quella",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 1,
+        "comando": "git -C ../wt-R09-006 checkout --detach 83bdd55b4ad6fcb8daa0b9bc239b5e9b0a2b909d && timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R09-006 --base e72dec28e4965338080da800ca876e93e5b7437b --file components/checkout/useTotaliCarrello.ts --prove tests/unit/lo-schermo-e-il-server-fanno-lo-stesso-conto.test.ts --json"
+      },
+      "nota": "Due revisori, uno per lente. La rimessa non può mordere: il codice che gira non cambia, la voce cambia una prova (uscita 1, attesa). Mutazioni a mano: guastando lib/ordini/riepilogo-cassa.ts in tre modi (sconto tolto :84, sconto richiesto invece di applicato :82, credito anche con carta :73) la prova diventa rossa. La prova esistente riscritta importa solo file di R09 (riepilogo-cassa, prezzi): non è comune. Non più debole della vecchia (i 7 casi vecchi ci sono, più veloce e credito). Nata_rotta: nel codice vivo cambia solo il commento di useTotaliCarrello, che nessun file di app/components/lib importa. Chiude_tutta, cosa_resta incompleto: il passaggio degli ingressi nella pagina della cassa non lo protegge nessuna prova; con couponScontoCents: 0 in app/checkout/page.tsx:829 la prova e altri 62 file (497 prove) restano verdi: codice da 5 € su 24,50 €, lo schermo mostra 27,50 €, il server addebita 22,50 €. Restano scoperti anche supplementoVeloce (:87) e consegnaSenzaCodice (:85-86). La prova è quasi tautologica: riepilogoDaMostrare chiama prezziDelCarrello sugli stessi ingressi."
+    },
+    {
+      "id": "R09-008",
+      "chiave": "architettura|le email mandate dopo la risposta aspettano in una fila sola per tutto il server: in una raffica l'ultima può non partire",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "git -C ../wt-R09-008 checkout --detach 6fb4fefdc472161cef5635750ccabe5b2c19d557 && timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R09-008 --base 83bdd55b4ad6fcb8daa0b9bc239b5e9b0a2b909d --file lib/api/dopo-la-risposta.ts --prove tests/unit/riparazione-r09-dopo-la-risposta-una-fila-per-richiesta.test.ts --json"
+      },
+      "nota": "Un revisore, due lenti. Prova temporanea col vero AsyncLocalStorage di Next: il lavoro di una richiesta non aspetta quello lento di un'altra, un errore non blocca la fila, fuori da una richiesta resta la fila unica, tetto dei 10 s tiene; Next 15.5.29 crea uno stato per richiesta e after() lega il contesto; la WeakMap non fa crescere la memoria. 1194 prove su 175 file verdi. Residui fuori dalla voce: dentro una richiesta la fila resta seriale; con Fluid più email partono insieme (limite d'invio di Resend non provato); il commento a :59 nomina annula.ts a torto, già alla base."
+    },
+    {
+      "id": "R09-013",
+      "chiave": "architettura|il freno della veloce in contanti, se manca la riga del carrello, tratta ogni ordine da solo senza dirlo a nessuno",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "git -C ../wt-R09-013 checkout --detach e72dec28e4965338080da800ca876e93e5b7437b && timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R09-013 --base ed12ed8ec8190e1132b690f6e034c30f0a5d55ba --file lib/ordini/veloce-non-confermata.ts --prove tests/unit/riparazione-r09-veloce-contanti-senza-riga.test.ts --json"
+      },
+      "nota": "Due revisori, uno per lente. Chiude_tutta: la voce chiede che non succeda in silenzio (come R04-007); togliendo la chiamata all'avviso (:212) la prova è rossa; una lettura fallita lancia (:209). Nata_rotta: colonne lette esistenti nello schema; con lettura dei vicini in errore, avviso che non parte o nessun guasto passano alla fascia gli stessi ordini, che restano NEW; tre giri di fila danno un solo avviso. Minori senza soldi: una catena di ordini a 2 minuti dà più avvisi (:277); un vicino con la riga illeggibile conta come senza riga, falso allarme (:261-264); fino a 21 letture in più per ordine."
+    },
+    {
+      "id": "R09-016",
+      "chiave": "frontend-ux|tornando dall'accesso con un indirizzo già scritto, la cassa lo nasconde e non segna nessun indirizzo come scelto",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Già riparato prima: un revisore, due lenti. Alla BASE app/checkout/page.tsx:569-586 crea la mattonella «Appena scritto», :1502 la passa al modulo, ShippingAddressForm.tsx:160-165 la sceglie; sui file della BASE la prova R19 dà 5/5; togliendo la mattonella 2 casi rossi, quindi la prova controlla davvero. Caso limite fuori dalla voce: una bozza senza nome viene sovrascritta dall'indirizzo predefinito."
+    },
+    {
+      "id": "R06-001",
+      "chiave": "qa-flussi|il fattorino in bici non può essere approvato senza patente di guida e polizza rc",
+      "verdetto": "rompe_altro",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Già riparato prima (grave, permessi): due revisori. Chiude_tutta: regge, alla BASE la regola (lib/admin/regole-approvazione.ts) e chi la usa sono identici alla testa e il ciclista con mezzo dichiarato si approva senza patente e polizza; 43 prove guardia verdi; il comando-prova della voce esce 1 anche alla BASE perché il suo profilo non ha rider_vehicle_type (va aggiunto BIKE nel registro). Nata_rotta: rompe_altro: la correzione già alla base lascia aperta una falla di permessi, i dettagli sono stati mandati alla regia in riservato il 26/11 alle 15:25 e non stanno nel deposito."
+    },
+    {
+      "id": "R06-002",
+      "chiave": "qa-flussi|se il fattorino sparisce senza dichiarare i contanti, l'ordine resta in consegna per sempre e l'amministratore non può chiuderlo",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 3,
+        "comando": "git -C ../wt-R06-002 checkout --detach 85a465c7265fdad635f47a1809fca9aef25eeea2 && timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06-002 --base ed12ed8ec8190e1132b690f6e034c30f0a5d55ba --file lib/cassa/registra-incasso.ts --prove tests/unit/riparazione-r06-chiudi-consegna.test.ts --json"
+      },
+      "nota": "Grave di soldi: due revisori, tutti e due parziale. Rimessa uscita 3 (funzione nuova, chiudiConsegnaDaAmministratore). Nessuna rotta la chiama: oggi l'amministratore non può chiudere l'ordine, gira solo nella prova (dichiarato). Sul Postgres locale la RPC admin_chiudi_consegna della 360 coi nomi giusti (p_order_id, p_incassato_cents, p_motivo): anon permesso negato; fattorino, venditore, cliente, chiave di servizio NOT_ADMIN; importo null o -1 INCASSO_MANCANTE; 2.000.000.000 o sopra il tetto IMPORTO_FUORI_MISURA; ordine in strada chiuso DELIVERED e PAID; doppio tocco WRONG_STATUS, niente doppio incasso; PICKED_UP WRONG_STATUS. Funzioni del fattorino invariate, 4 prove che importano il file verdi, quadratura ricalcola solo la giornata di oggi. Al cosa_resta manca: il fix prometteva di chiudere con la stessa funzione anche il noto 31, ma la 360 rifiuta gli ordini con carta (NON_IN_CONTANTI). Minore: con anon la funzione TS risponde 500 invece di 403 (registra-incasso.ts:325-327)."
+    },
+    {
+      "id": "R06-003",
+      "chiave": "microcopy|in registrazione e nel cambio password del profilo il rifiuto di una password debole o rubata non si traduce o si perde",
+      "verdetto": "rompe_altro",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "git -C ../wt-R06-003 checkout --detach bb5c05098d56f68998ffeb95cc761dc8b5cbf3e5 && timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06-003 --base b3e419a0c453266610eb3fbd91e50b6b04957c79 --file app/api/account/cambia-password/route.ts,app/api/auth/signup/route.ts,app/sign-up/page.tsx --prove tests/unit/riparazione-r06-password-debole-tradotta.test.ts --json"
+      },
+      "nota": "Un revisore, due lenti. Le rotte chiudono: coi veri errori di @supabase/auth-js pwned/length/characters danno 400 tradotto su cambia-password e signup; email già usata e limiti invariati. Rompe: app/sign-up/page.tsx:208 manda ogni weak_password a traduciErroreNuovaPassword; con un testo che l'aiutante non riconosce la BASE diceva «La password è troppo semplice…», la testa dice «Qualcosa non ha funzionato. Riprova, oppure richiedi un nuovo link qui sotto.», e quel link su quella pagina non c'è: persa la garanzia di R24 (un testo nuovo col codice weak_password esce comunque in italiano). Lo stesso testo esce dalle due rotte. Non dichiarato: la parte /sign-up era già riparata alla BASE (R24-008, friendlyError). Minore, poco probabile."
+    },
+    {
+      "id": "R06-004",
+      "chiave": "performance|la memoria a due secondi dei metadati usa la stessa chiave anche quando si passa un client da fuori",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "git -C ../wt-R06-004 checkout --detach 5fb77f5579429153023749d9b0c7e79222282204 && timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06-004 --base bb5c05098d56f68998ffeb95cc761dc8b5cbf3e5 --file lib/supabase/lettura-per-metadati.ts --prove tests/unit/riparazione-r06-metadati-client-da-fuori.test.ts --json"
+      },
+      "nota": "Due revisori, uno per lente, tutti e due regge. Una memoria per client (WeakMap) più quella condivisa solo senza client; la memoria di React si usa solo senza client come alla BASE. Sonde: una lettura fallita al giro dopo rilegge; due client e la lettura anonima in parallelo ricevono ognuno la sua riga; la riga anonima non arriva al client con sessione. Pulizia oltre 200 voci. Nessuna pagina vera passa un client. La prova le-pagine-dei-negozi-non-spariscono-in-silenzio è identica alla BASE e verde; 243 prove su 21 file verdi; rimettendo il difetto 3 casi su 5 rossi. Buco minore dichiarato: il ritentativo dopo una lettura fallita con un client non lo ferma nessuna prova."
+    },
+    {
+      "id": "R06-007",
+      "chiave": "qa-flussi|nella pagina admin dei drop l'etichetta del giorno si sposta indietro per chi è a ovest di greenwich",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "git -C ../wt-R06-007 checkout --detach b3e419a0c453266610eb3fbd91e50b6b04957c79 && timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06-007 --base 8fc29327bf324b46d84b837faf70a688d0ec79f0 --file app/admin/daily-drops/page.tsx --prove tests/unit/riparazione-r06-giorno-del-drop.test.tsx --json"
+      },
+      "nota": "Un revisore, due lenti. Con New York, Pago Pago, Kiritimati, Tokyo e Roma esce sempre «mar 17 novembre», giusto anche nei giorni del cambio d'ora; togliendo timeZone la prova è rossa; drop_date è una colonna date (027:288); salvataggio, ordinamento ed eliminazione non toccati; 15 prove sulla pagina verdi."
+    },
+    {
+      "id": "R06-009",
+      "chiave": "qa-flussi|il collegamento del negozio a stripe e il bonifico manuale non hanno nessuna prova",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 2,
+        "comando": "git -C ../wt-R06-009 checkout --detach f0619eccd5e73e705a3b813e3627958c3016d0ae && timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06-009 --base 9aa9f56ac42f14f77bbb588395142409cd7f9df7 --file app/api/stripe/connect/login/route.ts,app/api/stripe/connect/onboarding/route.ts --prove tests/unit/riparazione-r06-stripe-connect-rotte.test.ts --json"
+      },
+      "nota": "Permessi: due revisori. La rimessa non si applica: la voce aggiunge solo una prova e nessun file di codice cambia (uscita 2, «file uguale alla base»). Mutazioni a mano: 13 su 14 rendono la prova rossa (autenticazione, ruolo, approvazione, conto mancante su onboarding, refresh-status, login, rider-onboarding, payout). Nata_rotta: regge, variabili d'ambiente ripristinate da tests/unit/_setup.ts, moduli finti per file, 0 connessioni di rete su 274 file di prove Stripe (1853 verdi), anche lanciata senza rete. Chiude_tutta, cosa_resta incompleto: oltre al buco su login (confermato) il database finto ignora i filtri (togliendo .eq('id', user.id) da refresh-status resta tutto verde), togliendo il controllo dell'email in rider-onboarding resta verde, e la cura proposta per login proverebbe il ruolo ma non l'approvazione. La voce diceva «nessuna prova» ma riparazione-r11-rotte-stripe-connect.test.ts c'era già alla BASE."
+    },
+    {
+      "id": "R06-010",
+      "chiave": "qa-flussi|il reso vale sempre per tutto l'ordine: il cliente non può dire quale articolo, e al negozio si propone di rimborsare tutto e subito",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "git -C ../wt-R06-010 checkout --detach 8fc29327bf324b46d84b837faf70a688d0ec79f0 && timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06-010 --base a9adb1a6f13e282cd8b331d2e2e88392e36df35a --file app/orders/[id]/return/page.tsx,components/seller/ReturnRequestCard.tsx,app/seller/orders/[id]/page.tsx --prove tests/unit/riparazione-r06-reso-modulo-articolo.test.tsx,tests/unit/riparazione-r06-reso-scheda-negozio.test.tsx --json"
+      },
+      "nota": "Soldi: due revisori, tutti e due parziale. L'articolo arriva al server (returns/create lo valida :29, controlla che sia dell'ordine :110-114, lo salva :176), il negozio vede articolo e cifra giusta con lo sconto, «avanza» riusa la cifra; con «Tutto l'ordine» o una riga sola la richiesta è identica a prima; il negozio non resta bloccato. 797 prove su 86 file verdi. Al cosa_resta mancano: la campanella e l'email al negozio non dicono quale articolo torna (returns/create :212 e il modello dell'email); se la lettura ripiega senza lo sconto (:240) si propone il prezzo pieno della riga."
+    },
+    {
+      "id": "R06-012",
+      "chiave": "qa-flussi|un admin che pubblica una storia dall'area negozio lascia una foto orfana nel deposito: dopo la 404 l'inserimento gli è rifiutato",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "git -C ../wt-R06-012 checkout --detach 9aa9f56ac42f14f77bbb588395142409cd7f9df7 && timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06-012 --base d01521d73c864c412a0ff98822a83ac3f371babb --file app/seller/layout.tsx --prove tests/unit/riparazione-r06-admin-senza-storie.test.tsx --json"
+      },
+      "nota": "Un revisore, due lenti. Nata_rotta: regge, il venditore approvato vede ancora le Storie, l'admin è fermato su /seller/stories e sotto. Chiude_tutta: parziale, la foto orfana nasce ancora: app/seller/stories/page.tsx:160-184 carica la foto prima di inserire la storia e non la toglie se l'inserimento fallisce (rete che cade, negozio sospeso con la pagina aperta); stessa classe per l'admin su /seller/products/new (letto nel codice, non provato)."
+    },
+    {
+      "id": "R06-013",
+      "chiave": "qa-flussi|col doppio clic su «rifiuta ordine» compare anche un avviso rosso di errore, e l'aiuto dice che il motivo è obbligatorio e promette un rimborso che coi contanti non esiste",
+      "verdetto": "rompe_altro",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "git -C ../wt-R06-013 checkout --detach a9adb1a6f13e282cd8b331d2e2e88392e36df35a && timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06-013 --base fd4d13c4ea493bd0c976903ca4a15ff05fb14426 --file app/seller/orders/[id]/page.tsx,app/api/seller/orders/[id]/reject/route.ts,app/seller/help/domande.ts --prove tests/unit/riparazione-r06-rifiuto-doppio-tocco.test.tsx,tests/unit/riparazione-r06-rifiuto-una-cosa-sola.test.ts --json"
+      },
+      "nota": "Un revisore, due lenti. Rompe (minore): in lib/ordini/annulla.ts:394-401 GIA_ANNULLATO vuol dire «stato cambiato», e la rotta ora lo traduce sempre in 409 «Ordine già annullato» (reject/route.ts:83), che la pagina mostra come avviso neutro chiudendo il riquadro (page.tsx:312, :323-324). Scenario: ordine in contanti accettato, un collega lo segna pronto mentre il negoziante lo rifiuta: oggi 409 «Ordine già annullato», falso perché l'ordine è vivo; alla BASE 500 «Rifiuto fallito», vero (riprodotto). Il resto risponde giusto (rifiuto vero 200, doppio 409, consegnato 409), ramo carta non toccato. Chiude_tutta: parziale, domande.ts:55 e :78 ancora false (dichiarato). 486 prove su 65 file verdi."
+    },
+    {
+      "id": "R06-014",
+      "chiave": "qa-flussi|nelle domeniche del cambio d'ora la quadratura della cassa del fattorino sbaglia la giornata: in autunno le consegne dalle 23 a mezzanotte non entrano in nessun conto",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "git -C ../wt-R06-014 checkout --detach ca77ab778cc9b3f5ab06eae77d62fd51e47adb88 && timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06-014 --base 85a465c7265fdad635f47a1809fca9aef25eeea2 --file lib/cassa/quadratura.ts,app/api/cron/riquadra-casse/route.ts --prove tests/unit/riparazione-r06-cassa-cambio-ora.test.ts --json"
+      },
+      "nota": "Due revisori, uno per lente, tutti e due regge. 25/10/2026 dura 25 ore, 28/3/2027 23 ore; consegna alle 23:30 del 31/10/2027 nella domenica, alle 00:30 del 29/3/2027 solo nel lunedì; sonda su tutto il 2026-2028 ogni 41 minuti: ogni istante in una e una sola giornata; nei giorni normali la finestra resta 24 ore; operational-alerts guardato (:221 e :389-393), non perde giornate. Nota: la giornata del 25/10/2026, già passata, non viene ricalcolata."
+    },
+    {
+      "id": "R06-015",
+      "chiave": "qa-flussi|i 14 giorni per rispedire la merce del reso si contano ancora a blocchi di 24 ore",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "git -C ../wt-R06-015 checkout --detach fd4d13c4ea493bd0c976903ca4a15ff05fb14426 && timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06-015 --base ca77ab778cc9b3f5ab06eae77d62fd51e47adb88 --file lib/rimborsi/regole-del-rimborso.ts --prove tests/unit/riparazione-r06-rispedire-a-giorni.test.ts --json"
+      },
+      "nota": "Due revisori, uno per lente, tutti e due regge. La regola sta in una funzione sola (percheIlRecessoNonSiChiude), chiamata da avanza/route.ts:221 e ReturnRequestCard.tsx:215; nessuna email, cron o migrazione conta quei 14 giorni. Confronto vecchio/nuovo sul 2026-2027: il nuovo non libera mai il negozio prima del vecchio; giorno 14 compreso. Cambio in più non nominato dalla voce: lo slittamento al primo giorno lavorativo, che allunga solo l'attesa del negozio ed è coerente con returns/create."
+    }
+  ],
+  "campione": {
+    "R05": {
+      "accettato": true
+    },
+    "R09": {
+      "accettato": true
+    },
+    "R06": {
+      "accettato": false
+    }
+  }
+}

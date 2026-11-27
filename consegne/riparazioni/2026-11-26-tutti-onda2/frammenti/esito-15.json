@@ -1,0 +1,41 @@
+{
+  "corsia": 15,
+  "territorio": "R15",
+  "difetti": [
+    {
+      "chiave": "deploy-sre|senza la 164 la lettura dei nomi pubblici scrive «vista nomi_pubblici assente» a ogni chiamata",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r15-avviso-senza-la-164-una-volta.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 9a4a541cadea646d2ba33aace382f64f3c4e6f92^ --file lib/queries/seller-public-profiles.ts --prove tests/unit/riparazione-r15-avviso-senza-la-164-una-volta.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base 9a4a541cadea646d2ba33aace382f64f3c4e6f92^ --file lib/queries/seller-public-profiles.ts --prove tests/unit/riparazione-r15-avviso-senza-la-164-una-volta.test.ts --json → uscita 0 (K06)",
+      "nota_fix": "Stesso schema della 181: flag di modulo avvisoSenzaLaVistaDato, l'avviso «vista nomi_pubblici assente» si scrive una volta per processo; il ripiego su profiles lavora a ogni chiamata. Prova: tre chiamate, nome sempre letto, avviso una volta."
+    },
+    {
+      "chiave": "layout-responsive|col testo al 200% il voto del negozio nella scheda resta tagliato",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r15-voto-scheda-negozio-a-capo.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 7b1df06ab6aca90206977d9f578242c37d866a59^ --file components/StorePreviewCard.tsx --prove tests/unit/riparazione-r15-voto-scheda-negozio-a-capo.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base 7b1df06ab6aca90206977d9f578242c37d866a59^ --file components/StorePreviewCard.tsx --prove tests/unit/riparazione-r15-voto-scheda-negozio-a-capo.test.ts --json → uscita 0 (K06)",
+      "nota_fix": "Il contenitore del voto passa da inline-flex gap-1 a inline-flex max-w-full min-w-0 flex-wrap gap-x-1: stesso aspetto normale, a capo col testo grande. Prova leggera sulle classi; non misurato in un browser vero."
+    },
+    {
+      "chiave": "pagamenti-stripe|la pulizia gira prima di ogni convalida del carrello: un tentativo respinto uccide una cassa ancora buona",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r15-pulizia-dopo-i-rifiuti.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 07d2fd8b5214f2b95f076d94bd757a55c6d59772^ --file app/api/stripe/checkout/route.ts --prove tests/unit/riparazione-r15-pulizia-dopo-i-rifiuti.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base 07d2fd8b5214f2b95f076d94bd757a55c6d59772^ --file app/api/stripe/checkout/route.ts --prove tests/unit/riparazione-r15-pulizia-dopo-i-rifiuti.test.ts --json → uscita 0 (K06)",
+      "nota_fix": "Sulla base la strada principale era già sistemata (la pulizia pigra pulisci() gira dopo i rifiuti, route.ts:634): il caso della voce dava già 409 senza chiudere niente. Restava il ramo del riuso: con una riga identica la cui pagina Stripe non è più pagabile la pulizia girava prima delle convalide, e un rifiuto successivo (fascia finita, negozio chiuso) chiudeva la cassa A. Ora in quel ramo la pulizia gira solo se c'è una pagina da restituire; se no si va avanti e la pulizia gira dopo i rifiuti. Prova: caso della voce, caso del riuso (rosso sulla base), caso valido che pulisce ancora; 42 file di prove della rotta verdi."
+    },
+    {
+      "chiave": "qa-flussi|un contesto circolare passato al logger fa lanciare un errore invece di scrivere la riga",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r15-logger-circolare.test.ts tests/unit/riparazione-r15-logger-profondo.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 6222e91991bae35550393d12fc00381c000bf8cd^ --file lib/logger.ts --prove tests/unit/riparazione-r15-logger-profondo.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base 5231c6fd^ --file lib/logger.ts --prove tests/unit/riparazione-r15-logger-circolare.test.ts,tests/unit/riparazione-r15-logger-profondo.test.ts --json → uscita 0 (K06)",
+      "nota_fix": "Due commit: 5231c6fd3e098d906a0f2f41422f8a8ed58e110f (line() serializza con un ripiego che mette «[circolare]» e, se JSON.stringify lancia comunque, scrive una riga minima; prima rimessa: regge) e 6222e91991bae35550393d12fc00381c000bf8cd, che chiude una fuga trovata dalla smentita: oltre la profondità massima redact restituisce «[troppo profondo]» e mai l'oggetto originale, così un ciclo profondo non riscrive in chiaro email e telefono della radice, né nella riga né nell'extra di Sentry; le chiavi si leggono una per una (un getter che lancia dà «[non leggibile]»), e il contesto passa da ctxSicuro in info, warn ed error, quindi il logger non lancia per un contesto illeggibile."
+    },
+    {
+      "chiave": "qa-flussi|la lettura dei negozi della griglia non va a blocchi",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r15-vetrina-a-blocchi.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 1f0083ca3ed081d0bf0eb6f336c8fec065943b6c^ --file lib/queries/seller-public-profiles.ts --prove tests/unit/riparazione-r15-vetrina-a-blocchi.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base 1f0083ca3ed081d0bf0eb6f336c8fec065943b6c^ --file lib/queries/seller-public-profiles.ts --prove tests/unit/riparazione-r15-vetrina-a-blocchi.test.ts --json → uscita 0 (K06)",
+      "nota_fix": "leggiDallaVista (anche nel ripiego senza migrazione 124) legge ora con leggiInBlocchi di lib/supabase/blocchi.ts (blocchi da 100) e riunisce le righe; un blocco che cade fa cadere la lettura. Prova: 250 id, più .in, ciascuna al massimo 100, mappa completa."
+    }
+  ]
+}
