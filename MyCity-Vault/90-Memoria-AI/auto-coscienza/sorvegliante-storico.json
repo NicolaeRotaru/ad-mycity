@@ -2,250 +2,6 @@
   "_cosa_e": "La memoria lunga del sorvegliante: una riga per sessione archiviata, con le voci che sono rimaste aperte. Il battito vive fuori da git e muore con la copia; questo no.",
   "sessioni": [
     {
-      "quando": "2026-09-02T19:55:01.923Z",
-      "scatti": 668,
-      "voci": 20,
-      "per_classe": {
-        "prova-accecata": 13,
-        "difesa-rimossa": 6,
-        "prova-indebolita": 1
-      },
-      "mai_risolte": [
-        {
-          "classe": "prova-indebolita",
-          "file": "cervello/test/due-case.test.mjs",
-          "cosa": "questo file adesso prova 24 caso/i in meno (24 tolti, 0 messi) e non ho toccato cervello/due-case.mjs",
-          "ripetuta": 30
-        }
-      ]
-    },
-    {
-      "quando": "2026-09-02T20:01:15.110Z",
-      "scatti": 670,
-      "voci": 20,
-      "per_classe": {
-        "prova-accecata": 13,
-        "difesa-rimossa": 6,
-        "prova-indebolita": 1
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-09-02T22:51:29.721Z",
-      "scatti": 772,
-      "voci": 20,
-      "per_classe": {
-        "prova-accecata": 13,
-        "difesa-rimossa": 6,
-        "prova-indebolita": 1
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-09-02T22:58:55.950Z",
-      "scatti": 776,
-      "voci": 20,
-      "per_classe": {
-        "prova-accecata": 13,
-        "difesa-rimossa": 6,
-        "prova-indebolita": 1
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-09-02T23:13:51.534Z",
-      "scatti": 776,
-      "voci": 20,
-      "per_classe": {
-        "prova-accecata": 13,
-        "difesa-rimossa": 6,
-        "prova-indebolita": 1
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-09-02T23:23:54.479Z",
-      "scatti": 776,
-      "voci": 20,
-      "per_classe": {
-        "prova-accecata": 13,
-        "difesa-rimossa": 6,
-        "prova-indebolita": 1
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-09-03T14:04:50.016Z",
-      "scatti": 817,
-      "voci": 25,
-      "per_classe": {
-        "prova-accecata": 14,
-        "difesa-rimossa": 10,
-        "prova-indebolita": 1
-      },
-      "mai_risolte": [
-        {
-          "classe": "difesa-rimossa",
-          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/radiografia-in-corsa.json",
-          "cosa": "ho tolto la riga che chiamava «cervello/valida-contratti.mjs», che è il codice su cui poggia la mutazione di AR-579",
-          "ripetuta": 14
-        },
-        {
-          "classe": "difesa-rimossa",
-          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/radiografia-in-corsa.json",
-          "cosa": "ho tolto la riga che chiamava «pannello/src/lib/onesta-check.ts», che è il codice su cui poggia la mutazione di AR-791",
-          "ripetuta": 9
-        },
-        {
-          "classe": "difesa-rimossa",
-          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/radiografia-in-corsa.json",
-          "cosa": "ho tolto la riga che chiamava «pannello/src/lib/cancello-atto.ts», che è il codice su cui poggia la mutazione di AR-384",
-          "ripetuta": 6
-        },
-        {
-          "classe": "difesa-rimossa",
-          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/radiografia-in-corsa.json",
-          "cosa": "ho tolto la riga che chiamava «cervello/freno-scattato.mjs», che è il codice su cui poggia la mutazione di AR-770 marca-sul-verde",
-          "ripetuta": 11
-        },
-        {
-          "classe": "difesa-rimossa",
-          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/radiografia-in-corsa.json",
-          "cosa": "ho tolto la riga che chiamava «cervello/mappa-copertura.mjs», che è il codice su cui poggia la mutazione di attesa-di-aggancio-senza-scadenza",
-          "ripetuta": 11
-        },
-        {
-          "classe": "difesa-rimossa",
-          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/radiografia-in-corsa.json",
-          "cosa": "ho tolto la riga che chiamava «cervello/ricuci-corsie.mjs», che è il codice su cui poggia la mutazione di ricuci-corsie · chiusura bloccata (AR-444)",
-          "ripetuta": 11
-        },
-        {
-          "classe": "difesa-rimossa",
-          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/radiografia-in-corsa.json",
-          "cosa": "ho tolto la riga che chiamava «cervello/chiusura-loop.mjs», che è il codice su cui poggia la mutazione di AR-288",
-          "ripetuta": 10
-        },
-        {
-          "classe": "difesa-rimossa",
-          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/radiografia-in-corsa.json",
-          "cosa": "ho tolto la riga che chiamava «cervello/esecuzione-prova.mjs», che è il codice su cui poggia la mutazione di AR-840",
-          "ripetuta": 10
-        },
-        {
-          "classe": "difesa-rimossa",
-          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/radiografia-in-corsa.json",
-          "cosa": "ho tolto la riga che chiamava «cervello/puntatori-scollegati.mjs», che è il codice su cui poggia la mutazione di AR-798",
-          "ripetuta": 10
-        },
-        {
-          "classe": "difesa-rimossa",
-          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/radiografia-in-corsa.json",
-          "cosa": "ho tolto la riga che chiamava «cervello/round6-applica.mjs», che è il codice su cui poggia la mutazione di AR-899",
-          "ripetuta": 8
-        }
-      ]
-    },
-    {
-      "quando": "2026-09-03T14:26:51.406Z",
-      "scatti": 818,
-      "voci": 25,
-      "per_classe": {
-        "prova-accecata": 14,
-        "difesa-rimossa": 10,
-        "prova-indebolita": 1
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-09-03T15:23:50.762Z",
-      "scatti": 839,
-      "voci": 25,
-      "per_classe": {
-        "prova-accecata": 14,
-        "difesa-rimossa": 10,
-        "prova-indebolita": 1
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-09-03T21:27:55.705Z",
-      "scatti": 905,
-      "voci": 25,
-      "per_classe": {
-        "prova-accecata": 14,
-        "difesa-rimossa": 10,
-        "prova-indebolita": 1
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-09-03T22:15:15.897Z",
-      "scatti": 921,
-      "voci": 25,
-      "per_classe": {
-        "prova-accecata": 14,
-        "difesa-rimossa": 10,
-        "prova-indebolita": 1
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-09-03T22:24:04.530Z",
-      "scatti": 921,
-      "voci": 25,
-      "per_classe": {
-        "prova-accecata": 14,
-        "difesa-rimossa": 10,
-        "prova-indebolita": 1
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-09-03T22:44:18.851Z",
-      "scatti": 924,
-      "voci": 25,
-      "per_classe": {
-        "prova-accecata": 14,
-        "difesa-rimossa": 10,
-        "prova-indebolita": 1
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-09-03T22:57:19.176Z",
-      "scatti": 928,
-      "voci": 25,
-      "per_classe": {
-        "prova-accecata": 14,
-        "difesa-rimossa": 10,
-        "prova-indebolita": 1
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-09-04T09:59:27.226Z",
-      "scatti": 1087,
-      "voci": 31,
-      "per_classe": {
-        "prova-accecata": 20,
-        "difesa-rimossa": 10,
-        "prova-indebolita": 1
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-09-04T10:20:06.293Z",
-      "scatti": 1092,
-      "voci": 31,
-      "per_classe": {
-        "prova-accecata": 20,
-        "difesa-rimossa": 10,
-        "prova-indebolita": 1
-      },
-      "mai_risolte": []
-    },
-    {
       "quando": "2026-09-04T16:42:48.666Z",
       "scatti": 9,
       "voci": 0,
@@ -1594,7 +1350,119 @@
       "voci": 0,
       "per_classe": {},
       "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-26T14:36:56.586Z",
+      "scatti": 35,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-26T14:48:42.074Z",
+      "scatti": 42,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-26T14:59:04.545Z",
+      "scatti": 42,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-26T15:48:28.550Z",
+      "scatti": 75,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-26T16:11:35.229Z",
+      "scatti": 16,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-26T16:32:45.081Z",
+      "scatti": 50,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-26T16:49:10.715Z",
+      "scatti": 52,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-26T16:56:46.024Z",
+      "scatti": 53,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-26T17:17:21.838Z",
+      "scatti": 55,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-26T17:41:07.785Z",
+      "scatti": 56,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-26T17:48:42.069Z",
+      "scatti": 58,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-26T20:20:35.949Z",
+      "scatti": 62,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-26T21:55:23.759Z",
+      "scatti": 63,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-26T22:34:38.969Z",
+      "scatti": 25,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-26T22:58:24.919Z",
+      "scatti": 44,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-26T23:20:01.796Z",
+      "scatti": 59,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
     }
   ],
-  "aggiornato": "2026-11-26T11:32:57.206Z"
+  "aggiornato": "2026-11-26T23:20:01.797Z"
 }

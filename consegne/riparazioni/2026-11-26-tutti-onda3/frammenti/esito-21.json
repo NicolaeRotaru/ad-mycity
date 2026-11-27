@@ -1,0 +1,34 @@
+{
+  "corsia": 21,
+  "territorio": "R21",
+  "difetti": [
+    {
+      "chiave": "frontend-ux|la griglia chiama il vecchio calcolo dei prodotti in promozione accanto a quello nuovo",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r21-griglia-una-strada.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 748e1aaf80c6663d15f3aa91ad5330a8b9bf726c^ --file lib/queries/griglia-prodotti.ts,components/ProductGrid.tsx --prove tests/unit/riparazione-r21-griglia-una-strada.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base 748e1aaf80c6663d15f3aa91ad5330a8b9bf726c^ --file components/ProductGrid.tsx,lib/queries/griglia-prodotti.ts --prove tests/unit/riparazione-r21-griglia-una-strada.test.ts --json → uscita 0 (K07)",
+      "nota_fix": "Da ProductGrid ho tolto la query separata degli id scontati sotto il massimo (anche dalla chiave e dalla condizione di avvio) e il campo da DomandaGriglia: gli id in promozione li chiede solo griglia-prodotti, e solo nel ripiego senza 911."
+    },
+    {
+      "chiave": "frontend-ux|con una promozione attiva la barra d'acquisto e i caroselli mostrano il prezzo pieno, mentre sopra c'è quello scontato",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r21-prezzo-promo-fasce.test.tsx --reporter=dot",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base d5546a8dc61d7b5d68debf178ab4533cf1e5316e^ --file components/SimilarProducts.tsx,components/RecentlyViewed.tsx,components/SponsoredCarousel.tsx,components/SearchBar.tsx --prove tests/unit/riparazione-r21-prezzo-promo-fasce.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base d5546a8dc61d7b5d68debf178ab4533cf1e5316e^ --file components/SimilarProducts.tsx,components/RecentlyViewed.tsx,components/SponsoredCarousel.tsx,components/SearchBar.tsx --prove tests/unit/riparazione-r21-prezzo-promo-fasce.test.tsx --json → uscita 0 (K07)",
+      "nota_fix": "Applicata la modifica scritta (fetchActiveDiscounts + discountedUnitCents, ripiego .catch(() => new Map())) ai tre caroselli e alla tendina della ricerca; la barra StickyAddToCart era già sistemata sulla base. La prova rende i 4 componenti: 0,29 € al -50% diventa 0,14 €; con sconti non letti resta 0,29 €."
+    },
+    {
+      "chiave": "frontend-ux|l'email della veloce dice sempre «la tua spesa arriva in una fascia» anche quando si è spostato un ordine solo del carrello",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r21-email-veloce-ordine-non-spostato.test.ts --reporter=dot",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base e5c9f47aa58bfcdaf0b68ef621dce8ecf6b3b32d^ --file lib/email/templates.ts --prove tests/unit/riparazione-r21-email-veloce-ordine-non-spostato.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base e5c9f47aa58bfcdaf0b68ef621dce8ecf6b3b32d^ --file lib/email/templates.ts --prove tests/unit/riparazione-r21-email-veloce-ordine-non-spostato.test.ts --json → uscita 0 (K07)",
+      "nota_fix": "Il template legge dalla frase già ricevuta la parte «(tranne l'ordine …/gli ordini …)» e aggiunge «, tranne un ordine» / «, tranne alcuni ordini» a titolo e oggetto; senza eccezione resta identico. Chi lo chiama non è toccato."
+    },
+    {
+      "chiave": "frontend-ux|il campo sito del negozio accetta uno spazio nel percorso (https://negozio.it/a b) e lo salva con lo spazio",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r21-sito-gia-salvato-resta.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 87d37e2f929ea16e0da464b5686faed7f016fc0b^ --file lib/store-customization.ts --prove tests/unit/riparazione-r21-sito-gia-salvato-resta.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base 87d37e2f929ea16e0da464b5686faed7f016fc0b^ --file lib/store-customization.ts --prove tests/unit/riparazione-r21-sito-gia-salvato-resta.test.tsx --json → uscita 0 (K07)",
+      "nota_fix": "Giro di correzione K07: normalizeCustomization tiene in lettura un sito già salvato che le regole di oggi rifiutano (spazio nel percorso, ftp://, scritto male), tranne gli schemi che eseguono codice (javascript:, vbscript:, data:, file:, blob:, anche storpiati con tab o spazi), che si scartano; in vetrina diventa link solo http/https. Così il sito non sparisce dalla vetrina e non si cancella al salvataggio dei dettagli (StoreDetailsEditor→VendorForm, che lo rimette com'era) né al cambio di colore (ThemePicker). Un valore nuovo sbagliato resta rifiutato. Prova sul percorso vero (StoreDetailsEditor e ThemePicker con il client finto e la riga scritta in profiles): senza la cura 5 su 8 rossi."
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+architettura|il finto clienteavvisi è riscritto in quattro posti e la prova da 1033 righe mescola rotte, notte e una scansione del sorgente
+architettura|la prova sull'export elenca ancora cod_reconciliations fra le tabelle escluse
+api-backend|l'invio subito delle notifiche push prende le righe guardando solo pushed_at, e può correre col giro del cron
+qa-flussi|una prova del promemoria del carrello resta verde solo per caso
+ai-endpoints|l attesa per un applicazione del catalogo ancora in corso non scatta mai: legge una colonna che nessuna migrazione crea
+stati-ui|la pagina del lavoro sul catalogo non legge l avviso dell applica e mostra solo i primi tre motivi
+qa-flussi|la risposta del negozio svuotata e riscritta dall api riavvisa il cliente ogni volta
+qa-flussi|il negozio che risponde alla propria domanda senza answered_by si avvisa da solo
+qa-flussi|il nome del negozio nel pannello admin non ha il tetto di 80 caratteri: oltre, il database lo rifiuta col messaggio generico
+microcopy|la campanella «ordine assegnato» dice ancora rider al cliente e al negozio
+microcopy|un tetto del nome negozio respinto dal database esce col messaggio generico «il valore inserito non è valido.»
+qa-flussi|due veloci pagate con la carta nello stesso momento con un fattorino solo passano tutte e due
+qa-flussi|un contesto circolare passato al logger fa lanciare un errore invece di scrivere la riga
+layout-responsive|l'occhiello maiuscolo di collectionheader esce dalla colonna a 280 px col testo al 200%
+layout-responsive|il titolo di collectionheader da 640 px in su ha una misura in pixel fissi
+layout-responsive|in chi siamo i due pulsanti della fascia scura finale escono dalla fascia a 280 px col testo al 200%
+microcopy|sulla bacheca del fattorino una casella dice ancora «rating» in inglese
+stati-ui|oncount della griglia non sa dire «non so»: con la griglia ferma al tetto la categoria può restare su un numero vecchio
+dati-analytics|il cancello del filmato in eccezione lascia passare il filmato originale
+performance|zod arriva in ogni pagina dal modulo newsletter del piede
+layout-responsive|col testo al 200% il voto del negozio nella scheda resta tagliato
+deploy-sre|chat e recensioni del negozio, senza la 181, scrivono un avviso a ogni apertura e non usano il ripiego dei nomi
+deploy-sre|senza la 164 la lettura dei nomi pubblici scrive «vista nomi_pubblici assente» a ogni chiamata
+deploy-sre|la guida al backup non dice che con un remote cifrato o alias lo storico va impostato a mano
+frontend-ux|il fattorino respinto o sospeso legge nel profilo «caricato · in attesa di verifica» sui documenti
+frontend-ux|da approvato, l'attestato haccp appena caricato passa subito a «caricato · ok» senza che nessuno lo guardi
+qa-flussi|il sorvegliante avvisa per una verifica d'identità «in attesa» anche dopo che lo staff ha approvato il fattorino o il negozio
+frontend-ux|alcune sottopagine vere di un profilo facebook (/nome/timeline, /nome/info, /nome/photos_by) vengono rifiutate invece di tenere il nome
+frontend-ux|il link tiktok di un profilo vero chiamato come un percorso riservato (tiktok.com/@live) viene rifiutato anche con la @
+frontend-ux|nelle pagine secondarie del sito del negozio l'annuncio del giorno resta quello di ieri dopo mezzanotte, se la pagina resta aperta
+frontend-ux|con due social sbagliati, uno vuoto e uno già salvato, il messaggio dice «sono rimasti com'erano» anche per quello vuoto
+frontend-ux|sotto il logo del negozio c'è ancora scritto «(png, jpg)» mentre la casella accetta sette formati
+ai-endpoints|il controllo del tetto di spesa ai gira anche con l ai dei negozi spenta
+performance-percepita|zod nel piede del sito: da riverificare con l analisi del pacchetto
+frontend-ux|anche i campi brevi delle categorie nel pannello admin tagliano in silenzio con maxlength
+frontend-ux|nel link facebook.com/nome_col_trattino_basso il primo messaggio che si legge è quello generico, «scrivi solo il nome del profilo…», non quello del trattino basso
+accessibilita|la card senza href scarta aria-label, e la card con href non passa al link il resto delle prop (id, role)
+deploy-sre|il commento del ritorno indietro dice ancora che un rilascio senza commit resta un posto buono, come prima
+deploy-sre|il commento del lavoro di rilascio dice ancora «se i candidati sono piu di uno»
+api-backend|una notifica push presa dal giro del cron si perde per sempre se il giro muore prima di mandarla o ridarla
+qa-flussi|l'aiutante attendi() può dire «sospeso per sempre» per un import solo lento, e il permesso permettisospeso vale per l'ultima accendi
+qa-flussi|nel cron delle notifiche restano altri codici di sessione nei commenti, come quello appena tolto
+qa-flussi|il testo di un errore vero arriva a sentry senza oscurare email e telefoni
+api-backend|il preventivo accettato due volte nello stesso giorno con scelte diverse lascia avvisi che si contraddicono

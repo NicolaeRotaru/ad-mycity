@@ -1,0 +1,3 @@
+# elenco C di pronte (2026-11-26 17:16): 2 voci uniche, una chiave per riga
+qa-flussi|il campanello del sito e la lista delle notifiche contano ancora le promozioni (e le newsletter) di chi le ha spente
+qa-flussi|la campanella del sito mostra le promozioni anche a chi le ha spente

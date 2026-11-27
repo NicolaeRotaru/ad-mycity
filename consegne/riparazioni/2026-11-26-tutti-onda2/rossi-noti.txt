@@ -1,0 +1,15 @@
+ramo R12 ccr-a672a2b3-92w5w1-m12
+ramo R13 ccr-a672a2b3-92w5w1-m13
+ramo R14 ccr-a672a2b3-92w5w1-m14
+ramo R15 ccr-a672a2b3-92w5w1-m15
+ramo R16 ccr-a672a2b3-92w5w1-m16
+ferma R15 6484d56
+finita R14
+finita R16
+finita R12
+ramo K05 ccr-a672a2b3-92w5w1-k05
+finita K05
+finita R15
+finita R13
+finita K06
+ramo K06 ccr-a672a2b3-92w5w1-k06

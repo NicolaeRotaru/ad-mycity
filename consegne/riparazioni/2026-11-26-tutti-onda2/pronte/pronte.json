@@ -1,0 +1,323 @@
+{
+  "creato": "2026-11-26 17:16",
+  "conti": {
+    "A": 0,
+    "B": 10,
+    "C": 2,
+    "D": 9
+  },
+  "righe_B": 10,
+  "precedenti": {
+    "ai-endpoints|l attesa per un applicazione del catalogo ancora in corso non scatta mai: legge una colonna che nessuna migrazione crea": {
+      "id": "R12-002",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "tests/unit/riparazione-r13-avvio-durante-applicazione.test.ts",
+          "modifica": "prova comune: serve la firma di Nicola. Il caso it.each(['42703','PGRST204'])('senza la colonna (errore %s) l avvio va avanti come prima') si aspetta 200, cioè il difetto: va girato in 'senza la colonna (errore %s) l avvio aspetta lo stesso' con expect(risposta.status).toBe(409), expect(submitBatchMock).not.toHaveBeenCalled(), expect(aperti()).toHaveLength(0), e il commento in testa (righe 16-17) senza «l'avvio va avanti come prima»."
+        }
+      ],
+      "file_che_servono": [
+        "tests/unit/riparazione-r13-avvio-durante-applicazione.test.ts"
+      ]
+    },
+    "qa-flussi|il campanello del sito e la lista delle notifiche contano ancora le promozioni (e le newsletter) di chi le ha spente": {
+      "id": "R12-011",
+      "elenco": "C",
+      "esito": "parziale",
+      "cosa_resta": "La lista delle notifiche (app/notifications/page.tsx, file di un'altra sessione) mostra ancora promo e newsletter spente: chi ha come sole non lette delle promo spente le vede «Non letta» nella lista mentre «Segna tutte come lette» sparisce.",
+      "modifiche": [
+        {
+          "file": "app/notifications/page.tsx",
+          "modifica": "Nella queryFn dell'elenco, dopo 'if (!user) throw new Error(AUTH_RICHIESTA);': let lista = supabase.from('notifications').select('*').eq('user_id', user.id); const spente = await categorieDiNotificheSpente(user.id); if (spente.length > 0) lista = lista.or(`category.not.in.(${spente.join(',')})`); const { data, error } = await lista.order('created_at', { ascending: false }).limit(quante); con import { categorieDiNotificheSpente } from '@/components/hooks/useNotificationsCount'."
+        }
+      ],
+      "file_che_servono": [
+        "app/notifications/page.tsx"
+      ]
+    },
+    "qa-flussi|negli strumenti di prova, il finto usesearchparams crea un oggetto nuovo a ogni giro (in next resta lo stesso): le prove montate non vedono le gare sull indirizzo": {
+      "id": "R12-013",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "tests/unit/aiuti/finti/next-navigation.mjs",
+          "modifica": "prova comune: serve la firma di Nicola (il finto è usato da tests/unit/aiuti/compila.mjs e da 7 prove di altre sessioni via vi.mock). Sostituire `export const useSearchParams = () => new URLSearchParams(globalThis.__QUERY_FINTA__ ?? '');` con un oggetto tenuto finché la query non cambia: `let ultimaQuery; let ultimiParametri; export const useSearchParams = () => { const q = globalThis.__QUERY_FINTA__ ?? ''; if (ultimiParametri === undefined || q !== ultimaQuery) { ultimaQuery = q; ultimiParametri = new URLSearchParams(q); } return ultimiParametri; };` così un useEffect che dipende da searchParams scatta solo quando l'indirizzo cambia, come in Next."
+        }
+      ],
+      "file_che_servono": [
+        "tests/unit/aiuti/finti/next-navigation.mjs"
+      ]
+    },
+    "coerenza-brand|la primitiva card è usata in 10 file, mentre 141 card sono ridisegnate a mano con quattro raggi diversi": {
+      "id": "R13-002",
+      "elenco": "D",
+      "esito": "scelta_di_nicola",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "qa-flussi|il fattorino nuovo non può finire l'iscrizione: la pagina dei documenti lo tiene fuori finché non è approvato": {
+      "id": "R13-011",
+      "elenco": "D",
+      "esito": "scelta_di_nicola",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "qa-flussi|l'aiutante attendi() può dire «sospeso per sempre» per un import solo lento, e il permesso permettisospeso vale per l'ultima accendi": {
+      "id": "R13-013",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "tests/unit/aiuti/schermo.ts",
+          "modifica": "Prova comune: serve la firma di Nicola (l'aiutante lo importano 289 file di prova di più sessioni). (1) Righe 22-23 e 37: togliere la variabile di modulo permettiSospesoDaAccendi e tenere un registro per schermo, const accesi = new Map<HTMLElement, { permettiSospeso: boolean; prova: string | undefined }>(); in accendi: accesi.set(radice, { permettiSospeso: opzioni.permettiSospeso === true, prova: expect.getState().currentTestName }); in smonta (righe 55-60): accesi.delete(radice). (2) Righe 25-34: controllaNonSospeso conta i [data-aiuto-sospeso] solo dentro le radici della prova in corso senza permesso: for (const [radice, s] of accesi) if (!s.permettiSospeso && s.prova === expect.getState().currentTestName) n += radice.querySelectorAll(SOSPESO).length. (3) Righe 70-77: al posto dei 20 giri di setTimeout(0), prima await act(async () => { await vi.dynamicImportSettled(); }), poi un tetto a tempo (es. 1000 ms sotto il testTimeout) con giri da 10 ms sulle radici del punto 2; con l'orologio finto (vi.isFakeTimers()) il giro avanza con vi.advanceTimersByTimeAsync(10). Se il tetto scade il messaggio dice «ancora sospeso dopo N ms, con gli import pigri già arrivati: una promessa che non torna», distinto dall'import lento. Lo stesso tetto per l'attendi() dopo un clic che fa risospendere il componente."
+        }
+      ],
+      "file_che_servono": [
+        "tests/unit/aiuti/schermo.ts"
+      ]
+    },
+    "api-backend|l'invio subito delle notifiche push prende le righe guardando solo pushed_at, e può correre col giro del cron": {
+      "id": "R14-003",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "app/api/cron/send-push/route.ts",
+          "modifica": "Il giro non prende le righe: le legge con pushed_at vuoto (righe 58-64) e le segna solo DOPO l'invio (righe 222-227). Cura: subito dopo la lettura (e dopo l'eventuale rilettura degli urgenti) prendere le righe con una scrittura sola, come fa lib/push/subito.ts: `const { data: prese } = await supa.from('notifications').update({ pushed_at: nowIso }).in('id', pending.map(n => n.id)).is('pushed_at', null).select('id, user_id, title, body, link, category')`, con nowIso spostato prima, e lavorare solo su `prese`. Le righe rimandate (preferenza o iscrizioni non lette) e quelle ritentate si ridanno al giro con `update({ pushed_at: null }).in('id', ids).eq('pushed_at', nowIso)`. Il passo ④ (segnatura finale) sparisce."
+        }
+      ],
+      "file_che_servono": [
+        "app/api/cron/send-push/route.ts"
+      ]
+    },
+    "architettura|audit_logs, il registro delle azioni amministrative, diventa il lucchetto delle email, scritto fuori da lib/audit.ts e dal catalogo": {
+      "id": "R14-004",
+      "elenco": "D",
+      "esito": "scelta_di_nicola",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "architettura|email partita ma non segnata: la notte dopo riparte, e se fallisce l'allarme dice «non partita» per un'email già arrivata": {
+      "id": "R14-006",
+      "elenco": "D",
+      "esito": "scelta_di_nicola",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "qa-flussi|la campanella del sito mostra le promozioni anche a chi le ha spente": {
+      "id": "R14-010",
+      "elenco": "C",
+      "esito": "parziale",
+      "cosa_resta": "Il numerino del campanello (Navbar, AccountShell) viene da components/hooks/useNotificationsCount.ts, che conta tutte le non lette: chi ha spento le promozioni vede ancora il numero delle promozioni nascoste. «Segna tutte come lette» le segna lette e così il numero si azzera.",
+      "modifiche": [
+        {
+          "file": "components/hooks/useNotificationsCount.ts",
+          "modifica": "Nel queryFn, prima del conteggio: `const { data: pref, error: errPref } = await supabase.from('profiles').select('notif_promos').eq('id', userId).limit(1);` e `const promoAccese = !errPref && (pref as { notif_promos?: boolean | null }[] | null)?.[0]?.notif_promos === true;`. Poi costruire la query del conteggio in una variabile e, se `!promoAccese`, aggiungere `.or('category.is.null,category.neq.promo')` prima di eseguirla. Stessa regola della pagina app/notifications/page.tsx (R14-010): promozioni contate solo a chi le ha accese."
+        }
+      ],
+      "file_che_servono": [
+        "components/hooks/useNotificationsCount.ts"
+      ]
+    },
+    "qa-flussi|due regole diverse per il tetto del portiere sulla sessione": {
+      "id": "R14-011",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "tests/unit/riparazione-r06-tetto-per-getuser.test.ts",
+          "modifica": "prova comune: serve la firma di Nicola (importa lib/auth/decisione-portiere, non di R14). Righe 21-23: il caso «tessera buona per un'ora» deve aspettarsi TETTO_RINNOVO_MS e non TETTO_PORTIERE_MS, titolo cambiato di conseguenza. Con la firma, nei file di R14: in lib/auth/cookie-di-sessione.ts tettoPerGetUser diventa `return tettoPerChiedereChiSei(cookie);` (il middleware non cambia testo) e una prova nuova tests/unit/riparazione-r14-tetto-unico.test.ts controlla che le due funzioni diano lo stesso verdetto sulla tessera leggibile e buona e su quella illeggibile."
+        }
+      ],
+      "file_che_servono": [
+        "tests/unit/riparazione-r06-tetto-per-getuser.test.ts"
+      ]
+    },
+    "qa-flussi|la risposta del negozio svuotata e riscritta dall api riavvisa il cliente ogni volta": {
+      "id": "R14-012",
+      "elenco": "D",
+      "esito": "riparato",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "architettura|il parametro propostail di negoziopuoservire non lo passa nessuno": {
+      "id": "R15-001",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "tests/unit/riparazione-r03-fascia-domani-proposta.test.ts",
+          "modifica": "prova comune: serve la firma di Nicola. Il primo caso chiama motivoFasciaRifiutata(FASCIA, negozi, undefined, propostaIl): va riscritto sul riporto che le rotte usano già, cioè expect(motivoFasciaRifiutata(fasciaAlGiornoDellOrdine(FASCIA, new Date('2026-11-23T22:59:00Z'), new Date()) ?? FASCIA, negozi)).toBeNull() con l'orologio a 2026-11-23T23:01:00Z (fasciaAlGiornoDellOrdine da lib/ordini/fascia-leggibile.ts dà «Oggi · 9:00–11:00»). Il secondo caso resta com'è."
+        },
+        {
+          "file": "lib/store-hours.ts",
+          "modifica": "togliere il parametro propostaIl da negozioPuoServire (riga ~311), ultimoRitiroDellaFascia (~348) e finestraDelRitiro (~233; per «domani» usare now.getDay()+1): nessuno lo passa, il giorno di «Domani» lo riportano già la rotta dei contanti (app/api/orders/cod/route.ts:416-425) e il webhook (lib/stripe/webhook/ordini.ts:288-292). Insieme, in lib/quando-arriva.ts:222-235 (file di R15) si toglie il quarto parametro di motivoFasciaRifiutata e si chiama negozioPuoServire(n.orari, fascia, ora)."
+        }
+      ],
+      "file_che_servono": [
+        "tests/unit/riparazione-r03-fascia-domani-proposta.test.ts",
+        "lib/store-hours.ts"
+      ]
+    },
+    "architettura|in home ogni sezione chiede di nuovo alla vetrina lo stesso negozio, e ogni fascia compare un giro di rete più tardi": {
+      "id": "R15-002",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "lib/queries/fasce-prodotti.ts, lib/queries/negozio-del-mese.ts, lib/queries/griglia-prodotti.ts, lib/queries/catalogo.ts e i componenti della home che li chiamano (Drop del giorno, storie, Ordina di nuovo, tendenze)",
+          "modifica": "far passare la lettura dei negozi da React Query: queryClient.fetchQuery({ queryKey: ['vetrina-negozio', id, colonne], queryFn: () => fetchSellerPublicMap(client, [id]), staleTime: qualche minuto }) per negozio, così le sezioni dopo la prima trovano il negozio già pronto. lib/queries/seller-public-profiles.ts resta senza memoria a tempo: unisce già le domande in volo (R06-009)."
+        }
+      ],
+      "file_che_servono": [
+        "lib/queries/fasce-prodotti.ts, lib/queries/negozio-del-mese.ts, lib/queries/griglia-prodotti.ts, lib/queries/catalogo.ts e i componenti della home che li chiamano (Drop del giorno, storie, Ordina di nuovo, tendenze)"
+      ]
+    },
+    "architettura|un altro finto scritto a mano risponde alle letture degli avvisi nelle prove della cancellazione": {
+      "id": "R15-003",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "tests/unit/minori-s08-cancellazione.test.ts",
+          "modifica": "prova comune: serve la firma di Nicola — sostituire il finto scritto a mano delle righe 42-68 (adminFinto: letture degli avvisi per account/delete → motivoDellAttesa) con il finto unico di tests/unit/aiuti/finto-giro-notturno.ts"
+        }
+      ],
+      "file_che_servono": [
+        "tests/unit/minori-s08-cancellazione.test.ts"
+      ]
+    },
+    "privacy-legale|«chi siamo» e «lavora con noi» raccontano una flotta di rider, una crescita e quattro posti di lavoro che oggi non esistono": {
+      "id": "R15-009",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "app/lavora-con-noi/page.tsx",
+          "modifica": "(file di R15, da applicare insieme alla firma sulle tre prove comuni qui sotto) JOBS diventa un array vuoto tipizzato (const JOBS: Array<{ title: string; tag: string; …stessi campi }> = []), sezione #posizioni e .map intatti; con JOBS vuoto la sezione mostra «Oggi non abbiamo posizioni aperte. Se vuoi lavorare con noi, mandaci una candidatura spontanea» col link già esistente; via il sottotitolo «Piacenza · alcune posizioni sono ibride.» quando l'elenco è vuoto. La cura pronta è nel commit 6484d56ad071b7e29f3f8b67c8a71430725497f5 (poi tolto con 8ecd8e07)."
+        },
+        {
+          "file": "tests/unit/riparazione-r02-pagine-testo-grande.test.tsx",
+          "modifica": "prova comune: serve la firma di Nicola. Caso «/lavora-con-noi … le righe delle posizioni si stringono» (righe 64-80): le ricerche di `li div` con flex-1 e di `li a` «Candidati» vanno fatte solo se l'elenco ha righe, oppure spostate su una prova che renderizza la riga con una posizione di prova."
+        },
+        {
+          "file": "tests/unit/riparazione-r12-pagine-200.test.ts",
+          "modifica": "prova comune: serve la firma di Nicola. Gruppi R12-004 (righe ~48-70 e ~99): cercano «{/* Posizioni aperte */}», «Candidati», «{job.tag}» e «job.title» nel sorgente; restano verdi se lo stampo resta, da ricontrollare con la cura applicata."
+        },
+        {
+          "file": "tests/unit/riparazione-r03-ancore-senza-doppio-margine.test.ts",
+          "modifica": "prova comune: serve la firma di Nicola. Riga 18: il caso «Posizioni aperte» (id 'posizioni', scroll-mt-24) resta verde se la sezione resta; da ricontrollare con la cura applicata."
+        }
+      ],
+      "file_che_servono": [
+        "app/lavora-con-noi/page.tsx",
+        "tests/unit/riparazione-r02-pagine-testo-grande.test.tsx",
+        "tests/unit/riparazione-r12-pagine-200.test.ts",
+        "tests/unit/riparazione-r03-ancore-senza-doppio-margine.test.ts"
+      ]
+    },
+    "qa-flussi|due veloci pagate con la carta nello stesso momento con un fattorino solo passano tutte e due": {
+      "id": "R15-010",
+      "elenco": "D",
+      "esito": "scelta_di_nicola",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "lib/ordini/consegna-veloce.ts",
+          "modifica": "contaVelociInCorso: sommare per cliente le prenotazioni vive (pending_checkouts PENDING con delivery->>'slot' = ETICHETTA_ADESSO e delivery->>'veloce_prenotata_fino' > now)"
+        },
+        {
+          "file": "lib/stripe/webhook/ordini.ts",
+          "modifica": "alla nascita di una veloce da una riga con veloce_prenotata_fino passata: rimborso o accettazione secondo la scelta di Nicola"
+        }
+      ],
+      "file_che_servono": [
+        "lib/ordini/consegna-veloce.ts",
+        "lib/stripe/webhook/ordini.ts"
+      ]
+    },
+    "deploy-sre|chat e recensioni del negozio, senza la 181, scrivono un avviso a ogni apertura e non usano il ripiego dei nomi": {
+      "id": "R16-003",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "tests/unit/i-nomi-dei-clienti-che-il-negozio-vede.test.ts",
+          "modifica": "prova comune: serve la firma di Nicola. Righe 214, 219 e 242: 'Cliente' diventa 'Maria Rossi' (il nome di consegna dell'ordine o1, che il negozio legge già)"
+        },
+        {
+          "file": "tests/unit/riparazione-r09-avviso-recensioni.test.tsx",
+          "modifica": "prova comune: serve la firma di Nicola. Nel finto supabase from('orders') deve rispondere a select().in().order().limit() con {data:[],error:null}; senza, il ripiego cade e l'avviso si conta 3 volte invece di 1"
+        }
+      ],
+      "file_che_servono": [
+        "tests/unit/i-nomi-dei-clienti-che-il-negozio-vede.test.ts",
+        "tests/unit/riparazione-r09-avviso-recensioni.test.tsx"
+      ]
+    },
+    "performance|quasi tutte le pagine del sito nascono vuote e le riempie il browser con chiamate al database, non solo la home e la scheda prodotto": {
+      "id": "R16-008",
+      "elenco": "D",
+      "esito": "scelta_di_nicola",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "privacy-legale|le domande sotto i prodotti si pubblicano subito, non si possono segnalare una per una e nessuno può toglierle": {
+      "id": "R16-009",
+      "elenco": "D",
+      "esito": "parziale",
+      "cosa_resta": "(a) Segnalare una domanda alla volta: il database accetta già il tipo «domanda» (364), il modulo e la rotta no (vedi serve_file_altrui); poi in components/ProductQA.tsx va aggiunto <Segnala tipo=\"domanda\" oggettoId={q.id} /> sotto ogni domanda. (c) La moderazione prima della pubblicazione è una scelta di Nicola (domande_per_nicola), come il tasto del negozio per nascondere le domande sui suoi prodotti.",
+      "modifiche": [
+        {
+          "file": "components/Segnala.tsx",
+          "modifica": "riga 51: aggiungere 'domanda' all'unione di tipo; riga 55: per tipo==='domanda' usare MOTIVI_RECENSIONE (o un elenco con offensivo, illecito e altro)"
+        },
+        {
+          "file": "app/api/segnalazioni/route.ts",
+          "modifica": "riga 30: z.enum con 'domanda'; righe 74-79: TABELLE_DELL_OGGETTO con domanda: ['product_questions']; in contenutoAncoraOnline (righe 199-214) per il tipo 'domanda' leggere product_questions.is_public e, se è true, fermare con «La domanda è ancora visibile: nascondila prima di comunicare rimosso»"
+        },
+        {
+          "file": "lib/admin/segnalazioni-testi.ts",
+          "modifica": "in OGGETTI aggiungere domanda: 'una domanda sotto un prodotto'"
+        },
+        {
+          "file": "app/admin/segnalazioni/page.tsx",
+          "modifica": "dove(): per 'domanda' il link alla scheda del prodotto (product_id letto da product_questions); puoTogliere comprende 'domanda', e con «accolta» si fa update product_questions set is_public=false where id=oggetto_id"
+        }
+      ],
+      "file_che_servono": [
+        "components/Segnala.tsx",
+        "app/api/segnalazioni/route.ts",
+        "lib/admin/segnalazioni-testi.ts",
+        "app/admin/segnalazioni/page.tsx"
+      ]
+    },
+    "qa-flussi|indirizzo, cap e città del profilo non si correggono più": {
+      "id": "R16-010",
+      "elenco": "D",
+      "esito": "scelta_di_nicola",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    }
+  }
+}

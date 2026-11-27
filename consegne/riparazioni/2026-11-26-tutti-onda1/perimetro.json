@@ -1,0 +1,1787 @@
+{
+  "casa": "sito",
+  "profilo": "scelta",
+  "creato": "2026-11-26 13:50",
+  "registro": "MyCity-Vault/90-Memoria-AI/auto-coscienza/radiografia-marketplace.json",
+  "deposito": "NicolaeRotaru/mycity",
+  "base": "ed12ed8ec8190e1132b690f6e034c30f0a5d55ba",
+  "filtri": {
+    "gravita": null,
+    "dimensioni": null,
+    "chiavi": 176,
+    "nati_dal": null,
+    "diff": null,
+    "anche_umani": false,
+    "anche_rimandati": false
+  },
+  "conti": {
+    "aperti": 598,
+    "nel_filtro": 176,
+    "lavorabili": 176,
+    "riservate": 0,
+    "domande": 0,
+    "rimandati": 0,
+    "umani": 0,
+    "sospese": 0,
+    "senza_percorso": 0
+  },
+  "lavorabili": [
+    {
+      "chiave": "qa-flussi|nelle domeniche del cambio d'ora la quadratura della cassa del fattorino sbaglia la giornata: in autunno le consegne dalle 23 a mezzanotte non entrano in nessun conto",
+      "titolo": "Nelle domeniche del cambio d'ora la quadratura della cassa del fattorino sbaglia la giornata: in autunno le consegne dalle 23 a mezzanotte non entrano in nessun conto",
+      "gravita": "minore",
+      "dimensione": "qa-flussi",
+      "file": [
+        "lib/cassa/quadratura.ts",
+        "app/api/cron/riquadra-casse/route.ts",
+        "app/api/cron/operational-alerts/route.ts"
+      ]
+    },
+    {
+      "chiave": "qa-flussi|se l'amministratore annulla mentre il fattorino conferma i contanti alla porta, l'ordine resta annullato con i soldi già incassati",
+      "titolo": "Se l'amministratore annulla mentre il fattorino conferma i contanti alla porta, l'ordine resta annullato con i soldi già incassati",
+      "gravita": "minore",
+      "dimensione": "qa-flussi",
+      "file": [
+        "lib/ordini/annulla.ts",
+        "app/api/admin/orders/[id]/cancel/route.ts",
+        "lib/cassa/registra-incasso.ts"
+      ]
+    },
+    {
+      "chiave": "qa-flussi|il negozio può riprendersi la merce difettosa e chiudere il reso senza rimborso, senza scrivere perché, e il cliente non riceve nessuna email",
+      "titolo": "Il negozio può riprendersi la merce difettosa e chiudere il reso senza rimborso, senza scrivere perché, e il cliente non riceve nessuna email",
+      "gravita": "minore",
+      "dimensione": "qa-flussi",
+      "file": [
+        "app/api/returns/[id]/avanza/route.ts",
+        "app/api/returns/[id]/decide/route.ts"
+      ]
+    },
+    {
+      "chiave": "qa-flussi|quando il negozio approva un recesso, il cliente lo sa solo dalla campanella, ma da quel momento corrono i suoi 14 giorni per rispedire",
+      "titolo": "Quando il negozio approva un recesso, il cliente lo sa solo dalla campanella, ma da quel momento corrono i suoi 14 giorni per rispedire",
+      "gravita": "minore",
+      "dimensione": "qa-flussi",
+      "file": [
+        "app/api/returns/[id]/decide/route.ts",
+        "lib/rimborsi/regole-del-rimborso.ts"
+      ]
+    },
+    {
+      "chiave": "qa-flussi|se il cliente annulla un ordine pagato con carta proprio mentre il negozio lo accetta, parte il rimborso e l'ordine accettato si annulla lo stesso",
+      "titolo": "Se il cliente annulla un ordine pagato con carta proprio mentre il negozio lo accetta, parte il rimborso e l'ordine accettato si annulla lo stesso",
+      "gravita": "minore",
+      "dimensione": "qa-flussi",
+      "file": [
+        "lib/ordini/annulla.ts",
+        "lib/stripe/payout.ts",
+        "app/api/orders/[id]/cancel/route.ts",
+        "app/api/admin/orders/[id]/cancel/route.ts"
+      ]
+    },
+    {
+      "chiave": "qa-flussi|dopo un reso già rimborsato il server ne accetta un altro sullo stesso ordine, mentre la pagina dice che non si può",
+      "titolo": "Dopo un reso già rimborsato il server ne accetta un altro sullo stesso ordine, mentre la pagina dice che non si può",
+      "gravita": "minore",
+      "dimensione": "qa-flussi",
+      "file": [
+        "app/api/returns/create/route.ts",
+        "app/orders/[id]/stato-del-reso.ts",
+        "app/api/cron/release-payouts/route.ts"
+      ]
+    },
+    {
+      "chiave": "qa-flussi|gli orari dei negozi non conoscono i festivi: a natale e al patrono la cassa vende consegne come in un giorno qualunque",
+      "titolo": "Gli orari dei negozi non conoscono i festivi: a Natale e al patrono la cassa vende consegne come in un giorno qualunque",
+      "gravita": "minore",
+      "dimensione": "qa-flussi",
+      "file": [
+        "lib/store-hours.ts"
+      ]
+    },
+    {
+      "chiave": "qa-flussi|con «cliente assente» la merce torna subito in vendita sul sito mentre è ancora nello zaino del fattorino",
+      "titolo": "Con «Cliente assente» la merce torna subito in vendita sul sito mentre è ancora nello zaino del fattorino",
+      "gravita": "minore",
+      "dimensione": "qa-flussi",
+      "file": [
+        "app/api/rider/orders/[id]/cliente-assente/route.ts",
+        "lib/ordini/annulla.ts",
+        "app/rider/orders/[id]/page.tsx"
+      ]
+    },
+    {
+      "chiave": "qa-flussi|nel carrello il totale conta anche gli articoli nascosti o esauriti, e la cassa toglie quello nascosto senza dirlo",
+      "titolo": "Nel carrello il totale conta anche gli articoli nascosti o esauriti, e la cassa toglie quello nascosto senza dirlo",
+      "gravita": "minore",
+      "dimensione": "qa-flussi",
+      "file": [
+        "app/cart/page.tsx",
+        "app/checkout/page.tsx"
+      ]
+    },
+    {
+      "chiave": "qa-flussi|col doppio clic su «rifiuta ordine» compare anche un avviso rosso di errore, e l'aiuto dice che il motivo è obbligatorio e promette un rimborso che coi contanti non esiste",
+      "titolo": "Col doppio clic su «Rifiuta ordine» compare anche un avviso rosso di errore, e l'aiuto dice che il motivo è obbligatorio e promette un rimborso che coi contanti non esiste",
+      "gravita": "minore",
+      "dimensione": "qa-flussi",
+      "file": [
+        "app/seller/orders/[id]/page.tsx",
+        "app/api/seller/orders/[id]/reject/route.ts",
+        "app/seller/help/domande.ts"
+      ]
+    },
+    {
+      "chiave": "pagamenti-stripe|se il cliente viene rimborsato prima che il suo ordine nasca, l'ordine nasce lo stesso come pagato e il negozio viene pagato",
+      "titolo": "Se il cliente viene rimborsato prima che il suo ordine nasca, l'ordine nasce lo stesso come pagato e il negozio viene pagato",
+      "gravita": "grave",
+      "dimensione": "pagamenti-stripe",
+      "file": [
+        "lib/stripe/webhook/ordini.ts",
+        "lib/stripe/webhook/rimborsi.ts",
+        "lib/stripe/payout.ts"
+      ]
+    },
+    {
+      "chiave": "pagamenti-stripe|un conto stripe non più valido sul profilo fa ritentare il bonifico ogni 15 minuti e «aggiorna stato» risponde «errore stripe»",
+      "titolo": "Un conto Stripe non più valido sul profilo fa ritentare il bonifico ogni 15 minuti e «Aggiorna stato» risponde «Errore Stripe»",
+      "gravita": "minore",
+      "dimensione": "pagamenti-stripe",
+      "file": [
+        "app/api/stripe/connect/refresh-status/route.ts",
+        "lib/stripe/payout.ts",
+        "lib/stripe/client.ts"
+      ]
+    },
+    {
+      "chiave": "pagamenti-stripe|una contestazione persa su una parte del carrello segna persi anche gli ordini degli altri negozi",
+      "titolo": "Una contestazione persa su una parte del carrello segna persi anche gli ordini degli altri negozi",
+      "gravita": "minore",
+      "dimensione": "pagamenti-stripe",
+      "file": [
+        "lib/stripe/webhook/dispute.ts",
+        "app/api/cron/release-payouts/route.ts"
+      ]
+    },
+    {
+      "chiave": "pagamenti-stripe|con la carta accesa si può pagare anche un negozio che non ha finito la verifica stripe",
+      "titolo": "Con la carta accesa si può pagare anche un negozio che non ha finito la verifica Stripe",
+      "gravita": "minore",
+      "dimensione": "pagamenti-stripe",
+      "file": [
+        "app/api/stripe/checkout/route.ts",
+        "lib/stripe/payout.ts"
+      ]
+    },
+    {
+      "chiave": "sicurezza-auth|sette rotte di negozio e fattorino leggono il profilo dal cookie invece che dal gettone: chi entra solo col gettone riceve «profilo non trovato»",
+      "titolo": "Sette rotte di negozio e fattorino leggono il profilo dal cookie invece che dal gettone: chi entra solo col gettone riceve «Profilo non trovato»",
+      "gravita": "minore",
+      "dimensione": "sicurezza-auth",
+      "file": [
+        "app/api/seller/orders/[id]/label/route.ts",
+        "app/api/stripe/connect/login/route.ts",
+        "app/api/stripe/connect/onboarding/route.ts",
+        "app/api/stripe/connect/refresh-status/route.ts",
+        "app/api/stripe/connect/rider-onboarding/route.ts",
+        "app/api/seller/subscription/checkout/route.ts",
+        "app/api/seller/subscription/portal/route.ts",
+        "app/api/sponsored/checkout/route.ts",
+        "lib/api/middleware.ts"
+      ]
+    },
+    {
+      "chiave": "architettura|la regola che vieta i tipi «qualunque» non è accesa: 46 sono passati, e 40 permessi di saltare il controllo non saltano niente",
+      "titolo": "La regola che vieta i tipi «qualunque» non è accesa: 46 sono passati, e 40 permessi di saltare il controllo non saltano niente",
+      "gravita": "minore",
+      "dimensione": "architettura",
+      "file": [
+        ".eslintrc.json",
+        "tsconfig.json"
+      ]
+    },
+    {
+      "chiave": "architettura|una prova sul webhook di stripe controlla l'ordine delle righe cercando una parola, e basta togliere uno spazio per ingannarla",
+      "titolo": "Una prova sul webhook di Stripe controlla l'ordine delle righe cercando una parola, e basta togliere uno spazio per ingannarla",
+      "gravita": "minore",
+      "dimensione": "architettura",
+      "file": [
+        "tests/unit/webhook-diviso-per-mestiere.test.ts",
+        "app/api/stripe/webhook/route.ts"
+      ]
+    },
+    {
+      "chiave": "api-backend|un lavoro a orario che va in errore a ogni giro risulta vivo, e per alcuni lavori nessuno viene avvisato",
+      "titolo": "Un lavoro a orario che va in errore a ogni giro risulta vivo, e per alcuni lavori nessuno viene avvisato",
+      "gravita": "minore",
+      "dimensione": "api-backend",
+      "file": [
+        "lib/api/middleware.ts",
+        "app/api/cron/release-payouts/route.ts",
+        "app/api/cron/expire-checkouts/route.ts",
+        "app/api/cron/operational-alerts/route.ts",
+        "lib/cron-health.ts"
+      ]
+    },
+    {
+      "chiave": "api-backend|la pagina d'errore dice «abbiamo registrato il problema», ma un errore nel telefono del cliente non lo registra nessuno",
+      "titolo": "La pagina d'errore dice «Abbiamo registrato il problema», ma un errore nel telefono del cliente non lo registra nessuno",
+      "gravita": "minore",
+      "dimensione": "api-backend",
+      "file": [
+        "app/error.tsx",
+        "app/global-error.tsx",
+        "app/admin/error.tsx",
+        "lib/analytics/sentry.tsx"
+      ]
+    },
+    {
+      "chiave": "dati-analytics|l'elenco prodotti dell'amministratore si ferma a mille senza dirlo, e la ricerca non trova i prodotti più vecchi",
+      "titolo": "L'elenco prodotti dell'amministratore si ferma a mille senza dirlo, e la ricerca non trova i prodotti più vecchi",
+      "gravita": "minore",
+      "dimensione": "dati-analytics",
+      "file": [
+        "app/admin/products/page.tsx",
+        "app/admin/payouts/page.tsx"
+      ]
+    },
+    {
+      "chiave": "privacy-legale|chi segnala un contenuto illecito lasciando l'email non riceve nessuna conferma che la segnalazione è arrivata",
+      "titolo": "Chi segnala un contenuto illecito lasciando l'email non riceve nessuna conferma che la segnalazione è arrivata",
+      "gravita": "minore",
+      "dimensione": "privacy-legale",
+      "file": [
+        "app/api/segnalazioni/route.ts",
+        "components/Segnala.tsx"
+      ]
+    },
+    {
+      "chiave": "privacy-legale|il modulo di segnalazione non permette di dare il nome di chi segnala né di dichiarare la buona fede",
+      "titolo": "Il modulo di segnalazione non permette di dare il nome di chi segnala né di dichiarare la buona fede",
+      "gravita": "minore",
+      "dimensione": "privacy-legale",
+      "file": [
+        "components/Segnala.tsx",
+        "app/api/segnalazioni/route.ts"
+      ]
+    },
+    {
+      "chiave": "privacy-legale|i termini chiamano i tempi di consegna «stimati e non vincolanti», mentre in cassa il cliente sceglie la sua fascia oraria",
+      "titolo": "I Termini chiamano i tempi di consegna «stimati e non vincolanti», mentre in cassa il cliente sceglie la sua fascia oraria",
+      "gravita": "minore",
+      "dimensione": "privacy-legale",
+      "file": [
+        "lib/legal/promessa-cliente-assente.ts",
+        "lib/promesse-pubbliche.ts",
+        "components/checkout/DeliverySlotPicker.tsx"
+      ]
+    },
+    {
+      "chiave": "privacy-legale|il server manda l'acquisto a google e a posthog anche quando il sì alle statistiche è scaduto da più di sei mesi o era per un'informativa vecchia",
+      "titolo": "Il server manda l'acquisto a Google e a PostHog anche quando il sì alle statistiche è scaduto da più di sei mesi o era per un'informativa vecchia",
+      "gravita": "minore",
+      "dimensione": "privacy-legale",
+      "file": [
+        "lib/analytics/server.ts",
+        "app/api/orders/cod/route.ts",
+        "lib/stripe/webhook/ordini.ts",
+        "lib/consent.ts"
+      ]
+    },
+    {
+      "chiave": "privacy-legale|quando un negozio cancella l'account, logo, foto della vetrina e dei prodotti e storie restano nei secchi pubblici: la prova che gira per la voce delle foto dei resi, e il pezzo che quella voce non nomina",
+      "titolo": "Quando un negozio cancella l'account, logo, foto della vetrina e dei prodotti e storie restano nei secchi pubblici: la prova che gira per la voce delle foto dei resi, e il pezzo che quella voce non nomina",
+      "gravita": "minore",
+      "dimensione": "privacy-legale",
+      "file": [
+        "lib/account/cancellazione.ts",
+        "lib/storage/percorso-caricamento.ts",
+        "app/seller/stories/page.tsx"
+      ]
+    },
+    {
+      "chiave": "privacy-legale|la conferma della newsletter scatta appena il link viene aperto, anche da un antivirus, e funziona anche con la newsletter spenta",
+      "titolo": "La conferma della newsletter scatta appena il link viene aperto, anche da un antivirus, e funziona anche con la newsletter spenta",
+      "gravita": "minore",
+      "dimensione": "privacy-legale",
+      "file": [
+        "app/api/newsletter/confirm/route.ts",
+        "lib/funzioni-al-lancio.ts"
+      ]
+    },
+    {
+      "chiave": "stati-ui|creando una storia il negoziante non vede la foto scelta, solo il nome del file e il peso",
+      "titolo": "Creando una storia il negoziante non vede la foto scelta, solo il nome del file e il peso",
+      "gravita": "minore",
+      "dimensione": "stati-ui",
+      "file": [
+        "app/seller/stories/page.tsx",
+        "components/seller/SellerShell.tsx"
+      ]
+    },
+    {
+      "chiave": "performance|la velocità del sito vista dai clienti veri non la misura nessuno",
+      "titolo": "La velocità del sito vista dai clienti veri non la misura nessuno",
+      "gravita": "minore",
+      "dimensione": "performance",
+      "file": [
+        "lib/analytics/posthog.tsx",
+        "package.json"
+      ]
+    },
+    {
+      "chiave": "deploy-sre|manca il tasto per fermare tutti gli ordini in un colpo: oggi si può solo sospendere il negozio, e il fornaio riceve un avviso brusco",
+      "titolo": "Manca il tasto per fermare tutti gli ordini in un colpo: oggi si può solo sospendere il negozio, e il fornaio riceve un avviso brusco",
+      "gravita": "minore",
+      "dimensione": "deploy-sre",
+      "file": [
+        "app/api/orders/cod/route.ts"
+      ]
+    },
+    {
+      "chiave": "deploy-sre|le foto dei negozi non sono ancora in nessuna copia di sicurezza: manca una chiave nei segreti",
+      "titolo": "Le foto dei negozi non sono ancora in nessuna copia di sicurezza: manca una chiave nei segreti",
+      "gravita": "minore",
+      "dimensione": "deploy-sre",
+      "file": [
+        ".github/workflows/backup-db.yml",
+        "scripts/copia-foto.mjs"
+      ]
+    },
+    {
+      "chiave": "deploy-sre|la notifica sul telefono per un nuovo ordine arriva fino a 5 minuti dopo, non in pochi secondi",
+      "titolo": "La notifica sul telefono per un nuovo ordine arriva fino a 5 minuti dopo, non in pochi secondi",
+      "gravita": "minore",
+      "dimensione": "deploy-sre",
+      "file": [
+        "app/api/cron/send-push/route.ts"
+      ]
+    },
+    {
+      "chiave": "api-backend|se l'email «nuovo ordine» al negozio non parte, nessuno se ne accorge e nessuno la rimanda",
+      "titolo": "Se l'email «Nuovo ordine» al negozio non parte, nessuno se ne accorge e nessuno la rimanda",
+      "gravita": "grave",
+      "dimensione": "api-backend",
+      "file": [
+        "lib/email/client.ts",
+        "lib/stripe/webhook/comune.ts",
+        "app/api/orders/cod/route.ts",
+        "lib/stripe/webhook/ordini.ts",
+        "lib/stripe/payout.ts",
+        "lib/stripe/webhook/rimborsi.ts",
+        "lib/stripe/webhook/fascia-al-pagamento.ts",
+        "lib/stripe/webhook/giftcard.ts"
+      ]
+    },
+    {
+      "chiave": "pagamenti-stripe|il bonifico di rimborso al cliente non si può segnare come fatto, e nessuno controlla la scadenza dei 14 giorni",
+      "titolo": "Il bonifico di rimborso al cliente non si può segnare come fatto, e nessuno controlla la scadenza dei 14 giorni",
+      "gravita": "grave",
+      "dimensione": "pagamenti-stripe",
+      "file": [
+        "lib/rimborsi/bonifici-da-fare.ts"
+      ]
+    },
+    {
+      "chiave": "pagamenti-stripe|il pannello dei bonifici non dice a nicola quanto versare a ogni negozio il lunedì",
+      "titolo": "Il pannello dei bonifici non dice a Nicola quanto versare a ogni negozio il lunedì",
+      "gravita": "grave",
+      "dimensione": "pagamenti-stripe",
+      "file": [
+        "app/admin/payouts/page.tsx"
+      ]
+    },
+    {
+      "chiave": "pagamenti-stripe|la pagina guadagni, con i soli contanti, dice al negozio commissione zero e soldi mai versati",
+      "titolo": "La pagina Guadagni, con i soli contanti, dice al negozio commissione zero e soldi mai versati",
+      "gravita": "grave",
+      "dimensione": "pagamenti-stripe",
+      "file": [
+        "app/seller/earnings/page.tsx",
+        "lib/guadagni/negozio.ts",
+        "lib/stripe/payout.ts",
+        "app/api/cron/release-payouts/route.ts"
+      ]
+    },
+    {
+      "chiave": "pagamenti-stripe|il bonifico del lunedì al negozio non si può segnare: i soldi dei contanti restano «in attesa» per sempre, sia per il negozio sia per nicola",
+      "titolo": "Il bonifico del lunedì al negozio non si può segnare: i soldi dei contanti restano «in attesa» per sempre, sia per il negozio sia per Nicola",
+      "gravita": "grave",
+      "dimensione": "pagamenti-stripe",
+      "file": [
+        "lib/guadagni/negozio.ts"
+      ]
+    },
+    {
+      "chiave": "pagamenti-stripe|un rimborso pieno su un ordine già consegnato rimette in vendita la merce che il cliente ha già in casa",
+      "titolo": "Un rimborso pieno su un ordine già consegnato rimette in vendita la merce che il cliente ha già in casa",
+      "gravita": "minore",
+      "dimensione": "pagamenti-stripe",
+      "file": [
+        "lib/stripe/webhook/rimborsi.ts"
+      ]
+    },
+    {
+      "chiave": "privacy-legale|la consegna è un incasso di mycity, ma per quei soldi non nasce nessun documento fiscale e i termini mandano il cliente a chiedere la fattura al negozio",
+      "titolo": "La consegna è un incasso di MyCity, ma per quei soldi non nasce nessun documento fiscale e i Termini mandano il cliente a chiedere la fattura al negozio",
+      "gravita": "grave",
+      "dimensione": "privacy-legale",
+      "file": [
+        "app/terms/page.tsx"
+      ]
+    },
+    {
+      "chiave": "privacy-legale|lo sconto scritto su un evento appare ai clienti come «-20%», ma la cassa non lo applica mai",
+      "titolo": "Lo sconto scritto su un evento appare ai clienti come «-20%», ma la cassa non lo applica mai",
+      "gravita": "grave",
+      "dimensione": "privacy-legale",
+      "file": [
+        "app/admin/events/page.tsx"
+      ]
+    },
+    {
+      "chiave": "privacy-legale|l'obbligo di dichiarare allergeni e ingredienti vale solo finché la categoria principale si chiama esattamente «alimentari», e dal pannello quel nome si può cambiare",
+      "titolo": "L'obbligo di dichiarare allergeni e ingredienti vale solo finché la categoria principale si chiama esattamente «alimentari», e dal pannello quel nome si può cambiare",
+      "gravita": "minore",
+      "dimensione": "privacy-legale",
+      "file": [
+        "lib/category-attributes.ts"
+      ]
+    },
+    {
+      "chiave": "privacy-legale|la pagina «sono assicurato?» del fattorino parla solo di rc e non nomina l'inail, che è la condizione decisa",
+      "titolo": "La pagina «Sono assicurato?» del fattorino parla solo di RC e non nomina l'INAIL, che è la condizione decisa",
+      "gravita": "minore",
+      "dimensione": "privacy-legale",
+      "file": [
+        "app/rider/help/page.tsx"
+      ]
+    },
+    {
+      "chiave": "privacy-legale|il buono regalo manda a stripe nome, email e messaggio privato del destinatario, e lì non si cancellano mai",
+      "titolo": "Il buono regalo manda a Stripe nome, email e messaggio privato del destinatario, e lì non si cancellano mai",
+      "gravita": "minore",
+      "dimensione": "privacy-legale",
+      "file": [
+        "app/api/gift-cards/checkout/route.ts",
+        "lib/account/cancellazione.ts",
+        "lib/funzioni-al-lancio.ts"
+      ]
+    },
+    {
+      "chiave": "privacy-legale|i nomi di sedici account cancellati restano nel registro delle azioni",
+      "titolo": "I nomi di sedici account cancellati restano nel registro delle azioni",
+      "gravita": "minore",
+      "dimensione": "privacy-legale",
+      "file": [
+        "app/api/admin/users/[id]/moderate/route.ts"
+      ]
+    },
+    {
+      "chiave": "privacy-legale|l'informativa non dice quanto teniamo i messaggi dei contatti e della chat, e per l'email con l'iban scrive «finché non la cancelliamo»",
+      "titolo": "L'informativa non dice quanto teniamo i messaggi dei Contatti e della chat, e per l'email con l'IBAN scrive «finché non la cancelliamo»",
+      "gravita": "minore",
+      "dimensione": "privacy-legale",
+      "file": [
+        "app/privacy/page.tsx",
+        "lib/privacy/potature-ritenzione.ts",
+        "lib/privacy/iban-per-email.ts"
+      ]
+    },
+    {
+      "chiave": "privacy-legale|la pulizia notturna dei documenti d'identità lasciati a metà iscrizione fallisce ogni notte nel database vero",
+      "titolo": "La pulizia notturna dei documenti d'identità lasciati a metà iscrizione fallisce ogni notte nel database vero",
+      "gravita": "grave",
+      "dimensione": "privacy-legale",
+      "file": [
+        "lib/privacy/potature-ritenzione.ts"
+      ]
+    },
+    {
+      "chiave": "privacy-legale|le mappe mandano a openstreetmap e a google la zona di casa del cliente, ma l'informativa nomina openstreetmap solo per cercare gli indirizzi",
+      "titolo": "Le mappe mandano a OpenStreetMap e a Google la zona di casa del cliente, ma l'informativa nomina OpenStreetMap solo per cercare gli indirizzi",
+      "gravita": "minore",
+      "dimensione": "privacy-legale",
+      "file": [
+        "components/DeliveryMap.tsx",
+        "components/NearbyStoresMap.tsx",
+        "components/StoreLocationPicker.tsx",
+        "app/rider/orders/[id]/page.tsx",
+        "app/privacy/page.tsx"
+      ]
+    },
+    {
+      "chiave": "qa-flussi|se il fattorino sparisce senza dichiarare i contanti, l'ordine resta in consegna per sempre e l'amministratore non può chiuderlo",
+      "titolo": "Se il fattorino sparisce senza dichiarare i contanti, l'ordine resta in consegna per sempre e l'amministratore non può chiuderlo",
+      "gravita": "grave",
+      "dimensione": "qa-flussi",
+      "file": [
+        "lib/cassa/registra-incasso.ts"
+      ]
+    },
+    {
+      "chiave": "qa-flussi|il fattorino in bici non può essere approvato senza patente di guida e polizza rc",
+      "titolo": "Il fattorino in bici non può essere approvato senza patente di guida e polizza RC",
+      "gravita": "grave",
+      "dimensione": "qa-flussi",
+      "file": [
+        "lib/admin/regole-approvazione.ts"
+      ]
+    },
+    {
+      "chiave": "qa-flussi|il ritiro in negozio è ancora spento, mentre nicola ha deciso che al lancio è acceso e gratis per il cliente",
+      "titolo": "Il ritiro in negozio è ancora spento, mentre Nicola ha deciso che al lancio è acceso e gratis per il cliente",
+      "gravita": "minore",
+      "dimensione": "qa-flussi",
+      "file": [
+        "lib/ritiro-in-negozio.ts"
+      ]
+    },
+    {
+      "chiave": "qa-flussi|due ordini dello stesso carrello possono finire a due fattorini diversi, e il secondo fa un viaggio intero per 1 euro",
+      "titolo": "Due ordini dello stesso carrello possono finire a due fattorini diversi, e il secondo fa un viaggio intero per 1 euro",
+      "gravita": "minore",
+      "dimensione": "qa-flussi",
+      "file": [
+        "app/rider/page.tsx"
+      ]
+    },
+    {
+      "chiave": "sicurezza-auth|la registrazione non passa ancora dal server: niente freno sulle iscrizioni e niente verifica anti-robot",
+      "titolo": "La registrazione non passa ancora dal server: niente freno sulle iscrizioni e niente verifica anti-robot",
+      "gravita": "minore",
+      "dimensione": "sicurezza-auth",
+      "file": [
+        "app/sign-up/page.tsx"
+      ]
+    },
+    {
+      "chiave": "frontend-ux|con una promozione attiva la barra d'acquisto e i caroselli mostrano il prezzo pieno, mentre sopra c'è quello scontato",
+      "titolo": "Con una promozione attiva la barra d'acquisto e i caroselli mostrano il prezzo pieno, mentre sopra c'è quello scontato",
+      "gravita": "minore",
+      "dimensione": "frontend-ux",
+      "file": [
+        "components/StickyAddToCart.tsx"
+      ]
+    },
+    {
+      "chiave": "frontend-ux|tornando dall'accesso con un indirizzo già scritto, la cassa lo nasconde e non segna nessun indirizzo come scelto",
+      "titolo": "Tornando dall'accesso con un indirizzo già scritto, la cassa lo nasconde e non segna nessun indirizzo come scelto",
+      "gravita": "minore",
+      "dimensione": "frontend-ux",
+      "file": [
+        "components/checkout/ShippingAddressForm.tsx"
+      ]
+    },
+    {
+      "chiave": "frontend-ux|mancano «finito per oggi» e «chiuso fino al…», promessi ai negozi della prima ondata",
+      "titolo": "Mancano «finito per oggi» e «chiuso fino al…», promessi ai negozi della prima ondata",
+      "gravita": "minore",
+      "dimensione": "frontend-ux",
+      "file": [
+        "components/seller/StoreHoursEditor.tsx"
+      ]
+    },
+    {
+      "chiave": "qa-flussi|le tre prove automatiche dell'acquisto vero sono vuote: passano in tre millesimi senza aprire niente",
+      "titolo": "Le tre prove automatiche dell'acquisto vero sono vuote: passano in tre millesimi senza aprire niente",
+      "gravita": "grave",
+      "dimensione": "qa-flussi",
+      "file": [
+        "tests/e2e/12-la-cassa-dal-carrello-al-pagamento.spec.ts",
+        ".github/workflows/ci.yml"
+      ]
+    },
+    {
+      "chiave": "qa-flussi|il collegamento del negozio a stripe e il bonifico manuale non hanno nessuna prova",
+      "titolo": "Il collegamento del negozio a Stripe e il bonifico manuale non hanno nessuna prova",
+      "gravita": "minore",
+      "dimensione": "qa-flussi",
+      "file": [
+        "app/api/stripe/connect/onboarding/route.ts",
+        "app/api/stripe/connect/refresh-status/route.ts",
+        "app/api/stripe/connect/login/route.ts",
+        "app/api/stripe/connect/rider-onboarding/route.ts",
+        "app/api/stripe/payout/route.ts"
+      ]
+    },
+    {
+      "chiave": "qa-flussi|le prove dei permessi in sql certificano un database ricostruito dai file, non quello vero",
+      "titolo": "Le prove dei permessi in SQL certificano un database ricostruito dai file, non quello vero",
+      "gravita": "minore",
+      "dimensione": "qa-flussi",
+      "file": [
+        ".github/workflows/ci.yml",
+        "tests/sql/harness/apply.sh",
+        ".github/workflows/deriva-migrazioni-produzione.yml"
+      ]
+    },
+    {
+      "chiave": "qa-flussi|nessuna prova nel browser gira mai sullo schermo di un telefono, e su telefono una è già rossa",
+      "titolo": "Nessuna prova nel browser gira mai sullo schermo di un telefono, e su telefono una è già rossa",
+      "gravita": "minore",
+      "dimensione": "qa-flussi",
+      "file": [
+        "playwright.config.ts",
+        ".github/workflows/ci.yml",
+        "tests/e2e/03-cart-and-search.spec.ts"
+      ]
+    },
+    {
+      "chiave": "qa-flussi|sul compenso del fattorino si possono togliere il controllo «consegnato» e il turno contro i doppi bonifici, e 247 prove restano verdi",
+      "titolo": "Sul compenso del fattorino si possono togliere il controllo «consegnato» e il turno contro i doppi bonifici, e 247 prove restano verdi",
+      "gravita": "minore",
+      "dimensione": "qa-flussi",
+      "file": [
+        "lib/stripe/payout.ts",
+        "app/api/cron/release-payouts/route.ts"
+      ]
+    },
+    {
+      "chiave": "qa-flussi|il reso vale sempre per tutto l'ordine: il cliente non può dire quale articolo, e al negozio si propone di rimborsare tutto e subito",
+      "titolo": "Il reso vale sempre per tutto l'ordine: il cliente non può dire quale articolo, e al negozio si propone di rimborsare tutto e subito",
+      "gravita": "minore",
+      "dimensione": "qa-flussi",
+      "file": [
+        "app/orders/[id]/return/page.tsx",
+        "app/api/returns/create/route.ts",
+        "app/seller/orders/[id]/page.tsx",
+        "components/seller/ReturnRequestCard.tsx"
+      ]
+    },
+    {
+      "chiave": "privacy-legale|il sito non dice chi c'è dietro: niente nome, sede, partita iva né pec, il titolare risulta solo «mycity»",
+      "titolo": "Il sito non dice chi c'è dietro: niente nome, sede, partita IVA né PEC, il titolare risulta solo «MyCity»",
+      "gravita": "bloccante",
+      "dimensione": "privacy-legale",
+      "file": [
+        "lib/legal/titolare.ts",
+        "app/privacy/page.tsx",
+        "app/terms/page.tsx",
+        "components/Footer.tsx"
+      ]
+    },
+    {
+      "chiave": "privacy-legale|sugli alimenti confezionati il peso netto è facoltativo e il prezzo al chilo non compare mai",
+      "titolo": "Sugli alimenti confezionati il peso netto è facoltativo e il prezzo al chilo non compare mai",
+      "gravita": "minore",
+      "dimensione": "privacy-legale",
+      "file": [
+        "lib/category-attributes.ts",
+        "lib/products/schema.ts",
+        "app/product/[id]/page.tsx"
+      ]
+    },
+    {
+      "chiave": "frontend-ux|la pagina clienti del negozio mostra solo i nomi, senza contatti né esportazione, e consiglia offerte che non si possono mandare",
+      "titolo": "La pagina Clienti del negozio mostra solo i nomi, senza contatti né esportazione, e consiglia offerte che non si possono mandare",
+      "gravita": "minore",
+      "dimensione": "frontend-ux",
+      "file": [
+        "app/seller/customers/page.tsx"
+      ]
+    },
+    {
+      "chiave": "deploy-sre|la regola che dovrebbe fermare il codice rosso esiste su github ma è spenta, non guarda nessun ramo e aspetta un controllo che non esiste",
+      "titolo": "La regola che dovrebbe fermare il codice rosso esiste su GitHub ma è spenta, non guarda nessun ramo e aspetta un controllo che non esiste",
+      "gravita": "grave",
+      "dimensione": "deploy-sre",
+      "file": [
+        "vercel.json",
+        ".github/workflows/deploy-dopo-ci.yml"
+      ]
+    },
+    {
+      "chiave": "dati-analytics|gli ordini annullati o rimborsati restano venduti per sempre in google analytics e posthog",
+      "titolo": "Gli ordini annullati o rimborsati restano venduti per sempre in Google Analytics e PostHog",
+      "gravita": "minore",
+      "dimensione": "dati-analytics",
+      "file": [
+        "app/api/orders/cod/route.ts",
+        "lib/stripe/webhook/ordini.ts",
+        "app/checkout/page.tsx",
+        "app/orders/page.tsx",
+        "lib/analytics/events.ts",
+        "app/orders/[id]/page.tsx",
+        "lib/ordini/annulla.ts",
+        "app/api/seller/orders/[id]/reject/route.ts",
+        "app/api/cron/expire-stale-orders/route.ts",
+        "lib/stripe/webhook/rimborsi.ts"
+      ]
+    },
+    {
+      "chiave": "dati-analytics|il cruscotto del negozio segna «0 ordini oggi» finché gli ordini in contanti non sono consegnati",
+      "titolo": "Il cruscotto del negozio segna «0 ordini oggi» finché gli ordini in contanti non sono consegnati",
+      "gravita": "minore",
+      "dimensione": "dati-analytics",
+      "file": [
+        "app/api/orders/cod/route.ts",
+        "lib/metriche-venditore.ts",
+        "app/seller/dashboard/page.tsx",
+        "app/seller/analytics/page.tsx"
+      ]
+    },
+    {
+      "chiave": "architettura|il conto del carrello ha una seconda copia che nessuna pagina usa, e la prova «lo schermo fa lo stesso conto del server» controlla proprio quella",
+      "titolo": "Il conto del carrello ha una seconda copia che nessuna pagina usa, e la prova «lo schermo fa lo stesso conto del server» controlla proprio quella",
+      "gravita": "minore",
+      "dimensione": "architettura",
+      "file": [
+        "components/checkout/useTotaliCarrello.ts",
+        "app/checkout/page.tsx",
+        "lib/ordini/riepilogo-cassa.ts",
+        "tests/unit/lo-schermo-e-il-server-fanno-lo-stesso-conto.test.ts",
+        "app/api/ai/answer-qa/route.ts",
+        "app/api/ai/reviews-summary/route.ts"
+      ]
+    },
+    {
+      "chiave": "privacy-legale|chi fa una segnalazione lascia la sua email lì per sempre",
+      "titolo": "Chi fa una segnalazione lascia la sua email lì per sempre",
+      "gravita": "minore",
+      "dimensione": "privacy-legale",
+      "file": [
+        "app/api/segnalazioni/route.ts",
+        "components/Segnala.tsx",
+        "app/privacy/page.tsx"
+      ]
+    },
+    {
+      "chiave": "tipografia|otto spaziature diverse per la stessa etichetta maiuscola",
+      "titolo": "Otto spaziature diverse per la stessa etichetta maiuscola",
+      "gravita": "minore",
+      "dimensione": "tipografia",
+      "file": [
+        "tailwind.config.ts"
+      ]
+    },
+    {
+      "chiave": "mobile-pwa|il manifest blocca l'app in verticale e non ha le schermate per la finestra d'installazione",
+      "titolo": "Il manifest blocca l'app in verticale e non ha le schermate per la finestra d'installazione",
+      "gravita": "minore",
+      "dimensione": "mobile-pwa",
+      "file": [
+        "public/manifest.json"
+      ]
+    },
+    {
+      "chiave": "performance-percepita|il traduttore degli errori dei moduli (zod) viaggia in ogni pagina, anche dove non c'è nessun modulo",
+      "titolo": "Il traduttore degli errori dei moduli (Zod) viaggia in ogni pagina, anche dove non c'è nessun modulo",
+      "gravita": "minore",
+      "dimensione": "performance-percepita",
+      "file": [
+        "components/providers/QueryProvider.tsx",
+        "lib/zod-i18n.ts",
+        "app/layout.tsx"
+      ]
+    },
+    {
+      "chiave": "deploy-sre|il rilascio non applica le migrazioni: il codice nuovo arriva su un database vecchio",
+      "titolo": "Il rilascio non applica le migrazioni: il codice nuovo arriva su un database vecchio",
+      "gravita": "bloccante",
+      "dimensione": "deploy-sre",
+      "file": [
+        ".github/workflows/deploy-dopo-ci.yml",
+        ".github/workflows/ci.yml",
+        "package.json"
+      ]
+    },
+    {
+      "chiave": "pagamenti-stripe|dopo un guasto, chiudere il reso con i passi normali registra due volte lo stesso rimborso, e al negozio la sua parte viene tolta due volte",
+      "titolo": "Dopo un guasto, chiudere il reso con i passi normali registra due volte lo stesso rimborso, e al negozio la sua parte viene tolta due volte",
+      "gravita": "grave",
+      "dimensione": "pagamenti-stripe",
+      "file": [
+        "app/api/returns/[id]/decide/route.ts",
+        "app/api/returns/[id]/avanza/route.ts",
+        "lib/stripe/payout.ts"
+      ]
+    },
+    {
+      "chiave": "sicurezza-auth|annullando un ordine già pagato in contanti, chi amministra legge una frase mozzata e un'istruzione che non si può eseguire",
+      "titolo": "Annullando un ordine già pagato in contanti, chi amministra legge una frase mozzata e un'istruzione che non si può eseguire",
+      "gravita": "minore",
+      "dimensione": "sicurezza-auth",
+      "file": [
+        "app/api/admin/orders/[id]/cancel/route.ts"
+      ]
+    },
+    {
+      "chiave": "pagamenti-stripe|un rimborso pieno dal cruscotto che arriva mentre parte il bonifico al negozio lascia al negozio tutto il netto",
+      "titolo": "Un rimborso pieno dal cruscotto che arriva mentre parte il bonifico al negozio lascia al negozio tutto il netto",
+      "gravita": "minore",
+      "dimensione": "pagamenti-stripe",
+      "file": [
+        "lib/stripe/webhook/rimborsi.ts"
+      ]
+    },
+    {
+      "chiave": "ai-endpoints|nella chat assistenza il negoziante approva una descrizione nuova senza poterla leggere, e al primo messaggio l'assistente riscrive tag e descrizione senza aver visto quelli che ci sono",
+      "titolo": "Nella chat Assistenza il negoziante approva una descrizione nuova senza poterla leggere, e al primo messaggio l'assistente riscrive tag e descrizione senza aver visto quelli che ci sono",
+      "gravita": "grave",
+      "dimensione": "ai-endpoints",
+      "file": [
+        "app/api/ai/catalog-chat/route.ts"
+      ]
+    },
+    {
+      "chiave": "privacy-legale|con il fornitore onfido acceso, ogni chiamata (fino a 5 l'ora) crea da onfido una nuova scheda con nome, email e data di nascita, ma senza caricare i documenti. restano schede orfane con dati personali, e alla cancellazione dell'account nessuno le toglie",
+      "titolo": "Con il fornitore Onfido acceso, ogni chiamata (fino a 5 l'ora) crea da Onfido una nuova scheda con nome, email e data di nascita, ma senza caricare i documenti. Restano schede orfane con dati personali, e alla cancellazione dell'account nessuno le toglie",
+      "gravita": "minore",
+      "dimensione": "privacy-legale",
+      "file": [
+        "lib/kyc/providers.ts"
+      ]
+    },
+    {
+      "chiave": "api-backend|il cron degli ordini scaduti ricopia la logica di annullo invece di usare annullaerimborsa",
+      "titolo": "Il cron degli ordini scaduti ricopia la logica di annullo invece di usare annullaERimborsa",
+      "gravita": "minore",
+      "dimensione": "api-backend",
+      "file": [
+        "app/api/cron/expire-stale-orders/route.ts",
+        "lib/ordini/annulla.ts"
+      ]
+    },
+    {
+      "chiave": "privacy-legale|le prove delle frasi pubbliche restano elenchi di parole: cinque promesse chiuse tornano con sinonimi a prove verdi",
+      "titolo": "Le prove delle frasi pubbliche restano elenchi di parole: cinque promesse chiuse tornano con sinonimi a prove verdi",
+      "gravita": "minore",
+      "dimensione": "privacy-legale",
+      "file": [
+        "app/shipping/page.tsx",
+        "lib/promesse-pubbliche.ts",
+        "app/near/layout.tsx",
+        "app/category/[slug]/layout.tsx",
+        "app/admin/delivery/page.tsx"
+      ]
+    },
+    {
+      "chiave": "pagamenti-stripe|la consegna da 3 € ha ancora altri nomi: «costo di consegna» su stripe, «consegna a domicilio» in cassa, «consegna a casa» in home",
+      "titolo": "La consegna da 3 € ha ancora altri nomi: «Costo di consegna» su Stripe, «Consegna a domicilio» in cassa, «Consegna a casa» in home",
+      "gravita": "minore",
+      "dimensione": "pagamenti-stripe",
+      "file": [
+        "lib/stripe/client.ts",
+        "app/checkout/page.tsx",
+        "lib/constants.ts"
+      ]
+    },
+    {
+      "chiave": "architettura|la frase della zona vive in quattro posti (cassa, spedizioni, rifiuto, tendina della posizione) piu' faq e «vicino a te»: le tiene allineate solo una prova",
+      "titolo": "La frase della zona vive in quattro posti (cassa, Spedizioni, rifiuto, tendina della posizione) piu' FAQ e «Vicino a te»: le tiene allineate solo una prova",
+      "gravita": "minore",
+      "dimensione": "architettura",
+      "file": [
+        "components/checkout/ShippingAddressForm.tsx",
+        "app/shipping/page.tsx",
+        "lib/ordini/zona-di-consegna.ts",
+        "components/LocationPill.tsx",
+        "lib/promesse-pubbliche.ts",
+        "app/near/page.tsx"
+      ]
+    },
+    {
+      "chiave": "pagamenti-stripe|due rifiuti nello stesso istante in un carrello di tre negozi: il terzo resta con 1 € di consegna e 1 € al fattorino",
+      "titolo": "Due rifiuti nello stesso istante in un carrello di tre negozi: il terzo resta con 1 € di consegna e 1 € al fattorino",
+      "gravita": "minore",
+      "dimensione": "pagamenti-stripe",
+      "file": [
+        "lib/ordini/annulla.ts"
+      ]
+    },
+    {
+      "chiave": "pagamenti-stripe|se il credito mycity copre quasi tutto l ordine annullato, la differenza della consegna non viene tolta da nessuna parte",
+      "titolo": "Se il credito MyCity copre quasi tutto l ordine annullato, la differenza della consegna non viene tolta da nessuna parte",
+      "gravita": "minore",
+      "dimensione": "pagamenti-stripe",
+      "file": [
+        "lib/ordini/annulla.ts",
+        "lib/ordini/prezzi.ts"
+      ]
+    },
+    {
+      "chiave": "architettura|il carrello in contanti si ritrova solo dalla tabella contro il doppio clic: senza quella riga la regola del negozio che rifiuta non scatta e nessuno lo sa",
+      "titolo": "Il carrello in contanti si ritrova solo dalla tabella contro il doppio clic: senza quella riga la regola del negozio che rifiuta non scatta e nessuno lo sa",
+      "gravita": "minore",
+      "dimensione": "architettura",
+      "file": [
+        "lib/ordini/annulla.ts"
+      ]
+    },
+    {
+      "chiave": "api-backend|doppio tocco sull annullo con la carta: il secondo dice «rimborso fallito» e manda agli amministratori un falso «carrello da sistemare a mano»",
+      "titolo": "Doppio tocco sull annullo con la carta: il secondo dice «rimborso fallito» e manda agli amministratori un falso «Carrello da sistemare a mano»",
+      "gravita": "minore",
+      "dimensione": "api-backend",
+      "file": [
+        "lib/ordini/annulla.ts"
+      ]
+    },
+    {
+      "chiave": "architettura|il codice pgrst204 su una colonna della 124 ora fa scattare il ripiego per tutti: con la cache dello schema di postgrest vecchia, la scrittura salta gross_total_cents anche a migrazione applicata",
+      "titolo": "Il codice PGRST204 su una colonna della 124 ora fa scattare il ripiego per tutti: con la cache dello schema di PostgREST vecchia, la scrittura salta gross_total_cents anche a migrazione applicata",
+      "gravita": "minore",
+      "dimensione": "architettura",
+      "file": [
+        "lib/db/migrazione-124.ts"
+      ]
+    },
+    {
+      "chiave": "pagamenti-stripe|ordine coperto dal credito e pagato con la carta: al cliente tornano 2 € in più e la frutta resta incassata a 13 €",
+      "titolo": "Ordine coperto dal credito e pagato con la carta: al cliente tornano 2 € in più e la frutta resta incassata a 13 €",
+      "gravita": "minore",
+      "dimensione": "pagamenti-stripe",
+      "file": [
+        "lib/ordini/annulla.ts"
+      ]
+    },
+    {
+      "chiave": "pagamenti-stripe|carrello carta spostato dal freno: se dopo un negozio rifiuta, la consegna dei rimasti non si ricalcola piu'",
+      "titolo": "Carrello carta spostato dal freno: se dopo un negozio rifiuta, la consegna dei rimasti non si ricalcola piu'",
+      "gravita": "minore",
+      "dimensione": "pagamenti-stripe",
+      "file": [
+        "lib/ordini/annulla.ts"
+      ]
+    },
+    {
+      "chiave": "frontend-ux|orari passati alla cassa e 409 della rotta contanti: le prove cercano parole nel sorgente, non fanno girare pagina e rotta",
+      "titolo": "Orari passati alla cassa e 409 della rotta contanti: le prove cercano parole nel sorgente, non fanno girare pagina e rotta",
+      "gravita": "minore",
+      "dimensione": "frontend-ux",
+      "file": [
+        "tests/unit/la-cassa-passa-gli-orari-dei-negozi-al-selettore-e-al-freno.test.ts",
+        "tests/unit/la-rotta-rifiuta-una-fascia-a-meno-di-un-ora-dalla-fine.test.ts"
+      ]
+    },
+    {
+      "chiave": "architettura|una fascia «domani» inviata alle 23:59 e arrivata alla rotta dopo mezzanotte si giudica sul giorno dopo",
+      "titolo": "Una fascia «Domani» inviata alle 23:59 e arrivata alla rotta dopo mezzanotte si giudica sul giorno dopo",
+      "gravita": "minore",
+      "dimensione": "architettura",
+      "file": [
+        "lib/store-hours.ts"
+      ]
+    },
+    {
+      "chiave": "architettura|sul ramo carta l'annullo non prende il turno prima del rimborso: due annulli da strade diverse possono restituire il credito due volte",
+      "titolo": "Sul ramo carta l'annullo non prende il turno prima del rimborso: due annulli da strade diverse possono restituire il credito due volte",
+      "gravita": "minore",
+      "dimensione": "architettura",
+      "file": [
+        "lib/ordini/annulla.ts"
+      ]
+    },
+    {
+      "chiave": "pagamenti-stripe|il webhook della carta non rifà il controllo della veloce (fattorini online, 8-21) quando arrivano i soldi",
+      "titolo": "Il webhook della carta non rifà il controllo della veloce (fattorini online, 8-21) quando arrivano i soldi",
+      "gravita": "minore",
+      "dimensione": "pagamenti-stripe",
+      "file": [
+        "lib/stripe/webhook/ordini.ts",
+        "app/api/stripe/checkout/route.ts"
+      ]
+    },
+    {
+      "chiave": "qa-flussi|il modulo contatti e la porta cancella account giudicano support_email in due modi",
+      "titolo": "Il modulo contatti e la porta Cancella account giudicano SUPPORT_EMAIL in due modi",
+      "gravita": "minore",
+      "dimensione": "qa-flussi",
+      "file": [
+        "app/api/contact/route.ts",
+        "lib/legal/titolare.ts"
+      ]
+    },
+    {
+      "chiave": "qa-flussi|approvare un reso con rimborso rimette in vendita la merce prima che torni al negozio",
+      "titolo": "Approvare un reso con rimborso rimette in vendita la merce prima che torni al negozio",
+      "gravita": "minore",
+      "dimensione": "qa-flussi",
+      "file": [
+        "lib/stripe/payout.ts",
+        "app/api/returns/[id]/decide/route.ts"
+      ]
+    },
+    {
+      "chiave": "qa-flussi|collegare stripe da un'anteprima che usa il database vero sostituirebbe il conto del negozio con uno di prova",
+      "titolo": "Collegare Stripe da un'anteprima che usa il database vero sostituirebbe il conto del negozio con uno di prova",
+      "gravita": "minore",
+      "dimensione": "qa-flussi",
+      "file": [
+        "lib/stripe/client.ts"
+      ]
+    },
+    {
+      "chiave": "privacy-legale|il venditore può rimettere in vendita da solo un prodotto tolto dopo una segnalazione accolta",
+      "titolo": "Il venditore può rimettere in vendita da solo un prodotto tolto dopo una segnalazione accolta",
+      "gravita": "minore",
+      "dimensione": "privacy-legale",
+      "file": [
+        "app/seller/products/page.tsx"
+      ]
+    },
+    {
+      "chiave": "privacy-legale|il campo città della cassa è testo libero",
+      "titolo": "Il campo città della cassa è testo libero",
+      "gravita": "minore",
+      "dimensione": "privacy-legale",
+      "file": [
+        "components/checkout/ShippingAddressForm.tsx"
+      ]
+    },
+    {
+      "chiave": "qa-flussi|i 14 giorni per rispedire la merce del reso si contano ancora a blocchi di 24 ore",
+      "titolo": "I 14 giorni per rispedire la merce del reso si contano ancora a blocchi di 24 ore",
+      "gravita": "minore",
+      "dimensione": "qa-flussi",
+      "file": [
+        "lib/rimborsi/regole-del-rimborso.ts"
+      ]
+    },
+    {
+      "chiave": "qa-flussi|il salvataggio di prodotto e varianti non è una scrittura sola: resta una finestra di millisecondi",
+      "titolo": "Il salvataggio di prodotto e varianti non è una scrittura sola: resta una finestra di millisecondi",
+      "gravita": "minore",
+      "dimensione": "qa-flussi",
+      "file": [
+        "app/api/admin/products/route.ts"
+      ]
+    },
+    {
+      "chiave": "microcopy|in registrazione e nel cambio password del profilo il rifiuto di una password debole o rubata non si traduce o si perde",
+      "titolo": "In registrazione e nel cambio password del profilo il rifiuto di una password debole o rubata non si traduce o si perde",
+      "gravita": "minore",
+      "dimensione": "microcopy",
+      "file": [
+        "app/sign-up/page.tsx",
+        "app/api/account/cambia-password/route.ts",
+        "app/api/auth/signup/route.ts"
+      ]
+    },
+    {
+      "chiave": "flussi-conversione|chi è amministratore, negozio o fattorino perde il ritorno dopo l'accesso, e col pulsante google il ritorno si perde per tutti",
+      "titolo": "Chi è amministratore, negozio o fattorino perde il ritorno dopo l'accesso, e col pulsante Google il ritorno si perde per tutti",
+      "gravita": "minore",
+      "dimensione": "flussi-conversione",
+      "file": [
+        "app/sign-in/page.tsx",
+        "components/ui/AuthShell.tsx"
+      ]
+    },
+    {
+      "chiave": "pagamenti-stripe|i contanti vecchi ancora da versare spariscono dal pannello dei bonifici quando gli ordini consegnati superano mille",
+      "titolo": "I contanti vecchi ancora da versare spariscono dal pannello dei bonifici quando gli ordini consegnati superano mille",
+      "gravita": "grave",
+      "dimensione": "pagamenti-stripe",
+      "file": [
+        "app/admin/payouts/page.tsx"
+      ]
+    },
+    {
+      "chiave": "privacy-legale|una recensione segnalata come falsa non si può accogliere né togliere",
+      "titolo": "Una recensione segnalata come falsa non si può accogliere né togliere",
+      "gravita": "minore",
+      "dimensione": "privacy-legale",
+      "file": [
+        "app/api/segnalazioni/route.ts"
+      ]
+    },
+    {
+      "chiave": "api-backend|il conto dei rimborsi divisi legge tutto il registro senza filtro e si ferma a mille righe",
+      "titolo": "Il conto dei rimborsi divisi legge tutto il registro senza filtro e si ferma a mille righe",
+      "gravita": "minore",
+      "dimensione": "api-backend",
+      "file": [
+        "lib/stripe/payout.ts"
+      ]
+    },
+    {
+      "chiave": "ai-endpoints|il freno di sei ore sui prodotti importati in errore regge solo con upstash: senza, ogni copia del sito ripaga le chiamate ai",
+      "titolo": "Il freno di sei ore sui prodotti importati in errore regge solo con Upstash: senza, ogni copia del sito ripaga le chiamate AI",
+      "gravita": "minore",
+      "dimensione": "ai-endpoints",
+      "file": [
+        "lib/products/externalSync.ts"
+      ]
+    },
+    {
+      "chiave": "qa-flussi|un admin che pubblica una storia dall'area negozio lascia una foto orfana nel deposito: dopo la 404 l'inserimento gli è rifiutato",
+      "titolo": "Un admin che pubblica una storia dall'area negozio lascia una foto orfana nel deposito: dopo la 404 l'inserimento gli è rifiutato",
+      "gravita": "minore",
+      "dimensione": "qa-flussi",
+      "file": [
+        "app/seller/layout.tsx"
+      ]
+    },
+    {
+      "chiave": "pagamenti-stripe|nello storico dei guadagni la colonna «netto» non toglie gli storni, mentre torre e riquadro li tolgono",
+      "titolo": "Nello storico dei guadagni la colonna «Netto» non toglie gli storni, mentre torre e riquadro li tolgono",
+      "gravita": "minore",
+      "dimensione": "pagamenti-stripe",
+      "file": [
+        "app/seller/earnings/page.tsx"
+      ]
+    },
+    {
+      "chiave": "pagamenti-stripe|un rimborso pieno letto come held un attimo prima del bonifico a mano scrive refunded sopra paid_manually",
+      "titolo": "Un rimborso pieno letto come HELD un attimo prima del bonifico a mano scrive REFUNDED sopra PAID_MANUALLY",
+      "gravita": "minore",
+      "dimensione": "pagamenti-stripe",
+      "file": [
+        "lib/stripe/payout.ts"
+      ]
+    },
+    {
+      "chiave": "pagamenti-stripe|il turno del fattorino si restituisce senza condizione e senza leggere l’esito",
+      "titolo": "Il turno del fattorino si restituisce senza condizione e senza leggere l’esito",
+      "gravita": "minore",
+      "dimensione": "pagamenti-stripe",
+      "file": [
+        "lib/stripe/payout.ts"
+      ]
+    },
+    {
+      "chiave": "pagamenti-stripe|un bonifico ritrovato su stripe più grande del residuo porta l’ordine a transferred senza stornare la differenza",
+      "titolo": "Un bonifico ritrovato su Stripe più grande del residuo porta l’ordine a TRANSFERRED senza stornare la differenza",
+      "gravita": "minore",
+      "dimensione": "pagamenti-stripe",
+      "file": [
+        "lib/stripe/payout.ts"
+      ]
+    },
+    {
+      "chiave": "pagamenti-stripe|la stessa chiave dello storno al negozio può partire con due importi diversi e mandare un falso avviso agli amministratori",
+      "titolo": "La stessa chiave dello storno al negozio può partire con due importi diversi e mandare un falso avviso agli amministratori",
+      "gravita": "minore",
+      "dimensione": "pagamenti-stripe",
+      "file": [
+        "lib/stripe/payout.ts"
+      ]
+    },
+    {
+      "chiave": "api-backend|il reso già rimborsato si chiude con la cifra uscita su stripe, non con quella chiesta, e il negozio non lo sa",
+      "titolo": "Il reso già rimborsato si chiude con la cifra uscita su Stripe, non con quella chiesta, e il negozio non lo sa",
+      "gravita": "minore",
+      "dimensione": "api-backend",
+      "file": [
+        "app/api/returns/[id]/avanza/route.ts"
+      ]
+    },
+    {
+      "chiave": "stati-ui|con il carrello non letto la tessera «adesso» resta su «sto controllando…» per sempre",
+      "titolo": "Con il carrello non letto la tessera «Adesso» resta su «Sto controllando…» per sempre",
+      "gravita": "minore",
+      "dimensione": "stati-ui",
+      "file": [
+        "app/checkout/page.tsx"
+      ]
+    },
+    {
+      "chiave": "privacy-legale|l'informativa non dice che la partita iva del venditore viene controllata nel registro europeo vies della commissione europea",
+      "titolo": "L'informativa non dice che la partita IVA del venditore viene controllata nel registro europeo VIES della Commissione europea",
+      "gravita": "minore",
+      "dimensione": "privacy-legale",
+      "file": [
+        "lib/kyc/providers.ts"
+      ]
+    },
+    {
+      "chiave": "stati-ui|nella scheda ordine dell'amministratore un reso aperto non compare fra i motivi per cui il bonifico è trattenuto",
+      "titolo": "Nella scheda ordine dell'amministratore un reso aperto non compare fra i motivi per cui il bonifico è trattenuto",
+      "gravita": "minore",
+      "dimensione": "stati-ui",
+      "file": [
+        "app/admin/orders/[id]/page.tsx",
+        "app/api/cron/release-payouts/route.ts"
+      ]
+    },
+    {
+      "chiave": "privacy-legale|il giro a mano delle cancellazioni non conta le foto di consegna orfane che la notte toglierà",
+      "titolo": "Il giro a mano delle cancellazioni non conta le foto di consegna orfane che la notte toglierà",
+      "gravita": "minore",
+      "dimensione": "privacy-legale",
+      "file": [
+        "app/api/cron/process-deletions/route.ts"
+      ]
+    },
+    {
+      "chiave": "stati-ui|il link al reclamo nella scheda ordine porta all'elenco filtrato sui reclami aperti e non mostra quelli in esame",
+      "titolo": "Il link al reclamo nella scheda ordine porta all'elenco filtrato sui reclami aperti e non mostra quelli in esame",
+      "gravita": "minore",
+      "dimensione": "stati-ui",
+      "file": [
+        "app/admin/disputes/page.tsx"
+      ]
+    },
+    {
+      "chiave": "microcopy|la schermata di accesso dice ancora «100% commercianti locali verificati»",
+      "titolo": "La schermata di accesso dice ancora «100% commercianti locali verificati»",
+      "gravita": "minore",
+      "dimensione": "microcopy",
+      "file": [
+        "components/ui/AuthShell.tsx"
+      ]
+    },
+    {
+      "chiave": "architettura|la scrittura della contestazione vinta toglie il numero del tentativo del bonifico anche quando a mancare è solo la cache di postgrest",
+      "titolo": "La scrittura della contestazione vinta toglie il numero del tentativo del bonifico anche quando a mancare è solo la cache di PostgREST",
+      "gravita": "minore",
+      "dimensione": "architettura",
+      "file": [
+        "lib/db/migrazione-148.ts"
+      ]
+    },
+    {
+      "chiave": "pagamenti-stripe|il portale dell'abbonamento si apre anche a chi ha solo il cliente stripe, senza abbonamento",
+      "titolo": "il portale dell'abbonamento si apre anche a chi ha solo il cliente Stripe, senza abbonamento",
+      "gravita": "minore",
+      "dimensione": "pagamenti-stripe",
+      "file": [
+        "app/api/seller/subscription/portal/route.ts"
+      ]
+    },
+    {
+      "chiave": "deploy-sre|anche il segreto delle rotte interne e quello del bordo cloudflare, con un «a capo» su vercel, chiudono la porta a chi ce l'ha",
+      "titolo": "Anche il segreto delle rotte interne e quello del bordo Cloudflare, con un «a capo» su Vercel, chiudono la porta a chi ce l'ha",
+      "gravita": "minore",
+      "dimensione": "deploy-sre",
+      "file": [
+        "lib/api/middleware.ts",
+        "lib/rate-limit.ts",
+        "app/api/track/route.ts"
+      ]
+    },
+    {
+      "chiave": "performance|al consenso statistico posthog si avvia due o tre volte in parallelo",
+      "titolo": "Al consenso statistico PostHog si avvia due o tre volte in parallelo",
+      "gravita": "minore",
+      "dimensione": "performance",
+      "file": [
+        "lib/analytics/posthog.tsx"
+      ]
+    },
+    {
+      "chiave": "sicurezza-auth|il gettone anti-robot si consuma due volte: accendendo il captcha su supabase, accesso e iscrizione con email si rompono",
+      "titolo": "Il gettone anti-robot si consuma due volte: accendendo il CAPTCHA su Supabase, accesso e iscrizione con email si rompono",
+      "gravita": "grave",
+      "dimensione": "sicurezza-auth",
+      "file": [
+        "app/api/auth/signin/route.ts"
+      ]
+    },
+    {
+      "chiave": "pagamenti-stripe|un rimborso pieno che arriva mentre parte il compenso del fattorino gli lascia il compenso",
+      "titolo": "Un rimborso pieno che arriva mentre parte il compenso del fattorino gli lascia il compenso",
+      "gravita": "minore",
+      "dimensione": "pagamenti-stripe",
+      "file": [
+        "lib/stripe/payout.ts"
+      ]
+    },
+    {
+      "chiave": "stati-ui|nella pagina guadagni i due pulsanti di stripe possono dirsi il contrario",
+      "titolo": "Nella pagina Guadagni i due pulsanti di Stripe possono dirsi il contrario",
+      "gravita": "minore",
+      "dimensione": "stati-ui",
+      "file": [
+        "components/seller/StripeDashboardButton.tsx"
+      ]
+    },
+    {
+      "chiave": "architettura|il commento e la prova dicono che la bozza della cassa scade, ma la scadenza è stata tolta",
+      "titolo": "Il commento e la prova dicono che la bozza della cassa scade, ma la scadenza è stata tolta",
+      "gravita": "minore",
+      "dimensione": "architettura",
+      "file": [
+        "app/checkout/page.tsx"
+      ]
+    },
+    {
+      "chiave": "privacy-legale|il link «ho già un account» lascia nome, indirizzo e telefono nel browser senza scadenza",
+      "titolo": "Il link «Ho già un account» lascia nome, indirizzo e telefono nel browser senza scadenza",
+      "gravita": "minore",
+      "dimensione": "privacy-legale",
+      "file": [
+        "app/checkout/page.tsx"
+      ]
+    },
+    {
+      "chiave": "privacy-legale|il conto fatto prima di accendere le cancellazioni non mostra le foto di consegna che la notte toglierà",
+      "titolo": "Il conto fatto prima di accendere le cancellazioni non mostra le foto di consegna che la notte toglierà",
+      "gravita": "minore",
+      "dimensione": "privacy-legale",
+      "file": [
+        "app/api/cron/process-deletions/route.ts"
+      ]
+    },
+    {
+      "chiave": "api-backend|se il servizio di posta conserva anche le risposte d'errore, una promozione mai partita risulta spedita",
+      "titolo": "Se il servizio di posta conserva anche le risposte d'errore, una promozione mai partita risulta spedita",
+      "gravita": "minore",
+      "dimensione": "api-backend",
+      "file": [
+        "lib/email/client.ts"
+      ]
+    },
+    {
+      "chiave": "api-backend|una giornata di cassa riaperta dichiara come «non ancora versati» anche i contanti già versati quel giorno",
+      "titolo": "Una giornata di cassa riaperta dichiara come «non ancora versati» anche i contanti già versati quel giorno",
+      "gravita": "minore",
+      "dimensione": "api-backend",
+      "file": [
+        "lib/account/cancellazione.ts"
+      ]
+    },
+    {
+      "chiave": "qa-flussi|se le email non arrivano, l'elenco dei più recenti le mostra vuote senza una riga che lo dica",
+      "titolo": "se le email non arrivano, l'elenco dei più recenti le mostra vuote senza una riga che lo dica",
+      "gravita": "minore",
+      "dimensione": "qa-flussi",
+      "file": [
+        "app/admin/users/page.tsx"
+      ]
+    },
+    {
+      "chiave": "performance|ogni ricerca rilegge tutte le email degli iscritti",
+      "titolo": "ogni ricerca rilegge tutte le email degli iscritti",
+      "gravita": "minore",
+      "dimensione": "performance",
+      "file": [
+        "app/admin/users/page.tsx"
+      ]
+    },
+    {
+      "chiave": "api-backend|la guardia della cancellazione dice un importo gonfiato su una giornata di cassa riaperta",
+      "titolo": "la guardia della cancellazione dice un importo gonfiato su una giornata di cassa riaperta",
+      "gravita": "minore",
+      "dimensione": "api-backend",
+      "file": [
+        "lib/account/cancellazione.ts"
+      ]
+    },
+    {
+      "chiave": "api-backend|il negozio riceve «il cliente ha ritirato il reso» anche quando il rimborso approvato nello stesso momento è poi partito",
+      "titolo": "Il negozio riceve «il cliente ha ritirato il reso» anche quando il rimborso approvato nello stesso momento è poi partito",
+      "gravita": "minore",
+      "dimensione": "api-backend",
+      "file": [
+        "app/api/returns/[id]/avanza/route.ts"
+      ]
+    },
+    {
+      "chiave": "api-backend|reso ritirato mentre il negozio lo approva: per pochi secondi il negozio riceve «il cliente ha ritirato la richiesta» mentre il reso risulta rimborsato",
+      "titolo": "reso ritirato mentre il negozio lo approva: per pochi secondi il negozio riceve «il cliente ha ritirato la richiesta» mentre il reso risulta rimborsato",
+      "gravita": "minore",
+      "dimensione": "api-backend",
+      "file": [
+        "app/api/returns/[id]/decide/route.ts"
+      ]
+    },
+    {
+      "chiave": "pagamenti-stripe|il rimborso automatico di un carrello scaduto o in quadratura fallisce se la carta è già stata rimborsata o contestata, e stripe ripete l'avviso per tre giorni",
+      "titolo": "il rimborso automatico di un carrello scaduto o in quadratura fallisce se la carta è già stata rimborsata o contestata, e Stripe ripete l'avviso per tre giorni",
+      "gravita": "minore",
+      "dimensione": "pagamenti-stripe",
+      "file": [
+        "lib/stripe/webhook/ordini.ts",
+        "lib/stripe/webhook/fascia-al-pagamento.ts"
+      ]
+    },
+    {
+      "chiave": "pagamenti-stripe|una contestazione che arriva senza ordini con il carrello ancora aperto viene lavorata in silenzio",
+      "titolo": "una contestazione che arriva senza ordini con il carrello ancora aperto viene lavorata in silenzio",
+      "gravita": "minore",
+      "dimensione": "pagamenti-stripe",
+      "file": [
+        "lib/stripe/webhook/dispute.ts"
+      ]
+    },
+    {
+      "chiave": "api-backend|il webhook degli ordini è a 598 righe su un tetto di 600 e blocca ogni cura futura",
+      "titolo": "il webhook degli ordini è a 598 righe su un tetto di 600 e blocca ogni cura futura",
+      "gravita": "minore",
+      "dimensione": "api-backend",
+      "file": [
+        "lib/stripe/webhook/ordini.ts",
+        "tests/unit/webhook-diviso-per-mestiere.test.ts"
+      ]
+    },
+    {
+      "chiave": "pagamenti-stripe|dopo un riaccredito o una contestazione parziale vinta lo stornato scende sul sito ma su stripe il bonifico resta stornato: uno storno pieno successivo verrebbe rifiutato",
+      "titolo": "dopo un riaccredito o una contestazione parziale vinta lo stornato scende sul sito ma su Stripe il bonifico resta stornato: uno storno pieno successivo verrebbe rifiutato",
+      "gravita": "minore",
+      "dimensione": "pagamenti-stripe",
+      "file": [
+        "lib/stripe/payout.ts",
+        "lib/stripe/webhook/contestazione-parziale-vinta.ts"
+      ]
+    },
+    {
+      "chiave": "architettura|la funzione della spedizione in centesimi accetta ancora i sette ingressi che non servono",
+      "titolo": "La funzione della spedizione in centesimi accetta ancora i sette ingressi che non servono",
+      "gravita": "minore",
+      "dimensione": "architettura",
+      "file": [
+        "lib/shipping.ts"
+      ]
+    },
+    {
+      "chiave": "ai-endpoints|la lettura di più prodotti da foto chiede 6000 token in un tentativo da 60 secondi",
+      "titolo": "la lettura di più prodotti da foto chiede 6000 token in un tentativo da 60 secondi",
+      "gravita": "minore",
+      "dimensione": "ai-endpoints",
+      "file": [
+        "app/api/vision/extract-products/route.ts"
+      ]
+    },
+    {
+      "chiave": "ai-endpoints|con il modello ai mancante il giro dei prezzi esterni segna in errore tutti i prodotti del giro e continua a chiamare",
+      "titolo": "con il modello AI mancante il giro dei prezzi esterni segna in errore tutti i prodotti del giro e continua a chiamare",
+      "gravita": "minore",
+      "dimensione": "ai-endpoints",
+      "file": [
+        "app/api/cron/external-price-alerts/route.ts"
+      ]
+    },
+    {
+      "chiave": "stati-ui|la modifica prodotto dell'amministratore, se non legge le varianti, dice «ricarica la pagina» ma non ha il bottone riprova",
+      "titolo": "la modifica prodotto dell'amministratore, se non legge le varianti, dice «Ricarica la pagina» ma non ha il bottone Riprova",
+      "gravita": "minore",
+      "dimensione": "stati-ui",
+      "file": [
+        "app/admin/products/[id]/edit/page.tsx"
+      ]
+    },
+    {
+      "chiave": "qa-flussi|nella pagina admin dei drop l'etichetta del giorno si sposta indietro per chi è a ovest di greenwich",
+      "titolo": "nella pagina admin dei drop l'etichetta del giorno si sposta indietro per chi è a ovest di Greenwich",
+      "gravita": "minore",
+      "dimensione": "qa-flussi",
+      "file": [
+        "app/admin/daily-drops/page.tsx"
+      ]
+    },
+    {
+      "chiave": "layout-responsive|/privacy e /come-funziona possono scorrere di lato col testo al 200%",
+      "titolo": "/privacy e /come-funziona possono scorrere di lato col testo al 200%",
+      "gravita": "minore",
+      "dimensione": "layout-responsive",
+      "file": [
+        "components/ui/LegalLayout.tsx"
+      ]
+    },
+    {
+      "chiave": "ai-endpoints|«aggiorna ora» dei prezzi esterni: col budget ai finito l'admin legge ancora «riprova»",
+      "titolo": "«Aggiorna ora» dei prezzi esterni: col budget AI finito l'admin legge ancora «Riprova»",
+      "gravita": "minore",
+      "dimensione": "ai-endpoints",
+      "file": [
+        "app/api/products/[id]/external-refresh/route.ts"
+      ]
+    },
+    {
+      "chiave": "ai-endpoints|il sorvegliante dei prezzi esterni può superare i suoi 300 s con 10 chiamate al modello in fila",
+      "titolo": "il sorvegliante dei prezzi esterni può superare i suoi 300 s con 10 chiamate al modello in fila",
+      "gravita": "minore",
+      "dimensione": "ai-endpoints",
+      "file": [
+        "app/api/cron/external-price-alerts/route.ts"
+      ]
+    },
+    {
+      "chiave": "stati-ui|nella pagina di amministrazione del prodotto, quando torna la rete, il caricamento prende il posto del modulo e le modifiche si perdono; senza rete il modulo si apre con 0 taglie",
+      "titolo": "Nella pagina di amministrazione del prodotto, quando torna la rete, il caricamento prende il posto del modulo e le modifiche si perdono; senza rete il modulo si apre con 0 taglie",
+      "gravita": "minore",
+      "dimensione": "stati-ui",
+      "file": [
+        "app/admin/products/[id]/edit/page.tsx"
+      ]
+    },
+    {
+      "chiave": "api-backend|cancellazione utente e annullo ordine dell'amministrazione rispondono 500 senza scrivere nel registro",
+      "titolo": "Cancellazione utente e annullo ordine dell'amministrazione rispondono 500 senza scrivere nel registro",
+      "gravita": "minore",
+      "dimensione": "api-backend",
+      "file": [
+        "app/api/admin/users/[id]/delete/route.ts"
+      ]
+    },
+    {
+      "chiave": "frontend-ux|ordinando per prezzo, le griglie guardano il prezzo pieno e non quello che si paga",
+      "titolo": "ordinando per prezzo, le griglie guardano il prezzo pieno e non quello che si paga",
+      "gravita": "minore",
+      "dimensione": "frontend-ux",
+      "file": [
+        "lib/queries/griglia-prodotti.ts"
+      ]
+    },
+    {
+      "chiave": "frontend-ux|un tasso di conversione fra il 50% e il 99% resta verde anche se gonfiato dal consenso ai cookie",
+      "titolo": "Un tasso di conversione fra il 50% e il 99% resta verde anche se gonfiato dal consenso ai cookie",
+      "gravita": "minore",
+      "dimensione": "frontend-ux",
+      "file": [
+        "app/seller/analytics/page.tsx"
+      ]
+    },
+    {
+      "chiave": "frontend-ux|le collezioni scelte a mano non passano il prezzo barrato del negozio",
+      "titolo": "Le collezioni scelte a mano non passano il prezzo barrato del negozio",
+      "gravita": "minore",
+      "dimensione": "frontend-ux",
+      "file": [
+        "components/store-sections/CollectionSection.tsx"
+      ]
+    },
+    {
+      "chiave": "api-backend|la rotta di annullo dell'amministrazione risponde 500 in silenzio quando l'annullo stesso fallisce",
+      "titolo": "La rotta di annullo dell'amministrazione risponde 500 in silenzio quando l'annullo stesso fallisce",
+      "gravita": "minore",
+      "dimensione": "api-backend",
+      "file": [
+        "app/api/admin/orders/[id]/cancel/route.ts"
+      ]
+    },
+    {
+      "chiave": "deploy-sre|con molti ordini scaduti nello stesso giro, le email di annullo partono tutte insieme dopo la risposta",
+      "titolo": "con molti ordini scaduti nello stesso giro, le email di annullo partono tutte insieme dopo la risposta",
+      "gravita": "minore",
+      "dimensione": "deploy-sre",
+      "file": [
+        "lib/ordini/annulla.ts",
+        "app/api/cron/expire-stale-orders/route.ts"
+      ]
+    },
+    {
+      "chiave": "architettura|anche il freno della veloce trova il carrello in contanti solo dalla riga di cod_checkout_attempts",
+      "titolo": "anche il freno della veloce trova il carrello in contanti solo dalla riga di cod_checkout_attempts",
+      "gravita": "minore",
+      "dimensione": "architettura",
+      "file": [
+        "lib/ordini/veloce-non-confermata.ts"
+      ]
+    },
+    {
+      "chiave": "architettura|il codice sconto monouso guarda solo il carrello della carta, non quello in contanti",
+      "titolo": "il codice sconto monouso guarda solo il carrello della carta, non quello in contanti",
+      "gravita": "minore",
+      "dimensione": "architettura",
+      "file": [
+        "lib/ordini/annulla.ts"
+      ]
+    },
+    {
+      "chiave": "architettura|la rotta delle email a orario si crea un suo client admin",
+      "titolo": "la rotta delle email a orario si crea un suo client admin",
+      "gravita": "minore",
+      "dimensione": "architettura",
+      "file": [
+        "app/api/cron/send-emails/route.ts"
+      ]
+    },
+    {
+      "chiave": "flussi-conversione|l'ordine «prezzo crescente» ordina sul prezzo pieno, mentre la griglia mostra il prezzo scontato",
+      "titolo": "L'ordine «prezzo crescente» ordina sul prezzo pieno, mentre la griglia mostra il prezzo scontato",
+      "gravita": "minore",
+      "dimensione": "flussi-conversione",
+      "file": [
+        "lib/queries/griglia-prodotti.ts"
+      ]
+    },
+    {
+      "chiave": "flussi-conversione|il filtro «prezzo minimo» taglia sul prezzo pieno, non su quello che il cliente paga",
+      "titolo": "Il filtro «prezzo minimo» taglia sul prezzo pieno, non su quello che il cliente paga",
+      "gravita": "minore",
+      "dimensione": "flussi-conversione",
+      "file": [
+        "lib/queries/griglia-prodotti.ts"
+      ]
+    },
+    {
+      "chiave": "architettura|il freno della veloce in contanti, se manca la riga del carrello, tratta ogni ordine da solo senza dirlo a nessuno",
+      "titolo": "Il freno della veloce in contanti, se manca la riga del carrello, tratta ogni ordine da solo senza dirlo a nessuno",
+      "gravita": "minore",
+      "dimensione": "architettura",
+      "file": [
+        "lib/ordini/veloce-non-confermata.ts"
+      ]
+    },
+    {
+      "chiave": "api-backend|se la lettura dell'email cade, la cancellazione dell'account lascia l'indirizzo nella newsletter e nessuno lo sa",
+      "titolo": "Se la lettura dell'email cade, la cancellazione dell'account lascia l'indirizzo nella newsletter e nessuno lo sa",
+      "gravita": "minore",
+      "dimensione": "api-backend",
+      "file": [
+        "lib/account/cancellazione.ts"
+      ]
+    },
+    {
+      "chiave": "api-backend|la chiave di cifratura del link di disiscrizione si ricava con lo stesso calcolo usato per firmare i link vecchi",
+      "titolo": "la chiave di cifratura del link di disiscrizione si ricava con lo stesso calcolo usato per firmare i link vecchi",
+      "gravita": "minore",
+      "dimensione": "api-backend",
+      "file": [
+        "lib/email/unsubscribe.ts"
+      ]
+    },
+    {
+      "chiave": "api-backend|il webhook della sessione scaduta restituisce il codice di benvenuto senza chiudere la rivendicazione",
+      "titolo": "il webhook della sessione scaduta restituisce il codice di benvenuto senza chiudere la rivendicazione",
+      "gravita": "minore",
+      "dimensione": "api-backend",
+      "file": [
+        "lib/stripe/webhook/carrello-scaduto.ts"
+      ]
+    },
+    {
+      "chiave": "api-backend|l'annullo dal sito, il rifiuto del negozio e il cliente assente rispondono 500 senza riga nel registro quando l'annullo fallisce",
+      "titolo": "l'annullo dal sito, il rifiuto del negozio e il cliente assente rispondono 500 senza riga nel registro quando l'annullo fallisce",
+      "gravita": "minore",
+      "dimensione": "api-backend",
+      "file": [
+        "app/api/orders/[id]/cancel/route.ts"
+      ]
+    },
+    {
+      "chiave": "qa-flussi|un rimborso ripreso dopo un tentativo morto non manda mai «rimborso emesso» al cliente",
+      "titolo": "Un rimborso ripreso dopo un tentativo morto non manda mai «Rimborso emesso» al cliente",
+      "gravita": "minore",
+      "dimensione": "qa-flussi",
+      "file": [
+        "lib/stripe/payout.ts"
+      ]
+    },
+    {
+      "chiave": "architettura|il conto della cassa riceve ancora le coordinate di negozio e consegna, che non entrano più in nessun conto",
+      "titolo": "Il conto della cassa riceve ancora le coordinate di negozio e consegna, che non entrano più in nessun conto",
+      "gravita": "minore",
+      "dimensione": "architettura",
+      "file": [
+        "lib/ordini/prezzi.ts"
+      ]
+    },
+    {
+      "chiave": "architettura|le email dopo la risposta partono tutte insieme: nel giro degli ordini scaduti un limite d'invio della posta può farne cadere alcune",
+      "titolo": "Le email dopo la risposta partono tutte insieme: nel giro degli ordini scaduti un limite d'invio della posta può farne cadere alcune",
+      "gravita": "minore",
+      "dimensione": "architettura",
+      "file": [
+        "lib/api/dopo-la-risposta.ts",
+        "app/api/cron/expire-stale-orders/route.ts"
+      ]
+    },
+    {
+      "chiave": "frontend-ux|nella pagina di una lista il prezzo dei prodotti non tiene conto della promozione",
+      "titolo": "nella pagina di una lista il prezzo dei prodotti non tiene conto della promozione",
+      "gravita": "minore",
+      "dimensione": "frontend-ux",
+      "file": [
+        "app/lists/[id]/page.tsx"
+      ]
+    },
+    {
+      "chiave": "frontend-ux|l immagine di anteprima social del prodotto e i dati per i motori di ricerca mostrano il prezzo pieno durante una promozione",
+      "titolo": "l immagine di anteprima social del prodotto e i dati per i motori di ricerca mostrano il prezzo pieno durante una promozione",
+      "gravita": "minore",
+      "dimensione": "frontend-ux",
+      "file": [
+        "app/product/[id]/opengraph-image.tsx",
+        "app/product/[id]/layout.tsx"
+      ]
+    },
+    {
+      "chiave": "qa-flussi|eliminata una lista, la pagina «le mie liste» la mostra ancora finché la rilettura non torna",
+      "titolo": "Eliminata una lista, la pagina «Le mie liste» la mostra ancora finché la rilettura non torna",
+      "gravita": "minore",
+      "dimensione": "qa-flussi",
+      "file": [
+        "app/lists/[id]/page.tsx"
+      ]
+    },
+    {
+      "chiave": "performance|la memoria a due secondi dei metadati usa la stessa chiave anche quando si passa un client da fuori",
+      "titolo": "La memoria a due secondi dei metadati usa la stessa chiave anche quando si passa un client da fuori",
+      "gravita": "minore",
+      "dimensione": "performance",
+      "file": [
+        "lib/supabase/lettura-per-metadati.ts"
+      ]
+    },
+    {
+      "chiave": "flussi-conversione|il copilot del catalogo in blocco dice «rimandalo» per le voci rimaste fuori, ma la scheda non ha un modo per rimandare solo quelle",
+      "titolo": "Il copilot del catalogo in blocco dice «rimandalo» per le voci rimaste fuori, ma la scheda non ha un modo per rimandare solo quelle",
+      "gravita": "minore",
+      "dimensione": "flussi-conversione",
+      "file": [
+        "components/seller/CatalogCopilot.tsx"
+      ]
+    },
+    {
+      "chiave": "architettura|le email mandate dopo la risposta aspettano in una fila sola per tutto il server: in una raffica l'ultima può non partire",
+      "titolo": "Le email mandate dopo la risposta aspettano in una fila sola per tutto il server: in una raffica l'ultima può non partire",
+      "gravita": "minore",
+      "dimensione": "architettura",
+      "file": [
+        "lib/api/dopo-la-risposta.ts"
+      ]
+    },
+    {
+      "chiave": "api-backend|quando è il servizio delle mappe a rispondere «troppe richieste», la rotta della ricerca indirizzi risponde 200 senza coordinate e la pagina salva l'indirizzo come «posizione non trovata»",
+      "titolo": "quando è il servizio delle mappe a rispondere «troppe richieste», la rotta della ricerca indirizzi risponde 200 senza coordinate e la pagina salva l'indirizzo come «posizione non trovata»",
+      "gravita": "minore",
+      "dimensione": "api-backend",
+      "file": [
+        "app/api/geocode/route.ts"
+      ]
+    },
+    {
+      "chiave": "flussi-conversione|con la carta e il credito mycity, quando il carrello scade tutto nessuna email dice che il credito è tornato",
+      "titolo": "con la carta e il credito MyCity, quando il carrello scade tutto nessuna email dice che il credito è tornato",
+      "gravita": "minore",
+      "dimensione": "flussi-conversione",
+      "file": [
+        "app/api/cron/expire-stale-orders/route.ts"
+      ]
+    },
+    {
+      "chiave": "architettura|la misura della velocità manda a ga4 da una porta sua, fuori dall'aiutante comune",
+      "titolo": "la misura della velocità manda a GA4 da una porta sua, fuori dall'aiutante comune",
+      "gravita": "minore",
+      "dimensione": "architettura",
+      "file": [
+        "lib/analytics/posthog.tsx"
+      ]
+    }
+  ],
+  "fuori": {
+    "riservate": [],
+    "domande": [],
+    "rimandati": [],
+    "umani": [],
+    "sospese": [],
+    "senza_percorso": []
+  },
+  "percorsi_spariti": [
+    {
+      "chiave": "performance-percepita|il traduttore degli errori dei moduli (zod) viaggia in ogni pagina, anche dove non c'è nessun modulo",
+      "file": [
+        ".next/static/chunks/5584-8666d6f492e9f808.js",
+        ".next/app-build-manifest.json"
+      ]
+    },
+    {
+      "chiave": "deploy-sre|il rilascio non applica le migrazioni: il codice nuovo arriva su un database vecchio",
+      "file": [
+        "render.yaml"
+      ]
+    },
+    {
+      "chiave": "architettura|il codice pgrst204 su una colonna della 124 ora fa scattare il ripiego per tutti: con la cache dello schema di postgrest vecchia, la scrittura salta gross_total_cents anche a migrazione applicata",
+      "file": [
+        "annulla.ts"
+      ]
+    }
+  ]
+}

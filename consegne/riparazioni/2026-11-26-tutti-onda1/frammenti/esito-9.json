@@ -1,0 +1,20 @@
+{
+  "corsia": 9,
+  "territorio": "R09",
+  "difetti": [
+    {
+      "chiave": "architettura|le email mandate dopo la risposta aspettano in una fila sola per tutto il server: in una raffica l'ultima può non partire",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r09-dopo-la-risposta-una-fila-per-richiesta.test.ts tests/unit/riparazione-r05-email-dopo-la-risposta-in-fila.test.ts --reporter=dot",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 6fb4fefdc472161cef5635750ccabe5b2c19d557^ --file lib/api/dopo-la-risposta.ts --prove tests/unit/riparazione-r09-dopo-la-risposta-una-fila-per-richiesta.test.ts --json → uscita 0 (riparatore); git -C ../wt-R09-008 checkout --detach 6fb4fefdc472161cef5635750ccabe5b2c19d557 && timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R09-008 --base 83bdd55b4ad6fcb8daa0b9bc239b5e9b0a2b909d --file lib/api/dopo-la-risposta.ts --prove tests/unit/riparazione-r09-dopo-la-risposta-una-fila-per-richiesta.test.ts --json → uscita 0 (K03)",
+      "nota_fix": "La fila non è più una variabile del modulo: ogni richiesta ha la sua, legata allo stato della richiesta di Next (WeakMap su workAsyncStorage), presa al momento di registrare il lavoro. Fuori da una richiesta resta una fila sola. Tetto di 10 s per turno invariato. Nota: importa next/dist/server/app-render/work-async-storage.external, percorso interno di Next 15."
+    },
+    {
+      "chiave": "architettura|il freno della veloce in contanti, se manca la riga del carrello, tratta ogni ordine da solo senza dirlo a nessuno",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r09-veloce-contanti-senza-riga.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base e72dec28e4965338080da800ca876e93e5b7437b^ --file lib/ordini/veloce-non-confermata.ts --prove tests/unit/riparazione-r09-veloce-contanti-senza-riga.test.ts --json → uscita 0 (riparatore); git -C ../wt-R09-013 checkout --detach e72dec28e4965338080da800ca876e93e5b7437b && timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R09-013 --base ed12ed8ec8190e1132b690f6e034c30f0a5d55ba --file lib/ordini/veloce-non-confermata.ts --prove tests/unit/riparazione-r09-veloce-contanti-senza-riga.test.ts --json → uscita 0 (K03)",
+      "nota_fix": "Senza la riga in cod_checkout_attempts il freno cerca altri ordini in contanti vivi dello stesso cliente, nati entro due minuti e senza riga: se ce ne sono scrive logger.warn e avvisa gli amministratori una volta per gruppo, con i codici. Non unisce niente per vicinanza di tempo."
+    }
+  ]
+}
