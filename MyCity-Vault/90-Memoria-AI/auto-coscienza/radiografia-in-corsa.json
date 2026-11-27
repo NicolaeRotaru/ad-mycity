@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-11-27 03:49",
+  "aggiornato": "2026-11-27 16:58",
   "scansioni": [
     {
       "quando": "2026-08-25 20:35",
@@ -8683,6 +8683,28 @@
       "file": {
         "components/agenti/Scheda.tsx": "8b16f12e00fd",
         "components/agenti/scheda.module.css": "6f78b391c40c"
+      }
+    },
+    {
+      "quando": "2026-11-27 16:58",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "app/preventivo/[codice]/(demo)/abbonamento/AccettaDalLink.tsx": "6c94af054e64",
+        "app/preventivo/[codice]/(demo)/abbonamento/PagaDalLink.tsx": "0fe32026af36",
+        "app/preventivo/[codice]/(demo)/abbonamento/page.tsx": "09d0baa7b2f5",
+        "app/preventivo/[codice]/(demo)/layout.tsx": "0723ecc52ae3",
+        "app/preventivo/[codice]/(demo)/servizi/[servizio]/page.tsx": "979297002a34",
+        "app/preventivo/[codice]/ConfermaAbbonamento.tsx": "5677b19d2393",
+        "app/preventivo/[codice]/layout.tsx": "f8fac99bd9e2",
+        "app/preventivo/[codice]/page.tsx": "23b086454a69",
+        "components/agenti/AggiungiAttivita.tsx": "0e66ea183963"
       }
     }
   ]
