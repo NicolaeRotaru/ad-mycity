@@ -1553,3 +1553,9 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Da sapere:** la migrazione 999 (abbonamento in contanti) alle 15:06 mancava in produzione; verso le 17:00 c'era, e Grida Caffè ha il Business in contanti attivo dalle 16:24.
 - **Colore:** 🟡 il codice in un ramo con PR; 🔴 l'unione e la messa online, con la firma di Nicola.
 
+
+## 2026-11-27 15:19 — Applicate in produzione le 20 migrazioni che mancavano, dalla 863 alla 999 (🔴, firma di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD (session_01R8112NYQ3s6UrYKRZCZdxA), 27/11 verso le 14:55: «fai tutte le migrazioni che mancano».
+- **Cosa:** l'AD ha confrontato in sola lettura il registro del database vero con la cartella `migrations/` di main (85123f4a): mancavano 20 migrazioni, 863, 880, 900, 910, 911, 916, 926, 940, 961, 970, 990-999. Nessuna cancella dati alla partenza (le tre `DELETE` della 961 sono dentro funzioni che liberano la merce prenotata). La 863 era stata tenuta ferma il 26/11 per la frase sul pagamento: quella frase era già nel database, la 863 cambia solo le righe del rapporto, quindi è entrata. Lanciato «Migrazioni a mano» con APPLICA / 20 / 999: esecuzione 46012199323, partita alle 15:01, tutti i passi verdi alle 15:19.
+- **Verifica:** in sola lettura alle 15:25: le 20 nel registro, le funzioni e le tabelle di 910, 916, 940 e 961, colonna e indice della 999, testo della 863 sui tre prodotti.
+- **Colore:** 🔴, eseguito sulla firma esplicita di Nicola.
