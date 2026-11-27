@@ -1597,3 +1597,11 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa:** l'impronta guarda file, ora, didascalia, primo commento, copertina, tipo e social. Rifiuta vale sempre. Il messaggio di un tasto che non corrisponde dice le cause vere.
 - **Dove:** NicolaeRotaru/N8N#37. Due collaudi indipendenti: tutti e due reggono.
 - **Colore:** 🟡. Il flusso vivo non cambia finché Nicola non scrive «ok 267»: «Proponi» e «Tasti» vanno caricati insieme.
+
+## 2026-11-27 22:25 — Tropico: fermati e rifatti i due pezzi di sabato che chiamavano sangria il frozen alla fragola (🟡)
+- **Chi e quando:** Nicola, in chat all'AD (session_01R8112P5YYf1DSVHQKpdukS), 27/11 alle 21:48, con la foto della storia uscita: «questa qua è una margherita frozen alla fragola, non è una sangria».
+- **Il difetto:** il piano del 26/11 ha dato un nome a un drink senza conferma. La regola c'era per i piatti, non per i drink. La foto 0307 era chiamata sangria in tre pezzi: la storia del 27/11 alle 18:00 (uscita su tutte e quattro le pagine), la slide 3 del carosello del 28/11 alle 18:30 e la scena 2 del reel del 28/11 alle 19:15 (tutti e due già approvati).
+- **Cosa:** alle 22:11 il carosello e il reel tornano da approvare, così non escono. Rifatti con le scritte giuste, caricati su Drive con il nome «-corretto» accanto ai vecchi (che restano, da archiviare a mano), riproposti su Telegram alle 22:20 col lotto `tropico-latino-1127-2220`. Nel file del cliente la foto 0307 è scritta come margarita frozen alla fragola e «non sangria»; il nuovo `controlla-nomi.py` si ferma se una grafica scrive un nome sopra una foto non confermata.
+- **Dove:** NicolaeRotaru/N8N, ramo `ccr-f0948263-uqbjwj`. Esecuzioni n8n: 4343 (pausa), 4352 (Drive), 4356 e 4357 (proposte).
+- **Colore:** 🟡. La pausa si annulla con un Approva; niente è uscito senza Nicola. Le didascalie dei due post del 26/11 e la storia già uscita aspettano lui (AZIONI-IN-ATTESA).
+
