@@ -102736,7 +102736,7 @@
         "nota": "Nel repo mycity. Sei casi nuovi, tutti rossi sul main 6d22756 (expected 201 to be 409) e verdi con la correzione: accettazione e rinvio (409, 1 utente, 1 link), omonimi dopo l'accettazione, preventivo chiuso, utenti non leggibili, tetto della ricerca, due primi invii insieme. Collaudo a due lenti: 13 mutazioni, 10 rosse, 2 chiuse con prove nuove, 1 equivalente."
       },
       "chiuso_il": "2026-11-27 20:58",
-      "chiuso_da": "PR NicolaeRotaru/mycity#356 · b0d6448 / da08ceb (si chiude davvero con l'unione). Ai negozi iscritti prima il segno lo dà la migrazione 999e in NicolaeRotaru/mycity#357, che aspetta la firma di Nicola"
+      "chiuso_da": "PR NicolaeRotaru/mycity#356 · b0d6448 / da08ceb (si chiude davvero con l'unione). Ai negozi iscritti prima il segno lo dà la migrazione 999f in NicolaeRotaru/mycity#357, che aspetta la firma di Nicola"
     },
     {
       "dimensione": "architettura",
@@ -103013,9 +103013,9 @@
       "file": "lib/agenzia/nuova-attivita.ts",
       "fonte": "collaudo indipendente a due lenti della correzione del negozio doppio dopo l'accettazione, 2026-11-27 20:40 (repo mycity, ramo claude/doppione-dopo-accettazione, PR NicolaeRotaru/mycity#356)",
       "titolo": "I negozi che avevano già accettato prima della correzione possono ancora nascere doppi",
-      "descrizione": "La correzione riconosce un negozio dal segno app_metadata.email_di_sistema. I negozi iscritti prima non ce l'hanno. Finché il titolare non accetta, li ritrova dall'email finta; dopo l'accettazione no. La migrazione 999e (NicolaeRotaru/mycity#357) dà il segno a chi ha ancora l'email finta. A chi ha già accettato quasi certamente no, perché GoTrue riscrive anche l'identità quando cambia l'email.",
+      "descrizione": "La correzione riconosce un negozio dal segno app_metadata.email_di_sistema. I negozi iscritti prima non ce l'hanno. Finché il titolare non accetta, li ritrova dall'email finta; dopo l'accettazione no. La migrazione 999f (NicolaeRotaru/mycity#357) dà il segno a chi ha ancora l'email finta. A chi ha già accettato quasi certamente no, perché GoTrue riscrive anche l'identità quando cambia l'email.",
       "impatto": "Per un negozio che aveva già accettato prima della correzione, un nuovo invio dal modulo 12 o dal pulsante crea ancora un secondo negozio nascosto. Quanti sono non è misurato: da qui non c'era accesso al database.",
-      "fix": "Applicata la 999e, contare con la query in testa al file i negozi senza segno e scrivere il segno a mano per ognuno (l'email di emailDiSistema col nome e la città dell'iscrizione). In alternativa, dare il segno nel codice quando l'utente si riconosce dall'email finta e il segno manca: è una scrittura su Supabase Auth, decisione di Nicola."
+      "fix": "Applicata la 999f, contare con la query in testa al file i negozi senza segno e scrivere il segno a mano per ognuno (l'email di emailDiSistema col nome e la città dell'iscrizione). In alternativa, dare il segno nel codice quando l'utente si riconosce dall'email finta e il segno manca: è una scrittura su Supabase Auth, decisione di Nicola."
     }
   ],
   "sync_scan": {
