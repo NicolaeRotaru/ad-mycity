@@ -1595,3 +1595,10 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa:** confronto in sola lettura fra il registro del database vero (340 righe) e `migrations/` di main (0033f975, dopo la mycity#351): mancava solo la 999b. Aggiunge `preventivi_con_codice.visita_il` e un indice unico parziale, cioè una sola attività per ora. Non cancella niente. Lanciato «Migrazioni a mano» con APPLICA / 1 / 999b: esecuzione 46046533099, partita alle 19:03, tutta verde alle 19:17.
 - **Verifica:** in sola lettura alle 19:23: 999b nel registro (341 righe), colonna `visita_il` di tipo timestamptz, indice `preventivi_con_codice_una_visita_per_ora` presente.
 - **Colore:** 🔴, eseguito sulla firma esplicita di Nicola.
+
+## 2026-11-27 21:02 — Tasto Approva: l'impronta guarda tutto quello che esce (🟡, firmato da Nicola)
+- **Chi e quando:** Nicola, in chat all'AD (session_01R8112LLyeYLAMVEEzLNUuw), 27/11 verso le 20:45: «impronta nuova subito». Il lavoro l'ha chiesto la sessione di controllo delle sessioni (session_01R8112L2JFRP34XMFymdS4d).
+- **Il difetto:** l'impronta nel tasto guardava solo file e ora. Se l'AD cambiava solo la didascalia, il tasto rimasto sotto l'anteprima vecchia approvava la versione nuova, non vista.
+- **Cosa:** l'impronta guarda file, ora, didascalia, primo commento, copertina, tipo e social. Rifiuta vale sempre. Il messaggio di un tasto che non corrisponde dice le cause vere.
+- **Dove:** NicolaeRotaru/N8N#37. Due collaudi indipendenti: tutti e due reggono.
+- **Colore:** 🟡. Il flusso vivo non cambia finché Nicola non scrive «ok 267»: «Proponi» e «Tasti» vanno caricati insieme.
