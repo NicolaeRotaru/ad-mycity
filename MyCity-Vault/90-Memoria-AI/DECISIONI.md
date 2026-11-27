@@ -1653,3 +1653,21 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa:** aperta la sessione `session_01R8112L6m92yFKbgNBKNr7B`, che costruisce su mycity in un ramo e apre la PR. Scelte prese per Nicola, reversibili: prodotto o servizio nel modulo; il servizio si prenota scrivendo al negozio nella chat del sito, senza carrello né pagamento online; stock nullo; durata e luogo facoltativi; i tre abbonamenti di SDG diventano servizi. Un trigger del database vieta un servizio dentro un ordine.
 - **Perché:** il concetto di MyCity del 27/11 dice «servizi e prodotti»; la cura della persona e i servizi su appuntamento sono una categoria dove MyCity può vincere. Il pagamento online dei servizi aprirebbe la scelta della commissione, che è 🔴 e resta a Nicola.
 - **Colore:** 🟡. Codice in un ramo con PR; niente unione, deploy o migrazione senza la firma di Nicola.
+## 2026-11-27 23:12 — Applicate in produzione la 999c, la 999d e la 999f: ordine a SDG, prezzi 300/600/900, segno dell'email (🔴, firma di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD (session_01R8112NYQ3s6UrYKRZCZdxA), 27/11 verso le 22:45: «Applica tutte le migrazioni». Prima l'AD aveva fermato la 999d, perché cambia due prezzi ed era entrata in main dopo il suo «applica le migrazioni» delle 19:00.
+- **Cosa:** su main (a029cd7e) mancavano 3 migrazioni su 261. La 999c crea la tabella `ordini_sdg` e due colonne del preventivo (`lavoro`, `agente_email`). La 999d porta i prezzi SDG a Base 300, Business 600, Premium 900 euro. La 999f mette il segno `email_di_sistema` agli utenti con un preventivo. Nessuna cancella dati. Preferiti sui prodotti SDG: 0, quindi l'avviso «prezzo abbassato» non è partito per nessuno. Lanciato «Migrazioni a mano» con APPLICA / 3 / 999f: esecuzione 46072967937, partita alle 22:51, tutta verde alle 23:12.
+- **Verifica:** in sola lettura alle 23:11 e alle 23:20: registro a 344 righe con 999c, 999d e 999f; tabella `ordini_sdg` e le due colonne presenti; prezzi 300 / 600 / 900; 3 utenti col segno; 0 negozi senza segno.
+- **Non toccati:** i due abbonamenti in contanti già venduti restano a 500 euro al mese (canone 50000). Decide Nicola.
+- **Colore:** 🔴, eseguito sulla firma esplicita di Nicola.
+## 2026-11-27 23:15 — La parola «digitalizzare» si può usare anche col negoziante
+- **Chi e quando:** Nicola, in chat all'AD, il 27/11 verso le 23:10. Sessione session_01R8112LANAw9VhLSs2fAbsL.
+- **Le sue parole:** «la parola «digitalizzare» si può usare anche col negoziante, sul sito e nei volantini». Rispondeva alla domanda dell'AD fatta dopo il salvataggio del concetto.
+- **Cosa cambia:** cade il divieto su questa parola scritto nel §2.1 di `CONTESTO_BUSINESS.md`. Il testo di Nicola resta com'è; il cambio è segnato nel §13. Il resto del §2.1 non cambia: niente «tecnologia» né «AI» col negoziante, e la promessa si dice in incassi, clienti e tempo.
+- **Dove l'ho scritto:** fatto `strategia.concetto` aggiornato, con la caccia sulle due frasi vecchie. Note ⑥ e ⑦ del §13 riscritte. La nota del concetto era numerata ④ per sbaglio, come un'altra: ora è la ⑦.
+- **Colore:** 🟡, perché cambia una regola di comunicazione. L'ha deciso Nicola.
+## 2026-11-27 23:41 — Unita la PR del sito nel link del venditore (🔴)
+- **Chi e quando:** Nicola in chat all'AD il 27/11 verso le 23:40. Ha scritto: «sì, unisci la 358». Sessione session_01R8112Lh8bxtpgSCWy2ESsy, PR mycity#358.
+- **Cosa:** quando il titolare apre il link del preventivo vede il suo sito già pronto, sopra i tre abbonamenti. In Admin c'è la pagina «Lavoro dei clienti», in sola lettura. Merge 63031fc1 sulla testa 19176d19.
+- **Verifica:** 11 controlli verdi sulla PR. Batteria intera in locale: 14.528 prove passate, 1 saltata. Due collaudi indipendenti: un grave trovato e corretto, il riquadro che prometteva il sito Business anche col Base.
+- **Colore:** 🔴, unione che va online, fatta sulla firma esplicita di Nicola.
+
