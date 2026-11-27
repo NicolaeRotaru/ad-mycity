@@ -1528,6 +1528,12 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Dove:** mycity#343, unita col sì di Nicola dalla sessione che unisce le PR. È passata dal collaudo indipendente: 2 difetti gravi e 4 minori corretti prima dell'unione.
 - **Colore:** 🟡. Scrive sul database vero solo su conferma dell'agente; nessun messaggio parte verso il titolare.
 
+## 2026-11-27 14:55 — Proponi nel Calendario: una riga già uscita non torna più da approvare (🟡, chiesto da Nicola)
+- **Chi e quando:** Nicola, in chat all'AD (session_01R8112LLyeYLAMVEEzLNUuw), 27/11 verso le 14:50, dopo il collaudo del 27/11 sui tasti di Telegram.
+- **Il difetto:** il nodo «Scrivi la riga nel Calendario» fa appendOrUpdate per id e mette sempre `da_approvare`. Una riga già pubblicata, riproposta con lo stesso id, tornava da approvare e perdeva le note; un tocco su Approva la faceva ripubblicare dal flusso 01. C'era già prima dei tasti nuovi.
+- **Cosa:** prima di scrivere il flusso rilegge la riga per id. Se è già uscita (`pubblicato`, `in_pubblicazione`, oppure `link_ig`/`link_fb` pieni, perché il flusso 01 salva il link appena un social è uscito) si ferma con «riga già pubblicata: usa un id nuovo». Decisione di Nicola sul caso `approvato`: torna da approvare, e la domanda su Telegram lo dice. Le note di prima restano sempre, col vecchio testo di `errore` e l'ora della riproposta.
+- **Dove:** deposito N8N, ramo `claude/jolly-hypatia-5lwhg7`, sopra la PR dei tasti (N8N#33). Prova: due test in `flussi/test/ad-studio.test.mjs`, rossi sul codice di oggi e su sei controprove, verdi con la correzione.
+- **Colore:** 🟡. Il flusso vivo su n8n non è ancora cambiato: si carica con la firma di Nicola.
 ## 2026-11-27 04:30 — Approvare i contenuti con un tocco dentro Telegram (🟡, chiesto da Nicola)
 - **Chi e quando:** Nicola, in chat all'AD (session_01R8112L9oSZcRFsmSf8hEZ2), 27/11 verso le 02:50: «non mi piace che devo sempre aprire questa pagina per confermare, non c'è un altro modo più semplice e veloce?». Poi alle 03:05 circa: «Vai».
 - **Cosa:** il tasto di prima era il link di sendAndWait di n8n. Adesso «AD · Proponi nel Calendario» manda tasti callback_data con id e versione, e non aspetta più. Il nuovo flusso acceso «AD · Tasti su Telegram» riceve il tocco. Conta solo la chat di Nicola. Cambia la riga solo se è ancora da approvare, poi trasforma la domanda nella riga di stato. «Approva tutti» vale per il gruppo della consegna.

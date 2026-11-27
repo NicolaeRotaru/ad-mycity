@@ -31,6 +31,26 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
+### 🟡 #267 — Carica su n8n il controllo che ferma i contenuti già usciti · ⏳ accodata 2026-11-27 15:21 · @builder-automazioni
+
+**Stato:** ⏳ in attesa di Nicola
+
+**In parole semplici.** Parlo del flusso di n8n che mette nel Calendario i contenuti dell'AD da approvare su Telegram. Oggi, se l'AD ripropone un contenuto già uscito con lo stesso nome di riga, il flusso lo rimette da approvare. Un tocco su Approva lo farebbe uscire due volte.
+Per esempio: un post del Tropico pubblicato sabato e riproposto domenica tornerebbe in coda come nuovo.
+
+**Cosa cambia per te.** Col controllo caricato, un contenuto già uscito ferma il flusso con «riga già pubblicata: usa un id nuovo». Un contenuto già approvato e riproposto torna da approvare, come hai deciso oggi verso le 14:50, e la domanda su Telegram te lo dice. Le note di prima restano.
+
+**Cosa devi fare tu.** Scrivere «ok 267». Se vuoi, prima guarda la richiesta di unione NicolaeRotaru/N8N#34.
+
+**Cosa non ho verificato.** Il flusso nuovo non è mai girato sul Calendario vero: le prove usano un foglio finto con il codice vero di n8n. Dopo il caricamento faccio una prova sola, su una riga di prova, e te la mostro.
+
+Cosa cambia: il flusso vivo «AD · Proponi nel Calendario» guarda la riga prima di scriverla, e un contenuto già uscito non può più tornare da approvare.
+Se va bene: l'AD prova il flusso su una riga di prova già pubblicata, ti mostra l'errore che ferma tutto, poi ripropone i contenuti del Tropico come al solito.
+
+- **Colore:** 🟡
+- **Reparto:** builder-automazioni
+- **Dettagli tecnici:** flusso n8n `q940FBnc4sfqdneZ` (resta spento, si avvia a mano). Al via, quattro passi. ① Si leggono foglio e chat dal flusso vivo. ② Si genera il flusso con `node flussi/ad-studio/consegna.mjs proponi --json --foglio … --chat …`, dal main del deposito N8N: contiene il commit `a05bbb7`, unito con la N8N#34. ③ Si aggiorna il flusso su n8n. ④ Si confrontano i 17 nodi con quelli generati. Il flusso vivo oggi è quello della N8N#33 (`c6bdd7b`): il caricamento non aspetta l'unione delle due richieste. Il flusso «AD · Tasti su Telegram» non cambia.
+
 ### 🟡 #266 — Guarda il ricontrollo del sito e unisci la richiesta, se ti va bene · ⏳ accodata 2026-11-26 15:30 · @ad
 
 **Stato:** ⏳ in attesa di Nicola, senza fretta
