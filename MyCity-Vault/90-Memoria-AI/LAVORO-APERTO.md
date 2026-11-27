@@ -1,7 +1,7 @@
 ---
 tipo: lavoro-aperto
 fonte: AD digitale
-aggiornato: 2026-11-27 01:45
+aggiornato: 2026-11-27 02:10
 regola: si legge PRIMA di cercare cosa manca; si aggiorna a ogni lavoro che si apre o si chiude
 ---
 
@@ -30,7 +30,7 @@ La pagina dice com'era il lavoro il 31 ottobre alle 01:45. Ogni voce va riletta 
 
 ## 1 · Cose che toccano a te
 
-**I 200 difetti del sito: preparazione fermata (27/11 01:45).** Nicola all'01:15 ha chiesto «200 esatti», e all'01:35 ha scelto la strada A. L'AD l'ha fermata prima di aprire sessioni. 199 dei 200 erano già nella riparazione del 26/11, che ha speso circa 1.100 $ dei 1.200 del tetto. La strada vera passa da quella campagna. Prima il controllore finale e l'unione della richiesta del sito (mycity#342): sono 97 chiusi e 15 già riparati, e aspettano Nicola. Poi un'onda nuova sui difetti rimasti a metà, ma con un tetto nuovo. Quaderno: `consegne/riparazioni/2026-11-27-duecento/REGIA.md`.
+**I 200 difetti del sito risolti, se si può 400: partita (27/11 02:10).** Nicola ha scelto la strada B, con un tetto di 3.000 $ e il limite settimanale sotto il 50%. I primi 97 risolti sono nella richiesta del sito di ieri, la mycity#342, e aspettano il controllore finale e l'unione di Nicola. Gli altri vengono da una campagna nuova sui 320 difetti rimasti che non chiedono lui, partendo dal codice di ieri. Preventivo: circa 1.500 $ per circa 240-260 risolti in tutto. Per arrivare a 400 servono le sue risposte alle 64 domande. Quaderno: `consegne/riparazioni/2026-11-27-duecento/REGIA.md`.
 
 **Post e reel fatti da programma (26/11 14:28).** Senza Canva e senza CapCut. La prova di Pane Quotidiano ha tre file: un reel di 15 secondi, un post e la copertina della storia. Dentro un telefono scorrono le pagine vere del negozio. Alle 14:19 Nicola ha scritto «Ok salva». Il 27/11 verso le 00:10 ha detto di unire la PR delle impaginazioni. Pronto quando lo chiede: i contenuti della settimana di Pane Quotidiano come bozze, senza pubblicare. Dettaglio: `creativi/impaginazioni/LEGGIMI.md`.
 

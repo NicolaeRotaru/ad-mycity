@@ -26980,6 +26980,23 @@
       },
       "nato_come": "scoperta",
       "cura_proposta": "RE_SPENTA riconosce anche la forma con le parentesi quadre; il filtro delle righe aggiunte scarta solo l'intestazione «+++ b/…», non ogni riga che comincia con «++»; il diff si chiede con --text; per P1 e P2 la guardia confronta quante prove girano alla base e alla punta (per esempio con vitest --list) invece di leggere le righe."
+    },
+    {
+      "id": "AR-1194",
+      "titolo": "La divisione dà alle sessioni del sito numeri di migrazione da 1000 in su, ma il sito le applica in ordine alfabetico e il 1000 finirebbe prima del 100",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato": "2026-11-27 02:05",
+      "origine": "AD, preparazione dei 200 del 27/11: dividi sull'integrazione f1b35670 con l'ultima migrazione a 998",
+      "dove": "cervello/riparazione-sessioni.mjs, dividi (fasce delle sessioni) e controllaOnda (la fascia deve partire sopra l'ultima migrazione esistente); sul sito scripts/applica-migrazioni-mancanti.sh riga 230 e tests/sql/harness/apply.sh riga 34 (LC_ALL=C sort)",
+      "descrizione": "Con l'ultima migrazione a 998, dividi assegna 1000-1009, 1010-1019 e così via, e controllaOnda pretende fasce sopra 998. Il sito ordina i file per byte: «1000_x.sql» viene prima di «100_x.sql», quindi su un database nuovo (palestra) una migrazione 1000 gira prima delle tabelle che le servono. Il 26/11 la regia aveva visto lo stesso problema e rinumerato a mano nelle fasce libere sotto 999; oggi sopra 998 c'è solo il 999.",
+      "causa_radice": "Le fasce sono numeri interi senza riguardo per il modo in cui il sito ordina i file; il controllo «sopra l'ultima» non conosce i buchi liberi sotto, né i suffissi a lettera già in uso (108b).",
+      "fix_proposto": "Decidere la numerazione oltre 999 (per esempio suffissi a lettera dopo 998, o un ordinamento numerico nel sito e nella palestra) e insegnarla a dividi e a controllaOnda, con una prova che diventi rossa se una fascia produce un nome che l'ordine per byte mette prima di una migrazione esistente.",
+      "dimensione": "processi",
+      "verifica": {
+        "tipo": "umano"
+      },
+      "nota": "Intanto la campagna dei 200 del 27/11 tiene le 43 voci con file di migrazione in un'onda a parte."
     }
   ],
   "meta": {

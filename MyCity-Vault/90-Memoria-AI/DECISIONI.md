@@ -1471,3 +1471,10 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Prima del via:** il controllo che confronta il codice col database vero era verde alle 18:17. Mancava solo la 865.
 - **Cosa resta:** la variabile `N8N_SCHEDA_SEGRETO` su Vercel (non c'è ancora) e il primo link in Admin → Agenti, tutte e due di Nicola.
 
+
+## 2026-11-27 02:10 — 200 difetti del sito risolti, se si può 400: tetto 3.000 $ (🔴, decisione di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD (session_015BmpnWXi7guL4RmfTAwzbU), 27/11 fra l'01:15 e le 02:00. Prima «200 esatti», poi «A», poi «No scusa la B. 200 esatti difetti risolti. E se ne riesci cerca di arrivare anche a 400». Alle domande: tetto 3.000 $, limite settimanale sotto il 50%.
+- **Cosa:** una campagna nuova sul sito che parte dall'integrazione della riparazione del 26/11 (mycity `ccr-a672a2b3-92w5w1` @ f1b35670). Lavora le 320 voci che non chiedono Nicola, in onde, senza fermate fra un'onda e l'altra dentro il tetto. Le 43 voci con file di migrazione vanno in un'onda a parte (AR-1194). Il tetto vecchio di 1.200 $ («ok 1.200» del 24/11) era già usato dalla campagna del 26/11, circa 1.100 $.
+- **Perché:** 97 risolti sono già pronti nella mycity#342; per arrivare a 200 servono circa 100 chiusure in più, e le misure dicono circa 10 $ a chiuso. Preventivo circa 1.500 $ per circa 240-260 risolti in tutto; 400 solo con le risposte di Nicola.
+- **Errore dell'AD, corretto prima di spendere:** la prima preparazione (200 voci dalla base main) prendeva 199 voci già lavorate il 26/11, perché il registro di main non porta ancora quelle chiusure. Fermata prima di aprire sessioni.
+- **Colore:** 🔴 spesa firmata da Nicola; il codice resta 🟡 (rami e PR, l'unione è sua).
