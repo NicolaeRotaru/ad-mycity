@@ -71,6 +71,14 @@
         "R11",
         "R03"
       ]
+    },
+    "K02": {
+      "id": "session_015BmpnYhCRtBMUTLYxub3cz",
+      "ramo": "ccr-819e0c8d-7ryjjr-k02",
+      "partenza": "74938e41ac0859de8912b9b9ebaca4414e1d1eeb",
+      "riparatori": [
+        "R07"
+      ]
     }
   }
 }
