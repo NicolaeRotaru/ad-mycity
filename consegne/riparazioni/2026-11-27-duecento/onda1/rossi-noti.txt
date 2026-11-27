@@ -14,3 +14,4 @@ ferma R04 9382fe0
 ferma R06 b3fab50
 finita R12
 finita R11
+finita R03
