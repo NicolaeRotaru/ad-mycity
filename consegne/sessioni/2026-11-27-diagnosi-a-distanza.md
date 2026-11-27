@@ -28,7 +28,7 @@ Non so quante lettere servono per un'iscrizione: non abbiamo misure nostre.
 ### Le scelte di Nicola (27/11 01:40)
 - Il percorso, tutto a distanza: richiamo → diagnosi → «Mi interessa» → `/sell` già compilato → preventivo accettato dal link → documenti e IBAN in dashboard → telefonata o videochiamata di 15 minuti → pagamento.
 - Pagamento: **contanti al primo servizio**, ritirati da chi va comunque sul posto (per esempio scattiDG per le foto). Fatto `sdg.pagamento`.
-- Il richiamo: **lettera con QR** e **pubblicità su Facebook e Instagram**. Partono solo con la firma di Nicola (🔴). Qui serve solo che la pagina li sappia ricevere.
+- Il richiamo: **lettera con QR** e **pubblicità su Facebook e Instagram**. Partono solo con la firma di Nicola, perché spendono soldi e arrivano a persone vere. Qui serve solo che la pagina li sappia ricevere.
 - Lavoro in una sessione separata: questa.
 
 ### Cosa costruire (proposta dell'AD, da confermare con Nicola dove c'è ❓)
@@ -43,7 +43,7 @@ Non so quante lettere servono per un'iscrizione: non abbiamo misure nostre.
 ### Domande aperte per Nicola (❓)
 - La diagnosi si vede subito, o arriva per email a chi la chiede? Con l'email si sa chi l'ha chiesta e si ha il suo consenso a essere ricontattato.
 - Chi compra solo social o sito non ha un servizio sul posto: chi ritira i contanti?
-- Accordo scritto con scattiDG su chi tiene i contanti e chi dà la ricevuta (🔴, legale e soldi).
+- Accordo scritto con scattiDG su chi tiene i contanti e chi dà la ricevuta. Tocca soldi e contratti: si prepara, la firma è di Nicola.
 
 ### Regole che valgono qui
 - 🟡 codice in un ramo + PR su main di mycity; mai unire, mai deploy. Migrazioni solo col pulsante «Migrazioni a mano» e la firma di Nicola.
