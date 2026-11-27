@@ -79,6 +79,8 @@ test('③bis un canone vecchio scritto nel testo libero ferma il preventivo (col
   assert.ok(errori.some((e) => e.startsWith('prezzo vecchio o sbagliato')), errori.join(' | '));
   d.obiezioni = [{ obiezione: '600 euro al mese sono tanti.', risposta: 'Il primo mese è 300 euro al mese.' }];
   assert.ok(!controlla(d, CANONI, PAGAMENTO).some((e) => e.startsWith('prezzo vecchio')), 'i canoni di oggi e il primo mese passano');
+  d.obiezioni = [{ obiezione: 'Un\'agenzia mi chiede 1.500 € al mese.', risposta: 'Il Premium costa 900 euro al mese.' }];
+  assert.ok(!controlla(d, CANONI, PAGAMENTO).some((e) => e.startsWith('prezzo vecchio')), 'il prezzo di un concorrente da 1.500 € non si legge come 500 €');
 });
 
 test('④ il piano editoriale mantiene la promessa dell’abbonamento consigliato', () => {

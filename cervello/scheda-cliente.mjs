@@ -199,7 +199,8 @@ export function controlla(d, canoni, pagamento) {
     };
     raccogli(d, '');
     for (const [t, dove] of testi) {
-      for (const m of t.matchAll(/(\d{2,4}(?:,\d{1,2})?)\s*(?:€|euro)\s*(?:al mese|\/\s*mese|mensili)/gi)) {
+      // (?<![\d.,]): «1.500 € al mese» di un concorrente non va letto come «500 € al mese».
+      for (const m of t.matchAll(/(?<![\d.,])(\d{2,4}(?:,\d{1,2})?)\s*(?:€|euro)\s*(?:al mese|\/\s*mese|mensili)/gi)) {
         const n = Number(m[1].replace(',', '.'));
         if (!ammessi.has(n)) errori.push(`prezzo vecchio o sbagliato nel testo «${dove}»: «${m[0]}» (i canoni di oggi sono ${Object.values(canoni).map((c) => c / 100).join(', ')} euro al mese)`);
       }
