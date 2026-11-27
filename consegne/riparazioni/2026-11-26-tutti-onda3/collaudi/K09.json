@@ -1,0 +1,238 @@
+{
+  "collaudatore": "K09",
+  "riparatori": [
+    "R28",
+    "R19",
+    "R22"
+  ],
+  "aggiornato": "2026-11-26 23:55",
+  "finita": true,
+  "voci": [
+    {
+      "id": "R28-013",
+      "chiave": "sicurezza-auth|la registrazione non passa ancora dal server: niente freno sulle iscrizioni e niente verifica anti-robot",
+      "verdetto": "parziale",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R28 --base edabc206417eaa82d55cce03c33fcf1581da54f2^ --file app/api/auth/signup/route.ts --prove tests/unit/riparazione-r28-registrazione-dal-server.test.ts --json"
+      },
+      "nota": "Parziale come dichiarato: la rotta app/api/auth/signup/route.ts porta ruolo (solo buyer/seller/rider), nome e versione, ma nessuna pagina la chiama ancora. Attenzione da tenere: con CAPTCHA_SU_SUPABASE_ACCESO=1 e il CAPTCHA spento su Supabase nessuno verifica il gettone (la rotta lo dice: «insieme, mai prima»)."
+    },
+    {
+      "id": "R28-005",
+      "chiave": "microcopy|in registrazione e nel cambio password del profilo il rifiuto di una password debole o rubata non si traduce o si perde",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R28 --base 22942d1f58977a5f7389cc6c5cca1d450ec5cb81^ --file app/api/account/cambia-password/route.ts,app/api/auth/signup/route.ts --prove tests/unit/riparazione-r28-password-debole.test.ts --json"
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Revisore qa indipendente K09: le due rotte danno 400 con la frase giusta (rubata/corta/semplice) su weak_password, AuthWeakPasswordError o reasons; la pagina del profilo mostra il messaggio della rotta (app/profile/settings/page.tsx:316 via apiErrorMessage); la registrazione era già a posto alla base (friendlyError). Mutanti rossi. Limite: la rotta signup oggi non la chiama nessuno."
+    },
+    {
+      "id": "R28-012",
+      "chiave": "sicurezza-auth|col captcha acceso su supabase il cambio password fallirebbe sempre, con l'errore letto come «password non corretta»",
+      "verdetto": "parziale",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R28 --base 36b16db4936c66f64c0889e84aee754f0348a7fb^ --file app/api/account/cambia-password/route.ts --prove tests/unit/riparazione-r28-cambio-password-captcha.test.ts --json"
+      },
+      "nota": "Parziale come dichiarato: captcha_failed ora dà 400 onesto e la rotta accetta captchaToken, ma la pagina del profilo non lo manda; col CAPTCHA acceso il cambio password fallisce ancora."
+    },
+    {
+      "id": "R28-010",
+      "chiave": "qa-flussi|la contestazione parziale vinta, con la memoria di postgrest vecchia, scrive il tentativo nuovo ma lascia il promemoria della quota: una ripetizione di stripe rifà il bonifico con una chiave nuova",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R28 --base fd6c217f06e91d8d2a513d8e32c44f4eadde3ea2^ --file lib/stripe/webhook/contestazione-parziale-vinta.ts --prove tests/unit/riparazione-r28-contestazione-parziale-ripiego.test.ts --json"
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Revisore qa K09: il ripiego toglie solo payout_tentativo e solo se il PGRST204 nomina quella colonna; promemoria e stornato sempre insieme (contestazione-parziale-vinta.ts:50-53); se manca un'altra colonna la seconda scrittura lancia e Stripe ripete con la stessa chiave. Codice vecchio rimesso: 2/2 rosse. Resta (già prima, segnalato dal riparatore): nessun controllo «bonifico già fatto» oltre le 24 ore della chiave Stripe."
+    },
+    {
+      "id": "R28-009",
+      "chiave": "qa-flussi|il reso di un solo articolo: il cliente vede il prezzo pieno della riga, il negozio si vede proporre la riga meno la sua parte di sconto",
+      "verdetto": "parziale",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R28 --base ff3f564e4c36d616fc8c6dd42dd3c10e9baa8dad^ --file app/seller/orders/[id]/page.tsx --prove tests/unit/riparazione-r28-reso-di-una-riga.test.tsx --json"
+      },
+      "nota": "Parziale come dichiarato: la colonna order_items.variant_label esiste (migrations/080_product_variants.sql:37), quindi la select nuova non rompe la pagina del negozio; resta il prezzo pieno nella pagina del cliente (app/orders/[id]/return/page.tsx)."
+    },
+    {
+      "id": "R28-008",
+      "chiave": "qa-flussi|col doppio clic su «rifiuta ordine» compare anche un avviso rosso di errore, e l'aiuto dice che il motivo è obbligatorio e promette un rimborso che coi contanti non esiste",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R28 --base 2a58b633cbd18f4213598e72004477cb43670552^ --file app/seller/orders/[id]/page.tsx,app/api/seller/orders/[id]/reject/route.ts,app/seller/help/domande.ts --prove tests/unit/riparazione-r28-rifiuto-del-negozio.test.ts,tests/unit/riparazione-r28-rifiuto-doppio-tocco.test.tsx --json"
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Revisore qa K09: il freno useRef ferma la seconda richiesta (page.tsx:136-142), il 409 «già annullato» resta neutro; togliendo l'uno o l'altro la prova è rossa. Unica via d'ingresso a /reject; l'aiuto non dice più motivo obbligatorio né rimborso coi contanti (domande.ts:54). Resta, fuori dalla voce: due rifiuti quasi insieme su un ordine con carta possono dare «Rimborso fallito» (non riprodotto)."
+    },
+    {
+      "id": "R28-001",
+      "chiave": "dati-analytics|il cancello del filmato copia senza pulirle le chiavi dell'evento diverse da data",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R28 --base 6c2f9a9561d1e7cbf1bbff996ae7c27e9bee3ebe^ --file lib/analytics/filmato-senza-dati-personali.ts --prove tests/unit/riparazione-r28-filmato-chiavi-dell-evento.test.ts --json"
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Revisore qa K09: chiavi annidate a 4 livelli, array di array, stringa JSON con email, telefono, oggetto ciclico, __proto__: niente esce; codice vecchio rimesso: 3/4 rosse; cancello collegato in lib/analytics/posthog.tsx:248."
+    },
+    {
+      "id": "R28-004",
+      "chiave": "layout-responsive|in chi siamo i due pulsanti della fascia scura finale escono dalla fascia a 280 px col testo al 200%",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R28 --base bf54ece3a2847de66df39cd8cf269c56df08d974^ --file app/about/page.tsx --prove tests/unit/riparazione-r28-chi-siamo-fascia.test.ts --json"
+      },
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Revisore qa K09: CSS Tailwind 3.4 compilato (max-sm:p-[min(2rem,10vw)] genera padding vero); in Chromium sulla fascia ricostruita alla base i pulsanti escono a 280-360 px col testo al 200%, dopo la cura 0 elementi fuori da 280 a 414 px al 100% e al 200%. Avvertenza: la prova del riparatore cerca solo i nomi delle classi, non misura (ma la rimessa la fa cadere)."
+    },
+    {
+      "id": "R28-006",
+      "chiave": "privacy-legale|«chi siamo» e «lavora con noi» raccontano una flotta di rider, una crescita e quattro posti di lavoro che oggi non esistono",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Nessun commit, niente da rimettere. Meta (a) verificata alla base aac2350b: app/about/page.tsx non ha «flotta» né crescite promesse (righe 216-217 «Siamo all'inizio: cresceremo un quartiere alla volta»), metadata pulita. Meta (b) aperta: le 4 posizioni di app/lavora-con-noi/page.tsx restano. Parziale, come dichiarato.",
+      "rimessa": {
+        "uscita": 2,
+        "comando": "nessuno: la voce non ha commit (meta (a) già a posto alla base, meta (b) non toccata), quindi non c'è una correzione da togliere; controllo a mano su aac2350b:app/about/page.tsx"
+      }
+    },
+    {
+      "id": "R28-007",
+      "chiave": "privacy-legale|«lavora con noi» promette ancora un lavoro da rider con compenso fisso e turni, e «entra nel team» rimanda a posizioni che non ci sono",
+      "verdetto": "parziale",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R28 --base dfe98f7dbcd89c89a45d69e581197adba1ed4554^ --file app/lavora-con-noi/page.tsx --prove tests/unit/riparazione-r28-lavora-con-noi-onesto.test.tsx --json"
+      },
+      "nota": "Parziale come dichiarato: via turni, compenso fisso e «Vedi le posizioni»; restano le 4 posizioni con «Candidati» (legate a R28-006)."
+    },
+    {
+      "id": "R28-003",
+      "chiave": "frontend-ux|orari passati alla cassa e 409 della rotta contanti: le prove cercano parole nel sorgente, non fanno girare pagina e rotta",
+      "verdetto": "parziale",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R28 --base 0b0190a564e71ea3381a6562afeacab047d70466 --file app/checkout/page.tsx --prove tests/unit/riparazione-r28-cassa-orari.test.tsx --json  (base = mutante locale K09, mai spinto: useMemo di orariNegozi che dà [] alla riga 415, sulla testa ade4d1f8)"
+      },
+      "nota": "Parziale come dichiarato: la prova monta la pagina e cade col mutante (useMemo []), ma non guarda il ricontrollo all'invio (consegnaScelta, app/checkout/page.tsx:1384)."
+    },
+    {
+      "id": "R19-004",
+      "chiave": "pagamenti-stripe|un rimborso arrivato dopo il bonifico del lunedì non viene mai ripreso al negozio",
+      "verdetto": "rompe_altro",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R28 --base be3ee840e67661bedead7c511ee5506223b3e090^ --file lib/stripe/payout.ts --prove tests/unit/riparazione-r19-rimborso-dopo-il-bonifico-del-lunedi.test.ts --json"
+      },
+      "nota": "Due lenti, due revisori qa sull'unione locale R19+R22 (230d30e7). Con la 916 PAID_MANUALLY si scrive e l'avviso parte (payout.ts:1844-1851: «Togli X dal prossimo bonifico»), ma il debito resta solo un messaggio: la pagina /admin/payouts per lo stesso debito dice «Non è tolto dal bonifico del lunedì: chiedilo al negozio» (page.tsx:708-713) e la 916 rifiuta un bonifico ridotto (BONIFICO_CAMBIATO: «la cifra da versare è 1800, non 900», 916:258-262, provato in SQL). Nessun segno «recuperato»: la riga di contanti_da_recuperare non si chiude mai. Chi segue l'avviso versa 9 € in meno, il registro scrive la cifra intera (Già pagato gonfiato) e la pagina chiede ancora i 9 € al negozio: stesso debito contato due volte. Rimessa uscita 0."
+    },
+    {
+      "id": "R19-006",
+      "chiave": "pagamenti-stripe|se il cliente viene rimborsato prima che il suo ordine nasca, l'ordine nasce lo stesso come pagato e il negozio viene pagato",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R28 --base 7950ffff666c60162b41664c8320794a452391b5^ --file lib/stripe/webhook/ordini.ts,lib/stripe/webhook/rimborsi.ts --prove tests/unit/riparazione-r19-rimborso-prima-dell-ordine.test.ts --json"
+      },
+      "nota": "Due lenti, due revisori. Chiusi carta tutta tornata, contestata, rimborsata in parte senza ordini nati (ordini.ts:272-292). Il pagamento normale non fa letture in più (usa latest_charge già letta, ordini.ts:254-266). Nessun ciclo infinito: il carrello PENDING scade col cron expire-checkouts (~2 ore). Restano i buchi dichiarati: rimborso esterno con carrello nato a metà (ordini.ts:278), corsa in rimborsi.ts:75, contestazione durante la nascita (dispute.ts, serve_file_altrui). Limite: cron fermo oltre 3 giorni → Stripe smette di ripetere e l'avviso si perde."
+    },
+    {
+      "id": "R22-001",
+      "chiave": "pagamenti-stripe|i contanti vecchi ancora da versare spariscono dal pannello dei bonifici quando gli ordini consegnati superano mille",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R28 --base aac2350b09db195d6d2286f15f75a7d02ae590a1 --file app/admin/payouts/page.tsx --prove tests/unit/riparazione-r22-bonifici-aperti-vecchi.test.tsx,tests/unit/riparazione-r22-pagabili-a-parte.test.tsx --json  (wt-R28 a f92c4262)"
+      },
+      "nota": "Due lenti, due revisori. La lettura a parte dei pagabili regge, e se cade la pagina lancia l'errore (page.tsx:364-366). Resta il buco dichiarato: i ritiri da regolare letti dai chiusi non passano il controllo di resi e reclami (page.tsx:381-392). In più, muto: se la lettura di resi e reclami cade, contanti e ritiri diventano tutti «Fermo» e «Da versare lunedì» scende a 0 senza avviso (page.tsx:394-406; direzione sicura ma silenziosa). La 916 sull'intera catena (241 migrazioni) si applica anche due volte; 5 prove SQL r22 verdi."
+    },
+    {
+      "id": "R22-002",
+      "chiave": "pagamenti-stripe|il pannello dei bonifici non dice a nicola quanto versare a ogni negozio il lunedì",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R28 --base aac2350b09db195d6d2286f15f75a7d02ae590a1 --file app/admin/payouts/page.tsx --prove tests/unit/riparazione-r22-commissione-ritiri.test.tsx --json  (wt-R28 a ce8f8e36)"
+      },
+      "nota": "Due lenti, due revisori. Pagina (page.tsx:149-167) e 916 (916:205-257) fanno lo stesso conto (contanti + credito − commissione, trattenuta = minimo, resto in fattura) e il tasto manda gli stessi ordini mostrati (page.tsx:244-246, 273-278). Ma l'ultimo giro fa partire bonifici_manuali_per_mese e contanti_da_recuperare solo con una traccia di bonifico a mano fra le righe lette (page.tsx:419-430): un bonifico a mano più vecchio dei 1000 chiusi non si legge. Restano i punti dichiarati (recupero non tolto dal lunedì, credito dei ritiri rimborsati non recuperabile 916:285/404, pagina del negozio non allineata). La 916 sull'intera catena (241 migrazioni) si applica anche due volte; 5 prove SQL r22 verdi."
+    },
+    {
+      "id": "R22-003",
+      "chiave": "pagamenti-stripe|la rpc del tasto «bonifico fatto» dei negozi non è definita in nessuna migrazione del deposito",
+      "verdetto": "non_regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R28 --base aac2350b09db195d6d2286f15f75a7d02ae590a1 --file app/admin/payouts/page.tsx --prove tests/unit/riparazione-r22-da-recuperare.test.tsx --json  (wt-R28 a 35df99be); e la 916: --base aac2350b09db195d6d2286f15f75a7d02ae590a1 --file migrations/916_il_bonifico_fatto_ai_negozi_resta_scritto.sql --prove <le 5 prove tests/sql/rls/riparazione-r22-*> --sql k09_rimessa → uscita 3 (le prove nominano oggetti che solo la 916 crea: senza la 916 la funzione non esiste, cioè il difetto c'è)"
+      },
+      "nota": "Due lenti, due revisori. La rpc ora esiste e regge in SQL: negozio 42501, anonimo negato, tutto o niente (un buono + uno con reso aperto → BONIFICO_CAMBIATO, il buono resta HELD), secondo clic uguale idempotente, CRO diverso → BONIFICO_GIA_SEGNATO. Ma: (1) smentita la novità della traccia: pagina vera montata con 1001 ordini carta recenti + un contante dell'1/10 versato a mano e rimborsato (contanti_da_recuperare = 18 €): nessuna chiamata rpc, nessun «Da recuperare», nessun avviso, nessun «almeno» sui recuperi (page.tsx:419-428 servonoManuali, :458-470 enabled; avviso :628 solo se la lettura parte): 18 € da riprendere invisibili. (2) Senza la cura in lib/stripe/payout.ts (serve_file_altrui) il rimborso parziale su PAID_MANUALLY scrive seller_payout_reversed_cents (payout.ts:1187-1211) e con l'avviso di R19-004 lo stesso debito è contato due volte; la cura (b) proposta, applicata com'è, farebbe due avvisi (quota-da-trattenere + quota-a-mano). (3) Le prove SQL di R22-003 imitano a mano le scritture di refundOrder, non chiamano il codice vero. Cron e webhook non trattano PAID_MANUALLY come stato sconosciuto. La 916 sull'intera catena (241 migrazioni) si applica anche due volte; 5 prove SQL r22 verdi."
+    }
+  ],
+  "campione": {
+    "R28": {
+      "accettato": true
+    }
+  },
+  "nota_unione": "R19 e R22 giudicati sopra la loro unione locale (base aac2350b + be3ee840 + 35df99be, merge senza conflitti, 230d30e7, mai spinto): tsc 0, vitest 2240/2240 file, 241 migrazioni + run.sh SQL tutti verdi."
+}

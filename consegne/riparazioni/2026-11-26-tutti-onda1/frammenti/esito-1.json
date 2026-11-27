@@ -1,0 +1,13 @@
+{
+  "corsia": 1,
+  "territorio": "R01",
+  "difetti": [
+    {
+      "chiave": "deploy-sre|anche il segreto delle rotte interne e quello del bordo cloudflare, con un «a capo» su vercel, chiudono la porta a chi ce l'ha",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r01-segreto-di-bordo-nel-registro-visite.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 28729f778396bbbdeb887bc4ff0ea2ed0a399ad7^ --file app/api/track/route.ts --prove tests/unit/riparazione-r01-segreto-di-bordo-nel-registro-visite.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-28729f77 --base 28729f778396bbbdeb887bc4ff0ea2ed0a399ad7^ --file app/api/track/route.ts --prove tests/unit/riparazione-r01-segreto-di-bordo-nel-registro-visite.test.ts --json → uscita 0 (K04)",
+      "nota_fix": "Sulla base il segreto delle rotte interne (lib/api/middleware.ts:808, withInternalAuth) e quello di bordo per l'indirizzo (lib/rate-limit.ts:351, getClientIp) erano già ripuliti con `.trim()`; restava il registro delle visite (app/api/track/route.ts, geoFromHeaders), che leggeva EDGE_TRUST_SECRET grezzo: ora `?.trim()` come in getClientIp, e un segreto vuoto o di soli spazi resta come assente (nessun bordo fidato). La prova: segreto con «a capo» o «\\r\\n» + gettone giusto → paese e città di Cloudflare; gettone sbagliato, prefisso, vuoto o mancante → solo Vercel; segreto mancante, vuoto o di soli spazi → nessun gettone passa."
+    }
+  ]
+}

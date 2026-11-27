@@ -1,0 +1,435 @@
+{
+ "collaudatore": "K10",
+ "riparatori": [
+  "R24",
+  "R27",
+  "R18"
+ ],
+ "aggiornato": "2026-11-26 23:50",
+ "finita": true,
+ "voci": [
+  {
+   "id": "R24-001",
+   "chiave": "api-backend|oltre mille iscritti la pagina utenti perde in silenzio email e ultimo accesso degli altri",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R24-001 --base b9d736a0a070352196f2fd0f95a418dbacff6a0f^ --file app/admin/users/page.tsx --prove tests/unit/riparazione-r24-email-utenti-oltre-mille.test.ts  --json"
+   },
+   "nota": "paginazione a 1000 con order created_at,id: ordine stabile, la RPC della 074 restituisce una tabella e accetta order/range; resta da verificare che max_rows in produzione sia >= 1000 (letto solo da supabase/config.toml)."
+  },
+  {
+   "id": "R24-002",
+   "chiave": "api-backend|la rotta di annullo dell'amministrazione risponde 500 in silenzio quando l'annullo stesso fallisce",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R24-002 --base 40607c896ce88c296b68a1b7ac30ee4d8f560fc1^ --file app/api/admin/orders/[id]/cancel/route.ts --prove tests/unit/riparazione-r24-annullo-admin-nel-registro.test.ts  --json"
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "il logger.error arriva prima di entrambi i 500 (lettura ordine e annullo), senza dati del cliente, risposta invariata; chiude anche la metà di R24-003 che alla base mancava."
+  },
+  {
+   "id": "R24-003",
+   "chiave": "api-backend|cancellazione utente e annullo ordine dell'amministrazione rispondono 500 senza scrivere nel registro",
+   "verdetto": "non_regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "«già riparato prima» falso per metà: alla base aac2350b app/api/admin/orders/[id]/cancel/route.ts non importa logger e i due 500 (righe 41 e 98) partono senza riga nel registro; la cancellazione utente invece regge. Oggi il difetto è chiuso, ma dal commit 40607c89 di R24-002, non dalla base."
+  },
+  {
+   "id": "R24-004",
+   "chiave": "api-backend|la scadenza dei carrelli dal giro notturno ridà il codice sconto ma non chiude la rivendicazione",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R24-004 --base e8ed882a692043c4a1a26202a5939cecbb410f50^ --file app/api/cron/expire-checkouts/route.ts --prove tests/unit/riparazione-r24-carrello-scaduto-chiude-la-rivendicazione.test.ts  --json"
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "dopo release_coupon riuscito chiude la riga di coupon_redemptions come il gemello del webhook (lib/stripe/webhook/carrello-scaduto.ts); il continue nuovo è l'ultima istruzione del giro, non salta niente."
+  },
+  {
+   "id": "R24-005",
+   "chiave": "api-backend|il tetto della notte lascia indietro gli account nell'ordine della rpc, non dal più vecchio: chi è già oltre il mese può essere rimandato ogni notte, senza avviso del termine",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R24-005 --base e1a1cffd094fc9aeb5edce1dd40fba55efa0f22a^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r24-cancellazioni-dal-piu-vecchio.test.ts  --json"
+   },
+   "nota": "l'ordine dal più vecchio funziona; resta aperta la parte «senza avviso del termine»: chi resta fuori dal tetto (o è fermato da tempoFinito) non entra nei tentativi e non riceve l'avviso, va solo nell'allarme agli amministratori (prova con due account a 50 e 40 giorni: rimandate 2, avvisi 0). Unito a 006, un account vecchio che si pianta ogni notte resta primo e si mangia il tetto."
+  },
+  {
+   "id": "R24-006",
+   "chiave": "api-backend|il tetto di tempo della notte non è rigido: l'ultimo account preso può sforare, e la cancellazione di un account non ha un limite di tempo suo",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R24-006 --base 2d24495e85c0e0c35c490b40f4d83e8f39027367^ --file app/api/cron/process-deletions/route.ts,lib/account/cancellazione.ts --prove tests/unit/riparazione-r24-cancellazione-col-suo-tempo.test.ts  --json"
+   },
+   "nota": "la risposta della notte ora è rigida, ma il controllo in cancellaAccount sta solo fra un passo e l'altro: un passo lungo già partito (deleteUser di 200 s in prova) finisce dopo la risposta e il passo ④ chiude l'account alle spalle del giro, che lo conta come «rimandato» (niente processed né tentativo). Smentisce «niente succede alle sue spalle». Amministratore senza scadenza invariato."
+  },
+  {
+   "id": "R24-007",
+   "chiave": "api-backend|un account preso poco prima del tetto del ciclo non ha un tempo suo",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R24-007 --base 2d24495e85c0e0c35c490b40f4d83e8f39027367^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r24-preso-poco-prima-del-tetto.test.ts  --json"
+   },
+   "nota": "stessa correzione di 006: la prova dedicata passa, ma il tempo dell'account è solo «fino al tetto del ciclo» e un passo già partito sfora come in 006."
+  },
+  {
+   "id": "R24-009",
+   "chiave": "api-backend|l'annullo dal sito, il rifiuto del negozio e il cliente assente rispondono 500 senza riga nel registro quando l'annullo fallisce",
+   "verdetto": "parziale",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R24-009 --base 3dc32949f596ae03661928691257c5e85c95b02a^ --file app/api/orders/[id]/cancel/route.ts --prove tests/unit/riparazione-r24-annullo-cliente-nel-registro.test.ts  --json"
+   }
+  },
+  {
+   "id": "R24-010",
+   "chiave": "api-backend|due segnali di accesso per lo stesso ingresso: la deduplica legge-e-poi-scrive senza vincolo sul database — e la migrazione che la reggerebbe non c'e' in questo lotto",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R24-010 --base 489eb8c2850352615bb09808e01d3aa94a80c8fb^ --file migrations/926_un_accesso_una_riga_anche_coi_due_segnali_insieme.sql --prove tests/sql/rls/riparazione-r24-un-accesso-una-riga.test.sql --sql k10_r24_rimessa --json"
+   },
+   "nota": "prova SQL 7 controlli verde; due psql in parallelo (stessa sessione, uno con pg_sleep) danno una riga sola: il lucchetto advisory mette in fila. Minori: in REPEATABLE READ passano due righe (PostgREST usa READ COMMITTED); riga retrodatata scartata; commento in lib/activity.ts:167-171 parla ancora di vincolo di unicità."
+  },
+  {
+   "id": "R24-011",
+   "chiave": "api-backend|la rotta che registra le visite va in errore del server se riceve un corpo vuoto o rotto, o un cookie dei consensi storto",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R24-011 --base 3d97dcd7b52fb71edb67035a745a55d59628bce5^ --file app/api/track/route.ts,lib/consent.ts --prove tests/unit/riparazione-r24-registro-visite-corpo-e-cookie-storti.test.ts  --json"
+   },
+   "nota": "corpo vuoto, rotto o non oggetto: 204; cookie storto = consenso assente; un cookie valido si legge come prima (try/catch solo su decodeURIComponent); parseConsentCookie la usa solo la rotta track."
+  },
+  {
+   "id": "R24-012",
+   "chiave": "api-backend|la pagina d'errore dice «abbiamo registrato il problema», ma un errore nel telefono del cliente non lo registra nessuno",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R24-012 --base fdcf6262da3d2fddc74093d58df3242cdad50474^ --file app/error.tsx,app/admin/error.tsx --prove tests/unit/riparazione-r24-pagine-errore-dicono-il-vero.test.tsx  --json"
+   },
+   "nota": "si è tolta la frase falsa (stessa regola di seller/rider error), ma la voce dice anche che l'errore nel telefono del cliente non lo registra nessuno: senza NEXT_PUBLIC_SENTRY_DSN resta così. È una decisione di configurazione, non chiusa dal codice."
+  },
+  {
+   "id": "R24-013",
+   "chiave": "api-backend|il modulo dell'indirizzo alla cassa non annulla le ricerche vecchie mentre si scrive",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R24-013 --base ad4270baee4e67acb82f9337809d142c37b4ddf1^ --file components/checkout/ShippingAddressForm.tsx --prove tests/unit/riparazione-r24-ricerca-zona-vecchia-si-annulla.test.ts  --json"
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "AbortController annullato a ogni cambio e allo smontaggio; l'AbortError resta nel catch e non arriva all'utente."
+  },
+  {
+   "id": "R24-015",
+   "chiave": "api-backend|se la lettura dell'email cade, la cancellazione dell'account lascia l'indirizzo nella newsletter e nessuno lo sa",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R24-015 --base 285b17e5e2d6d4e40a3fa11cf0a8e8d0d2a316c6^ --file lib/account/cancellazione.ts --prove tests/unit/riparazione-r24-newsletter-email-non-letta.test.ts  --json"
+   },
+   "rimessa_testa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R24-015h --base aac2350b09db195d6d2286f15f75a7d02ae590a1 --file lib/account/cancellazione.ts --prove tests/unit/riparazione-r24-newsletter-email-non-letta.test.ts  --json"
+   },
+   "nota": "due lenti, due revisori. Chiude_tutta: le tre strade (amministratore, utente da sé tramite il giro, giro notturno) passano da cancellaAccount(getAdminSupabase()); con errore 500, eccezione sincrona e asincrona, e col client supabase-js 2.106.1 vero su rete finta (503, fetch che cade, 401, 404 in HTML) deleteUser viene chiamato 0 volte, esito ok:false, traccia nel registro, riprova la notte dopo. Il ripiego senza getUserById non scatta in produzione: il client nasce in lib/supabase/server.ts:46-51 con createClient puro e GoTrueAdminApi ha sempre getUserById; serve solo ai client finti delle prove. Il 404 user_not_found col client vero è riconosciuto. Nata_rotta: tsc verde, 477 prove verdi, prove comuni identiche alla base; nessuna cancellazione bloccata per sempre trovata. Fuori voce, già alla base: .ilike senza proteggere _ e % (già fra i nuovi difetti di R24)."
+  },
+  {
+   "id": "R27-001",
+   "chiave": "qa-flussi|la cassa dice «troppo lontano» a chi abita in via roma o in via cavour, in pieno centro, e l'ordine non parte",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R27-001a --base 107d41c7140091eb3fe67923177d303165a1f885^ --file lib/geocodifica.ts --prove tests/unit/riparazione-r27-via-roma-in-centro.test.ts  --json && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R27-001b --base 107d41c7140091eb3fe67923177d303165a1f885^ --file app/api/geocode/route.ts --prove tests/unit/riparazione-r27-via-roma-in-centro-rotta.test.ts  --json"
+   },
+   "nota": "una ricerca sola strutturata dentro il riquadro di Piacenza, poi fuori solo col comune scritto; cassa contanti e carta passano da coordinateDiUnIndirizzo; 87 file di prove della cassa verdi. Non verificato contro Nominatim vero (non raggiungibile da qui). Residuo: un indirizzo non trovato passa senza coordinate come prima, con la campanella agli amministratori."
+  },
+  {
+   "id": "R27-002",
+   "chiave": "api-backend|la funzione che muore fra l'ordine e gli articoli lascia la merce riservata senza nessuno che la liberi",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R27-002 --base 6a1ab8c7a04a0f6695591362b390facfc2697e04^ --file app/api/orders/cod/route.ts,app/api/cron/expire-stale-orders/route.ts --prove tests/unit/riparazione-r27-riserva-scritta.test.ts  --json"
+   },
+   "rimessa_sql": {
+    "uscita": 3,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R27-002sql --base 6a1ab8c7a04a0f6695591362b390facfc2697e04^ --file migrations/961_la_merce_riservata_resta_scritta_finche_l_ordine_non_la_prende.sql --prove tests/sql/rls/riparazione-r27-riserva-scritta.test.sql --sql k10_r27_rimessa --json",
+    "rimesso_a_mano": "libera_riserve_orfane svuotata su k10_r27_lenti: prova rossa su 5 controlli"
+   },
+   "nota": "due lenti fatte in linea dal collaudatore (tetto dei subagenti raggiunto). Prova SQL 11 controlli verde su Postgres locale; la rimessa SQL esce 3 (strutturale): rimesso il difetto a mano svuotando libera_riserve_orfane la prova diventa rossa su 5 controlli, sul comportamento. Rimessa del codice: uscita 0. Lette tutte le strade di annullo della rotta: con riga aperta restore_stock a due parametri toglie riga e merce insieme una volta sola, con riga chiusa resta la chiamata di sempre; il credito torna solo se l'ordine non è nato, e wallet_credit è idempotente (143); permessi solo a service_role. 87 file / 632 prove della cassa e del giro verdi. Residui fuori voce dichiarati dal riparatore (codice sconto consumato, testo degli allarmi, invio gemello).",
+   "seconda_lente": {
+    "da": "quinto subagente qa (autorizzato dalla regia il 26/11, solo per questa voce), senza leggere il giudizio del collaudatore",
+    "lenti": [
+     "chiude_tutta",
+     "nata_rotta"
+    ],
+    "verdetto": "regge",
+    "nota": "241 migrazioni su Postgres locale, prova SQL 11 verdi, vitest 5 su 5. Giro in parallelo con due psql: uno libera 1, l'altro 0 (SKIP LOCKED). Credito già stornato dalla rotta: la 143 scarta il secondo storno (saldo 1000, non 1400). Ordine nato senza articoli: la merce non torna due volte. Le 4 funzioni nuove senza EXECUTE per anon/authenticated/public. Minori letti nel codice: invio gemello che muore dentro rendiLaNostraParte (già dichiarato dal riparatore); articoli tolti e cancellazione dell'ordine fallita, strada che c'era già prima."
+   }
+  },
+  {
+   "id": "R27-006",
+   "chiave": "qa-flussi|la posizione del negozio può finire lontano da piacenza, o restare quella vecchia, e il modulo la salva lo stesso",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R27-006 --base 698db3f8e6c01503602ce09af8117f79ca92aaaa^ --file components/StoreLocationPicker.tsx,app/api/geocode/route.ts,app/api/seller/apply/route.ts,app/seller/profile/page.tsx,lib/geocodifica.ts --prove tests/unit/riparazione-r27-posizione-del-negozio-selettore.test.tsx,tests/unit/riparazione-r27-posizione-del-negozio-server.test.ts,tests/unit/riparazione-r27-posizione-del-negozio-profilo.test.tsx  --json"
+   },
+   "nota": "il selettore non conferma una posizione fuori zona e chiede «Cerca» dopo un cambio; restano i due residui dichiarati (ricerca senza città a testo libero, area servita fino a 17,7 km negli angoli): parziale come dichiarato."
+  },
+  {
+   "id": "R27-003",
+   "chiave": "deploy-sre|sul sito vero manca la chiave della posta: il negozio non riceverà l'email del nuovo ordine e il cliente nessuna conferma",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R27-003 --base 127dd1e63bbcfa91a03b0db6a2438ca3a6471783^ --file app/api/orders/cod/route.ts --prove tests/unit/riparazione-r27-ordine-con-la-posta-spenta.test.ts  --json"
+   },
+   "nota": "la campanella agli amministratori sulla strada dei contanti regge; la cura vera è la configurazione su Vercel (chiavi della posta) e la strada della carta resta senza avviso: parziale come dichiarato."
+  },
+  {
+   "id": "R18-001",
+   "chiave": "privacy-legale|il sito non dice chi c'è dietro: niente nome, sede, partita iva né pec, il titolare risulta solo «mycity»",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R18-001 --base 45687f3272d3c2f5c7b92ed62d656c5fa930509b^ --file lib/legal/titolare.ts --prove tests/unit/riparazione-r18-il-marchio-non-e-il-titolare.test.tsx  --json"
+   },
+   "nota": "titolare() non prende più il marchio per nome legale; sede, P.IVA e PEC restano dati di Nicola da mettere su Vercel: parziale come dichiarato."
+  },
+  {
+   "id": "R18-002",
+   "chiave": "privacy-legale|lo sconto scritto su un evento appare ai clienti come «-20%», ma la cassa non lo applica mai",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "aggiunge solo una prova sulla migrazione 880 esistente (il vincolo e l'azzeramento reggono); archivio degli sconti e badge della pagina eventi restano a file altrui: parziale come dichiarato. Nessuna rimessa: non c'è una correzione da togliere.",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "a mano su copia ec87a59d: tolto 'UPDATE public.marketplace_events SET discount_percent = NULL' dalla 880, apply.sh k10_r18_rim + psql -f tests/sql/rls/riparazione-r18-sconti-eventi-gia-salvati.test.sql → uscita 3 (rossa sul vincolo che non si aggiunge con gli sconti dentro); con la 880 vera → uscita 0",
+    "nota": "prova-rimessa.mjs non si applica: la voce aggiunge solo una prova su una migrazione già esistente"
+   }
+  },
+  {
+   "id": "R18-006",
+   "chiave": "flussi-conversione|con la promozione e il prezzo barrato insieme, la scheda prodotto mostra due prezzi barrati e un risparmio sbagliato",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R18-006 --base 9ca26a90e79c201230e86f5761bde65b681407b0^ --file app/product/[id]/page.tsx --prove tests/unit/riparazione-r18-listino-con-promo.test.tsx  --json"
+   },
+   "nota": "con promozione attiva il prezzo barrato e il «Risparmi» si spengono, a promozione finita tornano; prove della scheda verdi."
+  },
+  {
+   "id": "R18-007",
+   "chiave": "frontend-ux|la scheda prodotto aperta oltre la fine della promozione continua a mostrare il prezzo scontato",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R18-007 --base afad25c3310de9e580632182e4c0a69bcd010357^ --file app/product/[id]/page.tsx --prove tests/unit/riparazione-r18-promo-scaduta-a-scheda-aperta.test.tsx  --json"
+   },
+   "nota": "refetchInterval di 60 s sulla stessa chiave del badge; carrello e cassa ricalcolano dal database. Resta una finestra fino a 60 s."
+  },
+  {
+   "id": "R18-009",
+   "chiave": "privacy-legale|l'informativa propone il modulo dei contatti come contatto del titolare anche quando il modulo non arriva a nessuno",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R18-009 --base 0d3ab694d545ab8e69bf07bee9d4f5b76c52e44e^ --file app/privacy/page.tsx --prove tests/unit/riparazione-r18-contatti-del-titolare.test.tsx  --json"
+   },
+   "nota": "il modulo compare solo se arriva a qualcuno; con PEC resta la PEC, senza recapito lo si dice."
+  },
+  {
+   "id": "R18-010",
+   "chiave": "privacy-legale|il prezzo al chilo usa il peso del prodotto base anche quando si sceglie un formato diverso",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R18-010 --base 5598ded857a42cfbad6a07bfd3c59d1715d4cbc1^ --file app/product/[id]/page.tsx --prove tests/unit/riparazione-r18-prezzo-al-chilo-del-formato.test.tsx  --json"
+   },
+   "nota": "con il peso fra le varianti si usa il peso del formato scelto; senza formato scelto nessun prezzo al chilo invece di uno sbagliato."
+  },
+  {
+   "id": "R18-012",
+   "chiave": "privacy-legale|buco nelle prove (variante): macchina: regge. le due prove della bocciatura vecchia ora passano (cb6/riacc 2/2 e cb6r 2/2), quindi il motivo è chiuso",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "già riparato alla base: la regola in lib/auth/accettazione-testi.ts c'è in aac2350b e le due prove citate sono verdi lì (16 su 16)."
+  },
+  {
+   "id": "R18-013",
+   "chiave": "privacy-legale|i termini dicono che il fattorino consegna i contanti a mycity, ma il fattorino si tiene prima il suo compenso",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R18-013 --base 45962b39e281d73ac1049620e509e9cba14da3cf^ --file app/terms/page.tsx --prove tests/unit/riparazione-r18-termini-contanti-del-rider.test.tsx  --json"
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "il testo nuovo corrisponde a compensoDalContante (lib/shipping.ts:168): il fattorino trattiene il compenso e versa il resto. Imprecisione accanto: non dice il caso del contante che non basta."
+  },
+  {
+   "id": "R18-014",
+   "chiave": "privacy-legale|le domande sotto i prodotti si pubblicano subito, non si possono segnalare una per una e nessuno può toglierle",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R18-014 --base d2927b046f3d4f2703ce2c803fbb3dc172653eaa^ --file app/api/segnalazioni/route.ts,components/Segnala.tsx,components/ProductQA.tsx --prove tests/unit/riparazione-r18-domanda-segnalabile.test.tsx  --json"
+   },
+   "nota": "due lenti fatte in linea. Permessi: il vincolo della tabella segnalazioni accetta 'domanda' (verificato sul Postgres locale); l'oggetto si controlla col client di servizio, freno di 10 all'ora invariato; «rimosso» non parte finché la domanda è pubblica. Pannello e testi dell'amministratore e moderazione prima della pubblicazione restano fuori: parziale come dichiarato."
+  },
+  {
+   "id": "R18-016",
+   "chiave": "privacy-legale|sugli alimenti confezionati il peso netto è facoltativo e il prezzo al chilo non compare mai",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R18-016 --base d3b281295d722314869a5a292d0b823af9e584e8^ --file lib/category-attributes.ts --prove tests/unit/riparazione-r18-peso-netto-dice-a-cosa-serve.test.ts  --json"
+   },
+   "nota": "aggiunge solo un testo d'aiuto: il peso netto resta facoltativo e libero, scelta di business: parziale come dichiarato."
+  }
+ ],
+ "campione": {
+  "R24": {
+   "accettato": false
+  },
+  "R27": {
+   "accettato": true
+  },
+  "R18": {
+   "accettato": true
+  }
+ },
+ "note": "Tetto di 4 subagenti usato su R24; la regia ha autorizzato un quinto subagente, usato solo come seconda lente indipendente su R27-002. Le altre lenti di R27 e R18 le ha fatte il collaudatore in linea. Nominatim vero non raggiungibile da qui."
+}

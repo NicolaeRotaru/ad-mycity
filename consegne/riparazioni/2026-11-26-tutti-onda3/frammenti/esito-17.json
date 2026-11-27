@@ -1,0 +1,41 @@
+{
+  "corsia": 17,
+  "territorio": "R17",
+  "difetti": [
+    {
+      "chiave": "deploy-sre|il commento del lavoro di rilascio dice ancora «se i candidati sono piu di uno»",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r17-commento-del-rilascio.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base f1e5979281a025d89b4e001fa240160b511e4460^ --file .github/workflows/deploy-dopo-ci.yml --prove tests/unit/riparazione-r17-commento-del-rilascio.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R17 --base f1e5979281a025d89b4e001fa240160b511e4460^ --file .github/workflows/deploy-dopo-ci.yml --prove tests/unit/riparazione-r17-commento-del-rilascio.test.ts --json → uscita 0 (K07)",
+      "nota_fix": "Il commento sopra la lettura del dominio ora dice la regola vera: si torna indietro solo al rilascio che il dominio dice, se è di un altro commit. Col commit che esce, l'elenco da solo non sceglie mai, nemmeno con un candidato solo. La prova legge il file e controlla anche che rilascioDaTornare faccia davvero così."
+    },
+    {
+      "chiave": "layout-responsive|/come-funziona: anche il titolo grande e un h3 in riga flex possono uscire col testo al 200%",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r17-come-funziona-titoli.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 27e4aa2b02af88b2c7935dd415611a5b8f6eaef9^ --file app/come-funziona/page.tsx --prove tests/unit/riparazione-r17-come-funziona-titoli.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R17 --base 27e4aa2b02af88b2c7935dd415611a5b8f6eaef9^ --file app/come-funziona/page.tsx --prove tests/unit/riparazione-r17-come-funziona-titoli.test.ts --json → uscita 0 (K07)",
+      "nota_fix": "L'h1 ha break-words. I due h3 dei pulsanti finali hanno break-words, e il secondo anche min-w-0 con l'icona Store shrink-0. I due div che li contengono hanno min-w-0."
+    },
+    {
+      "chiave": "layout-responsive|/privacy e /come-funziona possono scorrere di lato col testo al 200%",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r17-come-funziona-banda.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base a99b25a8ae7780ffac87de3c6117879dca9874d7^ --file app/come-funziona/page.tsx --prove tests/unit/riparazione-r17-come-funziona-banda.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R17 --base a99b25a8ae7780ffac87de3c6117879dca9874d7^ --file app/come-funziona/page.tsx --prove tests/unit/riparazione-r17-come-funziona-banda.test.ts --json → uscita 0 (K07)",
+      "nota_fix": "Nella banda di rassicurazione di /come-funziona la riga ha min-w-0, lo span dell'icona shrink-0, e l'h2 min-w-0 break-words (non [overflow-wrap:anywhere]). L'h1 di LegalLayout ha già break-words, quindi lì non è cambiato niente."
+    },
+    {
+      "chiave": "qa-flussi|un bigint o un tojson che lancia nel contesto fanno perdere tutto il contesto della riga di log",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r17-contesto-del-log-intero.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 6ac6ccb6909353ac3802f660d0af7fff81f80eff^ --file lib/logger.ts --prove tests/unit/riparazione-r17-contesto-del-log-intero.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R17 --base 6ac6ccb6909353ac3802f660d0af7fff81f80eff^ --file lib/logger.ts --prove tests/unit/riparazione-r17-contesto-del-log-intero.test.ts --json → uscita 0 (K07)",
+      "nota_fix": "In redact il BigInt esce come testo e una funzione (anche un toJSON proprio dell'oggetto) non si copia più, così JSON.stringify non lancia e il resto del contesto resta. Le date escono in formato ISO («Invalid Date» se non valide), una Map esce come oggetto con la regola delle chiavi (una chiave «email» resta oscurata), un Set come elenco. Una Map che contiene se stessa si ferma al limite di profondità. Dopo il collaudo: anche la lettura delle chiavi è protetta, e «__proto__» resta una chiave normale."
+    },
+    {
+      "chiave": "stati-ui|nella chat assistenza la bolla della risposta appiattisce a capo ed elenchi: una descrizione lunga diventa un muro di testo senza «leggi tutto»",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r17-chat-risposta-lunga.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base bb1f8df081d684138fe3fa7b1854dda7face683e^ --file components/SupportProductAssistant.tsx --prove tests/unit/riparazione-r17-chat-risposta-lunga.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R17 --base bb1f8df081d684138fe3fa7b1854dda7face683e^ --file components/SupportProductAssistant.tsx --prove tests/unit/riparazione-r17-chat-risposta-lunga.test.tsx --json → uscita 0 (K07)",
+      "nota_fix": "Le bolle hanno whitespace-pre-line break-words, così a capo ed elenchi restano, senza HTML grezzo. Una risposta dell'assistente oltre 420 caratteri si ripiega su 6 righe (line-clamp-6) con il pulsante «Leggi tutto» / «Mostra meno» (aria-expanded). Dopo il collaudo: si ripiega anche una risposta con più di 8 righe."
+    }
+  ]
+}

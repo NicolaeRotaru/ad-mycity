@@ -1,0 +1,3 @@
+# elenco C di pronte (2026-11-26 17:16): 2 voci uniche, una chiave per riga
+architettura|il conto del carrello ha una seconda copia che nessuna pagina usa, e la prova «lo schermo fa lo stesso conto del server» controlla proprio quella
+frontend-ux|orari passati alla cassa e 409 della rotta contanti: le prove cercano parole nel sorgente, non fanno girare pagina e rotta

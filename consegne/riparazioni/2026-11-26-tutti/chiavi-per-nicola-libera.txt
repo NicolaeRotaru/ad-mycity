@@ -1,0 +1,6 @@
+frontend-ux|il cliente legge «il tuo rider» e il negozio legge «cliente» al posto dei nomi, perché le due strade nuove per i nomi non esistono nel database vero
+architettura|il finto clienteavvisi è riscritto in quattro posti e la prova da 1033 righe mescola rotte, notte e una scansione del sorgente
+architettura|ferie salvate con l'editor di prima su 3 giorni o meno: il negozio resta aperto a qualunque ora
+deploy-sre|con il rilascio automatico acceso il ritorno indietro automatico non scatta quasi mai
+frontend-ux|lo scheletro del negozio impedisce il 404 vero sulle pagine dei negozi anche senza lo scheletro della radice
+immagini-media|next.config.js ammette ancora le immagini di placehold.co, che il sito non usa più

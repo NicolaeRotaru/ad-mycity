@@ -1,0 +1,10 @@
+# elenco D di pronte (2026-11-26 17:16): 9 voci uniche, una chiave per riga
+coerenza-brand|la primitiva card è usata in 10 file, mentre 141 card sono ridisegnate a mano con quattro raggi diversi
+qa-flussi|il fattorino nuovo non può finire l'iscrizione: la pagina dei documenti lo tiene fuori finché non è approvato
+architettura|audit_logs, il registro delle azioni amministrative, diventa il lucchetto delle email, scritto fuori da lib/audit.ts e dal catalogo
+architettura|email partita ma non segnata: la notte dopo riparte, e se fallisce l'allarme dice «non partita» per un'email già arrivata
+qa-flussi|la risposta del negozio svuotata e riscritta dall api riavvisa il cliente ogni volta
+qa-flussi|due veloci pagate con la carta nello stesso momento con un fattorino solo passano tutte e due
+performance|quasi tutte le pagine del sito nascono vuote e le riempie il browser con chiamate al database, non solo la home e la scheda prodotto
+privacy-legale|le domande sotto i prodotti si pubblicano subito, non si possono segnalare una per una e nessuno può toglierle
+qa-flussi|indirizzo, cap e città del profilo non si correggono più

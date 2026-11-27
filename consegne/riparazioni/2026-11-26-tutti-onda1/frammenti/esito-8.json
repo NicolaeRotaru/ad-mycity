@@ -1,0 +1,20 @@
+{
+  "corsia": 8,
+  "territorio": "R08",
+  "difetti": [
+    {
+      "chiave": "api-backend|il webhook della sessione scaduta restituisce il codice di benvenuto senza chiudere la rivendicazione",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r08-benvenuto-dopo-la-sessione-scaduta.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 9bd3fc8c5f24f9a8a449a224ff055a7949a35b2f^ --file lib/stripe/webhook/carrello-scaduto.ts --prove tests/unit/riparazione-r08-benvenuto-dopo-la-sessione-scaduta.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r08 --base 9bd3fc8c5f24f9a8a449a224ff055a7949a35b2f^ --file lib/stripe/webhook/carrello-scaduto.ts --prove tests/unit/riparazione-r08-benvenuto-dopo-la-sessione-scaduta.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "Dopo un release_coupon riuscito il gestore checkout.session.expired chiude la rivendicazione coupon_redemptions indicata in delivery.rivendicazione (released_at=now, solo se ancora aperta), come rilasciaCoupon nella cassa. Se il codice non torna, la rivendicazione resta aperta."
+    },
+    {
+      "chiave": "performance|ogni ricerca rilegge tutte le email degli iscritti",
+      "esito": "riparato",
+      "verifica_comando": "bash tests/sql/harness/apply.sh r08_prova && psql -X -d r08_prova -v ON_ERROR_STOP=1 -f tests/sql/rls/riparazione-r08-ricerca-email-nel-database.test.sql && npx vitest run tests/unit/riparazione-r08-ricerca-email-nel-database.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 15a04f01665ac4243ea357726313b3c1534eec5e^ --file migrations/940_la_ricerca_per_email_la_fa_il_database.sql --prove tests/sql/rls/riparazione-r08-ricerca-email-nel-database.test.sql --sql r08_rimessa --json && timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 15a04f01665ac4243ea357726313b3c1534eec5e^ --file app/admin/users/page.tsx --prove tests/unit/riparazione-r08-ricerca-email-nel-database.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r08 --base 15a04f01665ac4243ea357726313b3c1534eec5e^ --file migrations/940_la_ricerca_per_email_la_fa_il_database.sql --prove tests/sql/rls/riparazione-r08-ricerca-email-nel-database.test.sql --sql k02_r08_rimessa --json && timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r08 --base 15a04f01665ac4243ea357726313b3c1534eec5e^ --file app/admin/users/page.tsx --prove tests/unit/riparazione-r08-ricerca-email-nel-database.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "La migrazione 940 aggiunge la forma admin_list_user_emails(p_termine text, p_ids uuid[]) che cerca nel database fra email e telefono di auth.users (massimo 200 risultati) più i contatti degli id già trovati per nome; la ricerca della pagina la usa al posto della lettura di tutte le email, e con PGRST202 (940 non applicata) torna alla lettura di prima."
+    }
+  ]
+}

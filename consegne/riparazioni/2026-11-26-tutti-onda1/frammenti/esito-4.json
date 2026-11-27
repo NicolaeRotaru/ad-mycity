@@ -1,0 +1,13 @@
+{
+  "corsia": 4,
+  "territorio": "R04",
+  "difetti": [
+    {
+      "chiave": "api-backend|il reso già rimborsato si chiude con la cifra uscita su stripe, non con quella chiesta, e il negozio non lo sa",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r04-reso-chiuso-con-la-cifra-di-stripe.test.ts --reporter=dot",
+      "non_vacuita": "cd /home/user/mycity && timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base ed12ed8ec8190e1132b690f6e034c30f0a5d55ba --file app/api/returns/[id]/avanza/route.ts --prove tests/unit/riparazione-r04-reso-chiuso-con-la-cifra-di-stripe.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r04 --base 5676d452a3940164fac30d4f3a474a581fa6bfcb^ --file app/api/returns/[id]/avanza/route.ts --prove tests/unit/riparazione-r04-reso-chiuso-con-la-cifra-di-stripe.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "La cifra registrata resta quella già uscita sulla carta (la vera); se il negozio ne aveva chiesta un'altra riceve una campanella con le due cifre."
+    }
+  ]
+}

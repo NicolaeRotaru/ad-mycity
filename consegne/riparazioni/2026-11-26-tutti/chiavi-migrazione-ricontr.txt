@@ -1,0 +1,20 @@
+qa-flussi|un ordine in contanti già incassato non si rimborsa dall’amministrazione: il sito non apre da solo il reclamo come deciso il 29/10, e il pannello dice di aprirlo a chi non può
+qa-flussi|nel giorno dei 18 anni, fra mezzanotte e l'una, il modulo del fattorino dice sì e il database lo rifiuta con un errore generico
+qa-flussi|nel reclamo non si può allegare la foto del prodotto rotto, mentre nel reso sì
+rls-database|chi apre un reclamo può indirizzarlo a un negozio qualunque, e il negozio giusto non lo vede
+api-backend|se la lettura delle email cade, la ricerca utenti dice «nessuno, ho cercato su tutti», e oltre mille iscritti l'email non si trova
+api-backend|confermata una rimessa, la giornata del fattorino risulta versata anche per i contanti che incassa dopo, e la guardia della cancellazione lo lascia andare
+frontend-ux|il modulo del prodotto non dice che il nome ha al massimo 120 caratteri: il negozio legge solo «il valore inserito non è valido»
+frontend-ux|nel profilo del fattorino il documento risulta «verificato» appena caricato, e l'attestato haccp resta «mancante» anche dopo il caricamento
+pagamenti-stripe|«conferma rimessa» sblocca anche gli incassi registrati dopo che l'amministratore ha aperto la pagina
+privacy-legale|il negozio può chiudere un recesso senza rimborso dopo 14 giorni anche se il cliente ha riportato o spedito la merce, perché il cliente non ha modo di dirlo
+privacy-legale|chi annulla la cancellazione dell'account mentre gira il giro notturno viene cancellato lo stesso
+rls-database|chi ha fatto anche un solo ordine non riesce a cancellare il proprio account
+qa-flussi|un fattorino con patente o assicurazione scaduta continua a prendere consegne, e il profilo gli dice solo «in scadenza»
+qa-flussi|l'interruttore online/offline e le zone preferite del fattorino non cambiano niente: gli avvisi arrivano a tutti
+microcopy|chi spegne le promozioni continua a vederle nella campanella del sito
+rls-database|la regola per riga della migrazione 001 lascia scrivere i prodotti dal browser, senza traccia ne' controllo di vendibilita'
+deploy-sre|la nuova regola del database sulla posizione va applicata insieme al rilascio: senza, un fattorino con la pagina vecchia aperta può ancora scrivere la posizione su un ordine annullato
+microcopy|la campanella «ordine pronto» dice ancora «un rider passa a prenderlo a breve», mentre pagina ed email ora dicono fattorino
+api-backend|la pulizia degli allarmi tiene esattamente 24 ore, senza margine, e non ha un indice su last_sent_at
+microcopy|la campanella «ordine pronto» e quella del ritiro dicono ancora «rider»; la pagina dell'ordine, la cassa e altre pagine del cliente pure

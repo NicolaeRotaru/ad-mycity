@@ -1,0 +1,13 @@
+{
+  "corsia": 27,
+  "territorio": "R27",
+  "difetti": [
+    {
+      "chiave": "qa-flussi|la cassa dice «troppo lontano» a chi abita in via roma o in via cavour, in pieno centro, e l'ordine non parte",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r27-via-roma-in-centro.test.ts tests/unit/riparazione-r27-via-roma-in-centro-rotta.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 107d41c7140091eb3fe67923177d303165a1f885^ --file lib/geocodifica.ts --prove tests/unit/riparazione-r27-via-roma-in-centro.test.ts --json && timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 107d41c7140091eb3fe67923177d303165a1f885^ --file app/api/geocode/route.ts --prove tests/unit/riparazione-r27-via-roma-in-centro-rotta.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R27-001a --base 107d41c7140091eb3fe67923177d303165a1f885^ --file lib/geocodifica.ts --prove tests/unit/riparazione-r27-via-roma-in-centro.test.ts  --json && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R27-001b --base 107d41c7140091eb3fe67923177d303165a1f885^ --file app/api/geocode/route.ts --prove tests/unit/riparazione-r27-via-roma-in-centro-rotta.test.ts  --json → uscita 0 (K10)",
+      "nota_fix": "Una ricerca sola in lib/geocodifica.ts (cercaUnIndirizzo), usata da coordinateDiUnIndirizzo (cassa in contanti e con carta) e da /api/geocode (controllo della zona prima di «Ordina», rubrica): strutturata (street, city, postalcode, countrycodes=it), prima dentro il riquadro di Piacenza e dintorni (viewbox + bounded=1), limit=5 scartando i risultati con comune o CAP diversi da quelli scritti, null se nessuno è affidabile (l'ordine passa senza coordinate, con la campanella agli amministratori che c'era già). Fuori dal riquadro si accetta solo un risultato del comune scritto, così Milano resta fuori zona. Il controllo dei 5 km non cambia; le rotte cod e checkout non servono modifiche (chiamano coordinateDiUnIndirizzo)."
+    }
+  ]
+}

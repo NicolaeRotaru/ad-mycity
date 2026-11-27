@@ -1,0 +1,34 @@
+{
+  "corsia": 11,
+  "territorio": "R11",
+  "difetti": [
+    {
+      "chiave": "frontend-ux|nella pagina di una lista il prezzo dei prodotti non tiene conto della promozione",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r11-lista-prezzo-scontato.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base e43006ff9af07ccbebed97db7dc61fa27ab87b4f^ --file app/lists/[id]/page.tsx --prove tests/unit/riparazione-r11-lista-prezzo-scontato.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R11-001 --base e43006ff9af07ccbebed97db7dc61fa27ab87b4f^ --file \"app/lists/[id]/page.tsx\" --prove tests/unit/riparazione-r11-lista-prezzo-scontato.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "La lettura dei prodotti della lista ora legge lo sconto attivo con fetchActiveDiscounts, come la griglia, e la riga mostra il prezzo che si paga (discountedUnitCents, al centesimo come la cassa) con il prezzo pieno barrato accanto. Se la lettura dello sconto non riesce resta il prezzo pieno. La prova monta la pagina su un QueryClient vero."
+    },
+    {
+      "chiave": "frontend-ux|l immagine di anteprima social del prodotto e i dati per i motori di ricerca mostrano il prezzo pieno durante una promozione",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r11-anteprima-e-google-col-prezzo-scontato.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base f18d2819c23d9d90d6098d5a3e07d61d92476e87^ --file app/product/[id]/layout.tsx,app/product/[id]/opengraph-image.tsx --prove tests/unit/riparazione-r11-anteprima-e-google-col-prezzo-scontato.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R11-002 --base f18d2819c23d9d90d6098d5a3e07d61d92476e87^ --file \"app/product/[id]/layout.tsx,app/product/[id]/opengraph-image.tsx\" --prove tests/unit/riparazione-r11-anteprima-e-google-col-prezzo-scontato.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "La card social e il JSON-LD dell'offerta leggono lo sconto attivo con fetchActiveDiscounts (client anonimo; la funzione è concessa ad anon) e pubblicano il prezzo scontato con discountedUnitCents. Il JSON-LD segue la regola Google del prezzo pagato: price è quello che il cliente paga ora; niente priceValidUntil perché la data di fine non arriva. Se la lettura dello sconto non riesce resta il prezzo pieno."
+    },
+    {
+      "chiave": "frontend-ux|le collezioni scelte a mano non passano il prezzo barrato del negozio",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r11-collezione-prezzo-barrato.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 205790afc59ad8e1addf0a0b88a5c8fbbde84068^ --file components/store-sections/CollectionSection.tsx --prove tests/unit/riparazione-r11-collezione-prezzo-barrato.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R11-007 --base 205790afc59ad8e1addf0a0b88a5c8fbbde84068^ --file components/store-sections/CollectionSection.tsx --prove tests/unit/riparazione-r11-collezione-prezzo-barrato.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "La query della collezione manuale (nel mio file) non chiedeva il prezzo barrato: ora seleziona compare_at_price e lo passa a ProductCard come compareAtPrice, come fa ProductGrid. La prova ha un database finto che risponde solo con le colonne chieste, quindi controlla query e passaggio del dato, in griglia e in carosello."
+    },
+    {
+      "chiave": "qa-flussi|eliminata una lista, la pagina «le mie liste» la mostra ancora finché la rilettura non torna",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r11-lista-eliminata-sparisce-da-le-mie.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo . --base b9704fea60602d02c410203a4463270839f2c102^ --file \"app/lists/[id]/page.tsx\" --prove tests/unit/riparazione-r11-lista-eliminata-sparisce-da-le-mie.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R11-009 --base b9704fea60602d02c410203a4463270839f2c102^ --file \"app/lists/[id]/page.tsx\" --prove tests/unit/riparazione-r11-lista-eliminata-sparisce-da-le-mie.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "In deleteList.onSuccess un setQueryData toglie subito l'id eliminato dalle cache lists.mine, lists.public e lists.inVetrina, prima dell'invalidazione (scritto dopo, la memoria tornerebbe fresca e non si rileggerebbe). La prova elimina una lista privata e una pubblica in vetrina e torna su /lists col database lento: spariscono subito da «Le mie liste», dalla community e dalla vetrina, l'altra lista pubblica resta e la rilettura avviene lo stesso."
+    }
+  ]
+}

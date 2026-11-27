@@ -1,0 +1,16 @@
+# elenco B di pronte (2026-11-26 17:16): 15 voci uniche, una chiave per riga
+deploy-sre|la notifica sul telefono per un nuovo ordine arriva fino a 5 minuti dopo, non in pochi secondi
+privacy-legale|la conferma della newsletter scatta appena il link viene aperto, anche da un antivirus, e funziona anche con la newsletter spenta
+privacy-legale|una recensione segnalata come falsa non si può accogliere né togliere
+api-backend|il negozio riceve «il cliente ha ritirato il reso» anche quando il rimborso approvato nello stesso momento è poi partito
+privacy-legale|l'informativa non dice che la partita iva del venditore viene controllata nel registro europeo vies della commissione europea
+qa-flussi|il ritiro in negozio è ancora spento, mentre nicola ha deciso che al lancio è acceso e gratis per il cliente
+layout-responsive|/privacy e /come-funziona possono scorrere di lato col testo al 200%
+privacy-legale|l'obbligo di dichiarare allergeni e ingredienti vale solo finché la categoria principale si chiama esattamente «alimentari», e dal pannello quel nome si può cambiare
+tipografia|otto spaziature diverse per la stessa etichetta maiuscola
+architettura|la rotta delle email a orario si crea un suo client admin
+architettura|la misura della velocità manda a ga4 da una porta sua, fuori dall'aiutante comune
+architettura|anche il freno della veloce trova il carrello in contanti solo dalla riga di cod_checkout_attempts
+architettura|una fascia «domani» inviata alle 23:59 e arrivata alla rotta dopo mezzanotte si giudica sul giorno dopo
+frontend-ux|mancano «finito per oggi» e «chiuso fino al…», promessi ai negozi della prima ondata
+frontend-ux|con una promozione attiva la barra d'acquisto e i caroselli mostrano il prezzo pieno, mentre sopra c'è quello scontato

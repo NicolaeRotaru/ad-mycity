@@ -1,0 +1,314 @@
+{
+ "collaudatore": "K01",
+ "riparatori": [
+  "R11",
+  "R03",
+  "R07"
+ ],
+ "aggiornato": "2026-11-26 15:01",
+ "finita": true,
+ "voci": [
+  {
+   "id": "R11-001",
+   "chiave": "frontend-ux|nella pagina di una lista il prezzo dei prodotti non tiene conto della promozione",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R11-001 --base e43006ff9af07ccbebed97db7dc61fa27ab87b4f^ --file \"app/lists/[id]/page.tsx\" --prove tests/unit/riparazione-r11-lista-prezzo-scontato.test.ts --json"
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Due subagenti qa (una lente ciascuno) sulla testa d09057e7a15dbc3440cbea409478de05cddfccd8. chiude_tutta: il prezzo compare in un punto solo (page.tsx:435, barrato :438), stesso discountedUnitCents e stesso client della cassa (lib/ordini/valida-carrello.ts:185), niente totali né aggiunta al carrello dalla lista. nata_rotta: funzione sconti concessa ad anon e authenticated, una chiamata sola, lettura caduta = prezzo pieno, niente precarico né idratazione, chiavi di cache invariate. Dubbio non bloccante: la pagina non ha stato di caricamento e ora aspetta due letture, quindi «Questa lista è ancora vuota» si vede più a lungo (difetto vecchio)."
+  },
+  {
+   "id": "R11-009",
+   "chiave": "qa-flussi|eliminata una lista, la pagina «le mie liste» la mostra ancora finché la rilettura non torna",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R11-009 --base b9704fea60602d02c410203a4463270839f2c102^ --file \"app/lists/[id]/page.tsx\" --prove tests/unit/riparazione-r11-lista-eliminata-sparisce-da-le-mie.test.ts --json"
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Due subagenti qa sulla testa. chiude_tutta: chiavi scritte (lists.mine, lists.public, lists.inVetrina, costanti senza argomenti) uguali a quelle lette in app/lists/page.tsx:54/78/96; le liste compaiono solo lì e nel menu «Aggiungi a lista» (mineMin, già tolta). nata_rotta: tre cache ad array semplice (mine anche null), cache assente non scritta, onError non tocca le cache, navigazione a /lists invariata. Dubbi vecchi, fuori voce: manca cancelQueries su mine/public/inVetrina (una rilettura partita prima dell'eliminazione può rimettere la lista); l'eliminazione non controlla le righe cancellate (page.tsx:224)."
+  },
+  {
+   "id": "R11-007",
+   "chiave": "frontend-ux|le collezioni scelte a mano non passano il prezzo barrato del negozio",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R11-007 --base 205790afc59ad8e1addf0a0b88a5c8fbbde84068^ --file components/store-sections/CollectionSection.tsx --prove tests/unit/riparazione-r11-collezione-prezzo-barrato.test.ts --json"
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Due subagenti qa sulla testa. chiude_tutta: compare_at_price letto e passato a ProductCard in griglia e carosello, stessa conversione di ProductGrid.tsx:747; le collezioni per categoria passano già da ProductGrid. nata_rotta: la colonna esiste su products (migrazione 071:13), SELECT di tabella ad anon e authenticated (425:108), nessun GRANT o REVOKE di colonna; la griglia legge la stessa colonna dalla stessa tabella. Fuori voce, da aprire nuova: components/StoreFeaturedStrip.tsx:46 e :72-84 (striscia «In evidenza») non passa né sconto né prezzo barrato."
+  },
+  {
+   "id": "R11-002",
+   "chiave": "frontend-ux|l immagine di anteprima social del prodotto e i dati per i motori di ricerca mostrano il prezzo pieno durante una promozione",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R11-002 --base f18d2819c23d9d90d6098d5a3e07d61d92476e87^ --file \"app/product/[id]/layout.tsx,app/product/[id]/opengraph-image.tsx\" --prove tests/unit/riparazione-r11-anteprima-e-google-col-prezzo-scontato.test.ts --json"
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Due subagenti qa sulla testa. chiude_tutta: card social (opengraph-image.tsx:49-51) e JSON-LD (layout.tsx:200) scontati; generateMetadata, og e twitter non stampano prezzi, nessun altro Offer nel sito. nata_rotta: in edge lib/promotions aggiunge solo logger e client anonimo già presenti; sito già force-dynamic; sconto con tetto 70%, price stringa a 2 decimali in EUR. Dubbi non bloccanti: con un id non valido due letture inutili e un log fuorviante; l'anteprima non dice «in promo» e resta in cache sui social dopo la fine della promo (scelta di prodotto)."
+  },
+  {
+   "id": "R11-008",
+   "chiave": "frontend-ux|orari passati alla cassa e 409 della rotta contanti: le prove cercano parole nel sorgente, non fanno girare pagina e rotta",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R11-008 --base d7d6920aba6417d266572e18421ec2da63a5da65 --file app/api/orders/cod/route.ts --prove tests/unit/riparazione-r11-rotta-contanti-409-prima-dell-insert.test.ts --json"
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Voce parziale come nel referto: fatta la metà sulla rotta, resta la pagina della cassa. Una voce di sole prove non ha codice da togliere: ho fatto un mutante locale mai spinto (d7d6920aba6417d266572e18421ec2da63a5da65: controllo della fascia spostato dopo l'insert di order_items) e l'ho dato come base a prova-rimessa: la prova nuova cade sul comportamento, le due prove vecchie restano verdi col mutante (il difetto della voce). nata_rotta: orologio rimesso in afterEach, mock solo nel file, dentro l'include di vitest, verde con 4 fusi e con le altre 62 prove della rotta. chiude_tutta: la metà fatta è vera (inseriti registra ogni insert su orders, la controprova 200 passa da route.ts:1587), ma la prova guarda solo l'insert su orders: un mutante col controllo spostato dopo reserve_stock (route.ts:1451) la lascia verde con la merce riservata e non rilasciata; lo stesso per coupon (:1194) e credito (:1460). Il cosa_resta non lo dice."
+  },
+  {
+   "id": "R07-001",
+   "chiave": "sicurezza-auth|il gettone anti-robot si consuma due volte: accendendo il captcha su supabase, accesso e iscrizione con email si rompono",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07-001 --base 38c8ec0bfb73f3444e50bf2bf71d758677e6ca29^ --file app/api/auth/signin/route.ts --prove tests/unit/riparazione-r07-captcha-una-volta.test.ts --json"
+   },
+   "nota": "Grave, accessi: due subagenti qa (una lente ciascuno) sulla testa 64f68b97cf18d58b212f6163eb34d7e3309fd50b. La parte fatta regge: sull'accesso il gettone si usa una volta sola (route.ts:99-107); con la variabile spenta il comportamento è identico alla base (6048 combinazioni confrontate, unica differenza captcha_failed 401→400, che Supabase dà solo col suo captcha acceso); la variabile si legge solo da process.env lato server, non si inietta da corpo, header o cookie; il 400 nuovo non rivela se l'account esiste e la pagina rigenera il gettone (sign-in/page.tsx:220-227). La voce resta parziale. Il cosa_resta è incompleto: col captcha di Supabase acceso si rompono recupero password (sign-in/page.tsx:291, reset-password/page.tsx:260), cambio password (api/account/cambia-password/route.ts:86) e reinvio della mail di conferma (lib/auth/conferma-email.ts:262); il referto li ha fra i nuovi difetti come minori, ma bloccano l'accensione quanto la voce, e la nota non cita il reinvio. Rischio di configurazione non sorvegliato: con la variabile accesa e il captcha di Supabase spento nessuno verifica il gettone (restano i freni da 10 tentativi in 5 minuti); l'avviso sta solo nel commento route.ts:53-58, niente in .env.example, /api/health o log. L'iscrizione dal browser manda già il gettone solo a Supabase (sign-up/page.tsx:160,175); /api/auth/signup non la chiama nessuno."
+  },
+  {
+   "id": "R07-004",
+   "chiave": "performance-percepita|il traduttore degli errori dei moduli (zod) viaggia in ogni pagina, anche dove non c'è nessun modulo",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Già riparato alla base, verificato da un subagente qa con tre strade: il codice alla base (lib/errors.ts:18 importa solo FRASI_ZOD; QueryProvider.tsx:93 carica il traduttore con import dinamico in un useEffect; import statici di lib/zod-i18n solo lato server, app/api/contact/route.ts:21 e lib/api/responses.ts:4); il grafo degli import lato browser da layout, error, global-error, not-found, loading e instrumentation-client (124 moduli, nessuno zod; lo stesso script su due commit vecchi trova zod per le strade vere); una next build vera (uscita 0): i file di /layout e di avvio non contengono ZodError. nata_rotta: nessun codice cambiato. Imprecisione del referto senza effetto: alla base lib/site-branding.ts non importa più zod (commit 4ad1d73b)."
+  },
+  {
+   "id": "R07-005",
+   "chiave": "qa-flussi|collegare stripe da un'anteprima che usa il database vero sostituirebbe il conto del negozio con uno di prova",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07-005 --base 3e8e1885c23a03084737184b08374fdf94653998^ --file lib/stripe/client.ts --prove tests/unit/riparazione-r07-conto-stripe-anteprima.test.ts --json"
+   },
+   "nota": "Due subagenti qa. chiude_tutta: stripe_account_id si scrive in un solo punto (lib/stripe/salva-conto.ts:22-30), raggiunto solo da createConnectOnboardingLink, chiamata dalle rotte onboarding e rider-onboarding; il blocco sta prima di accounts.create e copre entrambe; webhook e refresh aggiornano solo i flag; conto vuoto = si crea normalmente. nata_rotta: in produzione il percorso è identico alla base; rete, 500, 429, 401 rilanciano prima del blocco e non creano conti; le rotte rispondono 500 «Errore Stripe» senza stato a metà. Dubbi minori: in un'anteprima su database di prova un conto di prova vecchio non si rifà più; la prova comune tests/unit/minori-s01-collegamento-stripe.test.ts:111 (non toccata) non fissa VERCEL_ENV e con VERCEL_ENV=preview nella shell dà 1 rosso su 7."
+  },
+  {
+   "id": "R07-006",
+   "chiave": "stati-ui|il link al reclamo nella scheda ordine porta all'elenco filtrato sui reclami aperti e non mostra quelli in esame",
+   "verdetto": "rompe_altro",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07-006 --base fe24a1fb7bc00a5b78173c795e9b846000575c61^ --file app/admin/disputes/page.tsx --prove tests/unit/riparazione-r07-reclami-in-esame.test.ts --json"
+   },
+   "nota": "Due subagenti qa, d'accordo. La parte fatta è vera: il filtro «Aperto» legge open e under_review (page.tsx:83, sintassi .in giusta), il contatore della pagina conta gli stessi stati (:209), le azioni accettano under_review (api/admin/disputes/[id]/resolve/route.ts:210,260), coerente con la scheda ordine. Rompe altro: il pallino «Reclami» della barra laterale (components/admin/AdminSidebar.tsx:116) e il riquadro «Reclami aperti» della pagina Oggi (lib/queries/cruscotto-oggi.ts:164, app/admin/today/page.tsx:133,163) contano ancora solo open e portano a questa lista: alla base coincidevano, ora divergono appena c'è un reclamo in valutazione (es. Oggi dice 2, la lista ne mostra 3). Probabilità bassa: nessun codice scrive under_review. Il cosa_resta non lo dice. Resta anche quanto dichiarato: indirizzo del singolo reclamo e link della scheda ordine."
+  },
+  {
+   "id": "R07-007",
+   "chiave": "stati-ui|nella pagina guadagni i due pulsanti di stripe possono dirsi il contrario",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07-007 --base b9be0570dfad5dcafaeca520a820a6a27c3e31de^ --file components/seller/StripeDashboardButton.tsx --prove tests/unit/riparazione-r07-pulsanti-stripe.test.ts --json"
+   },
+   "nota": "Due subagenti qa. chiude_tutta: i due pulsanti usano la stessa queryKey, la stessa select e la stessa regola stripePronto (StripeDashboardButton.tsx:76, StripeConnectButton.tsx:110); in tutte le combinazioni (nessun conto, conto senza versamenti, incassi senza versamenti, versamenti senza incassi, tutto attivo, utente nullo, errore di lettura) dicono la stessa cosa. nata_rotta: il pulsante sparisce rispetto a prima solo con indicatori accesi e nessun conto salvato, dove la rotta login rispondeva già 403; unico chiamante app/seller/earnings/page.tsx:380. Non verificato: che Stripe vero crei il link per un conto con incassi spenti."
+  },
+  {
+   "id": "R03-001",
+   "chiave": "ai-endpoints|nella chat assistenza il negoziante approva una descrizione nuova senza poterla leggere, e al primo messaggio l'assistente riscrive tag e descrizione senza aver visto quelli che ci sono",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03-001 --base 084e9fe8378811d9cfaf2fb84b33d53062172c5e^ --file app/api/ai/catalog-chat/route.ts --prove tests/unit/riparazione-r03-catalog-chat.test.ts --json"
+   },
+   "nota": "Grave, dati: due subagenti qa (una lente ciascuno) sulla testa 1a3f66cd6f3433223ee8f342749ae35fe1cb083c. La parte fatta regge: in 13 casi limite (descrizione di 4500 caratteri, a capo, soli spazi, tag con maiuscole, doppioni, vuoti, 17 tag, solo tag, risposta del modello che finge il testo) descrizione e tag tolti mostrati sono identici a quelli che resolveAiPatch salva (stesse funzioni testoDelPatch e tagDelPatch, aiPatch.ts:582,828,1213,1282); ② e ③ erano chiusi alla base (route.ts:172-178,456,461-464; prompt NON INVENTARE :80-81). nata_rotta: forma della risposta invariata (reply, productId, patch, product), nessun crash in 11 casi limite, permessi per seller_id, nessun testo di altri negozi. La voce resta parziale. Il cosa_resta non dice: la bolla non ha whitespace-pre-wrap (components/SupportProductAssistant.tsx:402), quindi a capo ed elenchi si appiattiscono; la scheda (lib/products/prontoPerLaVendita.ts:724) mostra i tag grezzi e può contraddire la risposta sui tag che spariscono, e a :705 dice «Descrizione aggiornata» anche per una descrizione di soli spazi; la prova non fa girare catalog-apply e 2 mutazioni su 4 restano verdi (taglio a 200 invece di 4000, testo grezzo). Effetti accanto minori: il testo aggiunto torna al modello nella cronologia (SupportProductAssistant.tsx:163, route.ts:241,263); con un tag NULL la frase dice «spariscono: , dolci.» (route.ts:198-202). Oggi con l'AI spenta la chat non si apre (SupportChatModal.tsx:76-81): la correzione si vedrà alla riaccensione."
+  },
+  {
+   "id": "R03-002",
+   "chiave": "ai-endpoints|con il modello ai mancante il giro dei prezzi esterni segna in errore tutti i prodotti del giro e continua a chiamare",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03-002 --base 50ac47b3162c4bd5b9e297f2917c9bf4b0a0b081^ --file app/api/cron/external-price-alerts/route.ts --prove tests/unit/riparazione-r03-giro-prezzi-modello-mancante.test.ts --json"
+   },
+   "nota": "Subagente qa con le due lenti. Provato con l'SDK vero (0.100.1) passando da runMessage: un 404 not_found_error dà una sola chiamata e nessun prodotto in errore; 500, 529 e rete caduta non sono scambiati per un 404 e il giro continua. Accanto, fuori voce: il tetto di spesa e il 401 segnano ancora in errore tutti i prodotti del giro (route.ts:158-170); con un 404 la risposta conta errors:1 senza prodotti in errore (route.ts:154)."
+  },
+  {
+   "id": "R03-003",
+   "chiave": "ai-endpoints|il sorvegliante dei prezzi esterni può superare i suoi 300 s con 10 chiamate al modello in fila",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03-003 --base a3f42c8e7c4f3a26a5aebc9fd57d86ccb13b6aa4^ --file app/api/cron/external-price-alerts/route.ts --prove tests/unit/riparazione-r03-giro-prezzi-durata.test.ts --json"
+   },
+   "nota": "Subagente qa con le due lenti. Il tempo si conta dall'avvio (route.ts:55); l'ultima chiamata parte al massimo a 210 s e finisce entro 270 s; maxDuration 300 coerente con vercel.json:13. Dubbio non bloccante: i prodotti già in errore consumano il freno di 6 ore entrando nella lista (route.ts:105 con externalSync.ts:292-294); se poi restano esclusi dal tetto di tempo tornano dopo 6 ore, non al giro dopo come dicono il commento a route.ts:37 e il referto. Nessuna traccia del ritiro di R03-006."
+  },
+  {
+   "id": "R03-004",
+   "chiave": "ai-endpoints|«aggiorna ora» dei prezzi esterni: col budget ai finito l'admin legge ancora «riprova»",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03-004 --base 1703ffaad2aeaa411386bf0bf26befda27dba368^ --file \"app/api/products/[id]/external-refresh/route.ts\" --prove tests/unit/riparazione-r03-aggiorna-ora-budget-ai.test.ts --json"
+   },
+   "nota": "Subagente qa con le due lenti. Il messaggio arriva fino allo schermo: ExternalDataPanel.tsx:59 legge body.error.message; budget finito = 503 «Budget AI giornaliero esaurito. Riprova domani.», limite del fornitore = 429 con Retry-After. Accanto, già presente prima: con l'AI spenta (lo stato di oggi) «Aggiorna ora» risponde 502 «Riprova» e segna il prodotto in errore (external-refresh/route.ts:85-91,174)."
+  },
+  {
+   "id": "R03-007",
+   "chiave": "stati-ui|la modifica prodotto dell'amministratore, se non legge le varianti, dice «ricarica la pagina» ma non ha il bottone riprova",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03-007 --base 1d3f5b5f1c9fe3c80d7cf62e6faa0d7966590b3f^ --file \"app/admin/products/[id]/edit/page.tsx\" --prove tests/unit/riparazione-r03-admin-prodotto-varianti-riprova.test.tsx --json"
+   },
+   "nota": "Subagente qa con le due lenti. Riprova rilegge le varianti e il modulo si apre con le taglie; cliccato senza rete resta il pannello con Riprova, e il modulo si apre da solo quando la rete torna. Convive con R03-008 nello stesso file."
+  },
+  {
+   "id": "R03-008",
+   "chiave": "stati-ui|nella pagina di amministrazione del prodotto, quando torna la rete, il caricamento prende il posto del modulo e le modifiche si perdono; senza rete il modulo si apre con 0 taglie",
+   "verdetto": "rompe_altro",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03-008 --base da38e34ab9eb225e8b2570425424f99ffe593342^ --file \"app/admin/products/[id]/edit/page.tsx\" --prove tests/unit/riparazione-r03-admin-prodotto-rete-che-torna.test.tsx --json"
+   },
+   "nota": "Subagente qa con le due lenti. Tutte e due le metà sono chiuse e il rischio di cancellare le taglie non c'è (il modulo non si apre senza le taglie lette, il server cancella solo quelle viste). Rompe altro: il modulo aperto ora non si rimonta più quando la rete torna e resta coi dati di quando si è aperto, senza il blocco del Salva finché i dati non sono riletti né l'avviso «cambiato altrove» che ha la pagina del negozio (seller .../edit/page.tsx:386-416). Esperimento: modulo a 18 €, database a 25 €, nessun avviso, Salva manda price 18 e la PATCH scrive tutti i campi (app/api/admin/products/route.ts:231-244), quindi il prezzo nuovo del negozio verrebbe sovrascritto; alla base il modulo si rimontava con 25 (app/admin/products/[id]/edit/page.tsx:158-189). Raro. Inoltre il caso «la rete torna» della prova (riparazione-r03-admin-prodotto-rete-che-torna.test.tsx:177-188) passa anche sulla base: un solo act lungo nasconde il caricamento; con passi da 5 ms la base smonta il modulo una volta, la testa zero."
+  }
+ ],
+ "campione": {
+  "R11": {
+   "accettato": true
+  },
+  "R07": {
+   "accettato": true
+  }
+ },
+ "nuovi_difetti_visti": [
+  {
+   "titolo": "la striscia «In evidenza» del negozio mostra il prezzo pieno durante una promozione",
+   "dimensione": "frontend-ux",
+   "severita": "minore",
+   "file": "components/StoreFeaturedStrip.tsx:46 · components/StoreFeaturedStrip.tsx:72-84",
+   "descrizione": "I prodotti scelti a mano dal negozio (FeaturedSection.tsx) passano da StoreFeaturedStrip, che non legge compare_at_price e non passa a ProductCard né discountPercent né compareAtPrice: con una promozione attiva la vetrina mostra il prezzo pieno e la cassa fa pagare quello scontato. Stessa famiglia di R11-007 e R11-001. Visto da K01 sulla testa di R11 d09057e7a15dbc3440cbea409478de05cddfccd8.",
+   "visto_da": "K01, lente chiude_tutta su R11-007"
+  },
+  {
+   "titolo": "la prova della rotta contanti guarda solo l'ordine: non si accorge della merce, del coupon e del credito presi prima del rifiuto",
+   "dimensione": "qa-flussi",
+   "severita": "minore",
+   "file": "tests/unit/riparazione-r11-rotta-contanti-409-prima-dell-insert.test.ts:140-143 · app/api/orders/cod/route.ts:1451 · app/api/orders/cod/route.ts:1194 · app/api/orders/cod/route.ts:1460 · app/api/orders/cod/route.ts:759",
+   "descrizione": "Mutante di K01 (annullato): controllo della fascia spostato dopo reserve_stock (route.ts:1451). La prova nuova di R11-008 resta verde (409, nessun ordine) ma la merce resta riservata: esciERilascia (route.ts:759) libera la chiave del tentativo, non lo stock. Lo stesso per il coupon (:1194) e il credito (:1460). Il codice di oggi è giusto (il controllo sta a :1017, prima di tutto): manca la prova. Il cosa_resta di R11-008 non lo nomina.",
+   "visto_da": "K01, lente chiude_tutta su R11-008"
+  },
+  {
+   "titolo": "il pallino «Reclami» del menu e il riquadro della pagina Oggi contano solo i reclami aperti, la lista ora mostra anche quelli in valutazione",
+   "dimensione": "stati-ui",
+   "severita": "minore",
+   "file": "components/admin/AdminSidebar.tsx:116 · lib/queries/cruscotto-oggi.ts:164 · app/admin/today/page.tsx:133 · app/admin/today/page.tsx:163",
+   "descrizione": "Nato da R07-006: la lista «Aperto» di app/admin/disputes/page.tsx:83 legge open e under_review, i due contatori che ci portano contano solo open. Alla base coincidevano.",
+   "visto_da": "K01, tutte e due le lenti su R07-006"
+  },
+  {
+   "titolo": "accendere CAPTCHA_SU_SUPABASE_ACCESO prima del captcha di Supabase lascia l'accesso senza controllo anti-robot, e niente lo segnala",
+   "dimensione": "sicurezza-auth",
+   "severita": "minore",
+   "file": "app/api/auth/signin/route.ts:53-62 · app/api/auth/signin/route.ts:99-104",
+   "descrizione": "L'ordine sicuro è il captcha su Supabase prima della variabile (nella finestra l'accesso resta chiuso invece che aperto); su Vercel la variabile cambia solo con un deploy, quindi «nello stesso momento» non è atomico. L'avviso sta solo nel commento della rotta: niente in .env.example, /api/health o nei log, contro la regola di lib/captcha.ts:12-27.",
+   "visto_da": "K01, lente nata_rotta su R07-001"
+  },
+  {
+   "titolo": "il modulo prodotto dell'amministratore aperto senza rete può salvare dati vecchi sopra quelli nuovi del negozio",
+   "dimensione": "stati-ui",
+   "severita": "minore",
+   "file": "app/admin/products/[id]/edit/page.tsx:158-189 · app/api/admin/products/route.ts:231-244",
+   "descrizione": "Nato da R03-008: il modulo non si rimonta più quando la rete torna, ma manca il blocco del Salva finché i dati non sono riletti e l'avviso «cambiato altrove» della pagina del negozio (seller .../edit/page.tsx:386-416). La PATCH scrive tutti i campi alla cieca: un prezzo cambiato dal negozio nel frattempo torna quello vecchio.",
+   "visto_da": "K01, lenti su R03-008"
+  },
+  {
+   "titolo": "nella chat Assistenza la bolla appiattisce gli a capo della descrizione e la scheda può contraddire la risposta sui tag che spariscono",
+   "dimensione": "ai-endpoints",
+   "severita": "minore",
+   "file": "components/SupportProductAssistant.tsx:402 · lib/products/prontoPerLaVendita.ts:705 · lib/products/prontoPerLaVendita.ts:724",
+   "descrizione": "Resto di R03-001 non scritto nel cosa_resta: senza whitespace-pre-wrap il negoziante non legge la forma che va in vetrina; la scheda mostra i tag grezzi (con 17 tag la risposta dice «spariscono: dolci, natale» e la scheda li mostra tenuti) e «Descrizione aggiornata» anche per una descrizione di soli spazi che il server non scrive.",
+   "visto_da": "K01, lente chiude_tutta su R03-001"
+  },
+  {
+   "titolo": "il giro dei prezzi esterni consuma il freno di 6 ore dei prodotti in errore anche quando non li prova",
+   "dimensione": "ai-endpoints",
+   "severita": "minore",
+   "file": "app/api/cron/external-price-alerts/route.ts:105 · lib/products/externalSync.ts:292-294 · app/api/cron/external-price-alerts/route.ts:37",
+   "descrizione": "Con il tetto di tempo di R03-003 (o dopo un 404) un prodotto già in errore escluso dal giro torna dopo 6 ore, non al giro dopo come dicono il commento e il referto.",
+   "visto_da": "K01, lenti su R03-003"
+  }
+ ]
+}

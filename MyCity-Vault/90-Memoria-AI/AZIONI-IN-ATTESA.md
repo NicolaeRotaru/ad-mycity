@@ -31,7 +31,7 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
-### 🟡 #267 — Guarda quanto del limite settimanale hai usato, prima di far ripartire la campagna dei 200 · ⏳ accodata 2026-11-27 06:21 · @ad
+### 🟡 #275 — Guarda quanto del limite settimanale hai usato, prima di far ripartire la campagna dei 200 · ⏳ accodata 2026-11-27 06:21 · @ad
 
 **Stato:** ⏳ in attesa.
 
@@ -47,7 +47,200 @@ Esempio vero: alle 06:21 la scheda del collaudatore K01 mostrava il limite setti
 Cosa cambia: sai se la campagna dei 200 può ripartire adesso o deve aspettare il rinnovo del limite settimanale.
 Se va bene: con la percentuale sotto la metà e la tua autorizzazione, la regia unisce i sette rami verdi e fa collaudare gli ultimi quattro.
 
-Dettagli: scheda di K01 (`session_015BmpnXZw6B1LCCHKMiTyZb`), `rate_limit_info` seven_day `allowed_warning`. Diario: `consegne/riparazioni/2026-11-27-duecento/REGIA.md`, riga delle 06:21. La carta 243 chiedeva la stessa lettura per la settimana fino al 19/11: è superata da questa, e la chiude l'AD.
+Dettagli: scheda di K01 (`session_015BmpnXZw6B1LCCHKMiTyZb`), `rate_limit_info` seven_day `allowed_warning`. Diario: `consegne/riparazioni/2026-11-27-duecento/REGIA.md`, riga delle 06:21. Nata come 267 alle 06:21 sul ramo della campagna; all'unione con main il 267 era già preso, quindi diventa 275. La carta 243 chiedeva la stessa lettura per la settimana fino al 19/11: è superata da questa, e la chiude l'AD.
+
+### 🔴 #274 — Decidi se rendere privati i repository della memoria e del sito · ⏳ accodata 2026-11-27 18:40 · @security
+
+**Stato:** ⏳ in attesa di Nicola
+
+**In parole semplici.** Il collaudo ha scoperto che tre repository su GitHub sono pubblici. Sono la memoria dell'AD, il sito MyCity e i flussi di n8n. Chiunque su internet può leggerli. Dentro la memoria ci sono le tue decisioni, i prezzi, i nomi dei clienti, le schede delle attività e, da oggi, l'analisi interna di SDG coi suoi punti deboli.
+Per esempio: l'analisi di SDG dice «pochissimi clienti paganti» e nomina sette concorrenti. Oggi la può leggere anche uno di loro.
+
+**Cosa cambia per te.** Con i repository privati li leggete solo tu e le sessioni dell'AD. Il sito e il Pannello continuano a pubblicarsi su Vercel, che legge anche i repository privati.
+
+**Cosa devi fare tu.** Su GitHub, per ogni repository: Settings → General → Danger Zone → Change visibility → Private. Ti consiglio subito ad-mycity, che ha tutto. Per mycity e N8N controlla prima i minuti dei controlli automatici: sui repository privati il piano gratuito ne dà un numero limitato al mese, e quelli del sito sono tanti.
+
+**Cosa non ho verificato.** Non so da quando sono pubblici, né se qualcuno li ha copiati: chi li ha già scaricati tiene la sua copia. Non ho guardato il tuo piano GitHub né i minuti usati dai controlli automatici.
+
+Cosa cambia: la memoria dell'azienda e le analisi interne smettono di essere leggibili da chiunque.
+Se va bene: riguardo se i flussi di lavoro e Vercel funzionano ancora coi repository privati, e te lo scrivo.
+
+- **Colore:** 🔴. Quello che è già stato letto non torna indietro. Si toccano le impostazioni dei tuoi account.
+- **Reparto:** security
+- **Dettagli tecnici:** visibilità letta il 27/11 alle 18:35: mycity public, ad-mycity public, N8N public, SDG private. Collaudo: `memoria-squadra/security.md`, riga del 27/11. Alternativa più lunga: tenere i JSON del lavoro consegnato in una tabella Supabase con RLS invece che nel codice. La riscrittura della storia dei rami non basta, perché l'analisi è anche in ad-mycity, `consegne/sdg-premium/`.
+
+### 🔴 #273 — Decidi se Grida Caffè e Caffè di Piacenza restano a 500 euro al mese · ⏳ accodata 2026-11-27 18:40 · @finanza
+
+**Stato:** ⏳ in attesa di Nicola
+
+**In parole semplici.** Oggi pomeriggio due attività hanno attivato il Business in contanti: Grida Caffè alle 16:24 e Caffè di Piacenza alle 16:45. Tutte e due a 500 euro al mese, il prezzo di allora. Alle 17:10 hai portato il Business a 600 euro.
+
+**Cosa cambia per te.** Se restano a 500, rispetti il prezzo con cui le hai vendute: è la scelta più pulita col cliente. Se passano a 600, vanno avvisate prima del rinnovo.
+
+**Cosa devi fare tu.** Scrivermi una delle due. «Restano a 500»: il consiglio. Oppure «passano a 600 dal [mese]».
+
+**Cosa non ho verificato.** Non so cosa è stato detto ai due titolari a voce. Nel database non ho cambiato niente: è in sola lettura.
+
+Cosa cambia: si decide quanto pagano dal secondo mese i primi due abbonamenti in contanti.
+Se va bene: lo scrivo nel registro dei fatti, così rapporto e preventivo dicono il prezzo giusto per loro.
+
+- **Colore:** 🔴 (prezzi a clienti veri)
+- **Reparto:** finanza
+- **Dettagli tecnici:** tabella `abbonamenti_servizi`, letta in sola lettura il 27/11 alle 18:30: 2 righe, fascia business, `canone_centesimi` 50000, origine contanti, stato active, create alle 15:24 e 15:45 UTC. La migrazione 999d non le tocca.
+
+### 🔴 #272 — Ripubblica i flussi n8n 16 e 19 coi prezzi nuovi · ⏳ accodata 2026-11-27 18:20 · @builder-automazioni
+
+**Stato:** ⏳ in attesa di Nicola
+
+**In parole semplici.** Due flussi di n8n scrivono ancora i prezzi vecchi. Il 19 prepara le bozze degli abbonamenti che ti arrivano su Telegram. Il 16 dice alla ricerca delle attività da visitare quanto costano gli abbonamenti.
+Per esempio: oggi la bozza Business direbbe «500 € al mese, primo mese 250 €», invece di 600 e 300.
+
+**Cosa cambia per te.** Le bozze e le schede delle attività da visitare dicono 300, 600 e 900 euro, come il sito.
+
+**Cosa devi fare tu.** Unire la richiesta di unione del repo N8N sul ramo `ccr-3e25a9cc-8rdzdt`, poi scrivere «ok 272». Ripubblico io i due flussi, oppure la sessione dei flussi se è aperta.
+
+**Cosa non ho verificato.** I flussi vivi non li ho toccati. Le prove del codice sono verdi: 11 su 11 per il 19, 24 su 24 per il 16.
+
+Cosa cambia: le bozze degli abbonamenti su Telegram e la ricerca delle attività usano i prezzi nuovi.
+Se va bene: la prossima bozza che ti arriva dice 600 euro per il Business.
+
+- **Colore:** 🔴 (cambia due flussi vivi che parlano di prezzi)
+- **Reparto:** builder-automazioni
+- **Dettagli tecnici:** repo NicolaeRotaru/N8N, commit 7deaba8.
+  - `flussi/19-bozze-abbonamenti/codice/prepara-bozze.js`: prezzoMese 60000 e 90000. I testi dell'analisi sono allineati al sito.
+  - `flussi/16-attivita-da-visitare/costruisci.mjs`: il LISTINO.
+  - La prova 8 del 19 confronta il listino col sito MyCity. È verde solo col ramo mycity dei prezzi nuovi.
+
+### 🔴 #271 — Metti in vetrina i prezzi nuovi dei tre abbonamenti di SDG · ⏳ accodata 2026-11-27 18:20 · @ad
+
+**Stato:** ⏳ in attesa di Nicola, dopo l'unione della richiesta di mycity
+
+**In parole semplici.** Nella vetrina di SDG su MyCity i tre abbonamenti sono prodotti, coi prezzi scritti nel database. Oggi lì c'è ancora «Abbonamento Business — 500 € al mese». La modifica 999d li riscrive a 300, 600 e 900 euro, con le descrizioni del listino.
+
+**Cosa cambia per te.** Chi guarda la vetrina di SDG vede gli stessi prezzi del preventivo e del sito SDG.
+
+**Cosa devi fare tu.** Prima unire la richiesta di unione di mycity sul ramo `ccr-3e25a9cc-8rdzdt`. Poi lanciare «Migrazioni a mano» con 999d, oppure scrivermi «ok 271» e la lancio io. La 999b e la 999c sono di altre due sessioni: vanno prima, ma questa non dipende da loro.
+
+**Cosa non ho verificato.** Sul database vero non è mai girata. Il collaudo l'ha fatta girare tre volte su una copia ricostruita da tutte le migrazioni: tocca solo i tre prodotti di SDG. Da sapere: cambiare il prezzo fa partire una notifica «prezzo abbassato» a chi ha il Premium nei preferiti. Oggi alle 18:30 erano 0, e prima di applicarla li riconto.
+
+Cosa cambia: i tre prodotti di SDG in vetrina passano a 300, 600 e 900 euro al mese.
+Se va bene: controllo in sola lettura che i tre prezzi siano cambiati e te lo scrivo.
+
+- **Colore:** 🔴 (scrittura sul database vero, prezzi)
+- **Reparto:** ad
+- **Dettagli tecnici:** `migrations/999d_i_tre_abbonamenti_di_sdg_costano_300_600_900.sql`. UPDATE solo sui prodotti `11111111-1111-1111-1111-5d90000001{01,02,03}`; si può rieseguire. Il nome 999d viene dopo la 999 nell'ordine `LC_ALL=C`, e il campo «ultima» del pulsante accetta tre cifre più una lettera. Letto il 27/11 alle 18:30 in sola lettura: `site_settings.agenzia` vuoto (nessun prezzo che scavalchi il codice), prodotti ancora coi prezzi di prima, 500 e 999 euro per Business e Premium.
+
+### 🟡 #270 — Dimmi quali profili social ha SDG, o aprili, per far partire il piano di dicembre · ⏳ accodata 2026-11-27 18:20 · @content-social
+
+**Stato:** ⏳ in attesa di Nicola
+
+**In parole semplici.** Il piano Premium di dicembre per i social di SDG è pronto: 57 pezzi, tutti da approvare. Per pubblicarli servono le pagine. Cercando sul web non ho trovato né un profilo né una scheda Google di SDG.
+
+**Cosa cambia per te.** Con le pagine collegate, i contenuti ti arrivano su Telegram come quelli del Tropico. Esce solo quello che approvi.
+
+**Cosa devi fare tu.** Quattro risposte.
+1. Quali pagine esistono già: Instagram, Facebook, LinkedIn, TikTok.
+2. Il numero WhatsApp di SDG.
+3. Se apriamo la scheda Google. È gratis, e ti serve un indirizzo vero per la verifica.
+4. Se lunedì 14/12 mattina fai la «diagnosi dal vivo» per i titolari, e dove.
+
+**Cosa non ho verificato.** I profili li ho cercati solo sul web aperto: se sono privati o nuovi, non li vedo. I tre post «prima e dopo» vogliono il consenso scritto del cliente, oppure un lavoro di SDG stessa.
+
+Cosa cambia: SDG comincia a usare su di sé la stessa tecnologia che vende, col piano Premium.
+Se va bene: produco i primi sette contenuti coi colori del sito SDG e li metto nel Calendario da approvare.
+
+- **Colore:** 🟡
+- **Reparto:** content-social
+- **Dettagli tecnici:** piano in `consegne/sdg-premium/social.json` e `social.md`. Per produrre si usa la skill `contenuti-cliente`, che crea `clienti/sdg.json` nel repo N8N. La pubblicità su Meta (circa 150 € proposti) resta 🔴 a parte.
+
+### 🔴 #269 — Metti i contatti veri nel sito SDG prima di pubblicarlo · ⏳ accodata 2026-11-27 18:20 · @ad
+
+**Stato:** ⏳ in attesa di Nicola
+
+**In parole semplici.** Il sito SDG rifatto per il Premium è pronto: parla alle attività locali di Piacenza, ha i tre abbonamenti a 300, 600 e 900 euro, e non c'è niente di inventato. Ma email e WhatsApp sono vuoti, quindi il modulo dei contatti resta spento.
+
+**Cosa cambia per te.** Con i contatti veri, chi apre il sito può chiedere la diagnosi gratuita e scriverti su WhatsApp.
+
+**Cosa devi fare tu.** Tre cose.
+1. Dimmi l'email e il numero WhatsApp di SDG.
+2. Dimmi il dominio, se ce l'hai.
+3. Dimmi se i prezzi sono con l'IVA o senza.
+Per Vercel: la sessione del sito del Caffè di Piacenza ti ha chiesto un token e dice di avere il tuo via a pubblicare. Pubblicare è un tuo via, e va dato dall'ultimo commit del ramo.
+
+**Cosa non ho verificato.** Il modulo non l'ho provato su una posta vera. Nessun controllo coi validatori di Google.
+
+Cosa cambia: il sito SDG può andare online con contatti che funzionano.
+Se va bene: metto i dati, rifaccio il collaudo e il sito si pubblica dal ramo, poi la sua pagina compare dentro «Sito web» di SDG su MyCity.
+
+- **Colore:** 🔴 (pubblicazione e dati veri)
+- **Reparto:** ad
+- **Dettagli tecnici:** repo NicolaeRotaru/SDG, ramo `ccr-3e25a9cc-8rdzdt`, ultimo commit 1fb96b3. Campi in `src/lib/site.ts`: `email`, `whatsapp`, `phone`, `socials`; su Vercel la variabile `NEXT_PUBLIC_SITE_URL`.
+
+### 🔴 #268 — Dai a SDG una chiave per entrare nella sua pagina venditore · ⏳ accodata 2026-11-27 16:35 · @ad
+
+**Stato:** ✅ FATTO 2026-11-27 22:54. Nicola ha chiesto «perché non incolli tu questo comando» e l'AD l'ha lanciato su Supabase (progetto «Mycity»), sulla sua firma. Subito dopo l'ha ricontrollato in sola lettura. L'utente di SDG Agenzia ha l'email sdg.agenzia@gmail.com, anche nell'identità. Non è più bloccato. È venditore approvato «SDG Agenzia». La conferma dell'email è rimasta quella del 24/11, quindi non è partita l'email di benvenuto. C'è un solo account con quell'indirizzo. La password non c'è ancora: Nicola la sceglie con «Password dimenticata?» su MyCity. Prima, alle 20:31, Nicola aveva deciso di usare l'email vera di SDG e non la sua Gmail col «+negozio».
+
+**In parole semplici.** SDG Agenzia è un negozio su MyCity, ma il 24/11 l'abbiamo creato con un utente che non può entrare: niente password e bloccato per 100 anni. Serviva solo a mostrare i tre abbonamenti in vetrina.
+Adesso vuoi entrare come SDG e vedere, dentro «Servizi», il sito, il piano dei social e l'analisi. Per farlo l'utente di SDG deve avere un indirizzo email vero e una password.
+
+**Cosa cambia per te.** Entri su MyCity come SDG, con un indirizzo diverso dal tuo da amministratore, e vedi la tua area venditore come la vede un cliente Premium. Il tuo accesso da amministratore resta com'è.
+
+**Cosa devi fare tu.** Tre passi, cinque minuti.
+1. L'indirizzo è deciso: sdg.agenzia@gmail.com. È libero su MyCity (controllato il 27/11 alle 20:28).
+2. Il comando dei dettagli tecnici si lancia nell'editor SQL di Supabase. L'AD l'ha già lanciato alle 22:54.
+3. Su MyCity apri «Accedi», scrivi sdg.agenzia@gmail.com, premi «Password dimenticata?» e scegli la password dal link che arriva in quella casella.
+
+**Cosa non ho verificato.** Non ho provato l'accesso: da qui non posso scrivere sul database, ed è giusto così. Può darsi che al primo ingresso il sito ti chieda di accettare le condizioni del venditore: è normale.
+
+Cosa cambia: SDG Agenzia smette di essere un negozio che non entra mai e diventa un negozio con cui entri tu, come cliente Premium di se stesso.
+Se va bene: entri, apri Servizi e guardi Sito web, Gestione social e Analisi del business; quello che non ti torna lo scrivi all'AD.
+
+- **Colore:** 🔴. È una scrittura a mano sul database vero. Tocca l'accesso di un utente.
+- **Reparto:** ad
+- **Dettagli tecnici:** utente `11111111-1111-1111-1111-5d9000000001` creato dalla migrazione 707 (`sdg.servizi@mycity-system.local`, `encrypted_password` vuota, `banned_until` = +100 anni). Comando:
+  ```sql
+  begin;
+  update auth.users
+     set email = 'sdg.agenzia@gmail.com', banned_until = null, updated_at = now()
+   where id = '11111111-1111-1111-1111-5d9000000001'
+     and email = 'sdg.servizi@mycity-system.local';
+  update auth.identities
+     set identity_data = identity_data || jsonb_build_object('email', 'sdg.agenzia@gmail.com'), updated_at = now()
+   where user_id = '11111111-1111-1111-1111-5d9000000001' and provider = 'email';
+  commit;
+  select email, banned_until from auth.users where id = '11111111-1111-1111-1111-5d9000000001';
+  ```
+  L'ultima riga deve mostrare `sdg.agenzia@gmail.com` e `banned_until` vuoto. `email_confirmed_at` non si tocca: è già
+  pieno dal 24/11, così non parte l'email di benvenuto (trigger `trg_email_confermata_accoda_benvenuto`, che scatta solo
+  da vuoto a pieno). La condizione sull'email vecchia impedisce di rilanciarlo per sbaglio su un utente già cambiato.
+  Il comando va nel progetto «Mycity», codice `clmpyfvpvfjgeviworth`.
+  Per tornare indietro, si blocca di nuovo l'utente:
+  ```sql
+  update auth.users set banned_until = now() + interval '100 years' where id = '11111111-1111-1111-1111-5d9000000001';
+  ```
+  Le pagine col lavoro consegnato arrivano con la richiesta di unione di mycity, ramo `ccr-3e25a9cc-8rdzdt`. Finché non è unita, entrando vedi ancora i preventivi.
+
+### 🟡 #267 — Carica su n8n i controlli sui contenuti già usciti o cambiati · ⏳ accodata 2026-11-27 15:21 · @builder-automazioni
+
+**Stato:** ⏳ in attesa di Nicola
+
+**In parole semplici.** Parlo del flusso di n8n che mette nel Calendario i contenuti dell'AD da approvare su Telegram. Oggi, se l'AD ripropone un contenuto già uscito con lo stesso nome di riga, il flusso lo rimette da approvare. Un tocco su Approva lo farebbe uscire due volte.
+Per esempio: un post del Tropico pubblicato sabato e riproposto domenica tornerebbe in coda come nuovo.
+
+**Cosa cambia per te.** Col controllo caricato, un contenuto già uscito ferma il flusso con «riga già pubblicata: usa un id nuovo». Un contenuto già approvato e riproposto torna da approvare, come hai deciso oggi verso le 14:50, e la domanda su Telegram te lo dice. Le note di prima restano.
+
+**Aggiunta delle 21:02.** Anche il tasto Approva cambia. Un tasto vecchio non approva più una didascalia cambiata. Rifiuta vale sempre. I tasti Approva dei contenuti già in attesa smettono di valere: per quelli usi «Approva tutti».
+
+**Cosa devi fare tu.** Scrivere «ok 267». Se vuoi, prima guarda le richieste di unione NicolaeRotaru/N8N#34 e NicolaeRotaru/N8N#37.
+
+**Cosa non ho verificato.** Il flusso nuovo non è mai girato sul Calendario vero: le prove usano un foglio finto con il codice vero di n8n. Dopo il caricamento faccio una prova sola, su una riga di prova, e te la mostro.
+
+Cosa cambia: il flusso vivo «AD · Proponi nel Calendario» guarda la riga prima di scriverla, e un contenuto già uscito non può più tornare da approvare.
+Se va bene: l'AD prova il flusso su una riga di prova già pubblicata, ti mostra l'errore che ferma tutto, poi ripropone i contenuti del Tropico come al solito.
+
+- **Colore:** 🟡
+- **Reparto:** builder-automazioni
+- **Dettagli tecnici:** flusso n8n `q940FBnc4sfqdneZ` (resta spento, si avvia a mano). Al via, quattro passi. ① Si leggono foglio e chat dal flusso vivo. ② Si genera il flusso con `node flussi/ad-studio/consegna.mjs proponi --json --foglio … --chat …`, dal main del deposito N8N: contiene il commit `a05bbb7`, unito con la N8N#34. ③ Si aggiorna il flusso su n8n. ④ Si confrontano i 17 nodi con quelli generati. Con la N8N#37 cambia anche «AD · Tasti su Telegram» (`zSRD1vaX2SDyDgBm`, acceso). I due flussi si generano dallo stesso commit e si caricano insieme. Se ne entra uno solo, ogni tasto Approva risponde «non è più uguale».
 
 ### 🟡 #266 — Guarda il ricontrollo del sito e unisci la richiesta, se ti va bene · ⏳ accodata 2026-11-26 15:30 · @ad
 
@@ -2055,13 +2248,48 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 > la conferma del dato dal negozio (restano «da procurare», non li scrive nessun autofill).
 <!-- SUPERVISIONE-NEGOZI:FINE -->
 
+## Correggi la didascalia di due post del Tropico che chiamano sangria il frozen alla fragola (aggiunta 2026-11-27 22:25)
+- **Reparto:** @content-social, con l'AD.
+- **Colore:** 🟡. Si cambia il testo di post già pubblicati sulle pagine di un cliente: niente si elimina, ma lo vedono i suoi clienti.
+- **Il perché:** alle 21:48 Nicola ha detto che il drink rosso nella caraffa (foto 0307) è un margarita frozen alla fragola, non una sangria. Due post usciti il 26/11 lo mettono accanto alla parola sangria.
+- **Contenuto, post 1 · il carosello «Bienvenidos al bancone» (26/11 14:55).** Nei testi si scrive solo «margarita frozen», senza «alla fragola» (Nicola, 27/11 verso le 22:35). Nella didascalia cambia una frase. Prima: «La sangria c'è anche in caraffa, da dividere al tavolo.» Dopo: «Anche il margarita frozen c'è in caraffa, da dividere al tavolo.» L'hashtag `#sangria` diventa `#margarita`. Link: instagram.com/p/DgNQvXNijOb · instagram.com/p/DgNRX1NioZ8 · facebook.com/122109746361543064/posts/122112444549543064 · facebook.com/1677537854385261/posts/1677560664382980
+- **Contenuto, post 2 · il reel «Una sera al Tropico» (26/11 14:15).** Nella didascalia, «un margarita, la sangria,» diventa «un margarita classico e uno frozen,». Link: instagram.com/reel/DgNMJdltQtp · instagram.com/reel/DgNNWZtSOqc · facebook.com/reel/2380643796108279 · facebook.com/reel/1534300138526276
+- **Come:** su Instagram la didascalia si cambia solo dall'app (tre puntini sul post → Modifica): quattro modifiche, due per account. Su Facebook la cambio io col flusso «AD · Calendario e Meta (a mano)», dopo il tuo via.
+- **Cosa cambia:** chi guarda i due post del Tropico non legge più «sangria» accanto alla caraffa del margarita frozen, su nessuna delle quattro pagine.
+- **Se va bene:** niente altro da fare: le nuove grafiche passano dal controllo dei nomi prima di uscire.
+
+---
+
+## Dai a Claude il permesso di pubblicare su Vercel (aggiunta 2026-11-27 17:35)
+- **Reparto:** @devops-sre, con l'AD.
+- **Colore:** 🟡. Il via a pubblicare i due siti l'hai già dato in chat il 27/11 verso le 17:05; manca solo il permesso tecnico.
+- **Contenuto:** il collegamento Vercel di Claude è il tuo account, ma l'app collegata legge i progetti e non può crearne (errore 403 su «crea progetto» e su «crea pubblicazione»). Due strade, ne basta una:
+  1. **La chiave (consigliata):** su vercel.com/account/tokens crea un token con scadenza 7 giorni. Poi aggiungilo nelle impostazioni dell'ambiente cloud, alla voce «Network secrets», per l'host `api.vercel.com`. Da lì faccio tutto io.
+  2. **A mano:** vercel.com/new → importa il repository `SDG` → Deploy; poi Settings → Git → ramo di produzione `ccr-3e25a9cc-8rdzdt`. Per il Caffè: importa `ad-mycity` con cartella principale `consegne/clienti/caffe-di-piacenza/sito`, dopo aver unito la PR della memoria.
+- **Cosa cambia:** il sito del Caffè di Piacenza diventa visibile a un indirizzo suo e compare, dal vivo, nella voce «Sito web» del suo pannello MyCity. Il sito SDG va online coi prezzi nuovi.
+- **Se va bene:** il titolare del Caffè vede il suo sito in anteprima e conferma orari e menu; poi tolgo la scritta «Anteprima» e lo apro a Google.
+
+---
+
+## Unisci la pagina nuova del link del preventivo, coi tre abbonamenti e il codice dell'email (aggiunta 2026-11-27 17:40)
+
+> ✅ 2026-11-27 17:55 — Fatto: Nicola ha detto sì, la sessione delle PR ha unito la mycity#349.
+
+- **Reparto:** @tech, con @security per il collaudo.
+- **Colore:** 🔴. L'unione manda il sito online.
+- **Contenuto:** NicolaeRotaru/mycity#349. Il link apre la pagina coi tre abbonamenti, la scelta del venditore già segnata. Il titolare conferma col codice dell'email ed entra nella sua pagina. Nessun aggiornamento del database e nessuna chiave obbligatoria: il segreto `CODICE_PREVENTIVO_SECRET` su Vercel è facoltativo.
+- **Cosa cambia:** il prossimo titolare che apre il link, per esempio quello di Grida Caffè, vede subito il Business segnato. Conferma, scrive il codice ed entra con l'abbonamento sbloccato, senza passare dalla demo.
+- **Se va bene:** al primo titolare vero si guarda che il codice arrivi e che l'ingresso funzioni. Poi si chiudono i tre minori del registro, a partire dall'avviso quando un link si ferma per troppi tentativi.
+
+---
+
 ## Firma quanto promette ogni abbonamento ai social (aggiunta 2026-11-26 19:30)
 - **Reparto:** @content-social, con @marketing e @finanza.
 - **Colore:** 🔴. Cambia cosa vendiamo ai clienti.
 - **Contenuto:** il modello delle tre fasce è in `cervello/modelli/piano-editoriale-fasce.json`. L'esempio del Tropico a dicembre è in `consegne/clienti/tropico-latino/piano-editoriale-2026-12.html`.
   - Base, 300 €: 8 contenuti con 2 reel dalle foto. Poi 4 storie, 4 post e 4 foto su Google, il sito di una pagina.
-  - Business, 500 €: 12 contenuti con 4 reel, di cui 2 girati. Poi 12 storie, 8 post e 8 foto su Google, TikTok e le risposte alle recensioni. In più un messaggio WhatsApp alla lista, una mossa al mese, un creator a trimestre e una spinta pubblicitaria.
-  - Premium, 999 €: 20 contenuti con 8 reel, di cui 4 girati. Una storia ogni sera di apertura, 12 post e 15 foto su Google, TikTok e YouTube Shorts. In più 2 WhatsApp, una email, l'evento, 2 creator, campagne su Meta e Google, giornali e aziende vicine.
+  - Business, 600 €: 12 contenuti con 4 reel, di cui 2 girati. Poi 12 storie, 8 post e 8 foto su Google, TikTok e le risposte alle recensioni. In più un messaggio WhatsApp alla lista, una mossa al mese, un creator a trimestre e una spinta pubblicitaria.
+  - Premium, 900 €: 20 contenuti con 8 reel, di cui 4 girati. Una storia ogni sera di apertura, 12 post e 15 foto su Google, TikTok e YouTube Shorts. In più 2 WhatsApp, una email, l'evento, 2 creator, campagne su Meta e Google, giornali e aziende vicine.
   - La frase del Premium: «tutti i mestieri di un'agenzia completa». Si dice chiaro che il lavoro ripetitivo lo fa l'intelligenza artificiale. Mai «50 persone».
   - Insieme decidi il tetto dei clienti Premium, io dico 5, e mi dici il costo di scattiDG.
 - **Cosa cambia:** dopo il tuo sì aggiorno il preventivo sul sito, la proposta che nasce dalla foto e il registro dei fatti. Lo faccio nello stesso lavoro. Il prossimo cliente vede le quantità nuove.
@@ -2071,8 +2299,8 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 
 ## Manda a Ora del Gusto il preventivo di SDG e fallo iscrivere su MyCity (aggiunta 2026-11-24 02:20, corretta 03:50)
 - **Reparto:** @onboarding-negozi · **Colore:** 🔴 (preventivo a un cliente vero; iscrizione sul sito vero)
-- **Contenuto:** preventivo di SDG Agenzia `consegne/preventivi/2026-11-24-ora-del-gusto/preventivo-sdg-ora-del-gusto.pdf` (Base 300 · Business 500 consigliato · Premium 999 €/mese, primo mese a metà, nessun vincolo con 30 giorni di preavviso). Prima di mandarlo scrivi a mano email e WhatsApp di SDG e il nome del titolare. Iscrizione MyCity: il titolare da mycity-marketplace.com/sell, tipo «Bar o caffetteria».
-- **Cosa cambia:** Ora del Gusto diventa il primo cliente degli abbonamenti di SDG; col Business sono 500 euro al mese, il primo mese 250.
+- **Contenuto:** preventivo di SDG Agenzia `consegne/preventivi/2026-11-24-ora-del-gusto/preventivo-sdg-ora-del-gusto.pdf` (Base 300 · Business 600 consigliato · Premium 900 €/mese, primo mese a metà, prezzi del 27/11 — il PDF è stato rifatto il 2026-11-27 17:35 coi prezzi nuovi; nessun vincolo con 30 giorni di preavviso). Prima di mandarlo scrivi a mano email e WhatsApp di SDG e il nome del titolare. Iscrizione MyCity: il titolare da mycity-marketplace.com/sell, tipo «Bar o caffetteria».
+- **Cosa cambia:** Ora del Gusto diventa il primo cliente degli abbonamenti di SDG. Col Business sono 600 euro al mese, il primo mese 300. Sono i prezzi decisi da Nicola il 27/11.
 - **Se va bene:** firmato il preventivo, fissi l'incontro nel locale per foto, scheda Google e primi post.
 
 ---

@@ -1,0 +1,20 @@
+{
+  "corsia": 7,
+  "territorio": "R07",
+  "difetti": [
+    {
+      "chiave": "qa-flussi|collegare stripe da un'anteprima che usa il database vero sostituirebbe il conto del negozio con uno di prova",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r07-conto-stripe-anteprima.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 3e8e1885c23a03084737184b08374fdf94653998^ --file lib/stripe/client.ts --prove tests/unit/riparazione-r07-conto-stripe-anteprima.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07-005 --base 3e8e1885c23a03084737184b08374fdf94653998^ --file lib/stripe/client.ts --prove tests/unit/riparazione-r07-conto-stripe-anteprima.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "In createConnectOnboardingLink, con chiave sk_test_/rk_test_ e VERCEL_ENV === 'preview' (lo stesso criterio di chiaveStripeFuoriPosto) un conto salvato che la chiave non conosce non viene più sostituito: errore ContoSconosciutoAllaChiaveDiProva, niente accounts.create, niente salvaConto. Fuori dall'anteprima il comportamento del 5/11 resta (la prova comune che lo fissa resta verde)."
+    },
+    {
+      "chiave": "stati-ui|nella pagina guadagni i due pulsanti di stripe possono dirsi il contrario",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r07-pulsanti-stripe.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base b9be0570dfad5dcafaeca520a820a6a27c3e31de^ --file components/seller/StripeDashboardButton.tsx --prove tests/unit/riparazione-r07-pulsanti-stripe.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07-007 --base b9be0570dfad5dcafaeca520a820a6a27c3e31de^ --file components/seller/StripeDashboardButton.tsx --prove tests/unit/riparazione-r07-pulsanti-stripe.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "StripeDashboardButton ora usa stripePronto (components/seller/pronto-a-incassare.ts: conto + versamenti), la stessa regola che fa dire «Pagamenti attivi» a StripeConnectButton. Prova di render con conto, versamenti accesi e incassi spenti: il pulsante c'è."
+    }
+  ]
+}

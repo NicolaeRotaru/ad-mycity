@@ -1,0 +1,12 @@
+2026-11-26 14:08 · R01 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-26 14:08 · R02 · in lavoro · guardia ✅ · referto – · unione (sotto) · nessuna
+2026-11-26 14:08 · R03 · in lavoro · guardia ✅ · referto – · unione (sotto) · nessuna
+2026-11-26 14:08 · R04 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-26 14:08 · R05 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-26 14:08 · R06 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-26 14:08 · R07 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-26 14:08 · R08 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-26 14:08 · R09 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-26 14:08 · R10 · in lavoro · guardia 🔴 · referto – · unione (sotto) · nessuna
+2026-11-26 14:08 · R11 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-26 14:08 · onda 1 · prova-unione ⏳

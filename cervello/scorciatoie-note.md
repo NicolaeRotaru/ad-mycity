@@ -212,3 +212,10 @@ del sito (`cervello/prediagnosi.mjs`), dove un testo pubblicato per sbaglio non 
     VPS. *Cura: un programma che ricava i suoi percorsi da dove sta si prova da una COPIA in una
     cartella temporanea; e chi lancia le mutazioni controlla, dopo ognuna, che i file veri siano
     intatti.*
+36. **La riga nata senza soldi in una tabella che il sito legge come «ha pagato».** Il 27/11 l'abbonamento
+    in contanti nasceva al «Sì» dell'agente, prima dei soldi, nella stessa tabella degli abbonamenti pagati.
+    Chi guardava solo le righe in corso reggeva. Due lettori no: lo sconto del primo mese contava «nessuna
+    riga», e la scheda contava «una riga qualsiasi, anche chiusa». Risultato: sconto sparito a ogni «Sì», e
+    scheda aperta per sempre dopo «Ferma». *Cura: prima di scrivere un tipo nuovo di riga in una tabella
+    esistente, fai un grep di tutti i lettori e chiediti cosa vuol dire la riga per chi conta anche le
+    righe chiuse o il loro numero, non solo per chi guarda quelle in corso.*

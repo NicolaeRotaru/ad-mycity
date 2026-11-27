@@ -1,0 +1,334 @@
+{
+ "collaudatore": "K06",
+ "riparatori": [
+  "R12",
+  "R15"
+ ],
+ "aggiornato": "2026-11-26 17:05",
+ "finita": true,
+ "voci": [
+  {
+   "id": "R12-001",
+   "chiave": "ai-endpoints|il tetto giornaliero di spesa ai in produzione non è condiviso: ogni copia del sito conta per sé",
+   "verdetto": "rompe_altro",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 384c46beaa06c4df59c2377cfa679cfdef4fb9d8^ --file lib/ai/tettoSpesa.ts --prove tests/unit/riparazione-r12-tetto-spesa.test.ts --json"
+   },
+   "nota": "Due revisori, una lente ciascuno. chiude_tutta: parziale. Il caso principale regge: in rete, se il conto condiviso non si legge, l AI si ferma con 503. Restano due modi in cui ogni copia conta per sé: (1) una spesa non scritta resta solo nella memoria della copia (_daScrivere, lib/ai/tettoSpesa.ts:107 e 485-495); se Vercel spegne la copia, la spesa non arriva mai nel conto e le altre copie spendono fino al tetto pieno (prova temporanea: tetto 1 €, speso 1,012 €; nel lotto del catalogo una scrittura persa vale l intera stima). (2) Senza Upstash, o se non risponde entro 500 ms, le prenotazioni delle chiamate in volo restano della copia (lib/ai/run.ts:203, 209, 274): conto a 99 su 100, due copie insieme passano entrambe e il conto arriva a 101. nata_rotta: rompe_altro. Il NaN di spesa sconosciuta esce come perTettoSpesa con motivo tetto_spesa (lib/ai/run.ts:306), e il cliente legge «Budget AI giornaliero esaurito. Riprova domani» (run.ts:491) durante un guasto breve o la pausa di 5 minuti del circuito; il lotto del catalogo si chiude canceled per tetto raggiunto (app/api/ai/catalog-batch/start/route.ts:348). Minori: l allarme del cron dice ancora «tetto per copia» (lib/ai/decisioneTettoSpesa.ts:226-227); VERCEL_ENV=development (vercel dev) conta come rete, e 7 prove su 73 falliscono con VERCEL=1 VERCEL_ENV=preview. Prove: 73 su 73 verdi, tsc pulito. Oggi l AI è spenta (AI_NEGOZI_ACCESA=false), quindi non pesa in produzione."
+  },
+  {
+   "id": "R12-003",
+   "chiave": "dati-analytics|il cancello del filmato in eccezione lascia passare il filmato originale",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base da43e426bddda13f7803ef84da8efe02facc1892^ --file lib/analytics/filmato-senza-dati-personali.ts --prove tests/unit/riparazione-r12-filmato-in-eccezione.test.ts --json"
+   },
+   "nota": "Il cancello in eccezione esce VALORE_NASCOSTO (filmato-senza-dati-personali.ts:261-265), come strutturaSenzaIndirizzi; registrazione normale invariata, prove filmato/posthog verdi. Costo voluto: un evento rotto fa perdere tutto il lotto $snapshot_data."
+  },
+  {
+   "id": "R12-004",
+   "chiave": "deploy-sre|il commento del ritorno indietro dice ancora che un rilascio senza commit resta un posto buono, come prima",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 37221a798d7bebae54084f34e3ba8f242a56d469^ --file scripts/prova-di-fumo.mjs --prove tests/unit/riparazione-r12-ritorno-commento.test.ts --json"
+   },
+   "nota": "rilascioDaTornare (scripts/prova-di-fumo.mjs:306) provato davvero: il commento alle righe 246-249 coincide col codice. Prova debole (cerca testo nel sorgente), ammessa su un minore. Frase «uno senza commit non è un posto buono» si legge assoluta. Lotto senza smentita prima: guardato con più cura."
+  },
+  {
+   "id": "R12-005",
+   "chiave": "frontend-ux|con due social sbagliati, uno vuoto e uno già salvato, il messaggio dice «sono rimasti com'erano» anche per quello vuoto",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 6087d4b65df0d25ccf3c733462688947d808da94^ --file components/VendorForm.tsx --prove tests/unit/riparazione-r12-social-vuoto-e-salvato.test.tsx --json"
+   },
+   "nota": "VendorForm.tsx:327-340 separa vuoti e già salvati, singolare e plurale giusti; prova rossa togliendo la correzione. Minori: ordine vuoti/salvati separati solo da virgola si legge male; un social salvato in un formato vecchio blocca ancora il salvataggio (preesistente, R10-010)."
+  },
+  {
+   "id": "R12-006",
+   "chiave": "frontend-ux|sotto il logo del negozio c'è ancora scritto «(png, jpg)» mentre la casella accetta sette formati",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 445938d9fa4fe117db68a63399faa26050a62ac9^ --file components/VendorForm.tsx --prove tests/unit/riparazione-r12-logo-formati-scritti.test.ts --json"
+   },
+   "nota": "La scritta (VendorForm.tsx:399) e accept (riga 220) leggono la stessa regola del magazzino products: sette formati coincidono. Prova debole (testo nel sorgente). Stesso difetto fuori voce da aprire: components/StoreMediaManager.tsx:151 e components/seller/ProductImagesField.tsx:136 scrivono tre formati e ne accettano sette."
+  },
+  {
+   "id": "R12-007",
+   "chiave": "layout-responsive|il titolo di collectionheader da 640 px in su ha una misura in pixel fissi",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 74b3537bb175e672778c886fb6777b4124d056be^ --file components/CollectionHeader.tsx --prove tests/unit/riparazione-r12-collectionheader-titolo-rem.test.ts --json"
+   },
+   "nota": "CollectionHeader.tsx:81 sm:text-[2rem]; nessun text-[Npx] resta nel titolo. Prova debole (testo nel sorgente)."
+  },
+  {
+   "id": "R12-008",
+   "chiave": "layout-responsive|l'occhiello maiuscolo di collectionheader esce dalla colonna a 280 px col testo al 200%",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 94f463898158822ed8024822b8f7eb3e173ba1d3^ --file components/CollectionHeader.tsx --prove tests/unit/riparazione-r12-collectionheader-occhiello-a-capo.test.tsx --json"
+   },
+   "nota": "break-words dentro min-w-0 in una fila flex (CollectionHeader.tsx:80); la prova guarda le classi sulla pagina disegnata ed è rossa senza correzione. jsdom non misura: 280 px al 200% non misurato davvero. Fuori voce: la descrizione (riga 84) non ha break-words."
+  },
+  {
+   "id": "R12-009",
+   "chiave": "privacy-legale|accogliendo la segnalazione di un negozio, se la lettura del negozio cade, il negozio resta online ma la decisione «accolta» si registra",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 3b18d131fcc315d8c9ccb7d5b5e98ae24a60dec3^ --file app/admin/segnalazioni/page.tsx --prove tests/unit/riparazione-r12-segnalazione-negozio-non-letto.test.tsx --json"
+   },
+   "nota": "page.tsx:113-120: con la lettura del negozio in errore si ferma prima di sospendere e registrare; il messaggio arriva intatto nel toast. Negozio non trovato: accolta senza sospendere, corretto."
+  },
+  {
+   "id": "R12-010",
+   "chiave": "privacy-legale|le semine 005 e 006 scrivono nel codice l'email personale del titolare per promuoverlo o retrocederlo, e il deposito è pubblico",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 97350af0f1a5e3ee648b7d2ac271e4e117535fce^ --file seeds/005_admin_and_rider.sql,seeds/006_admin_swap.sql --prove tests/unit/riparazione-r12-semine-senza-email.test.ts --json"
+   },
+   "nota": "Email assente da tutto l albero (cercata senza stamparla); resta nella storia git, dichiarato. Semine girate sul Postgres locale k06_j4: senza impostazione NOTICE e nessuno promosso; con impostazione solo quell utente; email inesistente nessuna modifica. Minore: maiuscole diverse non trovano nessuno senza avviso."
+  },
+  {
+   "id": "R12-011",
+   "chiave": "qa-flussi|il campanello del sito e la lista delle notifiche contano ancora le promozioni (e le newsletter) di chi le ha spente",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base ac6e6ca6d000e770e7f99e9abb784ef8af2cac06^ --file components/hooks/useNotificationsCount.ts --prove tests/unit/riparazione-r12-campanello-senza-promo-spente.test.tsx --json"
+   },
+   "nota": "La parte fatta regge: useNotificationsCount.ts:18-30 con preferenze NOT NULL opt-in, category NOT NULL. Ma cosa_resta descrive male il sintomo: app/notifications/page.tsx:234 usa anche notifications.some(!is_read), quindi «Segna tutte come lette» resta se la promo è fra le 50 righe; il sintomo vero è campanello a 0 e riga «Non letta» nella lista."
+  },
+  {
+   "id": "R12-012",
+   "chiave": "qa-flussi|«ripeti ordine» rimette nel carrello una quantità oltre la scorta (la ferma solo la cassa)",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 80fd2b65bb6aefe3b6a25ce685d55519536e4289^ --file lib/riordino.ts --prove tests/unit/riparazione-r12-riordino-oltre-la-scorta.test.ts --json"
+   },
+   "nota": "La parte fatta regge (lib/riordino.ts:227-237: scorta variante o prodotto, null senza tetto, variante a 0, Aggiungi sottrae il carrello). Residuo dichiarato (stessa riga due volte nell ordine) più uno non dichiarato: con Aggiungi si sottrae solo la riga con la stessa variante (232-234), quindi varianti diverse sulla scorta del prodotto possono superarla. Stessa cura: un conto per prodotto."
+  },
+  {
+   "id": "R12-014",
+   "chiave": "stati-ui|la pagina del lavoro sul catalogo non legge l avviso dell applica e mostra solo i primi tre motivi",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 44d556bd5ddac1c1df82b24093594d43e9629396^ --file app/seller/products/ai-batch/page.tsx --prove tests/unit/riparazione-r12-lotto-avviso-e-motivi.test.tsx --json"
+   },
+   "nota": "ai-batch/page.tsx:454-463 legge l avviso, mostra tutti i motivi, toast.warning con avviso senza saltati (ramo oggi irraggiungibile, innocuo). Nota UX: con molti motivi l avviso è lungo e dura 8 s."
+  },
+  {
+   "id": "R15-004",
+   "chiave": "deploy-sre|senza la 164 la lettura dei nomi pubblici scrive «vista nomi_pubblici assente» a ogni chiamata",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base 9a4a541cadea646d2ba33aace382f64f3c4e6f92^ --file lib/queries/seller-public-profiles.ts --prove tests/unit/riparazione-r15-avviso-senza-la-164-una-volta.test.ts --json"
+   },
+   "nota": "Avviso una volta sola, altri errori e «nemmeno da profiles» ogni volta; prova comportamentale. Limite: il segnale (seller-public-profiles.ts:261) non si azzera mai nel processo."
+  },
+  {
+   "id": "R15-005",
+   "chiave": "immagini-media|le prove di sviluppo seminano 240 foto di prodotto da placehold.co",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base ca1161715487ec1797d614ab9c666742d54274f6^ --file seeds/001_piacenza_stores.sql --prove tests/unit/riparazione-r15-seme-senza-placehold.test.ts --json"
+   },
+   "nota": "Parziale come dichiarato: il seme coincide riga per riga, cambia solo images=[]; le pagine reggono l elenco vuoto (product/[id]/page.tsx:515, DropOfDay:108, StorePreviewCard, StoreListRow). Il resto (stories, next.config.js:51, database vero) è detto onestamente. Prova debole: legge il testo del SQL, non carica il seme."
+  },
+  {
+   "id": "R15-006",
+   "chiave": "layout-responsive|in chi siamo i due pulsanti della fascia scura finale escono dalla fascia a 280 px col testo al 200%",
+   "verdetto": "rompe_altro",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base f2b9a86e2c6bb48c5bada6887d2151252714d1a6^ --file app/about/page.tsx --prove tests/unit/riparazione-r15-chi-siamo-fascia-finale-280.test.ts --json"
+   },
+   "nota": "I pulsanti ora restano nella fascia a 280 e 320 px al 200% (misurato in Chromium), ma [overflow-wrap:anywhere] con icona e px-5 (app/about/page.tsx:237-243) lascia circa 30 px al testo: «La/vo/ra/co/n/noi» va a capo lettera per lettera, pulsante alto 578 px a 320 e 482 a 280, illeggibile. max-sm:p-5 (riga 224) stringe il padding anche al 100% su ogni telefono. Prova debole (classi nel sorgente)."
+  },
+  {
+   "id": "R15-007",
+   "chiave": "layout-responsive|col testo al 200% il voto del negozio nella scheda resta tagliato",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base 7b1df06ab6aca90206977d9f578242c37d866a59^ --file components/StorePreviewCard.tsx --prove tests/unit/riparazione-r15-voto-scheda-negozio-a-capo.test.ts --json"
+   },
+   "nota": "Misurato in Chromium: nella vetrina della home a 2 colonne il voto prima era tagliato a 280/320/375 px, ora va a capo; nessuna regressione al 100%. Limite: con 1000+ recensioni a 280 px «(1280)» esce di 5 px (StorePreviewCard.tsx:124). Prova debole (classi nel sorgente)."
+  },
+  {
+   "id": "R15-008",
+   "chiave": "pagamenti-stripe|la pulizia gira prima di ogni convalida del carrello: un tentativo respinto uccide una cassa ancora buona",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base 07d2fd8b5214f2b95f076d94bd757a55c6d59772^ --file app/api/stripe/checkout/route.ts --prove tests/unit/riparazione-r15-pulizia-dopo-i-rifiuti.test.ts --json"
+   },
+   "nota": "Un solo revisore prima: guardata con più cura. Pulizia del riuso solo con pagina open; carrello identico riusa la sessione (improntaDaTenere); carrello cambiato non entra nel riuso; vecchia pagina chiusa da pulisci() a route.ts:711 dopo i rifiuti; niente doppio incasso (cancello in rivendicaIlCodiceSconto); scorte rilette dopo la pulizia. Prova rossa sul ramo del riuso. Caso voluto: route.ts:419-429 riuso poi ferma_tutto risponde 409 dopo aver chiuso altre casse."
+  },
+  {
+   "id": "R15-011",
+   "chiave": "qa-flussi|il testo di un errore vero arriva a sentry senza oscurare email e telefoni",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base d2fe8242^ --file lib/logger.ts --prove tests/unit/riparazione-r15-errore-oscurato-a-sentry.test.ts,tests/unit/riparazione-r15-errore-oscurato-fino-in-fondo.test.ts --json"
+   },
+   "nota": "Parziale dichiarato, la parte fatta regge: nessuna email arriva a Sentry da messaggio, causa (circolare/profonda), extra, Error nel contesto. Restano: telefoni scritti «333 12 34 567» o «333 1234 567» in chiaro (lib/logger.ts:56-59, schema preesistente) mentre la voce dice telefoni; righe «at …» della pila non oscurate per scelta."
+  },
+  {
+   "id": "R15-012",
+   "chiave": "qa-flussi|un contesto circolare passato al logger fa lanciare un errore invece di scrivere la riga",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base 5231c6fd^ --file lib/logger.ts --prove tests/unit/riparazione-r15-logger-circolare.test.ts,tests/unit/riparazione-r15-logger-profondo.test.ts --json"
+   },
+   "nota": "Ciclo, BigInt, getter che lancia: la riga si scrive sempre. Minore artificioso: proxy con getPrototypeOf che lancia fa ancora lanciare (lib/logger.ts:493, eUnErrore fuori dal try; instanceof a :162). Preesistente: 30 chiavi autoreferenti bloccano circa 8 s."
+  },
+  {
+   "id": "R15-013",
+   "chiave": "qa-flussi|la cassa accetta ordini senza limite nella stessa fascia oraria, mentre il tetto deciso è 5",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base c5ee6712b1116f98e29c1c25bfe2ef2a6ad56042^ --file lib/quando-arriva.ts,app/api/stripe/checkout/route.ts --prove tests/unit/riparazione-r15-fascia-piena.test.ts --json"
+   },
+   "nota": "Un solo revisore prima: guardata con più cura. Parziale dichiarato onestamente: conteggio globale (fatto consegna.capienza), giorno sull ora di Piacenza, annullati e ritiri esclusi. Scoperto e dichiarato: la rotta COD non ha tetto (carta e contanti divergono, e la carta oggi è spenta: in produzione il tetto non scatta mai), due pagamenti contemporanei passano tutti e due, chi ha già un ordine nella fascia passa sempre (route.ts:95), conteggio caduto solo in warn."
+  },
+  {
+   "id": "R15-014",
+   "chiave": "qa-flussi|la lettura dei negozi della griglia non va a blocchi",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base 1f0083ca3ed081d0bf0eb6f336c8fec065943b6c^ --file lib/queries/seller-public-profiles.ts --prove tests/unit/riparazione-r15-vetrina-a-blocchi.test.ts --json"
+   },
+   "nota": "250 id con duplicati e null danno la mappa completa; un blocco che cade con errore generico rigetta tutta la lettura (nessun negozio perso in silenzio); 42703 ripiega bene; chiamanti invariati, tsc pulito; prova comportamentale. Nessun conflitto con R15-004 sullo stesso file."
+  }
+ ],
+ "campione": {
+  "R12": {
+   "accettato": true
+  },
+  "R15": {
+   "accettato": false
+  }
+ }
+}

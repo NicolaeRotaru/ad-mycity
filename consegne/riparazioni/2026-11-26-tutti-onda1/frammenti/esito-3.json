@@ -1,0 +1,34 @@
+{
+  "corsia": 3,
+  "territorio": "R03",
+  "difetti": [
+    {
+      "chiave": "ai-endpoints|con il modello ai mancante il giro dei prezzi esterni segna in errore tutti i prodotti del giro e continua a chiamare",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-giro-prezzi-modello-mancante.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 50ac47b3162c4bd5b9e297f2917c9bf4b0a0b081^ --file app/api/cron/external-price-alerts/route.ts --prove tests/unit/riparazione-r03-giro-prezzi-modello-mancante.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03-002 --base 50ac47b3162c4bd5b9e297f2917c9bf4b0a0b081^ --file app/api/cron/external-price-alerts/route.ts --prove tests/unit/riparazione-r03-giro-prezzi-modello-mancante.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "Al primo errore 404 del modello il giro esce dal ciclo senza segnare 'error' nessun prodotto, nemmeno quello che ha preso il 404, che non ha colpa; la risposta aggiunge «rimasti». Gli altri guasti continuano come prima."
+    },
+    {
+      "chiave": "ai-endpoints|il sorvegliante dei prezzi esterni può superare i suoi 300 s con 10 chiamate al modello in fila",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-giro-prezzi-durata.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base a3f42c8e7c4f3a26a5aebc9fd57d86ccb13b6aa4^ --file app/api/cron/external-price-alerts/route.ts --prove tests/unit/riparazione-r03-giro-prezzi-durata.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03-003 --base a3f42c8e7c4f3a26a5aebc9fd57d86ccb13b6aa4^ --file app/api/cron/external-price-alerts/route.ts --prove tests/unit/riparazione-r03-giro-prezzi-durata.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "Tetto di tempo nel giro: una chiamata nuova parte solo se, usando tutti i 60 s del tentativo, finisce prima di 270 s (300 meno 30 di margine), contati dall'inizio dell'handler, selezione dei candidati compresa. I prodotti rimasti non si toccano e restano al giro dopo; la risposta dice quanti."
+    },
+    {
+      "chiave": "ai-endpoints|«aggiorna ora» dei prezzi esterni: col budget ai finito l'admin legge ancora «riprova»",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-aggiorna-ora-budget-ai.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 1703ffaad2aeaa411386bf0bf26befda27dba368^ --file app/api/products/[id]/external-refresh/route.ts --prove tests/unit/riparazione-r03-aggiorna-ora-budget-ai.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03-004 --base 1703ffaad2aeaa411386bf0bf26befda27dba368^ --file \"app/api/products/[id]/external-refresh/route.ts\" --prove tests/unit/riparazione-r03-aggiorna-ora-budget-ai.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "Nel POST gli AiCallError col motivo tetto di spesa o status 401/429/503 passano a mapAiError; il 404 resta com'era e gli altri guasti restano «Aggiornamento non riuscito. Riprova.»."
+    },
+    {
+      "chiave": "stati-ui|la modifica prodotto dell'amministratore, se non legge le varianti, dice «ricarica la pagina» ma non ha il bottone riprova",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-admin-prodotto-varianti-riprova.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 1d3f5b5f1c9fe3c80d7cf62e6faa0d7966590b3f^ --file app/admin/products/[id]/edit/page.tsx --prove tests/unit/riparazione-r03-admin-prodotto-varianti-riprova.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03-007 --base 1d3f5b5f1c9fe3c80d7cf62e6faa0d7966590b3f^ --file \"app/admin/products/[id]/edit/page.tsx\" --prove tests/unit/riparazione-r03-admin-prodotto-varianti-riprova.test.tsx --json → uscita 0 (K01)",
+      "nota_fix": "Il bottone Riprova compare anche con l'errore delle varianti e le rilegge (e rilegge il prodotto se è caduto anche lui). La prova ci clicca e verifica che il modulo si apra con le 2 taglie."
+    }
+  ]
+}

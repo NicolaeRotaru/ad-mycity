@@ -1,0 +1,71 @@
+qa-flussi|con una promozione del negozio la vetrina scrive un prezzo e la cassa ne fa pagare un altro, di un centesimo per pezzo
+mobile-pwa|quando la sessione scade da sola, il telefono perde le notifiche in silenzio e al nuovo accesso nessuno le riaccende
+privacy-legale|le domande sotto i prodotti si pubblicano subito, non si possono segnalare una per una e nessuno può toglierle
+qa-flussi|la cassa accetta ordini senza limite nella stessa fascia oraria, mentre il tetto deciso è 5
+qa-flussi|il carrello si riempie di nuovo con la spesa già pagata o già tolta, se si usano due dispositivi o non si torna da stripe
+privacy-legale|«chi siamo» e «lavora con noi» raccontano una flotta di rider, una crescita e quattro posti di lavoro che oggi non esistono
+performance|quasi tutte le pagine del sito nascono vuote e le riempie il browser con chiamate al database, non solo la home e la scheda prodotto
+ai-endpoints|il tetto giornaliero di spesa ai in produzione non è condiviso: ogni copia del sito conta per sé
+coerenza-brand|ombre nere fredde accanto alle ombre calde del brand; il token creato apposta non è usato mai
+coerenza-brand|la primitiva card è usata in 10 file, mentre 141 card sono ridisegnate a mano con quattro raggi diversi
+tipografia|la scala delle dimensioni del testo viene scavalcata circa trecentotrenta volte
+pagamenti-stripe|la pulizia gira prima di ogni convalida del carrello: un tentativo respinto uccide una cassa ancora buona
+architettura|in home ogni sezione chiede di nuovo alla vetrina lo stesso negozio, e ogni fascia compare un giro di rete più tardi
+architettura|email partita ma non segnata: la notte dopo riparte, e se fallisce l'allarme dice «non partita» per un'email già arrivata
+architettura|audit_logs, il registro delle azioni amministrative, diventa il lucchetto delle email, scritto fuori da lib/audit.ts e dal catalogo
+architettura|avvisi-a-chi-aspetta.ts tiene insieme pannello, lucchetto email, indirizzo, html e invio; l'email parte solo se il pannello riesce
+qa-flussi|ogni visitatore senza account fa una richiesta rifiutata alla vista dei nomi su ogni scheda prodotto e vetrina
+qa-flussi|la campanella del sito mostra le promozioni anche a chi le ha spente
+qa-flussi|indirizzo, cap e città del profilo non si correggono più
+qa-flussi|due regole diverse per il tetto del portiere sulla sessione
+privacy-legale|le semine 005 e 006 scrivono nel codice l'email personale del titolare per promuoverlo o retrocederlo, e il deposito è pubblico
+privacy-legale|la pagina cms (chi siamo) carica ancora i video senza chiedere
+dati-analytics|la percentuale dei pagamenti con carta oltre ventimila tentativi diventa un campione senza dirlo
+privacy-legale|accogliendo la segnalazione di un negozio, se la lettura del negozio cade, il negozio resta online ma la decisione «accolta» si registra
+qa-flussi|con una promozione la vetrina scrive un prezzo e la cassa ne fa pagare un altro, di un centesimo per pezzo (voce già nel registro, non assegnata in onda 2)
+qa-flussi|«ripeti ordine» rimette nel carrello una quantità oltre la scorta (la ferma solo la cassa)
+qa-flussi|un cliente che esiste già non ha una strada da solo per diventare fattorino
+qa-flussi|la lettura dei negozi della griglia non va a blocchi
+frontend-ux|altri percorsi di facebook non elencati possono essere salvati come nome del profilo
+layout-responsive|la home a 320 px col testo al 200% scorre ancora di lato di 18 px
+stati-ui|il modulo prodotto ricalcola la spunta «escluso dal recesso» dell'apertura a ogni disegno
+frontend-ux|il bollino dello sconto della scheda prodotto mostra la percentuale grezza, oltre il 70% che il prezzo applica
+qa-flussi|il fattorino nuovo non può finire l'iscrizione: la pagina dei documenti lo tiene fuori finché non è approvato
+api-backend|l'invio subito delle notifiche push prende le righe guardando solo pushed_at, e può correre col giro del cron
+api-backend|la rotta delle cancellazioni copia una stringa privata della libreria degli avvisi
+architettura|un altro finto scritto a mano risponde alle letture degli avvisi nelle prove della cancellazione
+architettura|il parametro propostail di negoziopuoservire non lo passa nessuno
+qa-flussi|il campanello del sito e la lista delle notifiche contano ancora le promozioni (e le newsletter) di chi le ha spente
+qa-flussi|negli strumenti di prova, il finto usesearchparams crea un oggetto nuovo a ogni giro (in next resta lo stesso): le prove montate non vedono le gare sull indirizzo
+frontend-ux|il sito del negozio accetta un indirizzo con schema sbagliato, come ftp:// o http//
+immagini-media|le prove di sviluppo seminano 240 foto di prodotto da placehold.co
+stati-ui|sotto un lavoro sul catalogo chiuso che dice di chiedere all'assistenza prima di ripartire, il pulsante «avvia sul catalogo» resta lì
+ai-endpoints|l attesa per un applicazione del catalogo ancora in corso non scatta mai: legge una colonna che nessuna migrazione crea
+stati-ui|la pagina del lavoro sul catalogo non legge l avviso dell applica e mostra solo i primi tre motivi
+qa-flussi|la risposta del negozio svuotata e riscritta dall api riavvisa il cliente ogni volta
+qa-flussi|il negozio che risponde alla propria domanda senza answered_by si avvisa da solo
+microcopy|un tetto del nome negozio respinto dal database esce col messaggio generico «il valore inserito non è valido.»
+qa-flussi|due veloci pagate con la carta nello stesso momento con un fattorino solo passano tutte e due
+qa-flussi|un contesto circolare passato al logger fa lanciare un errore invece di scrivere la riga
+layout-responsive|l'occhiello maiuscolo di collectionheader esce dalla colonna a 280 px col testo al 200%
+layout-responsive|il titolo di collectionheader da 640 px in su ha una misura in pixel fissi
+layout-responsive|in chi siamo i due pulsanti della fascia scura finale escono dalla fascia a 280 px col testo al 200%
+stati-ui|oncount della griglia non sa dire «non so»: con la griglia ferma al tetto la categoria può restare su un numero vecchio
+dati-analytics|il cancello del filmato in eccezione lascia passare il filmato originale
+layout-responsive|col testo al 200% il voto del negozio nella scheda resta tagliato
+deploy-sre|chat e recensioni del negozio, senza la 181, scrivono un avviso a ogni apertura e non usano il ripiego dei nomi
+deploy-sre|senza la 164 la lettura dei nomi pubblici scrive «vista nomi_pubblici assente» a ogni chiamata
+deploy-sre|la guida al backup non dice che con un remote cifrato o alias lo storico va impostato a mano
+frontend-ux|il fattorino respinto o sospeso legge nel profilo «caricato · in attesa di verifica» sui documenti
+frontend-ux|da approvato, l'attestato haccp appena caricato passa subito a «caricato · ok» senza che nessuno lo guardi
+frontend-ux|alcune sottopagine vere di un profilo facebook (/nome/timeline, /nome/info, /nome/photos_by) vengono rifiutate invece di tenere il nome
+frontend-ux|il link tiktok di un profilo vero chiamato come un percorso riservato (tiktok.com/@live) viene rifiutato anche con la @
+frontend-ux|con due social sbagliati, uno vuoto e uno già salvato, il messaggio dice «sono rimasti com'erano» anche per quello vuoto
+frontend-ux|sotto il logo del negozio c'è ancora scritto «(png, jpg)» mentre la casella accetta sette formati
+frontend-ux|anche i campi brevi delle categorie nel pannello admin tagliano in silenzio con maxlength
+frontend-ux|nel link facebook.com/nome_col_trattino_basso il primo messaggio che si legge è quello generico, «scrivi solo il nome del profilo…», non quello del trattino basso
+accessibilita|la card senza href scarta aria-label, e la card con href non passa al link il resto delle prop (id, role)
+deploy-sre|il commento del ritorno indietro dice ancora che un rilascio senza commit resta un posto buono, come prima
+qa-flussi|l'aiutante attendi() può dire «sospeso per sempre» per un import solo lento, e il permesso permettisospeso vale per l'ultima accendi
+qa-flussi|il testo di un errore vero arriva a sentry senza oscurare email e telefoni
+api-backend|il preventivo accettato due volte nello stesso giorno con scelte diverse lascia avvisi che si contraddicono

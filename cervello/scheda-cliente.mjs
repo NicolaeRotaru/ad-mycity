@@ -62,7 +62,7 @@ export const FASCE = {
     ],
   },
   business: {
-    nome: 'Business', centesimi: 50000, post: 12, video: 2,
+    nome: 'Business', centesimi: 60000, post: 12, video: 2,
     inPratica: { sito: 'Più pagine col vostro nome', piano: '12 contenuti al mese, di cui 2 video brevi', foto: 'Una sessione di foto ogni tre mesi, più un video al mese', analisi: 'Una ogni mese' },
     perChi: 'Per crescere ogni settimana: più contenuti, più clienti che ti trovano.',
     servizi: [
@@ -74,7 +74,7 @@ export const FASCE = {
     ],
   },
   premium: {
-    nome: 'Premium', centesimi: 99900, post: 20, video: 4,
+    nome: 'Premium', centesimi: 90000, post: 20, video: 4,
     inPratica: { sito: 'Più pagine, aggiornato da noi ogni mese', piano: '20 contenuti al mese, 4 sono video, più le storie', foto: 'Foto e video ogni mese', analisi: 'Una ogni settimana, e un incontro al mese' },
     perChi: 'Il servizio completo: foto e video ogni mese, un referente tutto tuo.',
     servizi: [
@@ -185,6 +185,26 @@ export function controlla(d, canoni, pagamento) {
   if (!canoni) errori.push('registro dei fatti: non trovo i canoni in sdg.abbonamenti');
   else for (const [id, f] of Object.entries(FASCE)) {
     if (canoni[id] !== f.centesimi) errori.push(`canone ${f.nome}: il registro dice ${canoni[id] / 100} €, il programma ${f.centesimi / 100} €`);
+  }
+  // ③bis — un canone scritto a mano nel testo libero (obiezioni, risposte, gancio…) deve essere uno dei canoni di oggi
+  // o un primo mese a metà. Collaudo del 27/11/2026: dopo il cambio a 300/600/900 la scheda di Ora del Gusto diceva
+  // ancora «500 euro al mese sono tanti», e nessun controllo guardava il testo libero.
+  if (canoni) {
+    const ammessi = new Set(Object.values(canoni).flatMap((c) => [c / 100, c / 200]));
+    const testi = [];
+    const raccogli = (v, dove) => {
+      if (typeof v === 'string') testi.push([v, dove]);
+      else if (Array.isArray(v)) v.forEach((x, i) => raccogli(x, `${dove}[${i}]`));
+      else if (v && typeof v === 'object') for (const [k, x] of Object.entries(v)) if (k !== 'fonti' && k !== 'sito_bozza') raccogli(x, dove ? `${dove}.${k}` : k);
+    };
+    raccogli(d, '');
+    for (const [t, dove] of testi) {
+      // (?<![\d.,]): «1.500 € al mese» di un concorrente non va letto come «500 € al mese».
+      for (const m of t.matchAll(/(?<![\d.,])(\d{2,4}(?:,\d{1,2})?)\s*(?:€|euro)\s*(?:al mese|\/\s*mese|mensili)/gi)) {
+        const n = Number(m[1].replace(',', '.'));
+        if (!ammessi.has(n)) errori.push(`prezzo vecchio o sbagliato nel testo «${dove}»: «${m[0]}» (i canoni di oggi sono ${Object.values(canoni).map((c) => c / 100).join(', ')} euro al mese)`);
+      }
+    }
   }
   // ④ piano editoriale = promessa dell'abbonamento consigliato
   const f = FASCE[d?.consigliato];

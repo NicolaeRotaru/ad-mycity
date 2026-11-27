@@ -260,5 +260,16 @@ già pronto, di quello che le manca: logo, foto e video, social automatici, sito
 l'azienda partner a cui MyCity si affida per riprese, scatti, montaggio e ritocco: è un partner e offre solo
 quel servizio. Social, sito web e logo sono servizi di MyCity. Le regole vive sono nel registro (`strategia.cliente-core`, `strategia.segmenti-onboarding`,
 `agenzia.listino`, `agenzia.nome`). Un avviso per chi scrive il preventivo, dal §2.1: il negoziante diffida delle agenzie web.
-Per questo ogni voce del preventivo dice il motivo con il numero vero, per esempio «12 prodotti senza foto»,
-e non parla mai di «digitalizzazione».
+Per questo ogni voce del preventivo dice il motivo con il numero vero, per esempio «12 prodotti senza foto».
+La parola «digitalizzare» invece si può usare: vedi la nota ⑦.
+
+**⑦ Il concetto: cosa fa MyCity (Nicola, 27/11/2026 18:11).** Nicola l'ha dettato in chat all'AD
+chiedendo di salvarlo come concetto: *«MyCity si occupa di digitalizzare le attività locali e
+promuovere i loro servizi e prodotti attraverso il marketplace»*. È più largo del §1, che parte
+dalle botteghe: oggi MyCity serve tutte le attività che vendono qualcosa, e oltre al marketplace
+offre i servizi per portarle online (sito, social, scheda Google, foto e video). Il §1 resta vero
+come motore: il concetto dice *cosa fa* MyCity, il §1 e il §3 spiegano *perché* sposta la spesa.
+La parola si può dire anche fuori casa. Nicola, 27/11 verso le 23:10: «digitalizzare» si può usare
+col negoziante, sul sito e nei volantini. Così cade il divieto su questa parola scritto nel §2.1. Il
+resto del §2.1 non cambia: col negoziante non si parla di «tecnologia» né di «AI», e la promessa si
+dice in incassi, clienti e tempo. *(`strategia.concetto` nel registro dei fatti.)*

@@ -1,0 +1,13 @@
+{
+  "corsia": 14,
+  "territorio": "R14",
+  "difetti": [
+    {
+      "chiave": "api-backend|il preventivo accettato due volte nello stesso giorno con scelte diverse lascia avvisi che si contraddicono",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r14-preventivo-scelte-diverse.test.ts tests/unit/il-preventivo-accettato-arriva-a-nicola.test.ts tests/unit/modalita-demo.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 5ec787d5fb746855fffc11764889f509aeb23b4a^ --file app/api/seller/preventivo/route.ts --prove tests/unit/riparazione-r14-preventivo-scelte-diverse.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 5ec787d5fb746855fffc11764889f509aeb23b4a^ --file app/api/seller/preventivo/route.ts --prove tests/unit/riparazione-r14-preventivo-scelte-diverse.test.ts --json → uscita 0 (K05)",
+      "nota_fix": "Prima di scrivere l'avviso della fascia scelta, la rotta toglie con togliLAvvisoAgliAmministratori gli avvisi delle altre fasce dello stesso preventivo del giorno: resta solo l'ultima scelta, anche nel giro Base → Premium → Base. I vecchi si tolgono prima di scrivere il nuovo, così se la scrittura cade il cliente legge «riprova»."
+    }
+  ]
+}

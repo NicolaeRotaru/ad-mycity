@@ -1,8 +1,16 @@
 ---
 tipo: stato
-aggiornato: 2026-11-26 15:25
+aggiornato: 2026-11-27 01:50
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🔴 **2026-11-27 01:50 — Il sito ha le 97 riparazioni della campagna, il database aspetta 19 migrazioni.**
+>
+> Nicola ha chiesto di controllare e unire tutte le richieste aperte. Sono unite mycity#341 e mycity#342, ad-mycity#1061 e il quaderno della campagna. Le 97 voci sono chiuse nel registro: le aperte del sito passano da 646 a 549. Le 19 migrazioni non sono applicate e aspettano il suo «ok migrazioni». La richiesta ad-mycity#1048 resta ferma: aspetta la sua decisione legale su Google Maps.
+
+> 🟡 **2026-11-27 00:55 — La campagna sui difetti del sito che non chiedono Nicola è pronta da unire: 97 voci si chiudono con mycity#342.**
+>
+> Tre onde di sessioni hanno riparato, altre sessioni hanno collaudato, e un controllore ha riletto ogni unione. Si chiudono 97 voci: 27 della prima onda, 31 della seconda e 39 della terza. Altre 15 erano già riparate prima. Le 29 riparazioni che rompevano altro sono state tolte prima di arrivare qui. La richiesta è in bozza, già unita con main, con 14.234 prove e la palestra del database verdi. Spesa stimata circa 1.000 $ su 1.200, circa 10 $ a voce chiusa. Le voci si chiudono nel registro solo dopo che Nicola unisce. Prima servono il suo «ok migrazioni» sulle 9 migrazioni nuove e il conteggio del catalogo per la 911.
 
 > **2026-11-26 15:25 — Il primo ricontrollo a onde ha chiuso 45 difetti del sito: le voci aperte passano da 598 a 553.**
 >
@@ -19,6 +27,9 @@ fonte: AD digitale (giro, cervello/giro.md)
 >
 > Questa pagina era ferma al 24/11 alle 22:57. Per esempio, l'ultimo lavoro unito è delle 13:08 di oggi: più di un giorno dopo. Per questo un controllo automatico bocciava tutte le richieste nuove. Cosa resta da fare, tuo e mio, sta in `LAVORO-APERTO.md`.
 
+> 🟡 **2026-11-26 14:05 — Riparo i difetti che non chiedono Nicola.**
+>
+> Nicola il 26/11 ha chiesto di lavorare tutti i difetti che non chiedono lui, senza approvazioni. Sul registro ci sono 598 difetti aperti: circa 410 si chiudono senza di lui. Per esempio, i contanti vecchi da versare che spariscono dal pannello dei bonifici oltre i mille ordini. Alle 13:55 sono partite 11 sessioni su 116 difetti, fra cui 17 gravi. Il tetto resta il suo «ok 1.200» del 24/11: con quella cifra si chiudono circa 150-250 difetti. La sessione della radiografia intanto ricontrolla altri 272 difetti. Quaderno: `consegne/riparazioni/2026-11-26-tutti/REGIA.md`.
 > 🟡 **2026-11-26 14:05 — La scheda del cliente nasce dalla foto dell'attività.**
 >
 > Il venditore fotografa il negozio e manda la foto a una sessione nuova. La sessione cerca via, social, sito e recensioni. Poi consegna la scheda interna per il venditore e il preventivo con bozza del sito e piano editoriale. Prima prova su Ora del Gusto e La Ragazzetta: quattro pagine private, Business consigliato a tutte e due. La rete dell'ambiente è chiusa, quindi nessuno dei 35 dati è «confermato». Dettagli: `LAVORO-APERTO.md`, voce del 26/11 14:05.

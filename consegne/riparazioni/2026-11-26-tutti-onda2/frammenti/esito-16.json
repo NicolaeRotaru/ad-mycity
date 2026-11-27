@@ -1,0 +1,55 @@
+{
+  "corsia": 16,
+  "territorio": "R16",
+  "difetti": [
+    {
+      "chiave": "dati-analytics|la percentuale dei pagamenti con carta oltre ventimila tentativi diventa un campione senza dirlo",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r16-tasso-pagamenti-campione.test.tsx",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 72d99c5b216455f0d8a2fc7345ad6e583b593dc2^ --file app/admin/page.tsx --prove tests/unit/riparazione-r16-tasso-pagamenti-campione.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 72d99c5b216455f0d8a2fc7345ad6e583b593dc2^ --file app/admin/page.tsx --prove tests/unit/riparazione-r16-tasso-pagamenti-campione.test.tsx --json → uscita 0 (K05)",
+      "nota_fix": "Oltre il tetto di 20.000 righe la lettura dei tentativi segnala «troncato», ma la Panoramica non lo guardava. Ora l'etichetta diventa «campione dei 30 giorni» e la riga sotto dice «campione: solo gli ultimi 20.000 tentativi»; sotto il tetto la pagina resta com'era."
+    },
+    {
+      "chiave": "frontend-ux|da approvato, l'attestato haccp appena caricato passa subito a «caricato · ok» senza che nessuno lo guardi",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r16-profilo-fattorino-documenti.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 940731e258536cd91c7cb8770d5e0defbc7aa15b^ --file app/rider/profile/page.tsx --prove tests/unit/riparazione-r16-profilo-fattorino-documenti.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 940731e258536cd91c7cb8770d5e0defbc7aa15b^ --file app/rider/profile/page.tsx --prove tests/unit/riparazione-r16-profilo-fattorino-documenti.test.tsx --json → uscita 0 (K05)",
+      "nota_fix": "L'attestato HACCP caricato resta «Caricato · In attesa di verifica» anche da approvato, perché nessuna colonna dice che qualcuno l'ha guardato."
+    },
+    {
+      "chiave": "frontend-ux|il fattorino respinto o sospeso legge nel profilo «caricato · in attesa di verifica» sui documenti",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r16-profilo-fattorino-documenti.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 940731e258536cd91c7cb8770d5e0defbc7aa15b^ --file app/rider/profile/page.tsx --prove tests/unit/riparazione-r16-profilo-fattorino-documenti.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 940731e258536cd91c7cb8770d5e0defbc7aa15b^ --file app/rider/profile/page.tsx --prove tests/unit/riparazione-r16-profilo-fattorino-documenti.test.tsx --json → uscita 0 (K05)",
+      "nota_fix": "La pagina legge anche approval_status: il fattorino respinto o sospeso legge «Caricato · Richiesta respinta» o «Caricato · Account sospeso» (etichetta «Non attivo»); chi è in attesa vera legge ancora «In attesa di verifica»."
+    },
+    {
+      "chiave": "frontend-ux|il bollino dello sconto della scheda prodotto mostra la percentuale grezza, oltre il 70% che il prezzo applica",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r16-bollino-sconto.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 1fd4f2563a6219802dc4ca3eaaa5f4d12ba573a6^ --file components/ProductCard.tsx --prove tests/unit/riparazione-r16-bollino-sconto.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 1fd4f2563a6219802dc4ca3eaaa5f4d12ba573a6^ --file components/ProductCard.tsx --prove tests/unit/riparazione-r16-bollino-sconto.test.tsx --json → uscita 0 (K05)",
+      "nota_fix": "Il bollino ricava la percentuale da discountedUnitCents(100, pct), la stessa funzione che applica il tetto del 70% al prezzo: uno sconto grezzo del 90% mostra -70%. Complemento nello stesso tema: commit 71bb4d8a940f67a374f8102f72bb406861ae4f7e, anche il bollino «In promo» di components/ActivePromoBadge.tsx si ferma al 70% (prova tests/unit/riparazione-r16-bollino-promo-tetto.test.tsx, rimessa regge, uscita 0: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 71bb4d8a940f67a374f8102f72bb406861ae4f7e^ --file components/ActivePromoBadge.tsx --prove tests/unit/riparazione-r16-bollino-promo-tetto.test.tsx --json)."
+    },
+    {
+      "chiave": "microcopy|un tetto del nome negozio respinto dal database esce col messaggio generico «il valore inserito non è valido.»",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r16-nome-negozio-troppo-lungo.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 3a3115e5d6cfa9ebb7964aeeba02295dae414c2c^ --file lib/errors.ts --prove tests/unit/riparazione-r16-nome-negozio-troppo-lungo.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 3a3115e5d6cfa9ebb7964aeeba02295dae414c2c^ --file lib/errors.ts --prove tests/unit/riparazione-r16-nome-negozio-troppo-lungo.test.ts --json → uscita 0 (K05)",
+      "nota_fix": "Il tetto è un trigger della migrazione 830 che alza 23514 con «Il nome del negozio puo' avere al massimo 80 caratteri»: friendlyError lo riconosce e dice «Il nome del negozio è troppo lungo: al massimo 80 caratteri. Accorcialo e riprova.»; gli altri 23514 restano generici."
+    },
+    {
+      "chiave": "qa-flussi|con una promozione del negozio la vetrina scrive un prezzo e la cassa ne fa pagare un altro, di un centesimo per pezzo",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r16-prezzo-promo-al-centesimo.test.tsx",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 9e6c55123f87de15ce0a55c3ae0b322bd651caf4^ --file components/ActivePromoBadge.tsx,app/cart/page.tsx --prove tests/unit/riparazione-r16-prezzo-promo-al-centesimo.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 9e6c55123f87de15ce0a55c3ae0b322bd651caf4^ --file components/ActivePromoBadge.tsx,app/cart/page.tsx --prove tests/unit/riparazione-r16-prezzo-promo-al-centesimo.test.tsx --json → uscita 0 (K05)",
+      "nota_fix": "La cassa fa pagare discountedUnitCents per pezzo (lib/ordini/valida-carrello.ts:185) e ProductCard la usava già sulla base. Ora la usa anche il bollino della promo (1,15 € al -10% scrive 1,03 €, non 1,04 €), e il carrello prende il prezzo di oggi anche quando la differenza è sotto il centesimo."
+    },
+    {
+      "chiave": "qa-flussi|con una promozione la vetrina scrive un prezzo e la cassa ne fa pagare un altro, di un centesimo per pezzo (voce già nel registro, non assegnata in onda 2)",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r16-prezzo-promo-al-centesimo.test.tsx",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 9e6c55123f87de15ce0a55c3ae0b322bd651caf4^ --file components/ActivePromoBadge.tsx,app/cart/page.tsx --prove tests/unit/riparazione-r16-prezzo-promo-al-centesimo.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 9e6c55123f87de15ce0a55c3ae0b322bd651caf4^ --file components/ActivePromoBadge.tsx,app/cart/page.tsx --prove tests/unit/riparazione-r16-prezzo-promo-al-centesimo.test.tsx --json → uscita 0 (K05)",
+      "nota_fix": "Stesso difetto della voce gemella: la riga indicata di ProductCard era già corretta sulla base (usa discountedUnitCents); restavano il bollino della promo e il carrello, che lo stesso commit allinea alla cassa."
+    }
+  ]
+}

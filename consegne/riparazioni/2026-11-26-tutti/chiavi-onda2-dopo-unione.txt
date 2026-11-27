@@ -1,0 +1,137 @@
+qa-flussi|se l'amministratore annulla mentre il fattorino conferma i contanti alla porta, l'ordine resta annullato con i soldi già incassati
+qa-flussi|il negozio può riprendersi la merce difettosa e chiudere il reso senza rimborso, senza scrivere perché, e il cliente non riceve nessuna email
+qa-flussi|quando il negozio approva un recesso, il cliente lo sa solo dalla campanella, ma da quel momento corrono i suoi 14 giorni per rispedire
+qa-flussi|se il cliente annulla un ordine pagato con carta proprio mentre il negozio lo accetta, parte il rimborso e l'ordine accettato si annulla lo stesso
+qa-flussi|dopo un reso già rimborsato il server ne accetta un altro sullo stesso ordine, mentre la pagina dice che non si può
+qa-flussi|gli orari dei negozi non conoscono i festivi: a natale e al patrono la cassa vende consegne come in un giorno qualunque
+qa-flussi|con «cliente assente» la merce torna subito in vendita sul sito mentre è ancora nello zaino del fattorino
+qa-flussi|nel carrello il totale conta anche gli articoli nascosti o esauriti, e la cassa toglie quello nascosto senza dirlo
+pagamenti-stripe|un conto stripe non più valido sul profilo fa ritentare il bonifico ogni 15 minuti e «aggiorna stato» risponde «errore stripe»
+pagamenti-stripe|una contestazione persa su una parte del carrello segna persi anche gli ordini degli altri negozi
+pagamenti-stripe|con la carta accesa si può pagare anche un negozio che non ha finito la verifica stripe
+sicurezza-auth|sette rotte di negozio e fattorino leggono il profilo dal cookie invece che dal gettone: chi entra solo col gettone riceve «profilo non trovato»
+api-backend|un lavoro a orario che va in errore a ogni giro risulta vivo, e per alcuni lavori nessuno viene avvisato
+privacy-legale|i termini chiamano i tempi di consegna «stimati e non vincolanti», mentre in cassa il cliente sceglie la sua fascia oraria
+privacy-legale|il server manda l'acquisto a google e a posthog anche quando il sì alle statistiche è scaduto da più di sei mesi o era per un'informativa vecchia
+privacy-legale|quando un negozio cancella l'account, logo, foto della vetrina e dei prodotti e storie restano nei secchi pubblici: la prova che gira per la voce delle foto dei resi, e il pezzo che quella voce non nomina
+performance|la velocità del sito vista dai clienti veri non la misura nessuno
+deploy-sre|manca il tasto per fermare tutti gli ordini in un colpo: oggi si può solo sospendere il negozio, e il fornaio riceve un avviso brusco
+pagamenti-stripe|un rimborso pieno su un ordine già consegnato rimette in vendita la merce che il cliente ha già in casa
+privacy-legale|il buono regalo manda a stripe nome, email e messaggio privato del destinatario, e lì non si cancellano mai
+sicurezza-auth|la registrazione non passa ancora dal server: niente freno sulle iscrizioni e niente verifica anti-robot
+qa-flussi|sul compenso del fattorino si possono togliere il controllo «consegnato» e il turno contro i doppi bonifici, e 247 prove restano verdi
+dati-analytics|gli ordini annullati o rimborsati restano venduti per sempre in google analytics e posthog
+dati-analytics|il cruscotto del negozio segna «0 ordini oggi» finché gli ordini in contanti non sono consegnati
+sicurezza-auth|annullando un ordine già pagato in contanti, chi amministra legge una frase mozzata e un'istruzione che non si può eseguire
+pagamenti-stripe|un rimborso pieno dal cruscotto che arriva mentre parte il bonifico al negozio lascia al negozio tutto il netto
+privacy-legale|le prove delle frasi pubbliche restano elenchi di parole: cinque promesse chiuse tornano con sinonimi a prove verdi
+pagamenti-stripe|la consegna da 3 € ha ancora altri nomi: «costo di consegna» su stripe, «consegna a domicilio» in cassa, «consegna a casa» in home
+pagamenti-stripe|due rifiuti nello stesso istante in un carrello di tre negozi: il terzo resta con 1 € di consegna e 1 € al fattorino
+pagamenti-stripe|se il credito mycity copre quasi tutto l ordine annullato, la differenza della consegna non viene tolta da nessuna parte
+architettura|il carrello in contanti si ritrova solo dalla tabella contro il doppio clic: senza quella riga la regola del negozio che rifiuta non scatta e nessuno lo sa
+api-backend|doppio tocco sull annullo con la carta: il secondo dice «rimborso fallito» e manda agli amministratori un falso «carrello da sistemare a mano»
+pagamenti-stripe|ordine coperto dal credito e pagato con la carta: al cliente tornano 2 € in più e la frutta resta incassata a 13 €
+pagamenti-stripe|carrello carta spostato dal freno: se dopo un negozio rifiuta, la consegna dei rimasti non si ricalcola piu'
+architettura|sul ramo carta l'annullo non prende il turno prima del rimborso: due annulli da strade diverse possono restituire il credito due volte
+pagamenti-stripe|il webhook della carta non rifà il controllo della veloce (fattorini online, 8-21) quando arrivano i soldi
+qa-flussi|il modulo contatti e la porta cancella account giudicano support_email in due modi
+qa-flussi|approvare un reso con rimborso rimette in vendita la merce prima che torni al negozio
+privacy-legale|il campo città della cassa è testo libero
+api-backend|il conto dei rimborsi divisi legge tutto il registro senza filtro e si ferma a mille righe
+pagamenti-stripe|nello storico dei guadagni la colonna «netto» non toglie gli storni, mentre torre e riquadro li tolgono
+pagamenti-stripe|un rimborso pieno letto come held un attimo prima del bonifico a mano scrive refunded sopra paid_manually
+pagamenti-stripe|il turno del fattorino si restituisce senza condizione e senza leggere l’esito
+pagamenti-stripe|un bonifico ritrovato su stripe più grande del residuo porta l’ordine a transferred senza stornare la differenza
+pagamenti-stripe|la stessa chiave dello storno al negozio può partire con due importi diversi e mandare un falso avviso agli amministratori
+stati-ui|con il carrello non letto la tessera «adesso» resta su «sto controllando…» per sempre
+stati-ui|nella scheda ordine dell'amministratore un reso aperto non compare fra i motivi per cui il bonifico è trattenuto
+performance|al consenso statistico posthog si avvia due o tre volte in parallelo
+pagamenti-stripe|un rimborso pieno che arriva mentre parte il compenso del fattorino gli lascia il compenso
+privacy-legale|il link «ho già un account» lascia nome, indirizzo e telefono nel browser senza scadenza
+api-backend|se il servizio di posta conserva anche le risposte d'errore, una promozione mai partita risulta spedita
+api-backend|una giornata di cassa riaperta dichiara come «non ancora versati» anche i contanti già versati quel giorno
+pagamenti-stripe|il rimborso automatico di un carrello scaduto o in quadratura fallisce se la carta è già stata rimborsata o contestata, e stripe ripete l'avviso per tre giorni
+api-backend|il webhook degli ordini è a 598 righe su un tetto di 600 e blocca ogni cura futura
+pagamenti-stripe|dopo un riaccredito o una contestazione parziale vinta lo stornato scende sul sito ma su stripe il bonifico resta stornato: uno storno pieno successivo verrebbe rifiutato
+deploy-sre|con molti ordini scaduti nello stesso giro, le email di annullo partono tutte insieme dopo la risposta
+architettura|il codice sconto monouso guarda solo il carrello della carta, non quello in contanti
+qa-flussi|un rimborso ripreso dopo un tentativo morto non manda mai «rimborso emesso» al cliente
+architettura|le email dopo la risposta partono tutte insieme: nel giro degli ordini scaduti un limite d'invio della posta può farne cadere alcune
+flussi-conversione|con la carta e il credito mycity, quando il carrello scade tutto nessuna email dice che il credito è tornato
+qa-flussi|con due schede aperte il credito mycity si spende nella prima, e la seconda ordina mostrando ancora lo sconto del credito
+qa-flussi|la cassa dice «troppo lontano» a chi abita in via roma o in via cavour, in pieno centro, e l'ordine non parte
+sicurezza-auth|il cambio di ruolo di un utente non finisce nel registro delle azioni amministrative
+architettura|quattro gruppi di file del sito si importano a giro chiuso, uno passa per i bonifici ai negozi, e nessuna prova lo ferma
+api-backend|la rotta che registra le visite va in errore del server se riceve un corpo vuoto o rotto, o un cookie dei consensi storto
+frontend-ux|nella scheda ordine del negozio compaiono «il rider sta gestendo la consegna» su un ordine annullato e «il rider incassa» su uno già consegnato
+privacy-legale|ai negozi scriviamo «iva inclusa» sulla commissione, mentre la regola decisa sospende quella dicitura finché il commercialista non conferma il regime
+privacy-legale|le recensioni dei clienti non si possono segnalare, mentre i termini promettono di togliere quelle non genuine
+privacy-legale|l'informativa privacy non dice che chiediamo la data di nascita, il codice fiscale, il mezzo e la targa al fattorino, e la data di nascita al negozio
+layout-responsive|alla cassa, col testo del telefono al massimo, la scheda «contanti alla consegna» esce dallo schermo e la pagina scorre di lato
+flussi-conversione|nel pannello del negozio non c'è un posto dove vedere e approvare le anteprime
+microcopy|in tanti punti l'euro è ancora scritto all'inglese: «€12.50», «€0 – €500+», «€ 2,50»
+deploy-sre|sul sito vero manca la chiave della posta: il negozio non riceverà l'email del nuovo ordine e il cliente nessuna conferma
+pagamenti-stripe|un rimborso arrivato dopo il bonifico del lunedì non viene mai ripreso al negozio
+qa-flussi|la posizione del negozio può finire lontano da piacenza, o restare quella vecchia, e il modulo la salva lo stesso
+qa-flussi|un ordine fermo su «accettato» o «ritirato dal fattorino» non fa suonare nessun allarme e non scade mai
+sicurezza-auth|il freno contro chi prova mille password vale per ogni copia del sito, perché manca il contatore condiviso
+privacy-legale|nome, telefono e indirizzo di chi non completa l'accesso restano nel browser senza scadenza, e chi apre la cassa dopo li trova già scritti
+sicurezza-auth|chi chiede la nuova password dal computer e apre l'email dal telefono non riesce a cambiarla, e la pagina non dice perché
+sicurezza-auth|il controllo all'ingresso chiude fuori chi aspetta l'approvazione: il negozio nuovo gira in tondo e il fattorino non arriva mai alla pagina dei documenti
+frontend-ux|le pagine di prodotti, negozi e categorie che non esistono rispondono «tutto ok» invece di «non trovato»
+deploy-sre|il giorno del lancio un errore del sito non lo vede nessuno: il registratore degli errori è spento e l'unico allarme dipende dalla chiave che manca
+pagamenti-stripe|una sponsorizzazione o un abbonamento rimborsati o contestati in banca restano attivi
+performance|le pagine di prodotto, negozio e categoria non usano la cache che dichiarano, e rileggono due volte la stessa riga a ogni visita
+performance|nel pannello del negozio ogni link della barra laterale, precaricato, fa ripassare il controllo d'accesso con due chiamate a supabase
+performance|ogni pagina aperta fa tre letture uguali per tutti direttamente al database, e le categorie le legge due o tre volte
+performance|ogni pagina scarica due caratteri in corsivo che quasi nessuna pagina usa
+api-backend|le notifiche push partono due volte se due giri del cron si sovrappongono: la presa in carico non è atomica
+deploy-sre|ogni unione su main pubblica in produzione senza aspettare la ci
+coerenza-brand|la scala tipografica è aggirata 330 volte con misure a mano
+tipografia|con un solo elemento il sito scrive «1 negozi», «1 articoli», «1 ordini», «1 giorni fa»: il plurale è fisso
+navigazione-gerarchia|la larghezza del contenuto cambia tre volte lungo il percorso d'acquisto
+performance|le pagine che vendono si disegnano solo nel browser, e il preload della prima foto non serve a niente
+api-backend|due segnali di accesso per lo stesso ingresso: la deduplica legge-e-poi-scrive senza vincolo sul database — e la migrazione che la reggerebbe non c'e' in questo lotto
+frontend-ux|le foto dell'iphone (heic) adesso entrano davvero, ma nessuno le converte: sul telefono android e su chrome restano un riquadro rotto
+pagamenti-stripe|se la banca respinge un rimborso parziale su un ordine col bonifico già partito, al negozio resta tolta la sua quota
+privacy-legale|il lotto riaccende una rotta che alla base era morta: il fattorino vede «kyc inviato, verifica in corso», ma nessuna parte del sistema chiude mai quello stato. i difetti qui sotto erano dormienti e ora si possono raggiungere
+architettura|senza la casella vera, l'unico recapito del titolare nell'informativa e nella cookie policy è il modulo web
+qa-flussi|in cassa la riga «il codice copre x € della consegna» non ha nessuna prova: se si stacca, sopra una consegna scontata torna la tariffa piena e tutto resta verde
+qa-flussi|il sito invita ancora a diventare rider, ma chi si iscrive viene rimandato alla home senza una parola
+architettura|il segnale «tieni la chiave» ora vuol dire quattro cose diverse, e la regola nel file racconta ancora che vale solo per l invio gemello
+qa-flussi|la bozza della cassa riceve gli orari dei negozi vuoti: il filo con la regola unica non lavora
+frontend-ux|la pagina di richiesta reso accetta il ripensamento anche su ordini di pane
+api-backend|la funzione che muore fra l'ordine e gli articoli lascia la merce riservata senza nessuno che la liberi
+qa-flussi|stesso carrello entro 12 ore con un'altra fascia o un altro indirizzo: la cassa risponde «fatto» con l'ordine di prima
+api-backend|il giro che annulla legge al massimo 100 ordini fermi, senza un ordine: una veloce scaduta può restare fuori dal giro
+pagamenti-stripe|un evento rinviato dopo il canceled per fascia rifà rimborso e avviso agli admin: canceled non chiude subito
+pagamenti-stripe|webhook ripreso dopo il rimborso della fascia: con 'adesso' e negozio riaperto nasce l'ordine gia' rimborsato
+api-backend|se il cliente ritira il reso mentre il negozio lo approva con rimborso, il reso resta annullato coi soldi gia' usciti
+privacy-legale|buco nelle prove (variante): macchina: regge. le due prove della bocciatura vecchia ora passano (cb6/riacc 2/2 e cb6r 2/2), quindi il motivo è chiuso
+stati-ui|mentre la cassa cerca l'indirizzo scritto a mano, «ordina» resta premibile e il fuori zona lo dice ancora il server
+frontend-ux|i link ai documenti del fattorino scadono dopo 2 minuti a pannello aperto
+qa-flussi|le rotte di annullo dicono «ordine già annullato» quando lo stato è solo cambiato
+qa-flussi|la strada della carta calcola la scadenza dell'email «nuovo ordine» da new date() e non dal created_at
+qa-flussi|la rotta dei contanti non dichiara maxduration con le email in fila
+qa-flussi|faccine nei titoli delle notifiche scritte dal codice del sito
+qa-flussi|nessuno svuota user_carts dopo un ordine pagato con la carta senza rientro
+qa-flussi|lo stesso carrello rimandato con un'altra fascia riceve «fatto» con l'ordine vecchio
+stati-ui|senza database la categoria e la scheda prodotto mostrano «qualcosa è andato storto» invece del loro errore con «riprova»
+qa-flussi|il precarico proposto nel layout pesa su ogni pagina (costo dichiarato, da far decidere a chi lo applica)
+qa-flussi|l accesso con google non porta il ritorno alla pagina di partenza
+microcopy|la conferma al cliente conta il giorno da quando parte l'email, non da quando è nato l'ordine
+frontend-ux|la scheda prodotto aperta oltre la fine della promozione continua a mostrare il prezzo scontato
+api-backend|oltre mille iscritti la pagina utenti perde in silenzio email e ultimo accesso degli altri
+api-backend|il tetto della notte lascia indietro gli account nell'ordine della rpc, non dal più vecchio: chi è già oltre il mese può essere rimandato ogni notte, senza avviso del termine
+api-backend|il tetto di tempo della notte non è rigido: l'ultimo account preso può sforare, e la cancellazione di un account non ha un limite di tempo suo
+architettura|commenti delle rotte della veloce dicono ancora «un fattorino approvato e online»
+flussi-conversione|con la promozione e il prezzo barrato insieme, la scheda prodotto mostra due prezzi barrati e un risparmio sbagliato
+api-backend|un account preso poco prima del tetto del ciclo non ha un tempo suo
+api-backend|il modulo dell'indirizzo alla cassa non annulla le ricerche vecchie mentre si scrive
+microcopy|alcuni errori di zod restano in inglese: discriminatedunion, multipleof, finite, startswith, datetime
+frontend-ux|il picker degli indirizzi legge il limite della rotta come «servizio che non risponde»
+qa-flussi|il nome del negozio nel pannello admin non ha il tetto di 80 caratteri: oltre, il database lo rifiuta col messaggio generico
+microcopy|sulla bacheca del fattorino una casella dice ancora «rating» in inglese
+qa-flussi|il sorvegliante avvisa per una verifica d'identità «in attesa» anche dopo che lo staff ha approvato il fattorino o il negozio
+deploy-sre|il commento del lavoro di rilascio dice ancora «se i candidati sono piu di uno»
+qa-flussi|nel cron delle notifiche restano altri codici di sessione nei commenti, come quello appena tolto

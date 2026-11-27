@@ -1,0 +1,69 @@
+{
+  "corsia": 12,
+  "territorio": "R12",
+  "difetti": [
+    {
+      "chiave": "dati-analytics|il cancello del filmato in eccezione lascia passare il filmato originale",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r12-filmato-in-eccezione.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base da43e426bddda13f7803ef84da8efe02facc1892^ --file lib/analytics/filmato-senza-dati-personali.ts --prove tests/unit/riparazione-r12-filmato-in-eccezione.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base da43e426bddda13f7803ef84da8efe02facc1892^ --file lib/analytics/filmato-senza-dati-personali.ts --prove tests/unit/riparazione-r12-filmato-in-eccezione.test.ts --json → uscita 0 (K06)",
+      "nota_fix": "In eccezione filmatoSenzaDatiPersonali torna VALORE_NASCOSTO invece del filmato originale, come già fa strutturaSenzaIndirizzi. La prova usa un getter rotto e un Proxy revocato, e controlla che senza eccezioni pulisca come prima."
+    },
+    {
+      "chiave": "deploy-sre|il commento del ritorno indietro dice ancora che un rilascio senza commit resta un posto buono, come prima",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r12-ritorno-commento.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 37221a798d7bebae54084f34e3ba8f242a56d469^ --file scripts/prova-di-fumo.mjs --prove tests/unit/riparazione-r12-ritorno-commento.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 37221a798d7bebae54084f34e3ba8f242a56d469^ --file scripts/prova-di-fumo.mjs --prove tests/unit/riparazione-r12-ritorno-commento.test.ts --json → uscita 0 (K06)",
+      "nota_fix": "Il commento sopra commitDelRilascio ora dice che dal 24/11 l'elenco da solo non sceglie più nessun rilascio quando si conosce il commit che esce, e che un rilascio senza commit non è un posto buono, come fa rilascioDaTornare. Prova leggera sul sorgente."
+    },
+    {
+      "chiave": "frontend-ux|con due social sbagliati, uno vuoto e uno già salvato, il messaggio dice «sono rimasti com'erano» anche per quello vuoto",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r12-social-vuoto-e-salvato.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 6087d4b65df0d25ccf3c733462688947d808da94^ --file components/VendorForm.tsx --prove tests/unit/riparazione-r12-social-vuoto-e-salvato.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 6087d4b65df0d25ccf3c733462688947d808da94^ --file components/VendorForm.tsx --prove tests/unit/riparazione-r12-social-vuoto-e-salvato.test.tsx --json → uscita 0 (K06)",
+      "nota_fix": "La frase finale divide i social sbagliati in due gruppi: i vuoti «non si è/sono salvato/i», i già salvati «è/sono rimasto/i com'era/erano»; con un solo gruppo il testo è quello di prima. La prova monta VendorForm col Supabase finto e controlla «Facebook non si è salvato, Instagram è rimasto com'era»."
+    },
+    {
+      "chiave": "frontend-ux|sotto il logo del negozio c'è ancora scritto «(png, jpg)» mentre la casella accetta sette formati",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r12-logo-formati-scritti.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 445938d9fa4fe117db68a63399faa26050a62ac9^ --file components/VendorForm.tsx --prove tests/unit/riparazione-r12-logo-formati-scritti.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 445938d9fa4fe117db68a63399faa26050a62ac9^ --file components/VendorForm.tsx --prove tests/unit/riparazione-r12-logo-formati-scritti.test.ts --json → uscita 0 (K06)",
+      "nota_fix": "Il testo sotto il logo usa tipiScrittiPerUmani(), la stessa fonte (lib/storage/casella-di-caricamento) di mappaAccept() che governa la casella, al posto di «(PNG, JPG)» scritto a mano."
+    },
+    {
+      "chiave": "layout-responsive|il titolo di collectionheader da 640 px in su ha una misura in pixel fissi",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r12-collectionheader-titolo-rem.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 74b3537bb175e672778c886fb6777b4124d056be^ --file components/CollectionHeader.tsx --prove tests/unit/riparazione-r12-collectionheader-titolo-rem.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 74b3537bb175e672778c886fb6777b4124d056be^ --file components/CollectionHeader.tsx --prove tests/unit/riparazione-r12-collectionheader-titolo-rem.test.ts --json → uscita 0 (K06)",
+      "nota_fix": "Nell'h1 sm:text-[32px] è diventato sm:text-[2rem]: stessa misura col testo al 100%, ma segue la dimensione del testo scelta da chi legge."
+    },
+    {
+      "chiave": "layout-responsive|l'occhiello maiuscolo di collectionheader esce dalla colonna a 280 px col testo al 200%",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r12-collectionheader-occhiello-a-capo.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 94f463898158822ed8024822b8f7eb3e173ba1d3^ --file components/CollectionHeader.tsx --prove tests/unit/riparazione-r12-collectionheader-occhiello-a-capo.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 94f463898158822ed8024822b8f7eb3e173ba1d3^ --file components/CollectionHeader.tsx --prove tests/unit/riparazione-r12-collectionheader-occhiello-a-capo.test.tsx --json → uscita 0 (K06)",
+      "nota_fix": "All'occhiello si aggiunge break-words; il contenitore ha già min-w-0, quindi una parola lunga va a capo invece di uscire dalla colonna."
+    },
+    {
+      "chiave": "privacy-legale|accogliendo la segnalazione di un negozio, se la lettura del negozio cade, il negozio resta online ma la decisione «accolta» si registra",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r12-segnalazione-negozio-non-letto.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 3b18d131fcc315d8c9ccb7d5b5e98ae24a60dec3^ --file app/admin/segnalazioni/page.tsx --prove tests/unit/riparazione-r12-segnalazione-negozio-non-letto.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 3b18d131fcc315d8c9ccb7d5b5e98ae24a60dec3^ --file app/admin/segnalazioni/page.tsx --prove tests/unit/riparazione-r12-segnalazione-negozio-non-letto.test.tsx --json → uscita 0 (K06)",
+      "nota_fix": "Ora si legge l'errore della lettura dello stato del negozio (oggi righe 113-121). Se cade, la pagina lancia «Non sono riuscito a leggere lo stato del negozio: decisione non registrata» e non partono né la sospensione, né l'aggiornamento, né l'esito."
+    },
+    {
+      "chiave": "privacy-legale|le semine 005 e 006 scrivono nel codice l'email personale del titolare per promuoverlo o retrocederlo, e il deposito è pubblico",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r12-semine-senza-email.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 97350af0f1a5e3ee648b7d2ac271e4e117535fce^ --file seeds/005_admin_and_rider.sql,seeds/006_admin_swap.sql --prove tests/unit/riparazione-r12-semine-senza-email.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 97350af0f1a5e3ee648b7d2ac271e4e117535fce^ --file seeds/005_admin_and_rider.sql,seeds/006_admin_swap.sql --prove tests/unit/riparazione-r12-semine-senza-email.test.ts --json → uscita 0 (K06)",
+      "nota_fix": "L'email (e il nome utente nel commento di 006) è sparita dalle due semine: ora la leggono da current_setting('mycity.email_titolare', true); senza l'impostazione mandano un NOTICE e non promuovono né retrocedono nessuno. Niente meta-comandi psql, così girano anche nell'editor SQL. Provate sul Postgres locale (due giri senza impostazione; con un utente di prova 005 promuove, 006 retrocede)."
+    },
+    {
+      "chiave": "stati-ui|la pagina del lavoro sul catalogo non legge l avviso dell applica e mostra solo i primi tre motivi",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r12-lotto-avviso-e-motivi.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 44d556bd5ddac1c1df82b24093594d43e9629396^ --file app/seller/products/ai-batch/page.tsx --prove tests/unit/riparazione-r12-lotto-avviso-e-motivi.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 44d556bd5ddac1c1df82b24093594d43e9629396^ --file app/seller/products/ai-batch/page.tsx --prove tests/unit/riparazione-r12-lotto-avviso-e-motivi.test.tsx --json → uscita 0 (K06)",
+      "nota_fix": "La rotta apply restituisce avviso (quando non riesce a rimettere pronto il lavoro) ed esiti: la pagina ora mostra tutti i motivi dei saltati, senza il limite di tre, e l'avviso in coda al messaggio (senza ripeterlo) oppure da solo con toast.warning. La prova monta la pagina con fetch finto e controlla l'avviso e cinque motivi."
+    }
+  ]
+}
