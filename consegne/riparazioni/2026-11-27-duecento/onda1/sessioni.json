@@ -83,7 +83,8 @@
         "R10",
         "R02",
         "R06"
-      ]
+      ],
+      "archiviato": true
     },
     "K03": {
       "id": "session_015BmpnVPPGx99q7A4c57EGb",
@@ -93,7 +94,8 @@
         "R04",
         "R05",
         "R08"
-      ]
+      ],
+      "finito": true
     }
   }
 }
