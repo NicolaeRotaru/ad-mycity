@@ -1571,3 +1571,10 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Limiti:** niente prezzi e niente dati inventati; orari, menu e storia restano «da confermare» e il sito è nascosto a Google finché il titolare non dice sì. Vercel non pubblicato: il collegamento non può creare progetti (403).
 - **Colore:** 🟡: codice in un ramo, PR da unire da Nicola; la pubblicazione su Vercel ha la sua firma in chat.
 
+## 2026-11-27 18:15 — Salvato il concetto di MyCity su richiesta di Nicola
+- **Chi e quando:** Nicola, in chat all'AD, il 27/11 verso le 18:11. Sessione session_01R8112LANAw9VhLSs2fAbsL.
+- **Le sue parole:** «Questo va salvato come concetto: mycity si occupa di digitalizzare le attività locali e promuovere i loro servizi e prodotti attraverso il marketplace».
+- **Cosa ho fatto:** il concetto è un fatto nuovo del registro, `strategia.concetto`. La riga «Chi sei» di `CLAUDE.md` ora lo dice. Il §13 di `CONTESTO_BUSINESS.md` ha una nota in più. Il testo di Nicola non cambia.
+- **Perché:** la riga di prima diceva solo «il marketplace dei negozi». Dal 22/11 i clienti sono tutte le attività che vendono qualcosa (`strategia.cliente-core`). Dal 24/11 MyCity offre anche i servizi per portarle online (`sdg.abbonamenti`).
+- **Peso del manuale:** 17.925 byte su un tetto di 18.000. La prova `due-elenchi-un-solo-metro` vuole circa 60 byte di margine, e passa. La prima versione pesava 17.997 byte ed era rossa: l'ha trovato la sessione delle PR. Il modello Amazon × eBay × Glovo per esteso resta in `MyCity-Vault/00-Index.md`.
+- **Colore:** 🟡, perché tocca le istruzioni della macchina. L'ha chiesto Nicola, e la PR la valuta lui.
