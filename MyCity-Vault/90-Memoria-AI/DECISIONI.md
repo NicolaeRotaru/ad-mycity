@@ -1603,6 +1603,12 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Dove:** NicolaeRotaru/N8N#37. Due collaudi indipendenti: tutti e due reggono.
 - **Colore:** 🟡. Il flusso vivo non cambia finché Nicola non scrive «ok 267»: «Proponi» e «Tasti» vanno caricati insieme.
 
+## 2026-11-27 22:20 — Decisione di Nicola: sul lato SDG si dice «la tua attività».
+- **Cosa ha detto Nicola, verso le 22:10:** «il tuo negozio» si cambia ovunque c'entri SDG, cioè abbonamenti e servizi. Sul lato marketplace resta, perché lì il target di MyCity sono le botteghe e i piacentini.
+- **Perché regge:** SDG lavora con tutte le attività locali, non solo coi negozi (fatto `sdg.abbonamenti`, Nicola 27/11 verso le 17:10).
+- **Cosa:** fatto nuovo `sdg.lessico` nel registro. Il sito oggi ha 95 righe con «tuo negozio» in 57 file, mescolate fra SDG e marketplace. n8n e il sito di SDG non ne hanno.
+- **Chi lo fa:** la sessione «Rapporto dell'imprenditore · sito e preventivo». Prima le 9 righe nuove della mycity#355: così la migrazione 999e scrive già le descrizioni giuste. Poi una richiesta nuova dal main per il resto del lato SDG. I casi dubbi restano com'erano e vanno in elenco a Nicola.
+- **Colore:** 🟡. Testi del sito in un ramo, niente unione né migrazioni applicate senza la firma di Nicola.
 ## 2026-11-27 22:50 · Tropico: 17 contenuti dalle foto nuove di Drive, pronti ma non caricati 🟡
 - **Chi e quando:** Nicola, in chat all'AD (sessione «Tropico Latino content updates»), 27/11 verso le 22:10: creare contenuti nuovi, o modificare quelli attuali, con le foto nuove messe nella cartella Drive «Da programmare» del Tropico.
 - **Le foto:** 123, caricate in «Originali» il 27/11 tra le 16:56 e le 17:21. Sono 91 scatti da studio del 5/10/2015 su fondo grigio (piatti, cocktail, fajitas, la griglia da tavolo) e 32 dolci del 21/4/2016. Prima non c'era una foto delle fajitas: il piano di dicembre lo segnava come buco.
