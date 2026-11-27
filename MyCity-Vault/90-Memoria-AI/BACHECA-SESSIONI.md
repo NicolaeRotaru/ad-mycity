@@ -1,6 +1,6 @@
 ---
 tipo: bacheca
-aggiornato: 2026-11-27 01:45
+aggiornato: 2026-11-27 17:58
 regole: cervello/sessioni-insieme.md
 ---
 
@@ -28,7 +28,11 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 27/11 ~17:50 | AD, chat «Caffè di Piacenza business site» (`…Lh8bxtpgSCWy2ESsy`) | Il sito del Caffè di Piacenza **segue lo stile vero del locale**: colori e aspetto si prendono dalle sue foto. **Le foto le aggiunge SDG fra qualche giorno** e Nicola le manda all'AD come esempi da seguire. Fino ad allora il sito resta col disegno del Duomo e in anteprima |
 | 27/11 ~17:40 | all'AD, chat «Subscription confirmation flow» (`…NuFB3nq8tjMhb1KRu`) | Nella pagina del link dove il titolare conferma abbonamento ed email ci va **anche il calendario**: sceglie **giorno e ora** in cui il team creativo di SDG passa da lui per scrivere il piano editoriale, con fotografo e videomaker che fanno subito foto e video. La pagina deve spiegare, con parole sue, **cosa succede dopo** la conferma. Dopo il codice dell'email il titolare entra **nella sua pagina venditore** (non la demo), nell'abbonamento scelto. Ha scritto anche «secondo me le 2 settimane sono gratuite»: il registro dice **primo mese a metà prezzo** (`sdg.abbonamenti`), quindi è **da chiarire con lui**, non cambiato. Costruito sopra il ramo della chat «Link imprenditore e flusso abbonamenti»; la data va anche nell'ordine di SDG della chat «Seller link process workflow» (avvisate tutte e due).
+| 27/11 ~17:25 | chat «Seller link process workflow» (`…NuZmmktNkEcpG9ApN`) | Il titolare conferma l'abbonamento dal link con l'email. In quel momento la pagina dell'agente che ha creato il link si aggiorna da sola. Lo porta a una pagina «tutte le cose che deve fare adesso SDG». Nello stesso momento arriva in automatico l'ordine del servizio nella pagina venditore di SDG Agenzia, con l'abbonamento scelto e «tutto il piano editoriale già fatto, preparato, con tutte le cose, così come si è fatto per dentro la sessione bar caffè di Piacenza». Collegarsi alla sessione che fa il link. Costruisce la sessione «Ordine a SDG» (`session_01R8112MJSt6dVjkZY9ffa8F`), aperta alle 17:54 |
+| 27/11 ~17:05 | la stessa chat del sito del Caffè | **Il Caffè di Piacenza ha il suo sito Business dentro la voce «Sito web» del suo pannello MyCity**, perché è già iscritto col Business. E **i due siti, Caffè e SDG, vanno su Vercel**: il via a Vercel l'ha dato qui. Fatto: sito in `consegne/clienti/caffe-di-piacenza/` (ad-mycity) e voce «Sito web» per negozio nel ramo mycity `ccr-e11c610c-9x59zw`, sopra il lavoro della sessione SDG. Vercel bloccato: il collegamento non può creare progetti (403). La sessione SDG (`…N4XVyUmvkBap6F8ru`) sa che pubblico io anche il suo sito |
+| 27/11 ~17:00 | all'AD (`…R8112NaCwxLRhwBxPjvCVC`) | **Il link del preventivo non apre più la demo**: apre una pagina coi **tre abbonamenti**, quello detto al venditore già segnato («La tua scelta»). Il titolare **può toccarne un altro e confermare quello** (poco dopo le 15:06). Dopo il clic **entra nella sua pagina** con l'abbonamento scelto. Sul rischio trovato dal collaudo della sicurezza (chi ha il link poteva entrare scrivendo l'email vera del titolare) ha scelto **«codice dall'email»**: dopo «Confermo» arriva un codice di 6 cifre, il titolare lo scrive nella stessa pagina ed entra. Il lavoro è nel ramo `claude/adoring-fermat-2d0bi6` di mycity |
 | 27/11 ~14:50 | AD (session_01R8112LLyeYLAMVEEzLNUuw) | «AD · Proponi nel Calendario»: un contenuto già **approvato** e riproposto con lo stesso nome di riga **torna da approvare**. La versione di prima non esce più; esce quella nuova solo se la riapprova su Telegram. Le note di prima restano. Una riga già uscita (pubblicata, in pubblicazione, o con un link già pieno) invece ferma il flusso: «riga già pubblicata: usa un id nuovo». |
 | 27/11 ~03:05 | all'AD, chat «Conferma pagina semplificazione» (`…L9oSZcRFsmSf8hEZ2`) | «Vai» ai tasti Approva e Rifiuta dentro Telegram, senza aprire la pagina del browser, e al tasto «Approva tutti» in fondo a ogni consegna. Prima aveva scritto: «non mi piace che devo sempre aprire questa pagina per confermare». Fatto: flusso nuovo acceso «AD · Tasti su Telegram» e «AD · Proponi nel Calendario» cambiato (N8N, ramo `ccr-6c484b65-gq6q05`). Chi propone contenuti manda `lotto` in ogni proposta e alla fine `riepilogo.json` |
 | 27/11 ~02:30 | all'AD (`…NWDpfn`) | Nel riquadro «Il titolare ha detto sì?» della pagina dell'agente si **sceglie l'abbonamento** detto dal titolare. La **pagina del negozio si sblocca da sola** in quella fascia. Si sblocca **subito**, prima dei contanti, che si ritirano al primo servizio. Resta sbloccata **fino alla disdetta**. Se il titolare non paga, Nicola la ferma da Admin. Fatto `negozi.modalita-demo` aggiornato. Il lavoro è nel ramo `claude/confident-turing-z8z2i5` di mycity, migrazione 999 |
@@ -204,6 +208,9 @@ già la stessa cosa: se sì, scrivile invece di rifarlo (regola 3). Oggi tre gru
 
 | Sessione | Lavoro | File suoi |
 |---|---|---|
+| «Link imprenditore e flusso abbonamenti» (`…NaCwxLRhwBxPjvCVC`) | La conferma dell'abbonamento dal link col codice dall'email. Finita: unita con mycity#349 col sì di Nicola, alle 17:56. Su quel ramo non cambia più niente | mycity `claude/adoring-fermat-2d0bi6`: `lib/agenzia/preventivo-col-codice.ts`, `lib/agenzia/codice-dal-link.ts`, `app/api/preventivo/[codice]/*` |
+| «Subscription confirmation flow» (`…NuFB3nq8tjMhb1KRu`) | Nella conferma dal link il titolare sceglie giorno e ora della visita di SDG: colonna `visita_il`, migrazione 999b | mycity `ccr-96d27df4-51gd0d`. Il ramo parte da quello della #349. |
+| «Ordine a SDG» (`…MJSt6dVjkZY9ffa8F`). L'ha aperta «Seller link process workflow». | La pagina dell'agente che si aggiorna e porta a «Adesso tocca a SDG»; l'ordine di servizio con il piano editoriale nella pagina di SDG Agenzia | mycity, in un ramo suo che parte dalla #349. File nuovo `lib/agenzia/ordine-sdg.ts`. Ritocchi in `preventivo-col-codice.ts`, `app/api/agente/aggiungi` e `components/agenti/AggiungiAttivita.tsx` |
 | «Piano editoriale per abbonamento» (`…KdhTFt`) | Il modello delle tre fasce e il piano di dicembre del Tropico per Base, Business e Premium. Non tocca le righe del Calendario né la pubblicazione: quelle restano a «Contenuti Canva e Reel» | `cervello/modelli/piano-editoriale-*`, `cervello/piano-editoriale.mjs`, `consegne/clienti/tropico-latino/` |
 | «Migliorare analisi clienti» (`…KJEvB4`) | Dirige il lavoro sull'analisi dei clienti nuovi, con il piano, le fonti e le scelte di Nicola. Aspetta «ok fasce» | ad-mycity#1038, `consegne/strategia/2026-11-26-analisi-imprenditore/` |
 | «Rapporto dell'imprenditore · flussi n8n» (`…K1DyjU`) | Contratto dei fatti e codice del flusso 16. **È la sola che ripubblica il 16**, da main, al via di Nicola | N8N `claude/rapporto-imprenditore-flussi`, `flussi/16-nuovo-cliente-da-mycity/` |
@@ -225,6 +232,10 @@ Aggiornata il 2026-11-26 15:15 da Goku. Le due sessioni del 015Bmpn… stanno in
 
 | Ruolo | Id |
 |---|---|
+| «Seller link process workflow», controllore dell'ordine a SDG | `session_01R8112NuZmmktNkEcpG9ApN` |
+| «Ordine a SDG» | `session_01R8112MJSt6dVjkZY9ffa8F` |
+| «Link imprenditore e flusso abbonamenti» | `session_01R8112NaCwxLRhwBxPjvCVC` |
+| «Subscription confirmation flow» | `session_01R8112NuFB3nq8tjMhb1KRu` |
 | «Migliorare analisi clienti», AD del rapporto | `session_01R8112KJEvB4uRMQLAYZ3Uo` |
 | «Rapporto dell'imprenditore · flussi n8n» | `session_01R8112K1DyjU4xADptnSgNq` |
 | «Rapporto dell'imprenditore · sito e preventivo» | `session_01R8112MSbmrMsg1NS5fYwU7` |

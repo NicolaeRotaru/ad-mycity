@@ -2057,6 +2057,29 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 > la conferma del dato dal negozio (restano «da procurare», non li scrive nessun autofill).
 <!-- SUPERVISIONE-NEGOZI:FINE -->
 
+## Dai a Claude il permesso di pubblicare su Vercel (aggiunta 2026-11-27 17:35)
+- **Reparto:** @devops-sre, con l'AD.
+- **Colore:** 🟡. Il via a pubblicare i due siti l'hai già dato in chat il 27/11 verso le 17:05; manca solo il permesso tecnico.
+- **Contenuto:** il collegamento Vercel di Claude è il tuo account, ma l'app collegata legge i progetti e non può crearne (errore 403 su «crea progetto» e su «crea pubblicazione»). Due strade, ne basta una:
+  1. **La chiave (consigliata):** su vercel.com/account/tokens crea un token con scadenza 7 giorni. Poi aggiungilo nelle impostazioni dell'ambiente cloud, alla voce «Network secrets», per l'host `api.vercel.com`. Da lì faccio tutto io.
+  2. **A mano:** vercel.com/new → importa il repository `SDG` → Deploy; poi Settings → Git → ramo di produzione `ccr-3e25a9cc-8rdzdt`. Per il Caffè: importa `ad-mycity` con cartella principale `consegne/clienti/caffe-di-piacenza/sito`, dopo aver unito la PR della memoria.
+- **Cosa cambia:** il sito del Caffè di Piacenza diventa visibile a un indirizzo suo e compare, dal vivo, nella voce «Sito web» del suo pannello MyCity. Il sito SDG va online coi prezzi nuovi.
+- **Se va bene:** il titolare del Caffè vede il suo sito in anteprima e conferma orari e menu; poi tolgo la scritta «Anteprima» e lo apro a Google.
+
+---
+
+## Unisci la pagina nuova del link del preventivo, coi tre abbonamenti e il codice dell'email (aggiunta 2026-11-27 17:40)
+
+> ✅ 2026-11-27 17:55 — Fatto: Nicola ha detto sì, la sessione delle PR ha unito la mycity#349.
+
+- **Reparto:** @tech, con @security per il collaudo.
+- **Colore:** 🔴. L'unione manda il sito online.
+- **Contenuto:** NicolaeRotaru/mycity#349. Il link apre la pagina coi tre abbonamenti, la scelta del venditore già segnata. Il titolare conferma col codice dell'email ed entra nella sua pagina. Nessun aggiornamento del database e nessuna chiave obbligatoria: il segreto `CODICE_PREVENTIVO_SECRET` su Vercel è facoltativo.
+- **Cosa cambia:** il prossimo titolare che apre il link, per esempio quello di Grida Caffè, vede subito il Business segnato. Conferma, scrive il codice ed entra con l'abbonamento sbloccato, senza passare dalla demo.
+- **Se va bene:** al primo titolare vero si guarda che il codice arrivi e che l'ingresso funzioni. Poi si chiudono i tre minori del registro, a partire dall'avviso quando un link si ferma per troppi tentativi.
+
+---
+
 ## Firma quanto promette ogni abbonamento ai social (aggiunta 2026-11-26 19:30)
 - **Reparto:** @content-social, con @marketing e @finanza.
 - **Colore:** 🔴. Cambia cosa vendiamo ai clienti.

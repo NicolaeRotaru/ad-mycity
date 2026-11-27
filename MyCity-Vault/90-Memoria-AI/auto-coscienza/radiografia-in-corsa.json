@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-11-27 18:34",
+  "aggiornato": "2026-11-27 18:35",
   "scansioni": [
     {
       "quando": "2026-08-25 20:35",
@@ -8686,7 +8686,92 @@
       }
     },
     {
-      "quando": "2026-11-27 18:33",
+      "quando": "2026-11-27 16:58",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "app/preventivo/[codice]/(demo)/abbonamento/AccettaDalLink.tsx": "6c94af054e64",
+        "app/preventivo/[codice]/(demo)/abbonamento/PagaDalLink.tsx": "0fe32026af36",
+        "app/preventivo/[codice]/(demo)/abbonamento/page.tsx": "09d0baa7b2f5",
+        "app/preventivo/[codice]/(demo)/layout.tsx": "0723ecc52ae3",
+        "app/preventivo/[codice]/(demo)/servizi/[servizio]/page.tsx": "979297002a34",
+        "app/preventivo/[codice]/ConfermaAbbonamento.tsx": "5677b19d2393",
+        "app/preventivo/[codice]/layout.tsx": "f8fac99bd9e2",
+        "app/preventivo/[codice]/page.tsx": "23b086454a69",
+        "components/agenti/AggiungiAttivita.tsx": "0e66ea183963"
+      }
+    },
+    {
+      "quando": "2026-11-27 17:38",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "spariti": [
+        "app/preventivo/[codice]/abbonamento/AccettaDalLink.tsx"
+      ],
+      "nota": "",
+      "file": {
+        "app/preventivo/[codice]/(demo)/abbonamento/AccettaDalLink.tsx": "aa1bf372d42a",
+        "app/preventivo/[codice]/(demo)/abbonamento/PagaDalLink.tsx": "0fe32026af36",
+        "app/preventivo/[codice]/(demo)/abbonamento/page.tsx": "764cd12fabc8",
+        "app/preventivo/[codice]/(demo)/layout.tsx": "0723ecc52ae3",
+        "app/preventivo/[codice]/(demo)/servizi/[servizio]/page.tsx": "979297002a34",
+        "app/preventivo/[codice]/ConfermaAbbonamento.tsx": "34196992b200",
+        "app/preventivo/[codice]/layout.tsx": "f8fac99bd9e2",
+        "app/preventivo/[codice]/page.tsx": "3f9f29a9e54d",
+        "components/agenti/AggiungiAttivita.tsx": "0e66ea183963"
+      }
+    },
+    {
+      "quando": "2026-11-27 17:39",
+      "casa": "marketplace",
+      "dimensione": "api-backend",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 2,
+      "schede": [
+        "Il link del preventivo che si ferma per troppi codici sbagliati non avvisa Nicola",
+        "Chi ha il link può esaurire i tentativi e bloccare per un giorno il titolare vero"
+      ],
+      "nota": "",
+      "file": {
+        "app/api/preventivo/[codice]/accetta/route.ts": "0ae05bee7601",
+        "app/api/preventivo/[codice]/codice/route.ts": "749c5c39a6e9"
+      }
+    },
+    {
+      "quando": "2026-11-27 17:39",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "Mancano le prove del doppio invio della conferma e di un secondo link chiesto a Supabase in pochi secondi"
+      ],
+      "nota": "",
+      "file": {
+        "lib/agenzia/codice-dal-link.ts": "381c8e3cdae1",
+        "lib/agenzia/entra-dal-link.ts": "9f942c77df5e",
+        "lib/agenzia/preventivo-col-codice.ts": "0742ba7f3588",
+        "lib/agenzia/richiesta-dal-sito.ts": "f0cb5837714e",
+        "lib/email/templates.ts": "70abc962bf85"
+      }
+    },
+    {
+      "quando": "2026-11-27 18:35",
       "casa": "marketplace",
       "dimensione": "api-backend",
       "repo": "marketplace",
@@ -8701,7 +8786,7 @@
       }
     },
     {
-      "quando": "2026-11-27 18:34",
+      "quando": "2026-11-27 18:35",
       "casa": "marketplace",
       "dimensione": "frontend-ux",
       "repo": "marketplace",
@@ -8724,7 +8809,7 @@
       }
     },
     {
-      "quando": "2026-11-27 18:34",
+      "quando": "2026-11-27 18:35",
       "casa": "marketplace",
       "dimensione": "architettura",
       "repo": "marketplace",
@@ -8744,7 +8829,7 @@
       }
     },
     {
-      "quando": "2026-11-27 18:34",
+      "quando": "2026-11-27 18:35",
       "casa": "marketplace",
       "dimensione": "rls-database",
       "repo": "marketplace",
@@ -8760,7 +8845,7 @@
       }
     },
     {
-      "quando": "2026-11-27 18:34",
+      "quando": "2026-11-27 18:35",
       "casa": "marketplace",
       "dimensione": "sicurezza-auth",
       "repo": "marketplace",
