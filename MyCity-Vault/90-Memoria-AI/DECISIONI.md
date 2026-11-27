@@ -1641,3 +1641,15 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Non fatto:** niente prezzi nelle grafiche; nessun nome ai piatti incerti (la tortilla con verdure e i gamberi restano fuori). Ho usato solo nomi del menu del sito o detti da Nicola: burrito, fajitas e i loro sei nomi, nachos, griglia, churros, brownie, Oreo cake, margarita frozen alla fragola.
 - **Bloccato:** caricamento su Drive e proposte nel Calendario. Lo spostamento sull'ambiente «SDG» è stato rifiutato in chat e non l'ho richiesto. Lettura di Drive e del Calendario fatta lo stesso dallo strumento MCP di n8n; la strada è scritta nella procedura.
 - **Da verificare con Nicola:** le foto hanno dieci anni. Piatti e dolci potrebbero non essere più nel menu: un pezzo con un piatto che non c'è più si rifiuta su Telegram.
+
+## 2026-11-27 23:50 · Ordine di prova per SDG: attività finta iscritta col flusso 20 🟡
+- **Chi e quando:** Nicola, in chat all'AD, 27/11 verso le 23:30: «fai un ordine di prova per sdg».
+- **Cosa:** iscritta in MyCity «PROVA SDG - attività finta» (tipo servizi, Piacenza) col flusso 20, dal lanciatore una tantum n8n `ZzRE8UiW4B36sejU` (esecuzione 4441, riuscita, archiviato subito). Nel database: non approvata, fuori vetrina, senza accesso, preventivo aperto col suo codice. Nicola ha avuto l'avviso su Telegram.
+- **Perché così:** i quattro preventivi aperti sono di attività vere e non si accettano per prova. La conferma chiede il codice di 6 cifre via email: l'ultimo passo lo fa Nicola dal link, come un titolare vero. Così si prova il percorso intero: codice, avviso, ordine in `ordini_sdg`, piano del primo mese e richiesta all'AD col flusso 14 (una corsa delle 40 al giorno).
+- **Colore:** 🟡. Scrittura nel database vero, chiesta in modo esplicito da Nicola, nessun contatto con attività vere. Dopo la prova l'attività si archivia, non si cancella.
+
+## 2026-11-27 23:50 · Servizi oltre ai prodotti: le scelte dell'AD per la costruzione 🟡
+- **Chi e quando:** Nicola, in chat all'AD, 27/11 verso le 23:30: «permetti di offrire anche servizi oltre a prodotti ai venditori».
+- **Cosa:** aperta la sessione `session_01R8112L6m92yFKbgNBKNr7B`, che costruisce su mycity in un ramo e apre la PR. Scelte prese per Nicola, reversibili: prodotto o servizio nel modulo; il servizio si prenota scrivendo al negozio nella chat del sito, senza carrello né pagamento online; stock nullo; durata e luogo facoltativi; i tre abbonamenti di SDG diventano servizi. Un trigger del database vieta un servizio dentro un ordine.
+- **Perché:** il concetto di MyCity del 27/11 dice «servizi e prodotti»; la cura della persona e i servizi su appuntamento sono una categoria dove MyCity può vincere. Il pagamento online dei servizi aprirebbe la scelta della commissione, che è 🔴 e resta a Nicola.
+- **Colore:** 🟡. Codice in un ramo con PR; niente unione, deploy o migrazione senza la firma di Nicola.
