@@ -24,6 +24,8 @@ Il costo dei delicati senza ultracode: non è mai stato misurato, lo misura il p
 
 ## Dettagli tecnici
 
+- ⛔ **FERMA dal 2026-11-27 01:40, non si apre.** Al «A» di Nicola l'AD ha trovato la campagna `2026-11-26-tutti` (ramo `ccr-a672a2b3-92w5w1`, ad-mycity#1032 e mycity#342 in bozza): ha già lavorato 386 voci, e 199 dei 200 qui sono fra quelle (39 si chiudono con la #342, 11 già riparate, 79 restano aperte, 70 nel suo perimetro senza esito). Il tetto «ok 1.200» del 24/11 l'ha usato lei: circa 995 $ le onde 1-3 più circa 101 $ le riservate. Il registro di main (554 aperti) non porta ancora le sue chiusure. Una campagna nuova si fa dalla sua integrazione (mycity `ccr-a672a2b3-92w5w1` @ 932163a9, meglio dopo l'unione della #342) e con un tetto nuovo di Nicola.
+
 - AD: session_015BmpnWXi7guL4RmfTAwzbU (le fermate vanno lì con send_message). Modalità auto.
 - Ramo di ad-mycity: `ccr-819e0c8d-7ryjjr`. Ramo del sito per l'integrazione: lo stesso nome.
 - Base del sito: `main` @ a07c5b387c64309091e937db8ae28813673d5ed4 (SHA intero in source_revision).
@@ -48,3 +50,4 @@ Tetto 1.200 $ (Nicola 24/11 20:30): non si alza a metà. Regie che passano la ma
 
 ## Scelte di Nicola
 - 2026-11-27 01:15 Nicola: «Riesci a riparare 200 difetto adesso, e dico 200 esatti». Preparato; aspetta la risposta alla fermata 1 (strada A o B, e la percentuale del limite).
+- 2026-11-27 01:35 Nicola: «A». La percentuale non l'ha data. Non eseguita: la preparazione si sovrapponeva alla campagna del 26/11 e il tetto era già speso (vedi sopra). Detto a Nicola con la correzione.
