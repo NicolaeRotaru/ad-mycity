@@ -71,7 +71,7 @@
     },
     "business": {
       "nome": "Business",
-      "euro_mese": 500,
+      "euro_mese": 600,
       "slogan": "Crescere ogni settimana",
       "compito": "Portare clienti nuovi ogni settimana: video veri, recensioni, WhatsApp e una mossa nuova al mese.",
       "per_chi": "Per chi vuole più tavoli: più contenuti, video veri, Google e recensioni curate, una mossa nuova ogni mese.",
@@ -135,7 +135,7 @@
     },
     "premium": {
       "nome": "Premium",
-      "euro_mese": 999,
+      "euro_mese": 900,
       "slogan": "Il tuo reparto marketing",
       "compito": "Un reparto marketing che lavora ogni giorno, anche fuori dai social: pubblicità, eventi, giornali, aziende, una persona di riferimento.",
       "per_chi": "Tutti i mestieri di un'agenzia completa al lavoro sul tuo locale, ogni settimana, con una persona di riferimento.",

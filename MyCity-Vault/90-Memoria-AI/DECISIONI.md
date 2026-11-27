@@ -1560,6 +1560,23 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Verifica:** in sola lettura alle 15:25: le 20 nel registro, le funzioni e le tabelle di 910, 916, 940 e 961, colonna e indice della 999, testo della 863 sui tre prodotti.
 - **Colore:** 🔴, eseguito sulla firma esplicita di Nicola.
 
+## 2026-11-27 17:55 — SDG cliente Premium di se stessa; abbonamenti a 300, 600 e 900 euro, anche per MyCity (🟡 lavoro · 🔴 prezzi, firma di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD (session_01R8112N4XVyUmvkBap6F8ru), 27/11 verso le 16:00 («SDG sfrutti la sua tecnologia per gestire i propri social… versione premium… nella sua pagina venditore, dentro Servizi: sito, social col piano editoriale, analisi»), alle 17:10 («SDG non vende solo negozi, ma le attività locali che hanno bisogno di digitalizzare… gestire tutta l'infrastruttura online… gli abbonamenti sono 300, 600 e 900 euro») e alle 17:45 («Annotalo anche per MyCity. MyCity offre questi abbonamenti»).
+- **Cosa:** ① analisi del business di SDG, piano editoriale Premium di dicembre (57 pezzi da approvare) e sito SDG rifatto, in `consegne/sdg-premium/`; ② nel marketplace, quando entra SDG, Sito web, Gestione social e Analisi del business mostrano il lavoro consegnato invece del preventivo (`lib/agenzia/lavoro-consegnato/`, ramo `ccr-3e25a9cc-8rdzdt`); ③ prezzi nuovi propagati: fatti `sdg.abbonamenti`, `pricing.abbonamento`, `agenzia.listino`, `pricing.worker-negozi`; programma delle proposte e prove, modello delle fasce, proposte già pronte, preventivo e PDF di Ora del Gusto, piano del Tropico, flussi n8n 16 e 19, sito SDG, listino del sito MyCity.
+- **Perché:** SDG deve essere la prima prova vivente del proprio Premium; il prezzo è una scelta di Nicola.
+- **Lettura fatta dall'AD:** il canone della sola vetrina da 50 euro non vale più per i negozi nuovi; Pane Quotidiano resta com'è finché Nicola non dice altro. Il Worker sta dentro le tre fasce.
+- **Resta a Nicola:** dare a SDG un accesso vero (card #268); dati veri del sito (email, WhatsApp, dominio); aprire o indicare i profili social e la scheda Google di SDG; applicare la migrazione dei prezzi dei prodotti di SDG; far ripubblicare i flussi 16 e 19; la pubblicazione del sito su Vercel, che la sessione del Caffè di Piacenza dice di avere in mano.
+## 2026-11-27 18:00 — Nel link del preventivo il titolare sceglie anche il giorno della visita di SDG
+- **Cosa:** nella pagina /preventivo/<codice>, dove il titolare conferma abbonamento ed email col codice, ora sceglie anche giorno e ora della prima visita del team creativo di SDG (piano editoriale, foto e video), e legge «Cosa succede dopo». Il giorno si salva sul preventivo (`visita_il`, migrazione 999b, una attività per ora), va nell'avviso a Nicola, nell'email al titolare e in cima a /seller/abbonamento. Ramo `ccr-96d27df4-51gd0d` di mycity, sopra `claude/adoring-fermat-2d0bi6`.
+- **Perché:** richiesta di Nicola del 27/11 verso le 17:40 («dentro in quel reparto link dove lui conferma le mail dell'abbonamento deve esserci anche il calendario»). Giorni e orari sono una scelta dell'AD, lontani dalle ore di punta di bar e ristoranti, da confermare con Nicola e SDG.
+- **Colore:** 🟡 codice in un ramo, con PR; nessun rilascio. La migrazione 999b la applica Nicola. Le «2 settimane gratuite» dette da Nicola NON sono state applicate: il registro dice primo mese a metà prezzo (🔴, prezzi), da chiarire con lui.
+## 2026-11-27 17:35 — Il sito Business del Caffè di Piacenza nella sua voce «Sito web» (🟡)
+- **Chi e quando:** Nicola in chat all'AD, il 27/11 verso le 17:05. Sessione session_01R8112Lh8bxtpgSCWy2ESsy. Ha chiesto la versione business del sito. «Nella voce del menu sito web ci deve essere già il suo sito web versione business.» E: «entrambi i siti web devono già essere su Vercel».
+- **Cosa:** dalla bozza (artifact «Caffè di Piacenza») un sito di cinque pagine vere, con dati per Google, anteprima per WhatsApp, barra «Chiama / Indicazioni» sul telefono, mappa, collegamento alla vetrina. Nel marketplace il lavoro consegnato della sessione SDG ora vale per ogni negozio. Il Caffè c'è con la fascia Business, e il suo sito si vede dal vivo quando è online. La politica di sicurezza apre solo gli indirizzi esatti dei siti online.
+- **Perché:** il Caffè è iscritto dal 27/11 alle 16:45, con l'abbonamento Business attivo e pagato in contanti. Il Business promette «un sito completo di più pagine, col tuo nome».
+- **Limiti:** niente prezzi e niente dati inventati; orari, menu e storia restano «da confermare» e il sito è nascosto a Google finché il titolare non dice sì. Vercel non pubblicato: il collegamento non può creare progetti (403).
+- **Colore:** 🟡: codice in un ramo, PR da unire da Nicola; la pubblicazione su Vercel ha la sua firma in chat.
+
 ## 2026-11-27 18:15 — Salvato il concetto di MyCity su richiesta di Nicola
 - **Chi e quando:** Nicola, in chat all'AD, il 27/11 verso le 18:11. Sessione session_01R8112LANAw9VhLSs2fAbsL.
 - **Le sue parole:** «Questo va salvato come concetto: mycity si occupa di digitalizzare le attività locali e promuovere i loro servizi e prodotti attraverso il marketplace».
@@ -1567,3 +1584,16 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Perché:** la riga di prima diceva solo «il marketplace dei negozi». Dal 22/11 i clienti sono tutte le attività che vendono qualcosa (`strategia.cliente-core`). Dal 24/11 MyCity offre anche i servizi per portarle online (`sdg.abbonamenti`).
 - **Peso del manuale:** 17.925 byte su un tetto di 18.000. La prova `due-elenchi-un-solo-metro` vuole circa 60 byte di margine, e passa. La prima versione pesava 17.997 byte ed era rossa: l'ha trovato la sessione delle PR. Il modello Amazon × eBay × Glovo per esteso resta in `MyCity-Vault/00-Index.md`.
 - **Colore:** 🟡, perché tocca le istruzioni della macchina. L'ha chiesto Nicola, e la PR la valuta lui.
+
+## 2026-11-27 19:17 — Applicata in produzione la migrazione 999b, il giorno della visita di SDG (🔴, firma di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD (session_01R8112NYQ3s6UrYKRZCZdxA), 27/11 verso le 19:00: «applica le migrazioni».
+- **Cosa:** confronto in sola lettura fra il registro del database vero (340 righe) e `migrations/` di main (0033f975, dopo la mycity#351): mancava solo la 999b. Aggiunge `preventivi_con_codice.visita_il` e un indice unico parziale, cioè una sola attività per ora. Non cancella niente. Lanciato «Migrazioni a mano» con APPLICA / 1 / 999b: esecuzione 46046533099, partita alle 19:03, tutta verde alle 19:17.
+- **Verifica:** in sola lettura alle 19:23: 999b nel registro (341 righe), colonna `visita_il` di tipo timestamptz, indice `preventivi_con_codice_una_visita_per_ora` presente.
+- **Colore:** 🔴, eseguito sulla firma esplicita di Nicola.
+
+## 2026-11-27 21:02 — Tasto Approva: l'impronta guarda tutto quello che esce (🟡, firmato da Nicola)
+- **Chi e quando:** Nicola, in chat all'AD (session_01R8112LLyeYLAMVEEzLNUuw), 27/11 verso le 20:45: «impronta nuova subito». Il lavoro l'ha chiesto la sessione di controllo delle sessioni (session_01R8112L2JFRP34XMFymdS4d).
+- **Il difetto:** l'impronta nel tasto guardava solo file e ora. Se l'AD cambiava solo la didascalia, il tasto rimasto sotto l'anteprima vecchia approvava la versione nuova, non vista.
+- **Cosa:** l'impronta guarda file, ora, didascalia, primo commento, copertina, tipo e social. Rifiuta vale sempre. Il messaggio di un tasto che non corrisponde dice le cause vere.
+- **Dove:** NicolaeRotaru/N8N#37. Due collaudi indipendenti: tutti e due reggono.
+- **Colore:** 🟡. Il flusso vivo non cambia finché Nicola non scrive «ok 267»: «Proponi» e «Tasti» vanno caricati insieme.
