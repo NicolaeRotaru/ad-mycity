@@ -1,6 +1,6 @@
 ---
 tipo: bacheca
-aggiornato: 2026-11-27 22:35
+aggiornato: 2026-11-27 23:15
 regole: cervello/sessioni-insieme.md
 ---
 
@@ -28,6 +28,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 27/11 ~22:40 | all'AD, stessa chat della riga delle 17:25 | Alla domanda «lancio io Migrazioni a mano?» ha scelto «Sì, lanciale tu». Entrano insieme le tre migrazioni già unite che mancavano nel database. La 999c fa nascere l'ordine a SDG. La 999d mette i prezzi a 300, 600 e 900 euro. La 999f segna le email finte dei negozi già iscritti. L'AD l'ha lanciata su main con APPLICA, 3 e 999f. |
 | 27/11 ~22:35 | AD (session_01R8112P5YYf1DSVHQKpdukS) | «Non specificare che è la fragola, margarita frozen»: nelle grafiche e nei testi del Tropico il drink della foto 0307 si chiama solo «margarita frozen», perché «alla fragola» appesantisce la frase. Il carosello e il reel di sabato 28/11 sono stati rimandati su Telegram alle 22:45 così |
 | 27/11 ~22:10 | all'AD, chat «Verifica sessioni completate» (`…L2JFRP`) | **Sul lato SDG si dice «la tua attività», mai «il tuo negozio».** Vale per abbonamenti, servizi, preventivo, rapporto e tutto ciò in cui c'entra SDG. Sul lato marketplace resta «negozio»: lì il target di MyCity sono le botteghe e i piacentini. Fatto `sdg.lessico`. Il cambio nel sito lo fa la sessione «Rapporto dell'imprenditore · sito e preventivo»: prima nella mycity#355, poi in una richiesta nuova. |
 | 27/11 21:48 | AD (session_01R8112P5YYf1DSVHQKpdukS) | «Questa è una margherita frozen alla fragola, non è una sangria»: la foto 0307 del Tropico (il drink rosso nella caraffa) non si chiama mai sangria. La storia delle 18:00 è uscita sbagliata su quattro pagine. Il carosello e il reel di sabato 28/11 la chiamavano sangria. Sono stati fermati alle 22:11, rifatti e riproposti su Telegram alle 22:20. Chi fa contenuti del Tropico legge `foto_confermate` nel file del cliente e lancia `controlla-nomi.py` prima di montare |
@@ -221,7 +222,6 @@ già la stessa cosa: se sì, scrivile invece di rifarlo (regola 3). Oggi tre gru
 |---|---|---|
 | «Link imprenditore e flusso abbonamenti» (`…NaCwxLRhwBxPjvCVC`) | La conferma dell'abbonamento dal link col codice dall'email. Finita: unita con mycity#349 col sì di Nicola, alle 17:56. Su quel ramo non cambia più niente | mycity `claude/adoring-fermat-2d0bi6`: `lib/agenzia/preventivo-col-codice.ts`, `lib/agenzia/codice-dal-link.ts`, `app/api/preventivo/[codice]/*` |
 | «Subscription confirmation flow» (`…NuFB3nq8tjMhb1KRu`) | Nella conferma dal link il titolare sceglie giorno e ora della visita di SDG: colonna `visita_il`, migrazione 999b | mycity `ccr-96d27df4-51gd0d`. Il ramo parte da quello della #349. |
-| «Ordine a SDG secondo» (`…NfxDnkgnpY7Exsrf3`). Ha preso il posto di «Ordine a SDG», che ha finito alle 19:22. | Segue la mycity#353 finché si unisce: la CI e i conflitti dopo la mycity#351. Niente funzioni nuove. | mycity, ramo `claude/ordine-a-sdg-su-main`. |
 | «Piano editoriale per abbonamento» (`…KdhTFt`) | Il modello delle tre fasce e il piano di dicembre del Tropico per Base, Business e Premium. Non tocca le righe del Calendario né la pubblicazione: quelle restano a «Contenuti Canva e Reel» | `cervello/modelli/piano-editoriale-*`, `cervello/piano-editoriale.mjs`, `consegne/clienti/tropico-latino/` |
 | «Migliorare analisi clienti» (`…KJEvB4`) | Dirige il lavoro sull'analisi dei clienti nuovi, con il piano, le fonti e le scelte di Nicola. Aspetta «ok fasce» | ad-mycity#1038, `consegne/strategia/2026-11-26-analisi-imprenditore/` |
 | «Rapporto dell'imprenditore · flussi n8n» (`…K1DyjU`) | Contratto dei fatti e codice del flusso 16. **È la sola che ripubblica il 16**, da main, al via di Nicola | N8N `claude/rapporto-imprenditore-flussi`, `flussi/16-nuovo-cliente-da-mycity/` |
@@ -247,8 +247,7 @@ un elenco che da qui non si vede: il loro stato non è verificato.
 |---|---|
 | «Verifica sessioni completate», AD, controllo delle sessioni | `session_01R8112L2JFRP34XMFymdS4d` |
 | «Verifica PR pronte per merge», unisce le richieste | `session_01R8112KTPLRuAkWr1PreRUu` |
-| «Seller link process workflow», controllore dell'ordine a SDG, riceve il sì alla mycity#353 | `session_01R8112NuZmmktNkEcpG9ApN` |
-| «Ordine a SDG secondo», segue la mycity#353 | `session_01R8112NfxDnkgnpY7Exsrf3` |
+| «Seller link process workflow», controllore dell'ordine a SDG: migrazioni entrate alle 23:12, resta il primo ordine vero da vedere | `session_01R8112NuZmmktNkEcpG9ApN` |
 | «Migrazioni mancanti», aspetta «applica la 999d» | `session_01R8112NYQ3s6UrYKRZCZdxA` |
 | «Testo da modificare», mycity#354 | `session_01R8112NsNZPHRnstKqUShZm` |
 | «Caffè di Piacenza business site», mycity#350 e Vercel | `session_01R8112Lh8bxtpgSCWy2ESsy` |
