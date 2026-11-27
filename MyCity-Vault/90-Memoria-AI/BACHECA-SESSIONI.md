@@ -234,8 +234,8 @@ già la stessa cosa: se sì, scrivile invece di rifarlo (regola 3). Oggi tre gru
 | «Goku · fino alle 16:03» (`…PHDGR6`) | Sorveglia le sessioni e i lavori doppi | `MyCity-Vault/90-Memoria-AI/goku/` |
 
 ## Le sessioni vive
-Aggiornata il 2026-11-27 20:35 dall'AD (`…L2JFRP`), dopo il controllo di tutte le sessioni aperte
-(`Report/2026-11-27-controllo-sessioni.md`). Tolte le righe delle sessioni archiviate. Le sessioni del 015Bmpn… stanno in
+Aggiornata il 2026-11-27 20:35 dall'AD (`…L2JFRP`). È il controllo di tutte le sessioni aperte, scritto in
+`Report/2026-11-27-controllo-sessioni.md`. Tolte le righe delle sessioni archiviate. Le sessioni del 015Bmpn… stanno in
 un elenco che da qui non si vede: il loro stato non è verificato.
 
 | Ruolo | Id |
