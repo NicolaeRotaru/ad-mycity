@@ -234,28 +234,28 @@ già la stessa cosa: se sì, scrivile invece di rifarlo (regola 3). Oggi tre gru
 | «Goku · fino alle 16:03» (`…PHDGR6`) | Sorveglia le sessioni e i lavori doppi | `MyCity-Vault/90-Memoria-AI/goku/` |
 
 ## Le sessioni vive
-Aggiornata il 2026-11-26 15:15 da Goku. Le due sessioni del 015Bmpn… stanno in un elenco che da qui non si vede.
+Aggiornata il 2026-11-27 20:35 dall'AD (`…L2JFRP`). È il controllo di tutte le sessioni aperte, scritto in
+`Report/2026-11-27-controllo-sessioni.md`. Tolte le righe delle sessioni archiviate. Le sessioni del 015Bmpn… stanno in
+un elenco che da qui non si vede: il loro stato non è verificato.
 
 | Ruolo | Id |
 |---|---|
-| «Seller link process workflow», controllore dell'ordine a SDG | `session_01R8112NuZmmktNkEcpG9ApN` |
+| «Verifica sessioni completate», AD, controllo delle sessioni | `session_01R8112L2JFRP34XMFymdS4d` |
+| «Verifica PR pronte per merge», unisce le richieste | `session_01R8112KTPLRuAkWr1PreRUu` |
+| «Seller link process workflow», controllore dell'ordine a SDG, riceve il sì alla mycity#353 | `session_01R8112NuZmmktNkEcpG9ApN` |
 | «Ordine a SDG secondo», segue la mycity#353 | `session_01R8112NfxDnkgnpY7Exsrf3` |
-| «Link imprenditore e flusso abbonamenti» | `session_01R8112NaCwxLRhwBxPjvCVC` |
-| «Subscription confirmation flow» | `session_01R8112NuFB3nq8tjMhb1KRu` |
-| «Migliorare analisi clienti», AD del rapporto | `session_01R8112KJEvB4uRMQLAYZ3Uo` |
-| «Rapporto dell'imprenditore · flussi n8n» | `session_01R8112K1DyjU4xADptnSgNq` |
-| «Rapporto dell'imprenditore · sito e preventivo» | `session_01R8112MSbmrMsg1NS5fYwU7` |
-| «Scheda cliente automatica» | `session_01R8112NFY3AU2rJekrQw41G` |
-| «Il flusso 16 giudica sito e social» | `session_01R8112NXCcdccwqXhFqm6UF` |
-| «Verifica PR pronte per merge» | `session_01R8112KTPLRuAkWr1PreRUu` |
-| «Contenuti Canva e Reel» | `session_01R8112MFexW4rFbjYzmP3T3` |
-| «Tropico Latino content publishing» | `session_01R8112NbFTCYkBJ9yByfTv2` |
-| «Montatore video autonomo AI» | `session_01R8112KsvUDcuk4haFpw4jn` |
-| «Gestione consensi sessioni» | `session_01R8112NLKmh9dyDahkJb6FY` |
-| «Schema presentazione clienti» | `session_01R8112KtpHnLaZuTdp128Ts` |
-| Regia «tutti i difetti senza Nicola» | `session_015BmpnXuogkPZVts89PH67a` |
-| Radiografia di ricontrollo | `session_015BmpnXAVwPhPT7aWRMXdMi` |
-| «Goku · fino alle 16:03», supervisore | `session_01R8112PHDGR6F1U6hU73YxR` |
+| «Migrazioni mancanti», aspetta «applica la 999d» | `session_01R8112NYQ3s6UrYKRZCZdxA` |
+| «Testo da modificare», mycity#354 | `session_01R8112NsNZPHRnstKqUShZm` |
+| «Caffè di Piacenza business site», mycity#350 e Vercel | `session_01R8112Lh8bxtpgSCWy2ESsy` |
+| «SDG premium services strategy», carte 268-274 | `session_01R8112N4XVyUmvkBap6F8ru` |
+| «Ferma il doppione del negozio», ripartita il 27/11 alle 20:30 | `session_01R8112NtaVafiN8rCWpeTVx` |
+| «Stop re-proposing a published Calendar row», tasti di Telegram (ripartita alle 20:30) e «ok 267» | `session_01R8112LLyeYLAMVEEzLNUuw` |
+| «Montatore video autonomo AI», correzioni dell'ottavo collaudo (ripartita alle 20:30) | `session_01R8112KsvUDcuk4haFpw4jn` |
+| «Rapporto dell'imprenditore · sito e preventivo», testo della 863 (ripartita alle 20:30) | `session_01R8112MSbmrMsg1NS5fYwU7` |
+| «Diagnosi gratuita», aspetta tre risposte di Nicola | `session_01R8112NCm6UqSqAZ5jRV1ZG` |
+| «Flusso n8n analisi azienda», aspetta Sliplane e i tre gruppi Telegram | `session_01R8112KVwPBkdsE7GjzW4uF` |
+| Regia «tutti i difetti senza Nicola» (non visibile da qui, stato non verificato) | `session_015BmpnXuogkPZVts89PH67a` |
+| Radiografia di ricontrollo (non visibile da qui, stato non verificato) | `session_015BmpnXAVwPhPT7aWRMXdMi` |
 
 ## La quota
 | Quando | Chi l'ha vista | Stato |
