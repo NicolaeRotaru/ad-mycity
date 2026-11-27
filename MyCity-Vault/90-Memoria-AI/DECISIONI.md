@@ -1545,6 +1545,14 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa cambia:** l'agente sceglie Base, Business o Premium prima di «Sì, aggiungi» (nessuna scelta già fatta). La scelta va sul preventivo e la pagina del negozio si sblocca subito in quella fascia, fino alla disdetta; i contanti si ritirano al primo servizio. Chi accetta dal link ha la pagina sbloccata nella fascia che accetta. Nicola ferma un abbonamento in contanti da Admin → Preventivi col link: la riga resta nello storico, la pagina torna in demo. Supera la regola del 24/11 «esce dalla demo quando paga» (fatto `negozi.modalita-demo` aggiornato alle 03:05).
 - **Dove:** mycity, ramo `claude/confident-turing-z8z2i5`, migrazione 999 (da applicare dopo l'unione). Prove: 2.337 file di prove verdi, prova sul database della 999 verde e rossa togliendo l'indice.
 - **Colore:** 🟡 il codice in un ramo con PR; 🔴 la migrazione in produzione e l'unione, con la firma di Nicola.
+## 2026-11-27 17:20 — Il link del preventivo apre la conferma dei tre abbonamenti, e il titolare entra col codice dell'email (🟡, scelte di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD (session_01R8112NaCwxLRhwBxPjvCVC), 27/11 alle 15:06 con la foto del link di Grida Caffè: «l'imprenditore non entra più nella sua pagina demo ma in uno schermo che fa vedere i 3 abbonamenti al cliente e conferma l'abbonamento scelto che ha detto al venditore». Poco dopo: «può toccare un altro abbonamento e confermare quello e dopo il click entra nella sua pagina venditore con l'abbonamento che ha scelto». Verso le 17:00, sul rischio trovato dal collaudo: «Codice dall'email».
+- **Cosa cambia:** il link /preventivo/<codice> apre una pagina sola, senza la demo. Ci sono le tre fasce col prezzo, il primo mese e cosa comprende; quella del venditore è già scelta. Il titolare scrive l'email e preme «Confermo il …». Gli arriva un codice e lo scrive nella pagina. Solo col codice giusto si accetta: la pagina si sblocca nella fascia confermata e il titolare entra in /seller/abbonamento. Le pagine della demo restano, ma il link non ci porta più.
+- **Perché il codice:** il primo collaudo della sicurezza ha bocciato l'ingresso subito dopo il clic. Chi aveva il link poteva scrivere l'email vera del titolare ed entrare al suo posto, e il controllo di Nicola «l'email è la tua?» non scopriva più niente. Il codice prova che l'email è sua.
+- **Dove:** mycity, ramo `claude/adoring-fermat-2d0bi6`. Porte nuove /codice e /conferma, la vecchia /accetta resta per il modulo della demo.
+- **Da sapere:** la migrazione 999 (abbonamento in contanti) alle 15:06 mancava in produzione; verso le 17:00 c'era, e Grida Caffè ha il Business in contanti attivo dalle 16:24.
+- **Colore:** 🟡 il codice in un ramo con PR; 🔴 l'unione e la messa online, con la firma di Nicola.
+
 
 ## 2026-11-27 15:19 — Applicate in produzione le 20 migrazioni che mancavano, dalla 863 alla 999 (🔴, firma di Nicola)
 - **Chi e quando:** Nicola, in chat all'AD (session_01R8112NYQ3s6UrYKRZCZdxA), 27/11 verso le 14:55: «fai tutte le migrazioni che mancano».
@@ -1558,3 +1566,10 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Perché:** SDG deve essere la prima prova vivente del proprio Premium; il prezzo è una scelta di Nicola.
 - **Lettura fatta dall'AD:** il canone della sola vetrina da 50 euro non vale più per i negozi nuovi; Pane Quotidiano resta com'è finché Nicola non dice altro. Il Worker sta dentro le tre fasce.
 - **Resta a Nicola:** dare a SDG un accesso vero (card #268); dati veri del sito (email, WhatsApp, dominio); aprire o indicare i profili social e la scheda Google di SDG; applicare la migrazione dei prezzi dei prodotti di SDG; far ripubblicare i flussi 16 e 19; la pubblicazione del sito su Vercel, che la sessione del Caffè di Piacenza dice di avere in mano.
+## 2026-11-27 18:15 — Salvato il concetto di MyCity su richiesta di Nicola
+- **Chi e quando:** Nicola, in chat all'AD, il 27/11 verso le 18:11. Sessione session_01R8112LANAw9VhLSs2fAbsL.
+- **Le sue parole:** «Questo va salvato come concetto: mycity si occupa di digitalizzare le attività locali e promuovere i loro servizi e prodotti attraverso il marketplace».
+- **Cosa ho fatto:** il concetto è un fatto nuovo del registro, `strategia.concetto`. La riga «Chi sei» di `CLAUDE.md` ora lo dice. Il §13 di `CONTESTO_BUSINESS.md` ha una nota in più. Il testo di Nicola non cambia.
+- **Perché:** la riga di prima diceva solo «il marketplace dei negozi». Dal 22/11 i clienti sono tutte le attività che vendono qualcosa (`strategia.cliente-core`). Dal 24/11 MyCity offre anche i servizi per portarle online (`sdg.abbonamenti`).
+- **Peso del manuale:** 17.925 byte su un tetto di 18.000. La prova `due-elenchi-un-solo-metro` vuole circa 60 byte di margine, e passa. La prima versione pesava 17.997 byte ed era rossa: l'ha trovato la sessione delle PR. Il modello Amazon × eBay × Glovo per esteso resta in `MyCity-Vault/00-Index.md`.
+- **Colore:** 🟡, perché tocca le istruzioni della macchina. L'ha chiesto Nicola, e la PR la valuta lui.
