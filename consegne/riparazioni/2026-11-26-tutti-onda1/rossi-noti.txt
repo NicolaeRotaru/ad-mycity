@@ -1,0 +1,34 @@
+ramo R01 ccr-a672a2b3-92w5w1-m01
+ramo R02 ccr-a672a2b3-92w5w1-m02
+ramo R03 ccr-a672a2b3-92w5w1-m03
+ramo R04 ccr-a672a2b3-92w5w1-m04
+ramo R05 ccr-a672a2b3-92w5w1-m05
+ramo R06 ccr-a672a2b3-92w5w1-m06
+ramo R07 ccr-a672a2b3-92w5w1-m07
+ramo R08 ccr-a672a2b3-92w5w1-m08
+ramo R09 ccr-a672a2b3-92w5w1-m09
+ramo R10 ccr-a672a2b3-92w5w1-m10
+ramo R11 ccr-a672a2b3-92w5w1-m11
+guardia R10 ccr-a672a2b3-92w5w1-m10 prova comune
+ferma R05 2d9c700
+finita R01
+finita R02
+finita R03
+finita R04
+finita R05
+finita R06
+finita R07
+finita R08
+finita R09
+finita R10
+finita R11
+ramo K01 ccr-a672a2b3-92w5w1-k01
+finita K01
+ramo K02 ccr-a672a2b3-92w5w1-k02
+finita K02
+ramo K03 ccr-a672a2b3-92w5w1-k03
+finita K03
+ramo K04 ccr-a672a2b3-92w5w1-k04
+finita K04
+guardia R04 prova comune
+ferma R01 28729f7

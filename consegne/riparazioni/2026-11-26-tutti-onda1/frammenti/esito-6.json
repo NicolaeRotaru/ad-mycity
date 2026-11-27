@@ -1,0 +1,34 @@
+{
+  "corsia": 6,
+  "territorio": "R06",
+  "difetti": [
+    {
+      "chiave": "performance|la memoria a due secondi dei metadati usa la stessa chiave anche quando si passa un client da fuori",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r06-metadati-client-da-fuori.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base bb5c05098d56f68998ffeb95cc761dc8b5cbf3e5 --file lib/supabase/lettura-per-metadati.ts --prove tests/unit/riparazione-r06-metadati-client-da-fuori.test.ts --json → uscita 0 (riparatore); git -C ../wt-R06-004 checkout --detach 5fb77f5579429153023749d9b0c7e79222282204 && timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06-004 --base bb5c05098d56f68998ffeb95cc761dc8b5cbf3e5 --file lib/supabase/lettura-per-metadati.ts --prove tests/unit/riparazione-r06-metadati-client-da-fuori.test.ts --json → uscita 0 (K03)",
+      "nota_fix": "Un client passato da fuori ha la sua memoria a due secondi (WeakMap per client), separata da quella condivisa e da quella degli altri client; la memoria condivisa resta solo per le letture senza client. Nessuna riga letta con i permessi di una sessione arriva a chi legge senza client o con un altro client; lo stesso client che chiede due volte legge una volta sola."
+    },
+    {
+      "chiave": "qa-flussi|nella pagina admin dei drop l'etichetta del giorno si sposta indietro per chi è a ovest di greenwich",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r06-giorno-del-drop.test.tsx --reporter=dot",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base b3e419a0c453266610eb3fbd91e50b6b04957c79^ --file app/admin/daily-drops/page.tsx --prove tests/unit/riparazione-r06-giorno-del-drop.test.tsx --json → uscita 0 (riparatore); git -C ../wt-R06-007 checkout --detach b3e419a0c453266610eb3fbd91e50b6b04957c79 && timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06-007 --base 8fc29327bf324b46d84b837faf70a688d0ec79f0 --file app/admin/daily-drops/page.tsx --prove tests/unit/riparazione-r06-giorno-del-drop.test.tsx --json → uscita 0 (K03)",
+      "nota_fix": "Aggiunto timeZone: 'UTC' al toLocaleDateString della data del drop. La prova disegna la pagina con TZ=America/New_York e controlla che il 17 resti 17."
+    },
+    {
+      "chiave": "qa-flussi|nelle domeniche del cambio d'ora la quadratura della cassa del fattorino sbaglia la giornata: in autunno le consegne dalle 23 a mezzanotte non entrano in nessun conto",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r06-cassa-cambio-ora.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base ca77ab778cc9b3f5ab06eae77d62fd51e47adb88^ --file lib/cassa/quadratura.ts,app/api/cron/riquadra-casse/route.ts --prove tests/unit/riparazione-r06-cassa-cambio-ora.test.ts --json → uscita 0 (riparatore); git -C ../wt-R06-014 checkout --detach ca77ab778cc9b3f5ab06eae77d62fd51e47adb88 && timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06-014 --base 85a465c7265fdad635f47a1809fca9aef25eeea2 --file lib/cassa/quadratura.ts,app/api/cron/riquadra-casse/route.ts --prove tests/unit/riparazione-r06-cassa-cambio-ora.test.ts --json → uscita 0 (K03)",
+      "nota_fix": "aggiornaQuadratura chiude la giornata alla mezzanotte del giorno di calendario dopo (giornoDopo), non a inizio+24h; riquadra-casse calcola «ieri» con ultimiGiorniPiacenza(2) e legge dalla mezzanotte di ieri. operational-alerts non cambiato: il suo yesterday (giorno UTC di adesso-24h, usato con gte) è sempre uguale o precedente a ieri di Piacenza, quindi non perde giornate. Prove con date esplicite 25/10/2026 e 28/3/2027 e orologio finto sul giro."
+    },
+    {
+      "chiave": "qa-flussi|i 14 giorni per rispedire la merce del reso si contano ancora a blocchi di 24 ore",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r06-rispedire-a-giorni.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base fd4d13c4ea493bd0c976903ca4a15ff05fb14426^ --file lib/rimborsi/regole-del-rimborso.ts --prove tests/unit/riparazione-r06-rispedire-a-giorni.test.ts --json → uscita 0 (riparatore); git -C ../wt-R06-015 checkout --detach fd4d13c4ea493bd0c976903ca4a15ff05fb14426 && timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06-015 --base ca77ab778cc9b3f5ab06eae77d62fd51e47adb88 --file lib/rimborsi/regole-del-rimborso.ts --prove tests/unit/riparazione-r06-rispedire-a-giorni.test.ts --json → uscita 0 (K03)",
+      "nota_fix": "percheIlRecessoNonSiChiude usa recessoAperto(inizio, adesso) di lib/ordini/termine-del-recesso.ts (riusato, non modificato) al posto di adesso-inizio > 14x24h: i 14 giorni finiscono a fine giornata a Piacenza. Prova con orologio finto dall'approvazione del 20/10/2026 al 3-4/11/2026, a cavallo del cambio d'ora."
+    }
+  ]
+}

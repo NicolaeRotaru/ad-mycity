@@ -1,0 +1,48 @@
+{
+  "corsia": 23,
+  "territorio": "R23",
+  "difetti": [
+    {
+      "chiave": "flussi-conversione|dopo l'accesso con google il ritorno non applica nessuna regola di ruolo",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r23-ritorno-google-ruolo.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 15ec90de01df5eaea5a6d28637db2c491c5a4951^ --file app/auth/callback/route.ts --prove tests/unit/riparazione-r23-ritorno-google-ruolo.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R23 --base 15ec90de01df5eaea5a6d28637db2c491c5a4951^ --file app/auth/callback/route.ts --prove tests/unit/riparazione-r23-ritorno-google-ruolo.test.ts --json → uscita 0 (K08)",
+      "nota_fix": "La callback legge il ruolo e applica la stessa regola dell'accesso con email e password: se il ritorno è '/' o sta nell'area di un altro ruolo, amministratore, negozio e fattorino vanno sulla home del proprio. Vale anche per il next passato a /accetta-condizioni. Con la correzione l'amministratore non ha aree di un altro ruolo: tornaDaGoogle('admin','/seller/orders') porta a '/seller/orders'."
+    },
+    {
+      "chiave": "flussi-conversione|chi è amministratore, negozio o fattorino perde il ritorno dopo l'accesso, e col pulsante google il ritorno si perde per tutti",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r23-ritorno-amministratore.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base afd13b5ee39b37bfae749d23fecc21e9eefbd469^ --file app/sign-in/page.tsx --prove tests/unit/riparazione-r23-ritorno-amministratore.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R23 --base afd13b5ee39b37bfae749d23fecc21e9eefbd469^ --file app/sign-in/page.tsx --prove tests/unit/riparazione-r23-ritorno-amministratore.test.tsx --json → uscita 0 (K08)",
+      "nota_fix": "Nella pagina di accesso la regola dell'area di un altro ruolo non vale più per l'amministratore, che il portiere fa entrare in /seller e /rider: il ritorno lì resta. Senza ritorno, o con '/', va ancora su /admin; per negozio e fattorino la regola non cambia."
+    },
+    {
+      "chiave": "flussi-conversione|il ritorno dopo l'accesso guarda la stringa e non il percorso risolto per riconoscere l'area di un altro ruolo",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r23-ritorno-percorso-risolto.test.tsx tests/unit/riparazione-r23-ritorno-google-percorso-risolto.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 50593e7513d94d0f0b7056f6dd4a9d82c63b7387^ --file app/sign-in/page.tsx,app/auth/callback/route.ts --prove tests/unit/riparazione-r23-ritorno-percorso-risolto.test.tsx,tests/unit/riparazione-r23-ritorno-google-percorso-risolto.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R23 --base 50593e7513d94d0f0b7056f6dd4a9d82c63b7387^ --file app/sign-in/page.tsx,app/auth/callback/route.ts --prove tests/unit/riparazione-r23-ritorno-percorso-risolto.test.tsx,tests/unit/riparazione-r23-ritorno-google-percorso-risolto.test.ts --json → uscita 0 (K08)",
+      "nota_fix": "La regola di ruolo decide sul percorso risolto (new URL(...).pathname poi decodeURIComponent), non sulla stringa: '/rider/..', '/admin/../', '/.', '/seller/%2e%2e' e '/%73eller/dashboard' vengono riconosciuti. Corretto nella pagina di accesso e nella callback."
+    },
+    {
+      "chiave": "qa-flussi|nell elenco docs dell iscrizione del fattorino patente e polizza hanno ancora required: true, ma nessuno lo legge: dato morto che inganna",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r23-documenti-fattorino-senza-required.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base c830d57da23f3d4010491103958293100eb88f47^ --file app/rider/onboarding/page.tsx --prove tests/unit/riparazione-r23-documenti-fattorino-senza-required.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R23 --base c830d57da23f3d4010491103958293100eb88f47^ --file app/rider/onboarding/page.tsx --prove tests/unit/riparazione-r23-documenti-fattorino-senza-required.test.ts --json → uscita 0 (K08)",
+      "nota_fix": "Nessuno legge .required di DocDef (gli obblighi li dice solo obbligatorio()): tolto il campo dal tipo e dalle sei righe di DOCS, con un commento che rimanda alla regola vera. A video non cambia niente."
+    },
+    {
+      "chiave": "qa-flussi|l accesso con google non porta il ritorno alla pagina di partenza",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r23-google-ritorno-iscrizione.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 9bd177a207a0d2819a390131e3163d70ac65ce16^ --file components/ui/AuthShell.tsx --prove tests/unit/riparazione-r23-google-ritorno-iscrizione.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R23 --base 9bd177a207a0d2819a390131e3163d70ac65ce16^ --file components/ui/AuthShell.tsx --prove tests/unit/riparazione-r23-google-ritorno-iscrizione.test.tsx --json → uscita 0 (K08)",
+      "nota_fix": "Quando la pagina non gli passa returnTo, il pulsante Google usa il returnTo dell'indirizzo, ripulito con safeInternalPath: da /sign-up?returnTo=/checkout si torna alla cassa; se la pagina lo passa (l'accesso), vale quello."
+    },
+    {
+      "chiave": "sicurezza-auth|col captcha acceso su supabase il recupero password fallirebbe: resetpasswordforemail parte senza gettone",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r23-captcha-recupero-password.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 1957c39fe39ecd44586bcf4bd567b35e0937b6e2^ --file app/sign-in/page.tsx,app/reset-password/page.tsx --prove tests/unit/riparazione-r23-captcha-recupero-password.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R23 --base 1957c39fe39ecd44586bcf4bd567b35e0937b6e2^ --file app/sign-in/page.tsx,app/reset-password/page.tsx --prove tests/unit/riparazione-r23-captcha-recupero-password.test.tsx --json → uscita 0 (K08)",
+      "nota_fix": "«Password dimenticata?» nella pagina di accesso passa captchaToken a resetPasswordForEmail e poi rigenera il gettone; in /reset-password la vista «richiedi link» monta il riquadro Turnstile (se NEXT_PUBLIC_TURNSTILE_SITE_KEY è impostata), passa il gettone e lo rigenera."
+    }
+  ]
+}

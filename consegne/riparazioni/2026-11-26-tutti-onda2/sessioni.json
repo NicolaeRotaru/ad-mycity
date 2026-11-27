@@ -1,0 +1,63 @@
+{
+ "regista": "session_015BmpnXuogkPZVts89PH67a",
+ "sessioni": {
+  "R12": {
+   "id": "session_015BmpnWXzUxB3JEfHvC1gKc",
+   "ramo": "ccr-a672a2b3-92w5w1-m12",
+   "onda": 1,
+   "aperta": "2026-11-26 15:16"
+  },
+  "R13": {
+   "id": "session_015BmpnViKZet1m9TCGC1DsF",
+   "ramo": "ccr-a672a2b3-92w5w1-m13",
+   "onda": 1,
+   "aperta": "2026-11-26 15:16"
+  },
+  "R14": {
+   "id": "session_015BmpnVYM2vKEdNHfL8qhmk",
+   "ramo": "ccr-a672a2b3-92w5w1-m14",
+   "onda": 1,
+   "aperta": "2026-11-26 15:16"
+  },
+  "R15": {
+   "id": "session_015BmpnW6bmPvyvHQMRbunQB",
+   "ramo": "ccr-a672a2b3-92w5w1-m15",
+   "onda": 1,
+   "aperta": "2026-11-26 15:16"
+  },
+  "R16": {
+   "id": "session_015BmpnUxL9XfU7oQ3yQnT3r",
+   "ramo": "ccr-a672a2b3-92w5w1-m16",
+   "onda": 1,
+   "aperta": "2026-11-26 15:16"
+  }
+ },
+ "collaudatori": {
+  "K05": {
+   "id": "session_015BmpnYtdkqrFVcKRU934YY",
+   "ramo": "ccr-a672a2b3-92w5w1-k05",
+   "partenza": "f6003f49264144475e9c7dc2421070bfbccf461d",
+   "riparatori": [
+    "R13",
+    "R14",
+    "R16"
+   ]
+  },
+  "K06": {
+   "id": "session_015BmpnXzF5QVKnL1CkGnuYM",
+   "ramo": "ccr-a672a2b3-92w5w1-k06",
+   "partenza": "b24636e43caca4f5e127017a851a8e1fac028b75",
+   "riparatori": [
+    "R12",
+    "R15"
+   ]
+  }
+ },
+ "controllori": {
+  "C02": {
+   "id": "session_015BmpnXuwMmpmWMEfTUvDbG",
+   "ramo": "ccr-a672a2b3-92w5w1-c02",
+   "integrazione": "aac2350b09db195d6d2286f15f75a7d02ae590a1"
+  }
+ }
+}
