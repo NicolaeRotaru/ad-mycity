@@ -72,6 +72,15 @@ test('③ un canone cambiato nel registro e non nel programma ferma il preventiv
   assert.ok(controlla(leggi(CLIENTI[0]), null, PAGAMENTO).some((e) => e.startsWith('registro dei fatti')));
 });
 
+test('③bis un canone vecchio scritto nel testo libero ferma il preventivo (collaudo del 27/11)', () => {
+  const d = copia(leggi(CLIENTI[0]));
+  d.obiezioni = [{ obiezione: '500 euro al mese sono tanti.', risposta: 'Si parte dal Base.' }];
+  const errori = controlla(d, CANONI, PAGAMENTO);
+  assert.ok(errori.some((e) => e.startsWith('prezzo vecchio o sbagliato')), errori.join(' | '));
+  d.obiezioni = [{ obiezione: '600 euro al mese sono tanti.', risposta: 'Il primo mese è 300 euro al mese.' }];
+  assert.ok(!controlla(d, CANONI, PAGAMENTO).some((e) => e.startsWith('prezzo vecchio')), 'i canoni di oggi e il primo mese passano');
+});
+
 test('④ il piano editoriale mantiene la promessa dell’abbonamento consigliato', () => {
   const d = copia(leggi(CLIENTI[0]));
   d.proposta.piano.righe.pop();

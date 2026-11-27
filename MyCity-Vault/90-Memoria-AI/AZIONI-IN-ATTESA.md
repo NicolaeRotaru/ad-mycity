@@ -31,6 +31,45 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
+### 🔴 #274 — Decidi se rendere privati i repository della memoria e del sito · ⏳ accodata 2026-11-27 18:40 · @security
+
+**Stato:** ⏳ in attesa di Nicola
+
+**In parole semplici.** Il collaudo ha scoperto che tre repository su GitHub sono pubblici: la memoria dell'AD (ad-mycity), il sito MyCity (mycity) e i flussi (N8N). Chiunque su internet può leggerli. Dentro la memoria ci sono le tue decisioni, i prezzi, i nomi dei clienti, le schede delle attività e, da oggi, l'analisi interna di SDG coi suoi punti deboli.
+Per esempio: l'analisi di SDG dice «pochissimi clienti paganti» e nomina sette concorrenti. Oggi la può leggere anche uno di loro.
+
+**Cosa cambia per te.** Con i repository privati li leggete solo tu e le sessioni dell'AD. Il sito e il Pannello continuano a pubblicarsi su Vercel, che legge anche i repository privati.
+
+**Cosa devi fare tu.** Su GitHub, per ogni repository: Settings → General → Danger Zone → Change visibility → Private. Ti consiglio subito ad-mycity, che ha tutto. Per mycity e N8N controlla prima i minuti dei controlli automatici: sui repository privati il piano gratuito ne dà un numero limitato al mese, e quelli del sito sono tanti.
+
+**Cosa non ho verificato.** Non so da quando sono pubblici, né se qualcuno li ha copiati: chi li ha già scaricati tiene la sua copia. Non ho guardato il tuo piano GitHub né i minuti usati dai controlli automatici.
+
+Cosa cambia: la memoria dell'azienda e le analisi interne smettono di essere leggibili da chiunque.
+Se va bene: riguardo se i flussi di lavoro e Vercel funzionano ancora coi repository privati, e te lo scrivo.
+
+- **Colore:** 🔴 (non si torna indietro su quello che è già stato letto; tocca impostazioni dei tuoi account)
+- **Reparto:** security
+- **Dettagli tecnici:** visibilità letta il 27/11 alle 18:35: mycity public, ad-mycity public, N8N public, SDG private. Collaudo: `memoria-squadra/security.md`, riga del 27/11. Alternativa più lunga: tenere i JSON del lavoro consegnato in una tabella Supabase con RLS invece che nel codice. La riscrittura della storia dei rami non basta, perché l'analisi è anche in ad-mycity, `consegne/sdg-premium/`.
+
+### 🔴 #273 — Decidi se Grida Caffè e Caffè di Piacenza restano a 500 euro al mese · ⏳ accodata 2026-11-27 18:40 · @finanza
+
+**Stato:** ⏳ in attesa di Nicola
+
+**In parole semplici.** Oggi pomeriggio due attività hanno attivato il Business in contanti: Grida Caffè alle 16:24 e Caffè di Piacenza alle 16:45. Tutte e due a 500 euro al mese, il prezzo di allora. Alle 17:10 hai portato il Business a 600 euro.
+
+**Cosa cambia per te.** Se restano a 500, rispetti il prezzo con cui le hai vendute: è la scelta più pulita col cliente. Se passano a 600, vanno avvisate prima del rinnovo.
+
+**Cosa devi fare tu.** Scrivermi una delle due. «Restano a 500»: il consiglio. Oppure «passano a 600 dal [mese]».
+
+**Cosa non ho verificato.** Non so cosa è stato detto ai due titolari a voce. Nel database non ho cambiato niente: è in sola lettura.
+
+Cosa cambia: si decide quanto pagano dal secondo mese i primi due abbonamenti in contanti.
+Se va bene: lo scrivo nel registro dei fatti, così rapporto e preventivo dicono il prezzo giusto per loro.
+
+- **Colore:** 🔴 (prezzi a clienti veri)
+- **Reparto:** finanza
+- **Dettagli tecnici:** tabella `abbonamenti_servizi`, letta in sola lettura il 27/11 alle 18:30: 2 righe, fascia business, `canone_centesimi` 50000, origine contanti, stato active, create alle 15:24 e 15:45 UTC. La migrazione 999d non le tocca.
+
 ### 🔴 #272 — Ripubblica i flussi n8n 16 e 19 coi prezzi nuovi · ⏳ accodata 2026-11-27 18:20 · @builder-automazioni
 
 **Stato:** ⏳ in attesa di Nicola
@@ -55,20 +94,20 @@ Se va bene: la prossima bozza che ti arriva dice 600 euro per il Business.
 
 **Stato:** ⏳ in attesa di Nicola, dopo l'unione della richiesta di mycity
 
-**In parole semplici.** Nella vetrina di SDG su MyCity i tre abbonamenti sono prodotti, coi prezzi scritti nel database. Oggi lì c'è ancora «Abbonamento Business — 500 € al mese». La modifica 999b li riscrive a 300, 600 e 900 euro, con le descrizioni del listino.
+**In parole semplici.** Nella vetrina di SDG su MyCity i tre abbonamenti sono prodotti, coi prezzi scritti nel database. Oggi lì c'è ancora «Abbonamento Business — 500 € al mese». La modifica 999d li riscrive a 300, 600 e 900 euro, con le descrizioni del listino.
 
 **Cosa cambia per te.** Chi guarda la vetrina di SDG vede gli stessi prezzi del preventivo e del sito SDG.
 
-**Cosa devi fare tu.** Prima unire la richiesta di unione di mycity sul ramo `ccr-3e25a9cc-8rdzdt`. Poi lanciare «Migrazioni a mano» con 999b, oppure scrivermi «ok 271» e la lancio io.
+**Cosa devi fare tu.** Prima unire la richiesta di unione di mycity sul ramo `ccr-3e25a9cc-8rdzdt`. Poi lanciare «Migrazioni a mano» con 999d, oppure scrivermi «ok 271» e la lancio io. La 999b e la 999c sono di altre due sessioni: vanno prima, ma questa non dipende da loro.
 
-**Cosa non ho verificato.** La modifica non è mai girata su un database. La prova del sito controlla che i testi coincidano col listino, parola per parola.
+**Cosa non ho verificato.** Sul database vero non è mai girata. Il collaudo l'ha fatta girare tre volte su una copia ricostruita da tutte le migrazioni: tocca solo i tre prodotti di SDG. Da sapere: cambiare il prezzo fa partire una notifica «prezzo abbassato» a chi ha il Premium nei preferiti. Oggi alle 18:30 erano 0, e prima di applicarla li riconto.
 
 Cosa cambia: i tre prodotti di SDG in vetrina passano a 300, 600 e 900 euro al mese.
 Se va bene: controllo in sola lettura che i tre prezzi siano cambiati e te lo scrivo.
 
 - **Colore:** 🔴 (scrittura sul database vero, prezzi)
 - **Reparto:** ad
-- **Dettagli tecnici:** `migrations/999b_i_tre_abbonamenti_di_sdg_costano_300_600_900.sql`. UPDATE solo sui prodotti `11111111-1111-1111-1111-5d90000001{01,02,03}`; si può rieseguire. Il nome 999b viene dopo la 999 nell'ordine `LC_ALL=C`, e il campo «ultima» del pulsante accetta tre cifre più una lettera.
+- **Dettagli tecnici:** `migrations/999d_i_tre_abbonamenti_di_sdg_costano_300_600_900.sql`. UPDATE solo sui prodotti `11111111-1111-1111-1111-5d90000001{01,02,03}`; si può rieseguire. Il nome 999d viene dopo la 999 nell'ordine `LC_ALL=C`, e il campo «ultima» del pulsante accetta tre cifre più una lettera. Letto il 27/11 alle 18:30 in sola lettura: `site_settings.agenzia` vuoto (nessun prezzo che scavalchi il codice), prodotti ancora a 300/500/999.
 
 ### 🟡 #270 — Dimmi quali profili social ha SDG, o aprili, per far partire il piano di dicembre · ⏳ accodata 2026-11-27 18:20 · @content-social
 

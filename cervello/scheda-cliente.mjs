@@ -186,6 +186,25 @@ export function controlla(d, canoni, pagamento) {
   else for (const [id, f] of Object.entries(FASCE)) {
     if (canoni[id] !== f.centesimi) errori.push(`canone ${f.nome}: il registro dice ${canoni[id] / 100} €, il programma ${f.centesimi / 100} €`);
   }
+  // ③bis — un canone scritto a mano nel testo libero (obiezioni, risposte, gancio…) deve essere uno dei canoni di oggi
+  // o un primo mese a metà. Collaudo del 27/11/2026: dopo il cambio a 300/600/900 la scheda di Ora del Gusto diceva
+  // ancora «500 euro al mese sono tanti», e nessun controllo guardava il testo libero.
+  if (canoni) {
+    const ammessi = new Set(Object.values(canoni).flatMap((c) => [c / 100, c / 200]));
+    const testi = [];
+    const raccogli = (v, dove) => {
+      if (typeof v === 'string') testi.push([v, dove]);
+      else if (Array.isArray(v)) v.forEach((x, i) => raccogli(x, `${dove}[${i}]`));
+      else if (v && typeof v === 'object') for (const [k, x] of Object.entries(v)) if (k !== 'fonti' && k !== 'sito_bozza') raccogli(x, dove ? `${dove}.${k}` : k);
+    };
+    raccogli(d, '');
+    for (const [t, dove] of testi) {
+      for (const m of t.matchAll(/(\d{2,4}(?:,\d{1,2})?)\s*(?:€|euro)\s*(?:al mese|\/\s*mese|mensili)/gi)) {
+        const n = Number(m[1].replace(',', '.'));
+        if (!ammessi.has(n)) errori.push(`prezzo vecchio o sbagliato nel testo «${dove}»: «${m[0]}» (i canoni di oggi sono ${Object.values(canoni).map((c) => c / 100).join(', ')} euro al mese)`);
+      }
+    }
+  }
   // ④ piano editoriale = promessa dell'abbonamento consigliato
   const f = FASCE[d?.consigliato];
   const righe = proposta(d).piano?.righe ?? [];

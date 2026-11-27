@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-11-27 17:29",
+  "aggiornato": "2026-11-27 18:26",
   "fatti": [
     {
       "id": "ad.uso-e-crediti",
@@ -65,13 +65,17 @@
     {
       "id": "agenzia.listino",
       "nome": "agenzia.listino",
-      "valore": "Listino del preventivo di MyCity (22/11/2026; foto e video col partner scattiDG): sito web professionale 500 € una volta; gestione automatica dei social (flusso n8n) 300 € al mese; foto e video (riprese, scatti, montaggio, ritocco) da 50 a 300 € al mese; logo e grafica su richiesta; la vetrina sul marketplace è dentro i tre abbonamenti di MyCity da 300, 600 e 900 euro al mese (= pricing.abbonamento, dal 27/11/2026). Sul sito: lib/agenzia/preventivo.ts (LISTINO), modificabile da site_settings.agenzia senza rifare il sito.",
-      "fonte": "Nicola, chat all'AD session_01R8112N4XVyUmvkBap6F8ru, 27/11/2026 verso le 17:45: «Annotalo questo anche per MyCity. MyCity offre questi abbonamenti €300, €600 e €900»",
-      "aggiornato": "2026-11-27 17:29",
+      "valore": "SUPERATO dal 24/11/2026: oggi si vendono solo i tre abbonamenti di MyCity, Base 300, Business 600 e Premium 900 euro al mese (pricing.abbonamento, sdg.abbonamenti). Resta qui come storia il listino per singolo servizio del 22/11: Listino del preventivo di MyCity (22/11/2026; foto e video col partner scattiDG): sito web professionale 500 € una volta; gestione automatica dei social (flusso n8n) 300 € al mese; foto e video (riprese, scatti, montaggio, ritocco) da 50 a 300 € al mese; logo e grafica su richiesta; la vetrina sul marketplace è dentro i tre abbonamenti di MyCity da 300, 600 e 900 euro al mese (= pricing.abbonamento, dal 27/11/2026). Sul sito: lib/agenzia/preventivo.ts (LISTINO), modificabile da site_settings.agenzia senza rifare il sito.",
+      "fonte": "Collaudo prezzi del 27/11/2026 18:20 (qa): il listino per singolo servizio del 22/11 risultava ancora presentato come attuale; dal 24/11 si vendono solo i tre abbonamenti (sdg.abbonamenti, pricing.abbonamento)",
+      "aggiornato": "2026-11-27 18:26",
       "storia": [
         {
           "valore": "Listino del preventivo di MyCity (22/11/2026; foto e video col partner scattiDG): sito web professionale 500 € una volta; gestione automatica dei social (flusso n8n) 300 € al mese; foto e video (riprese, scatti, montaggio, ritocco) da 50 a 300 € al mese; logo e grafica su richiesta; vetrina sul marketplace 50 € al mese (= pricing.abbonamento). Sul sito: lib/agenzia/preventivo.ts (LISTINO), modificabile da site_settings.agenzia senza rifare il sito.",
           "fino_a": "2026-11-27 17:29"
+        },
+        {
+          "valore": "Listino del preventivo di MyCity (22/11/2026; foto e video col partner scattiDG): sito web professionale 500 € una volta; gestione automatica dei social (flusso n8n) 300 € al mese; foto e video (riprese, scatti, montaggio, ritocco) da 50 a 300 € al mese; logo e grafica su richiesta; la vetrina sul marketplace è dentro i tre abbonamenti di MyCity da 300, 600 e 900 euro al mese (= pricing.abbonamento, dal 27/11/2026). Sul sito: lib/agenzia/preventivo.ts (LISTINO), modificabile da site_settings.agenzia senza rifare il sito.",
+          "fino_a": "2026-11-27 18:26"
         }
       ],
       "caccia": [
