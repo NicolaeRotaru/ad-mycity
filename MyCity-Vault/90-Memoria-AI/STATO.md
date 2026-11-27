@@ -1,8 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-11-26 14:25
+aggiornato: 2026-11-26 15:25
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> **2026-11-26 15:25 — Il primo ricontrollo a onde ha chiuso 45 difetti del sito: le voci aperte passano da 598 a 553.**
+>
+> Quattro sessioni hanno riletto 272 difetti aperti al commit ed12ed8 del sito. I gravi aperti scendono da 67 a 62, i minori da 526 a 486, i bloccanti restano 5. Nessun difetto nuovo. Costo misurato 64,73 $ contro 77,04 $ del preventivo, circa 1,44 $ per chiuso. Fra le aperte ci sono 9 falle, con i dettagli solo nelle chat. Referto: `consegne/audit/2026-11-26-radiografia.md`.
 
 > ✅ **2026-11-26 14:25 — Il 25 e il 26/11 sono entrate nella memoria 26 richieste unite. Le cose che contano sono sei.**
 >

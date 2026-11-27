@@ -1,0 +1,112 @@
+{
+  "aggiornato": "2026-11-26 15:08",
+  "cartella": "consegne/radiografia/2026-11-26-ricontrollo",
+  "commit_controllato": "19ca7a6d0effde93cd2dc838b12316ae76f7007e",
+  "base_sito": "ed12ed8ec8190e1132b690f6e034c30f0a5d55ba",
+  "profilo": "ricontrollo",
+  "conti": "verde",
+  "rossi_conti": [],
+  "conti_uscita": "referti 4 di 4 · difetti trovati 0 (bloccanti 0, gravi 0, minori 0) · scartati 0 · nel grezzo 0 · fuori dal grezzo 0 · copertura-dopo: perimetro 0 file, verde · lotti e referti allineati: 272 voci su 272 (S01 29, S01b 120, S01c 120, S01d 3), nessuna mancante né in più",
+  "riservatezza_stato": "chiusa: segni di tutte e tre le sessioni (S01, S01b, S01c) ricevuti tramite la regista, più i dettagli di S01 e S01b in chat",
+  "riservatezza": [
+    {
+      "dove": "referti/S01.json",
+      "campo": "copertura.file_letti_in_parte (6 voci)",
+      "cosa": "tipo b, confidenza 55-85%: file e righe che coincidono con i puntatori privati di 4 falle di S01; S01b li aveva tenuti fuori"
+    },
+    {
+      "dove": "referti/S01.json",
+      "campo": "copertura.file_eseguiti (1 voce)",
+      "cosa": "tipo b, confidenza 45%: il nome della prova lega l'argomento di una falla a una regola per riga"
+    },
+    {
+      "dove": "referti/S01b.json",
+      "campo": "copertura.file_letti_in_parte (6 voci)",
+      "cosa": "tipo b, confidenza 35-50%: intervalli che nessuna voce pubblica usa e che coprono o sfiorano i puntatori di falle; contraddice la riga di non_guardato che dice di averli tenuti fuori"
+    },
+    {
+      "dove": "referti/S01b.json",
+      "campo": "ricontrolli[41].prova, esito_prova",
+      "cosa": "tipo b, confidenza 60%: stessa rotta e stesso flusso di una falla di S01, difetto diverso"
+    },
+    {
+      "dove": "referti/S01b.json",
+      "campo": "ricontrolli[25].nota",
+      "cosa": "tipo b, confidenza 55%: comportamento quasi uguale al sintomo di una falla di S01, stessa pagina"
+    },
+    {
+      "dove": "referti/S01b.json",
+      "campo": "ricontrolli[81].chiave, prova",
+      "cosa": "tipo b, confidenza 45%: regole per riga della stessa tabella di una falla di S01, righe diverse"
+    },
+    {
+      "dove": "referti/S01.json",
+      "campo": "ricontrolli[17].prova, esito_prova, nota",
+      "cosa": "tipo a, confidenza 30%: indica dove sta una funzione che restituisce dati personali; il referto non dice che il controllo d'accesso manchi"
+    },
+    {
+      "dove": "referti/S01.json",
+      "campo": "ricontrolli[11].esito_prova, nota",
+      "cosa": "tipo a, confidenza 35%: elenca i livelli che non controllano una scrittura dal browser"
+    },
+    {
+      "dove": "referti/S01.json, referti/S01b.json, referti/S01c.json",
+      "campo": "S01 ricontrolli[24]; S01b ricontrolli[71]; S01c ricontrolli[13] e [97]",
+      "cosa": "tipo b, confidenza 25-30%: nominano la tabella o i file di due falle, su righe diverse"
+    },
+    {
+      "dove": "referti/S01b.json, referti/S01c.json",
+      "campo": "S01b ricontrolli[3], [49], [86], [113]; S01c ricontrolli[47], [112]",
+      "cosa": "tipo a, confidenza 25-40%: voci minori pubbliche che spiegano un abuso possibile (falla:false)"
+    },
+    {
+      "dove": "REGIA.md",
+      "campo": "riga 52",
+      "cosa": "dà l'area delle due falle di S01c, non solo il numero"
+    },
+    {
+      "dove": "registro-compatto.txt",
+      "campo": "righe 806, 2797, 2809",
+      "cosa": "tipo a+b, confidenza alta: tre voci pubbliche del registro (una grave riparata, due minori doppioni) descrivono il meccanismo di una falla aperta di S01; erano già nel registro prima di oggi"
+    },
+    {
+      "dove": "referti/S01.json, referti/S01b.json",
+      "campo": "S01 copertura righe 192 e voci 6, 13, 14, 18; S01b copertura riga 343; S01b riga 2270 (esito_prova)",
+      "cosa": "tipo b, debole (segni delle sessioni): nomi già presenti nel registro pubblico"
+    }
+  ],
+  "riservatezza_note": [
+    "Coperte bene: le 9 voci falla:true (S01 4, S01b 3, S01c 2) hanno prova, esito_prova, nota e verificato_da a «(nel referto privato)» o null: 0 campi scoperti.",
+    "Puliti: grezzo.json, doppioni.json, trovati.txt (solo intestazione e stato dei rami), diario-della-sorveglianza.txt (solo numeri), referti/S01d.json intero, la copertura di S01c, i conto, il corpo della PR #1030 (solo numeri).",
+    "I file di lavoro della cartella (lotti, registro-compatto.txt, prepasso.json/tsv, da-ricontrollare.txt) portano i puntatori file:righe del registro anche per le 9 falle. Non è una fuga nuova: le stesse righe sono già su main in altre cartelle (per esempio onda-700 e 2026-11-12-sito-tutto). Resta però il buco di fondo: il registro tiene in chiaro il dettaglio di voci che le sessioni trattano come falle.",
+    "Confronto delle otto parole: fatto con i dettagli che S01 e S01b hanno mandato in chat (7 falle su 9). Nessuna voce pubblica ripete otto parole di fila, e nessuna nomina le funzioni o i nomi distintivi delle falle. I file e le righe sì, solo nelle sezioni copertura (vedi i primi tre segni).",
+    "Proposta: togliere i segni di copertura (S01 e S01b) prima dell'unione, o raggrupparli sotto «file del referto privato». Il resto è da valutare voce per voce. I referti sono già sui rami delle sessioni: se Nicola vuole, decide lui se riscriverli.",
+    "Le sessioni, ognuna sulle sue falle, non hanno trovato otto parole di fila né un «come». I loro segni deboli coincidono in buona parte con quelli dei revisori (coperture di S01 e S01b, S01 ricontrolli[24] e [25], S01b ricontrolli[71])."
+  ],
+  "sorpresa": [],
+  "sorpresa_nota": "Non applicabile: il grezzo ha 0 difetti, quindi non c'è nessun grave o bloccante da estrarre.",
+  "togli": [],
+  "simili_nota": "doppioni.json ha simili e simili_registro vuoti.",
+  "verifiche": [],
+  "verifiche_nota": "Non serve nessuna verifica 4b: le 5 chiusure di gravi (tutte in S01) hanno verificato:true e il verificatore le ha rilanciate. Le chiusure di S01b, S01c e S01d sono tutte di voci minori.",
+  "da_riservare": [
+    "S01b ricontrolli[41]",
+    "S01b ricontrolli[25]",
+    "S01b ricontrolli[81]",
+    "privacy-legale|il negozio può chiudere un reso senza rimborsare il cliente, anche se il cliente ha esercitato il recesso e la merce è già tornata",
+    "api-backend|il browser del negoziante può ancora scrivere i prodotti senza passare dalla porta che registra la traccia",
+    "rls-database|la regola per riga lascia ancora scrivere il catalogo dal browser saltando traccia e controlli: adesso è dichiarato, non chiuso"
+  ],
+  "buchi": [
+    "17 voci non_verificabile che nessuno può chiudere da qui: S01 4 (1 bloccante: l'indirizzo in centro rifiutato dalla cassa; 3 gravi), S01b 9, S01c 4. Servono il database vero, le variabili di Vercel, la rete verso il servizio delle mappe o un browser vero.",
+    "Quella bloccante e le tre gravi (il tetto della spesa AI in produzione, la chiave della posta in produzione, gli ordini fermi dalla 063) dipendono da uno stato della produzione che il §1 vieta di leggere: serve che Nicola guardi, o che dia una lettura autorizzata.",
+    "Una voce di S01c (privacy-legale) ha per titolo un verdetto di chiusura invece del difetto: va riscritta o chiusa da chi tiene il registro.",
+    "250 voci il programma le ha tenute aperte senza che nessun agente le guardasse, perché i loro file non sono cambiati.",
+    "Le sessioni sono girate senza ultracode. Dei gravi «cambiati» di S01, 5 su 8 hanno verificato:false: sono «cambiato» detto da una sola lettura.",
+    "Niente prove nel browser né vitest per S01b e S01c: node_modules del sito non era installato. Le misure di impaginazione al 200% non sono state fatte.",
+    "S01c si è fermata a metà (dalle 13:51) ed è ripartita dopo la sveglia. Il suo referto è completo (120 su 120), ma il lotto L01 è stato rifatto."
+  ],
+  "agenti": 2,
+  "usd": 12.46,
+  "usd_nota": "Regia, 2026-11-26 15:12: get_session non dà cost_usd per il CF; 4,86 $ = total_cost_usd dell ultimo evento result del CF, più 7,60 $ dei tre turni di riservatezza fatti da S01 (2,69), S01b (2,89) e S01c (2,02), letti con get_session prima e dopo."
+}
