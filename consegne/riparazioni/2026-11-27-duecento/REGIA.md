@@ -55,3 +55,4 @@ Tetto 3.000 $ rigido: a 2.250 $ misurati non si apre niente di nuovo senza l'AD.
 - 2026-11-27 03:05 R05 rimessa in moto con la correzione (stessa sessione, ramo rifatto da 2ba05a74). Aperte le altre 11.
 - 2026-11-27 03:20 Tutte e 12 aperte e al lavoro (`onda1/sessioni.json`), nessuna ferma. Piani approvati: R01, R02, R05, R06, R07, R08, R09, R10, R11; attesi R03, R04, R12. Scelte della regia: un revisore può guardare due gravi insieme, mai mescolati coi minori; R06 ha 9 subagenti invece di 8. La spesa di una figlia si legge con `get_session` col suo id scritto: senza id il campo `usage` non c'è.
 - Falso allarme del cancello dello stop: l'esenzione delle schede (`eSchedaRisolutore`) non copre `<C>/onda1/schede/`. Da dire all'AD come difetto della macchina.
+- 2026-11-27 03:25 Tutti i 12 piani approvati (R03 fino a 10 subagenti, R04 revisori rifatti). La regia prima passa la mano a 356 mila token: `PASSAGGIO.md`. Regia seconda aperta dalla prima.
