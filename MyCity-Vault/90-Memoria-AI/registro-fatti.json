@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-11-27 01:40",
+  "aggiornato": "2026-11-27 18:26",
   "fatti": [
     {
       "id": "ad.uso-e-crediti",
@@ -65,11 +65,25 @@
     {
       "id": "agenzia.listino",
       "nome": "agenzia.listino",
-      "valore": "Listino del preventivo di MyCity (22/11/2026; foto e video col partner scattiDG): sito web professionale 500 € una volta; gestione automatica dei social (flusso n8n) 300 € al mese; foto e video (riprese, scatti, montaggio, ritocco) da 50 a 300 € al mese; logo e grafica su richiesta; vetrina sul marketplace 50 € al mese (= pricing.abbonamento). Sul sito: lib/agenzia/preventivo.ts (LISTINO), modificabile da site_settings.agenzia senza rifare il sito.",
-      "fonte": "Nicola, chat della notte fra il 22 e il 23/11/2026 (messaggio con i prezzi)",
-      "aggiornato": "2026-11-23 01:08",
-      "storia": [],
-      "caccia": [],
+      "valore": "SUPERATO dal 24/11/2026: oggi si vendono solo i tre abbonamenti di MyCity, Base 300, Business 600 e Premium 900 euro al mese (pricing.abbonamento, sdg.abbonamenti). Resta qui come storia il listino per singolo servizio del 22/11: Listino del preventivo di MyCity (22/11/2026; foto e video col partner scattiDG): sito web professionale 500 € una volta; gestione automatica dei social (flusso n8n) 300 € al mese; foto e video (riprese, scatti, montaggio, ritocco) da 50 a 300 € al mese; logo e grafica su richiesta; la vetrina sul marketplace è dentro i tre abbonamenti di MyCity da 300, 600 e 900 euro al mese (= pricing.abbonamento, dal 27/11/2026). Sul sito: lib/agenzia/preventivo.ts (LISTINO), modificabile da site_settings.agenzia senza rifare il sito.",
+      "fonte": "Collaudo prezzi del 27/11/2026 18:20 (qa): il listino per singolo servizio del 22/11 risultava ancora presentato come attuale; dal 24/11 si vendono solo i tre abbonamenti (sdg.abbonamenti, pricing.abbonamento)",
+      "aggiornato": "2026-11-27 18:26",
+      "storia": [
+        {
+          "valore": "Listino del preventivo di MyCity (22/11/2026; foto e video col partner scattiDG): sito web professionale 500 € una volta; gestione automatica dei social (flusso n8n) 300 € al mese; foto e video (riprese, scatti, montaggio, ritocco) da 50 a 300 € al mese; logo e grafica su richiesta; vetrina sul marketplace 50 € al mese (= pricing.abbonamento). Sul sito: lib/agenzia/preventivo.ts (LISTINO), modificabile da site_settings.agenzia senza rifare il sito.",
+          "fino_a": "2026-11-27 17:29"
+        },
+        {
+          "valore": "Listino del preventivo di MyCity (22/11/2026; foto e video col partner scattiDG): sito web professionale 500 € una volta; gestione automatica dei social (flusso n8n) 300 € al mese; foto e video (riprese, scatti, montaggio, ritocco) da 50 a 300 € al mese; logo e grafica su richiesta; la vetrina sul marketplace è dentro i tre abbonamenti di MyCity da 300, 600 e 900 euro al mese (= pricing.abbonamento, dal 27/11/2026). Sul sito: lib/agenzia/preventivo.ts (LISTINO), modificabile da site_settings.agenzia senza rifare il sito.",
+          "fino_a": "2026-11-27 18:26"
+        }
+      ],
+      "caccia": [
+        {
+          "pattern": "Listino del preventivo di MyCity (22/11/2026; foto e video col partner scattiDG): sito web professionale 500 € una volta; gestione automatica dei social (flusso n8n) 300 € al mese; foto e video (riprese, scatti, montaggio, ritocco) da 50 a 300 € al mese; logo e grafica su richiesta; vetrina sul marketplace 50 € al mese (= pricing.abbonamento). Sul sito: lib/agenzia/preventivo.ts (LISTINO), modificabile da site_settings.agenzia senza rifare il sito.",
+          "dal": "2026-11-27 17:29"
+        }
+      ],
       "esenzioni": []
     },
     {
@@ -1162,19 +1176,31 @@
     {
       "id": "negozi.modalita-demo",
       "nome": "Modalità demo per i negozi che non hanno pagato",
-      "valore": "Le attività che si iscrivono e non hanno ancora pagato entrano in «modalità demo»: entrano nella dashboard, preparano vetrina e prodotti (anche prima dell'approvazione dell'admin: Nicola, 24/11 «Sì, li prepara subito») e vedono il preventivo, ma la loro vetrina e i loro prodotti non sono visibili sul marketplace. Escono dalla demo quando pagano un abbonamento ai servizi (Base, Business o Premium, MyCity tramite SDG) e l'admin li approva. Vale solo per i nuovi: Pane Quotidiano resta visibile com'è, e così i negozi di sistema (MyCity, SDG). Nel codice: mycity#313, migrazione 709 (public.negozio_in_vetrina); i prodotti prima dell'approvazione in arrivo dalla sessione «Servizi SDG».",
-      "fonte": "Nicola, chat 2026-11-24: regola ~13:00, «Solo per i nuovi», pagamento = «Un abbonamento ai servizi»; ~17:00 «Sì, li prepara subito»",
-      "aggiornato": "2026-11-24 17:02",
+      "valore": "Le attività che si iscrivono e non hanno ancora un abbonamento ai servizi entrano in «modalità demo»: entrano nella dashboard, preparano vetrina e prodotti (anche prima dell'approvazione dell'admin: Nicola, 24/11 «Sì, li prepara subito») e vedono il preventivo, ma la loro vetrina e i loro prodotti non sono visibili sul marketplace. Escono dalla demo quando hanno un abbonamento ai servizi attivo (Base, Business o Premium, MyCity tramite SDG) e l'admin li approva. Per chi paga in contanti l'abbonamento è attivo subito: quando l'agente sceglie con il titolare l'abbonamento e preme «Sì, aggiungi», o quando il titolare lo accetta dal link, la pagina del negozio si sblocca in quella fascia e resta sbloccata fino alla disdetta. I contanti si ritirano al primo servizio; se non paga, Nicola lo ferma da Admin → Preventivi col link (Nicola, 27/11/2026 02:30). Vale solo per i nuovi: Pane Quotidiano resta visibile com'è, e così i negozi di sistema (MyCity, SDG). Nel codice: mycity#313, migrazione 709 (public.negozio_in_vetrina); lo sblocco in contanti nel ramo claude/confident-turing-z8z2i5 di mycity, migrazione 999 da applicare.",
+      "fonte": "Nicola, chat all'AD session_01R8112NWDpfnGjRQb7aHRZd, 27/11/2026 ~02:30: «in automatico deve sbloccarsi la pagina del venditore in base all'abbonamento»; scelte «Subito» e «Fino alla disdetta». Prima: chat 2026-11-24.",
+      "aggiornato": "2026-11-27 03:05",
       "storia": [
         {
           "valore": "Le attività che si iscrivono e non hanno ancora pagato entrano in «modalità demo»: entrano nella dashboard, preparano vetrina e prodotti e vedono il preventivo, ma la loro vetrina non è visibile sul marketplace. Escono dalla demo quando pagano un abbonamento ai servizi (Base, Business o Premium, MyCity tramite SDG); serve comunque l'approvazione dell'admin. Vale solo per i nuovi: Pane Quotidiano resta visibile com'è, e così i negozi di sistema (MyCity, SDG). Lavoro affidato il 24/11 alla sessione «Servizi SDG» (session_01R8112L8Qbu42abzNPKaAkQ), non ancora nel sito.",
           "fino_a": "2026-11-24 17:02"
+        },
+        {
+          "valore": "Le attività che si iscrivono e non hanno ancora pagato entrano in «modalità demo»: entrano nella dashboard, preparano vetrina e prodotti (anche prima dell'approvazione dell'admin: Nicola, 24/11 «Sì, li prepara subito») e vedono il preventivo, ma la loro vetrina e i loro prodotti non sono visibili sul marketplace. Escono dalla demo quando pagano un abbonamento ai servizi (Base, Business o Premium, MyCity tramite SDG) e l'admin li approva. Vale solo per i nuovi: Pane Quotidiano resta visibile com'è, e così i negozi di sistema (MyCity, SDG). Nel codice: mycity#313, migrazione 709 (public.negozio_in_vetrina); i prodotti prima dell'approvazione in arrivo dalla sessione «Servizi SDG».",
+          "fino_a": "2026-11-27 03:05"
         }
       ],
       "caccia": [
         {
           "pattern": "Le attività che si iscrivono e non hanno ancora pagato entrano in «modalità demo»: entrano nella dashboard, preparano vetrina e prodotti e vedono il preventivo, ma la loro vetrina non è visibile sul marketplace. Escono dalla demo quando pagano un abbonamento ai servizi (Base, Business o Premium, MyCity tramite SDG); serve comunque l'approvazione dell'admin. Vale solo per i nuovi: Pane Quotidiano resta visibile com'è, e così i negozi di sistema (MyCity, SDG). Lavoro affidato il 24/11 alla sessione «Servizi SDG» (session_01R8112L8Qbu42abzNPKaAkQ), non ancora nel sito.",
           "dal": "2026-11-24 17:02"
+        },
+        {
+          "pattern": "Escono dalla demo quando pagano un abbonamento ai servizi",
+          "dal": "2026-11-27 03:05"
+        },
+        {
+          "pattern": "Le attività che si iscrivono e non hanno ancora pagato entrano in «modalità demo»: entrano nella dashboard, preparano vetrina e prodotti (anche prima dell'approvazione dell'admin: Nicola, 24/11 «Sì, li prepara subito») e vedono il preventivo, ma la loro vetrina e i loro prodotti non sono visibili sul marketplace. Escono dalla demo quando pagano un abbonamento ai servizi (Base, Business o Premium, MyCity tramite SDG) e l'admin li approva. Vale solo per i nuovi: Pane Quotidiano resta visibile com'è, e così i negozi di sistema (MyCity, SDG). Nel codice: mycity#313, migrazione 709 (public.negozio_in_vetrina); i prodotti prima dell'approvazione in arrivo dalla sessione «Servizi SDG».",
+          "dal": "2026-11-27 03:05"
         }
       ],
       "esenzioni": []
@@ -1362,9 +1388,9 @@
     {
       "id": "pricing.abbonamento",
       "nome": "Abbonamento venditore MyCity",
-      "valore": "50€/mese di listino, SOSPESO finché il negozio non incassa: niente canone fino ai primi incassi portati da MyCity (scelta 13 della carta #209, firmata da Nicola il 2026-10-26 con «ok 209»). APERTO dal 2026-11-24: Nicola ha detto che il prezzo di MyCity cambia, ma il valore nuovo non l'ha ancora detto. I tre abbonamenti da 300/500/999 euro sono un'altra cosa: sono servizi di MyCity realizzati tramite SDG Agenzia, il partner (Nicola, 24/11: «sono servizi che offre mycity, ma tramite SDG»; fatto sdg.abbonamenti).",
-      "fonte": "Nicola, 24/11 verso le 04:10: «Non togliere la sezione servizi, sono servizi che offre mycity, ma tramite SDG» (DECISIONI.md)",
-      "aggiornato": "2026-11-24 21:34",
+      "valore": "Il listino di MyCity sono tre abbonamenti mensili: Base 300 euro, Business 600 euro, Premium 900 euro (Nicola, 27/11/2026 verso le 17:45). Comprendono la vetrina su MyCity e i servizi realizzati col partner SDG Agenzia (foto e video, social, sito web, scheda Google, analisi), in misura crescente: vedi sdg.abbonamenti. Primo mese a metà prezzo (150, 300 e 450 euro), nessun vincolo, disdetta con 30 giorni di preavviso. Resta il 10% sui prodotti venduti tramite MyCity (pricing.commissione). Chiude la domanda aperta dal 24/11 sul nuovo prezzo di MyCity: il vecchio canone della sola vetrina, sospeso finché il negozio non incassava, non vale più per i negozi nuovi. Pane Quotidiano resta com'è finché Nicola non dice altro.",
+      "fonte": "Nicola, chat all'AD session_01R8112N4XVyUmvkBap6F8ru, 27/11/2026 verso le 17:45: «Annotalo questo anche per MyCity. MyCity offre questi abbonamenti €300, €600 e €900»",
+      "aggiornato": "2026-11-27 17:29",
       "storia": [
         {
           "valore": "50€/mese",
@@ -1385,6 +1411,14 @@
         {
           "valore": "50€/mese di listino, SOSPESO finché il negozio non incassa: niente canone fino ai primi incassi portati da MyCity (scelta 13 della carta #209, firmata da Nicola il 2026-10-26 con «ok 209»). APERTO dal 2026-11-24: Nicola ha detto che il prezzo di MyCity cambia, ma il valore nuovo non l'ha ancora detto. I tre abbonamenti da 300/500/999 euro NON sono di MyCity: sono di SDG (fatto sdg.abbonamenti).",
           "fino_a": "2026-11-24 21:34"
+        },
+        {
+          "valore": "50€/mese di listino, SOSPESO finché il negozio non incassa: niente canone fino ai primi incassi portati da MyCity (scelta 13 della carta #209, firmata da Nicola il 2026-10-26 con «ok 209»). APERTO dal 2026-11-24: Nicola ha detto che il prezzo di MyCity cambia, ma il valore nuovo non l'ha ancora detto. I tre abbonamenti da 300/500/999 euro sono un'altra cosa: sono servizi di MyCity realizzati tramite SDG Agenzia, il partner (Nicola, 24/11: «sono servizi che offre mycity, ma tramite SDG»; fatto sdg.abbonamenti).",
+          "fino_a": "2026-11-27 17:21"
+        },
+        {
+          "valore": "50€/mese di listino, SOSPESO finché il negozio non incassa: niente canone fino ai primi incassi portati da MyCity (scelta 13 della carta #209, firmata da Nicola il 2026-10-26 con «ok 209»). APERTO dal 2026-11-24: Nicola ha detto che il prezzo di MyCity cambia, ma il valore nuovo non l'ha ancora detto. I tre abbonamenti da 300, 600 e 900 euro al mese sono un'altra cosa: sono servizi di MyCity realizzati tramite SDG Agenzia, il partner (Nicola, 24/11: «sono servizi che offre mycity, ma tramite SDG»; prezzi del 27/11, fatto sdg.abbonamenti).",
+          "fino_a": "2026-11-27 17:29"
         }
       ],
       "caccia": [
@@ -1430,10 +1464,31 @@
         {
           "pattern": "50€/mese di listino, SOSPESO finché il negozio non incassa: niente canone fino ai primi incassi portati da MyCity (scelta 13 della carta #209, firmata da Nicola il 2026-10-26 con «ok 209»). APERTO dal 2026-11-24: Nicola ha detto che il prezzo di MyCity cambia, ma il valore nuovo non l'ha ancora detto. I tre abbonamenti da 300/500/999 euro NON sono di MyCity: sono di SDG (fatto sdg.abbonamenti).",
           "dal": "2026-11-24 21:34"
+        },
+        {
+          "pattern": "50€/mese di listino, SOSPESO finché il negozio non incassa: niente canone fino ai primi incassi portati da MyCity (scelta 13 della carta #209, firmata da Nicola il 2026-10-26 con «ok 209»). APERTO dal 2026-11-24: Nicola ha detto che il prezzo di MyCity cambia, ma il valore nuovo non l'ha ancora detto. I tre abbonamenti da 300/500/999 euro sono un'altra cosa: sono servizi di MyCity realizzati tramite SDG Agenzia, il partner (Nicola, 24/11: «sono servizi che offre mycity, ma tramite SDG»; fatto sdg.abbonamenti).",
+          "dal": "2026-11-27 17:21"
+        },
+        {
+          "pattern": "abbonamento marketplace da 50 euro",
+          "dal": "2026-11-27 17:29"
+        },
+        {
+          "pattern": "vetrina sul marketplace 50 € al mese",
+          "dal": "2026-11-27 17:29"
+        },
+        {
+          "pattern": "Nicola ha detto che il prezzo di MyCity cambia, ma il valore nuovo non l'ha ancora detto",
+          "dal": "2026-11-27 17:29"
+        },
+        {
+          "pattern": "50€/mese di listino, SOSPESO finché il negozio non incassa: niente canone fino ai primi incassi portati da MyCity (scelta 13 della carta #209, firmata da Nicola il 2026-10-26 con «ok 209»). APERTO dal 2026-11-24: Nicola ha detto che il prezzo di MyCity cambia, ma il valore nuovo non l'ha ancora detto. I tre abbonamenti da 300, 600 e 900 euro al mese sono un'altra cosa: sono servizi di MyCity realizzati tramite SDG Agenzia, il partner (Nicola, 24/11: «sono servizi che offre mycity, ma tramite SDG»; prezzi del 27/11, fatto sdg.abbonamenti).",
+          "dal": "2026-11-27 17:29"
         }
       ],
       "esenzioni": [
-        "consegne/legale/contratto-pane-quotidiano-bozza.md"
+        "consegne/legale/contratto-pane-quotidiano-bozza.md",
+        "MyCity-Vault/90-Memoria-AI/BACHECA-SESSIONI.md"
       ]
     },
     {
@@ -1503,9 +1558,9 @@
     {
       "id": "pricing.worker-negozi",
       "nome": "Prezzo del Worker per i negozi",
-      "valore": "Il Worker è INCLUSO nell'abbonamento marketplace da 50 euro/mese fino a circa 50-100 negozi; oltre quella soglia diventa un servizio in più da altri 50 euro/mese (totale 100 euro/mese per negozio). Valore ripristinato il 2026-11-24: la riscrittura delle 02:15 legava il Worker ai tre abbonamenti, che invece sono di SDG (sdg.abbonamenti). Il prezzo di MyCity cambierà (pricing.abbonamento, APERTO).",
-      "fonte": "Nicola, chat 2026-11-24 ~03:30: «questa zona di servizi non c'entra niente con mycity, sono servizi offerti da SDG»; alla domanda «sono di SDG?»: «Sono di SDG, MyCity cambia» (il nuovo prezzo di MyCity non ancora detto)",
-      "aggiornato": "2026-11-24 03:38",
+      "valore": "Il Worker (social, recensioni, richiami, report) è compreso nei tre abbonamenti di MyCity (Base 300, Business 600, Premium 900 euro al mese), in misura crescente: vedi pricing.abbonamento (27/11/2026). Sostituisce «incluso nel canone della sola vetrina da 50 euro al mese fino a circa 50-100 negozi, poi altri 50 euro» dell'11/8 e del 24/11. Quanto Worker entra in ogni fascia: proposta dell'AD, da confermare con Nicola.",
+      "fonte": "Nicola, chat all'AD session_01R8112N4XVyUmvkBap6F8ru, 27/11/2026 verso le 17:45: «Annotalo questo anche per MyCity. MyCity offre questi abbonamenti €300, €600 e €900» (conseguenza: il Worker stava nel canone di MyCity, che ora sono i tre abbonamenti)",
+      "aggiornato": "2026-11-27 17:29",
       "storia": [
         {
           "valore": "Vetrina 99€/mese · Autopilot 299€/mese · Direttore Digitale 699-999€/mese (+ setup una tantum). Prodotto DIVERSO dall'abbonamento venditore marketplace (pricing.abbonamento = 50€/mese)",
@@ -1518,6 +1573,10 @@
         {
           "valore": "Il Worker (social, recensioni, richiami, report) è compreso in tutti e tre gli abbonamenti (Base 300, Business 500, Premium 999 euro/mese), in misura crescente: vedi pricing.abbonamento. Sostituisce «Worker incluso nell'abbonamento da 50 euro/mese fino a 50-100 negozi, poi altri 50 euro» dell'11/8.",
           "fino_a": "2026-11-24 03:38"
+        },
+        {
+          "valore": "Il Worker è INCLUSO nell'abbonamento marketplace da 50 euro/mese fino a circa 50-100 negozi; oltre quella soglia diventa un servizio in più da altri 50 euro/mese (totale 100 euro/mese per negozio). Valore ripristinato il 2026-11-24: la riscrittura delle 02:15 legava il Worker ai tre abbonamenti, che invece sono di SDG (sdg.abbonamenti). Il prezzo di MyCity cambierà (pricing.abbonamento, APERTO).",
+          "fino_a": "2026-11-27 17:29"
         }
       ],
       "caccia": [
@@ -1556,6 +1615,10 @@
         {
           "pattern": "Il Worker (social, recensioni, richiami, report) è compreso in tutti e tre gli abbonamenti (Base 300, Business 500, Premium 999 euro/mese), in misura crescente: vedi pricing.abbonamento. Sostituisce «Worker incluso nell'abbonamento da 50 euro/mese fino a 50-100 negozi, poi altri 50 euro» dell'11/8.",
           "dal": "2026-11-24 03:38"
+        },
+        {
+          "pattern": "Il Worker è INCLUSO nell'abbonamento marketplace da 50 euro/mese fino a circa 50-100 negozi; oltre quella soglia diventa un servizio in più da altri 50 euro/mese (totale 100 euro/mese per negozio). Valore ripristinato il 2026-11-24: la riscrittura delle 02:15 legava il Worker ai tre abbonamenti, che invece sono di SDG (sdg.abbonamenti). Il prezzo di MyCity cambierà (pricing.abbonamento, APERTO).",
+          "dal": "2026-11-27 17:29"
         }
       ],
       "esenzioni": []
@@ -1680,9 +1743,9 @@
     {
       "id": "sdg.abbonamenti",
       "nome": "Abbonamenti di SDG Agenzia",
-      "valore": "Tre abbonamenti mensili ai servizi: Base 300 euro, Business 500 euro, Premium 999 euro. Sono servizi di MyCity realizzati da SDG Agenzia, il partner di MyCity per foto, video, social e web (Nicola, 24/11: «sono servizi che offre mycity, ma tramite SDG»). Ognuno comprende foto e video, social, sito web e scheda Google, in misura diversa (proposta dell'AD, da confermare). Oltre al canone resta il 10% sui prodotti venduti tramite MyCity, perché la consegna va pagata (Nicola, 26/11/2026 verso le 14:15; vedi pricing.commissione). Sui servizi prenotati e pagati dal sito è ancora aperto. Condizioni: nessun vincolo di durata, disdetta con 30 giorni di preavviso, primo mese a metà prezzo. Il titolare li vede coi prezzi nella proposta e li accetta dal link del preventivo; per ora li paga in contanti, di persona (sdg.pagamento, Nicola 26/11/2026 verso le 16:00): il pagamento con carta dentro il sito è spento finché la piattaforma dei pagamenti non è pronta. Primo cliente: Ora del Gusto (bar e pasticceria, Piacenza).",
-      "fonte": "Nicola, chat all'AD session_01R8112KveB4Fq8Lg47R6KMu, 26/11/2026: «non si può abbonare al momento tramite la piattaforma perché non è pronta». Correzione delle 16:40: la versione delle 16:24 era ripartita da un testo vecchio e aveva riportato «nessuna percentuale», già ritirato alle 14:19 (trovato dal collaudo).",
-      "aggiornato": "2026-11-26 16:31",
+      "valore": "Tre abbonamenti mensili ai servizi: Base 300 euro, Business 600 euro, Premium 900 euro (Nicola, 27/11/2026 verso le 17:10). Primo mese a metà prezzo: 150, 300 e 450 euro. SDG Agenzia non lavora solo coi negozi: lavora con tutte le attività locali che hanno bisogno di digitalizzarsi, e gestisce tutta la loro infrastruttura online, cioè tutto quello che riguarda l'online dell'attività (sito, social, scheda Google, foto e video, analisi, vetrina MyCity). Sono servizi di MyCity realizzati da SDG Agenzia, il partner di MyCity (Nicola, 24/11: «sono servizi che offre mycity, ma tramite SDG»). Ognuno comprende foto e video, social, sito web e scheda Google, in misura diversa (proposta dell'AD, da confermare). Oltre al canone resta il 10% sui prodotti venduti tramite MyCity, perché la consegna va pagata (Nicola, 26/11/2026 verso le 14:15; vedi pricing.commissione). Sui servizi prenotati e pagati dal sito è ancora aperto. Condizioni: nessun vincolo di durata, disdetta con 30 giorni di preavviso. Il titolare li vede coi prezzi nella proposta e li accetta dal link del preventivo; per ora li paga in contanti, di persona (sdg.pagamento, Nicola 26/11/2026 verso le 16:00): il pagamento con carta dentro il sito è spento finché la piattaforma dei pagamenti non è pronta. Primo cliente: Ora del Gusto (bar e pasticceria, Piacenza).",
+      "fonte": "Nicola, chat all'AD session_01R8112N4XVyUmvkBap6F8ru, 27/11/2026 verso le 17:10: «SDG non vende solo negozi, ma le attività locali che hanno bisogno di digitalizzare… si occupa di gestire tutta l'infrastruttura online… gli abbonamenti sono 300 euro, 600 euro e 900 euro»",
+      "aggiornato": "2026-11-27 17:21",
       "storia": [
         {
           "valore": "SDG Agenzia (l'agenzia di Nicola: web, marketing, foto e video) vende tre abbonamenti mensili: Base 300 euro, Business 500 euro, Premium 999 euro. Ognuno comprende tutti i servizi — foto e video, gestione dei social, sito web, scheda Google — in misura diversa (proposta dell'AD nel preventivo di Ora del Gusto, da confermare). Solo canone, nessuna percentuale. Condizioni scelte da Nicola il 24/11: nessun vincolo di durata, disdetta quando si vuole con 30 giorni di preavviso, primo mese a metà prezzo. Sono servizi di SDG, non di MyCity: dal 24/11 il menu «Servizi» è uscito dal marketplace. Primo cliente: Ora del Gusto (bar e pasticceria, Piacenza).",
@@ -1699,6 +1762,10 @@
         {
           "valore": "Tre abbonamenti mensili ai servizi: Base 300 euro, Business 500 euro, Premium 999 euro. Sono servizi di MyCity realizzati da SDG Agenzia, il partner di MyCity per foto, video, social e web (Nicola, 24/11: «sono servizi che offre mycity, ma tramite SDG»). Ognuno comprende foto e video, social, sito web e scheda Google, in misura diversa (proposta dell'AD, da confermare). Solo canone, nessuna percentuale. Condizioni: nessun vincolo di durata, disdetta con 30 giorni di preavviso, primo mese a metà prezzo. Il titolare li vede coi prezzi nella proposta e li accetta dal link del preventivo; per ora li paga in contanti, di persona (sdg.pagamento, Nicola 26/11): il pagamento con carta dentro il sito è spento finché la piattaforma dei pagamenti non è pronta. Primo cliente: Ora del Gusto (bar e pasticceria, Piacenza).",
           "fino_a": "2026-11-26 16:31"
+        },
+        {
+          "valore": "Tre abbonamenti mensili ai servizi: Base 300 euro, Business 500 euro, Premium 999 euro. Sono servizi di MyCity realizzati da SDG Agenzia, il partner di MyCity per foto, video, social e web (Nicola, 24/11: «sono servizi che offre mycity, ma tramite SDG»). Ognuno comprende foto e video, social, sito web e scheda Google, in misura diversa (proposta dell'AD, da confermare). Oltre al canone resta il 10% sui prodotti venduti tramite MyCity, perché la consegna va pagata (Nicola, 26/11/2026 verso le 14:15; vedi pricing.commissione). Sui servizi prenotati e pagati dal sito è ancora aperto. Condizioni: nessun vincolo di durata, disdetta con 30 giorni di preavviso, primo mese a metà prezzo. Il titolare li vede coi prezzi nella proposta e li accetta dal link del preventivo; per ora li paga in contanti, di persona (sdg.pagamento, Nicola 26/11/2026 verso le 16:00): il pagamento con carta dentro il sito è spento finché la piattaforma dei pagamenti non è pronta. Primo cliente: Ora del Gusto (bar e pasticceria, Piacenza).",
+          "fino_a": "2026-11-27 17:21"
         }
       ],
       "caccia": [
@@ -1729,9 +1796,81 @@
         {
           "pattern": "Tre abbonamenti mensili ai servizi: Base 300 euro, Business 500 euro, Premium 999 euro. Sono servizi di MyCity realizzati da SDG Agenzia, il partner di MyCity per foto, video, social e web (Nicola, 24/11: «sono servizi che offre mycity, ma tramite SDG»). Ognuno comprende foto e video, social, sito web e scheda Google, in misura diversa (proposta dell'AD, da confermare). Solo canone, nessuna percentuale. Condizioni: nessun vincolo di durata, disdetta con 30 giorni di preavviso, primo mese a metà prezzo. Il titolare li vede coi prezzi nella proposta e li accetta dal link del preventivo; per ora li paga in contanti, di persona (sdg.pagamento, Nicola 26/11): il pagamento con carta dentro il sito è spento finché la piattaforma dei pagamenti non è pronta. Primo cliente: Ora del Gusto (bar e pasticceria, Piacenza).",
           "dal": "2026-11-26 16:31"
+        },
+        {
+          "pattern": "Business 500 euro, Premium 999 euro",
+          "dal": "2026-11-27 17:21"
+        },
+        {
+          "pattern": "Business 500 €",
+          "dal": "2026-11-27 17:21"
+        },
+        {
+          "pattern": "Premium 999 €",
+          "dal": "2026-11-27 17:21"
+        },
+        {
+          "pattern": "300/500/999",
+          "dal": "2026-11-27 17:21"
+        },
+        {
+          "pattern": "300 / 500 / 999",
+          "dal": "2026-11-27 17:21"
+        },
+        {
+          "pattern": "Premium a 999",
+          "dal": "2026-11-27 17:21"
+        },
+        {
+          "pattern": "Business a 500",
+          "dal": "2026-11-27 17:21"
+        },
+        {
+          "pattern": "Business 500 · Premium 999",
+          "dal": "2026-11-27 17:21"
+        },
+        {
+          "pattern": "499,50 euro",
+          "dal": "2026-11-27 17:21"
+        },
+        {
+          "pattern": "Premium: 999 €",
+          "dal": "2026-11-27 17:21"
+        },
+        {
+          "pattern": "Premium, 999 €",
+          "dal": "2026-11-27 17:21"
+        },
+        {
+          "pattern": "Business, 500 €",
+          "dal": "2026-11-27 17:21"
+        },
+        {
+          "pattern": "premium 999€",
+          "dal": "2026-11-27 17:21"
+        },
+        {
+          "pattern": "business 500€",
+          "dal": "2026-11-27 17:21"
+        },
+        {
+          "pattern": "Business 500 euro",
+          "dal": "2026-11-27 17:21"
+        },
+        {
+          "pattern": "Premium 999 euro",
+          "dal": "2026-11-27 17:21"
+        },
+        {
+          "pattern": "Tre abbonamenti mensili ai servizi: Base 300 euro, Business 500 euro, Premium 999 euro. Sono servizi di MyCity realizzati da SDG Agenzia, il partner di MyCity per foto, video, social e web (Nicola, 24/11: «sono servizi che offre mycity, ma tramite SDG»). Ognuno comprende foto e video, social, sito web e scheda Google, in misura diversa (proposta dell'AD, da confermare). Oltre al canone resta il 10% sui prodotti venduti tramite MyCity, perché la consegna va pagata (Nicola, 26/11/2026 verso le 14:15; vedi pricing.commissione). Sui servizi prenotati e pagati dal sito è ancora aperto. Condizioni: nessun vincolo di durata, disdetta con 30 giorni di preavviso, primo mese a metà prezzo. Il titolare li vede coi prezzi nella proposta e li accetta dal link del preventivo; per ora li paga in contanti, di persona (sdg.pagamento, Nicola 26/11/2026 verso le 16:00): il pagamento con carta dentro il sito è spento finché la piattaforma dei pagamenti non è pronta. Primo cliente: Ora del Gusto (bar e pasticceria, Piacenza).",
+          "dal": "2026-11-27 17:21"
         }
       ],
-      "esenzioni": []
+      "esenzioni": [
+        "MyCity-Vault/90-Memoria-AI/BACHECA-SESSIONI.md",
+        "consegne/audit/2026-11-27-collaudo-flusso-16/terzo-collaudo.md",
+        "consegne/sessioni/2026-11-24-passaggio-ora-del-gusto.md"
+      ]
     },
     {
       "id": "sensori.posthog.project_id",
@@ -2016,6 +2155,16 @@
           "fino_a": "2026-11-26 21:30"
         }
       ],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
+      "id": "strategia.concetto",
+      "nome": "Il concetto di MyCity: cosa fa",
+      "valore": "MyCity si occupa di digitalizzare le attività locali e di promuovere i loro servizi e prodotti attraverso il marketplace. È la frase che dice cosa fa MyCity, e le due metà vanno insieme. Digitalizzare vuol dire portare l'attività online: sito, social, scheda Google, foto e video, la vetrina sul marketplace (i servizi degli abbonamenti, vedi sdg.abbonamenti). Promuovere vuol dire farle arrivare clienti e ordini, e il posto dove succede è il marketplace. Vale per tutte le attività che vendono qualcosa, non solo per le botteghe (strategia.cliente-core). Regola d'uso, dal CONTESTO_BUSINESS.md §2.1: col negoziante la parola «digitalizzare» non si usa; gli si dice cosa ci guadagna in incassi, clienti e tempo.",
+      "fonte": "Nicola in chat all'AD (session_01R8112LANAw9VhLSs2fAbsL), 27/11/2026 verso le 18:10: «Questo va salvato come concetto: mycity si occupa di digitalizzare le attività locali e promuovere i loro servizi e prodotti attraverso il marketplace». Le due spiegazioni (digitalizzare, promuovere) e la regola d'uso sono la lettura dell'AD dai fatti già firmati citati nel valore.",
+      "aggiornato": "2026-11-27 18:13",
+      "storia": [],
       "caccia": [],
       "esenzioni": []
     }

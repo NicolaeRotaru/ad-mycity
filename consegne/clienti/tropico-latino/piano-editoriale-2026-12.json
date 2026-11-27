@@ -1158,15 +1158,15 @@
         },
         {
           "fascia": "Business",
-          "canone": "500 €",
-          "serve": "11 cene per due in più al mese, meno di tre a settimana",
-          "primo_mese": "250 €: 6 cene per due"
+          "canone": "600 €",
+          "serve": "14 cene per due in più al mese, poco più di tre a settimana",
+          "primo_mese": "300 €: 7 cene per due"
         },
         {
           "fascia": "Premium",
-          "canone": "999 €",
-          "serve": "22 cene per due, meno di una a sera; oppure una cena aziendale da 20 persone a menu pieno (32,50 € a testa) e 12 cene per due",
-          "primo_mese": "499,50 €: 11 cene per due"
+          "canone": "900 €",
+          "serve": "20 cene per due, meno di una a sera; oppure una cena aziendale da 20 persone a menu pieno (32,50 € a testa) e 6 cene per due",
+          "primo_mese": "450 €: 10 cene per due"
         }
       ],
       "nostro_lato": [

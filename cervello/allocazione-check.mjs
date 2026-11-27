@@ -128,6 +128,8 @@ const DESTINAZIONE = [
   ["consegne/seo/", "business"],
   ["consegne/vendite/", "business"],
   ["consegne/clienti/", "business"], // 26/11/2026: scheda del venditore e preventivo nati dalla foto di un'attività (skill scheda-da-foto)
+  ["consegne/preventivi/", "business"], // 27/11/2026: i preventivi di SDG per le attività (Ora del Gusto dal 24/11)
+  ["consegne/sdg-premium/", "business"], // 27/11/2026: SDG cliente Premium di se stessa — analisi, piano social e sito
   ["consegne/marketing/", "business"],
   ["consegne/crm/", "business"],
   ["consegne/growth/", "business"],

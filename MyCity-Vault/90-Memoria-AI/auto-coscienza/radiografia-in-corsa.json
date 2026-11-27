@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-11-26 22:30",
+  "aggiornato": "2026-11-27 19:23",
   "scansioni": [
     {
       "quando": "2026-08-25 20:35",
@@ -8495,6 +8495,529 @@
         "lib/agenti/scheda.ts": "4e8986df1971",
         "lib/agenti/sito.ts": "242fad2a6c74",
         "lib/database.types.ts": "255f7c2b8626"
+      }
+    },
+    {
+      "quando": "2026-11-27 01:33",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "lib/agenti/compito.ts": "310798205db2",
+        "lib/agenti/fasce.ts": "c01c49a5f970",
+        "lib/agenti/scheda.ts": "a3c585d530a6",
+        "lib/agenti/su-misura.ts": "9c58e175e28d"
+      }
+    },
+    {
+      "quando": "2026-11-27 01:33",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "components/agenti/Scheda.tsx": "a4bf20e842d5",
+        "components/agenti/scheda.module.css": "4888347c86dd"
+      }
+    },
+    {
+      "quando": "2026-11-27 02:25",
+      "casa": "macchina",
+      "dimensione": "cadenza-esecuzione",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        ".claude/skills/contenuti-cliente/SKILL.md": "4989d2e3e375"
+      }
+    },
+    {
+      "quando": "2026-11-27 02:25",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/censimento-macchina.mjs": "fe8521cc18d9"
+      }
+    },
+    {
+      "quando": "2026-11-27 02:35",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 3,
+      "schede": [
+        "Dopo che il titolare accetta il preventivo un nuovo invio dello stesso negozio crea un secondo negozio",
+        "Un'attività rimasta a metà e rifiutata in Admin risponde «ha già accettato il preventivo»",
+        "Il controllo degli omonimi di «Aggiungi attività» non vede un'attività rimasta a metà"
+      ],
+      "nota": "",
+      "file": {
+        "lib/agenzia/nuova-attivita.ts": "575d199ce870"
+      }
+    },
+    {
+      "quando": "2026-11-27 03:49",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "app/admin/preventivi/page.tsx": "fe03a2080c23",
+        "app/agente/page.tsx": "b835f30dc1e2",
+        "app/preventivo/[codice]/abbonamento/page.tsx": "20344336e0b3",
+        "app/preventivo/[codice]/page.tsx": "48e8e90a0d9c",
+        "components/agenti/AggiungiAttivita.tsx": "a5e53acef056",
+        "components/agenti/aggiungi.module.css": "afe9584bb5c6"
+      }
+    },
+    {
+      "quando": "2026-11-27 03:49",
+      "casa": "marketplace",
+      "dimensione": "sicurezza-auth",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "app/api/admin/preventivi-col-link/route.ts": "c6b5ed0d23ee"
+      }
+    },
+    {
+      "quando": "2026-11-27 03:49",
+      "casa": "marketplace",
+      "dimensione": "api-backend",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "app/api/agente/aggiungi/route.ts": "ba04737a1751"
+      }
+    },
+    {
+      "quando": "2026-11-27 03:49",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "lib/agenzia/abbonamento-contanti.ts": "9e676ab4f887",
+        "lib/agenzia/bozze-in-attesa.ts": "3bd0e77e9999",
+        "lib/agenzia/leggi-preventivo.ts": "39c428d50317",
+        "lib/agenzia/preventivo-col-codice.ts": "96b667d3d665",
+        "lib/agenzia/scheda-del-negozio.ts": "6262f01ff26b",
+        "lib/agenzia/scheda-dopo-abbonamento.ts": "93a3f02a73da",
+        "lib/database.types.ts": "ca849f09e03f"
+      }
+    },
+    {
+      "quando": "2026-11-27 03:49",
+      "casa": "marketplace",
+      "dimensione": "pagamenti-stripe",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "lib/stripe/webhook/servizi.ts": "47ca511071a1"
+      }
+    },
+    {
+      "quando": "2026-11-27 03:49",
+      "casa": "marketplace",
+      "dimensione": "rls-database",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "migrations/999_l_abbonamento_in_contanti.sql": "440a27e55489"
+      }
+    },
+    {
+      "quando": "2026-11-27 03:27",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "components/agenti/Scheda.tsx": "8b16f12e00fd",
+        "components/agenti/scheda.module.css": "6f78b391c40c"
+      }
+    },
+    {
+      "quando": "2026-11-27 16:58",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "app/preventivo/[codice]/(demo)/abbonamento/AccettaDalLink.tsx": "6c94af054e64",
+        "app/preventivo/[codice]/(demo)/abbonamento/PagaDalLink.tsx": "0fe32026af36",
+        "app/preventivo/[codice]/(demo)/abbonamento/page.tsx": "09d0baa7b2f5",
+        "app/preventivo/[codice]/(demo)/layout.tsx": "0723ecc52ae3",
+        "app/preventivo/[codice]/(demo)/servizi/[servizio]/page.tsx": "979297002a34",
+        "app/preventivo/[codice]/ConfermaAbbonamento.tsx": "5677b19d2393",
+        "app/preventivo/[codice]/layout.tsx": "f8fac99bd9e2",
+        "app/preventivo/[codice]/page.tsx": "23b086454a69",
+        "components/agenti/AggiungiAttivita.tsx": "0e66ea183963"
+      }
+    },
+    {
+      "quando": "2026-11-27 17:38",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "spariti": [
+        "app/preventivo/[codice]/abbonamento/AccettaDalLink.tsx"
+      ],
+      "nota": "",
+      "file": {
+        "app/preventivo/[codice]/(demo)/abbonamento/AccettaDalLink.tsx": "aa1bf372d42a",
+        "app/preventivo/[codice]/(demo)/abbonamento/PagaDalLink.tsx": "0fe32026af36",
+        "app/preventivo/[codice]/(demo)/abbonamento/page.tsx": "764cd12fabc8",
+        "app/preventivo/[codice]/(demo)/layout.tsx": "0723ecc52ae3",
+        "app/preventivo/[codice]/(demo)/servizi/[servizio]/page.tsx": "979297002a34",
+        "app/preventivo/[codice]/ConfermaAbbonamento.tsx": "34196992b200",
+        "app/preventivo/[codice]/layout.tsx": "f8fac99bd9e2",
+        "app/preventivo/[codice]/page.tsx": "3f9f29a9e54d",
+        "components/agenti/AggiungiAttivita.tsx": "0e66ea183963"
+      }
+    },
+    {
+      "quando": "2026-11-27 17:39",
+      "casa": "marketplace",
+      "dimensione": "api-backend",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 2,
+      "schede": [
+        "Il link del preventivo che si ferma per troppi codici sbagliati non avvisa Nicola",
+        "Chi ha il link può esaurire i tentativi e bloccare per un giorno il titolare vero"
+      ],
+      "nota": "",
+      "file": {
+        "app/api/preventivo/[codice]/accetta/route.ts": "0ae05bee7601",
+        "app/api/preventivo/[codice]/codice/route.ts": "749c5c39a6e9"
+      }
+    },
+    {
+      "quando": "2026-11-27 17:39",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "Mancano le prove del doppio invio della conferma e di un secondo link chiesto a Supabase in pochi secondi"
+      ],
+      "nota": "",
+      "file": {
+        "lib/agenzia/codice-dal-link.ts": "381c8e3cdae1",
+        "lib/agenzia/entra-dal-link.ts": "9f942c77df5e",
+        "lib/agenzia/preventivo-col-codice.ts": "0742ba7f3588",
+        "lib/agenzia/richiesta-dal-sito.ts": "f0cb5837714e",
+        "lib/email/templates.ts": "70abc962bf85"
+      }
+    },
+    {
+      "quando": "2026-11-27 18:35",
+      "casa": "marketplace",
+      "dimensione": "api-backend",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "app/api/preventivo/[codice]/accetta/route.ts": "6c0ae1cb025f",
+        "app/api/seller/visita-sdg/route.ts": "5c22c8592928"
+      }
+    },
+    {
+      "quando": "2026-11-27 18:35",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 4,
+      "schede": [
+        "Un orario rifiutato dal server restava mostrato libero nella pagina del link",
+        "«Cosa succede dopo» diceva «già attivo» anche col pagamento online e «il giorno che scegli» a calendario pieno",
+        "Il nome accessibile dei giorni della visita non conteneva la scritta visibile",
+        "Se l'ultima ora libera la prendeva un altro, il titolare restava bloccato"
+      ],
+      "nota": "",
+      "file": {
+        "app/admin/preventivi/page.tsx": "d0d1079dc7f3",
+        "app/preventivo/[codice]/ConfermaAbbonamento.tsx": "42a32fad4613",
+        "app/preventivo/[codice]/page.tsx": "0c87a2d6bc8b",
+        "app/seller/abbonamento/page.tsx": "da60dd9e222a",
+        "components/seller/VisitaSdg.tsx": "8c03f1f8d877"
+      }
+    },
+    {
+      "quando": "2026-11-27 18:35",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 2,
+      "schede": [
+        "Il calendario della visita di SDG proponeva i giorni di festa",
+        "Visite di SDG attaccate senza tempo per spostarsi"
+      ],
+      "nota": "",
+      "file": {
+        "lib/agenzia/preventivo-col-codice.ts": "cf7fc6b7cf0a",
+        "lib/agenzia/visita-sdg.ts": "58625ef9595d",
+        "lib/database.types.ts": "9a8c068f9c2b",
+        "lib/email/templates.ts": "ccfefdf56ba1"
+      }
+    },
+    {
+      "quando": "2026-11-27 18:35",
+      "casa": "marketplace",
+      "dimensione": "rls-database",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "Senza la migrazione 999b la stessa ora della visita si dà a due attività"
+      ],
+      "nota": "",
+      "file": {
+        "migrations/999b_il_giorno_della_visita_di_sdg.sql": "1a4ee9d93765"
+      }
+    },
+    {
+      "quando": "2026-11-27 18:35",
+      "casa": "marketplace",
+      "dimensione": "sicurezza-auth",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "Le visite di SDG fissate non si rileggevano da nessuna parte"
+      ],
+      "nota": "",
+      "file": {
+        "app/api/admin/preventivi-col-link/route.ts": "c41e1eeb590e"
+      }
+    },
+    {
+      "quando": "2026-11-27 18:38",
+      "casa": "marketplace",
+      "dimensione": "api-backend",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "app/api/seller/lavoro-consegnato/route.ts": "b48895af4dd2"
+      }
+    },
+    {
+      "quando": "2026-11-27 18:38",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "app/seller/servizi/[servizio]/page.tsx": "046cfb0660e5",
+        "components/seller/lavoro-consegnato/AnalisiConsegnata.tsx": "b55f82b660b1",
+        "components/seller/lavoro-consegnato/PianoEditorialeConsegnato.tsx": "89b6710fc7e7",
+        "components/seller/lavoro-consegnato/SitoConsegnato.tsx": "af599ab9d200",
+        "components/seller/lavoro-consegnato/comuni.tsx": "b71dad0e619f",
+        "components/seller/preventivo-agenzia.ts": "235e3e66e50b"
+      }
+    },
+    {
+      "quando": "2026-11-27 18:38",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "lib/agenzia/lavoro-consegnato/quale-parte.ts": "8720858e487e",
+        "lib/agenzia/lavoro-consegnato/registro.ts": "f024a12cce43",
+        "lib/agenzia/lavoro-consegnato/sdg/analisi.json": "92edbf80abde",
+        "lib/agenzia/lavoro-consegnato/sdg/sito.json": "55175c13fef1",
+        "lib/agenzia/lavoro-consegnato/sdg/social.json": "4917b578be54",
+        "lib/agenzia/lavoro-consegnato/tipi.ts": "b3fd78a58d9e",
+        "lib/agenzia/preventivo.ts": "69529ff15c44"
+      }
+    },
+    {
+      "quando": "2026-11-27 18:38",
+      "casa": "marketplace",
+      "dimensione": "rls-database",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "migrations/999d_i_tre_abbonamenti_di_sdg_costano_300_600_900.sql": "c6317b7728d7"
+      }
+    },
+    {
+      "quando": "2026-11-27 19:11",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/allocazione-check.mjs": "242d0bff26fd",
+        "cervello/mappa-azienda.mjs": "a075257cfbdc",
+        "cervello/scheda-cliente.mjs": "ba4749420acf"
+      }
+    },
+    {
+      "quando": "2026-11-27 19:23",
+      "casa": "marketplace",
+      "dimensione": "api-backend",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "app/api/account/export/route.ts": "4f3981df022e",
+        "app/api/agente/aggiungi/route.ts": "c10f3cc727e4",
+        "app/api/agente/attivita/route.ts": "62f2bcc790f7",
+        "app/api/agente/schede/route.ts": "b2c36680e615",
+        "app/api/sdg/ordini/route.ts": "46c6244e9517"
+      }
+    },
+    {
+      "quando": "2026-11-27 19:23",
+      "casa": "marketplace",
+      "dimensione": "rls-database",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "migrations/999c_l_ordine_di_servizio_arriva_a_sdg.sql": "9d8022efe674"
+      }
+    },
+    {
+      "quando": "2026-11-27 19:23",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "app/admin/ordini-sdg/page.tsx": "b72f8246ed68",
+        "app/agente/page.tsx": "7acc3524d51d",
+        "app/agente/tocca-a-sdg/page.tsx": "3acce05d8b89",
+        "app/seller/ordini-sdg/page.tsx": "9c72c8af1dd9",
+        "components/admin/AdminSidebar.tsx": "2a41da3fcc40",
+        "components/agenti/AggiungiAttivita.tsx": "a547391cea3b",
+        "components/agenti/scheda.module.css": "6c630c2db6d2",
+        "components/agenti/tocca-a-sdg.module.css": "fdc05a5df4ff",
+        "components/sdg/OrdiniSdg.tsx": "b0dee20c9766"
+      }
+    },
+    {
+      "quando": "2026-11-27 19:23",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "lib/agenti/aggiungi.ts": "738b3369555c",
+        "lib/agenti/attivita.ts": "231dd1a59f75",
+        "lib/agenti/passi-di-sdg.ts": "40bb07b91391",
+        "lib/agenzia/contenuti-servizi.ts": "662b9f48870e",
+        "lib/agenzia/ordine-sdg.ts": "172334529369",
+        "lib/agenzia/piano-completo-ad.ts": "d18580083db8",
+        "lib/agenzia/piano-del-primo-mese.ts": "c335f70e7725",
+        "lib/agenzia/preventivo-col-codice.ts": "d5fd2bcbf626",
+        "lib/agenzia/visita.ts": "99e754d6aa09",
+        "lib/database.types.ts": "1ddd73274215"
       }
     }
   ]
