@@ -107,7 +107,7 @@ Se va bene: controllo in sola lettura che i tre prezzi siano cambiati e te lo sc
 
 - **Colore:** 🔴 (scrittura sul database vero, prezzi)
 - **Reparto:** ad
-- **Dettagli tecnici:** `migrations/999d_i_tre_abbonamenti_di_sdg_costano_300_600_900.sql`. UPDATE solo sui prodotti `11111111-1111-1111-1111-5d90000001{01,02,03}`; si può rieseguire. Il nome 999d viene dopo la 999 nell'ordine `LC_ALL=C`, e il campo «ultima» del pulsante accetta tre cifre più una lettera. Letto il 27/11 alle 18:30 in sola lettura: `site_settings.agenzia` vuoto (nessun prezzo che scavalchi il codice), prodotti ancora a 300/500/999.
+- **Dettagli tecnici:** `migrations/999d_i_tre_abbonamenti_di_sdg_costano_300_600_900.sql`. UPDATE solo sui prodotti `11111111-1111-1111-1111-5d90000001{01,02,03}`; si può rieseguire. Il nome 999d viene dopo la 999 nell'ordine `LC_ALL=C`, e il campo «ultima» del pulsante accetta tre cifre più una lettera. Letto il 27/11 alle 18:30 in sola lettura: `site_settings.agenzia` vuoto (nessun prezzo che scavalchi il codice), prodotti ancora coi prezzi di prima, 500 e 999 euro per Business e Premium.
 
 ### 🟡 #270 — Dimmi quali profili social ha SDG, o aprili, per far partire il piano di dicembre · ⏳ accodata 2026-11-27 18:20 · @content-social
 
