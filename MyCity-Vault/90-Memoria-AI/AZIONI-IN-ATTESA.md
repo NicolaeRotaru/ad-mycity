@@ -31,6 +31,24 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
+### 🟡 #267 — Guarda quanto del limite settimanale hai usato, prima di far ripartire la campagna dei 200 · ⏳ accodata 2026-11-27 06:21 · @ad
+
+**Stato:** ⏳ in attesa.
+
+**In parole semplici.** La campagna «i 200 risolti» ripara i difetti del sito con più sessioni in parallelo. Ha una regola: non usare più della metà del limite settimanale dell'account. Oggi è ferma, perché aspetta la tua autorizzazione a lavorare sul sito.
+Esempio vero: alle 06:21 la scheda del collaudatore K01 mostrava il limite settimanale «in avviso». Da qui la percentuale non si vede.
+
+**Cosa cambia per te.** Se sei sopra la metà, far ripartire adesso l'unione e i collaudi consuma la parte del limite che ti serve per il resto della settimana.
+
+**Cosa devi fare tu.** Apri l'app di Claude, poi Impostazioni, poi Utilizzo. Scrivi all'AD la percentuale del limite settimanale. Sotto il 50%: la campagna riparte quando autorizzi la regia. Sopra il 50%: aspetta il rinnovo del limite.
+
+**Cosa non ho verificato.** Non so se l'avviso scatta prima o dopo la metà del limite. Non so nemmeno quanto la campagna abbia pesato sul limite. I costi contati dalla regia sono circa 300 $ sui 3.000 del tetto, ma il limite si misura in un altro modo.
+
+Cosa cambia: sai se la campagna dei 200 può ripartire adesso o deve aspettare il rinnovo del limite settimanale.
+Se va bene: con la percentuale sotto la metà e la tua autorizzazione, la regia unisce i sette rami verdi e fa collaudare gli ultimi quattro.
+
+Dettagli: scheda di K01 (`session_015BmpnXZw6B1LCCHKMiTyZb`), `rate_limit_info` seven_day `allowed_warning`. Diario: `consegne/riparazioni/2026-11-27-duecento/REGIA.md`, riga delle 06:21.
+
 ### 🟡 #266 — Guarda il ricontrollo del sito e unisci la richiesta, se ti va bene · ⏳ accodata 2026-11-26 15:30 · @ad
 
 **Stato:** ⏳ in attesa di Nicola, senza fretta
