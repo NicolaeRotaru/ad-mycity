@@ -1,28 +1,36 @@
 ---
 tipo: collaudo
 data: 2026-11-27 03:15
-oggetto: flusso n8n «16 · Attività da visitare» (repo N8N, testa f9311bd, unita in main con 8673eef)
-fonte: referto mandato dalla sessione delle PR (session_01R8112KTPLRuAkWr1PreRUu); le prove del collaudatore stanno solo nel suo contenitore, ogni difetto ha file:riga ed è riproducibile
+oggetto: flusso n8n 16, Attività da visitare
+fonte: il referto l'ha mandato la sessione delle PR; le prove del collaudatore stanno solo nel suo contenitore
 ---
 
 # Terzo collaudo del flusso 16 · Attività da visitare
 
 ## In parole semplici
-Il terzo collaudo, scelto da Nicola, è verde: nessun difetto grave, 10 minori. La macchina che trova i clienti
-fa quello che dice. Le 44 mutazioni del giro prima sono tutte rosse anche per questo collaudatore.
+Il terzo collaudo l'hai scelto tu. È verde: nessun difetto grave e 10 minori.
+La macchina che trova i clienti fa quello che dice.
+Il collaudatore ha anche rifatto le 44 mutazioni del giro prima, e sono tutte rosse.
+Ha simulato 62 settimane sui dati veri: nessuna attività torna due volte.
 
 ## Cosa cambia per te
-La richiesta di unione del flusso (NicolaeRotaru/N8N#31) è unita. Il flusso su n8n resta spento finché non dici di accenderlo.
+La richiesta di unione del flusso è unita.
+Il flusso su n8n resta spento finché non dici di accenderlo.
 
 ## Cosa devi fare
-Tre scelte: accendere il flusso; cosa fare delle 10 righe già scritte col listino vecchio; se togliere i forni dalla lista.
+Prima scelta: accendere il flusso, oppure no.
+Seconda scelta: le 10 righe già nella tabella hanno nel dossier il listino vecchio, con «sito 500 €». Le correggo io, oppure chi visita ignora i prezzi.
+Terza scelta: nella seconda settimana 5 attività su 10 sono forni, cioè concorrenti di Pane Quotidiano. Dimmi se vanno tolti dalla lista.
 
 ## Cosa non ho verificato
-Niente è girato dentro n8n: la riprova sul 429, l'arresto con avviso quando la tabella va in errore e la forma
-esatta dell'errore della mappa sono letti nel sorgente di n8n (fiducia circa 80%). Niente mandato a Telegram vero.
-Le due «Metrò» indipendenti: fiducia circa 80%. Nessun giro vero dell'AD col listino nuovo.
+Il collaudatore non ha fatto girare niente dentro n8n.
+Tre comportamenti li ha letti nel codice di n8n, con fiducia di circa 80 su 100: la riprova quando la mappa dice «troppe richieste», lo stop quando la tabella non risponde, la forma dell'errore della mappa.
+Non ha mandato niente su Telegram.
+Nessun giro vero dell'AD ha ancora usato il listino nuovo.
 
 ---
+
+## Dettagli tecnici
 
 ## Esito
 VERDE. 0 gravi o bloccanti, 10 minori. Suite: 355 prove, 353 verdi, 1 rossa (quella nota del 19), 1 saltata; le 19
