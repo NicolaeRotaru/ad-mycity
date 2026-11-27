@@ -7,9 +7,39 @@
   "R09",
   "R10"
  ],
- "aggiornato": "2026-11-27 03:48",
- "finita": false,
+ "aggiornato": "2026-11-27 04:14",
+ "finita": true,
  "voci": [
+  {
+   "id": "R02-001",
+   "chiave": "ai-endpoints|nella chat assistenza il negoziante approva una descrizione nuova senza poterla leggere, e al primo messaggio l'assistente riscrive tag e descrizione senza aver visto quelli che ci sono",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Le due parti della voce: la scheda ora mostra la descrizione intera e i tag tolti (prontoPerLaVendita.ts:724, :739-753) e il sito passa davvero product.tags (SupportProductAssistant.tsx:459 riceve lo snapshot della rotta); la metà «primo messaggio» e la regola «non inventare» c'erano già alla base (catalog-chat/route.ts:521 e :86, il mutante lì lo prende minori-s10-catalogo-chat). Prova debole: il confronto sul tag grezzo (:751) e un taglio della descrizione a 60 caratteri restano verdi (nessun tag in maiuscolo, descrizione di prova lunga esattamente 60). Prova comune la-chat-mostra-la-proposta-che-il-server-applica.test.ts: rossa sul ramo come atteso; con le tre modifiche delle note di R02 (anche R02-004 e R02-012) le 3 prove comuni sono verdi (25 su 25) e i 277 file di prove sui file toccati da R02 pure (1610 prove).",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /tmp/claude-0/-home-user-ad-mycity/998fdb55-dcb0-5e71-8bbd-5a0f7326fed0/scratchpad/wt-R02 --base 40df1f0c^ --file lib/products/prontoPerLaVendita.ts --prove tests/unit/riparazione-r02-chat-proposta.test.ts --json"
+   }
+  },
+  {
+   "id": "R02-002",
+   "chiave": "ai-endpoints|il tetto giornaliero di spesa ai in produzione non è condiviso: ogni copia del sito conta per sé",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Regge come parziale, dichiarato onestamente. Produzione riconosciuta da NODE_ENV=production e VERCEL_ENV diverso da development (tettoSpesa.ts:92-94): produzione, anteprime e next start sono rigidi, sviluppo e prove tengono il conto in memoria. Ogni strada che spende passa dal tetto (run.ts:537, catalog-batch/start:262): senza conto condiviso la spesa è sconosciuta e la chiamata si ferma con 503. Le 4 prove comuni con VERCEL_ENV=preview passano (37/37). Resta, dichiarato: la migrazione 158 da applicare, la gara «lettura viva più scrittura rotta» con chiamate parallele, le prenotazioni per copia senza Upstash. Prova debole: «anteprime escluse» (:93) e «resto azzerato» sopravvivono. Non verificato: se AI_GLOBAL_DAILY_BUDGET_EUR è impostata in produzione (senza, run.ts:262 non ha tetto).",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /tmp/claude-0/-home-user-ad-mycity/998fdb55-dcb0-5e71-8bbd-5a0f7326fed0/scratchpad/wt-R02 --base 4781d1c0^ --file lib/ai/tettoSpesa.ts --prove tests/unit/riparazione-r02-tetto-spesa.test.ts --json"
+   }
+  },
   {
    "id": "R02-003",
    "chiave": "ai-endpoints|il segno di fine dell'applicazione del catalogo non lo scrive nessuno",
@@ -86,6 +116,21 @@
    "nota": "Fatto: con AiCallError tetto_spesa o spesa_sconosciuta, doRefresh rimette lo stato di prima (esce anche da pending) invece di 'error', e il giro a orario si ferma al primo senza segnare nessuno. Non chiuso: un prodotto già in errore, ripreso mentre il budget è finito, ha già speso il permesso delle sei ore prima della chiamata e resta frenato sei ore anche quando il budget torna; nel giro a orario succede al prodotto su cui il giro si ferma. È il sintomo della voce, per i prodotti già in errore: il referto lo dichiara come caso di bordo, ma lo dà riparato. La cura tocca lib/rate-limit.ts (file altrui)."
   },
   {
+   "id": "R02-008",
+   "chiave": "ai-endpoints|il testo dell'allarme del tetto di spesa ai dice ancora «sceso a x € per copia» mentre in produzione ora l'ai si ferma",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "L'allarme del cron passa fermoSenzaConto con contoCondivisoObbligatorio(), la stessa regola produzione/sviluppo di R02-002: in produzione dice che l'AI è ferma per tutte le copie, in sviluppo resta il testo per copia. La prova rimessa morde su tutti e due i file.",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /tmp/claude-0/-home-user-ad-mycity/998fdb55-dcb0-5e71-8bbd-5a0f7326fed0/scratchpad/wt-R02 --base 707c166b^ --file lib/ai/decisioneTettoSpesa.ts,lib/ai/tettoSpesa.ts --prove tests/unit/riparazione-r02-allarme-tetto-ai-ferma.test.ts --json"
+   }
+  },
+  {
    "id": "R02-009",
    "chiave": "ai-endpoints|nella chat assistenza un tag che finisce con spazio e virgola compare come doppione sulla scheda ma il server non lo salva",
    "verdetto": "regge",
@@ -144,6 +189,62 @@
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /tmp/claude-0/-home-user-ad-mycity/998fdb55-dcb0-5e71-8bbd-5a0f7326fed0/scratchpad/wt-R02 --base f14a7f0f^ --file components/seller/StripeConnectButton.tsx --prove tests/unit/riparazione-r02-stripe-aggiorna-stato.test.ts --json"
    },
    "nota": "Dopo «Aggiorna stato» il messaggio segue stripePronto (conto più versamenti), come il riquadro; gli incassi non contano; refresh-status risponde payouts=false senza conto, nessun falso verde. Mutante: aggiunto && charges_enabled → rosso."
+  },
+  {
+   "id": "R06-001",
+   "chiave": "qa-flussi|un ordine fermo su «accettato» o «ritirato dal fattorino» non fa suonare nessun allarme e non scade mai",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Regge come parziale, dichiarato onestamente. Stati esatti (ACCEPTED, PICKED_UP), picked_up_at scritto sempre insieme allo stato, nessun doppione con gli altri allarmi, uno stato nuovo fa rossa la prova. Non fatto, dichiarato: la scadenza automatica (expire-stale-orders guarda ancora solo NEW) e il tetto di 50 ordini letti. Prova debole: sopravvivono ignorare accepted_at (:388), togliere e invertire l'ordinamento dei ritirati (:430).",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /tmp/claude-0/-home-user-ad-mycity/998fdb55-dcb0-5e71-8bbd-5a0f7326fed0/scratchpad/wt-R06 --base 3d92c7c^ --file app/api/cron/operational-alerts/route.ts --prove tests/unit/riparazione-r06-accettato-ritirato-fermi.test.ts --json"
+   }
+  },
+  {
+   "id": "R06-002",
+   "chiave": "qa-flussi|la posizione del negozio può finire lontano da piacenza, o restare quella vecchia, e il modulo la salva lo stesso",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Fatto e provato con rotta e geocodifica vere: senza città si cerca «…, Piacenza» (StoreLocationPicker.tsx:178-185); il testo cambiato rimette confermata a false (c'era già alla base). Resta, dichiarato: nessuna guardia sul server per il profilo (seller/profile/page.tsx:73) e la regola che prende per città qualunque coda con lettere (:183, il mutante «il CAP da solo non conta come città» resta verde). Non dichiarato, già alla base ma dentro la voce: l'amministratore può cambiare l'indirizzo senza toccare le coordinate (admin/users/page.tsx:1040-1046), e l'approvazione non mostra mai la posizione (:1201).",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /tmp/claude-0/-home-user-ad-mycity/998fdb55-dcb0-5e71-8bbd-5a0f7326fed0/scratchpad/wt-R06 --base f7adb86a^ --file components/StoreLocationPicker.tsx --prove tests/unit/riparazione-r06-negozio-senza-citta.test.ts --json"
+   }
+  },
+  {
+   "id": "R06-003",
+   "chiave": "qa-flussi|il fattorino in bici non può essere approvato senza patente di guida e polizza rc",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Alla base le righe 34-40 di lib/admin/regole-approvazione.ts non decidono più: decide documentiObbligatoriDelFattorino (:64-71), la bici senza patente né polizza, il motore con. Coerenti iscrizione, start-check, esame del pannello, moderate e prendi_ordine/is_rider_in_regola (migrazioni 270 e 661). Prova riparazione-r06-bici-senza-patente 8/8; mutanti: due presi dalla prova, altri due solo dalle prove comuni."
+  },
+  {
+   "id": "R06-004",
+   "chiave": "qa-flussi|se il fattorino sparisce senza dichiarare i contanti, l'ordine resta in consegna per sempre e l'amministratore non può chiuderlo",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Il pezzo fatto è giusto ma non sposta il danno della voce: chiudiConsegnaDaAmministratore non ha nessun chiamante, quindi l'amministratore non può ancora chiudere l'ordine fermo quando il fattorino sparisce (il referto lo dice). Permessi in ordine: un non-amministratore non può chiudere né segnare contanti (la 360 controlla is_admin ed è tolta ad anon; cod-incasso-dichiarato è dietro withAdminAuthRateLimit e accetta solo DELIVERED). Prova debole: sopravvivono «ogni errore 42xxx diventa NOT_ADMIN» e «42501 più stretto» (:334).",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /tmp/claude-0/-home-user-ad-mycity/998fdb55-dcb0-5e71-8bbd-5a0f7326fed0/scratchpad/wt-R06 --base b3fab500^ --file lib/cassa/registra-incasso.ts --prove tests/unit/riparazione-r06-chiudi-consegna-senza-sessione.test.ts --json"
+   }
   },
   {
    "id": "R06-007",
