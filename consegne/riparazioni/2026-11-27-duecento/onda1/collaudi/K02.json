@@ -5,7 +5,7 @@
   "R09",
   "R10"
  ],
- "aggiornato": "2026-11-27 03:45",
+ "aggiornato": "2026-11-27 04:15",
  "finita": false,
  "voci": [
   {
@@ -108,6 +108,186 @@
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base bbe71655^ --file lib/supabase/auth-server.ts --prove tests/unit/riparazione-r07-registrazione-server-link-col-codice.test.ts --json"
    },
    "nota": "Unico chiamante: app/api/auth/signup/route.ts:119, un Route Handler dove cookies() si può scrivere (Next 15.5.29 unisce i cookie alla risposta). getServerSupabase e /auth/callback usano lo stesso createServerClient senza cookieOptions, quindi lo stesso cookie del verificatore; @supabase/ssr forza il flusso PKCE. La prova usa il getServerSupabase vero. Due note: con la conferma email spenta la registrazione scrive nei cookie la sessione del nuovo account al posto di quella di chi era già entrato (coerente con /sign-up dal browser; oggi nessuna pagina chiama la rotta); la prova ricostruisce il callback invece di importare la rotta vera, quindi un callback che leggesse un altro cookie non la farebbe diventare rossa."
+  },
+  {
+   "id": "R09-001",
+   "chiave": "architettura|la regola che vieta i tipi «qualunque» non è accesa: 46 sono passati, e 40 permessi di saltare il controllo non saltano niente",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /tmp/claude-0/-home-user-ad-mycity/998fdb55-dcb0-5e71-8bbd-5a0f7326fed0/scratchpad/wt-R09 --base 491c92a4^ --file app/product/[id]/page.tsx,app/product/[id]/opengraph-image.tsx --prove tests/unit/riparazione-r09-direttive-morte-nei-file-della-scheda-prodotto.test.ts --json"
+   },
+   "nota": "Il pezzo fatto è vero: tolte 2 direttive morte (page.tsx:976, opengraph-image.tsx:85); eslint sui due file dà 0 errori e gli stessi 4 avvisi della base, meno i due «Unused eslint-disable». Mutanti: una direttiva morta aggiunta in opengraph-image.tsx e un no-explicit-any a livello file in page.tsx → rossi. Regge come parziale, ma la voce resta quasi tutta aperta: no-explicit-any ancora a warn in .eslintrc.json per 16 file, 36 any, 29 direttive morte in file altrui, tsconfig. tsc non lanciato (tolte solo righe di commento)."
+  },
+  {
+   "id": "R09-013",
+   "chiave": "navigazione-gerarchia|la larghezza del contenuto cambia tre volte lungo il percorso d'acquisto",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /tmp/claude-0/-home-user-ad-mycity/998fdb55-dcb0-5e71-8bbd-5a0f7326fed0/scratchpad/wt-R09 --base a3fc8fc5^ --file app/cart/page.tsx,app/checkout/page.tsx,app/product/[id]/page.tsx --prove tests/unit/riparazione-r09-larghezza-del-percorso-d-acquisto.test.ts --json"
+   },
+   "nota": "Carrello, cassa e scheda caricata passano a max-w-7xl come categorie e negozi (mutanti a cassa :1426, carrello :468, scheda :839 → rossi; nessun container personalizzato in tailwind.config.ts, nessun conflitto). Restano: la vetrina del negozio a max-w-5xl (components/store-sections/misure-vetrina.ts:26, 1024 contro 1280 px sul percorso), e nello stesso file della scheda lo scheletro e gli stati d'errore senza 7xl (app/product/[id]/page.tsx:503, 521, 534, 554), quindi la larghezza salta ancora mentre la scheda carica; la prova non li vede (mutante a :503 verde)."
+  },
+  {
+   "id": "R09-014",
+   "chiave": "privacy-legale|una bozza della cassa che non si legge resta nel browser",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /tmp/claude-0/-home-user-ad-mycity/998fdb55-dcb0-5e71-8bbd-5a0f7326fed0/scratchpad/wt-R09 --base 1c317a3f^ --file app/checkout/page.tsx --prove tests/unit/riparazione-r09-bozza-illeggibile.test.ts --json"
+   },
+   "nota": "L'unico punto che legge la bozza è app/checkout/page.tsx:528 (altrove solo il salvataggio a :1312 e la pulizia in lib/account/piu-account.ts:61); la bozza illeggibile ora si toglie a :532-533, prima del parse. Mutante: tolta la rimozione da sessionStorage a :533 → prova rossa. Una bozza valida si perde solo se un passo dopo il parse lancia: caso trascurabile."
+  },
+  {
+   "id": "R09-015",
+   "chiave": "privacy-legale|prima dell'acquisto la scheda prodotto e il carrello dicono «escluso dal recesso» solo con la spunta, non per il pane escluso per categoria",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 3,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /tmp/claude-0/-home-user-ad-mycity/998fdb55-dcb0-5e71-8bbd-5a0f7326fed0/scratchpad/wt-R09 --base 54b42da2^ --file app/product/[id]/page.tsx,app/cart/page.tsx,lib/ordini/recesso-per-categoria.ts --prove tests/unit/riparazione-r09-recesso-per-categoria-scheda.test.ts,tests/unit/riparazione-r09-recesso-per-categoria-carrello.test.ts --json"
+   },
+   "nota": "Uscita 3: le due pagine riportate alla base fanno rossa la prova sul comportamento, il file nuovo tolto solo per la struttura. Difetto rimesso a mano nell'aiutante: esclusiAncheDallaCategoria che restituisce i prodotti senza segnarli → 2 rossi per asserzione; parent_id ignorato → 2 rossi; tolto 'panificio' → 2 rossi. Ma togliendo 'salumeria' e 'frutta-verdura' le prove restano verdi (5 su 5): coprono solo il Panificio, cioè 1 categoria su 6. L'aiutante lib/ordini/recesso-per-categoria.ts è oggi una copia fedele di app/api/returns/create/route.ts:52-73 (6 categorie, giro sui padri con tetto 20), ma la rotta non lo importa: due copie che possono divergere senza che nessuna prova lo veda, e il commento a :13 dell'aiutante («la leggono tutti e tre») è falso. Accanto: il carrello fa una seconda lettura in serie dell'intera tabella categories (app/cart/page.tsx:331-337), che ritarda di un giro di rete zona e scorte; rallenta, non rompe."
+  },
+  {
+   "id": "R10-002",
+   "chiave": "coerenza-brand|la scala tipografica è aggirata 330 volte con misure a mano",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /tmp/claude-0/-home-user-ad-mycity/998fdb55-dcb0-5e71-8bbd-5a0f7326fed0/scratchpad/wt-R10 --base 5cf79821^ --file app/orders/page.tsx --prove tests/unit/riparazione-r10-scala-tipografica.test.ts --json"
+   },
+   "nota": "Stesso commit e stessa prova di R10-014. Commit 5cf79821, una classe sola in app/orders/page.tsx:392. Il gradino text-2xs esiste in tailwind.config.ts:158 e app/globals.css:22, tutti e due 0.625rem (10px, nessuna altezza di riga), e il sito lo usa già in 36 punti: a video non cambia niente. Restano 221 righe con una misura a mano, il referto ne dichiara 222: il resto è dichiarato. Mutanti: text-[10px] rimesso a :392 e 2xs a 0.5rem nella configurazione fanno rossa la prova; --text-2xs a 0.5rem in globals.css resta verde (la prova guarda solo la configurazione, che è quella che Tailwind usa). Regge come parziale."
+  },
+  {
+   "id": "R10-004",
+   "chiave": "frontend-ux|con uno sconto frazionario sotto lo 0,5% il bollino della scheda prodotto mostra «-0%»",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /tmp/claude-0/-home-user-ad-mycity/998fdb55-dcb0-5e71-8bbd-5a0f7326fed0/scratchpad/wt-R10 --base 6ff07118^ --file components/ProductCard.tsx --prove tests/unit/riparazione-r10-bollino-sconto.test.tsx --json"
+   },
+   "nota": "Il pezzo fatto regge: in ProductCard il bollino non compare con la percentuale arrotondata a 0 (mutanti: aria-label con showStrike → rossa; soglia >= 0 → rossa; soglia > 1, che nasconderebbe il -1%, → verde: la prova non guarda il confine dell'1% né il ramo compareAtPrice). Residui dichiarati e confermati: ActivePromoBadge.tsx:55, :61; app/product/[id]/page.tsx:597, :895; barrato uguale al prezzo in ProductCard.tsx:282-286. Residuo NON dichiarato: components/seller/ProductForm.tsx:987 e :1440, l'anteprima del negozio mostra «-0%». Regge come parziale."
+  },
+  {
+   "id": "R10-005",
+   "chiave": "performance|nel pannello del negozio ogni link della barra laterale, precaricato, fa ripassare il controllo d'accesso con due chiamate a supabase",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /tmp/claude-0/-home-user-ad-mycity/998fdb55-dcb0-5e71-8bbd-5a0f7326fed0/scratchpad/wt-R10 --base 3a63a1d4^ --file components/seller/SellerShell.tsx --prove tests/unit/riparazione-r10-barra-senza-precarico.test.tsx --json"
+   },
+   "nota": "Next 15.5.29: next/dist/client/app-dir/link.js:105 prefetchEnabled = prefetch !== false, e le righe 325 e 341 fermano il precarico in vista, al passaggio e al tocco. Voci della barra (SellerShell.tsx:555) e marchio (:482) senza precarico; mutanti che lo tolgono lì fanno rossa la prova. Restano precaricati, dichiarati: MenuAccount (:129, :144, :153), «Pubblica prodotto» (:636), avatar (:673), notifiche (:322, :354). Non dichiarato, minore: il Copilot (:516 e il pulsante fisso :701) resta precaricato e la prova non lo vede (mutante verde); oggi è spento (AI_NEGOZI_ACCESA=false, lib/funzioni-al-lancio.ts:69), ma acceso precaricherebbe su ogni pagina. Il compromesso (il clic aspetta il server, nessun loading.tsx dentro app/seller) non è nel referto. Regge come parziale."
+  },
+  {
+   "id": "R10-007",
+   "chiave": "qa-flussi|il campanello del negozio conta ancora le newsletter spente",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /tmp/claude-0/-home-user-ad-mycity/998fdb55-dcb0-5e71-8bbd-5a0f7326fed0/scratchpad/wt-R10 --base d76aeffb^ --file components/seller/SellerShell.tsx --prove tests/unit/riparazione-r10-campanello-newsletter.test.tsx --json"
+   },
+   "nota": "Conto (SellerShell.tsx:144) e lista (:188) usano la stessa funzione; i nomi sono veri (categoria 'newsletter' nella migrazione 115:211, notif_newsletter nella 054). Prova debole: togliendo il filtro dalla lista (:188) resta verde, guarda solo il conto. Accanto, fuori da questa voce: il campanello del negozio non rispetta notif_groups (useNotificationsCount.ts sì), e app/notifications/page.tsx:251 filtra solo 'promo'."
+  },
+  {
+   "id": "R10-008",
+   "chiave": "qa-flussi|il testo di un errore vero arriva a sentry senza oscurare email e telefoni",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /tmp/claude-0/-home-user-ad-mycity/998fdb55-dcb0-5e71-8bbd-5a0f7326fed0/scratchpad/wt-R10 --base 7015817e^ --file lib/logger.ts --prove tests/unit/riparazione-r10-errore-telefoni-a-sentry.test.ts --json"
+   },
+   "nota": "Sonda con logger.error e Sentry finto su 20 testi: message, extra ed extra annidato oscurati per +39 333 1234567, 0523/123456, (0523) 123456, tel:+39 0523 123456, 0523-123456, 333.123.4567 ed email; restano leggibili id d'ordine lunghi, 1700000000000, 23505, date e importi. Lineare: 1,28 milioni di caratteri in 34 ms. Il logger copre solo le sue strade: onRequestError, error.tsx, unhandledrejection ed edge non passano da lì, e il referto lo dichiara con la modifica pronta per lib/analytics/sentry-config.ts (file altrui). Mutanti: tolto il prefisso [A-Za-z]: a lib/logger.ts:73 → rossa; prefisso allargato a lettere e cifre (più falsi positivi) → verde, la prova non misura i falsi positivi. Regge come parziale."
+  },
+  {
+   "id": "R10-009",
+   "chiave": "qa-flussi|il precarico non riempie lo sconto attivo del prodotto, che il browser rilegge",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /tmp/claude-0/-home-user-ad-mycity/998fdb55-dcb0-5e71-8bbd-5a0f7326fed0/scratchpad/wt-R10 --base ead37e60^ --file lib/queries/precarico.ts --prove tests/unit/riparazione-r10-sconto-nel-precarico.test.ts --json"
+   },
+   "nota": "Chiave queryKeys.products.activeDiscount(id), forma Number(data) || 0 e RPC product_active_discount identiche a quelle che il browser legge (app/product/[id]/page.tsx:388, ActivePromoBadge.tsx:31). Prodotto non visibile protetto da voci.length > 0; la promo scaduta la valuta la RPC; una lettura caduta non diventa zero. Mutanti: tolta la guardia voci.length → rossa; catch che dà 0 invece di null → rossa. 48 prove vicine verdi. Accanto: layout.tsx:179 rilegge lo sconto in parallelo (due RPC per visita lato server), un doppione, non un guasto."
+  },
+  {
+   "id": "R10-012",
+   "chiave": "stati-ui|la modifica prodotto dell'amministratore senza rete si apre con le categorie vuote se non erano in memoria",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /tmp/claude-0/-home-user-ad-mycity/998fdb55-dcb0-5e71-8bbd-5a0f7326fed0/scratchpad/wt-R10 --base 79111053^ --file app/admin/products/[id]/edit/page.tsx --prove tests/unit/riparazione-r10-admin-categorie-senza-rete.test.tsx --json"
+   },
+   "nota": "Il referto la dà riparata con copre_tutta_la_voce true, ma il registro descrive due mancanze e ne è chiusa una. Fatta: la guardia sulle categorie in pausa, uguale alla pagina del negozio (seller edit page.tsx:326); il revert di R10-013 non l'ha toccata (diff 79111053..testa sul file vuoto). Non fatta: «manca Riapri con i dati aggiornati: dopo un 409 con rilettura delle taglie fallita il modulo si rimonta con le taglie vecchie» (admin page.tsx:114-117), e il messaggio dice «ho riletto» anche se la rilettura è caduta; quella cura era R10-013, ritirata. Prova debole: restano verdi togliendo categories.length === 0 (:141), togliendo categorieInLettura dal caricamento (:140) o togliendo categorieNonLette; copre solo il ramo senza rete."
+  },
+  {
+   "id": "R10-014",
+   "chiave": "tipografia|la scala delle dimensioni del testo viene scavalcata circa trecentotrenta volte",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /tmp/claude-0/-home-user-ad-mycity/998fdb55-dcb0-5e71-8bbd-5a0f7326fed0/scratchpad/wt-R10 --base 5cf79821^ --file app/orders/page.tsx --prove tests/unit/riparazione-r10-scala-tipografica.test.ts --json"
+   },
+   "nota": "Commit 5cf79821, una classe sola in app/orders/page.tsx:392. Il gradino text-2xs esiste in tailwind.config.ts:158 e app/globals.css:22, tutti e due 0.625rem (10px, nessuna altezza di riga), e il sito lo usa già in 36 punti: a video non cambia niente. Restano 221 righe con una misura a mano, il referto ne dichiara 222: il resto è dichiarato. Mutanti: text-[10px] rimesso a :392 e 2xs a 0.5rem nella configurazione fanno rossa la prova; --text-2xs a 0.5rem in globals.css resta verde (la prova guarda solo la configurazione, che è quella che Tailwind usa). Regge come parziale: la voce resta aperta per le misure a mano rimaste."
   }
  ],
  "campione": {}
