@@ -1560,10 +1560,10 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Verifica:** in sola lettura alle 15:25: le 20 nel registro, le funzioni e le tabelle di 910, 916, 940 e 961, colonna e indice della 999, testo della 863 sui tre prodotti.
 - **Colore:** 🔴, eseguito sulla firma esplicita di Nicola.
 
-## 2026-11-27 17:35 — Il sito Business del Caffè di Piacenza e la voce «Sito web» negozio per negozio (🟡)
-- **Chi e quando:** Nicola, in chat all'AD (session_01R8112Lh8bxtpgSCWy2ESsy), 27/11 verso le 17:05: «crea la versione business di questo sito… nella voce del menu sito web ci deve essere già il suo sito web versione business… entrambi i siti web devono già essere su Vercel».
-- **Cosa:** dalla bozza (artifact «Caffè di Piacenza») un sito di cinque pagine vere, con dati per Google, anteprima per WhatsApp, barra «Chiama / Indicazioni» sul telefono, mappa, collegamento alla vetrina. Nel marketplace, il lavoro consegnato della sessione SDG reso valido per ogni negozio, il Caffè aggiunto con fascia Business, il sito mostrato dal vivo quando è online; frame-src apre solo le origini esatte dei siti online.
-- **Perché:** il Caffè è iscritto dal 27/11 alle 16:45 con l'abbonamento Business attivo (pagato in contanti, tabella abbonamenti_servizi); il Business promette «un sito completo di più pagine, col tuo nome».
+## 2026-11-27 17:35 — Il sito Business del Caffè di Piacenza nella sua voce «Sito web» (🟡)
+- **Chi e quando:** Nicola in chat all'AD, il 27/11 verso le 17:05. Sessione session_01R8112Lh8bxtpgSCWy2ESsy. Ha chiesto la versione business del sito. «Nella voce del menu sito web ci deve essere già il suo sito web versione business.» E: «entrambi i siti web devono già essere su Vercel».
+- **Cosa:** dalla bozza (artifact «Caffè di Piacenza») un sito di cinque pagine vere, con dati per Google, anteprima per WhatsApp, barra «Chiama / Indicazioni» sul telefono, mappa, collegamento alla vetrina. Nel marketplace il lavoro consegnato della sessione SDG ora vale per ogni negozio. Il Caffè c'è con la fascia Business, e il suo sito si vede dal vivo quando è online. La politica di sicurezza apre solo gli indirizzi esatti dei siti online.
+- **Perché:** il Caffè è iscritto dal 27/11 alle 16:45, con l'abbonamento Business attivo e pagato in contanti. Il Business promette «un sito completo di più pagine, col tuo nome».
 - **Limiti:** niente prezzi e niente dati inventati; orari, menu e storia restano «da confermare» e il sito è nascosto a Google finché il titolare non dice sì. Vercel non pubblicato: il collegamento non può creare progetti (403).
 - **Colore:** 🟡: codice in un ramo, PR da unire da Nicola; la pubblicazione su Vercel ha la sua firma in chat.
 

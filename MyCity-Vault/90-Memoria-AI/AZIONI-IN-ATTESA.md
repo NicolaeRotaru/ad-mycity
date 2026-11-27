@@ -2061,7 +2061,7 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 - **Reparto:** @devops-sre, con l'AD.
 - **Colore:** 🟡. Il via a pubblicare i due siti l'hai già dato in chat il 27/11 verso le 17:05; manca solo il permesso tecnico.
 - **Contenuto:** il collegamento Vercel di Claude è il tuo account, ma l'app collegata legge i progetti e non può crearne (errore 403 su «crea progetto» e su «crea pubblicazione»). Due strade, ne basta una:
-  1. **La chiave (consigliata):** su vercel.com → Settings → Tokens crea un token con scadenza 7 giorni, poi nel menu dell'ambiente cloud (titolo della sessione → Default → Modifica) aggiungilo in «Network secrets» per l'host `api.vercel.com`. Da lì faccio tutto io.
+  1. **La chiave (consigliata):** su vercel.com/account/tokens crea un token con scadenza 7 giorni. Poi aggiungilo nelle impostazioni dell'ambiente cloud, alla voce «Network secrets», per l'host `api.vercel.com`. Da lì faccio tutto io.
   2. **A mano:** vercel.com/new → importa il repository `SDG` → Deploy; poi Settings → Git → ramo di produzione `ccr-3e25a9cc-8rdzdt`. Per il Caffè: importa `ad-mycity` con cartella principale `consegne/clienti/caffe-di-piacenza/sito`, dopo aver unito la PR della memoria.
 - **Cosa cambia:** il sito del Caffè di Piacenza diventa visibile a un indirizzo suo e compare, dal vivo, nella voce «Sito web» del suo pannello MyCity. Il sito SDG va online coi prezzi nuovi.
 - **Se va bene:** il titolare del Caffè vede il suo sito in anteprima e conferma orari e menu; poi tolgo la scritta «Anteprima» e lo apro a Google.
