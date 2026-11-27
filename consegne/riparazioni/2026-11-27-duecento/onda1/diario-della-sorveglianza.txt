@@ -38,3 +38,4 @@
 2026-11-27 03:07 · R03 · finita · guardia ✅ · referto ✅ con --registro (1 riparato, 2 parziali, 1 già, 12 non fatti; 17,13 $) · azione: a K01
 2026-11-27 03:08 · R07 · finita · guardia ✅ · referto ✅ con --registro (4 riparati, 2 parziali, 1 già, 3 file altrui, 6 non fatti; 19,63 $ o più) · azione: a K02
 2026-11-27 03:09 · R09 · finita · guardia ✅ · referto ✅ con --registro (1 riparato, 7 parziali, 2 già, 4 file altrui, 1 scelta di Nicola, 1 non fatto; 17,77 $) · azione: a K02
+2026-11-27 03:10 · R12 · finita · guardia ✅ dopo il rinomino · referto ✅ con --registro · azione: a K01
