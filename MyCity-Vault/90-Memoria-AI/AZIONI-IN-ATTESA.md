@@ -160,7 +160,7 @@ Se va bene: metto i dati, rifaccio il collaudo e il sito si pubblica dal ramo, p
 
 ### 🔴 #268 — Dai a SDG una chiave per entrare nella sua pagina venditore · ⏳ accodata 2026-11-27 16:35 · @ad
 
-**Stato:** ⏳ in attesa di Nicola · aggiornata 2026-11-27 20:31: Nicola ha deciso di usare **l'email vera di SDG**, sdg.agenzia@gmail.com (non la sua Gmail col «+negozio»). Controllato in sola lettura alle 20:28: nessun account su MyCity usa quell'indirizzo, e l'utente di SDG è ancora quello del 24/11 (senza password, bloccato fino al 2126, mai entrato). Il comando qui sotto è già scritto con l'indirizzo vero.
+**Stato:** ✅ FATTO 2026-11-27 22:54. Nicola ha chiesto «perché non incolli tu questo comando» e l'AD l'ha lanciato su Supabase (progetto «Mycity»), sulla sua firma. Ricontrollo in sola lettura subito dopo: l'utente di SDG Agenzia ha l'email sdg.agenzia@gmail.com, anche nell'identità; non è più bloccato; è venditore approvato «SDG Agenzia»; la conferma dell'email è rimasta quella del 24/11, quindi niente email di benvenuto; un solo account con quell'indirizzo. La password non c'è ancora: Nicola la sceglie con «Password dimenticata?» su MyCity. Prima, alle 20:31, Nicola aveva deciso di usare l'email vera di SDG e non la sua Gmail col «+negozio».
 
 **In parole semplici.** SDG Agenzia è un negozio su MyCity, ma il 24/11 l'abbiamo creato con un utente che non può entrare: niente password e bloccato per 100 anni. Serviva solo a mostrare i tre abbonamenti in vetrina.
 Adesso vuoi entrare come SDG e vedere, dentro «Servizi», il sito, il piano dei social e l'analisi. Per farlo l'utente di SDG deve avere un indirizzo email vero e una password.

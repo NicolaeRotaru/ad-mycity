@@ -1596,3 +1596,10 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa:** l'utente di sistema di SDG Agenzia (migrazione 707, bloccato e senza password) prende l'email vera di SDG invece della Gmail di Nicola col «+negozio», proposta nell'azione #268. Controllato in sola lettura alle 20:28: nessun account usa già quell'indirizzo. Il comando è scritto nell'azione #268.
 - **Chi lo esegue:** Nicola, con un incolla nell'editor SQL di Supabase. L'AD sul database vero non scrive.
 - **Colore:** 🔴, perché cambia l'accesso di un utente sul database vero.
+
+## 2026-11-27 22:54 — Eseguito il comando che apre SDG Agenzia con sdg.agenzia@gmail.com (🔴, firma di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD (session_01R8112NCcfSwcjYZHBsdh37): «Perché non incolli tu questo comando», con il comando dell'azione #268 incollato. Vale come firma esplicita; cambia il «chi lo esegue» della voce delle 20:31.
+- **Cosa:** lanciato su Supabase, progetto «Mycity» (`clmpyfvpvfjgeviworth`): l'utente `11111111-…-5d9000000001` prende l'email vera di SDG in `auth.users` e in `auth.identities`, e `banned_until` diventa null. `email_confirmed_at` non è stato toccato.
+- **Verifica:** ricontrollo in sola lettura subito dopo. Email nuova in tutte e due le tabelle; utente non bloccato; profilo venditore approvato «SDG Agenzia»; conferma dell'email ancora del 24/11, quindi il trigger del benvenuto non è scattato; un solo account con quell'indirizzo. La password è ancora vuota: la sceglie Nicola con «Password dimenticata?».
+- **Per tornare indietro:** `update auth.users set banned_until = now() + interval '100 years' where id = '11111111-1111-1111-1111-5d9000000001';`
+- **Colore:** 🔴, eseguito sulla firma esplicita di Nicola.
