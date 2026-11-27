@@ -1,0 +1,18 @@
+{
+  "regista": "session_015BmpnYPczqtRmcwQzQzjV6",
+  "sessioni": {
+    "R01": {"id": "session_015BmpnXCBQ57YqidCfMVsGF", "ramo": "ccr-819e0c8d-7ryjjr-m01", "onda": 1},
+    "R02": {"id": "session_015BmpnV5qLv5QpUHaj7hDgp", "ramo": "ccr-819e0c8d-7ryjjr-m02", "onda": 1},
+    "R03": {"id": "session_015BmpnWGfEnzgjvKQ5psSAx", "ramo": "ccr-819e0c8d-7ryjjr-m03", "onda": 1},
+    "R04": {"id": "session_015BmpnWmqftprXeGFzFpSNG", "ramo": "ccr-819e0c8d-7ryjjr-m04", "onda": 1},
+    "R05": {"id": "session_015BmpnYbeZKkpUx5kcXcNJE", "ramo": "ccr-819e0c8d-7ryjjr-m05", "onda": 1},
+    "R06": {"id": "session_015BmpnY6njVMd3ZyCSwsZsU", "ramo": "ccr-819e0c8d-7ryjjr-m06", "onda": 1},
+    "R07": {"id": "session_015BmpnXiEf4Y6qUcsXK4zUM", "ramo": "ccr-819e0c8d-7ryjjr-m07", "onda": 1},
+    "R08": {"id": "session_015BmpnXnZrx3rQbNnkPhvNX", "ramo": "ccr-819e0c8d-7ryjjr-m08", "onda": 1},
+    "R09": {"id": "session_015BmpnY5rg43SSVs1sPSdzW", "ramo": "ccr-819e0c8d-7ryjjr-m09", "onda": 1},
+    "R10": {"id": "session_015BmpnWQWXJkSdsF5N8PLGP", "ramo": "ccr-819e0c8d-7ryjjr-m10", "onda": 1},
+    "R11": {"id": "session_015BmpnZLNpdKXH8qTBjGMyB", "ramo": "ccr-819e0c8d-7ryjjr-m11", "onda": 1},
+    "R12": {"id": "session_015BmpnX4CBcWxbMMoUgqRoq", "ramo": "ccr-819e0c8d-7ryjjr-m12", "onda": 1}
+  },
+  "collaudatori": {}
+}
