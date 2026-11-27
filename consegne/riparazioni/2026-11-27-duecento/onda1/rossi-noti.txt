@@ -9,3 +9,4 @@ ramo R03 ccr-819e0c8d-7ryjjr-m03
 ramo R12 ccr-819e0c8d-7ryjjr-m12
 ferma R07 bbe7165
 ramo R10 ccr-819e0c8d-7ryjjr-m10
+ramo R11 ccr-819e0c8d-7ryjjr-m11
