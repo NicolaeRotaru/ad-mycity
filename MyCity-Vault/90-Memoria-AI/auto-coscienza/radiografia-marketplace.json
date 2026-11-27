@@ -410,12 +410,12 @@
   "fonti_non_lette": [],
   "sintesi": "Il problema più grave trovato oggi era una chiave del database leggibile da chiunque, e Nicola l'ha già spenta. Dei difetti nuovi nessuno è bloccante, ma il rimborso di un ordine in contanti va ancora fatto a mano, fuori dal sito.",
   "meta": {
-    "findings": 3615,
+    "findings": 3618,
     "bloccanti": 37,
-    "gravi": 684,
-    "minori": 2894,
+    "gravi": 685,
+    "minori": 2896,
     "agenti": null,
-    "aggiornato": "2026-11-27 01:50"
+    "aggiornato": "2026-11-27 02:15"
   },
   "confronto_precedente": {
     "data": "2026-11-05",
@@ -102718,23 +102718,64 @@
       "impatto": "Una richiesta di cancellazione (diritto all oblio) non arriva fino in fondo per gli agenti; la stessa email, se registrata di nuovo, ritrova le schede vecchie.",
       "fix": "Nel flusso 14c un azione «archivia» che toglie l email dalle righe dell agente (senza cancellare la riga, regola «si archivia»), chiamata da cancellaAccount come per Stripe; e le schede dentro lo scarico dei dati.",
       "fonte": "collaudo indipendente degli agenti dentro MyCity, 2026-11-26 22:15 (ramo ccr-6186d974-q1ig43, commit 7339f4d)"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "Flussi critici",
+      "severita": "grave",
+      "stato": "aperto",
+      "titolo": "Dopo che il titolare accetta il preventivo un nuovo invio dello stesso negozio crea un secondo negozio",
+      "file": "lib/agenzia/nuova-attivita.ts",
+      "descrizione": "Quando il titolare accetta dal link, accettaPreventivoColCodice sostituisce l'email di sistema con quella vera. Da quel momento un nuovo invio dal modulo 12, o una nuova pressione di «Aggiungi attività», trova libera l'email di sistema: createUser riesce e nasce un secondo utente col suo profilo e il suo link. Il controllo «ha già accettato» non viene mai raggiunto, e attivitaGiaIscritta non lo vede. C'era già prima della correzione del 27/11: il collaudo l'ha misurato identico sul codice vecchio (finta base dati: 201, utenti 2, negozi «Bar Prova» 2, link 2).",
+      "impatto": "Un negozio che ha già accettato ricompare doppio, nascosto, con un secondo preventivo; il flusso 16 riparte e dal pulsante parte un secondo avviso «ha detto sì» a Nicola.",
+      "fix": "Salvare alla createUser app_metadata.email_di_sistema e farla riconoscere alla ricerca per email (utenteDallEmail, arriva con NicolaeRotaru/mycity#346) anche dopo il cambio di email; nel ramo dell'utente ritrovato, se lo stato del link non è 'aperto', rispondere «ha già accettato». Per gli utenti già iscritti serve aggiungere il dato a posteriori (migrazione: con la firma di Nicola).",
+      "fonte": "collaudo indipendente della correzione di iscriviAttivita (attività rimasta a metà), 2026-11-27 01:50 (repo mycity, ramo claude/wonderful-hamilton-b62kpl, richiesta NicolaeRotaru/mycity#345, poi tenuta la #346)",
+      "verifica": {
+        "tipo": "umano",
+        "come": "Prova in tests/unit/il-modulo-12-iscrive-un-cliente-nuovo-in-mycity.test.ts: iscrivi «Bar Prova», simula l'accettazione (email dell'utente cambiata), rimanda lo stesso invio: deve rispondere 409 «ha già accettato» con un solo utente e un solo link. Oggi risponde 201 e crea il doppione."
+      }
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "Flussi critici",
+      "severita": "minore",
+      "stato": "aperto",
+      "titolo": "Un'attività rimasta a metà e rifiutata in Admin risponde «ha già accettato il preventivo»",
+      "file": "lib/agenzia/nuova-attivita.ts",
+      "descrizione": "Il profilo di un'attività rimasta a metà (solo quello creato dal trigger, «in attesa») compare in Admin → Utenti tra quelli da approvare (app/admin/users/page.tsx:561). Se Nicola lo rifiuta, il rinvio risponde 409 col messaggio «ha già accettato il preventivo», che non è vero.",
+      "impatto": "Messaggio sbagliato all'agente o nel modulo 12; l'attività non si può più completare senza un intervento a mano.",
+      "fix": "Distinguere approval_status 'rejected' da 'approved' e rispondere con un messaggio suo; oppure tenere fuori da Admin → Utenti i profili con email di sistema e senza link.",
+      "fonte": "collaudo indipendente della correzione di iscriviAttivita (attività rimasta a metà), 2026-11-27 01:50 (repo mycity, ramo claude/wonderful-hamilton-b62kpl, richiesta NicolaeRotaru/mycity#345, poi tenuta la #346)"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "Flussi critici",
+      "severita": "minore",
+      "stato": "aperto",
+      "titolo": "Il controllo degli omonimi di «Aggiungi attività» non vede un'attività rimasta a metà",
+      "file": "lib/agenzia/nuova-attivita.ts",
+      "descrizione": "attivitaGiaIscritta (entrata con NicolaeRotaru/mycity#343) cerca l'attività passando dal link col codice e dal nome nel profilo. Su un'attività rimasta a metà quei dati non ci sono: «Bar Prova, Via Roma 1» col link caduto, poi un altro agente preme «Bar Prova, Via Milano 9» → 201, i due negozi si fondono e l'indirizzo diventa Via Milano 9.",
+      "impatto": "Raro (serve un primo invio caduto più un omonimo nella stessa città), ma fonde due negozi diversi.",
+      "fix": "Lo ripara NicolaeRotaru/mycity#346 (27/11): attivitaGiaIscritta cerca anche dall'email, solo fra gli utenti creati dal sito (bloccati), e legge store_address dal profilo. La voce si chiude quando la #346 è unita.",
+      "fonte": "collaudo indipendente della correzione di iscriviAttivita (attività rimasta a metà), 2026-11-27 01:50 (repo mycity, ramo claude/wonderful-hamilton-b62kpl, richiesta NicolaeRotaru/mycity#345, poi tenuta la #346)",
+      "dove_si_ripara": "NicolaeRotaru/mycity#346"
     }
   ],
   "sync_scan": {
-    "aggiornato": "2026-11-27 01:50",
+    "aggiornato": "2026-11-27 02:15",
     "letto": true,
     "motivo": null,
     "forma": "elenco",
-    "findings_aperti": 549,
+    "findings_aperti": 552,
     "findings_chiusi": 3066,
-    "findings_tot": 3615,
+    "findings_tot": 3618,
     "aperti_per_severita": {
       "bloccante": 4,
-      "grave": 67,
-      "minore": 478,
+      "grave": 68,
+      "minore": 480,
       "altre": 0
     },
-    "dichiarati_dal_referto": 3615,
+    "dichiarati_dal_referto": 3618,
     "divergenza_dal_dichiarato": 0,
     "data_scan": "2026-11-06",
     "nota": "Per trovare difetti NUOVI serve un nuovo audit marketplace; i fix sul codice non riaprono da soli la lista. Gli aperti qui sono quelli del referto in archivio, aggiornati dai lotti di riparazione."
