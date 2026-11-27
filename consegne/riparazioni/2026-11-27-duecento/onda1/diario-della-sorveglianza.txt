@@ -32,3 +32,4 @@
 2026-11-27 02:53 · R11 · ramo non spinto · spesa 14,24 $ (71%) · azione: spingere, tetto 19 $
 2026-11-27 02:54 · R11 · spinto · guardia ✅ · referto – · nessuna
 2026-11-27 02:59 · R04 · ramo fermo da 20 min su 9382fe0, ma il subagente del lotto 2 lavora (VendorForm, prove alle 02:59) · nessuna
+2026-11-27 03:02 · R12 · finita · guardia 🔴 (nome del file d'aiuto) · referto ✅ con --registro · azione: rinomino chiesto
