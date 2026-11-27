@@ -1,6 +1,6 @@
 ---
 tipo: bacheca
-aggiornato: 2026-11-26 15:10
+aggiornato: 2026-11-27 01:45
 regole: cervello/sessioni-insieme.md
 ---
 
@@ -28,6 +28,8 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 27/11 ~00:45 | chat «Canva e reel» (`…zmP3T3`) | Nel Tropico niente rosa: «il rosa non è il colore del marchio». Si usano i colori veri del marchio, quelli del sito: ardesia #253038, giallo #FBCA1E, verde #3D7C2B, bianco. Il magenta resta solo dentro il logo. Vale per tutti i contenuti del Tropico, anche quelli fatti dall'officina (rendi.py ha ancora il magenta come primario). |
+| 26/11 ~15:00 | chat «Canva e reel» (`…zmP3T3`) | Il profilo del Tropico fa da esempio per i clienti: da subito tantissimi contenuti, due o tre storie al giorno, tanti post, reel e caroselli. Le storie anche animate, non solo foto. I contenuti passano dal Calendario con Approva e Rifiuta su Telegram. |
 | 26/11 23:50 circa | alla sessione dei flussi (`…K1DyjU`) | «Ripublica 12 e 26». Fatto verso le 23:55, dopo la copia di sicurezza; le fonti a pagamento restano spente |
 | 26/11 21:05 circa | all'AD, chat del resoconto (`…WupeVi`) | Tre risposte. «Sì, fai il collaudo della terza ondata»: girato alla quinta regia alle 21:15. Con il sì le ho chiesto tre cose. Salvare la correzione di R20. Niente push forzato su R26, i cui rami si uniscono puliti. Le tre falle riservate all'AD della campagna. «Aprila quando finisce la terza ondata»: la PR del sito con le onde 1-3 si apre a onda 3 collaudata e unita, e la unisce lui. L'ordine delle PR del sito va bene (#339 già unita alle 20:24, poi #338, #336, #337): le unisce lui. «Eliminalo tu» sull'account amministratore di prova: sul database vero era già spento (bloccato fino al 2999, ruolo buyer, password non del seme, zero sessioni), quindi niente cancellazione, per la regola «elimina si legge archivia» |
 | 26/11 20:15 circa | all'AD | «E fai le migrazione». Entrata la 864 alle 20:41; la 863 è ferma, perché il suo testo non torna col pagamento in contanti |

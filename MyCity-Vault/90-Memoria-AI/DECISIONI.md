@@ -1471,3 +1471,8 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Prima del via:** il controllo che confronta il codice col database vero era verde alle 18:17. Mancava solo la 865.
 - **Cosa resta:** la variabile `N8N_SCHEDA_SEGRETO` su Vercel (non c'è ancora) e il primo link in Admin → Agenti, tutte e due di Nicola.
 
+## 2026-11-27 01:45 · Tropico: 29 contenuti nel Calendario, coi colori del sito 🟡
+- **Cosa:** 31 contenuti dal 26/11 sera al 2/12, fatti con le 13 foto del fotografo e il menu del sito (letto il 26/11 alle 15:55). Due storie del 26 sera sono scadute; le altre 29 sono nel Calendario «da approvare», con l'anteprima su Telegram.
+- **Perché:** Nicola, 26/11 verso le 15:00: il Tropico fa da esempio per i clienti, tanti contenuti da subito. Ritmo e orari concordati con la sessione che pubblica il Tropico.
+- **Correzione:** il 27/11 verso le 00:45 Nicola ha detto che il rosa non è il colore del marchio. Ho letto i colori dal foglio di stile del sito: il magenta compare 9 volte, l'ardesia 66. Ho rifatto tutto in ardesia, giallo, verde e bianco, e caricato la nuova versione in una cartella Drive nuova. La versione magenta non è mai stata proposta: la sua cartella resta da archiviare a mano, per la regola «niente si elimina».
+- **Non fatto:** nessun prezzo nelle grafiche, nessun nome ai piatti delle foto non confermati, niente «unico messicano di Piacenza» (non verificato).
