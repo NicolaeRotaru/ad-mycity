@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-11-27 02:35",
+  "aggiornato": "2026-11-27 03:49",
   "scansioni": [
     {
       "quando": "2026-08-25 20:35",
@@ -8573,6 +8573,101 @@
       "nota": "",
       "file": {
         "lib/agenzia/nuova-attivita.ts": "575d199ce870"
+      }
+    },
+    {
+      "quando": "2026-11-27 03:49",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "app/admin/preventivi/page.tsx": "fe03a2080c23",
+        "app/agente/page.tsx": "b835f30dc1e2",
+        "app/preventivo/[codice]/abbonamento/page.tsx": "20344336e0b3",
+        "app/preventivo/[codice]/page.tsx": "48e8e90a0d9c",
+        "components/agenti/AggiungiAttivita.tsx": "a5e53acef056",
+        "components/agenti/aggiungi.module.css": "afe9584bb5c6"
+      }
+    },
+    {
+      "quando": "2026-11-27 03:49",
+      "casa": "marketplace",
+      "dimensione": "sicurezza-auth",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "app/api/admin/preventivi-col-link/route.ts": "c6b5ed0d23ee"
+      }
+    },
+    {
+      "quando": "2026-11-27 03:49",
+      "casa": "marketplace",
+      "dimensione": "api-backend",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "app/api/agente/aggiungi/route.ts": "ba04737a1751"
+      }
+    },
+    {
+      "quando": "2026-11-27 03:49",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "lib/agenzia/abbonamento-contanti.ts": "9e676ab4f887",
+        "lib/agenzia/bozze-in-attesa.ts": "3bd0e77e9999",
+        "lib/agenzia/leggi-preventivo.ts": "39c428d50317",
+        "lib/agenzia/preventivo-col-codice.ts": "96b667d3d665",
+        "lib/agenzia/scheda-del-negozio.ts": "6262f01ff26b",
+        "lib/agenzia/scheda-dopo-abbonamento.ts": "93a3f02a73da",
+        "lib/database.types.ts": "ca849f09e03f"
+      }
+    },
+    {
+      "quando": "2026-11-27 03:49",
+      "casa": "marketplace",
+      "dimensione": "pagamenti-stripe",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "lib/stripe/webhook/servizi.ts": "47ca511071a1"
+      }
+    },
+    {
+      "quando": "2026-11-27 03:49",
+      "casa": "marketplace",
+      "dimensione": "rls-database",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "migrations/999_l_abbonamento_in_contanti.sql": "440a27e55489"
       }
     }
   ]
