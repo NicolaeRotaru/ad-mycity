@@ -6,7 +6,7 @@ fonte: AD digitale (giro, cervello/giro.md)
 
 > 🟡 **2026-11-27 00:55 — La campagna sui difetti del sito che non chiedono Nicola è pronta da unire: 97 voci si chiudono con mycity#342.**
 >
-> Tre onde di sessioni hanno riparato, altre sessioni hanno collaudato, e un controllore ha riletto ogni unione. Si chiudono 97 voci (27, 31 e 39 per onda) più 15 già riparate; 29 riparazioni che rompevano altro sono state tolte prima. La richiesta è in bozza, già unita con main, con 14.234 prove e la palestra del database verdi. Spesa stimata circa 1.000 $ su 1.200, circa 10 $ a voce chiusa. Le voci si chiudono nel registro solo dopo che Nicola unisce. Prima servono il suo «ok migrazioni» sulle 9 migrazioni nuove e il conteggio del catalogo per la 911.
+> Tre onde di sessioni hanno riparato, altre sessioni hanno collaudato, e un controllore ha riletto ogni unione. Si chiudono 97 voci: 27 della prima onda, 31 della seconda e 39 della terza. Altre 15 erano già riparate prima. Le 29 riparazioni che rompevano altro sono state tolte prima di arrivare qui. La richiesta è in bozza, già unita con main, con 14.234 prove e la palestra del database verdi. Spesa stimata circa 1.000 $ su 1.200, circa 10 $ a voce chiusa. Le voci si chiudono nel registro solo dopo che Nicola unisce. Prima servono il suo «ok migrazioni» sulle 9 migrazioni nuove e il conteggio del catalogo per la 911.
 
 > **2026-11-26 15:25 — Il primo ricontrollo a onde ha chiuso 45 difetti del sito: le voci aperte passano da 598 a 553.**
 >

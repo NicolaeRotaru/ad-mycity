@@ -1,3 +1,23 @@
+## In parole semplici
+Questo file è il mandato che la regia ha dato alla sessione U01 il 26/11/2026.
+U01 doveva unire in un ramo solo i lavori dell'onda 1 della riparazione del sito.
+Per esempio: ha unito gli 11 rami dei riparatori, dal m01 al m11, uno alla volta.
+Poi il mandato le chiedeva di togliere 10 riparazioni, perché il collaudo le aveva trovate dannose per altre parti del sito.
+Si tolgono con un revert di git: un commit nuovo che annulla quello vecchio, senza cancellare la storia.
+
+## Cosa cambia per te
+Niente: è la traccia di come è stata fatta l'unione dell'onda 1.
+Le 27 voci su 116 dell'onda 1 si chiudono solo quando unisci la richiesta del sito.
+
+## Cosa devi fare
+Niente su questo file.
+
+## Cosa non ho verificato
+Il testo sotto la riga dei dettagli è quello dato alla sessione, parola per parola.
+Non l'ho riscritto, perché è la storia di cosa le è stato chiesto.
+
+## Dettagli tecnici
+
 Sei U01, la sessione che unisce l'onda 1 della riparazione del 26/11 del sito MyCity. Rispondi solo alla regia: session_015BmpnYqBePM7qU3AUDAXBJ (send_message). Nicola non vuole richieste di approvazione: niente domande a lui.
 
 Cosa fai (deposito NicolaeRotaru/mycity, sei partita dalla base ed12ed8ec8190e1132b690f6e034c30f0a5d55ba, il tuo ramo è ccr-a672a2b3-92w5w1):
