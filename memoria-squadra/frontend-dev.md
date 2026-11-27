@@ -7,6 +7,7 @@ reparto: frontend-dev
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-11-27 03:27 · Scheda venditore /agente: offerte in prima pagina, tolti i tre riquadri abbonamento, tendina sostituita da sei bottoni (mycity#347) · V5 C5 A5 K5 I3 M3 E4 (media 4.29) · atteso il venditore cambia parte con un tocco e vede cosa offrire senza cambiare pagina → reale fatto in PR; collaudo qa 0 gravi e 4 minori, corretti; da guardare dal telefono di Nicola; aperto il dubbio se togliere anche la pagina I tre abbonamenti · #scheda-venditore #menu
 - 2026-11-25 15:46 · Velocità della home del Pannello, profilo telefono, ramo perf/pannello-home · V5 C4 A5 K5 I3 M4 E4 (media 4.29) · atteso CLS<0,1, LCP<2,5s, TBT<200ms senza cambiare aspetto → reale CLS 0,318→0,027 e LCP 5,7→2,3 s raggiunti; TBT 426→316 ms NON raggiunto (resta lavoro del framework e dei dati della home) · #performance #pannello
 - 2026-11-24 23:11 · Abbonamento sotto il nome del negozio, come su Claude (PR mycity#318) · V5 C5 A5 K5 I3 M4 E3 (media 4.29) · atteso un giro, nessun rosso → reale un rosso di contrasto (bianco su primary-500, 3,79) preso dalla batteria completa e corretto · #pannello-venditore
 - 2026-10-25 13:45 · Nome dell'Assistenza in chat (PR 261 del sito, scheda 1360) · V5 C5 A5 K5 I3 M4 E3 (media 4.29) · atteso un giro di controllo e la PR → reale tre giri di controllo: il terzo ha trovato il segno Ufficiale tagliato sui telefoni (misurato in Chromium); 35 mutazioni fermate, verify 5694/5694 · #chat #assistenza #collaudo
