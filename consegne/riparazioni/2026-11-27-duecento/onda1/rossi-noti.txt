@@ -2,3 +2,6 @@ ramo R01 ccr-819e0c8d-7ryjjr-m01
 ramo R02 ccr-819e0c8d-7ryjjr-m02
 ramo R05 ccr-819e0c8d-7ryjjr-m05
 ramo R06 ccr-819e0c8d-7ryjjr-m06
+ramo R04 ccr-819e0c8d-7ryjjr-m04
+ramo R07 ccr-819e0c8d-7ryjjr-m07
+ramo R09 ccr-819e0c8d-7ryjjr-m09

@@ -11,3 +11,16 @@
 2026-11-27 02:30 · R11 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
 2026-11-27 02:30 · R12 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
 2026-11-27 02:30 · onda 1 · prova-unione ⏳
+2026-11-27 02:36 · R01 · in lavoro · guardia ✅ · referto – · unione (sotto) · nessuna
+2026-11-27 02:36 · R02 · in lavoro · guardia 🔴 · referto – · unione (sotto) · nessuna
+2026-11-27 02:36 · R03 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-27 02:36 · R04 · in lavoro · guardia 🔴 · referto – · unione (sotto) · nessuna
+2026-11-27 02:36 · R05 · in lavoro · guardia ✅ · referto – · unione (sotto) · nessuna
+2026-11-27 02:36 · R06 · in lavoro · guardia ✅ · referto – · unione (sotto) · nessuna
+2026-11-27 02:36 · R07 · in lavoro · guardia ✅ · referto – · unione (sotto) · nessuna
+2026-11-27 02:36 · R08 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-27 02:36 · R09 · in lavoro · guardia ✅ · referto – · unione (sotto) · nessuna
+2026-11-27 02:36 · R10 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-27 02:36 · R11 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-27 02:36 · R12 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-27 02:36 · onda 1 · prova-unione ⏳
