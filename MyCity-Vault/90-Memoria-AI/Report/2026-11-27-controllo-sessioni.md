@@ -78,6 +78,16 @@ Infine la sessione delle unioni: ha usato l'84% della sua memoria e la compressi
 - Le sessioni dell'altro elenco (quelle che cominciano con `session_015Bmpn`) da qui non si vedono.
 - La lettura è costata circa 1,9 milioni di token in 7 aiutanti, contro 1-1,5 milioni stimati: le sessioni erano più lunghe del previsto.
 
+## Come sono andate le quattro riprese (aggiornato alle 21:05)
+
+Tutte e quattro hanno finito fra le 20:32 e le 21:04. Ognuna ha aperto la sua richiesta di unione, e nessuna ha unito o pubblicato.
+- **Il montatore video** ha portato nel deposito le tre correzioni dell'ultimo collaudo. Su n8n il montatore le aveva già, ed è ancora spento.
+- **Il rapporto dell'imprenditore** ha riscritto le descrizioni degli abbonamenti di SDG e il messaggio del carrello: «per ora si paga in contanti, di persona». La sua modifica del database va applicata dopo la 999d.
+- **Il doppione del negozio** è corretto nel codice. La modifica del database per i negozi già iscritti è a parte. Tocca i dati di accesso, e i negozi che hanno già accettato vanno segnati a mano.
+- **I tasti di Telegram**: un tasto Approva vecchio non approva più una didascalia cambiata. I due flussi «Proponi» e «Tasti» si caricano insieme con «ok 267».
+
+Due cose nuove per Nicola. Lo sconto del primo mese, coi contanti, va chiesto a mano: 150, 300 o 450 euro. Le richieste che portano una modifica del database vanno trattate come se la applicassero da sole all'unione: il rilascio lo prevede. Oggi però non lo fa: la 999d, unita alle 19:13, alle 20:25 non era nel database.
+
 ---
 
 **Dettagli tecnici**
@@ -134,5 +144,7 @@ Le 37 sessioni:
 | Modello analisi cliente | `…P7Z6DspwmsWP46Kei` | superata | archiviabile |
 | Servizi SDG: vetrina, modalità preventivo | `…L8Qbu42abzNPKaAkQ` | finita | Nicola: `N8N_SCHEDA_CLIENTE_SEGRETO`; archiviabile |
 | Montatore video autonomo AI | `…KsvUDcuk4haFpw4jn` | ripartita | Nicola: il materiale del pilota |
+
+Le richieste delle riprese: N8N#36 (montatore), mycity#355 con la migrazione 999e (contanti), mycity#356 (doppione, codice) e mycity#357 con la migrazione 999f (il segno ai negozi già iscritti), N8N#37 (impronta dei tasti). Memoria: ad-mycity#1089 e #1090. La migrazione della #357 era nata come 999e, lo stesso numero della #355: rinumerata in 999f alle 21:03, su richiesta dell'AD.
 
 Gli id completi cominciano tutti con `session_01R8112`. Conto dei 7 aiutanti: 110, 242, 263, 282, 318, 334 e 355 mila token.
