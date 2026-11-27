@@ -102759,6 +102759,71 @@
       "fix": "Lo ripara NicolaeRotaru/mycity#346 (27/11): attivitaGiaIscritta cerca anche dall'email, solo fra gli utenti creati dal sito (bloccati), e legge store_address dal profilo. La voce si chiude quando la #346 è unita.",
       "fonte": "collaudo indipendente della correzione di iscriviAttivita (attività rimasta a metà), 2026-11-27 01:50 (repo mycity, ramo claude/wonderful-hamilton-b62kpl, richiesta NicolaeRotaru/mycity#345, poi tenuta la #346)",
       "dove_si_ripara": "NicolaeRotaru/mycity#346"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "Flussi critici",
+      "titolo": "Lo sblocco in contanti non apre scheda e pagella come il primo pagamento online",
+      "file": "lib/agenzia/abbonamento-contanti.ts",
+      "descrizione": "Il primo pagamento Stripe chiama alPrimoAbbonamentoPagato: scrive l indirizzo nel profilo e avvisa il flusso 18 (pagella a Nicola). La strada dei contanti non lo chiama mai.",
+      "impatto": "Per un attività aggiunta dall agente il flusso 16 parte comunque; per una già iscritta la pagella del flusso 18 non arriva.",
+      "fix": "Decidere se chiamarlo al primo sblocco in contanti, evitando il doppione col flusso 16.",
+      "severita": "minore",
+      "stato": "aperto",
+      "fonte": "collaudo indipendente dello sblocco in contanti al «Sì» dell agente, 2026-11-27 03:40 (repo mycity, ramo claude/confident-turing-z8z2i5)",
+      "dove_si_ripara": "da decidere"
+    },
+    {
+      "dimensione": "pagamenti-stripe",
+      "reparto": "Flussi critici",
+      "titolo": "Col pagamento online acceso il «Sì» sblocca ancora in contanti e la cassa rifiuta",
+      "file": "app/api/agente/aggiungi/route.ts",
+      "descrizione": "Lo sblocco in contanti parte anche se pagamentoOnlineAttivo() è vero; poi cassa-servizi risponde «Hai già un abbonamento attivo». Oggi il pagamento online è spento.",
+      "impatto": "Latente: si presenta il giorno in cui si riaccende il pagamento online.",
+      "fix": "Quando si riaccende il pagamento online, decidere il passaggio dai contanti alla carta.",
+      "severita": "minore",
+      "stato": "aperto",
+      "fonte": "collaudo indipendente dello sblocco in contanti al «Sì» dell agente, 2026-11-27 03:40 (repo mycity, ramo claude/confident-turing-z8z2i5)",
+      "dove_si_ripara": "da decidere"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "Admin",
+      "titolo": "In Admin «contanti da ritirare» resta per sempre: manca «incassato» e il promemoria del mese",
+      "file": "app/admin/preventivi/page.tsx",
+      "descrizione": "La riga dice «contanti da ritirare al primo servizio» finché non si ferma. Non c è uno stato «incassato», né un promemoria mensile; il canone salvato non si vede.",
+      "impatto": "Nicola non vede chi ha pagato e chi no.",
+      "fix": "Segnare l incasso (tabella a parte, solo aggiunte) e mostrare canone e mese.",
+      "severita": "minore",
+      "stato": "aperto",
+      "fonte": "collaudo indipendente dello sblocco in contanti al «Sì» dell agente, 2026-11-27 03:40 (repo mycity, ramo claude/confident-turing-z8z2i5)",
+      "dove_si_ripara": "da decidere"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "Account",
+      "titolo": "Chiusura dell account: l abbonamento in contanti resta attivo in Admin",
+      "file": "lib/account/cancellazione.ts",
+      "descrizione": "La cancellazione dell account non ferma la riga in contanti, e Admin continua a mostrarla sbloccata.",
+      "impatto": "Una riga sbagliata in Admin dopo una chiusura.",
+      "fix": "Fermare (non cancellare) l abbonamento in contanti nella chiusura dell account.",
+      "severita": "minore",
+      "stato": "aperto",
+      "fonte": "collaudo indipendente dello sblocco in contanti al «Sì» dell agente, 2026-11-27 03:40 (repo mycity, ramo claude/confident-turing-z8z2i5)",
+      "dove_si_ripara": "da decidere"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "Flussi critici",
+      "titolo": "Due fasce diverse premute nello stesso istante: il secondo «Sì» risponde «non si è sbloccata»",
+      "file": "lib/agenzia/abbonamento-contanti.ts",
+      "descrizione": "Con due pressioni simultanee e fasce diverse l indice unico ferma la seconda, che risponde guasto; resta la prima fascia.",
+      "impatto": "Raro; il messaggio all agente è onesto.",
+      "fix": "Rileggere e aggiornare la fascia dopo il 23505 invece di rispondere guasto.",
+      "severita": "minore",
+      "stato": "aperto",
+      "fonte": "collaudo indipendente dello sblocco in contanti al «Sì» dell agente, 2026-11-27 03:40 (repo mycity, ramo claude/confident-turing-z8z2i5)",
+      "dove_si_ripara": "da decidere"
     }
   ],
   "sync_scan": {
