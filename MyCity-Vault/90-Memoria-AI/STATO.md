@@ -1,8 +1,21 @@
 ---
 tipo: stato
-aggiornato: 2026-11-27 01:50
+aggiornato: 2026-11-28 02:56
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> ✅ **2026-11-28 02:56 — Nella notte fra il 27 e il 28/11 sono entrate quasi tutte le richieste aperte. Ne restano ferme due del sito, che aspettano Nicola.**
+>
+> Nicola alle 21:20 del 27/11 ha scritto «uniscile tutte». Da allora sono entrate 41 richieste:
+> - sito: 11 su 13, dalla #350 alla #364;
+> - memoria: 26, dalla #1062 alla #1114;
+> - flussi: 4, dalla N8N#38 alla #41.
+>
+> Nel database sono entrate tre migrazioni, la 999c, la 999d e la 999f. Ne mancano altre tre. La 999g e la 999h sono già unite nel sito. La 999e arriva con la #355.
+>
+> A Nicola restano due scelte. La prima è la #355: unirla così com'è, oppure riaprire la sua sessione per finire la seconda parte. La seconda è la #362, che riporta l'amministratore sul suo pannello. Poi va lanciato «Migrazioni a mano».
+>
+> Questa pagina era ferma al 27/11 alle 01:50, e l'ultimo lavoro unito è del 28/11 alle 02:43. Il controllo che confronta questa pagina con l'ultimo lavoro fermava quindi ogni richiesta nuova della memoria.
 
 > 🔴 **2026-11-27 01:50 — Il sito ha le 97 riparazioni della campagna, il database aspetta 19 migrazioni.**
 >
