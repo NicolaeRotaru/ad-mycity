@@ -1755,3 +1755,9 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **La causa:** supabase-js 2.106.1 passa `lockAcquireTimeout: undefined`, che copre il default di 5000 ms. Così l'attesa del lucchetto fra le schede (Web Locks) non finisce mai, se un'altra scheda MyCity lo tiene.
 - **Cosa ho fatto:** in `lib/supabase/client.ts` ho messo `auth: { lockAcquireTimeout: 5000 }` e ho aggiunto una prova con la libreria vera: rossa senza la correzione, verde con la correzione. Riprodotto anche su una build locale col telefono simulato: prima 0 richieste in 15 s, dopo il cruscotto compare in 3-8 s. Suite intera verde: 14.683 prove. Collaudo indipendente: 0 difetti.
 - **Colore:** 🟡. Codice su un ramo e PR aperta; l'unione e la pubblicazione restano a Nicola.
+
+## 2026-11-28 10:46 — Unita la mycity#371 e pubblicata: l'area dell'amministratore non resta più su «Caricamento…» (🔴, firma di Nicola)
+- **Cosa ha chiesto Nicola:** alle 10:45, «se la PR è pronta, fai il merge».
+- **Prima di unire:** su GitHub 10 controlli verdi e 1 saltato apposta (la cassa vera); nessun conflitto con main.
+- **Fatto:** unione con squash alle 10:46, commit 228d1ca. Vercel ha pubblicato in produzione alle 10:49 (dpl_HmeXMSx1bQAJGHyveLgVumiUZAF4, READY). Ho verificato che `lockAcquireTimeout:5e3` è nei file JavaScript del sito vero.
+- **Colore:** 🔴, pubblicazione in produzione, fatta sulla richiesta esplicita di Nicola.

@@ -1,7 +1,7 @@
 ---
 tipo: lavoro-aperto
 fonte: AD digitale
-aggiornato: 2026-11-28 10:35
+aggiornato: 2026-11-28 10:50
 regola: si legge PRIMA di cercare cosa manca; si aggiorna a ogni lavoro che si apre o si chiude
 ---
 
@@ -30,7 +30,7 @@ La pagina dice com'era il lavoro il 31 ottobre alle 01:45. Ogni voce va riletta 
 
 ## 1 · Cose che toccano a te
 
-**Riparato: l'area dell'amministratore che restava su «Caricamento…» dopo l'accesso. Aspetta la tua unione (28/11 10:35).** Alle 9:56 Nicola ha mandato uno screenshot da Brave sul telefono. Era entrato 6 volte dalle 9:51 alle 9:56, con Google e con la password, e il server lo aveva sempre riconosciuto. Però dopo le 9:54 il telefono non ha più fatto richieste. La causa: le schede di MyCity si passano un lucchetto per leggere la sessione. Se un'altra scheda lo tiene, la libreria dovrebbe riprenderselo dopo 5 secondi. Ma supabase-js 2.106.1 cancella quel tempo, e la pagina aspetta per sempre. Ho riprodotto il blocco su un telefono simulato: era identico allo screenshot. Con la correzione la pagina si apre in circa 5 secondi. La prova è rossa sul codice vecchio e verde sul nuovo. Il collaudo indipendente non ha trovato difetti. Tocca a te unire la PR mycity#371. Fino ad allora: chiudi le altre schede di MyCity, oppure chiudi Brave del tutto e riaprilo. Nel registro va anche un caso visto e non riparato: due biscotti di sessione con lo stesso nome bloccano lo stesso la pagina, ma niente nel codice li crea.
+**Riparato e online: l'area dell'amministratore che restava su «Caricamento…» dopo l'accesso (28/11 10:35, unita e pubblicata 10:49).** Alle 9:56 Nicola ha mandato uno screenshot da Brave sul telefono. Era entrato 6 volte dalle 9:51 alle 9:56, con Google e con la password, e il server lo aveva sempre riconosciuto. Però dopo le 9:54 il telefono non ha più fatto richieste. La causa: le schede di MyCity si passano un lucchetto per leggere la sessione. Se un'altra scheda lo tiene, la libreria dovrebbe riprenderselo dopo 5 secondi. Ma supabase-js 2.106.1 cancella quel tempo, e la pagina aspetta per sempre. Ho riprodotto il blocco su un telefono simulato: era identico allo screenshot. Con la correzione la pagina si apre in circa 5 secondi. La prova è rossa sul codice vecchio e verde sul nuovo. Il collaudo indipendente non ha trovato difetti. Alle 10:45 Nicola ha chiesto di unirla: la PR mycity#371 è unita (10:46), con 10 controlli verdi e 1 saltato apposta. Vercel l'ha pubblicata alle 10:49, e la correzione è nei file del sito vero. Resta a Nicola una prova dal telefono vero: riaprire /admin. Nel registro va anche un caso visto e non riparato: due biscotti di sessione con lo stesso nome bloccano lo stesso la pagina, ma niente nel codice li crea.
 
 **La scheda del cliente ora cerca bene (28/11 03:05).** Per vedere i negozi chiusi serve la chiave di Google. Nicola ha chiesto di provarla su 10 attività della mappa dei venditori. Con la ricerca normale non trovava niente su 6 negozi su 7. Consigliava anche un abbonamento a 2 negozi chiusi per sempre. La ricerca nuova è unita nel sito alle 02:50: Solo Cose Belle ora ha Instagram e Facebook trovati. Lo stesso cambio per il dossier del lunedì è su n8n come bozza, da pubblicare. Il riquadro di Google nella scheda è pronto e si accende con la chiave del browser. Restano a Nicola le chiavi: Google, Instagram e DataForSEO. La lista della prima settimana ha 3 attività chiuse o spostate. Le sessioni della mappa sono avvisate. Il resoconto: `consegne/collaudo/2026-11-28-scheda-cliente-10-attivita.md`.
 
