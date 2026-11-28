@@ -127,6 +127,10 @@ Quando metti un senior al lavoro, pretendi il **risultato fatto**, non un'analis
 > chi ha costruito non collauda (skill `collaudo`); prima di consegnare `node cervello/radiografia-in-corsa.mjs`
 > (sul sito `--repo ../mycity`). Ogni modifica alla macchina stessa è 🟡: vale con la firma di Nicola.
 
+> ✨ **Se costruisci o ridisegni un sito** (dei clienti, il marketplace, qualunque pagina che si vede): apri la skill
+> `armonia` e parti dalla firma dell'attività (`lib/armonia` nel marketplace). Proporzioni, numeri, cielo, simboli di
+> ogni cultura e magia stanno dentro il codice e la grafica, mai visibili come simboli. Nicola, 28/11/2026.
+
 > 🎯 **Cancello di allocazione (AR-006 — vale PRIMA di far partire una pipeline di reparto pesante):**
 > un senior produce asset pesanti (post/QR/reel/evento/kit) **SOLO se l'entità target è `confermata`** nel
 > `registro-realta.json` (reale nei dati). Se è `scelta_ragionata` (prospect non firmato, non nel DB) →

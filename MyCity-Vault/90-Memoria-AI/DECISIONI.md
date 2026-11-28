@@ -1761,3 +1761,11 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Prima di unire:** su GitHub 10 controlli verdi e 1 saltato apposta (la cassa vera); nessun conflitto con main.
 - **Fatto:** unione con squash alle 10:46, commit 228d1ca. Vercel ha pubblicato in produzione alle 10:49 (dpl_HmeXMSx1bQAJGHyveLgVumiUZAF4, READY). Ho verificato che `lockAcquireTimeout:5e3` è nei file JavaScript del sito vero.
 - **Colore:** 🔴, pubblicazione in produzione, fatta sulla richiesta esplicita di Nicola.
+
+## 2026-11-28 11:29 — Armonia nascosta: la base di ogni sito e del marketplace (🟡, firma di Nicola)
+- **Cosa ha chiesto Nicola:** verso le 10:38 numerologia, astrologia e simboli dentro i siti, «in modo indiretto… dentro i codici ovunque», anche visivamente ma senza che si capiscano. Verso le 11:19: «usala come base per costruire i siti dei clienti, installala… mettila in un posto in cui sai che devi usarla sempre, ma dentro ai siti. Il marketplace deve essere costruito sulla base di questo, e non solo esoterismo: simboli di ogni religione e cultura. E la magia».
+- **Correzione di Nicola, verso le 10:50:** «i siti» non è il sito dell'agenzia SDG: l'AD l'aveva proposto come prova di sua iniziativa.
+- **Fatto:** nel marketplace la libreria `lib/armonia` (numeri, cielo, quadrati magici, forme, simboli e vietati, firma) e i componenti `components/armonia`. Usata nella bozza del sito dei clienti e nel piè di pagina di MyCity. La regola fissa è la skill `armonia` più una riga in CLAUDE.md, così ogni sessione che costruisce un sito la apre.
+- **Scelte ragionate dell'AD, da confermare:** senza data di apertura la firma usa il giorno del preventivo; senza nessuna data usa Mercurio, dio del commercio e dei viaggiatori. La data di nascita di MyCity la sceglie Nicola. Delle religioni si usano i principi geometrici, mai i simboli di fede; fuori sempre i simboli d'odio e i numeri 14, 17, 18, 88, 666, 1488.
+- **Il test delle cinque domande:** come funzione non fa incassare nel primo mese; l'AD la tratta come stile, che non aggiunge fatica a nessuno. Nicola l'ha chiesta in modo esplicito.
+- **Colore:** 🟡. Codice su un ramo con richiesta di unione; unione e pubblicazione restano a Nicola.

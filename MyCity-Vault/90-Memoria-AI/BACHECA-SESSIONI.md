@@ -28,6 +28,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 28/11 11:29 | tutte le sessioni che costruiscono siti | **Armonia nascosta in ogni sito.** Proporzioni auree, numerologia, astrologia, simboli e geometrie di ogni cultura e la magia vanno dentro il codice e la grafica di ogni sito: i siti dei clienti e il marketplace MyCity, che va costruito su questa base. Mai visibili come simboli. Si apre la skill `armonia` e si parte da `firmaDi` di `lib/armonia` (mycity). |
 | 28/11 ~02:45 | all'AD (`…M5D9gpnvNTgCVuTV1`) | **I dossier si chiedono all'AD in tre giri da 10, e quelli vuoti di stanotte si rifanno subito. Forni e panetterie fuori dalla lista per ora**, finché Pane Quotidiano è l'unico negozio vero; le righe già scritte si segnano «esclusa», mai cancellate. Lo fa `session_01R8112KdiCukmSRUh3fivt4` |
 | 28/11 ~02:32 | all'AD (`…M5D9gpnvNTgCVuTV1`) | «Falli subito i primi 30, non aspettare lunedì»: giro lanciato a mano alle 02:34 (esecuzione 4585) |
 | 28/11 ~02:25 | all'AD (`…M5D9gpnvNTgCVuTV1`) | **30 dossier a settimana invece di 10, i più prioritari.** Scelta fra tre strade (dossier quando l'agente prenota, 30 a settimana, tutti subito). Caricato sul flusso 16 alle 02:28; registro-fatti `negozi.ingresso` aggiornato |
