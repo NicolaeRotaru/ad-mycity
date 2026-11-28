@@ -1476,6 +1476,13 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Prima del via:** il controllo che confronta il codice col database vero era verde alle 18:17. Mancava solo la 865.
 - **Cosa resta:** la variabile `N8N_SCHEDA_SEGRETO` su Vercel (non c'è ancora) e il primo link in Admin → Agenti, tutte e due di Nicola.
 
+
+## 2026-11-27 02:10 — 200 difetti del sito risolti, se si può 400: tetto 3.000 $ (🔴, decisione di Nicola)
+- **Chi e quando:** Nicola, in chat all'AD (session_015BmpnWXi7guL4RmfTAwzbU), 27/11 fra l'01:15 e le 02:00. Prima «200 esatti», poi «A», poi «No scusa la B. 200 esatti difetti risolti. E se ne riesci cerca di arrivare anche a 400». Alle domande: tetto 3.000 $, limite settimanale sotto il 50%.
+- **Cosa:** una campagna nuova sul sito che parte dall'integrazione della riparazione del 26/11 (mycity `ccr-a672a2b3-92w5w1` @ f1b35670). Lavora le 320 voci che non chiedono Nicola, in onde, senza fermate fra un'onda e l'altra dentro il tetto. Le 43 voci con file di migrazione vanno in un'onda a parte (AR-1194). Il tetto vecchio di 1.200 $ («ok 1.200» del 24/11) era già usato dalla campagna del 26/11, circa 1.100 $.
+- **Perché:** 97 risolti sono già pronti nella mycity#342; per arrivare a 200 servono circa 100 chiusure in più, e le misure dicono circa 10 $ a chiuso. Preventivo circa 1.500 $ per circa 240-260 risolti in tutto; 400 solo con le risposte di Nicola.
+- **Errore dell'AD, corretto prima di spendere:** la prima preparazione (200 voci dalla base main) prendeva 199 voci già lavorate il 26/11, perché il registro di main non porta ancora quelle chiusure. Fermata prima di aprire sessioni.
+- **Colore:** 🔴 spesa firmata da Nicola; il codice resta 🟡 (rami e PR, l'unione è sua).
 ## 2026-11-27 01:46 — Nasce la macchina che trova i clienti, e gira in vero (🟡, via di Nicola)
 - **Chi e quando:** Nicola, in chat all'AD, 27/11 verso le 01:30: «fallo», dopo la proposta della macchina che trova i clienti.
 - **Cosa è stato fatto:** il flusso n8n «16 · Attività da visitare» (id `Yp60H6Eo9DkuGxxf`) e la tabella «Attività da visitare» (id `ym5WaeuBbBf0ZuQe`). Giro in prova (esecuzione 3458): 1.037 attività lette sulla mappa entro 5 km da Pane Quotidiano, 117 catene, 84 categorie escluse, 11 doppioni, 1 già su MyCity, 169 senza nome, 655 in fila. Giro vero (esecuzione 3460, 01:44-01:45): 10 dossier dall'AD, 4 messaggi a Nicola su Telegram, 10 righe nella tabella. 11 prove verdi su 11; cinque mutazioni a mano, tutte prese.
@@ -1670,9 +1677,36 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa:** quando il titolare apre il link del preventivo vede il suo sito già pronto, sopra i tre abbonamenti. In Admin c'è la pagina «Lavoro dei clienti», in sola lettura. Merge 63031fc1 sulla testa 19176d19.
 - **Verifica:** 11 controlli verdi sulla PR. Batteria intera in locale: 14.528 prove passate, 1 saltata. Due collaudi indipendenti: un grave trovato e corretto, il riquadro che prometteva il sito Business anche col Base.
 - **Colore:** 🔴, unione che va online, fatta sulla firma esplicita di Nicola.
+## 2026-11-28 00:50 — L'amministratore torna sul suo pannello dopo l'accesso (🟡, PR aperta)
+- **Chi e quando:** Nicola in chat all'AD il 28/11 verso le 00:45, con la foto del cruscotto del negozio aperto dall'account di assistenza. Ha scritto: «hai fatto un danno enorme, hai reso l'admin un venditore». Sessione session_01R8112NrSFfkLVigXnTUifp.
+- **Cosa ho trovato:** nel database il profilo «Assistenza MyCity» ha ancora `role = admin`, ultimo accesso 27/11 23:41 UTC. Il guasto stava nell'atterraggio dopo l'accesso: R23-005 (afd13b5e, 26/11 17:05) e R23-004 (15ec90de) lasciavano l'admin sul ritorno verso /seller o /rider.
+- **Cosa ho fatto:** tolta l'eccezione in `app/sign-in/page.tsx` e `app/auth/callback/route.ts`. L'admin atterra di nuovo su /admin. Le due prove che chiedevano il contrario ora chiedono /admin: col codice vecchio danno 3 rosse su 13. Passano 18 file di prove sull'accesso, 177 prove in tutto. PR mycity#362.
+- **Colore:** 🟡 il codice sul ramo. L'unione va online, quindi è 🔴: la firma è di Nicola.
 
-## 2026-11-28 00:44 — Unita la riparazione di «Esci» che lasciava la pagina su «Caricamento…» (🔴)
-- **Chi e quando:** Nicola in chat all'AD il 28/11 alle 00:43. Aveva scritto «la pagina continua a caricarsi all'infinito»; alla domanda ha risposto che è il caso dopo «Esci» e «sì, mettila online». Sessione session_01R8112LbktuXLFPYd4xLh8V, PR mycity#361.
-- **Cosa:** ogni tasto «Esci» del sito (area amministratore, negozio, fattorino, account, cambio password) chiude la sessione e cambia pagina una volta sola, senza il «rinfresca» che Next agganciava a un cambio pagina scartato. Merge f020a34a sulla testa b3f82d33. La riparazione l'ha costruita la sessione session_015BmpnVTZZTYbKEpXbPK5wx, che da qui non si vede.
-- **Verifica:** 11 controlli verdi sulla PR, unione senza conflitti. Collaudo indipendente della sessione che l'ha costruita: «regge», 10 varianti del difetto provate. Sul sito vero l'uscita non l'ho provata: serve un account, la prova la fa Nicola dal telefono.
-- **Colore:** 🔴, unione che va online, fatta sulla firma esplicita di Nicola.
+
+## 2026-11-28 01:05 · Sito, piano e analisi in automatico all'accettazione: le scelte dell'AD per la costruzione 🟡
+- **Chi e quando:** Nicola, in chat all'AD, 28/11 verso le 00:55: «una volta che il cliente accetta viene creato in automatico, in base all'abbonamento, il suo sito web, il piano editoriale, l'analisi di business».
+- **Cosa c'era:** all'accettazione nasceva solo il piano editoriale. Sull'ordine di prova di «PROVA SDG», accettato alle 00:34, il piano completo dell'AD è tornato pronto alle 00:49. Sito e analisi non partivano da soli.
+- **Cosa:** aperta la sessione `session_01R8112Kun6Wo8nBHSChBjwv`, che costruisce su mycity in un ramo e apre la PR. Scelte prese per Nicola, reversibili. Parte all'accettazione, non al pagamento, perché i contanti arrivano alla visita. Lo scrive l'AD col flusso 14, mai un'API a pagamento. Sono 3 corse per cliente su 40 al giorno. Il sito ha le pagine della fascia e non va online da solo. L'analisi è il rapporto all'avvio; il ritmo mensile e settimanale è un secondo passo. Tutto si vede in «Servizi» come bozza da confermare alla visita.
+- **Colore:** 🟡. Codice in un ramo con PR; niente unione, deploy o migrazione senza la firma di Nicola. Tetto dato alla sessione: 6 subagenti, due giri di correzioni.
+## 2026-11-28 00:35 — Corretto «Esci» che lasciava la pagina su «Caricamento…» (🟡, PR da unire)
+- **Chi e quando:** Nicola in chat all'AD il 27/11 alle 23:52, con la foto dal telefono: «Quando mi disconnetto appare questa pagina di caricamento che continua a caricarsi all'infinito».
+- **Cosa:** ogni «Esci» del sito, e il ritorno all'accesso dopo il cambio password, passa da una funzione sola. La funzione chiude la sessione e cambia pagina una volta, senza «rinfresca». Prima l'area riservata e il tasto chiedevano due volte la pagina di accesso, e il «rinfresca» si agganciava alla richiesta scartata da Next: non partiva mai. PR NicolaeRotaru/mycity#361, ramo ccr-f5be6987-qmq91e.
+- **Verifica:** riprodotto dal vivo su telefono simulato. Prima era fermo dopo 20 s; dopo si arriva all'accesso in 1 s, da admin, negozio e fattorino. La prova usa la coda vera di Next: rossa col vecchio, verde col nuovo. Batteria 14.534 verdi. Collaudo indipendente: REGGE, e il suo minore sulla prova è chiuso nel secondo commit.
+- **Colore:** 🟡, codice in un ramo con PR aperta. L'unione e l'uscita online restano tue (🔴).
+
+## 2026-11-28 00:45 — Unita la correzione di «Esci» (🔴, firma di Nicola)
+- **Chi e quando:** Nicola ha unito la NicolaeRotaru/mycity#361 alle 00:45 (merge f020a34a sulla testa b3f82d33).
+- **Cosa:** dopo «Esci» si arriva alla pagina di accesso invece di restare su «Caricamento…». Vale per le aree admin, negozio e fattorino, e per il cambio password.
+- **Verifica:** 11 controlli della PR verdi (uno saltato come sempre), nessun conflitto. Resta da riprovare dal telefono vero sul sito pubblicato.
+
+## 2026-11-28 01:08 — Unita la correzione dell'email già usata nel link del preventivo (🔴, firma di Nicola)
+- **Chi e quando:** Nicola in chat all'AD il 28/11 verso le 01:05: «margia se hai fatto tutto». L'AD ha unito la NicolaeRotaru/mycity#359 alle 01:08 (merge 862a1152 sulla testa 10c285af).
+- **Cosa:** quando il titolare scrive giusto il codice dell'email ma quella email ha già un account su MyCity, la pagina glielo dice e gli spiega cosa fare. A Nicola arriva un avviso per chiamarlo. Prima la pagina diceva solo «non sono riuscito a collegare questa email». È successo a Luna Rossa il 27/11 alle 23:34.
+- **Perché:** Supabase in quel caso risponde con un errore generico, e il sito non lo riconosceva. La regola del 24/11, che dava lo stesso messaggio a tutti, valeva prima del codice dell'email. Adesso a quel punto si arriva solo col codice giusto.
+- **Verifica:** `npm run verify` verde (14.537 prove), tutti i controlli della PR verdi, collaudo indipendente promosso al secondo giro, nessun conflitto con i 3 commit di «Esci» arrivati prima. Resta da provare sul sito pubblicato con un'email già usata.
+
+## 2026-11-28 01:50 — Precisazione sull'unione di «Esci» delle 00:45 (🟢, solo memoria)
+- **Chi e quando:** l'AD, sessione session_01R8112LbktuXLFPYd4xLh8V. La riga delle 00:45 dice «Nicola ha unito»: la NicolaeRotaru/mycity#361 l'ha unita l'AD alle 00:44, sulla firma esplicita di Nicola in chat.
+- **Cosa:** alle 00:40 Nicola ha scritto di nuovo «la pagina continua a caricarsi all'infinito». Alla domanda dell'AD ha risposto che era il caso dopo «Esci», e poi «sì, mettila online». Il sito con la riparazione è online dalle 00:52 (pubblicazione dpl_FUvnZ1GfNR9YjEFV4z6ixCGg9NAc).
+- **Verifica sul sito vero (00:53):** su un telefono simulato, le aree admin, negozio e fattorino aperte senza essere dentro portano all'accesso, senza «Caricamento». Vercel non segna errori nei 15 minuti dopo la pubblicazione. L'uscita col proprio account resta da provare dal telefono di Nicola.

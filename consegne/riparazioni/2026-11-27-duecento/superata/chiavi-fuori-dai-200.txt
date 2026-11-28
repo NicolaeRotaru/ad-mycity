@@ -1,0 +1,116 @@
+# Senza Nicola ma fuori dai 200 — 115 voci, una chiave per riga (AD, 2026-11-27)
+architettura|quattro gruppi di file del sito si importano a giro chiuso, uno passa per i bonifici ai negozi, e nessuna prova lo ferma
+architettura|la regola che vieta i tipi «qualunque» non è accesa: 46 sono passati, e 40 permessi di saltare il controllo non saltano niente
+architettura|una prova sul webhook di stripe controlla l'ordine delle righe cercando una parola, e basta togliere uno spazio per ingannarla
+api-backend|un lavoro a orario che va in errore a ogni giro risulta vivo, e per alcuni lavori nessuno viene avvisato
+api-backend|la pagina d'errore dice «abbiamo registrato il problema», ma un errore nel telefono del cliente non lo registra nessuno
+api-backend|la rotta che registra le visite va in errore del server se riceve un corpo vuoto o rotto, o un cookie dei consensi storto
+deploy-sre|manca il tasto per fermare tutti gli ordini in un colpo: oggi si può solo sospendere il negozio, e il fornaio riceve un avviso brusco
+deploy-sre|le foto dei negozi non sono ancora in nessuna copia di sicurezza: manca una chiave nei segreti
+deploy-sre|la notifica sul telefono per un nuovo ordine arriva fino a 5 minuti dopo, non in pochi secondi
+frontend-ux|con una promozione attiva la barra d'acquisto e i caroselli mostrano il prezzo pieno, mentre sopra c'è quello scontato
+frontend-ux|tornando dall'accesso con un indirizzo già scritto, la cassa lo nasconde e non segna nessun indirizzo come scelto
+frontend-ux|mancano «finito per oggi» e «chiuso fino al…», promessi ai negozi della prima ondata
+frontend-ux|le pagine di prodotti, negozi e categorie che non esistono rispondono «tutto ok» invece di «non trovato»
+frontend-ux|la pagina clienti del negozio mostra solo i nomi, senza contatti né esportazione, e consiglia offerte che non si possono mandare
+deploy-sre|il giorno del lancio un errore del sito non lo vede nessuno: il registratore degli errori è spento e l'unico allarme dipende dalla chiave che manca
+dati-analytics|gli ordini annullati o rimborsati restano venduti per sempre in google analytics e posthog
+dati-analytics|il cruscotto del negozio segna «0 ordini oggi» finché gli ordini in contanti non sono consegnati
+architettura|il conto del carrello ha una seconda copia che nessuna pagina usa, e la prova «lo schermo fa lo stesso conto del server» controlla proprio quella
+performance|le pagine di prodotto, negozio e categoria non usano la cache che dichiarano, e rileggono due volte la stessa riga a ogni visita
+performance|nel pannello del negozio ogni link della barra laterale, precaricato, fa ripassare il controllo d'accesso con due chiamate a supabase
+performance|ogni pagina aperta fa tre letture uguali per tutti direttamente al database, e le categorie le legge due o tre volte
+performance|ogni pagina scarica due caratteri in corsivo che quasi nessuna pagina usa
+coerenza-brand|ombre nere fredde accanto alle ombre calde del brand; il token creato apposta non è usato mai
+tipografia|la scala delle dimensioni del testo viene scavalcata circa trecentotrenta volte
+mobile-pwa|il manifest blocca l'app in verticale e non ha le schermate per la finestra d'installazione
+navigazione-gerarchia|la larghezza del contenuto cambia tre volte lungo il percorso d'acquisto
+performance|le pagine che vendono si disegnano solo nel browser, e il preload della prima foto non serve a niente
+architettura|in home ogni sezione chiede di nuovo alla vetrina lo stesso negozio, e ogni fascia compare un giro di rete più tardi
+api-backend|il cron degli ordini scaduti ricopia la logica di annullo invece di usare annullaerimborsa
+architettura|audit_logs, il registro delle azioni amministrative, diventa il lucchetto delle email, scritto fuori da lib/audit.ts e dal catalogo
+architettura|avvisi-a-chi-aspetta.ts tiene insieme pannello, lucchetto email, indirizzo, html e invio; l'email parte solo se il pannello riesce
+architettura|senza la casella vera, l'unico recapito del titolare nell'informativa e nella cookie policy è il modulo web
+architettura|la frase della zona vive in quattro posti (cassa, spedizioni, rifiuto, tendina della posizione) piu' faq e «vicino a te»: le tiene allineate solo una prova
+architettura|il segnale «tieni la chiave» ora vuol dire quattro cose diverse, e la regola nel file racconta ancora che vale solo per l invio gemello
+architettura|il carrello in contanti si ritrova solo dalla tabella contro il doppio clic: senza quella riga la regola del negozio che rifiuta non scatta e nessuno lo sa
+api-backend|doppio tocco sull annullo con la carta: il secondo dice «rimborso fallito» e manda agli amministratori un falso «carrello da sistemare a mano»
+architettura|il codice pgrst204 su una colonna della 124 ora fa scattare il ripiego per tutti: con la cache dello schema di postgrest vecchia, la scrittura salta gross_total_cents anche a migrazione applicata
+frontend-ux|orari passati alla cassa e 409 della rotta contanti: le prove cercano parole nel sorgente, non fanno girare pagina e rotta
+architettura|sul ramo carta l'annullo non prende il turno prima del rimborso: due annulli da strade diverse possono restituire il credito due volte
+api-backend|il giro che annulla legge al massimo 100 ordini fermi, senza un ordine: una veloce scaduta può restare fuori dal giro
+stati-ui|mentre la cassa cerca l'indirizzo scritto a mano, «ordina» resta premibile e il fuori zona lo dice ancora il server
+frontend-ux|i link ai documenti del fattorino scadono dopo 2 minuti a pannello aperto
+microcopy|in registrazione e nel cambio password del profilo il rifiuto di una password debole o rubata non si traduce o si perde
+dati-analytics|la percentuale dei pagamenti con carta oltre ventimila tentativi diventa un campione senza dirlo
+privacy-legale|accogliendo la segnalazione di un negozio, se la lettura del negozio cade, il negozio resta online ma la decisione «accolta» si registra
+privacy-legale|una recensione segnalata come falsa non si può accogliere né togliere
+api-backend|il conto dei rimborsi divisi legge tutto il registro senza filtro e si ferma a mille righe
+api-backend|il reso già rimborsato si chiude con la cifra uscita su stripe, non con quella chiesta, e il negozio non lo sa
+stati-ui|con il carrello non letto la tessera «adesso» resta su «sto controllando…» per sempre
+privacy-legale|l'informativa non dice che la partita iva del venditore viene controllata nel registro europeo vies della commissione europea
+stati-ui|nella scheda ordine dell'amministratore un reso aperto non compare fra i motivi per cui il bonifico è trattenuto
+privacy-legale|il giro a mano delle cancellazioni non conta le foto di consegna orfane che la notte toglierà
+stati-ui|il link al reclamo nella scheda ordine porta all'elenco filtrato sui reclami aperti e non mostra quelli in esame
+microcopy|la schermata di accesso dice ancora «100% commercianti locali verificati»
+architettura|la scrittura della contestazione vinta toglie il numero del tentativo del bonifico anche quando a mancare è solo la cache di postgrest
+deploy-sre|anche il segreto delle rotte interne e quello del bordo cloudflare, con un «a capo» su vercel, chiudono la porta a chi ce l'ha
+performance|al consenso statistico posthog si avvia due o tre volte in parallelo
+stati-ui|nella pagina guadagni i due pulsanti di stripe possono dirsi il contrario
+architettura|il commento e la prova dicono che la bozza della cassa scade, ma la scadenza è stata tolta
+privacy-legale|il link «ho già un account» lascia nome, indirizzo e telefono nel browser senza scadenza
+privacy-legale|il conto fatto prima di accendere le cancellazioni non mostra le foto di consegna che la notte toglierà
+api-backend|se il servizio di posta conserva anche le risposte d'errore, una promozione mai partita risulta spedita
+api-backend|una giornata di cassa riaperta dichiara come «non ancora versati» anche i contanti già versati quel giorno
+performance|ogni ricerca rilegge tutte le email degli iscritti
+api-backend|la guardia della cancellazione dice un importo gonfiato su una giornata di cassa riaperta
+api-backend|il negozio riceve «il cliente ha ritirato il reso» anche quando il rimborso approvato nello stesso momento è poi partito
+api-backend|reso ritirato mentre il negozio lo approva: per pochi secondi il negozio riceve «il cliente ha ritirato la richiesta» mentre il reso risulta rimborsato
+api-backend|il webhook degli ordini è a 598 righe su un tetto di 600 e blocca ogni cura futura
+architettura|la funzione della spedizione in centesimi accetta ancora i sette ingressi che non servono
+ai-endpoints|la lettura di più prodotti da foto chiede 6000 token in un tentativo da 60 secondi
+ai-endpoints|con il modello ai mancante il giro dei prezzi esterni segna in errore tutti i prodotti del giro e continua a chiamare
+stati-ui|la modifica prodotto dell'amministratore, se non legge le varianti, dice «ricarica la pagina» ma non ha il bottone riprova
+microcopy|la conferma al cliente conta il giorno da quando parte l'email, non da quando è nato l'ordine
+layout-responsive|/privacy e /come-funziona possono scorrere di lato col testo al 200%
+ai-endpoints|«aggiorna ora» dei prezzi esterni: col budget ai finito l'admin legge ancora «riprova»
+ai-endpoints|il sorvegliante dei prezzi esterni può superare i suoi 300 s con 10 chiamate al modello in fila
+stati-ui|nella pagina di amministrazione del prodotto, quando torna la rete, il caricamento prende il posto del modulo e le modifiche si perdono; senza rete il modulo si apre con 0 taglie
+api-backend|cancellazione utente e annullo ordine dell'amministrazione rispondono 500 senza scrivere nel registro
+stati-ui|il modulo prodotto ricalcola la spunta «escluso dal recesso» dell'apertura a ogni disegno
+frontend-ux|ordinando per prezzo, le griglie guardano il prezzo pieno e non quello che si paga
+frontend-ux|il bollino dello sconto della scheda prodotto mostra la percentuale grezza, oltre il 70% che il prezzo applica
+frontend-ux|la scheda prodotto aperta oltre la fine della promozione continua a mostrare il prezzo scontato
+frontend-ux|un tasso di conversione fra il 50% e il 99% resta verde anche se gonfiato dal consenso ai cookie
+frontend-ux|le collezioni scelte a mano non passano il prezzo barrato del negozio
+api-backend|oltre mille iscritti la pagina utenti perde in silenzio email e ultimo accesso degli altri
+api-backend|il tetto della notte lascia indietro gli account nell'ordine della rpc, non dal più vecchio: chi è già oltre il mese può essere rimandato ogni notte, senza avviso del termine
+api-backend|il tetto di tempo della notte non è rigido: l'ultimo account preso può sforare, e la cancellazione di un account non ha un limite di tempo suo
+api-backend|la rotta di annullo dell'amministrazione risponde 500 in silenzio quando l'annullo stesso fallisce
+deploy-sre|con molti ordini scaduti nello stesso giro, le email di annullo partono tutte insieme dopo la risposta
+architettura|anche il freno della veloce trova il carrello in contanti solo dalla riga di cod_checkout_attempts
+architettura|il codice sconto monouso guarda solo il carrello della carta, non quello in contanti
+architettura|la rotta delle email a orario si crea un suo client admin
+architettura|il freno della veloce in contanti, se manca la riga del carrello, tratta ogni ordine da solo senza dirlo a nessuno
+api-backend|se la lettura dell'email cade, la cancellazione dell'account lascia l'indirizzo nella newsletter e nessuno lo sa
+api-backend|la chiave di cifratura del link di disiscrizione si ricava con lo stesso calcolo usato per firmare i link vecchi
+api-backend|il webhook della sessione scaduta restituisce il codice di benvenuto senza chiudere la rivendicazione
+api-backend|l'annullo dal sito, il rifiuto del negozio e il cliente assente rispondono 500 senza riga nel registro quando l'annullo fallisce
+api-backend|un account preso poco prima del tetto del ciclo non ha un tempo suo
+architettura|il conto della cassa riceve ancora le coordinate di negozio e consegna, che non entrano più in nessun conto
+architettura|le email dopo la risposta partono tutte insieme: nel giro degli ordini scaduti un limite d'invio della posta può farne cadere alcune
+frontend-ux|nella pagina di una lista il prezzo dei prodotti non tiene conto della promozione
+frontend-ux|l immagine di anteprima social del prodotto e i dati per i motori di ricerca mostrano il prezzo pieno durante una promozione
+api-backend|la rotta delle cancellazioni copia una stringa privata della libreria degli avvisi
+api-backend|il modulo dell'indirizzo alla cassa non annulla le ricerche vecchie mentre si scrive
+microcopy|alcuni errori di zod restano in inglese: discriminatedunion, multipleof, finite, startswith, datetime
+architettura|un altro finto scritto a mano risponde alle letture degli avvisi nelle prove della cancellazione
+performance|la memoria a due secondi dei metadati usa la stessa chiave anche quando si passa un client da fuori
+frontend-ux|il sito del negozio accetta un indirizzo con schema sbagliato, come ftp:// o http//
+architettura|le email mandate dopo la risposta aspettano in una fila sola per tutto il server: in una raffica l'ultima può non partire
+frontend-ux|il picker degli indirizzi legge il limite della rotta come «servizio che non risponde»
+api-backend|quando è il servizio delle mappe a rispondere «troppe richieste», la rotta della ricerca indirizzi risponde 200 senza coordinate e la pagina salva l'indirizzo come «posizione non trovata»
+architettura|la misura della velocità manda a ga4 da una porta sua, fuori dall'aiutante comune
+frontend-ux|da approvato, l'attestato haccp appena caricato passa subito a «caricato · ok» senza che nessuno lo guardi
+frontend-ux|anche i campi brevi delle categorie nel pannello admin tagliano in silenzio con maxlength
+architettura|le schede degli agenti restano in n8n dopo la cancellazione dell'account

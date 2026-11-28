@@ -1,0 +1,17 @@
+{
+ "creato": "2026-11-27 01:40",
+ "fonte": "cervello/riparazione/misure.json, righe con ultracode spento e regia corta (onda dei 700 normali 3,18 $ a voce data; settimana dei 700 correzione 2,84) e con ultracode sui gravi (onda 9 giro 3 2,99; giro 5 3,88)",
+ "voci": 200,
+ "onde": [
+  {"onda": 1, "voci": 59, "sessioni": 5, "ultracode": false, "usd_a_voce": 3.2, "usd": 189, "nota": "40 normali + 19 del pilota delicato; 1 voce del pilota passa all'onda 2 per un file in comune"},
+  {"onda": 2, "voci": 95, "sessioni": 9, "ultracode": "solo le 7 sessioni con gravi o bloccanti (80 voci)", "usd": 360, "nota": "divisione di prova sulla base: si rifà dall'integrazione dell'onda 1"},
+  {"onda": 3, "voci": 46, "sessioni": 4, "ultracode": "dove ci sono gravi", "usd_a_voce": 3.5, "usd": 161}
+ ],
+ "correzione": {"voci_stimate": 60, "usd": 204},
+ "usd": {"minimo": 650, "atteso": 915, "massimo": 1200},
+ "chiusi": {"minimo": 80, "atteso": 90, "massimo": 105, "tasso": "40-52% delle voci lavorate (onda dei 700: 47 su 103; settimana dei 700: 70 su 150)"},
+ "usd_per_chiuso_atteso": 10.2,
+ "soglia_12_usd": "sotto, ma vicina: il pilota dell'onda 1 misura i delicati senza ultracode prima dell'onda 2",
+ "percentuale_settimana": "non nota: 30,5 $ a punto (12/11) darebbe circa il 30%, la lettura del 15/11 circa il 5%. L'avviso del limite settimanale è acceso (get_session 27/11 01:17, rinnovo giovedì 3/12 alle 10:00)",
+ "strada_b_200_chiusi": {"voci": 363, "cosa": "tutte le 315 senza Nicola + le 48 con una migrazione (un suo «ok migrazioni» alla fine)", "chiusi_attesi": "145-190", "usd_atteso": 1650, "nota": "sopra il tetto firmato di 1.200 $; 200 chiusi non garantiti nemmeno così"}
+}

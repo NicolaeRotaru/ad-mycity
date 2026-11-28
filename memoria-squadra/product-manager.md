@@ -7,6 +7,7 @@ reparto: product-manager
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-11-28 00:25 · Servizi oltre ai prodotti per i venditori, mycity#360, sessione delegata con brief e scelte dell'AD · V4 C5 A4 K5 I3 M4 E4 (media 4.14) · atteso atteso: una PR in una sessione, al massimo due giri di correzioni, nessuna scelta rimbalzata a Nicola → reale reale: PR in circa 35 minuti con un giro di correzioni dal collaudo; resta una scelta sui pagamenti (servizio cambiato durante la cassa), portata a Nicola · #servizi #delega #sessioni
 - 2026-07-13 22:28 · Epic redesign Pannello — Nicola «sì» dopo grilling · atteso: PR unica con scope v1 chiuso · reale: **#356** menu+home+trio+lettera; v2 dopo merge (prossimo passo, API home, cantiere sito); merge 🔴 #125 · L-186 · #pannello #home #product #ia #pr-356
 - 2026-07-13 22:22 · Home priorità — Nicola «a» cima = firmare · atteso: ordine Plancia definitivo · reale: azione prima, narrativa (ritmo+lettera) seconda, numeri e macchina dopo · L-186 · #pannello #home #ia
 - 2026-07-13 22:16 · Home epic + scope v1/v2 — Nicola chiede ceiling oltre mosse decise + lavoro home · atteso: roadmap onesta v1/v2 + prossima decisione · reale: v1 PR unica menu+trio+lettera+home; v2 efficienza; scope chiuso con «sì» → #356 · L-184 · #pannello #home #product #ia
