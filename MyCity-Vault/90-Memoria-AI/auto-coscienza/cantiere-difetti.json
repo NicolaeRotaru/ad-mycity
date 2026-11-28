@@ -26980,6 +26980,58 @@
       },
       "nato_come": "scoperta",
       "cura_proposta": "RE_SPENTA riconosce anche la forma con le parentesi quadre; il filtro delle righe aggiunte scarta solo l'intestazione «+++ b/…», non ogni riga che comincia con «++»; il diff si chiede con --text; per P1 e P2 la guardia confronta quante prove girano alla base e alla punta (per esempio con vitest --list) invece di leggere le righe."
+    },
+    {
+      "id": "AR-1194",
+      "nato_come": "scoperta",
+      "titolo": "La divisione dà alle sessioni del sito numeri di migrazione da 1000 in su, ma il sito le applica in ordine alfabetico e il 1000 finirebbe prima del 100",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato": "2026-11-27 02:05",
+      "origine": "AD, preparazione dei 200 del 27/11: dividi sull'integrazione f1b35670 con l'ultima migrazione a 998",
+      "dove": "cervello/riparazione-sessioni.mjs, dividi (fasce delle sessioni) e controllaOnda (la fascia deve partire sopra l'ultima migrazione esistente); sul sito scripts/applica-migrazioni-mancanti.sh riga 230 e tests/sql/harness/apply.sh riga 34 (LC_ALL=C sort)",
+      "descrizione": "Con l'ultima migrazione a 998, dividi assegna 1000-1009, 1010-1019 e così via, e controllaOnda pretende fasce sopra 998. Il sito ordina i file per byte: «1000_x.sql» viene prima di «100_x.sql», quindi su un database nuovo (palestra) una migrazione 1000 gira prima delle tabelle che le servono. Il 26/11 la regia aveva visto lo stesso problema e rinumerato a mano nelle fasce libere sotto 999; oggi sopra 998 c'è solo il 999.",
+      "causa_radice": "Le fasce sono numeri interi senza riguardo per il modo in cui il sito ordina i file; il controllo «sopra l'ultima» non conosce i buchi liberi sotto, né i suffissi a lettera già in uso (108b).",
+      "fix_proposto": "Decidere la numerazione oltre 999 (per esempio suffissi a lettera dopo 998, o un ordinamento numerico nel sito e nella palestra) e insegnarla a dividi e a controllaOnda, con una prova che diventi rossa se una fascia produce un nome che l'ordine per byte mette prima di una migrazione esistente.",
+      "dimensione": "processi",
+      "verifica": {
+        "tipo": "umano"
+      },
+      "nota": "Intanto la campagna dei 200 del 27/11 tiene le 43 voci con file di migrazione in un'onda a parte."
+    },
+    {
+      "id": "AR-1195",
+      "nato_come": "scoperta",
+      "titolo": "Il cancello dello stop prende le schede dei riparatori nelle cartelle d'onda per allarmi non messi in coda, e ferma la regia a ogni turno",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato": "2026-11-27 02:25",
+      "origine": "regia prima della campagna dei 200 del 27/11 (session_015BmpnYPczqtRmcwQzQzjV6), detto all'AD alle 02:25",
+      "dove": "cervello/cancello-stop.mjs, eSchedaRisolutore (verso la riga 103)",
+      "descrizione": "L'esenzione per le schede dei riparatori riconosce solo <C>/schede/. Le campagne dal 26/11 tengono ogni onda in una sottocartella (<C>/onda1/schede/), e lì le schede con «bloccante» o «🔴» si leggono come allarmi scritti per Nicola senza una riga in AZIONI-IN-ATTESA. La regia è stata fermata a ogni turno.",
+      "causa_radice": "Il percorso delle schede è scritto a mano nell'esenzione invece di venire dallo stesso posto dove riparazione-sessioni.mjs le scrive.",
+      "fix_proposto": "Riconoscere anche <C>/ondaN/schede/ (meglio: leggere il percorso dalle cartelle che hanno un piano.json), con una prova che diventi rossa togliendo il caso della sottocartella.",
+      "dimensione": "processi",
+      "verifica": {
+        "tipo": "umano"
+      }
+    },
+    {
+      "id": "AR-1196",
+      "nato_come": "scoperta",
+      "titolo": "Il controllo dei referti ferma un riparatore che ha rimesso com'erano le prove comuni, perché la sua verifica esce rossa solo in quelle",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato": "2026-11-27 03:51",
+      "origine": "regia terza della campagna dei 200 del 27/11 (session_015BmpnXCNZDPwoc9LQi6wa1), detto all'AD alle 03:51",
+      "dove": "cervello/riparazione-sessioni.mjs, valida-referto: «a referto finito la verifica deve essere verde» (verso la riga 1379); REGOLE_DEROGABILI non copre la verifica",
+      "descrizione": "Un riparatore non può cambiare le prove comuni: le rimette com'erano e la regia le adegua all'unione. La sua verifica esce quindi rossa proprio in quelle prove, e valida-referto la ferma come un rosso vero. R06 aveva 1 caso rosso su 14.321, quello della prova comune. R02, nello stesso caso, ha scritto «verde» con una nota: due referti uguali letti in due modi.",
+      "causa_radice": "L'esito della verifica è un solo valore, verde o no, senza un posto per dire quali rossi sono attesi e perché.",
+      "fix_proposto": "Un esito della verifica che il programma accetta solo se ogni rosso cade in una prova comune che guardia-ramo vede rimessa com'era alla base, con una prova che diventi rossa se un rosso cade in una prova che non è comune.",
+      "dimensione": "processi",
+      "verifica": {
+        "tipo": "umano"
+      }
     }
   ],
   "meta": {
