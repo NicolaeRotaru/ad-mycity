@@ -7,9 +7,9 @@ fonte: AD digitale (giro, cervello/giro.md)
 > ✅ **2026-11-28 04:15 — Il database vero ha di nuovo tutte le migrazioni del codice.**
 >
 > Nicola ha scritto «fai tutte le migrazioni che ci sono da fare». Ne mancavano 3 su 264: la 999g, la 999h e la 999i. Sono entrate col pulsante «Migrazioni a mano», dalle 03:32 alle 03:52, con tutti i passi verdi. Così si accendono tre cose:
-> - i negozi possono mettere in vendita anche un servizio (i tre abbonamenti di SDG lo sono già);
-> - all'accettazione del preventivo l'AD può preparare sito e analisi dei servizi scelti;
-> - la mappa dei clienti da visitare per gli agenti ha la sua tabella, ancora vuota finché il flusso 16 non ci scrive.
+> - I negozi possono mettere in vendita anche un servizio. I tre abbonamenti di SDG lo sono già.
+> - All'accettazione del preventivo l'AD può preparare sito e analisi dei servizi scelti.
+> - La mappa dei clienti da visitare per gli agenti ha la sua tabella. Resta vuota finché il flusso 16 non ci scrive.
 >
 > La 999e resta fuori: sta nella #355, che aspetta la scelta di Nicola.
 
