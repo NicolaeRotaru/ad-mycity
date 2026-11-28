@@ -1724,3 +1724,8 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Perché regge:** resta una sola richiesta a «Chiedi all'AD» a settimana. Giovedì 10 dossier hanno preso meno di 2 minuti, quindi 30 ne prendono circa 5, contro un'attesa massima di 15. Se l'AD ne scrive solo una parte, il messaggio dice quante restano senza.
 - **Il prezzo:** circa il triplo delle ricerche dell'AD ogni lunedì, sullo stesso abbonamento Claude, oggi in avviso per il limite settimanale. Telegram: circa 10 messaggi invece di 4.
 - **Verifica:** prove del repo 24 su 24 (la prova con 30 c'era già). Il giro vero con 30 non l'ho visto: è lunedì.
+## 2026-11-28 02:24 · Unita la mycity#364: sito, piano e analisi nascono all'accettazione 🔴
+- **Chi e quando:** Nicola, in chat all'AD, 28/11 alle 02:13: «se hai fatto tutto e la pr è pronta fai il merge».
+- **Cosa:** l'AD ha aspettato gli ultimi due controlli, cioè le prove unitarie e le prove sul telefono. Alle 02:24 erano tutti verdi e la richiesta non aveva conflitti. L'AD l'ha unita in main con un merge, commit c6d1e157. Vercel ha cominciato la pubblicazione sul sito vero.
+- **Cosa non è fatto:** la migrazione 999h non è applicata. Finché non entra, il sito funziona come prima e sito e analisi dicono «manca la migrazione 999h». La mycity#360 dei servizi resta ferma: per quella il sì di Nicola non c'è.
+- **Colore:** 🔴. Codice sul sito vero, firmato da Nicola in chat.
