@@ -1,7 +1,7 @@
 ---
 tipo: lavoro-aperto
 fonte: AD digitale
-aggiornato: 2026-11-28 10:49
+aggiornato: 2026-11-28 10:52
 regola: si legge PRIMA di cercare cosa manca; si aggiorna a ogni lavoro che si apre o si chiude
 ---
 
@@ -30,7 +30,7 @@ La pagina dice com'era il lavoro il 31 ottobre alle 01:45. Ogni voce va riletta 
 
 ## 1 · Cose che toccano a te
 
-**Geometria nascosta nei siti: la proposta è pronta, aspetta la tua scelta (2026-11-28 10:49).** Nicola ha chiesto di mettere numerologia, astrologia e simboli dentro i siti, usati in modo indiretto: nel codice e nella grafica, senza che si capiscano. La proposta è una pagina da provare (link: https://claude.ai/artifact/EWtvfjJEiad3VSjCU76TYQ, copia in `consegne/design/2026-11-28-geometria-nascosta.html`): un sito d'esempio che si ricostruisce dal nome e dalla data d'apertura, e un pulsante che mostra la geometria. Dentro ci sono i cinque gruppi (proporzioni, numeri, cielo, simboli, codice) e la lista di cosa evitare (pentagramma, stella a sei punte, 88, 14, 18, 1488, 666, 17; mai su prezzi, testi legali e colore principale del marchio). **Tocca a te:** scegliere dove partire. Consigliata la prova sul sito di SDG, poi il modello dei siti dei clienti, il marketplace solo con le proporzioni. Da decidere anche se dirlo ai clienti con una riga nella proposta (consigliato). Nessun sito è stato toccato.
+**Geometria nascosta nei siti: la proposta è pronta, aspetta la tua scelta (2026-11-28 10:49).** Nicola ha chiesto di mettere numerologia, astrologia e simboli dentro i siti, usati in modo indiretto: nel codice e nella grafica, senza che si capiscano. La proposta è una pagina da provare (link: https://claude.ai/artifact/EWtvfjJEiad3VSjCU76TYQ, copia in `consegne/design/2026-11-28-geometria-nascosta.html`): un sito d'esempio che si ricostruisce dal nome e dalla data d'apertura, e un pulsante che mostra la geometria. Dentro ci sono i cinque gruppi (proporzioni, numeri, cielo, simboli, codice) e la lista di cosa evitare (pentagramma, stella a sei punte, 88, 14, 18, 1488, 666, 17; mai su prezzi, testi legali e colore principale del marchio). Correzione di Nicola (2026-11-28 10:52): «i siti» sono i siti che facciamo ai clienti, NON il sito dell'agenzia SDG (la repo `NicolaeRotaru/SDG`): l'AD l'aveva proposto come prova di sua iniziativa, sbagliando. **Tocca a te:** confermare che si parte dallo stampo dei siti dei clienti (la bozza da 1, 3 o 5 pagine che nasce quando il cliente accetta), poi il primo cliente che dice sì; il marketplace solo con le proporzioni. Da decidere anche se dirlo ai clienti con una riga nella proposta (consigliato). Nessun sito è stato toccato.
 
 **La scheda del cliente ora cerca bene (28/11 03:05).** Per vedere i negozi chiusi serve la chiave di Google. Nicola ha chiesto di provarla su 10 attività della mappa dei venditori. Con la ricerca normale non trovava niente su 6 negozi su 7. Consigliava anche un abbonamento a 2 negozi chiusi per sempre. La ricerca nuova è unita nel sito alle 02:50: Solo Cose Belle ora ha Instagram e Facebook trovati. Lo stesso cambio per il dossier del lunedì è su n8n come bozza, da pubblicare. Il riquadro di Google nella scheda è pronto e si accende con la chiave del browser. Restano a Nicola le chiavi: Google, Instagram e DataForSEO. La lista della prima settimana ha 3 attività chiuse o spostate. Le sessioni della mappa sono avvisate. Il resoconto: `consegne/collaudo/2026-11-28-scheda-cliente-10-attivita.md`.
 
