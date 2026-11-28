@@ -1671,3 +1671,14 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Verifica:** 11 controlli verdi sulla PR. Batteria intera in locale: 14.528 prove passate, 1 saltata. Due collaudi indipendenti: un grave trovato e corretto, il riquadro che prometteva il sito Business anche col Base.
 - **Colore:** 🔴, unione che va online, fatta sulla firma esplicita di Nicola.
 
+
+## 2026-11-28 00:35 — Corretto «Esci» che lasciava la pagina su «Caricamento…» (🟡, PR da unire)
+- **Chi e quando:** Nicola in chat all'AD il 27/11 alle 23:52, con la foto dal telefono: «Quando mi disconnetto appare questa pagina di caricamento che continua a caricarsi all'infinito».
+- **Cosa:** ogni «Esci» del sito, e il ritorno all'accesso dopo il cambio password, passa da una funzione sola. La funzione chiude la sessione e cambia pagina una volta, senza «rinfresca». Prima l'area riservata e il tasto chiedevano due volte la pagina di accesso, e il «rinfresca» si agganciava alla richiesta scartata da Next: non partiva mai. PR NicolaeRotaru/mycity#361, ramo ccr-f5be6987-qmq91e.
+- **Verifica:** riprodotto dal vivo su telefono simulato. Prima era fermo dopo 20 s; dopo si arriva all'accesso in 1 s, da admin, negozio e fattorino. La prova usa la coda vera di Next: rossa col vecchio, verde col nuovo. Batteria 14.534 verdi. Collaudo indipendente: REGGE, e il suo minore sulla prova è chiuso nel secondo commit.
+- **Colore:** 🟡, codice in un ramo con PR aperta. L'unione e l'uscita online restano tue (🔴).
+
+## 2026-11-28 00:45 — Unita la correzione di «Esci» (🔴, firma di Nicola)
+- **Chi e quando:** Nicola ha unito la NicolaeRotaru/mycity#361 alle 00:45 (merge f020a34a sulla testa b3f82d33).
+- **Cosa:** dopo «Esci» si arriva alla pagina di accesso invece di restare su «Caricamento…». Vale per le aree admin, negozio e fattorino, e per il cambio password.
+- **Verifica:** 11 controlli della PR verdi (uno saltato come sempre), nessun conflitto. Resta da riprovare dal telefono vero sul sito pubblicato.
