@@ -1768,3 +1768,9 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Ricontrollo:** in sola lettura alle 11:44: approvato, partita IVA vuota, `negozio_in_vetrina` vero. Non sono partiti la notifica e la riga d'archivio che scrive la rotta di moderazione.
 - **Resta:** a fine test sospendere il negozio dalla pagina Utenti, senza cancellarlo. Account d'accesso: sdg.agenzia+raquel@gmail.com.
 - **Colore:** 🔴, scrittura sul database di produzione, fatta sulla richiesta esplicita di Nicola.
+
+## 2026-11-28 12:20 — Chi è già abbonato non vede più la scelta dell'abbonamento; PR mycity#372 da unire (🟡)
+- **Cosa:** Nicola, dalla pagina «Sito web» di «PROVA - Raquel Cafè» (Business attivo): «perché c'è la scelta dell'abbonamento se il cliente è già iscritto, controlla ovunque è rimasto e toglielo». Tolta per chi ha `attivo` (active o past_due) in quattro punti: pagina di ogni servizio, pagina Abbonamento, schermata «in attesa di approvazione», pulsante sulla pagina di un abbonamento di SDG («Vedi il tuo abbonamento»). Per chi non è abbonato non cambia niente.
+- **Prova:** `tests/unit/chi-e-gia-abbonato-non-sceglie-l-abbonamento.test.tsx`, 10 casi; senza la correzione 4 diventano rossi. Passano anche 64 file di prova esistenti sulle pagine toccate, e `tsc` è pulito.
+- **Lasciato com'era, apposta:** se la lettura dei dati fallisce, la pagina del servizio mostra ancora «Scegli l'abbonamento» (collaudo del 24/11, una prova esistente lo pretende: cambiarla vuole la firma di Nicola). Resta anche il riquadro «Col Premium, in più per te».
+- **Resta:** unire la mycity#372 (pubblicazione 🔴, la decide Nicola). Nessun collaudatore indipendente.
