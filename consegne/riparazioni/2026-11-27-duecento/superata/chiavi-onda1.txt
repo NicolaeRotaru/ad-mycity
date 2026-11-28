@@ -1,0 +1,60 @@
+coerenza-brand|la primitiva card è usata in 10 file, mentre 141 card sono ridisegnate a mano con quattro raggi diversi
+tipografia|otto spaziature diverse per la stessa etichetta maiuscola
+architettura|email partita ma non segnata: la notte dopo riparte, e se fallisce l'allarme dice «non partita» per un'email già arrivata
+architettura|il finto clienteavvisi è riscritto in quattro posti e la prova da 1033 righe mescola rotte, notte e una scansione del sorgente
+architettura|una fascia «domani» inviata alle 23:59 e arrivata alla rotta dopo mezzanotte si giudica sul giorno dopo
+qa-flussi|faccine nei titoli delle notifiche scritte dal codice del sito
+stati-ui|senza database la categoria e la scheda prodotto mostrano «qualcosa è andato storto» invece del loro errore con «riprova»
+qa-flussi|un cliente che esiste già non ha una strada da solo per diventare fattorino
+frontend-ux|altri percorsi di facebook non elencati possono essere salvati come nome del profilo
+layout-responsive|la home a 320 px col testo al 200% scorre ancora di lato di 18 px
+architettura|commenti delle rotte della veloce dicono ancora «un fattorino approvato e online»
+api-backend|l'invio subito delle notifiche push prende le righe guardando solo pushed_at, e può correre col giro del cron
+architettura|il parametro propostail di negoziopuoservire non lo passa nessuno
+stati-ui|sotto un lavoro sul catalogo chiuso che dice di chiedere all'assistenza prima di ripartire, il pulsante «avvia sul catalogo» resta lì
+ai-endpoints|l attesa per un applicazione del catalogo ancora in corso non scatta mai: legge una colonna che nessuna migrazione crea
+stati-ui|la pagina del lavoro sul catalogo non legge l avviso dell applica e mostra solo i primi tre motivi
+microcopy|un tetto del nome negozio respinto dal database esce col messaggio generico «il valore inserito non è valido.»
+qa-flussi|un contesto circolare passato al logger fa lanciare un errore invece di scrivere la riga
+layout-responsive|l'occhiello maiuscolo di collectionheader esce dalla colonna a 280 px col testo al 200%
+layout-responsive|il titolo di collectionheader da 640 px in su ha una misura in pixel fissi
+layout-responsive|in chi siamo i due pulsanti della fascia scura finale escono dalla fascia a 280 px col testo al 200%
+microcopy|sulla bacheca del fattorino una casella dice ancora «rating» in inglese
+stati-ui|oncount della griglia non sa dire «non so»: con la griglia ferma al tetto la categoria può restare su un numero vecchio
+dati-analytics|il cancello del filmato in eccezione lascia passare il filmato originale
+layout-responsive|col testo al 200% il voto del negozio nella scheda resta tagliato
+deploy-sre|chat e recensioni del negozio, senza la 181, scrivono un avviso a ogni apertura e non usano il ripiego dei nomi
+deploy-sre|senza la 164 la lettura dei nomi pubblici scrive «vista nomi_pubblici assente» a ogni chiamata
+deploy-sre|la guida al backup non dice che con un remote cifrato o alias lo storico va impostato a mano
+frontend-ux|il fattorino respinto o sospeso legge nel profilo «caricato · in attesa di verifica» sui documenti
+qa-flussi|il sorvegliante avvisa per una verifica d'identità «in attesa» anche dopo che lo staff ha approvato il fattorino o il negozio
+frontend-ux|alcune sottopagine vere di un profilo facebook (/nome/timeline, /nome/info, /nome/photos_by) vengono rifiutate invece di tenere il nome
+frontend-ux|il link tiktok di un profilo vero chiamato come un percorso riservato (tiktok.com/@live) viene rifiutato anche con la @
+frontend-ux|con due social sbagliati, uno vuoto e uno già salvato, il messaggio dice «sono rimasti com'erano» anche per quello vuoto
+frontend-ux|sotto il logo del negozio c'è ancora scritto «(png, jpg)» mentre la casella accetta sette formati
+frontend-ux|nel link facebook.com/nome_col_trattino_basso il primo messaggio che si legge è quello generico, «scrivi solo il nome del profilo…», non quello del trattino basso
+accessibilita|la card senza href scarta aria-label, e la card con href non passa al link il resto delle prop (id, role)
+deploy-sre|il commento del ritorno indietro dice ancora che un rilascio senza commit resta un posto buono, come prima
+deploy-sre|il commento del lavoro di rilascio dice ancora «se i candidati sono piu di uno»
+qa-flussi|nel cron delle notifiche restano altri codici di sessione nei commenti, come quello appena tolto
+api-backend|il preventivo accettato due volte nello stesso giorno con scelte diverse lascia avvisi che si contraddicono
+pagamenti-stripe|un conto stripe non più valido sul profilo fa ritentare il bonifico ogni 15 minuti e «aggiorna stato» risponde «errore stripe»
+qa-flussi|con una promozione del negozio la vetrina scrive un prezzo e la cassa ne fa pagare un altro, di un centesimo per pezzo
+flussi-conversione|nel pannello del negozio non c'è un posto dove vedere e approvare le anteprime
+sicurezza-auth|sette rotte di negozio e fattorino leggono il profilo dal cookie invece che dal gettone: chi entra solo col gettone riceve «profilo non trovato»
+privacy-legale|ai negozi scriviamo «iva inclusa» sulla commissione, mentre la regola decisa sospende quella dicitura finché il commercialista non conferma il regime
+stati-ui|creando una storia il negoziante non vede la foto scelta, solo il nome del file e il peso
+frontend-ux|nella scheda ordine del negozio compaiono «il rider sta gestendo la consegna» su un ordine annullato e «il rider incassa» su uno già consegnato
+performance|la velocità del sito vista dai clienti veri non la misura nessuno
+ai-endpoints|il freno di sei ore sui prodotti importati in errore regge solo con upstash: senza, ogni copia del sito ripaga le chiamate ai
+microcopy|in tanti punti l'euro è ancora scritto all'inglese: «€12.50», «€0 – €500+», «€ 2,50»
+dati-analytics|l'elenco prodotti dell'amministratore si ferma a mille senza dirlo, e la ricerca non trova i prodotti più vecchi
+layout-responsive|alla cassa, col testo del telefono al massimo, la scheda «contanti alla consegna» esce dallo schermo e la pagina scorre di lato
+mobile-pwa|quando la sessione scade da sola, il telefono perde le notifiche in silenzio e al nuovo accesso nessuno le riaccende
+coerenza-brand|la scala tipografica è aggirata 330 volte con misure a mano
+tipografia|con un solo elemento il sito scrive «1 negozi», «1 articoli», «1 ordini», «1 giorni fa»: il plurale è fisso
+performance-percepita|il traduttore degli errori dei moduli (zod) viaggia in ogni pagina, anche dove non c'è nessun modulo
+immagini-media|le prove di sviluppo seminano 240 foto di prodotto da placehold.co
+pagamenti-stripe|una contestazione persa su una parte del carrello segna persi anche gli ordini degli altri negozi
+flussi-conversione|chi è amministratore, negozio o fattorino perde il ritorno dopo l'accesso, e col pulsante google il ritorno si perde per tutti
+sicurezza-auth|il cambio di ruolo di un utente non finisce nel registro delle azioni amministrative

@@ -1,0 +1,32 @@
+ramo R01 ccr-819e0c8d-7ryjjr-m01
+ramo R02 ccr-819e0c8d-7ryjjr-m02
+ramo R05 ccr-819e0c8d-7ryjjr-m05
+ramo R06 ccr-819e0c8d-7ryjjr-m06
+ramo R04 ccr-819e0c8d-7ryjjr-m04
+ramo R07 ccr-819e0c8d-7ryjjr-m07
+ramo R09 ccr-819e0c8d-7ryjjr-m09
+ramo R03 ccr-819e0c8d-7ryjjr-m03
+ramo R12 ccr-819e0c8d-7ryjjr-m12
+ferma R07 bbe7165
+ramo R10 ccr-819e0c8d-7ryjjr-m10
+ramo R11 ccr-819e0c8d-7ryjjr-m11
+ferma R04 9382fe0
+ferma R06 b3fab50
+finita R12
+finita R11
+finita R03
+finita R07
+finita R09
+finita R10
+ferma R05 85bcea0
+finita R01
+finita R02
+finita R04
+finita R05
+finita R06
+ramo R08 ccr-819e0c8d-7ryjjr-m08
+finita R08
+ramo K02 ccr-819e0c8d-7ryjjr-k02
+finita K02
+ramo K03 ccr-819e0c8d-7ryjjr-k03
+finita K03

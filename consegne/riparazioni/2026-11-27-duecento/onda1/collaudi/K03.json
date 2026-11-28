@@ -1,0 +1,260 @@
+{
+ "collaudatore": "K03",
+ "riparatori": [
+  "R04",
+  "R05",
+  "R08"
+ ],
+ "aggiornato": "2026-11-27 04:16",
+ "finita": true,
+ "voci": [
+  {
+   "id": "R04-001",
+   "chiave": "frontend-ux|la pagina di richiesta reso accetta il ripensamento anche su ordini di pane",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 9382fe03bc96b984ee956f546ac50ff4aab4b3fb^ --file 'app/api/returns/create/route.ts,app/orders/[id]/return/page.tsx' --prove tests/unit/riparazione-r04-reso-pane-ripensamento.test.ts,tests/unit/riparazione-r04-reso-pane-pagina.test.tsx --json"
+   },
+   "nota": "Revisore qa S1, due lenti. Il fatto regge: GET nuovo solo al titolare dell'ordine e sulle sue righe (nessuna falla), pagina con cambi di riga in sequenza e invio sui casi frigo e misto; r07-reso-pane col diff di serve_file_altrui torna verde; suite intera rossa solo nelle 4 prove comuni attese. I 5 resti sono dichiarati. Non dichiarato: la cura del resto (1) (sottocategoria obbligatoria in ProductForm) vale solo in creazione, quindi restano recedibili i pani già salvati sulla radice Alimentari e quelli caricati da file (lib/products/righe-dal-file.ts:69-73 accetta la radice). Da far giudicare al legale, non al codice: conservazione «Frigorifero» esclude dal recesso ogni alimentare, bevande comprese (app/api/returns/create/route.ts:70-74)."
+  },
+  {
+   "id": "R04-002",
+   "chiave": "frontend-ux|altre tre caselle di caricamento accettano ancora le foto heic e le salvano senza conversione",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 72f2e55b^ --file 'components/ImageUrlField.tsx,components/VendorForm.tsx,components/StoreMediaManager.tsx,app/orders/[id]/return/page.tsx,components/rider/CashConfirmDialog.tsx' --prove tests/unit/riparazione-r04-foto-heic-altre-caselle.test.tsx --json"
+   },
+   "nota": "Revisore qa S2, due lenti. Le cinque caselle coperte: HEIC da iPhone, HEIC col tipo vuoto, browser che decodifica e che non decodifica, JPG intatto, campo file senza HEIC. Coi componenti della base la prova ha 20 rosse su 25. r16 e r10 col diff di serve_file_altrui 9/9 verdi (rosse sul ramo solo per la nota). Minori non decisivi: tre frasi nominano ancora HEIC fra i formati (VendorForm.tsx:231 e :420, StoreMediaManager.tsx:64), già nei nuovi difetti del referto."
+  },
+  {
+   "id": "R04-003",
+   "chiave": "frontend-ux|le foto dell'iphone (heic) adesso entrano davvero, ma nessuno le converte: sul telefono android e su chrome restano un riquadro rotto",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 69fd0ea2^ --file app/seller/stories/page.tsx,components/PhotoReviewUpload.tsx,components/seller/site/GalleryFields.tsx,components/seller/site/ImageUpload.tsx --prove tests/unit/riparazione-r04-foto-heic-quattro-caselle.test.tsx --json"
+   },
+   "nota": "Revisore qa S2, due lenti. Le quattro caselle convertono o rifiutano. Aiutante provato con maiuscole, tipo vuoto, octet-stream, -sequence, 48 MP (scende a 4096x3072), panorama estremo, toBlob nullo, ripiego con img.decode; HEIC lento seguito da JPG sulle storie: Pubblica resta spento. Coi componenti della base 15 rosse su 28. Minore estetico: image/heic chiamato photo.jpg diventa photo.jpg.jpg (lib/immagini/heic-in-jpeg.ts:93). Safari e Chrome veri non provati: simulati."
+  },
+  {
+   "id": "R04-009",
+   "chiave": "frontend-ux|un sito già salvato con ftp:// o scritto male ora blocca il salvataggio di tutto il negozio",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 20c64d3d^ --file components/VendorForm.tsx --prove tests/unit/riparazione-r04-sito-salvato-due-volte.test.tsx --json"
+   },
+   "nota": "Revisore qa S1, due lenti, voce senza revisore interno guardata per intero. Prova temporanea sul percorso vero (StoreDetailsEditor, VendorForm, scrittura nel profilo, profilo riletto fra i due salvataggi): con sito salvato «panequotidiano.it/chi siamo» prima di 20c64d3d il secondo Salva non partiva (1 scrittura su 2), alla testa partono tutti e due e il sito resta uguale. Un valore nuovo sbagliato si ferma ancora."
+  },
+  {
+   "id": "R04-010",
+   "chiave": "frontend-ux|un social già salvato che le regole nuove rifiutano blocca ancora il salvataggio di tutto il negozio",
+   "verdetto": "non_regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 63d5013a^ --file components/VendorForm.tsx --prove tests/unit/riparazione-r04-social-salvato-non-blocca.test.tsx --json"
+   },
+   "nota": "Revisore qa S1, lente nata_rotta: gira solo nella prova. L'unico modulo del sito coi social è StoreDetailsEditor, che passa a VendorForm normalizeCustomization(...) (components/seller/site/StoreDetailsEditor.tsx:98); normalizeCustomization scarta ogni social che le regole rifiutano (lib/store-customization.ts:318 e :327) e tiene solo il sito. Il codice cambiato (components/VendorForm.tsx:326-328) non vede mai un social salvato sbagliato. Sul percorso vero, prima e dopo 63d5013a: il campo si apre vuoto senza avviso e al Salva il social sparisce dal database. La prova del riparatore e la r02 col diff montano VendorForm coi valori grezzi, cosa che nessun chiamante fa: il diff di r02 in serve_file_altrui fissa un comportamento che sul sito non avviene. La cura sta in normalizeCustomization (tenere i social già salvati come il sito)."
+  },
+  {
+   "id": "R05-001",
+   "chiave": "pagamenti-stripe|i contanti vecchi ancora da versare spariscono dal pannello dei bonifici quando gli ordini consegnati superano mille",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R05 --base 443b5a8f^ --file app/admin/payouts/page.tsx --prove tests/unit/riparazione-r05-contanti-oltre-mille.test.tsx --json"
+   },
+   "nota": "Due revisori qa, uno per lente. nata_rotta (S4): regge, il filtro nuovo tocca solo i ritiri al banco senza payout_at, la commissione resta da regolare e la pagina dice che il totale è un minimo; suite intera verde. chiude_tutta (S3): il caso della voce era già chiuso nella base (il caso 1 della prova è verde anche lì) e la toppa sui ritiri regge (rossa sulla base). Resta un buco della stessa classe né chiuso né dichiarato: la finestra dei pagabili (app/admin/payouts/page.tsx:247 e 384) contiene righe che non diventano mai pagabili e crescono sempre (ritiri PARTIALLY_REFUNDED, HELD con internal_dispute_status LOST). Con 1.000 di queste righe più vecchie un contante HELD pagabile di un negozio sparisce dal pannello e il tasto non c'è; l'avviso «ricarica per il resto» non lo riporta. C'era già nella base."
+  },
+  {
+   "id": "R05-002",
+   "chiave": "pagamenti-stripe|il pannello dei bonifici non dice a nicola quanto versare a ogni negozio il lunedì",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R05 --base 3421bc8b^ --file app/admin/payouts/page.tsx,app/api/admin/contanti-da-stripe/route.ts --prove tests/unit/riparazione-r05-bonifici-del-lunedi.test.tsx --json"
+   },
+   "nota": "Due revisori qa, uno per lente. chiude_tutta (S3): punti 1-5 della voce presenti alla base; la data della rotta coincide col giro dei pagamenti; il resto è dichiarato per intero in cosa_resta. nata_rotta (S4): la rotta nuova è solo admin (venditore, cliente, fattorino 403; anonimo 401), gira col cookie come le altre pagine admin, la funzione del bonifico accetta un bonifico di soli ritiri. Residuo di soldi già dichiarato in cosa_resta (casi A e B): finché il giorno d'inizio non è letto la pagina torna al comportamento della base; non peggio della base. Minore: con la variabile valida il sottotitolo (page.tsx:634) dice ancora «il bonifico lo fai tu il lunedì»."
+  },
+  {
+   "id": "R05-003",
+   "chiave": "pagamenti-stripe|la rpc del tasto «bonifico fatto» dei negozi non è definita in nessuna migrazione del deposito",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Già riparato prima, guardato dal collaudatore alla base 2ba05a74 (tetto di 4 agenti della campagna): migrations/916 definisce public.segna_bonifico_manuale(uuid, uuid[], text, uuid[], integer) con i nomi p_seller, p_order_ids, p_riferimento, p_ritiri, p_importo_cents, gli stessi della chiamata in app/admin/payouts/page.tsx:273; security definer con search_path vuoto e is_admin(); la stessa 916 aggiunge PAID_MANUALLY al CHECK di orders.payout_status. Il difetto è assente alla base. Se la 916 è applicata sul database vero non l'ho visto (lo decide Nicola)."
+  },
+  {
+   "id": "R05-004",
+   "chiave": "pagamenti-stripe|il bonifico di rimborso al cliente non si può segnare come fatto, e nessuno controlla la scadenza dei 14 giorni",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R05 --base 034202cd^ --file lib/rimborsi/bonifici-da-fare.ts --prove tests/unit/riparazione-r05-bonifico-rimborso-termine-nell-avviso.test.ts --json"
+   },
+   "nota": "Due revisori qa, uno per lente. chiude_tutta (S3): pagina /admin/bonifici-rimborso, la 910 (FATTO una volta sola, RESPINTO), allarmiDeiBonifici ed elencoDeiBonifici ci sono alla base; link nella barra laterale e allarme nel cron mancano ma sono dichiarati, e la forma degli allarmi è compatibile col cron. nata_rotta (S4): cambio d'ora di marzo e ottobre, 23:59 e 00:01, 4 giorni prima del termine, reclamo senza data: verdi; un solo chiamante e i doppioni si evitano con una chiave fissa, quindi la frase che cambia non raddoppia gli avvisi. Le due prove comuni sono verdi così come sono."
+  },
+  {
+   "id": "R05-005",
+   "chiave": "dati-analytics|l'elenco prodotti dell'amministratore si ferma a mille senza dirlo, e la ricerca non trova i prodotti più vecchi",
+   "verdetto": "non_regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R05 --base 85bcea00^ --file app/admin/payouts/page.tsx --prove tests/unit/riparazione-r05-pagati-oltre-mille.test.tsx --json"
+   },
+   "nota": "Revisore qa S3, due lenti. La correzione non rompe niente (prove collegate verdi, l'avviso usa il conteggio esatto) e il falso avviso coi ritiri è dichiarato. Ma un pezzo della voce («la ricerca non trova i prodotti più vecchi») resta né chiuso né dichiarato: il campo dice «Cerca prodotto o negozio…» e la ricerca nel database guarda solo products.name (app/admin/products/page.tsx:101 contro :151). Con 1.233 prodotti, 233 vecchi di un negozio: cercando il nome del negozio la pagina dice 0 di 1233. cosa_resta cita solo il tetto di 200 e la lettura caduta."
+  },
+  {
+   "id": "R05-006",
+   "chiave": "pagamenti-stripe|se la lettura di resi e reclami cade, il pannello propone la compensazione dei soli ritiri al banco",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Già riparato prima, guardato dal collaudatore alla base 2ba05a74 (tetto di 4 agenti della campagna): in app/admin/payouts/page.tsx:390-406 contantiHeld comprende anche i ritiri CASH_IN_STORE senza payout_at; con la lettura di resi o reclami caduta tutti prendono pratica_aperta, e ritiroDaRegolare (righe 121-131) li esclude: niente conto dei soli ritiri, niente «Segna la compensazione». Il revisore interno del riparatore l'aveva confermato con una prova temporanea."
+  },
+  {
+   "id": "R05-007",
+   "chiave": "pagamenti-stripe|il portale dell'abbonamento si apre anche a chi ha solo il cliente stripe, senza abbonamento",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R05 --base a366ccbc^ --file app/api/seller/subscription/portal/route.ts --prove tests/unit/riparazione-r05-portale-senza-abbonamento.test.ts --json"
+   },
+   "nota": "Revisore qa S4, due lenti. Bottone, banner e rotta usano la stessa regola (portaleApribile); gli stati che il sito scrive sono active, past_due e canceled; col solo cliente Stripe e stato vuoto la rotta dà 400 e Stripe non viene chiamato."
+  },
+  {
+   "id": "R05-008",
+   "chiave": "pagamenti-stripe|il riuso della pagina di stripe restituisce la pagina vecchia senza rifare i controlli della fascia, e salta anche il tetto",
+   "verdetto": "non_regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R05 --base 1effa3cd^ --file app/api/stripe/checkout/route.ts --prove tests/unit/riparazione-r05-riuso-cassa-fascia-e-tetto.test.ts --json"
+   },
+   "nota": "Revisore qa S4, due lenti. Le riparazioni fatte reggono (fascia passata e fascia piena danno 409 anche al riuso), ma cosa_resta non dichiara tutto: al riuso gli orari si controllano solo sui negozi della vetrina pubblica (app/api/stripe/checkout/route.ts:435-448), mentre la richiesta nuova recupera dal profilo i negozi approvati fuori vetrina (route.ts:613-641). Caso provato: negozio fuori vetrina aperto 9-13 e 16:30-19:30, fascia «Oggi 13:00-16:30», pagina aperta alle 12:00 e rimandata alle 14:00: 200 con la pagina vecchia, mentre una richiesta nuova prende 409. Al pagamento il webhook rimborsa. La cura dichiarata (503 se la lettura dei negozi cade) non copre questo caso."
+  },
+  {
+   "id": "R05-012",
+   "chiave": "qa-flussi|con la carta, «domani» premuto alle 23:59 e arrivato dopo mezzanotte vale il giorno dopo",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R05 --base 436a6706^ --file app/api/stripe/checkout/route.ts --prove tests/unit/riparazione-r05-carta-domani-dopo-mezzanotte.test.ts --json"
+   },
+   "nota": "Revisore qa S4, due lenti. La cassa manda la data già nel formato giusto, quindi la correzione gira sul sito, con la stessa logica della rotta contanti; senza data, con data storta o con «Adesso» non cambia niente; una fascia di ieri prende 409; dopo mezzanotte l'impronta del carrello cambia e la pagina vecchia non si riusa. Resta la corsa di pochi secondi 23:59:59, già nei nuovi difetti del referto."
+  },
+  {
+   "id": "R08-003",
+   "chiave": "api-backend|la cancellazione di un account può disiscrivere dalla newsletter un'altra persona con un'email simile",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R08 --base 59a0cbfdafb208c5f2510ce42cc71a20409ec4b9^ --file lib/account/cancellazione.ts --prove tests/unit/riparazione-r08-newsletter-email-esatta.test.ts --json"
+   },
+   "nota": "Revisore qa S2, due lenti, più il collaudatore su chiude_tutta: su un Postgres 16 locale usa e getta, col vincolo newsletter_subscribers_email_format della 109, il modello neutralizzato 'mario\\_rossi@x.it' prende solo mario_rossi@x.it e MARIO_ROSSI@x.it, mentre quello della base ne prendeva 5 su 7 (anche mario.rossi, mario%rossi, marioXrossi). Il valore arriva a PostgREST così com'è; il vincolo esclude * e \\. Senza la riparazione la prova è 4 su 4 rossa."
+  },
+  {
+   "id": "R08-012",
+   "chiave": "privacy-legale|il buono regalo manda a stripe nome, email e messaggio privato del destinatario, e lì non si cancellano mai",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 2,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../marketplace --base 2ba05a74de2e9ad96fa94178df89711923119b0e --json"
+   },
+   "nota": "Nessun commit: la prova rimessa non ha niente da togliere (uscita 2, manca --file). Guardata dal collaudatore alla base 2ba05a74: app/api/gift-cards/checkout/route.ts ha già la descrizione generica sulla ricevuta e la chiave anti-doppione con un'impronta al posto dell'email; nei metadati di Stripe partono ancora recipient_name, recipient_email e message. Il resto (tabella nuova con migrazione, webhook altrui, potatura) è dichiarato per intero in cosa_resta. Nessun codice cambiato, quindi niente da rompere."
+  },
+  {
+   "id": "R08-013",
+   "chiave": "privacy-legale|la cancellazione dell'account non ripulisce le segnalazioni fatte da quell'account",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R08 --base 3d8fd427a2ee9aaedeb4ec62e314b641aa19f605^ --file lib/account/cancellazione.ts --prove tests/unit/riparazione-r08-segnalazioni.test.ts --json"
+   },
+   "nota": "Revisore qa S2, due lenti. Simulato ON DELETE SET NULL: la pulizia gira prima di deleteUser; se la pulizia delle segnalazioni cade la cancellazione si ferma; un utente senza segnalazioni passa. Colonne nullable e nessun trigger su UPDATE (migrations/126:426-442, 998 solo BEFORE INSERT). Non verificato che la tabella esista sul database vero."
+  }
+ ],
+ "campione": {}
+}
