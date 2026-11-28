@@ -8,6 +8,7 @@ reparto: builder-automazioni
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-11-28 02:03 · Accendere il flusso 16 Attività da visitare su parola di Nicola · V5 C4 A4 K4 I4 M3 E4 (media 4) · atteso acceso con prezzi 300/600/900 e minori riparati → reale acceso alle 02:00, prova 4563 verde; giro vero di lun 30/11 non ancora visto · #n8n #flusso16
 - 2026-11-27 04:27 · tasti Approva/Rifiuta dentro Telegram al posto del link sendAndWait (Nicola 27/11) · V4 C4 A5 K4 I4 M4 E3 (media 4) · atteso un tocco per contenuto, nessuna pagina, Approva tutti per consegna → reale acceso 04:25 dopo 5 difetti corretti dal collaudo; prova inviata 04:26, primo tocco vero in attesa · #telegram #n8n
 - 2026-11-27 15:21 · Proponi nel Calendario riscriveva da approvare anche le righe già uscite (N8N#34) · V5 C5 A4 K5 I3 M4 E3 (media 4.14) · atteso una rilettura per id e un errore sui pubblicati bastavano → reale servivano anche link pieni, riga lasciata a metà dal 01, doppie, approvate entro 10 minuti, e neutralizzare SALTA CONTROLLO AI ereditato: il collaudo l'ha bocciata una volta · #n8n #calendario #collaudo
 - 2026-11-27 01:32 · scheda agente a pagine + tre abbonamenti su misura (mycity, 27/11 01:32) · V4 C4 A4 K4 I4 M4 E3 (media 3.86) · atteso pagine e schede abbonamenti in un giro, su misura giusta al primo colpo → reale pagine ok al primo collaudo (5 minori); su misura 2 gravi al collaudo: «medio» letto come fatto e filtro promesse bucato da un non lontano · #collaudo #su-misura #paletti
