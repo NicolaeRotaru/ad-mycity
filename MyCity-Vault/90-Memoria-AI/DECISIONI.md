@@ -1687,3 +1687,9 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Chi e quando:** Nicola ha unito la NicolaeRotaru/mycity#361 alle 00:45 (merge f020a34a sulla testa b3f82d33).
 - **Cosa:** dopo «Esci» si arriva alla pagina di accesso invece di restare su «Caricamento…». Vale per le aree admin, negozio e fattorino, e per il cambio password.
 - **Verifica:** 11 controlli della PR verdi (uno saltato come sempre), nessun conflitto. Resta da riprovare dal telefono vero sul sito pubblicato.
+
+## 2026-11-28 01:08 — Unita la correzione dell'email già usata nel link del preventivo (🔴, firma di Nicola)
+- **Chi e quando:** Nicola in chat all'AD il 28/11 verso le 01:05: «margia se hai fatto tutto». L'AD ha unito la NicolaeRotaru/mycity#359 alle 01:08 (merge 862a1152 sulla testa 10c285af).
+- **Cosa:** quando il titolare scrive giusto il codice dell'email ma quella email ha già un account su MyCity, la pagina glielo dice e gli spiega cosa fare. A Nicola arriva un avviso per chiamarlo. Prima la pagina diceva solo «non sono riuscito a collegare questa email». È successo a Luna Rossa il 27/11 alle 23:34.
+- **Perché:** Supabase in quel caso risponde con un errore generico, e il sito non lo riconosceva. La regola del 24/11, che dava lo stesso messaggio a tutti, valeva prima del codice dell'email. Adesso a quel punto si arriva solo col codice giusto.
+- **Verifica:** `npm run verify` verde (14.537 prove), tutti i controlli della PR verdi, collaudo indipendente promosso al secondo giro, nessun conflitto con i 3 commit di «Esci» arrivati prima. Resta da provare sul sito pubblicato con un'email già usata.
