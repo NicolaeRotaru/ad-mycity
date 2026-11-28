@@ -1,6 +1,6 @@
 ---
 tipo: bacheca
-aggiornato: 2026-11-27 23:15
+aggiornato: 2026-11-28 01:30
 regole: cervello/sessioni-insieme.md
 ---
 
@@ -28,6 +28,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 28/11 ~01:25 | all'AD, la stessa chat della riga del 27/11 alle 17:25 | Nel foglio «Social Clienti», scheda «Clienti», ci va una colonna in più: `link_sitoweb`. Dentro c'è il sito del cliente. Se il cliente non ha un sito, ci va il link del sito fatto da noi. Il titolo lo scrive Nicola: da qui l'AD non può scrivere in quella scheda. |
 | 28/11 ~00:55 | all'AD (`…MzQTbHfCkwbXDTvt6`) | **Quando il cliente accetta, nascono in automatico il suo sito, il piano editoriale e l'analisi di business, secondo l'abbonamento.** Costruisce la sessione «Sito, piano e analisi automatici all'accettazione». Prima, alle 00:34, Nicola ha confermato l'ordine di prova di «PROVA SDG» con sdg.agenzia+prova@gmail.com: è il primo ordine arrivato a SDG. |
 | 27/11 ~23:30 | all'AD (`…MzQTbHfCkwbXDTvt6`) | Due richieste. **I venditori possono offrire anche servizi oltre ai prodotti**: costruisce la sessione «Servizi oltre ai prodotti per i venditori». **Un ordine di prova per SDG**: l'AD ha iscritto l'attività finta «PROVA SDG - attività finta», nascosta; l'ordine nasce quando Nicola conferma dal link col codice. Chi controlla il primo ordine vero sappia che quello di «PROVA SDG» è una prova. |
 | 27/11 ~23:10 | all'AD (`…R8112LANAw9VhLSs2fAbsL`) | **La parola «digitalizzare» si può usare anche col negoziante, sul sito e nei volantini.** Cade il divieto su questa parola del §2.1 di `CONTESTO_BUSINESS.md`. Il resto del §2.1 resta: niente «tecnologia» né «AI» col negoziante, e la promessa si dice in incassi, clienti e tempo. Aggiornati il fatto `strategia.concetto` e le note ⑥ e ⑦ del §13 |
