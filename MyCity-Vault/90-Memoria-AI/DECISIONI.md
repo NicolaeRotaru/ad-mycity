@@ -1761,3 +1761,10 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Prima di unire:** su GitHub 10 controlli verdi e 1 saltato apposta (la cassa vera); nessun conflitto con main.
 - **Fatto:** unione con squash alle 10:46, commit 228d1ca. Vercel ha pubblicato in produzione alle 10:49 (dpl_HmeXMSx1bQAJGHyveLgVumiUZAF4, READY). Ho verificato che `lockAcquireTimeout:5e3` è nei file JavaScript del sito vero.
 - **Colore:** 🔴, pubblicazione in produzione, fatta sulla richiesta esplicita di Nicola.
+
+## 2026-11-28 11:44 — Approvato senza partita IVA solo il negozio di prova «PROVA - Raquel Cafè» (🔴, firma di Nicola)
+- **Cosa:** Nicola, 11:37, dalla pagina Utenti: «siccome è un'azienda di prova, togli l'obbligo della partita IVA» solo per Raquel Cafè; la regola resta uguale per tutti gli altri negozi. Il negozio ha un abbonamento in contanti attivo, quindi approvato entra subito in vetrina col nome e l'indirizzo di un bar vero (Piazza Duomo 23). Alla domanda dell'AD, Nicola ha scelto «Rinomina e approva».
+- **Cosa ho fatto:** sul database vero, una riga sola (`profiles` `ffb27af9-ad17-42a5-8215-a7ad3dfe0224`): nome in «PROVA - Raquel Cafè», `approval_status` approved, `is_approved` vero, `approved_by` l'account di Nicola. Il controllo della partita IVA vive solo nella rotta dello staff (`lib/admin/regole-approvazione.ts`): il codice del sito non è cambiato. La guardia `enforce_profile_update_rules` è stata superata col permesso locale `mycity.allow_profile_write`, che vale solo per quel comando: riletto subito dopo, è vuoto.
+- **Ricontrollo:** in sola lettura alle 11:44: approvato, partita IVA vuota, `negozio_in_vetrina` vero. Non sono partiti la notifica e la riga d'archivio che scrive la rotta di moderazione.
+- **Resta:** a fine test sospendere il negozio dalla pagina Utenti, senza cancellarlo. Account d'accesso: sdg.agenzia+raquel@gmail.com.
+- **Colore:** 🔴, scrittura sul database di produzione, fatta sulla richiesta esplicita di Nicola.
