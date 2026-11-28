@@ -1717,3 +1717,10 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Chi e quando:** l'AD, sessione session_01R8112LbktuXLFPYd4xLh8V. La riga delle 00:45 dice «Nicola ha unito»: la NicolaeRotaru/mycity#361 l'ha unita l'AD alle 00:44, sulla firma esplicita di Nicola in chat.
 - **Cosa:** alle 00:40 Nicola ha scritto di nuovo «la pagina continua a caricarsi all'infinito». Alla domanda dell'AD ha risposto che era il caso dopo «Esci», e poi «sì, mettila online». Il sito con la riparazione è online dalle 00:52 (pubblicazione dpl_FUvnZ1GfNR9YjEFV4z6ixCGg9NAc).
 - **Verifica sul sito vero (00:53):** su un telefono simulato, le aree admin, negozio e fattorino aperte senza essere dentro portano all'accesso, senza «Caricamento». Vercel non segna errori nei 15 minuti dopo la pubblicazione. L'uscita col proprio account resta da provare dal telefono di Nicola.
+
+## 2026-11-28 02:28 — 30 dossier a settimana invece di 10 (🟡, scelta di Nicola)
+- **Chi e quando:** Nicola in chat all'AD il 28/11 verso le 02:25: «30 dossier a settimana di quelli prioritari giusto?». L'AD gli aveva proposto tre strade: il dossier quando l'agente prenota (consigliata), 30 a settimana, tutti i 650 subito.
+- **Cosa:** nel flusso 16 `QUANTE_A_SETTIMANA` passa da 10 a 30, il massimo del codice. Caricato sul flusso acceso alle 02:28 (versione `bfb52523`) e nel repo con NicolaeRotaru/N8N#41. Registro-fatti `negozi.ingresso` aggiornato, COMANDI allineato.
+- **Perché regge:** resta una sola richiesta a «Chiedi all'AD» a settimana. Giovedì 10 dossier hanno preso meno di 2 minuti, quindi 30 ne prendono circa 5, contro un'attesa massima di 15. Se l'AD ne scrive solo una parte, il messaggio dice quante restano senza.
+- **Il prezzo:** circa il triplo delle ricerche dell'AD ogni lunedì, sullo stesso abbonamento Claude, oggi in avviso per il limite settimanale. Telegram: circa 10 messaggi invece di 4.
+- **Verifica:** prove del repo 24 su 24 (la prova con 30 c'era già). Il giro vero con 30 non l'ho visto: è lunedì.

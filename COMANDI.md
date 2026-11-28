@@ -27,7 +27,7 @@
 
 ## 🏪 Negozi
 - **"porta [nome] LIVE"** → la squadra prepara tutto per metterlo online. 🟡
-- **"trovami negozi"** → la lista c'è già: la fa ogni lunedì il flusso n8n «16 · Attività da visitare» (tabella omonima su n8n, dossier sulle prime 10). Leggi la tabella; se serve un giro fuori orario, avvialo da n8n. Il pitch lo prepara vendite. Mai messaggi a freddo alle attività. 🟢
+- **"trovami negozi"** → la lista c'è già: la fa ogni lunedì il flusso n8n «16 · Attività da visitare» (tabella omonima su n8n, dossier sulle prime 30, le più prioritarie). Leggi la tabella; se serve un giro fuori orario, avvialo da n8n. Il pitch lo prepara vendite. Mai messaggi a freddo alle attività. 🟢
 - **"negozio in calo"** → piano per recuperare un negozio che vende meno. 🟡
 - **una foto di un negozio o di un'azienda** (anche senza una parola; alias: *"scheda di questo negozio"*, *"preventivo per [nome]"*) → la sessione legge l'insegna, cerca via, social, sito e recensioni e consegna la **scheda per il venditore** e il **preventivo** con bozza del sito e piano editoriale (skill `scheda-da-foto`, programma `node cervello/scheda-cliente.mjs`). 🟢 (niente parte verso il cliente)
 - **"supervisiona i negozi"** (alias: *"controlla i dati mancanti"*, *"cosa manca ai negozi/prodotti"*) → la macchina veglia OGNI negozio e OGNI prodotto, trova i dati mancanti e prepara il **riempimento automatico** come proposte da firmare (`node cervello/supervisione-negozi.mjs --accoda`): i campi deducibili (unità, condizione, categoria) diventano azioni 🟡 in [[AZIONI-IN-ATTESA]] col comando pronto; ciò che serve materia prima reale (foto, prezzi, orari, descrizioni) finisce in "serve da te". Report in `consegne/supervisione/`. 🟢 (la scrittura sul sito parte solo col tuo ok)
