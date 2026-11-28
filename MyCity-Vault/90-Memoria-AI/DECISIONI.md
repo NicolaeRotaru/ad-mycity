@@ -1710,3 +1710,9 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Chi e quando:** l'AD, sessione session_01R8112LbktuXLFPYd4xLh8V. La riga delle 00:45 dice «Nicola ha unito»: la NicolaeRotaru/mycity#361 l'ha unita l'AD alle 00:44, sulla firma esplicita di Nicola in chat.
 - **Cosa:** alle 00:40 Nicola ha scritto di nuovo «la pagina continua a caricarsi all'infinito». Alla domanda dell'AD ha risposto che era il caso dopo «Esci», e poi «sì, mettila online». Il sito con la riparazione è online dalle 00:52 (pubblicazione dpl_FUvnZ1GfNR9YjEFV4z6ixCGg9NAc).
 - **Verifica sul sito vero (00:53):** su un telefono simulato, le aree admin, negozio e fattorino aperte senza essere dentro portano all'accesso, senza «Caricamento». Vercel non segna errori nei 15 minuti dopo la pubblicazione. L'uscita col proprio account resta da provare dal telefono di Nicola.
+
+## 2026-11-28 02:24 · Unita la mycity#364: sito, piano e analisi nascono all'accettazione 🔴
+- **Chi e quando:** Nicola, in chat all'AD, 28/11 alle 02:13: «se hai fatto tutto e la pr è pronta fai il merge».
+- **Cosa:** l'AD ha aspettato gli ultimi due controlli, cioè le prove unitarie e le prove sul telefono. Alle 02:24 erano tutti verdi e la richiesta non aveva conflitti. L'AD l'ha unita in main con un merge, commit c6d1e157. Vercel ha cominciato la pubblicazione sul sito vero.
+- **Cosa non è fatto:** la migrazione 999h non è applicata. Finché non entra, il sito funziona come prima e sito e analisi dicono «manca la migrazione 999h». La mycity#360 dei servizi resta ferma: per quella il sì di Nicola non c'è.
+- **Colore:** 🔴. Codice sul sito vero, firmato da Nicola in chat.
