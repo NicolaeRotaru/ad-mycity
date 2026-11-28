@@ -1677,3 +1677,13 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa c'era:** all'accettazione nasceva solo il piano editoriale. Sull'ordine di prova di «PROVA SDG», accettato alle 00:34, il piano completo dell'AD è tornato pronto alle 00:49. Sito e analisi non partivano da soli.
 - **Cosa:** aperta la sessione `session_01R8112Kun6Wo8nBHSChBjwv`, che costruisce su mycity in un ramo e apre la PR. Scelte prese per Nicola, reversibili. Parte all'accettazione, non al pagamento, perché i contanti arrivano alla visita. Lo scrive l'AD col flusso 14, mai un'API a pagamento. Sono 3 corse per cliente su 40 al giorno. Il sito ha le pagine della fascia e non va online da solo. L'analisi è il rapporto all'avvio; il ritmo mensile e settimanale è un secondo passo. Tutto si vede in «Servizi» come bozza da confermare alla visita.
 - **Colore:** 🟡. Codice in un ramo con PR; niente unione, deploy o migrazione senza la firma di Nicola. Tetto dato alla sessione: 6 subagenti, due giri di correzioni.
+## 2026-11-28 00:35 — Corretto «Esci» che lasciava la pagina su «Caricamento…» (🟡, PR da unire)
+- **Chi e quando:** Nicola in chat all'AD il 27/11 alle 23:52, con la foto dal telefono: «Quando mi disconnetto appare questa pagina di caricamento che continua a caricarsi all'infinito».
+- **Cosa:** ogni «Esci» del sito, e il ritorno all'accesso dopo il cambio password, passa da una funzione sola. La funzione chiude la sessione e cambia pagina una volta, senza «rinfresca». Prima l'area riservata e il tasto chiedevano due volte la pagina di accesso, e il «rinfresca» si agganciava alla richiesta scartata da Next: non partiva mai. PR NicolaeRotaru/mycity#361, ramo ccr-f5be6987-qmq91e.
+- **Verifica:** riprodotto dal vivo su telefono simulato. Prima era fermo dopo 20 s; dopo si arriva all'accesso in 1 s, da admin, negozio e fattorino. La prova usa la coda vera di Next: rossa col vecchio, verde col nuovo. Batteria 14.534 verdi. Collaudo indipendente: REGGE, e il suo minore sulla prova è chiuso nel secondo commit.
+- **Colore:** 🟡, codice in un ramo con PR aperta. L'unione e l'uscita online restano tue (🔴).
+
+## 2026-11-28 00:45 — Unita la correzione di «Esci» (🔴, firma di Nicola)
+- **Chi e quando:** Nicola ha unito la NicolaeRotaru/mycity#361 alle 00:45 (merge f020a34a sulla testa b3f82d33).
+- **Cosa:** dopo «Esci» si arriva alla pagina di accesso invece di restare su «Caricamento…». Vale per le aree admin, negozio e fattorino, e per il cambio password.
+- **Verifica:** 11 controlli della PR verdi (uno saltato come sempre), nessun conflitto. Resta da riprovare dal telefono vero sul sito pubblicato.
