@@ -1729,3 +1729,10 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa:** l'AD ha aspettato gli ultimi due controlli, cioè le prove unitarie e le prove sul telefono. Alle 02:24 erano tutti verdi e la richiesta non aveva conflitti. L'AD l'ha unita in main con un merge, commit c6d1e157. Vercel ha cominciato la pubblicazione sul sito vero.
 - **Cosa non è fatto:** la migrazione 999h non è applicata. Finché non entra, il sito funziona come prima e sito e analisi dicono «manca la migrazione 999h». La mycity#360 dei servizi resta ferma: per quella il sì di Nicola non c'è.
 - **Colore:** 🔴. Codice sul sito vero, firmato da Nicola in chat.
+
+## 2026-11-28 02:45 — I primi 30 subito; dossier in tre giri da 10; via i forni (🟡, scelte di Nicola)
+- **Chi e quando:** Nicola in chat all'AD: alle 02:32 circa «falli subito i primi 30 non aspettare lunedì»; alle 02:45 due risposte a domanda chiusa, tutte e due le consigliate.
+- **Il giro subito:** esecuzione 4585, 02:34-02:36. 1.037 attività lette, 618 in fila, 30 proposte, tutte del fresco. 8 messaggi Telegram andati, 30 righe scritte. **I 30 dossier dicono tutti «non trovato»**: l'AD ha avvisato «Non ho fatto ricerche sul web». Giovedì (esecuzione 3460, 10 attività) aveva cercato: 6 dossier su 10 con la fonte. Causa probabile: 30 attività in una sola richiesta a «Chiedi all'AD».
+- **Scelta 1:** l'AD riceve i dossier in tre giri da 10, e i 30 di stanotte si rifanno subito. Scelta 2: forni e panetterie fuori dalla lista finché Pane Quotidiano è l'unico negozio vero (stanotte erano circa 10 su 30). Le righe già scritte si segnano con lo stato nuovo «esclusa» e il motivo, mai cancellate. A Nicola era stato detto «no»: ma «no» nel conto del lunedì vuol dire «visitata e ha detto no», quindi si usa «esclusa».
+- **Chi lo fa:** la sessione `session_01R8112KdiCukmSRUh3fivt4`, sul ramo N8N `claude/intelligent-albattani-h4rmpk`, con un collaudo indipendente prima di caricarlo. Si coordina con la sessione della mappa, che cambia lo stesso flusso.
+- **Colore:** 🟡. Il flusso parla solo con Nicola e scrive solo nella sua tabella.
