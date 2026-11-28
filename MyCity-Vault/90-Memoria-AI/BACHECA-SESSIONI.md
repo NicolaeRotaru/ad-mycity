@@ -28,6 +28,8 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 28/11 ~01:15 | alla regia della campagna dei 200 (session_015BmpnXCNZDPwoc9LQi6wa1) | «Quando è pronta mergiala»: la richiesta di unione della macchina con il quaderno della campagna dei 200 si unisce in main appena le prove automatiche di GitHub sono verdi e non ci sono scontri con main. Non riguarda il sito: lì la richiesta di unione non esiste ancora. |
+| 28/11 ~00:55 | all'AD (`…MzQTbHfCkwbXDTvt6`) | **Quando il cliente accetta, nascono in automatico il suo sito, il piano editoriale e l'analisi di business, secondo l'abbonamento.** Costruisce la sessione «Sito, piano e analisi automatici all'accettazione». Prima, alle 00:34, Nicola ha confermato l'ordine di prova di «PROVA SDG» con sdg.agenzia+prova@gmail.com: è il primo ordine arrivato a SDG. |
 | 27/11 ~23:30 | all'AD (`…MzQTbHfCkwbXDTvt6`) | Due richieste. **I venditori possono offrire anche servizi oltre ai prodotti**: costruisce la sessione «Servizi oltre ai prodotti per i venditori». **Un ordine di prova per SDG**: l'AD ha iscritto l'attività finta «PROVA SDG - attività finta», nascosta; l'ordine nasce quando Nicola conferma dal link col codice. Chi controlla il primo ordine vero sappia che quello di «PROVA SDG» è una prova. |
 | 27/11 ~23:10 | all'AD (`…R8112LANAw9VhLSs2fAbsL`) | **La parola «digitalizzare» si può usare anche col negoziante, sul sito e nei volantini.** Cade il divieto su questa parola del §2.1 di `CONTESTO_BUSINESS.md`. Il resto del §2.1 resta: niente «tecnologia» né «AI» col negoziante, e la promessa si dice in incassi, clienti e tempo. Aggiornati il fatto `strategia.concetto` e le note ⑥ e ⑦ del §13 |
 | 27/11 ~22:40 | all'AD, stessa chat della riga delle 17:25 | Alla domanda «lancio io Migrazioni a mano?» ha scelto «Sì, lanciale tu». Entrano insieme le tre migrazioni già unite che mancavano nel database. La 999c fa nascere l'ordine a SDG. La 999d mette i prezzi a 300, 600 e 900 euro. La 999f segna le email finte dei negozi già iscritti. L'AD l'ha lanciata su main con APPLICA, 3 e 999f. |
@@ -224,6 +226,7 @@ già la stessa cosa: se sì, scrivile invece di rifarlo (regola 3). Oggi tre gru
 
 | Sessione | Lavoro | File suoi |
 |---|---|---|
+| «Sito, piano e analisi automatici all'accettazione» (`…Kun6Wo8nBHSChBjwv`) | All'accettazione partono tre lavori all'AD col flusso 14, cioè piano, sito e analisi; si vedono in «Servizi» e negli ordini di SDG. Migrazione nuova, non applicata | mycity, ramo suo: `lib/agenzia/ordine-sdg.ts`, `lib/agenzia/lavoro-consegnato/`, `lib/agenzia/bozza-sito-ad.ts` |
 | «Servizi oltre ai prodotti per i venditori» (`…L6m92yFKbgNBKNr7B`) | Prodotto o servizio nel modulo del venditore; il servizio si prenota in chat, non va nel carrello. Migrazione nuova dopo la 999f, non applicata | mycity, ramo suo: `lib/products/servizio.ts`, `components/seller/ProductForm.tsx`, `lib/ordini/valida-carrello.ts` |
 | «Link imprenditore e flusso abbonamenti» (`…NaCwxLRhwBxPjvCVC`) | La conferma dell'abbonamento dal link col codice dall'email. Finita: unita con mycity#349 col sì di Nicola, alle 17:56. Su quel ramo non cambia più niente | mycity `claude/adoring-fermat-2d0bi6`: `lib/agenzia/preventivo-col-codice.ts`, `lib/agenzia/codice-dal-link.ts`, `app/api/preventivo/[codice]/*` |
 | «Subscription confirmation flow» (`…NuFB3nq8tjMhb1KRu`) | Nella conferma dal link il titolare sceglie giorno e ora della visita di SDG: colonna `visita_il`, migrazione 999b | mycity `ccr-96d27df4-51gd0d`. Il ramo parte da quello della #349. |
@@ -250,6 +253,7 @@ un elenco che da qui non si vede: il loro stato non è verificato.
 
 | Ruolo | Id |
 |---|---|
+| «Sito, piano e analisi automatici all'accettazione», PR su mycity | `session_01R8112Kun6Wo8nBHSChBjwv` |
 | «Servizi oltre ai prodotti per i venditori», PR su mycity | `session_01R8112L6m92yFKbgNBKNr7B` |
 | «Verifica sessioni completate», AD, controllo delle sessioni | `session_01R8112L2JFRP34XMFymdS4d` |
 | «Verifica PR pronte per merge», unisce le richieste | `session_01R8112KTPLRuAkWr1PreRUu` |
