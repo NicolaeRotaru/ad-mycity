@@ -88,7 +88,7 @@ Se va bene: lo scrivo nel registro dei fatti, così rapporto e preventivo dicono
 - **Reparto:** finanza
 - **Dettagli tecnici:** tabella `abbonamenti_servizi`, letta in sola lettura il 27/11 alle 18:30: 2 righe, fascia business, `canone_centesimi` 50000, origine contanti, stato active, create alle 15:24 e 15:45 UTC. La migrazione 999d non le tocca.
 
-### 🔴 #272 — Ripubblica il flusso n8n 19 coi prezzi nuovi (il 16 è fatto) · ⏳ accodata 2026-11-27 18:20 · @builder-automazioni
+### 🔴 #272 — Ripubblica il flusso n8n 19 coi prezzi nuovi · ⏳ accodata 2026-11-27 18:20 · @builder-automazioni
 
 **Stato:** ⏳ in attesa di Nicola, solo per il 19. Il 16 è ripubblicato e acceso dal 28/11 alle 02:00, sulla parola di Nicola «accendi la mappa» (01:50): ora dice 300, 600 e 900 €.
 
