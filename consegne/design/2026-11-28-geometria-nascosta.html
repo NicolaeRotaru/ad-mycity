@@ -1,0 +1,732 @@
+<title>Geometria nascosta</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: tavolo da disegno. Colonna di 987px (Fibonacci), spazi 8·13·21·34·55·89, caratteri che crescono di 1,618. */
+:root{
+  --bg:#eceef2; --surface:#f8f9fb; --surface-2:#e1e4eb; --fg:#191c2b; --muted:#565b6e;
+  --line:rgba(25,28,43,.15); --ink:#2a43c6; --on-ink:#f8f9fb; --warn:#9c3320; --acc-l:42%;
+  --f-display:"Marcellus", Georgia, "Times New Roman", serif;
+  --f-body:"Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  --s1:8px; --s2:13px; --s3:21px; --s4:34px; --s5:55px; --s6:89px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0e1120; --surface:#161a2c; --surface-2:#20253a; --fg:#e9e6dd; --muted:#a2a4b5;
+    --line:rgba(233,230,221,.14); --ink:#e3b85c; --on-ink:#0e1120; --warn:#ff8f74; --acc-l:66%;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0e1120; --surface:#161a2c; --surface-2:#20253a; --fg:#e9e6dd; --muted:#a2a4b5;
+  --line:rgba(233,230,221,.14); --ink:#e3b85c; --on-ink:#0e1120; --warn:#ff8f74; --acc-l:66%;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{
+  background:var(--bg); color:var(--fg); font:16px/1.618 var(--f-body);
+  padding-left:max(16px, env(safe-area-inset-left, 0px));
+  padding-right:max(16px, env(safe-area-inset-right, 0px));
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:987px; margin:0 auto; padding-block:var(--s5) var(--s6); display:grid; gap:var(--s5)}
+h1,h2,h3{font-family:var(--f-display); font-weight:400; text-wrap:balance; margin:0}
+h1{font-size:clamp(42px, 7vw, 68px); line-height:1.05; letter-spacing:.005em}
+h2{font-size:clamp(26px, 3.6vw, 34px); line-height:1.2}
+h3{font-family:var(--f-body); font-size:16px; font-weight:600; line-height:1.4}
+p{margin:0}
+.eyebrow{font:500 13px/1.3 var(--f-mono); letter-spacing:.09em; text-transform:uppercase; color:var(--muted)}
+.lead{font-size:clamp(17px, 2vw, 20px); color:var(--muted); max-width:62ch}
+.lead strong{color:var(--fg); font-weight:600}
+section{display:grid; gap:var(--s3)}
+.intro{display:grid; gap:var(--s3)}
+
+/* ---------- comandi ---------- */
+.controls{display:grid; grid-template-columns:minmax(0,1.618fr) minmax(0,1fr) auto; gap:var(--s2); align-items:end}
+.field{display:grid; gap:6px; min-width:0}
+.field label{font:500 13px/1.3 var(--f-mono); letter-spacing:.06em; text-transform:uppercase; color:var(--muted)}
+.field input{
+  width:100%; font:16px/1.4 var(--f-body); color:var(--fg); background:var(--surface);
+  border:1px solid var(--line); border-radius:4px; padding:10px 13px; min-height:46px;
+}
+.field input:focus-visible, button:focus-visible{outline:3px solid var(--ink); outline-offset:2px}
+.btn-svela{
+  font:600 15px/1 var(--f-body); min-height:46px; padding:0 21px; border-radius:4px; cursor:pointer;
+  border:1px solid var(--fg); background:var(--fg); color:var(--bg); white-space:nowrap;
+}
+.btn-svela[aria-pressed="true"]{background:var(--ink); border-color:var(--ink); color:var(--on-ink)}
+.calc{font:13px/1.5 var(--f-mono); color:var(--muted); overflow-wrap:anywhere}
+.chips{display:flex; flex-wrap:wrap; gap:var(--s1)}
+.chip{font:13px/1.4 var(--f-mono); border:1px solid var(--line); background:var(--surface); padding:5px 10px; border-radius:3px}
+.chip b{font-weight:500; color:var(--muted); letter-spacing:.06em; text-transform:uppercase; margin-right:6px}
+
+/* ---------- il sito d'esempio (un rettangolo aureo) ---------- */
+.frame{
+  --b:1.42cqw; --k-name:4.236; --m-radius:2px; --m-dur:333ms; --m-weight:700; --metal:#9ea39a;
+  --site-accent:hsl(50 78% var(--acc-l));
+  position:relative; width:100%; max-width:100%; aspect-ratio:1.618034 / 1; container-type:inline-size;
+  background:var(--surface); border:1px solid var(--line); overflow:hidden;
+  display:grid; grid-template-columns:61.8034% 38.1966%;
+}
+.m-text{position:relative; z-index:2; display:flex; flex-direction:column; justify-content:space-between;
+  padding:calc(var(--b)*2.125); min-width:0}
+.m-head{display:flex; align-items:center; gap:calc(var(--b)*0.8125)}
+.m-logo{width:calc(var(--b)*2.2); height:calc(var(--b)*2.2); flex:none; transition:transform var(--m-dur) cubic-bezier(.382,0,.618,1)}
+.m-head:hover .m-logo{transform:rotate(calc(360deg / var(--sides, 3)))}
+.m-brand{font-weight:700; font-size:var(--b); letter-spacing:.01em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0}
+.m-nav{margin-left:auto; display:flex; gap:calc(var(--b)*1.3125); font-size:calc(var(--b)*.85); color:var(--muted)}
+.m-burger{margin-left:auto; display:none; width:calc(var(--b)*1.6); height:calc(var(--b)*1.1)}
+.m-body{display:grid; gap:calc(var(--b)*0.8125)}
+.m-eyebrow{font:500 calc(var(--b)*.8)/1.2 var(--f-mono); letter-spacing:.1em; text-transform:uppercase; color:var(--muted)}
+.m-name{font-family:var(--f-body); font-weight:var(--m-weight); font-size:calc(var(--b)*var(--k-name)); line-height:1.02; letter-spacing:-.02em; overflow-wrap:anywhere}
+.m-sub{font-size:calc(var(--b)*1.618); line-height:1.3; color:var(--muted); max-width:22ch}
+.m-btn{justify-self:start; margin-top:calc(var(--b)*0.5); font:600 var(--b)/1 var(--f-body); color:var(--fg);
+  padding:calc(var(--b)*0.8125) calc(var(--b)*1.3125); border-radius:var(--m-radius);
+  border:1.5px solid var(--site-accent); background:color-mix(in srgb, var(--site-accent) 22%, var(--surface));
+  transition:background var(--m-dur) cubic-bezier(.382,0,.618,1); cursor:default}
+.m-btn:hover{background:color-mix(in srgb, var(--site-accent) 45%, var(--surface))}
+.m-foot{display:flex; align-items:center; gap:calc(var(--b)*0.5); font-size:calc(var(--b)*.8); color:var(--muted)}
+.m-moon{width:calc(var(--b)*1.2); height:calc(var(--b)*1.2); flex:none}
+.m-photo{position:relative; z-index:0;
+  background:linear-gradient(160deg, color-mix(in srgb, var(--metal) 60%, var(--surface)) 0%, color-mix(in srgb, var(--metal) 16%, var(--surface)) 100%)}
+.m-deco, .m-over{position:absolute; inset:0; width:100%; height:100%; pointer-events:none}
+.m-deco{z-index:1}
+.m-over{z-index:3; opacity:0; transition:opacity 618ms cubic-bezier(.382,0,.618,1)}
+.frame.svelato .m-over{opacity:1}
+.fiore circle{fill:none; stroke:var(--fg); stroke-width:1; opacity:.07; transition:opacity 618ms, stroke 618ms}
+.frame.svelato .fiore circle{stroke:var(--ink); opacity:.8; stroke-width:1.2}
+.vesica{fill:var(--surface); opacity:.38}
+.motivo *{fill:none; stroke:var(--metal); stroke-width:1.2; opacity:.55}
+.sole-disco{fill:var(--metal)}
+.sole-anello{fill:none; stroke:var(--metal); stroke-width:1.2}
+.o-line{stroke:var(--ink); stroke-width:1.2; stroke-dasharray:6 5; fill:none}
+.o-sq{stroke:var(--ink); stroke-width:.8; fill:none; opacity:.55}
+.o-spiral{stroke:var(--ink); stroke-width:2.2; fill:none}
+.o-ves{stroke:var(--ink); stroke-width:1; stroke-dasharray:3 4; fill:none}
+.mk{position:absolute; z-index:4; width:24px; height:24px; margin:-12px 0 0 -12px; border-radius:50%;
+  background:var(--ink); color:var(--on-ink); font:600 12px/24px var(--f-mono); text-align:center;
+  opacity:0; transform:scale(.6); transition:opacity 382ms, transform 382ms; pointer-events:none}
+.frame.svelato .mk{opacity:1; transform:none}
+@media (max-width: 640px){
+  .controls{grid-template-columns:1fr}
+  .frame{aspect-ratio:1 / 1.618034; grid-template-columns:1fr; grid-template-rows:61.8034% 38.1966%; --b:3.9cqw; --k-name:2.618}
+  .m-nav{display:none}
+  .m-burger{display:block}
+}
+
+/* ---------- legenda ---------- */
+.legend{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:var(--s2) var(--s4)}
+.legend li{display:grid; grid-template-columns:24px minmax(0,1fr); gap:var(--s2); align-items:start}
+.legend .k{width:24px; height:24px; border-radius:50%; border:1.5px solid var(--ink); color:var(--ink); font:600 12px/21px var(--f-mono); text-align:center}
+.legend h3{font-size:15px}
+.legend p{font-size:15px; color:var(--muted); line-height:1.5}
+
+/* ---------- codice e calendario ---------- */
+.duo{display:grid; grid-template-columns:minmax(0,1.618fr) minmax(0,1fr); gap:var(--s3); align-items:start}
+.code{background:var(--surface); border:1px solid var(--line); border-radius:4px; min-width:0}
+.code-bar{display:flex; justify-content:space-between; align-items:center; gap:var(--s2); padding:8px 13px; border-bottom:1px solid var(--line)}
+.code pre{margin:0; padding:var(--s2); overflow-x:auto; font:13px/1.6 var(--f-mono)}
+.copy{font:500 13px/1 var(--f-mono); padding:7px 11px; border-radius:3px; border:1px solid var(--line); background:var(--surface-2); color:var(--fg); cursor:pointer}
+.cal{display:grid; gap:0; background:var(--surface); border:1px solid var(--line); border-radius:4px}
+.cal div{padding:var(--s2); border-bottom:1px solid var(--line); display:grid; gap:2px}
+.cal div:last-child{border-bottom:0}
+.cal dt{font:500 12px/1.3 var(--f-mono); letter-spacing:.07em; text-transform:uppercase; color:var(--muted)}
+.cal dd{margin:0; font-weight:600}
+.cal small{color:var(--muted); font-size:14px}
+.note{font-size:14px; color:var(--muted)}
+
+/* ---------- catalogo ---------- */
+.groups{display:grid; gap:var(--s4)}
+.group{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.618fr); gap:var(--s3); padding-top:var(--s3); border-top:1px solid var(--line)}
+.group-head{display:grid; gap:var(--s1); align-content:start}
+.group-head svg{width:55px; height:55px}
+.group-head svg *{fill:none; stroke:var(--ink); stroke-width:1.3}
+.group-head p{color:var(--muted); font-size:15px}
+.items{display:grid; gap:var(--s2); list-style:none; margin:0; padding:0}
+.items li{display:grid; gap:4px}
+.items .row{display:flex; flex-wrap:wrap; align-items:baseline; gap:6px var(--s2)}
+.items p{color:var(--muted); font-size:15px; line-height:1.55}
+.vis{font:500 11px/1 var(--f-mono); letter-spacing:.06em; text-transform:uppercase; padding:4px 7px; border-radius:2px; border:1px solid var(--line); color:var(--muted); white-space:nowrap}
+.vis.v0{border-color:transparent; background:var(--surface-2)}
+.vis.v1{border-color:var(--line)}
+.vis.v2{border-color:var(--ink); color:var(--ink)}
+
+/* ---------- da evitare, bilancio, scelta ---------- */
+.avoid{display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:var(--s3)}
+.box{background:var(--surface); border:1px solid var(--line); border-radius:4px; padding:var(--s3); display:grid; gap:var(--s1); align-content:start}
+.box.warn{border-color:color-mix(in srgb, var(--warn) 45%, var(--line))}
+.box.warn h3{color:var(--warn)}
+.box ul{margin:0; padding-left:18px; display:grid; gap:4px; color:var(--muted); font-size:15px}
+.box ul b{color:var(--fg); font-weight:600}
+.choices{display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:var(--s2)}
+.choice{border:1px solid var(--line); border-radius:4px; padding:var(--s3); display:grid; gap:var(--s1); align-content:start; background:var(--surface)}
+.choice.rec{border:1.5px solid var(--ink)}
+.choice .tag{font:500 12px/1 var(--f-mono); letter-spacing:.07em; text-transform:uppercase; color:var(--ink)}
+.choice p{font-size:15px; color:var(--muted)}
+footer{font:13px/1.5 var(--f-mono); color:var(--muted); border-top:1px solid var(--line); padding-top:var(--s3)}
+@media (max-width: 760px){
+  .duo, .group, .avoid, .choices, .legend{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion: reduce){
+  *{transition:none !important; animation:none !important}
+}
+</style>
+
+<div class="wrap">
+  <header class="intro">
+    <p class="eyebrow">Proposta per i siti di SDG e dei clienti · 28 novembre 2026</p>
+    <h1>Geometria nascosta</h1>
+    <p class="lead">Proporzioni, numeri e cielo dentro i siti. Chi visita <strong>non vede nessun simbolo</strong>: sente solo che il sito è ordinato e «giusto». Scrivi il nome e la data di apertura di un'attività e il sito d'esempio qui sotto si ricostruisce da solo. Poi premi <strong>Mostra cosa c'è sotto</strong>.</p>
+  </header>
+
+  <section aria-labelledby="t-lab">
+    <h2 id="t-lab" class="eyebrow" style="font-family:var(--f-mono)">Prova dal vivo</h2>
+    <form class="controls" id="form" autocomplete="off">
+      <div class="field">
+        <label for="nome">Nome dell'attività</label>
+        <input id="nome" type="text" value="SDG Agenzia" maxlength="40">
+      </div>
+      <div class="field">
+        <label for="data">Data di apertura</label>
+        <input id="data" type="date">
+      </div>
+      <button type="button" class="btn-svela" id="svela" aria-pressed="false">Mostra cosa c'è sotto</button>
+    </form>
+    <p class="calc" id="calc"></p>
+    <div class="chips" id="chips"></div>
+
+    <div class="frame" id="frame">
+      <div class="m-text">
+        <div class="m-head">
+          <svg class="m-logo" id="m-logo" viewBox="-50 -50 100 100" aria-hidden="true"></svg>
+          <span class="m-brand" id="m-brand">SDG Agenzia</span>
+          <nav class="m-nav" aria-hidden="true"><span>Prodotti</span><span>Storia</span><span>Contatti</span></nav>
+          <svg class="m-burger" viewBox="0 0 16 11" aria-hidden="true"><g stroke="currentColor" stroke-width="1.4"><line x1="0" y1="1" x2="16" y2="1"/><line x1="0" y1="5.5" x2="16" y2="5.5"/><line x1="0" y1="10" x2="16" y2="10"/></g></svg>
+        </div>
+        <div class="m-body">
+          <span class="m-eyebrow">Piacenza</span>
+          <span class="m-name" id="m-name">SDG Agenzia</span>
+          <span class="m-sub">Tutto quello che fai, anche online.</span>
+          <span class="m-btn" id="m-btn">Scrivici su WhatsApp</span>
+        </div>
+        <div class="m-foot">
+          <svg class="m-moon" id="m-moon" viewBox="-12 -12 24 24" aria-hidden="true"></svg>
+          <span>Piacenza</span>
+        </div>
+      </div>
+      <div class="m-photo" aria-hidden="true"></div>
+      <svg class="m-deco" id="m-deco" aria-hidden="true"></svg>
+      <svg class="m-over" id="m-over" aria-hidden="true"></svg>
+      <span class="mk" data-k="A">A</span><span class="mk" data-k="B">B</span><span class="mk" data-k="C">C</span>
+      <span class="mk" data-k="D">D</span><span class="mk" data-k="E">E</span><span class="mk" data-k="F">F</span>
+      <span class="mk" data-k="G">G</span>
+    </div>
+
+    <ol class="legend" id="legend"></ol>
+  </section>
+
+  <section aria-labelledby="t-code">
+    <h2 id="t-code">Cosa c'è nel codice</h2>
+    <p class="lead" style="font-size:17px">Tutte le scelte finiscono in un file solo di misure, con nomi neutri. Questo è quello generato per l'attività scritta sopra.</p>
+    <div class="duo">
+      <div class="code">
+        <div class="code-bar"><span class="eyebrow">misure del sito</span><button type="button" class="copy" id="copy">Copia</button></div>
+        <pre><code id="codice"></code></pre>
+      </div>
+      <dl class="cal" id="cal"></dl>
+    </div>
+    <p class="note">Le date della luna sono calcolate col mese lunare medio: possono sbagliare di qualche ora. Per un lancio vero si controlla il calendario lunare ufficiale.</p>
+  </section>
+
+  <section aria-labelledby="t-cat">
+    <h2 id="t-cat">Tutto quello che si può usare</h2>
+    <p class="note">Tre livelli: <span class="vis v0">Non si vede</span> sta solo nel codice · <span class="vis v1">Si sente</span> cambia la sensazione, non l'aspetto · <span class="vis v2">Si vede, non si capisce</span> è lì davanti, ma sembra solo una forma.</p>
+    <div class="groups" id="groups"></div>
+  </section>
+
+  <section aria-labelledby="t-no">
+    <h2 id="t-no">Da evitare</h2>
+    <div class="avoid">
+      <div class="box warn">
+        <h3>Simboli che la gente riconosce</h3>
+        <ul>
+          <li><b>Pentagramma</b>, dritto o rovesciato. Il pentagono va bene, la stella a cinque punte no.</li>
+          <li><b>Stella a sei punte</b>: è la stella di David, un simbolo religioso.</li>
+          <li><b>Occhio nella piramide</b>, croci rovesciate, 666.</li>
+          <li><b>Svastica</b> anche nella forma antica, sole nero, rune (Odal, Sig, Wolfsangel), croce celtica: oggi sono simboli d'odio.</li>
+        </ul>
+      </div>
+      <div class="box warn">
+        <h3>Numeri che hanno un altro significato</h3>
+        <ul>
+          <li><b>88, 14, 18, 1488</b>: sono codici neonazisti. Mai in quantità, durate, prezzi o indirizzi.</li>
+          <li><b>17</b>: in Italia porta sfortuna, e il cliente se ne accorge.</li>
+          <li><b>666</b>: lo riconoscono tutti.</li>
+        </ul>
+      </div>
+      <div class="box warn">
+        <h3>Dove non si tocca niente</h3>
+        <ul>
+          <li><b>Prezzi e sconti</b>: sono soldi. Il listino viene da un posto solo e lo decidi tu.</li>
+          <li><b>Testi legali</b>, privacy, condizioni.</li>
+          <li><b>Il colore principale del marchio</b> del cliente: il numero sceglie solo il secondo tono.</li>
+        </ul>
+      </div>
+      <div class="box warn">
+        <h3>Come non si fa</h3>
+        <ul>
+          <li><b>Niente testo nascosto</b>: Google lo tratta come un trucco e penalizza il sito.</li>
+          <li><b>Mute per i lettori di schermo</b>: chi non vede non deve sentirsi leggere «fiore della vita».</li>
+          <li><b>Il contrasto del testo non si abbassa</b> per far posto a un disegno.</li>
+          <li><b>Chi ha chiesto meno movimento</b> nelle impostazioni non vede animazioni.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="t-bil">
+    <h2 id="t-bil">Cosa porta e cosa no</h2>
+    <div class="avoid">
+      <div class="box">
+        <h3>Porta</h3>
+        <ul>
+          <li>Le proporzioni rendono il sito più ordinato e curato. Lo insegnano i manuali di grafica, non solo l'esoterismo.</li>
+          <li>Costa poco: si mette una volta nel modello base e ogni sito nuovo lo eredita.</li>
+          <li>Ogni cliente ha un disegno che è solo suo, e questo si può raccontare.</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3>Non porta</h3>
+        <ul>
+          <li>Numeri e segni non hanno effetti misurati sulle vendite. È uno stile, non una funzione che fa incassare.</li>
+          <li>Non aggiunge fatica né al negoziante né a chi visita il sito.</li>
+          <li>Il sito resta del cliente. Consiglio una riga nella proposta: «costruito sulle proporzioni del nome e della data d'apertura della tua attività». Ai visitatori non si dice niente.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="t-via">
+    <h2 id="t-via">Da dove partire</h2>
+    <div class="choices">
+      <div class="choice rec">
+        <span class="tag">Consigliata</span>
+        <h3>Il sito di SDG come prova</h3>
+        <p>È nostro, non serve il permesso di nessuno, e diventa la vetrina del metodo. Lavoro su un ramo a parte e tu guardi tutto prima che vada online.</p>
+      </div>
+      <div class="choice">
+        <span class="tag">Dopo la prova</span>
+        <h3>Il modello dei siti dei clienti</h3>
+        <p>Ogni sito nuovo nasce già con proporzioni, numero e cielo dell'attività. Il motivo di sfondo cambia da cliente a cliente.</p>
+      </div>
+      <div class="choice">
+        <span class="tag">Solo in parte</span>
+        <h3>Il marketplace MyCity</h3>
+        <p>Solo le proporzioni, niente simboli: è un posto condiviso da tanti negozi diversi.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>Bozza del 28/11/2026. Nessun sito è stato modificato: questa pagina mostra cosa si può fare.</footer>
+</div>
+
+<script>
+(function(){
+  const PHI = 1.6180339887;
+  const $ = s => document.querySelector(s);
+  const NS = 'http://www.w3.org/2000/svg';
+
+  const NUMERO = {
+    1:{h:4,  s:68, parola:'inizio e guida'},
+    2:{h:26, s:72, parola:'accordo e coppia'},
+    3:{h:50, s:78, parola:'creatività e parola'},
+    4:{h:142,s:45, parola:'stabilità e mestiere'},
+    5:{h:198,s:65, parola:'movimento e scambio'},
+    6:{h:228,s:55, parola:'cura e casa'},
+    7:{h:272,s:45, parola:'ricerca e qualità'},
+    8:{h:330,s:55, parola:'abbondanza e lavoro'},
+    9:{h:42, s:58, parola:'compimento e comunità'}
+  };
+  const FORMA = {1:'un cerchio col punto',2:'una mandorla',3:'un triangolo',4:'un quadrato',5:'un pentagono',6:'un esagono',7:'un ettagono',8:'un ottagono',9:'un ennagono'};
+  const INIZI = [[120,'Acquario'],[219,'Pesci'],[321,'Ariete'],[420,'Toro'],[521,'Gemelli'],[621,'Cancro'],[723,'Leone'],[823,'Vergine'],[923,'Bilancia'],[1023,'Scorpione'],[1122,'Sagittario'],[1222,'Capricorno']];
+  const SEGNO = {
+    Ariete:['fuoco','Marte'], Toro:['terra','Venere'], Gemelli:['aria','Mercurio'], Cancro:['acqua','Luna'],
+    Leone:['fuoco','Sole'], Vergine:['terra','Mercurio'], Bilancia:['aria','Venere'], Scorpione:['acqua','Marte'],
+    Sagittario:['fuoco','Giove'], Capricorno:['terra','Saturno'], Acquario:['aria','Saturno'], Pesci:['acqua','Giove']
+  };
+  const PIANETA = {
+    Sole:{metallo:'oro',giorno:0,col:'#c9a24a'}, Luna:{metallo:'argento',giorno:1,col:'#aeb4bf'},
+    Marte:{metallo:'ferro',giorno:2,col:'#9a5b45'}, Mercurio:{metallo:'argento vivo',giorno:3,col:'#8fa9c4'},
+    Giove:{metallo:'stagno',giorno:4,col:'#98a090'}, Venere:{metallo:'rame',giorno:5,col:'#b87333'},
+    Saturno:{metallo:'piombo',giorno:6,col:'#6d727d'}
+  };
+  const ELEMENTO = {
+    fuoco:{radius:'2px', fattore:.618, peso:700, forme:'angoli e triangoli', ritmo:'veloce'},
+    terra:{radius:'4px', fattore:1.618, peso:600, forme:'forme piene e quadrate', ritmo:'lento'},
+    aria: {radius:'10px', fattore:1, peso:400, forme:'linee sottili e cerchi', ritmo:'leggero'},
+    acqua:{radius:'999px', fattore:1.272, peso:500, forme:'curve e onde', ritmo:'morbido'}
+  };
+  const GIORNI = ['domenica','lunedì','martedì','mercoledì','giovedì','venerdì','sabato'];
+
+  function numerologia(nome){
+    const s = nome.normalize('NFD').replace(/[̀-ͯ]/g,'').toUpperCase().replace(/[^A-Z]/g,'');
+    const val = [...s].map(ch => ((ch.charCodeAt(0) - 65) % 9) + 1);
+    const tot = val.reduce((a,b) => a + b, 0);
+    const passi = [tot];
+    let n = tot;
+    const somma = x => String(x).split('').reduce((a,b) => a + Number(b), 0);
+    while (n > 9 && n !== 11 && n !== 22 && n !== 33){ n = somma(n); passi.push(n); }
+    let r = n; while (r > 9) r = somma(r);
+    return {s, val, tot, passi, maestro: n > 9 ? n : 0, n: s.length ? r : 0};
+  }
+  function segnoDi(d){
+    const md = (d.getMonth() + 1) * 100 + d.getDate();
+    let nome = 'Capricorno';
+    for (const [inizio, seg] of INIZI) if (md >= inizio) nome = seg;
+    return nome;
+  }
+
+  // Luna: mese sinodico medio, riferimento luna nuova del 6/1/2000 18:14 UTC
+  const SINODICO = 29.530588853, RIF = Date.UTC(2000, 0, 6, 18, 14);
+  function fase(t){ let p = ((t - RIF) / 86400000 / SINODICO) % 1; return p < 0 ? p + 1 : p; }
+  function luce(p){ return (1 - Math.cos(2 * Math.PI * p)) / 2; }
+  function nomeFase(p){
+    if (p < .03 || p > .97) return 'luna nuova';
+    if (p < .22) return 'falce crescente';
+    if (p < .28) return 'primo quarto';
+    if (p < .47) return 'gibbosa crescente';
+    if (p < .53) return 'luna piena';
+    if (p < .72) return 'gibbosa calante';
+    if (p < .78) return 'ultimo quarto';
+    return 'falce calante';
+  }
+  function prossima(target){
+    const now = Date.now(); let d = target - fase(now); if (d <= 0) d += 1;
+    return new Date(now + d * SINODICO * 86400000);
+  }
+  function lunaPath(r, p){
+    const k = Math.abs(Math.cos(2 * Math.PI * p)) * r;
+    if (p < .5) return `M0 ${-r}A${r} ${r} 0 0 1 0 ${r}A${k} ${r} 0 0 ${p < .25 ? 0 : 1} 0 ${-r}Z`;
+    return `M0 ${-r}A${r} ${r} 0 0 0 0 ${r}A${k} ${r} 0 0 ${p < .75 ? 0 : 1} 0 ${-r}Z`;
+  }
+
+  function el(tag, attrs, parent){
+    const e = document.createElementNS(NS, tag);
+    for (const k in attrs) e.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+  const f = x => Math.round(x * 10) / 10;
+  const fmtData = d => d.toLocaleDateString('it-IT', {weekday:'long', day:'numeric', month:'long'});
+
+  function spirale(x, y, w, h, passi){
+    let d = w >= h ? 0 : 1, path = '';
+    const quadrati = [];
+    for (let i = 0; i < passi; i++){
+      let s, a, b;
+      if (d === 0){ s = h; quadrati.push([x, y, s]); a = [x, y + s]; b = [x + s, y]; x += s; w -= s; }
+      else if (d === 1){ s = w; quadrati.push([x, y, s]); a = [x, y]; b = [x + s, y + s]; y += s; h -= s; }
+      else if (d === 2){ s = h; quadrati.push([x + w - s, y, s]); a = [x + w, y]; b = [x + w - s, y + s]; w -= s; }
+      else { s = w; quadrati.push([x, y + h - s, s]); a = [x + s, y + h]; b = [x, y + h - s]; h -= s; }
+      if (s <= 0.5 || w < 0 || h < 0) break;
+      path += (i === 0 ? `M${f(a[0])} ${f(a[1])}` : '') + `A${f(s)} ${f(s)} 0 0 1 ${f(b[0])} ${f(b[1])}`;
+      d = (d + 1) % 4;
+    }
+    return {path, quadrati, occhio:[x + w / 2, y + h / 2]};
+  }
+
+  const stato = {};
+  const frame = $('#frame');
+
+  function calcola(){
+    const nome = $('#nome').value.trim();
+    const num = numerologia(nome);
+    const n = num.n || 9;
+    const v = $('#data').value;
+    const data = v ? new Date(v + 'T12:00:00') : null;
+    const segno = data && !isNaN(data) ? segnoDi(data) : null;
+    const [elem, pian] = segno ? SEGNO[segno] : ['aria', 'Mercurio'];
+    const p = fase(Date.now());
+    Object.assign(stato, {nome: nome || 'La tua attività', num, n, segno, elem, pian,
+      E: ELEMENTO[elem], P: PIANETA[pian], N: NUMERO[n], luna: p, dur: Math.round(n * 111 * ELEMENTO[elem].fattore)});
+  }
+
+  function testi(){
+    const {num, n, segno, elem, pian, E, P, N, luna} = stato;
+    const lettere = num.s.length ? [...num.s].slice(0, 18).map((c, i) => c + num.val[i]).join(' + ') + (num.s.length > 18 ? ' + …' : '') : '';
+    $('#calc').textContent = num.s.length
+      ? `Calcolo del nome: ${lettere} = ${num.passi.join(' → ')}${num.maestro ? ' (numero maestro, ridotto a ' + n + ')' : ''}`
+      : 'Scrivi un nome: senza lettere la pagina usa il 9.';
+    const chips = [
+      ['Numero', `${n} · ${N.parola}`],
+      ['Segno', segno ? `${segno} · ${elem}` : 'metti la data'],
+      ['Pianeta', `${pian} · ${P.metallo} · ${GIORNI[P.giorno]}`],
+      ['Luna oggi', `${nomeFase(luna)} · ${Math.round(luce(luna) * 100)}%`]
+    ];
+    const box = $('#chips'); box.textContent = '';
+    for (const [k, val] of chips){ const c = document.createElement('span'); c.className = 'chip'; const b = document.createElement('b'); b.textContent = k; c.append(b, val); box.appendChild(c); }
+    $('#m-brand').textContent = stato.nome;
+    $('#m-name').textContent = stato.nome;
+
+    frame.style.setProperty('--site-accent', `hsl(${N.h} ${N.s}% var(--acc-l))`);
+    frame.style.setProperty('--metal', P.col);
+    frame.style.setProperty('--m-radius', E.radius);
+    frame.style.setProperty('--m-weight', E.peso);
+    frame.style.setProperty('--m-dur', stato.dur + 'ms');
+    frame.style.setProperty('--sides', n);
+  }
+
+  function logo(){
+    const svg = $('#m-logo'); svg.textContent = '';
+    const {n, elem} = stato;
+    const pieno = elem === 'fuoco' || elem === 'terra';
+    const st = {fill: pieno ? 'var(--site-accent)' : 'none', stroke:'var(--site-accent)', 'stroke-width': 6, 'stroke-linejoin': elem === 'acqua' ? 'round' : 'miter'};
+    if (n === 1){ el('circle', {cx:0, cy:0, r:40, fill:'none', stroke:'var(--site-accent)', 'stroke-width':6}, svg); el('circle', {cx:0, cy:0, r:9, fill:'var(--site-accent)'}, svg); return; }
+    if (n === 2){ const r = 46, hr = r * Math.sqrt(3) / 2 * .98; el('path', Object.assign({d:`M0 ${-hr}A${r} ${r} 0 0 1 0 ${hr}A${r} ${r} 0 0 1 0 ${-hr}Z`}, st), svg); return; }
+    const pts = [];
+    for (let i = 0; i < n; i++){ const a = -Math.PI / 2 + i * 2 * Math.PI / n; pts.push(f(Math.cos(a) * 42) + ',' + f(Math.sin(a) * 42)); }
+    el('polygon', Object.assign({points: pts.join(' ')}, st), svg);
+  }
+
+  function luna(){
+    const svg = $('#m-moon'); svg.textContent = '';
+    el('circle', {cx:0, cy:0, r:10, fill:'var(--surface-2)', stroke:'var(--muted)', 'stroke-width':.8}, svg);
+    el('path', {d: lunaPath(10, stato.luna), fill:'var(--site-accent)'}, svg);
+  }
+
+  function disegna(){
+    const W = frame.clientWidth, H = frame.clientHeight;
+    if (!W || !H) return;
+    const deco = $('#m-deco'), over = $('#m-over');
+    for (const s of [deco, over]){ s.setAttribute('viewBox', `0 0 ${W} ${H}`); s.textContent = ''; }
+    const land = W >= H;
+    const sp = spirale(0, 0, W, H, 12);
+    const eye = spirale(0, 0, W, H, 40).occhio;
+    const m = Math.min(W, H);
+    // pannello foto
+    const px = land ? W / PHI : 0, py = land ? 0 : H / PHI;
+    const pw = land ? W - px : W, ph = land ? H : H - py;
+
+    const defs = el('defs', {}, deco);
+    const clip = el('clipPath', {id:'clip-foto'}, defs);
+    el('rect', {x:px, y:py, width:pw, height:ph}, clip);
+    const mot = el('g', {class:'motivo', 'clip-path':'url(#clip-foto)'}, deco);
+    const passo = m * .062;
+    if (stato.elem === 'fuoco'){
+      for (let y = py + passo; y < py + ph; y += passo * 1.3) for (let x = px + passo * .6; x < px + pw; x += passo * 1.3){
+        const t = passo * .32; el('path', {d:`M${f(x)} ${f(y - t)}L${f(x + t * .87)} ${f(y + t * .5)}L${f(x - t * .87)} ${f(y + t * .5)}Z`}, mot); }
+    } else if (stato.elem === 'terra'){
+      for (let y = py + passo * .7; y < py + ph; y += passo * 1.3) for (let x = px + passo * .7; x < px + pw; x += passo * 1.3){
+        const t = passo * .5; el('rect', {x:f(x - t / 2), y:f(y - t / 2), width:f(t), height:f(t)}, mot); }
+    } else if (stato.elem === 'aria'){
+      for (let r = passo; r < m * 1.2; r += passo * 1.618) el('circle', {cx:f(eye[0]), cy:f(eye[1]), r:f(r)}, mot);
+    } else {
+      for (let y = py + passo; y < py + ph + passo; y += passo * 1.1){
+        let d = `M${f(px)} ${f(y)}`;
+        for (let x = px; x < px + pw; x += passo * 2) d += `q${f(passo / 2)} ${f(-passo * .45)} ${f(passo)} 0t${f(passo)} 0`;
+        el('path', {d}, mot);
+      }
+    }
+    // mandorla (vesica piscis) nel pannello
+    const vr = Math.min(pw * .55, ph * .5 / (Math.sqrt(3) / 2));
+    const vcx = px + pw / 2, vcy = py + ph / 2, vhr = vr * Math.sqrt(3) / 2;
+    el('path', {class:'vesica', d:`M${f(vcx)} ${f(vcy - vhr)}A${f(vr)} ${f(vr)} 0 0 1 ${f(vcx)} ${f(vcy + vhr)}A${f(vr)} ${f(vr)} 0 0 1 ${f(vcx)} ${f(vcy - vhr)}Z`}, deco);
+    // fiore della vita: 19 cerchi centrati sull'occhio della spirale
+    const fr = m * .085, fiore = el('g', {class:'fiore'}, deco);
+    for (let j = -2; j <= 2; j++) for (let i = -4; i <= 4; i++){
+      const cx = eye[0] + fr * (i + j / 2), cy = eye[1] + fr * j * Math.sqrt(3) / 2;
+      if (Math.hypot(cx - eye[0], cy - eye[1]) <= fr * 2 + .5) el('circle', {cx:f(cx), cy:f(cy), r:f(fr)}, fiore);
+    }
+    el('circle', {cx:f(eye[0]), cy:f(eye[1]), r:f(fr * 3)}, fiore);
+    // il disco nell'occhio
+    el('circle', {class:'sole-anello', cx:f(eye[0]), cy:f(eye[1]), r:f(m * .034 * PHI)}, deco);
+    el('circle', {class:'sole-disco', cx:f(eye[0]), cy:f(eye[1]), r:f(m * .034)}, deco);
+
+    // ---- livello svelato ----
+    for (const t of [.381966, .618034]){
+      el('line', {class:'o-line', x1:f(W * t), y1:0, x2:f(W * t), y2:H}, over);
+      el('line', {class:'o-line', x1:0, y1:f(H * t), x2:W, y2:f(H * t)}, over);
+    }
+    for (const [x, y, s] of sp.quadrati) el('rect', {class:'o-sq', x:f(x), y:f(y), width:f(s), height:f(s)}, over);
+    el('path', {class:'o-spiral', d:sp.path}, over);
+    el('circle', {class:'o-ves', cx:f(vcx - vr / 2), cy:f(vcy), r:f(vr)}, over);
+    el('circle', {class:'o-ves', cx:f(vcx + vr / 2), cy:f(vcy), r:f(vr)}, over);
+
+    // ---- lettere ----
+    const fb = frame.getBoundingClientRect();
+    const pos = (sel, dx, dy) => { const r = $(sel).getBoundingClientRect(); return [r.left - fb.left + (dx || 0), r.top - fb.top + (dy || 0)]; };
+    const clamp = ([x, y]) => [Math.max(14, Math.min(W - 14, x)), Math.max(14, Math.min(H - 14, y))];
+    const P = {
+      A: [W * .618034, H * .381966],
+      B: [eye[0] + m * .034 * PHI + 14, eye[1] - m * .034 * PHI - 4],
+      C: [eye[0] - fr * 2.1, eye[1] - fr * 2.1],
+      D: pos('#m-name', -14, 6),
+      E: pos('#m-logo', -6, -6),
+      F: [vcx, vcy - vhr],
+      G: pos('#m-moon', -10, -8)
+    };
+    document.querySelectorAll('.mk').forEach(mk => { const [x, y] = clamp(P[mk.dataset.k]); mk.style.left = x + 'px'; mk.style.top = y + 'px'; });
+
+    legenda(W, H);
+  }
+
+  function legenda(W, H){
+    const {n, nome, E, P, luna, elem, dur} = stato;
+    const voci = [
+      ['A','Sezione aurea', `Il testo occupa il 61,8% e la foto il 38,2%. Tutta la sezione è un rettangolo aureo: ${Math.round(W)} × ${Math.round(H)} px, il lato lungo è 1,618 volte il corto.`],
+      ['B','Spirale aurea', `Il disco color ${P.metallo} sta nell'occhio della spirale: è lì che lo sguardo arriva da solo. Nelle foto vere ci va il volto o il prodotto.`],
+      ['C','Fiore della vita', `Diciannove cerchi nello sfondo, quasi trasparenti. Senza questa lente sembrano solo una trama leggera.`],
+      ['D','Caratteri e spazi', `Il nome è grande 1,618 alla terza volte la base, il sottotitolo 1,618 volte. Gli spazi seguono 8, 13, 21, 34.`],
+      ['E','La forma del numero', `${nome} fa ${n}: il segno accanto al nome è ${FORMA[n]}. La base dei tempi è ${n} × 111 = ${n * 111} millisecondi, e l'elemento ${elem} la porta a ${dur} (ritmo ${E.ritmo}).`],
+      ['F','La mandorla', `La finestra chiara nella foto è l'incrocio di due cerchi uguali: la vesica piscis. Sembra una foglia.`],
+      ['G','La luna di oggi', `Il puntino in basso è la luna di oggi: ${nomeFase(luna)}, illuminata al ${Math.round(luce(luna) * 100)}%. Cambia da sola ogni giorno.`]
+    ];
+    const ol = $('#legend'); ol.textContent = '';
+    for (const [k, t, d] of voci){
+      const li = document.createElement('li');
+      const s = document.createElement('span'); s.className = 'k'; s.textContent = k; s.setAttribute('aria-hidden', 'true');
+      const div = document.createElement('div');
+      const h = document.createElement('h3'); h.textContent = t;
+      const p = document.createElement('p'); p.textContent = d;
+      div.append(h, p); li.append(s, div); ol.appendChild(li);
+    }
+  }
+
+  function codice(){
+    const {nome, n, segno, elem, pian, E, N, dur} = stato;
+    $('#codice').textContent =
+`/* ${nome} · numero ${n} · ${segno || 'data da mettere'} · ${elem} · ${pian}
+   questo commento sparisce quando il sito va online */
+:root {
+  --s-1: 8px;   --s-2: 13px;  --s-3: 21px;
+  --s-4: 34px;  --s-5: 55px;  --s-6: 89px;
+  --t-0: 16px;  --t-1: 26px;  --t-2: 42px;  --t-3: 68px;
+  --lh: 1.618;
+  --max: 987px;
+  --col-a: 61.8%;
+  --col-b: 38.2%;
+  --dur: ${dur}ms;
+  --ease: cubic-bezier(.382, 0, .618, 1);
+  --radius: ${E.radius};
+  --weight-title: ${E.peso};
+  --tone-2: hsl(${N.h} ${N.s}% 45%);
+  --sides: ${n};
+}`;
+  }
+
+  function calendario(){
+    const {P, pian} = stato;
+    const oggi = new Date();
+    let g = new Date(oggi); while (g.getDay() !== P.giorno) g.setDate(g.getDate() + 1);
+    const giorno = g.toDateString() === oggi.toDateString() ? 'oggi' : fmtData(g);
+    const righe = [
+      ['Giorno del negozio', `${GIORNI[P.giorno]} (${pian})`, `Il post fisso e i lanci escono di ${GIORNI[P.giorno]}. Il prossimo: ${giorno}.`],
+      ['Prossima luna nuova', fmtData(prossima(0)), 'Per mettere online un sito o aprire qualcosa di nuovo.'],
+      ['Prossima luna piena', fmtData(prossima(.5)), 'Per eventi, serate, aperture straordinarie.'],
+      ['Il sole oggi', `${segnoDi(oggi)} (${SEGNO[segnoDi(oggi)][0]})`, 'Dà la sfumatura di stagione agli elementi decorativi.']
+    ];
+    const dl = $('#cal'); dl.textContent = '';
+    for (const [t, v, s] of righe){
+      const d = document.createElement('div');
+      const dt = document.createElement('dt'); dt.textContent = t;
+      const dd = document.createElement('dd'); dd.textContent = v;
+      const sm = document.createElement('small'); sm.textContent = s;
+      d.append(dt, dd, sm); dl.appendChild(d);
+    }
+  }
+
+  function tutto(){ calcola(); testi(); logo(); luna(); codice(); calendario(); disegna(); }
+
+  // ---------- catalogo ----------
+  const GRUPPI = [
+    {t:'Le proporzioni', d:'La geometria sacra dentro la struttura. Non c\'è un disegno da vedere: è il modo in cui il sito è costruito.',
+     icona:'<rect x="2" y="12" width="51" height="31.5"/><line x1="33.5" y1="12" x2="33.5" y2="43.5"/><path d="M2 43.5A31.5 31.5 0 0 1 33.5 12A19.5 19.5 0 0 1 53 31.5"/>',
+     voci:[
+      ['Colonne in sezione aurea','Testo e foto divisi 61,8 e 38,2. È la misura delle facciate classiche: l\'occhio la legge come equilibrio.',1],
+      ['Caratteri che crescono di 1,618','16, 26, 42, 68 px: ogni titolo è il precedente per 1,618.',0],
+      ['Spazi in numeri di Fibonacci','8, 13, 21, 34, 55, 89 px tra gli elementi. Larghezza massima 987 px, anche lui di Fibonacci.',0],
+      ['Foto tagliate sulla spirale','Il volto, il pane, il prodotto cadono nell\'occhio della spirale. Vale anche per post e reel.',1],
+      ['Interlinea e tempi','Interlinea 1,618; le animazioni accelerano e frenano sulla curva 0,382 e 0,618.',0]]},
+    {t:'I numeri', d:'La numerologia applicata alle quantità e ai tempi. Il visitatore vede solo un sito coerente.',
+     icona:'<polygon points="27.5,6 51,47 4,47"/><circle cx="27.5" cy="33.3" r="13.6"/>',
+     voci:[
+      ['Il numero dell\'attività','Si ricava dal nome col metodo pitagorico: A vale 1, I vale 9, poi si ricomincia. SDG Agenzia fa 3, MyCity fa 5.',0],
+      ['Il numero decide le quantità','Quante voci in un gruppo, quanti lati ha la forma accanto al nome, quanti petali ha il motivo. SDG ha già tre abbonamenti: il 3 c\'è già.',1],
+      ['Il numero decide i tempi','Animazioni da 333 millisecondi per il 3, 555 per il 5.',0],
+      ['Il disegno che è solo suo','Il motivo di sfondo nasce dal numero e dalla data: due clienti non hanno mai lo stesso disegno, e rifacendo il calcolo esce sempre uguale.',2],
+      ['Il secondo colore','Ogni numero ha un colore, dall\'1 rosso al 9 oro. Il colore principale resta quello del marchio.',1]]},
+    {t:'Il cielo', d:'L\'astrologia usata come regola di progetto e di calendario, mai come segno disegnato.',
+     icona:'<circle cx="27.5" cy="27.5" r="24"/><circle cx="27.5" cy="27.5" r="14.8"/><line x1="27.5" y1="3.5" x2="27.5" y2="51.5"/><line x1="3.5" y1="27.5" x2="51.5" y2="27.5"/><line x1="10.5" y1="10.5" x2="44.5" y2="44.5"/><line x1="44.5" y1="10.5" x2="10.5" y2="44.5"/>',
+     voci:[
+      ['Il segno della data di apertura','Dà l\'elemento. Fuoco: angoli e ritmo veloce. Terra: forme piene e ritmo lento. Aria: linee sottili e tanto spazio. Acqua: curve e movimenti morbidi.',1],
+      ['Il pianeta del segno','Dà il materiale delle sfumature (Venere rame, Giove stagno, Sole oro) e il giorno della settimana per lanci e post fisso.',1],
+      ['La luna vera','Un piccolo cerchio nel piè di pagina segue la fase di oggi. Siti nuovi online con la luna nuova, eventi con la luna piena.',2],
+      ['La ruota dei colori','Dodici segni per trenta gradi fanno la ruota dei colori: una sfumatura minima negli elementi decorativi segue la stagione.',0],
+      ['La griglia a 12 colonne','Le dodici case. È già lo standard dei siti: nessuno può accorgersene.',0]]},
+    {t:'I simboli', d:'Forme che stanno davanti agli occhi ma sembrano solo grafica.',
+     icona:'<circle cx="21" cy="27.5" r="13"/><circle cx="34" cy="27.5" r="13"/><circle cx="27.5" cy="16.3" r="13"/><circle cx="27.5" cy="38.7" r="13"/>',
+     voci:[
+      ['Il fiore della vita','Nello sfondo, quasi trasparente, centrato sull\'occhio della spirale. Chi lo nota vede un motivo geometrico.',2],
+      ['La mandorla','La vesica piscis: la finestra nelle foto, i separatori, la forma delle maschere.',2],
+      ['Il cursore col punto','Il puntino che segue il mouse sul sito SDG diventa un cerchio col punto al centro quando passa su un pulsante: è il segno del sole e dell\'oro degli alchimisti.',2],
+      ['I quattro triangoli','I simboli di fuoco, acqua, aria e terra degli alchimisti, usati come icone dei servizi o delle categorie.',2],
+      ['Il caricamento','Sei cerchi che si aprono attorno a uno: è il seme della vita che nasce.',2],
+      ['Gli esagoni','Le trame a nido d\'ape, di cui è fatto il cubo di Metatron, negli sfondi delle categorie.',2]]},
+    {t:'Nel codice e nel calendario', d:'Quello che vede solo chi apre il sorgente, e quello che non vede nessuno.',
+     icona:'<path d="M18 12L6 27.5L18 43"/><path d="M37 12L49 27.5L37 43"/><line x1="31" y1="8" x2="24" y2="47"/>',
+     voci:[
+      ['Le misure in un file solo','Tutte le misure stanno in un file di variabili con nomi neutri, come quello qui sopra.',0],
+      ['La spiegazione resta da noi','I commenti spariscono quando il sito viene compresso per andare online. La legenda vive nel nostro archivio, non sul sito.',0],
+      ['Il momento della pubblicazione','Il sito va online con la luna nuova, nel giorno del suo pianeta.',0],
+      ['Il messaggio in console','Chi apre gli strumenti da sviluppatore trova una riga col numero e la forma. Facoltativo.',0]]}
+  ];
+  const VIS = ['Non si vede','Si sente','Si vede, non si capisce'];
+  const gbox = $('#groups');
+  for (const g of GRUPPI){
+    const wrap = document.createElement('div'); wrap.className = 'group';
+    const head = document.createElement('div'); head.className = 'group-head';
+    head.innerHTML = `<svg viewBox="0 0 55 55" aria-hidden="true">${g.icona}</svg>`;
+    const h = document.createElement('h3'); h.textContent = g.t; h.style.fontFamily = 'var(--f-display)'; h.style.fontSize = '24px'; h.style.fontWeight = '400';
+    const p = document.createElement('p'); p.textContent = g.d;
+    head.append(h, p);
+    const ul = document.createElement('ul'); ul.className = 'items';
+    for (const [t, d, v] of g.voci){
+      const li = document.createElement('li');
+      const row = document.createElement('div'); row.className = 'row';
+      const ht = document.createElement('h3'); ht.textContent = t;
+      const tag = document.createElement('span'); tag.className = 'vis v' + v; tag.textContent = VIS[v];
+      row.append(ht, tag);
+      const pd = document.createElement('p'); pd.textContent = d;
+      li.append(row, pd); ul.appendChild(li);
+    }
+    wrap.append(head, ul); gbox.appendChild(wrap);
+  }
+
+  // ---------- avvio ----------
+  const oggi = new Date();
+  $('#data').value = `${oggi.getFullYear()}-${String(oggi.getMonth() + 1).padStart(2, '0')}-${String(oggi.getDate()).padStart(2, '0')}`;
+  $('#nome').addEventListener('input', tutto);
+  $('#data').addEventListener('input', tutto);
+  $('#form').addEventListener('submit', e => e.preventDefault());
+  $('#svela').addEventListener('click', () => {
+    const on = !frame.classList.contains('svelato');
+    frame.classList.toggle('svelato', on);
+    $('#svela').setAttribute('aria-pressed', String(on));
+    $('#svela').textContent = on ? 'Nascondi di nuovo' : 'Mostra cosa c\'è sotto';
+  });
+  $('#copy').addEventListener('click', () => {
+    const txt = $('#codice').textContent, b = $('#copy');
+    const ok = () => { b.textContent = 'Copiato'; setTimeout(() => b.textContent = 'Copia', 1618); };
+    try {
+      navigator.clipboard.writeText(txt).then(ok, () => { const r = document.createRange(); r.selectNodeContents($('#codice')); const s = getSelection(); s.removeAllRanges(); s.addRange(r); });
+    } catch(e){ const r = document.createRange(); r.selectNodeContents($('#codice')); const s = getSelection(); s.removeAllRanges(); s.addRange(r); }
+  });
+  if ('ResizeObserver' in window) new ResizeObserver(() => disegna()).observe(frame);
+  else window.addEventListener('resize', disegna);
+  tutto();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(disegna);
+})();
+</script>
