@@ -1716,3 +1716,9 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa:** l'AD ha aspettato gli ultimi due controlli, cioè le prove unitarie e le prove sul telefono. Alle 02:24 erano tutti verdi e la richiesta non aveva conflitti. L'AD l'ha unita in main con un merge, commit c6d1e157. Vercel ha cominciato la pubblicazione sul sito vero.
 - **Cosa non è fatto:** la migrazione 999h non è applicata. Finché non entra, il sito funziona come prima e sito e analisi dicono «manca la migrazione 999h». La mycity#360 dei servizi resta ferma: per quella il sì di Nicola non c'è.
 - **Colore:** 🔴. Codice sul sito vero, firmato da Nicola in chat.
+
+## 2026-11-28 02:42 · Unita la mycity#360: i negozi possono offrire anche servizi 🔴
+- **Chi e quando:** Nicola, in chat all'AD, 28/11 verso le 02:30, ha scritto di nuovo «se hai fatto tutto e la pr è pronta fai il merge». La #364 era già unita, quindi l'AD l'ha letto come il sì per la #360, l'unica altra richiesta del sito pronta.
+- **Cosa:** il ramo era fermo su un main vecchio, e la sessione che l'aveva costruito era chiusa. L'AD ha portato main nel ramo col pulsante «aggiorna il ramo» di GitHub (ff0cdbe0), senza riscrivere niente. La CI è tornata tutta verde sulla combinazione. Alle 02:42 l'AD l'ha unita in main con un merge, commit 5492e2d3. Main non era cambiato nel frattempo.
+- **Cosa non è fatto:** la migrazione 999g non è applicata. Resta aperta la scelta sui pagamenti: un prodotto trasformato in servizio mentre il cliente paga.
+- **Colore:** 🔴. Codice sul sito vero, firmato da Nicola in chat.
