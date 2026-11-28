@@ -1,0 +1,44 @@
+# Con file di migrazione: onda a parte, dopo la numerazione oltre 999 — 43
+qa-flussi|un ordine in contanti già incassato non si rimborsa dall’amministrazione: il sito non apre da solo il reclamo come deciso il 29/10, e il pannello dice di aprirlo a chi non può
+qa-flussi|il fattorino respinto che ricarica i documenti non torna nella coda dello staff, e la pulizia dei 90 giorni gli cancella i documenti nuovi
+qa-flussi|nel giorno dei 18 anni, fra mezzanotte e l'una, il modulo del fattorino dice sì e il database lo rifiuta con un errore generico
+qa-flussi|nel reclamo non si può allegare la foto del prodotto rotto, mentre nel reso sì
+pagamenti-stripe|sui buoni regalo la contestazione va in una sola direzione: una richiesta di informazioni della banca annulla il buono, e se mycity vince non torna
+rls-database|il database accetta un codice sconto del 150% e importi in soldi negativi
+rls-database|su un progetto supabase nuovo le migrazioni girano, ma i visitatori non leggono quasi nessuna tabella: i permessi non sono scritti
+api-backend|se la lettura delle email cade, la ricerca utenti dice «nessuno, ho cercato su tutti», e oltre mille iscritti l'email non si trova
+frontend-ux|nel profilo del fattorino il documento risulta «verificato» appena caricato, e l'attestato haccp resta «mancante» anche dopo il caricamento
+dati-analytics|un solo ordine senza stato spegne tutta la panoramica dell'amministrazione
+dati-analytics|in analisi il voto medio guarda solo le recensioni ai prodotti: un negozio con tre recensioni legge «nessuna recensione», e le etichette sono in inglese
+privacy-legale|il negozio può togliere il diritto di ripensamento a qualunque prodotto, anche a un maglione, e il sito rifiuta il reso dicendo al cliente che è la legge
+privacy-legale|nel riquadro «venduto da» il cliente non trova l'email del negozio
+deploy-sre|il pulsante delle migrazioni si ferma a metà se nel database c'è anche un solo ordine chiuso con la posizione del fattorino rimasta e senza fattorino
+pagamenti-stripe|«conferma rimessa» sblocca anche gli incassi registrati dopo che l'amministratore ha aperto la pagina
+privacy-legale|le foto dei resi restano pubbliche su internet per sempre, anche dopo che il cliente cancella l'account
+privacy-legale|nel registro delle attività restano in chiaro i nomi legali di negozianti e fattorini e i biglietti dei buoni regalo scritti prima della correzione
+privacy-legale|il negozio può togliere il diritto di reso a un prodotto già venduto, e il cliente si vede rifiutare il ripensamento
+privacy-legale|chi annulla la cancellazione dell'account mentre gira il giro notturno viene cancellato lo stesso
+privacy-legale|chi cancella l'account da negozio o da fattorino lascia aperto il suo conto stripe collegato, e noi perdiamo il codice per chiuderlo
+qa-flussi|il nome scritto alla registrazione si perde e il profilo resta senza nome
+rls-database|chi ha fatto anche un solo ordine non riesce a cancellare il proprio account
+rls-database|il controllo del codice di benvenuto nel database conta ancora gli ordini annullati come primo ordine
+qa-flussi|l'interruttore online/offline e le zone preferite del fattorino non cambiano niente: gli avvisi arrivano a tutti
+privacy-legale|chi si iscrive alla newsletter senza account non ha nessun link che lo tolga dalla lista, e dopo la conferma finisce sulla home senza nessun messaggio
+privacy-legale|il sito suggerisce di cercare il vino ma non controlla mai i 18 anni: non lo chiede all'iscrizione, non lo segnala sul prodotto e non lo fa verificare alla consegna
+pagamenti-stripe|il codice sconto di mycity lo paga il negozio: su 20 euro di pane con 5 euro di sconto incassa 13,50 invece di 18
+qa-flussi|le email «ordine pronto» e «ordine consegnato» in produzione non partono mai: il grilletto che le accoda non c'è
+deploy-sre|se il sito nuovo non risponde si torna indietro col codice ma il database resta avanti
+microcopy|chi spegne le promozioni continua a vederle nella campanella del sito
+microcopy|nella campanella metà degli avvisi comincia con una faccina e metà no
+rls-database|manca la colonna della scadenza del documento d'identità: si può controllare solo patente e polizza
+deploy-sre|la nuova regola del database sulla posizione va applicata insieme al rilascio: senza, un fattorino con la pagina vecchia aperta può ancora scrivere la posizione su un ordine annullato
+api-backend|un fattorino puo' legare il suo sos a un ordine che non e' suo
+rls-database|la funzione increment_coupon_usage alza il contatore dei codici sconto senza guardare il massimo
+privacy-legale|la scadenza dei 90 giorni e la cancellazione dell'account non guardano la quarta colonna delle prove di consegna
+architettura|due migrazioni citano una migrazione 426 sui profili che nel deposito non c'è
+rls-database|un fattorino o un negozio che hanno avuto anche un solo ordine non riescono a cancellare l'account
+pagamenti-stripe|confermare la rimessa di un ordine segna chiusa tutta la giornata del fattorino, anche se un altro incasso dello stesso giorno resta in attesa
+microcopy|la campanella «ordine pronto» e quella del ritiro dicono ancora «rider»; la pagina dell'ordine, la cassa e altre pagine del cliente pure
+qa-flussi|la risposta del negozio svuotata e riscritta dall api riavvisa il cliente ogni volta
+api-backend|il trigger degli accessi scarta un login retrodatato se la stessa persona ha un accesso più recente senza sessione
+qa-flussi|chi spegne gli aggiornamenti d'ordine non riceve neanche gli avvisi di abbonamento, sponsorizzazione, premi e l'sos dei rider, perché stanno nella categoria «order»
