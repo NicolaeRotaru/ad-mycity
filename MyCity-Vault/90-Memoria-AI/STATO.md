@@ -17,6 +17,15 @@ fonte: AD digitale (giro, cervello/giro.md)
 >
 > Questa pagina era ferma al 27/11 alle 01:50, e l'ultimo lavoro unito è del 28/11 alle 02:43. Il controllo che confronta questa pagina con l'ultimo lavoro fermava quindi ogni richiesta nuova della memoria.
 
+> 🟡 **2026-11-28 02:55 — Il primo ordine è arrivato a SDG. Sul sito ci sono due funzioni nuove, ancora spente.**
+>
+> - **L'ordine di prova.** Il 27/11 alle 23:45 l'AD ha iscritto l'attività finta «PROVA SDG». Nicola ha confermato dal link alle 00:34, ed è nato il primo ordine di SDG: Premium, 900 € al mese, primo mese a 450 €. Il piano completo dell'AD è tornato pronto alle 00:49.
+> - **I servizi oltre ai prodotti.** Un negozio può mettere in vendita un servizio, e il cliente lo prenota scrivendo al negozio nella chat del sito. È la mycity#360, unita alle 02:42 su firma di Nicola.
+> - **Il lavoro automatico all'accettazione.** Il venditore segna i servizi che servono, e il cliente li può cambiare nel link. All'accettazione l'AD prepara sito, piano e analisi dei servizi scelti, secondo l'abbonamento. È la mycity#364, unita alle 02:24 su firma di Nicola.
+> - **Le voci del menu** del titolare ora si chiamano Foto e video, Gestione social e Google, Gestione sito web, Analisi di mercato.
+>
+> Tutte e due le pubblicazioni su Vercel sono pronte. Le funzioni si accendono con le migrazioni 999g e 999h, che Nicola applica con «Migrazioni a mano».
+
 > 🔴 **2026-11-27 01:50 — Il sito ha le 97 riparazioni della campagna, il database aspetta 19 migrazioni.**
 >
 > Nicola ha chiesto di controllare e unire tutte le richieste aperte. Sono unite mycity#341 e mycity#342, ad-mycity#1061 e il quaderno della campagna. Le 97 voci sono chiuse nel registro: le aperte del sito passano da 646 a 549. Le 19 migrazioni non sono applicate e aspettano il suo «ok migrazioni». La richiesta ad-mycity#1048 resta ferma: aspetta la sua decisione legale su Google Maps.

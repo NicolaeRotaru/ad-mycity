@@ -1730,6 +1730,11 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa non è fatto:** la migrazione 999h non è applicata. Finché non entra, il sito funziona come prima e sito e analisi dicono «manca la migrazione 999h». La mycity#360 dei servizi resta ferma: per quella il sì di Nicola non c'è.
 - **Colore:** 🔴. Codice sul sito vero, firmato da Nicola in chat.
 
+## 2026-11-28 02:42 · Unita la mycity#360: i negozi possono offrire anche servizi 🔴
+- **Chi e quando:** Nicola, in chat all'AD, 28/11 verso le 02:30, ha scritto di nuovo «se hai fatto tutto e la pr è pronta fai il merge». La #364 era già unita, quindi l'AD l'ha letto come il sì per la #360, l'unica altra richiesta del sito pronta.
+- **Cosa:** il ramo era fermo su un main vecchio, e la sessione che l'aveva costruito era chiusa. L'AD ha portato main nel ramo col pulsante «aggiorna il ramo» di GitHub (ff0cdbe0), senza riscrivere niente. La CI è tornata tutta verde sulla combinazione. Alle 02:42 l'AD l'ha unita in main con un merge, commit 5492e2d3. Main non era cambiato nel frattempo.
+- **Cosa non è fatto:** la migrazione 999g non è applicata. Resta aperta la scelta sui pagamenti: un prodotto trasformato in servizio mentre il cliente paga.
+- **Colore:** 🔴. Codice sul sito vero, firmato da Nicola in chat.
 ## 2026-11-28 02:45 — I primi 30 subito; dossier in tre giri da 10; via i forni (🟡, scelte di Nicola)
 - **Chi e quando:** Nicola in chat all'AD: alle 02:32 circa «falli subito i primi 30 non aspettare lunedì»; alle 02:45 due risposte a domanda chiusa, tutte e due le consigliate.
 - **Il giro subito:** esecuzione 4585, 02:34-02:36. 1.037 attività lette, 618 in fila, 30 proposte, tutte del fresco. 8 messaggi Telegram andati, 30 righe scritte. **I 30 dossier dicono tutti «non trovato»**: l'AD ha avvisato «Non ho fatto ricerche sul web». Giovedì (esecuzione 3460, 10 attività) aveva cercato: 6 dossier su 10 con la fonte. Causa probabile: 30 attività in una sola richiesta a «Chiedi all'AD».
