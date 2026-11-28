@@ -1,11 +1,11 @@
 {
-  "data": "2026-11-28 00:19",
+  "data": "2026-11-28 03:08",
   "esito": "ok",
   "copertura": 2454,
   "origine": "cloud",
   "scritto_da": "coerenza-fatti.mjs",
   "fatti_totali": 89,
-  "cacce_aperte": 97,
+  "cacce_aperte": 99,
   "file_scansionati": 2454,
   "incoerenze": [],
   "cacce": [
@@ -217,6 +217,18 @@
       "fatto": "logistica.bici-consegna",
       "pattern": "Bici pronta: Nicola consegna in bici, fino a 10 km dal negozio (Nicola, 2026-10-27).",
       "dal": "2026-10-28 08:35",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "negozi.ingresso",
+      "pattern": "dossier sulle prime 10",
+      "dal": "2026-11-28 02:28",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "negozi.ingresso",
+      "pattern": "Dopo l'apertura, 5 o più negozi nuovi a settimana, a partire dal fresco vicino a Pane Quotidiano (frutta e verdura, macelleria, gastronomia). Prima delle visite la squadra mappa tutti i negozi di fresco entro 5 km e li mette in fila per chi conviene di più; dossier completo sui primi 10: chi è, cosa vende e a quanto, cosa ci guadagna LUI visto dal suo punto di vista, come convincerlo. Dopo l'entrata: numeri ogni settimana a costo zero, esperti ogni mese o subito se il negozio cala. Gli uffici e le aziende vicine partono subito dopo l'apertura. Niente contenuti social per i negozi, per ora.",
+      "dal": "2026-11-28 02:28",
       "copie_trovate": 0
     },
     {
