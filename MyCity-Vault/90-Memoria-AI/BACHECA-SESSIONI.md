@@ -28,6 +28,8 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 28/11 ~02:45 | all'AD (`…M5D9gpnvNTgCVuTV1`) | **I dossier si chiedono all'AD in tre giri da 10, e quelli vuoti di stanotte si rifanno subito. Forni e panetterie fuori dalla lista per ora**, finché Pane Quotidiano è l'unico negozio vero; le righe già scritte si segnano «esclusa», mai cancellate. Lo fa `session_01R8112KdiCukmSRUh3fivt4` |
+| 28/11 ~02:32 | all'AD (`…M5D9gpnvNTgCVuTV1`) | «Falli subito i primi 30, non aspettare lunedì»: giro lanciato a mano alle 02:34 (esecuzione 4585) |
 | 28/11 ~02:25 | all'AD (`…M5D9gpnvNTgCVuTV1`) | **30 dossier a settimana invece di 10, i più prioritari.** Scelta fra tre strade (dossier quando l'agente prenota, 30 a settimana, tutti subito). Caricato sul flusso 16 alle 02:28; registro-fatti `negozi.ingresso` aggiornato |
 | 28/11 ~02:05 | all'AD (`…M5D9gpnvNTgCVuTV1`) | **La mappa dei clienti da contattare: la vedono Nicola e gli agenti, sul sito, nella pagina dell'agente. I clienti li prenota l'agente («Ci vado io»). Sulla mappa c'è tutta la fila, circa 650.** Due viste: puntini sulla mappa e lista ordinabile, di serie per priorità. La costruisce `session_01R8112LJCDXiji6WQPW7fKn` |
 | 28/11 ~01:50 | all'AD (`…M5D9gpnvNTgCVuTV1`) | «Accendi la mappa»: vuol dire accendere il flusso 16 «Attività da visitare». Fatto alle 02:00, con la versione del repo (prezzi 300, 600 e 900 €). Il primo giro è lunedì 30/11 alle 7:10 |
