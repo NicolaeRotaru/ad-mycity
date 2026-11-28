@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-11-27 23:14",
+  "aggiornato": "2026-11-28 02:28",
   "fatti": [
     {
       "id": "ad.uso-e-crediti",
@@ -1166,11 +1166,25 @@
     {
       "id": "negozi.ingresso",
       "nome": "Come entrano i negozi nuovi",
-      "valore": "Dopo l'apertura, 5 o più negozi nuovi a settimana, a partire dal fresco vicino a Pane Quotidiano (frutta e verdura, macelleria, gastronomia). Prima delle visite la squadra mappa tutti i negozi di fresco entro 5 km e li mette in fila per chi conviene di più; dossier completo sui primi 10: chi è, cosa vende e a quanto, cosa ci guadagna LUI visto dal suo punto di vista, come convincerlo. Dopo l'entrata: numeri ogni settimana a costo zero, esperti ogni mese o subito se il negozio cala. Gli uffici e le aziende vicine partono subito dopo l'apertura. Niente contenuti social per i negozi, per ora.",
-      "fonte": "Nicola, conversazione del 2026-11-01 mattina (fino alle 12:18), sessione «cosa serve per essere pronti»",
-      "aggiornato": "2026-11-01 12:19",
-      "storia": [],
-      "caccia": [],
+      "valore": "Dopo l'apertura, 5 o più negozi nuovi a settimana, a partire dal fresco vicino a Pane Quotidiano (frutta e verdura, macelleria, gastronomia). Prima delle visite la squadra mappa tutti i negozi di fresco entro 5 km e li mette in fila per chi conviene di più; ogni settimana dossier completo sulle prime 30 della fila, le più prioritarie (Nicola, 28/11/2026: «30 dossier a settimana di quelli prioritari»; prima erano 10): chi è, cosa vende e a quanto, cosa ci guadagna LUI visto dal suo punto di vista, come convincerlo. Lo fa il flusso n8n «16 · Attività da visitare», ogni lunedì alle 7:10. Dopo l'entrata: numeri ogni settimana a costo zero, esperti ogni mese o subito se il negozio cala. Gli uffici e le aziende vicine partono subito dopo l'apertura. Niente contenuti social per i negozi, per ora.",
+      "fonte": "Nicola, chat all'AD session_01R8112M5D9gpnvNTgCVuTV1, 28/11/2026 verso le 02:25",
+      "aggiornato": "2026-11-28 02:28",
+      "storia": [
+        {
+          "valore": "Dopo l'apertura, 5 o più negozi nuovi a settimana, a partire dal fresco vicino a Pane Quotidiano (frutta e verdura, macelleria, gastronomia). Prima delle visite la squadra mappa tutti i negozi di fresco entro 5 km e li mette in fila per chi conviene di più; dossier completo sui primi 10: chi è, cosa vende e a quanto, cosa ci guadagna LUI visto dal suo punto di vista, come convincerlo. Dopo l'entrata: numeri ogni settimana a costo zero, esperti ogni mese o subito se il negozio cala. Gli uffici e le aziende vicine partono subito dopo l'apertura. Niente contenuti social per i negozi, per ora.",
+          "fino_a": "2026-11-28 02:28"
+        }
+      ],
+      "caccia": [
+        {
+          "pattern": "dossier sulle prime 10",
+          "dal": "2026-11-28 02:28"
+        },
+        {
+          "pattern": "Dopo l'apertura, 5 o più negozi nuovi a settimana, a partire dal fresco vicino a Pane Quotidiano (frutta e verdura, macelleria, gastronomia). Prima delle visite la squadra mappa tutti i negozi di fresco entro 5 km e li mette in fila per chi conviene di più; dossier completo sui primi 10: chi è, cosa vende e a quanto, cosa ci guadagna LUI visto dal suo punto di vista, come convincerlo. Dopo l'entrata: numeri ogni settimana a costo zero, esperti ogni mese o subito se il negozio cala. Gli uffici e le aziende vicine partono subito dopo l'apertura. Niente contenuti social per i negozi, per ora.",
+          "dal": "2026-11-28 02:28"
+        }
+      ],
       "esenzioni": []
     },
     {
